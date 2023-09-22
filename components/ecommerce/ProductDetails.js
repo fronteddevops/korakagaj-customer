@@ -40,7 +40,7 @@ const ProductDetails = ({
         toast.success("Add to Wishlist !");
     };
 
-    const inCart = cartItems.find((cartItem) => cartItem.id === product.id);
+    const inCart = cartItems.find((cartItem) => cartItem.id === product?.id);
 
     console.log(inCart);
 
@@ -110,7 +110,7 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
                                             <h2 className="title-detail">
-                                                {product.title}
+                                                {product?.title}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
@@ -118,7 +118,7 @@ const ProductDetails = ({
                                                         Brands:
                                                         <Link href="/products">
                                                             <a>
-                                                                {product.brand}
+                                                                {product?.brand}
                                                             </a>
                                                         </Link>
                                                     </span>
@@ -141,18 +141,17 @@ const ProductDetails = ({
                                                 <div className="product-price primary-color float-left">
                                                     <ins>
                                                         <span className="text-brand">
-                                                            ${product.price}
+                                                            ${product?.price}
                                                         </span>
                                                     </ins>
                                                     <ins>
                                                         <span className="old-price font-md ml-15">
-                                                            ${product.oldPrice}
+                                                            ${product?.oldPrice}
                                                         </span>
                                                     </ins>
                                                     <span className="save-price  font-md color3 ml-15">
                                                         {
-                                                            product.discount
-                                                                .percentage
+                                                            product?.discount.percentage
                                                         }
                                                         % Off
                                                     </span>
@@ -160,7 +159,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
                                             <div className="short-desc mb-30">
-                                                <p>{product.desc}</p>
+                                                <p>{product?.desc}</p>
                                             </div>
                                             <div className="product_sort_info font-xs mb-30">
                                                 <ul>
@@ -185,7 +184,7 @@ const ProductDetails = ({
                                                     Color
                                                 </strong>
                                                 <ul className="list-filter color-filter">
-                                                    {product.variations.map(
+                                                    {product?.variations.map(
                                                         (clr, i) => (
                                                             <li key={i}>
                                                                 <a href="#">
@@ -203,7 +202,7 @@ const ProductDetails = ({
                                                     Size
                                                 </strong>
                                                 <ul className="list-filter size-filter font-small">
-                                                    {/* {product.sizes.map(
+                                                    {/* {product?.sizes.map(
                                                         (size, i) => (
                                                             <li>
                                                                 <a href="#">
@@ -260,7 +259,7 @@ const ProductDetails = ({
                                                                           1
                                                                   )
                                                                 : increaseQuantity(
-                                                                      product.id
+                                                                      product?.id
                                                                   )
                                                         }
                                                         className="qty-up"
@@ -324,7 +323,7 @@ const ProductDetails = ({
                                                 <li>
                                                     Availability:
                                                     <span className="in-stock text-success ml-5">
-                                                        {product.stock} Items In
+                                                        {product?.stock} Items In
                                                         Stock
                                                     </span>
                                                 </li>

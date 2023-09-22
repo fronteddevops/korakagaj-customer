@@ -7,7 +7,7 @@ import { findProductIndex } from "../../util/util";
 const ProductId = ({ product }) => {
     return (
         <>
-        <Layout parent="Home" sub="Shop" subChild={product.title}>
+        <Layout parent="Home" sub="Shop" subChild={product?.title}>
             <div className="container">
                 <ProductDetails product={product} />
             </div>
