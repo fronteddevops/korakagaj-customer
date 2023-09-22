@@ -41,7 +41,7 @@ const Intro3 = () => {
                                     <p className="animated">
                                         Save more with coupons & up to 70% off
                                     </p>
-                                    <Link href="/products/shop-grid-right">
+                                    <Link href="/products">
                                         <a className="animated btn btn-brush btn-brush-3">
                                             Shop Now
                                         </a>
@@ -74,7 +74,7 @@ const Intro3 = () => {
                                     <p className="animated">
                                         Save more with coupons & up to 20% off
                                     </p>
-                                    <Link href="/products/shop-grid-right">
+                                    <Link href="/products">
                                         <a className="animated btn btn-brush btn-brush-3">
                                             Shop Now
                                         </a>

@@ -38,7 +38,7 @@ const Intro1 = () => {
                                             Save more with coupons & up to 70%
                                             off
                                         </p>
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a className="animated btn btn-brush btn-brush-3">
                                                 Shop Now
                                             </a>
@@ -77,7 +77,7 @@ const Intro1 = () => {
                                             Save more with coupons & up to 20%
                                             off
                                         </p>
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a className="animated btn btn-brush btn-brush-2">
                                                 Discover Now
                                             </a>
@@ -115,7 +115,7 @@ const Intro1 = () => {
                                         <p className="animated">
                                             Clothing, Shoes, Bags, Wallets...
                                         </p>
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a className="animated btn btn-brush btn-brush-1">
                                                 Shop Now
                                             </a>

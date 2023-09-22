@@ -57,7 +57,7 @@ const Header = ({
                                         <ul>
                                             <li>
                                                 Get great offer up to 50% off
-                                                <Link href="/products/shop-grid-right">
+                                                <Link href="/products">
                                                     <a> View details</a>
                                                 </Link>
                                             </li>
@@ -215,7 +215,7 @@ const Header = ({
                                     >
                                         <ul>
                                             <li className="has-children">
-                                                <Link href="/products/shop-grid-right">
+                                                <Link href="/products">
                                                     <a>
                                                         <i className="korakagaj-font-dress"></i>
                                                         Women's Clothing
@@ -421,7 +421,7 @@ const Header = ({
                                                 </div>
                                             </li>
                                             <li className="has-children">
-                                                <Link href="/products/shop-grid-right">
+                                                <Link href="/products">
                                                     <a>
                                                         <i className="korakagaj-font-tshirt"></i>
                                                         Men's Clothing
@@ -618,7 +618,7 @@ const Header = ({
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/products/shop-grid-right">
+                                                <Link href="/products">
                                                     <a>
                                                         Shop
                                                         
@@ -773,7 +773,7 @@ const Header = ({
                                             <ul>
                                                 <li>
                                                     <div className="shopping-cart-img">
-                                                        <Link href="/products/shop-grid-right">
+                                                        <Link href="/products">
                                                             <a>
                                                                 <img
                                                                     alt="korakagaj"
@@ -784,7 +784,7 @@ const Header = ({
                                                     </div>
                                                     <div className="shopping-cart-title">
                                                         <h4>
-                                                            <Link href="/products/shop-grid-right">
+                                                            <Link href="/products">
                                                                 <a>
                                                                     Plain
                                                                     Striola
@@ -807,7 +807,7 @@ const Header = ({
                                                 </li>
                                                 <li>
                                                     <div className="shopping-cart-img">
-                                                        <Link href="/products/shop-grid-right">
+                                                        <Link href="/products">
                                                             <a>
                                                                 <img
                                                                     alt="korakagaj"
@@ -818,7 +818,7 @@ const Header = ({
                                                     </div>
                                                     <div className="shopping-cart-title">
                                                         <h4>
-                                                            <Link href="/products/shop-grid-right">
+                                                            <Link href="/products">
                                                                 <a>
                                                                     Macbook Pro
                                                                     2022

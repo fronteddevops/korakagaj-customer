@@ -61,7 +61,7 @@ function FeatchTab() {
                     </li>
                 </ul>
                 <h6>
-                    <Link href="/products/shop-grid-right">
+                    <Link href="/products">
                         <a className="view-more d-none d-md-flex">
                             View More<i className="fi-rs-angle-double-small-right"></i>
                         </a>

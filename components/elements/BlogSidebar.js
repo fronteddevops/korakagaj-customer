@@ -206,7 +206,7 @@ const BlogSidebar = () => {
                             Save 17% on <br />
                             Office Dress
                         </h4>
-                        <Link href="/products/shop-grid-right">
+                        <Link href="/products">
                             <a>
                                 Shop Now <i className="fi-rs-arrow-right"></i>
                             </a>

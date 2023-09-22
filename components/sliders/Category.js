@@ -68,7 +68,7 @@ const CategorySlider = () => {
                     <SwiperSlide key={i}>
                         <div className="card-1">
                             <figure className=" img-hover-scale overflow-hidden">
-                               <Link href="/products/shop-grid-right">
+                               <Link href="/products">
                                     <a>
                                         <img
                                             src={`assets/imgs/shop/${item.img}`}
@@ -78,7 +78,7 @@ const CategorySlider = () => {
                                 </Link>
                             </figure>
                             <h5>
-                               <Link href="/products/shop-grid-right">
+                               <Link href="/products">
                                     <a>{item.title}</a>
                                 </Link>
                             </h5>
