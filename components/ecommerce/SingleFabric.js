@@ -7,6 +7,7 @@ import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
+import { useRouter } from 'next/router'
 
 
 const SingleProduct = ({
@@ -16,6 +17,7 @@ const SingleProduct = ({
     addToWishlist,
     openQuickView,
 }) => {
+    const router = useRouter()
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -63,7 +65,7 @@ const SingleProduct = ({
                             aria-label="Get estimated price"
                             className="action-btn hover-up"
                             data-bs-toggle="modal"
-                            onClick={(e) => openQuickView(product)}
+                            onClick={(e) => console.log(e)}
                         >
                             <i className="fi-rs-eye"></i>
                         </a>
@@ -93,15 +95,17 @@ const SingleProduct = ({
                            
 
                             <div className="product-action-1 show">
-
+                           
                                 <a
                                     aria-label="Choose me"
                                     className="action-btn hover-up"
-                                    onClick={(e) => handleCart(product)}
+                                    onClick={() => router.back()}
                                 >
                                     <i className="fi-rs-shopping-bag-add"></i>
                                 </a>
+                               
                             </div>
+
                         </div>
                     </div>
 
