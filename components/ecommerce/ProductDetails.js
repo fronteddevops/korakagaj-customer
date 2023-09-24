@@ -225,6 +225,11 @@ const ProductDetails = ({
                                                         <a>XXL</a>
                                                     </li>
                                                 </ul>
+                                                <Link href={'/fabric'}>
+                                                <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
+                                                    >
+                                                       Select Fabric
+                                                    </button></Link>
                                             </div>
                                             <div className="bt-1 border-color-1 mt-30 mb-30"></div>
                                             <div className="detail-extralink">
@@ -281,6 +286,7 @@ const ProductDetails = ({
                                                     >
                                                         Add to cart
                                                     </button>
+                                                 
                                                     <a
                                                         aria-label="Add To Wishlist"
                                                         className="action-btn hover-up"
@@ -292,17 +298,7 @@ const ProductDetails = ({
                                                     >
                                                         <i className="fi-rs-heart"></i>
                                                     </a>
-                                                    <a
-                                                        aria-label="Compare"
-                                                        className="action-btn hover-up"
-                                                        onClick={(e) =>
-                                                            handleCompare(
-                                                                product
-                                                            )
-                                                        }
-                                                    >
-                                                        <i className="fi-rs-shuffle"></i>
-                                                    </a>
+                                                   
                                                 </div>
                                             </div>
                                             <ul className="product-meta font-xs color-grey mt-50">
