@@ -2057,6 +2057,7 @@ label {
 
 .carausel-6-columns-cover .slider-arrow {
   top: -50px;
+  opacity: 0;
 }
 
 .carausel-6-columns-cover .slider-arrow .slider-btn.slider-next {
