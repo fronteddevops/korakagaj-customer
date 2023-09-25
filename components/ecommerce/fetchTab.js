@@ -1,9 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { server } from "../../config/index";
 import FeaturedTab from './../elements/FeaturedTab';
 import NewArrivalTab from './../elements/NewArrivalTab';
 import TrendingTab from './../elements/TrendingTab';
 import Link from "next/link"
+import services from "../../services";
+
 
 function FeatchTab() {
     const [active, setActive] = useState("1");
@@ -11,12 +14,25 @@ function FeatchTab() {
     const [trending, setTrending] = useState([]);
     const [newArrival, setNewArrival] = useState([]);
 
+
     const featuredProduct = async () => {
-        const request = await fetch(`${server}/static/product.json`);
-        const allProducts = await request.json();
-        const featuedItem = allProducts.filter((item) => item.featured);
-        setFeatured(featuedItem);
-        setActive("1");
+        const response =  await fetch(`${server}/static/product.json`);
+        const allProducts =  await response.json()
+        
+         const featuedItem = allProducts.filter((item) => item.featured);
+         setFeatured(featuedItem);
+         setActive("1");
+
+        try {
+            const response =   await services.product.GET_PRODUCT()
+          
+       
+             console.log("-------------------------------------",response?.data);
+         
+           } catch (error) {
+             console.log(error);
+           }
+
     };
 
     const trendingProduct = async () => {
@@ -45,18 +61,18 @@ function FeatchTab() {
             <div className="tab-header">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={featuredProduct}>
-                            Featured
+                        <button className={active === "0" ? "nav-link active" : "nav-link"} onClick={featuredProduct}>
+                            New Product 
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={trendingProduct}>
-                            Popular
+                        <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={trendingProduct}>
+                           Hot Deals
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={active === "3" ? "nav-link active" : "nav-link"} onClick={newArrivalProduct}>
-                            New added
+                        <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={newArrivalProduct}>
+                        Best Seller
                         </button>
                     </li>
                 </ul>

@@ -1,11 +1,14 @@
 import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import services from "../../services";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import nextConfig from "../../next.config";
 
 SwiperCore.use([Navigation]);
 
 const CategorySlider = () => {
+    const [category,setCategory]=useState([])
     var data = [
         {
             id: 1,
@@ -48,6 +51,21 @@ const CategorySlider = () => {
             img: "category-thumb-8.jpg",
         },
     ];
+    const imageUrl=nextConfig. BASE_URL_UPLOADS
+    const getCategoryListHandler = async () => {
+        try {
+            const response = await services.category.GET_CATEGORY()
+    console.log('=========================================',response.data)
+          //  setRowData(response.data)
+          setCategory(response.data.data.rows)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+useEffect(()=>{
+    getCategoryListHandler()
+},[])
+   
     return (
         <>
             <Swiper
@@ -64,22 +82,23 @@ const CategorySlider = () => {
                 }}
                 className="custom-class"
             >
-                {data.map((item, i) => (
+                {category.map((item, i) => (
                     <SwiperSlide key={i}>
                         <div className="card-1">
                             <figure className=" img-hover-scale overflow-hidden">
                                <Link href="/products/shop-grid-right">
                                     <a>
                                         <img
-                                            src={`assets/imgs/shop/${item.img}`}
+                                            src={ imageUrl+item.image}
                                             alt=""
+                                            crossOrigin="anonymous"
                                         />
                                     </a>
                                 </Link>
                             </figure>
                             <h5>
                                <Link href="/products/shop-grid-right">
-                                    <a>{item.title}</a>
+                                    <a>{item.categoryName}</a>
                                 </Link>
                             </h5>
                         </div>
