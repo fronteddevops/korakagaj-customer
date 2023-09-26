@@ -30,7 +30,7 @@ const Header = ({
                 <div className="header-top header-top-ptb-1 d-none d-lg-block">
                     <div className="container">
                         <div className="row align-items-center">
-                            <div className="col-xl-3 col-lg-4">
+                            <div className="col-xl-4 col-lg-4">
                                 <div className="header-info">
                                     <ul>
                                         <li>
@@ -48,7 +48,7 @@ const Header = ({
                                     </ul>
                                 </div>
                             </div>
-                            <div className="col-xl-6 col-lg-4">
+                            <div className="col-xl-4 col-lg-4">
                                 <div className="text-center">
                                     <div
                                         id="news-flash"

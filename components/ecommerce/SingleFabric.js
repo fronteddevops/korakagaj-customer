@@ -62,7 +62,7 @@ const SingleProduct = ({
                             </div>
                             <div className="product-action-1">
                         <a
-                            aria-label="Get estimated price"
+                            aria-label="Estimated Final Price will be $200"
                             className="action-btn hover-up"
                             data-bs-toggle="modal"
                             onClick={(e) => console.log(e)}

@@ -51,8 +51,25 @@ const CategorySlider = () => {
     return (
         <>
             <Swiper
-                slidesPerView={6}
-                spaceBetween={20}
+                // slidesPerView={6}
+                breakpoints={{
+                    200: {
+                      // width: 576,
+                      slidesPerView: 3,
+                      spaceBetween:10,
+                    },
+                    768: {
+                      // width: 768,
+                      slidesPerView: 5,
+                      spaceBetween:10,
+                    },
+                    1024: {
+                        // width: 768,
+                        slidesPerView: 6,
+                        spaceBetween:20,
+                      },
+                  }}
+                // spaceBetween={20}
                 // autoplay={{
                 //     delay: 2500,
                 //     disableOnInteraction: false,

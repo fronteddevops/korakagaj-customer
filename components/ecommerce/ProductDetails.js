@@ -55,7 +55,8 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-gallery">
                                             <span className="zoom-icon">
-                                                <i className="fi-rs-search"></i>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#088178"><path d="M440-181 240-296q-19-11-29.5-29T200-365v-230q0-22 10.5-40t29.5-29l200-115q19-11 40-11t40 11l200 115q19 11 29.5 29t10.5 40v230q0 22-10.5 40T720-296L520-181q-19 11-40 11t-40-11Zm0-92v-184l-160-93v185l160 92Zm80 0 160-92v-185l-160 93v184ZM80-680v-120q0-33 23.5-56.5T160-880h120v80H160v120H80ZM280-80H160q-33 0-56.5-23.5T80-160v-120h80v120h120v80Zm400 0v-80h120v-120h80v120q0 33-23.5 56.5T800-80H680Zm120-600v-120H680v-80h120q33 0 56.5 23.5T880-800v120h-80ZM480-526l158-93-158-91-158 91 158 93Zm0 45Zm0-45Zm40 69Zm-80 0Z" /></svg>
                                             </span>
 
                                             <div className="product-image-slider">
@@ -115,7 +116,7 @@ const ProductDetails = ({
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
                                                     <span>
-                                                        Brands:
+                                                        Category:
                                                         <Link href="/products">
                                                             <a>
                                                                 {product?.brand}
@@ -225,28 +226,28 @@ const ProductDetails = ({
                                                         <a>XXL</a>
                                                     </li>
                                                 </ul>
-                                                <Link href={'/fabric'}>
-                                                <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
-                                                    >
-                                                       Select Fabric
-                                                    </button></Link>
+                                                <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
+                                                <span className="text-brand">Size Chart {'>'}</span>
+                                                </strong>   
                                             </div>
-                                            <div className="bt-1 border-color-1 mt-30 mb-30"></div>
-                                            <div className="detail-extralink">
+                                            <div className="attr-detail attr-size mt-20">
+                                                <strong className="mr-10">
+                                                    Quantity
+                                                </strong>
                                                 <div className="detail-qty border radius">
                                                     <a
                                                         onClick={(e) =>
                                                             !inCart
                                                                 ? setQuantity(
-                                                                      quantity >
-                                                                          1
-                                                                          ? quantity -
-                                                                                1
-                                                                          : 1
-                                                                  )
+                                                                    quantity >
+                                                                        1
+                                                                        ? quantity -
+                                                                        1
+                                                                        : 1
+                                                                )
                                                                 : decreaseQuantity(
-                                                                      product?.id
-                                                                  )
+                                                                    product?.id
+                                                                )
                                                         }
                                                         className="qty-down"
                                                     >
@@ -260,18 +261,35 @@ const ProductDetails = ({
                                                         onClick={() =>
                                                             !inCart
                                                                 ? setQuantity(
-                                                                      quantity +
-                                                                          1
-                                                                  )
+                                                                    quantity +
+                                                                    1
+                                                                )
                                                                 : increaseQuantity(
-                                                                      product?.id
-                                                                  )
+                                                                    product?.id
+                                                                )
                                                         }
                                                         className="qty-up"
                                                     >
                                                         <i className="fi-rs-angle-small-up"></i>
                                                     </a>
                                                 </div>
+
+                                            </div>
+                                            <div className="attr-detail attr-size mt-20">
+                                                <strong className="mr-10">
+                                                    Fabric : <span className="text-brand">Cotton Mix</span>
+                                                </strong>
+
+                                                <Link href={'/fabric'}>
+                                                    <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
+                                                    >
+                                                        Choose Fabric
+                                                    </button></Link>
+                                            </div>
+
+                                            <div className="bt-1 border-color-1 mt-30 mb-30"></div>
+                                            <div className="detail-extralink">
+
                                                 <div className="product-extra-link2">
                                                     <button
                                                         onClick={(e) =>
@@ -282,11 +300,24 @@ const ProductDetails = ({
                                                                     1,
                                                             })
                                                         }
-                                                        className="button button-add-to-cart"
+                                                        className="button button-add-to-cart me-3"
+                                                    >
+                                                        Design My Way
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) =>
+                                                            handleCart({
+                                                                ...product,
+                                                                quantity:
+                                                                    quantity ||
+                                                                    1,
+                                                            })
+                                                        }
+                                                        className="button button-add-to-cart me-3"
                                                     >
                                                         Add to cart
                                                     </button>
-                                                 
+
                                                     <a
                                                         aria-label="Add To Wishlist"
                                                         className="action-btn hover-up"
@@ -298,7 +329,7 @@ const ProductDetails = ({
                                                     >
                                                         <i className="fi-rs-heart"></i>
                                                     </a>
-                                                   
+
                                                 </div>
                                             </div>
                                             <ul className="product-meta font-xs color-grey mt-50">
@@ -343,7 +374,7 @@ const ProductDetails = ({
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </>
                                 )}
                             </div>
