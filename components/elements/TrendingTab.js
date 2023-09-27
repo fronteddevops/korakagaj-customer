@@ -13,7 +13,7 @@ const TrendingTab = ({ products }) => {
                 </div>
             ))}
         </>
-    );
+    );S
 };
 
 export default TrendingTab;

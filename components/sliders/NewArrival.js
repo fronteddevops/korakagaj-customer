@@ -3,13 +3,13 @@ import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { server } from "../../config/index";
 import SingleProduct from "./../ecommerce/SingleProduct";
-
+import services from "../../services";
 SwiperCore.use([Navigation]);
 
 const NewArrival = () => {
-    const [newArrival, setNewArrival] = useState([]);
+    const [newArrival,setNewArrival] = useState([]);
 
-    // console.log(newArrival);
+     
 
     useEffect(() => {
         fetchProducts();
@@ -17,15 +17,25 @@ const NewArrival = () => {
 
     const fetchProducts = async () => {
         // With Category
-        const request = await fetch(`${server}/static/product.json`);
-        const allProducts = await request.json();
+      
+            try {
+              const response = await services.product.GET_PRODUCT();
+        
+              const newProudct = response?.data?.data?.rows.filter(
+                (product) => product.productType == 0
+              );
+              if (newProudct) {
+                setNewArrival(newProudct);
+             
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+        
 
-        const newArrivalProducts = allProducts.sort(function (a, b) {
-            return a.created > b.created ? -1 : 1;
-        });
-
-        setNewArrival(newArrivalProducts);
-    };
+      
+    
 
 
 
@@ -41,7 +51,7 @@ const NewArrival = () => {
                 }}
                 className="carausel-6-columns carausel-arrow-center"
             >
-                {newArrival.map((product, i) => (
+                {newArrival?.map((product, i) => (
                     <SwiperSlide key={i}>
                         <SingleProduct product={product} />
                     </SwiperSlide>

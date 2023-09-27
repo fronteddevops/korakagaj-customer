@@ -7,7 +7,7 @@ import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from "./../elements/Loader";
-
+import nextConfig from "../../next.config";
 const SingleProduct = ({
   product,
   addToCart,
@@ -16,7 +16,9 @@ const SingleProduct = ({
   openQuickView,
 }) => {
   const [loading, setLoading] = useState(false);
-
+  
+  const imageUrl=nextConfig.BASE_URL_UPLOADS
+ 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -46,21 +48,27 @@ const SingleProduct = ({
           <div className="product-cart-wrap mb-30">
             <div className="product-img-action-wrap">
               <div className="product-img product-img-zoom">
-                <Link href="/products/[slug]" as={`/products/${product.slug}`}>
+                <Link href="/products/[slug]" as={`/products/${product.id}`}>
                   <a>
                     <img
                       className="default-img"
-                      src={product.images[0].img}
+                      
+                      src={imageUrl+product.featuredImage}
+                      crossOrigin="an"
                       alt=""
                     />
-                    <img
+                    {/* <img
                       className="hover-img"
-                      src={product.images[1].img}
+                      src={imageUrl+product.image}
                       alt=""
-                    />
+                    /> */}
+
+                    
                   </a>
+                
                 </Link>
               </div>
+            
               <div className="product-action-1">
                 <a
                   aria-label="Quick view"
@@ -80,44 +88,44 @@ const SingleProduct = ({
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
-                {product.trending ? <span className="hot">Hot</span> : null}
-                {product.created ? <span className="new">New</span> : null}
-                {product.totalSell > 100 ? (
+                <span className="hot">Hot </span> 
+       
+              
                   <span className="best">Best Sell</span>
-                ) : null}
-                {product.discount.isActive ? (
+                
+              
                   <span className="sale">Sale</span>
-                ) : null}
-                {product.discount.percentage >= 5 ? (
-                  <span className="hot">{product.discount.percentage}%</span>
+              
+                {product.discountPercentage >= 5 ? (
+                  <span className="hot">{product.discountPercentage}%</span>
                 ) : null}
               </div>
             </div>
             <div className="product-content-wrap">
               <div className="product-category">
                 <Link href="/products">
-                  <a>{product.brand}</a>
+                  <a>{product.brandName}</a>
                 </Link>
               </div>
               <h2>
-                <Link href="/products/[slug]" as={`/products/${product.slug}`}>
-                  <a>{product.title}</a>
+                <Link href="/products/[slug]" as={`/products/${product.id}`}>
+                  <a>{product.productName}</a>
                 </Link>
               </h2>
               <div className="rating-result" title="90%">
                 <span>
-                  <span>{product.ratingScore}%</span>
+                  <span>{product.ratingScore} </span>
                 </span>
               </div>
               <div className="product-price">
-                <span>${product.price} </span>
+                <span>${product.basePrice} </span>
                 <span className="old-price">
-                  {product.price ? `$ ${product.price}` : null}{" "}
+                  {product.basePrice ? `$ ${product.basePrice}` : null}{" "}
                 </span>{" "}
                 20%
               </div>
               <div className="product-price">
-                Designer : Indian Designer ( NIFT)
+                Designer :{product.designerName}
               </div>
 
               <div className="product-action-1 show">
@@ -147,3 +155,107 @@ const mapDispatchToProps = {
 };
 
 export default connect(null, mapDispatchToProps)(SingleProduct);
+
+
+
+
+
+
+
+
+
+
+// {!loading ? (
+//   <>
+//     <div className="product-cart-wrap mb-30">
+//       <div className="product-img-action-wrap">
+//         <div className="product-img product-img-zoom">
+//           <Link href="/products/[slug]" as={`/products/${product.slug}`}>
+//             <a>
+//               <img
+//                 className="default-img"
+//                 src={product.images[0].img}
+//                 alt=""
+//               />
+//               <img
+//                 className="hover-img"
+//                 src={product.images[1].img}
+//                 alt=""
+//               />
+//             </a>
+//           </Link>
+//         </div>
+//         <div className="product-action-1">
+//           <a
+//             aria-label="Quick view"
+//             className="action-btn hover-up"
+//             data-bs-toggle="modal"
+//             onClick={(e) => openQuickView(product)}
+//           >
+//             <i className="fi-rs-eye"></i>
+//           </a>
+//           <a
+//             aria-label="Add To Wishlist"
+//             className="action-btn hover-up"
+//             onClick={(e) => handleWishlist(product)}
+//           >
+//             <i className="fi-rs-heart"></i>
+//           </a>
+//         </div>
+
+//         <div className="product-badges product-badges-position product-badges-mrg">
+//           {product.trending ? <span className="hot">Hot </span> : null}
+//           {product.created ? <span className="new">New</span> : null}
+//           {product.totalSell > 100 ? (
+//             <span className="best">Best Sell</span>
+//           ) : null}
+//           {product.discount.isActive ? (
+//             <span className="sale">Sale</span>
+//           ) : null}
+//           {product.discount.percentage >= 5 ? (
+//             <span className="hot">{product.discount.percentage}%</span>
+//           ) : null}
+//         </div>
+//       </div>
+//       <div className="product-content-wrap">
+//         <div className="product-category">
+//           <Link href="/products">
+//             <a>{product.brand}</a>
+//           </Link>
+//         </div>
+//         <h2>
+//           <Link href="/products/[slug]" as={`/products/${product.slug}`}>
+//             <a>{product.title}</a>
+//           </Link>
+//         </h2>
+//         <div className="rating-result" title="90%">
+//           <span>
+//             <span>{product.ratingScore} </span>
+//           </span>
+//         </div>
+//         <div className="product-price">
+//           <span>${product.price} </span>
+//           <span className="old-price">
+//             {product.price ? `$ ${product.price}` : null}{" "}
+//           </span>{" "}
+//           20%
+//         </div>
+//         <div className="product-price">
+//           Designer : Indian Designer ( NIFT)
+//         </div>
+
+//         <div className="product-action-1 show">
+//           <a
+//             aria-label="Add To Cart"
+//             className="action-btn hover-up"
+//             onClick={(e) => handleCart(product)}
+//           >
+//             <i className="fi-rs-shopping-bag-add"></i>
+//           </a>
+//         </div>
+//       </div>
+//     </div>
+//   </>
+// ) : (
+//   <Loader />
+// )}
