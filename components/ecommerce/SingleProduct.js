@@ -18,6 +18,11 @@ const SingleProduct = ({
   const [loading, setLoading] = useState(false);
   
   const imageUrl=nextConfig.BASE_URL_UPLOADS
+  const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+  const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+  const discountAmount = (basePrice * discountPercentage) / 100;
+  const totalPrice = basePrice - discountAmount;
+
  
   useEffect(() => {
     setLoading(true);
@@ -88,13 +93,13 @@ const SingleProduct = ({
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
-                <span className="hot">Hot </span> 
+              {product.productType==1 ? <span className="hot">Hot </span> : null}
        
-              
-                  <span className="best">Best Sell</span>
+              {product.productType==0 ? <span className="hot">New Product </span> : null}
                 
+                  {product.productType==2 ? <span className="hot">Best Sell </span> : null}
               
-                  <span className="sale">Sale</span>
+           
               
                 {product.discountPercentage >= 5 ? (
                   <span className="hot">{product.discountPercentage}%</span>
@@ -118,12 +123,12 @@ const SingleProduct = ({
                 </span>
               </div>
               <div className="product-price">
-                <span>${product.basePrice} </span>
-                <span className="old-price">
-                  {product.basePrice ? `$ ${product.basePrice}` : null}{" "}
-                </span>{" "}
-                20%
-              </div>
+        <span> ${totalPrice}</span>
+        {discountPercentage > 0 && (
+          <span className="old-price"> ${basePrice}</span>
+        )}
+        <span>{product.discountPercentage}%</span>
+      </div>
               <div className="product-price">
                 Designer :{product.designerName}
               </div>
