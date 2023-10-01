@@ -14,7 +14,7 @@ import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
 import { fetchProduct } from "../../redux/action/product";
 import Link from "next/link";
-
+import Accordion from 'react-bootstrap/Accordion';
 const Products = ({ products, productFilters, fetchProduct }) => {
     console.log(products);
 
@@ -25,6 +25,8 @@ const Products = ({ products, productFilters, fetchProduct }) => {
 
     let [pagination, setPagination] = useState([]);
     let [limit, setLimit] = useState(showLimit);
+    
+    let [isFilterVisible, setIsFilterVisible] = useState(false);
     let [pages, setPages] = useState(Math.ceil(products.items.length / limit));
     let [currentPage, setCurrentPage] = useState(1);
 
@@ -74,18 +76,40 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-3 primary-sidebar sticky-sidebar">
-                                <div className="widget-category mb-30">
-                                    <h5 className="section-title style-1 mb-30 wow fadeIn animated">
-                                        Category
-                                    </h5>
-                                    <CategoryProduct />
+                           {<div className={`${!isFilterVisible ?  'hide-on-mobile' : ''} col-lg-3 primary-sidebar sticky-sidebar`}>
+                                <div className="widget-category p-3 mb-30">
+                                    <Accordion defaultActiveKey="0">
+                                        <Accordion.Item className="custom-filter" eventKey="0">
+                                            <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                                                Category
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                <CategoryProduct />
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item className="custom-filter mt-20" eventKey="1">
+                                            <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                                                Sub Category
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                {/* <CategoryProduct /> */}
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item className="custom-filter mt-20" eventKey="2">
+                                            <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                                                Sub Sub Category
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                {/* <CategoryProduct /> */}
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    </Accordion>
                                 </div>
 
                                 <div className="sidebar-widget price_range range mb-30">
                                     <div className="widget-header position-relative mb-20 pb-10">
                                         <h5 className="widget-title mb-10">
-                                            Fill by price
+                                            Filter by price
                                         </h5>
                                         <div className="bt-1 border-color-1"></div>
                                     </div>
@@ -113,100 +137,9 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                                     <br />
                                 </div>
 
-                                <div className="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
-                                    <div className="widget-header position-relative mb-20 pb-10">
-                                        <h5 className="widget-title mb-10">
-                                            New products
-                                        </h5>
-                                        <div className="bt-1 border-color-1"></div>
-                                    </div>
-                                    <div className="single-post clearfix">
-                                        <div className="image">
-                                            <img
-                                                src="/assets/imgs/shop/thumbnail-3.jpg"
-                                                alt="#"
-                                            />
-                                        </div>
-                                        <div className="content pt-10">
-                                            <h5>
-                                                <a>Chen Cardigan</a>
-                                            </h5>
-                                            <p className="price mb-0 mt-5">
-                                                $99.50
-                                            </p>
-                                            <div className="product-rate">
-                                                <div
-                                                    className="product-rating"
-                                                    style={{ width: "90%" }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="single-post clearfix">
-                                        <div className="image">
-                                            <img
-                                                src="/assets/imgs/shop/thumbnail-4.jpg"
-                                                alt="#"
-                                            />
-                                        </div>
-                                        <div className="content pt-10">
-                                            <h6>
-                                                <a>Chen Sweater</a>
-                                            </h6>
-                                            <p className="price mb-0 mt-5">
-                                                $89.50
-                                            </p>
-                                            <div className="product-rate">
-                                                <div
-                                                    className="product-rating"
-                                                    style={{ width: "80%" }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="single-post clearfix">
-                                        <div className="image">
-                                            <img
-                                                src="/assets/imgs/shop/thumbnail-5.jpg"
-                                                alt="#"
-                                            />
-                                        </div>
-                                        <div className="content pt-10">
-                                            <h6>
-                                                <a>Colorful Jacket</a>
-                                            </h6>
-                                            <p className="price mb-0 mt-5">
-                                                $25
-                                            </p>
-                                            <div className="product-rate">
-                                                <div
-                                                    className="product-rating"
-                                                    style={{ width: "60%" }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
-                                    <img
-                                        src="/assets/imgs/banner/banner-11.jpg"
-                                        alt=""
-                                    />
-                                    <div className="banner-text">
-                                        <span>Women Zone</span>
-                                        <h4>
-                                            Save 17% on <br />
-                                            Office Dress
-                                        </h4>
-                                        <Link href="/products">
-                                            <a>
-                                                Shop Now
-                                                <i className="fi-rs-arrow-right"></i>
-                                            </a>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
+                                
+                                
+                            </div>}
                             <div className="col-lg-9">
                                 <div className="shop-product-fillter">
                                     <div className="totall-product">
@@ -217,14 +150,10 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                                             </strong>
                                             items for you!
                                         </p>
+                                        <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
                                     </div>
                                     <div className="sort-by-product-area">
-                                        <div className="sort-by-cover mr-10">
-                                            <ShowSelect
-                                                selectChange={selectChange}
-                                                showLimit={showLimit}
-                                            />
-                                        </div>
+                                        
                                         <div className="sort-by-cover">
                                             <SortSelect />
                                         </div>
@@ -267,7 +196,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                 <WishlistModal />
                 {/* <CompareModal /> */}
                 {/* <CartSidebar /> */}
-                <QuickView />                
+                <QuickView />
             </Layout>
         </>
     );

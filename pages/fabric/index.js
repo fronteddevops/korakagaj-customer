@@ -14,6 +14,8 @@ import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
 import { fetchProduct } from "../../redux/action/product";
 import Link from "next/link";
+import Accordion from 'react-bootstrap/Accordion';
+
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 
 const Products = ({ products, productFilters, fetchProduct }) => {
@@ -45,6 +47,7 @@ var data = [
     const [pages, setPages] = useState(Math.ceil(products.items.length / limit));
     const [currentPage, setCurrentPage] = useState(1);
     const [fabricList, setFabricList] = useState([]);
+    let [isFilterVisible, setIsFilterVisible] = useState(false);
 
     useEffect(() => {
         setFabricList(data)  
@@ -63,7 +66,7 @@ var data = [
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-3 primary-sidebar sticky-sidebar">
+                            <div className={`${!isFilterVisible ?  'hide-on-mobile' : ''} col-lg-3 primary-sidebar sticky-sidebar`}>
                               
 
                                 <div className="sidebar-widget price_range range mb-30">
@@ -75,31 +78,33 @@ var data = [
                                     </div>
 
                                  
-
-                                    <div className="list-group">
-                                        <div className="list-group-item mb-10 mt-10">
-                                            <label className="fw-900">
-                                                Weight
-                                            </label>
-                                            <BrandFilter />
-                                           
-                                        </div>
-                                        <div className="list-group-item mb-10 mt-10">
-                                            <label className="fw-900">
-                                                Fabric Type
-                                            </label>
-                                            <BrandFilter />
-                                           
-                                        </div>
-                                        <div className="list-group-item mb-10 mt-10">
-                                            <label className="fw-900">
-                                                Print Type
-                                            </label>
-                                            <BrandFilter />
-                                           
-                                        </div>
-                                    </div>
-                                    <br />
+                                    <Accordion defaultActiveKey="0">
+                                        <Accordion.Item className="custom-filter" eventKey="0">
+                                            <Accordion.Header > <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
+                                            Weight
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                <BrandFilter />
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item className="custom-filter mt-20" eventKey="1">
+                                            <Accordion.Header > <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
+                                            Fabric Type
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                {/* <CategoryProduct /> */}
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item className="custom-filter mt-20" eventKey="2">
+                                            <Accordion.Header > <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
+                                            Print Type
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                {/* <CategoryProduct /> */}
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    </Accordion>
+                                   
                                 </div>
 
                             
@@ -114,6 +119,7 @@ var data = [
                                             </strong>
                                             items for you!
                                         </p>
+                                        <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
                                     </div>
                                     <div className="sort-by-product-area">
                                        

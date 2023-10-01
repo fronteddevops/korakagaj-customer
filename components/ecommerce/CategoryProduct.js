@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { updateProductCategory } from "../../redux/action/productFiltersAction";
+import Form from 'react-bootstrap/Form';
 
 const CategoryProduct = ({ updateProductCategory }) => {
     const router = useRouter();
@@ -19,26 +20,35 @@ const CategoryProduct = ({ updateProductCategory }) => {
     };
     return (
         <>
+         <Form>
             <ul className="categories">
-                <li onClick={(e) => selectCategory(e, "")}>
-                    <a>All</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "jeans")}>
-                    <a>Jeans</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "shoe")}>
-                    <a>Shoe</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "jacket")}>
-                    <a>Jacket</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "trousers")}>
-                    <a>Trousers</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "accessories")}>
-                    <a>Accessories</a>
-                </li>
+                
+                    <Form.Check // prettier-ignore
+                        type={'checkbox'}
+                        id={`default-all`}
+                        label={`All`}
+                        checked
+                        className="text-brand fw-700"
+                    />
+              
+                
+                <Form.Check // prettier-ignore
+                        type={'checkbox'}
+                        id={`default-Jeans`}
+                        label={`Jeans`}
+                    />
+                   
+                
+                <Form.Check // prettier-ignore
+                        type={'checkbox'}
+                        id={`default-Shoe`}
+                        label={`Shoe`}
+                    />
+                  
+              
+               
             </ul>
+            </Form>
         </>
     );
 };

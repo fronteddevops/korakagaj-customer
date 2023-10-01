@@ -10065,4 +10065,33 @@ span.fi-rs-apps {
     padding: 30px;
   }
 }
+.custom-filter button{
+box-shadow: none !important;
+outline: none !important;
+border: none !important;
+padding: 0 !important;
+padding-bottom: 10px !important;
+}
+.custom-filter .accordion-button:not(.collapsed){
+background-color: #fff;
+}
+.custom-filter .accordion-collapse {
+  border: 0 !important;
+}
+
+.custom-filter .accordion-body {
+  padding: 0 !important;
+}
+.form-check-input:checked{
+  background-color: #088178;
+  border-color: #088178;
+}
+.hide-on-mobile{
+  display:block;
+}
+@media only screen and (max-width: 995px) {
+.hide-on-mobile{
+  display: none;
+}
+}
 /*# sourceMappingURL=main.css.map */
