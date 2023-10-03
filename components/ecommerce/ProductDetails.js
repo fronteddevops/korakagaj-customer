@@ -12,7 +12,8 @@ import { addToWishlist } from "../../redux/action/wishlistAction";
 import ProductTab from "../elements/ProductTab";
 import RelatedSlider from "../sliders/Related";
 import ThumbSlider from "../sliders/Thumb";
-
+import services from "../../services";
+import { useEffect } from "react";
 const ProductDetails = ({
     product,
     cartItems,
@@ -24,6 +25,7 @@ const ProductDetails = ({
     quickView,
 }) => {
     const [quantity, setQuantity] = useState(1);
+const [fabricName,setFabricName]=useState("")
 
     const handleCart = (product) => {
         addToCart(product);
@@ -42,6 +44,31 @@ const ProductDetails = ({
 
     const inCart = cartItems.find((cartItem) => cartItem.id === product.id);
 
+    const calculateTotalPrice = (product) => {
+        let itemTotalPrice = 0; // Initialize totalPrice to 0
+    
+        const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+        const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+        const discountAmount = (basePrice * discountPercentage) / 100;
+        itemTotalPrice = basePrice - discountAmount;
+        return itemTotalPrice; // Return the calculated total price
+      };
+
+      //fabric apt call
+  const GET_Fabric_Data = async (prodcut) => {
+      const response = await services.fabric.GET_FABRIC();
+      const selectedFabric = response.data.data.rows.find(
+          (fabric) => fabric.id == prodcut.fabric
+          );
+        
+          if (selectedFabric) {
+            setFabricName(selectedFabric.fabricName)
+    
+      }
+    }
+    useEffect(()=>{
+        GET_Fabric_Data(product)
+    },[product])
     console.log(inCart);
 
     return (
@@ -110,15 +137,15 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
                                             <h2 className="title-detail">
-                                                {product.title}
+                                                {product.productName}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
                                                     <span>
-                                                        Brands:
+                                                        Category:
                                                         <Link href="/products">
                                                             <a>
-                                                                {product.brand}
+                                                                {product.Category.categoryName}
                                                             </a>
                                                         </Link>
                                                     </span>
@@ -141,18 +168,17 @@ const ProductDetails = ({
                                                 <div className="product-price primary-color float-left">
                                                     <ins>
                                                         <span className="text-brand">
-                                                            ${product.price}
+                                                            ${calculateTotalPrice(product)}
                                                         </span>
                                                     </ins>
                                                     <ins>
                                                         <span className="old-price font-md ml-15">
-                                                            ${product.oldPrice}
+                                                            ${product.totalPrice}
                                                         </span>
                                                     </ins>
                                                     <span className="save-price  font-md color3 ml-15">
                                                         {
-                                                            product.discount
-                                                                .percentage
+                                                            product.discountPercentage
                                                         }
                                                         % Off
                                                     </span>
@@ -160,7 +186,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
                                             <div className="short-desc mb-30">
-                                                <p>{product.desc}</p>
+                                                <p>{product.description}</p>
                                             </div>
                                             <div className="product_sort_info font-xs mb-30">
                                                 <ul>
@@ -185,7 +211,7 @@ const ProductDetails = ({
                                                     Color
                                                 </strong>
                                                 <ul className="list-filter color-filter">
-                                                    {product.variations.map(
+                                                    {product.colour.map(
                                                         (clr, i) => (
                                                             <li key={i}>
                                                                 <a href="#">
@@ -227,6 +253,7 @@ const ProductDetails = ({
                                                     </li>
                                                 </ul>
                                             </div>
+                                            <strong class="mr-10">Fabric : <span class="text-brand">{fabricName}</span></strong>
                                             <div className="bt-1 border-color-1 mt-30 mb-30"></div>
                                             <div className="detail-extralink">
                                                 <div className="detail-qty border radius">
@@ -309,7 +336,7 @@ const ProductDetails = ({
                                             <ul className="product-meta font-xs color-grey mt-50">
                                                 <li className="mb-5">
                                                     SKU:
-                                                    <a href="#">FWM15VKT</a>
+                                                    <a href="#">{product.sku}</a>
                                                 </li>
                                                 <li className="mb-5">
                                                     Tags:
@@ -318,13 +345,13 @@ const ProductDetails = ({
                                                         rel="tag"
                                                         className="me-1"
                                                     >
-                                                        Cloth,
+                                                        {product.tags}
                                                     </a>
                                                 </li>
                                                 <li>
                                                     Availability:
                                                     <span className="in-stock text-success ml-5">
-                                                        {product.stock} Items In
+                                                        {product.currentStock} Items In
                                                         Stock
                                                     </span>
                                                 </li>

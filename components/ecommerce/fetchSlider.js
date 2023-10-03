@@ -7,6 +7,7 @@ import Featured from "../sliders/Featured";
 import NewArrival from "../sliders/NewArrivalTab";
 import Related from "../sliders/Related";
 import Trending from "../sliders/Trending";
+ import services from "../../services";
 
 const FetchSlider = ({ productFilters }) => {
     const [featured, setFeatured] = useState([]);
@@ -18,8 +19,12 @@ const FetchSlider = ({ productFilters }) => {
 
     useEffect(() => {
         fetchProducts();
+        upcomingProduct()
     }, [productFilters.category]);
-
+ const upcomingProduct=async()=>{
+  const response= await services.product.GET_PRODUCT()
+console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',response.data.data)
+ }
     const fetchProducts = async () => {
 
         // With Category

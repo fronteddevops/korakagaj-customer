@@ -74,9 +74,7 @@ const Wishlist = ({
                                 <a>{product.productName}</a>
                               </h5>
                               <p className="font-xs">
-                                Maboriosam in a tonto nesciung eget
-                                <br />
-                                distingy magndapibus.
+                            {product.description}
                               </p>
                             </td>
                             <td className="price" data-title="Price">

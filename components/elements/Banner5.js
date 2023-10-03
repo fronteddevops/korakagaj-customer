@@ -41,7 +41,7 @@ const Banner5 = () => {
                 <div className="banner-img wow fadeIn animated  mb-sm-0">
                     <img src="/assets/imgs/banner/banner-3.png" alt="" />
                     <div className="banner-text">
-                        <span>New Arrivals</span>
+                        <span>New Arrivals </span>
                         <h4>
                             Shop Today’s <br />
                             Deals & Offers

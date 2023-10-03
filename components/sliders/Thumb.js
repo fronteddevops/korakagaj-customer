@@ -2,10 +2,11 @@ import { useState } from "react";
 import SwiperCore, { Navigation, Thumbs } from "swiper";
 import "swiper/css/thumbs";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+ import nextConfig from "../../next.config";
 SwiperCore.use([Navigation, Thumbs]);
 
 const ThumbSlider = ({ product }) => {
+    const imageUrl=nextConfig.BASE_URL_UPLOADS
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     return (
@@ -21,9 +22,10 @@ const ThumbSlider = ({ product }) => {
                 thumbs={{ swiper: thumbsSwiper }}
                 className="mySwiper2"
             >
-                {product.gallery.map((item,i) => (
+                {product.image?.map((item,i) => (
                     <SwiperSlide key={i}>
-                        <img src={item.thumb} alt="korakagaj"/>
+                    {console.log('ooooooooooooooooooooooooooooooo',item)}
+                        <img src={ imageUrl+ item} alt="korakagaj" crossOrigin="an"/>
                         {/* <Zoom
                             img={item.thumb}
                             zoomScale={5}
@@ -43,9 +45,9 @@ const ThumbSlider = ({ product }) => {
                 watchSlidesProgress={true}
                 className="mySwiper"
             >
-                {product.gallery.map((item, i) => (
+                {product.image.map((item, i) => (
                     <SwiperSlide key={i}>
-                        <img src={item.thumb} alt="korakagaj" />
+                        <img src={ imageUrl+item} alt="korakagaj"  crossOrigin="annomus"/>
                     </SwiperSlide>
                 ))}
             </Swiper>

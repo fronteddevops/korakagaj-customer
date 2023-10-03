@@ -98,8 +98,7 @@ const Cart = ({
                               </Link>
                             </h5>
                             <p className="font-xs">
-                              Maboriosam in a tonto nesciung eget
-                              <br /> distingy magndapibus.
+                            {item.description}
                             </p>
                           </td>
                           <td className="price" data-title="Price">
