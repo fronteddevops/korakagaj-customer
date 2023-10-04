@@ -6,7 +6,9 @@ export const deleteProduct = (list, id) => {
   
   // Find Product Index From List
   export const findProductIndex = (list, slug) => {
-    const index = list.findIndex((item) => item.slug === slug);
+   
+    const index = list.findIndex((item) => item.id === slug);
+    console.log('indexxxxxxxxxxxxxxxxxxxxxxxxxxxx',index)
     return index;
   };
   export const findProductIndexById = (list, id) => {

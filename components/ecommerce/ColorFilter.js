@@ -4,7 +4,7 @@ import { updateProductFilters } from "../../redux/action/productFiltersAction";
 
 const ColorFilter = ({ updateProductFilters }) => {
     const colors = [
-        { value: "" },
+        { value: "black" },
         { value: "red" },
         { value: "yellow" },
         { value: "white" },

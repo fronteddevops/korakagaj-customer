@@ -22,7 +22,7 @@ const NewArrival = () => {
               const response = await services.product.GET_PRODUCT();
         
               const newProudct = response?.data?.data?.rows.filter(
-                (product) => product.productType == 0
+                (product) => product.productType == 3
               );
               if (newProudct) {
                 setNewArrival(newProudct);

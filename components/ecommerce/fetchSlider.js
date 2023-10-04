@@ -23,7 +23,7 @@ const FetchSlider = ({ productFilters }) => {
     }, [productFilters.category]);
  const upcomingProduct=async()=>{
   const response= await services.product.GET_PRODUCT()
-console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',response.data.data)
+
  }
     const fetchProducts = async () => {
 

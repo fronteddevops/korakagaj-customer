@@ -385,7 +385,7 @@ const Header = ({
                                 />
                                 <div className="banne_info">
                                   <h6>10% Off</h6>
-                                  <h4>New Arrival jjjjjjjjjjjjj</h4>
+                                  <h4>New Arrival</h4>
                                   <Link href="/#">
                                     <a>Shop now</a>
                                   </Link>

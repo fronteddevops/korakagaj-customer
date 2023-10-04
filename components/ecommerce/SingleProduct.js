@@ -59,7 +59,7 @@ const SingleProduct = ({
                       className="default-img"
                       
                       src={imageUrl+product.featuredImage}
-                      crossOrigin="an"
+                      crossOrigin="anonymous"
                       alt=""
                     />
                     {/* <img

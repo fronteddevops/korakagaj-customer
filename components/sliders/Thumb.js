@@ -21,13 +21,17 @@ const ThumbSlider = ({ product }) => {
                 navigation={true}
                 thumbs={{ swiper: thumbsSwiper }}
                 className="mySwiper2"
+                autoplay={{
+  "delay": 500,
+  "disableOnInteraction": false
+}}
             >
                 {product.image?.map((item,i) => (
                     <SwiperSlide key={i}>
-                    {console.log('ooooooooooooooooooooooooooooooo',item)}
-                        <img src={ imageUrl+ item} alt="korakagaj" crossOrigin="an"/>
+                   
+                        <img src={ imageUrl+ item} alt="korakagaj" crossOrigin="anonymous"/>
                         {/* <Zoom
-                            img={item.thumb}
+                            src={imageUrl+ item}
                             zoomScale={5}
                             width={500}
                             height={500}
@@ -38,16 +42,16 @@ const ThumbSlider = ({ product }) => {
             </Swiper>
             <Swiper
                 onSwiper={setThumbsSwiper}
-                //loop={false}
+                // loop={true}
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
                 watchSlidesProgress={true}
                 className="mySwiper"
             >
-                {product.image.map((item, i) => (
+                {product?.image?.map((item, i) => (
                     <SwiperSlide key={i}>
-                        <img src={ imageUrl+item} alt="korakagaj"  crossOrigin="annomus"/>
+                        <img src={ imageUrl+item} alt="korakagaj"  crossOrigin="anonymous"/>
                     </SwiperSlide>
                 ))}
             </Swiper>
