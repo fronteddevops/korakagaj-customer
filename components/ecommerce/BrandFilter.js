@@ -4,10 +4,10 @@ import { updateProductFilters } from "../../redux/action/productFiltersAction";
 
 const BrandFilter = ({ updateProductFilters }) => {
     const brands = [
-        {value: ""},
-        {value: "armani"},
-        {value: "adidas"},
-        {value: "helix"},
+        {value: "back"},
+        {value: "red"},
+        {value: "orange"},
+        {value: "yellow"},
     ];
 
 

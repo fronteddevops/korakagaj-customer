@@ -1,46 +1,69 @@
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { updateProductCategory } from "../../redux/action/productFiltersAction";
+import Form from "react-bootstrap/Form";
+import services from "../../services";
+import { useEffect, useState } from "react";
 
 const CategoryProduct = ({ updateProductCategory }) => {
-    const router = useRouter();
+  const [category, setCategory] = useState([]);
+  const router = useRouter();
 
-    const removeSearchTerm = () => {
-        router.push({
-            pathname: "/products",
-        });
-    };
+  const removeSearchTerm = () => {
+    router.push({
+      pathname: "/products",
+    });
+  };
 
-    const selectCategory = (e, category) => {
-        e.preventDefault();
-        removeSearchTerm();
-        updateProductCategory(category);
-        // router.push('/')
-    };
-    return (
-        <>
-            <ul className="categories">
-                <li onClick={(e) => selectCategory(e, "")}>
-                    <a>All</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "jeans")}>
-                    <a>Jeans</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "shoe")}>
-                    <a>Shoe</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "jacket")}>
-                    <a>Jacket</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "trousers")}>
-                    <a>Trousers</a>
-                </li>
-                <li onClick={(e) => selectCategory(e, "accessories")}>
-                    <a>Accessories</a>
-                </li>
-            </ul>
-        </>
-    );
+  const selectCategory = (e, category) => {
+    e.preventDefault();
+    removeSearchTerm();
+    updateProductCategory(category);
+    // router.push('/')
+  };
+  //get category
+  const getCategroy = async () => {
+    try {
+      const response = await services.category.GET_CATEGORY();
+      if (response) {
+        setCategory(response?.data?.data?.rows);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(()=>{
+    getCategroy()
+  },[])
+ 
+  return (
+    <>
+      <Form>
+
+        <ul className="categories">
+        <Form.Check // prettier-ignore
+            type={"checkbox"}
+            id={`default-all`}
+            label={`All`}
+            checked
+            className="text-brand fw-700"
+          />
+        {category && category.map((item)=>(
+            <Form.Check // prettier-ignore
+            type={"checkbox"}
+            id={`default-Jeans`}
+            label={item?.categoryName}
+          />
+        ))}
+         
+
+        
+
+        
+        </ul>
+      </Form>
+    </>
+  );
 };
 
 export default connect(null, { updateProductCategory })(CategoryProduct);

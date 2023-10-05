@@ -7,10 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import services from "../services/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+const route=useRouter()
   //error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -71,7 +72,22 @@ function Login() {
         const response = await services.auth.LOGIN_USER(payLoad);
 
         if (response) {
+          const id=response.data.user.id
+          console.log('ppppppppppppppppppppppppppppppppppp',id)
           toastSuccessLogin();
+          if(localStorage.length>0){
+       
+             const data={
+              cartDetail: JSON.parse(localStorage.getItem("dokani_cart"))
+             }
+           console.log('ppppppppppppppppppppppppppp0',data)
+    const response=       await services.cart.UPDATE_CART(id,data)
+    if(response){
+      localStorage.removeItem("")
+    }
+   
+          }
+          route.push('/')
         } else {
           alert(response.data.guide);
         }

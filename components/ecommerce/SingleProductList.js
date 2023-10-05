@@ -41,7 +41,7 @@ const SingleProductList = ({
                             <div className="product-img-inner">
                                 <Link
                                     href="/products/[slug]"
-                                    as={`/products/${product.slug}`}
+                                    as={`/products/${product.id}`}
                                 >
                                     <a>
                                         <img
