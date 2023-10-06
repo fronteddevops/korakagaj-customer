@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { updateProductFilters } from "../../redux/action/productFiltersAction";
+import Form from 'react-bootstrap/Form';
 
 const BrandFilter = ({ updateProductFilters }) => {
     const brands = [
-        {value: "back"},
-        {value: "red"},
-        {value: "orange"},
-        {value: "yellow"},
+        {value: "All"},
+        {value: "Red"},
+        {value: "Blue"},
+        {value: "Green"},
     ];
 
 
@@ -32,15 +33,14 @@ const BrandFilter = ({ updateProductFilters }) => {
         <ul className="categor-list">
         {brands.map((tag, i) => (
                     <li onClick={() => handleClick(i, tag.value)} key={i}>
-                        <a
-                            className={
-                                active == i
-                                    ? "cat-item text-brand"
-                                    : "cat-item text-muted"
-                            }
-                        >
-                            {i == 0 ? "All" : `${tag.value}`}
-                        </a>
+                        <Form.Check // prettier-ignore
+                        type={'checkbox'}
+                        id={`default-checkbox`}
+                        label={`${tag.value}`}
+                        checked={tag.value == 'All'}
+                        className={`text-brand ${tag.value == 'All' && 'fw-700'}`}
+                    />
+                       
                     </li>
                 ))}
         </ul>

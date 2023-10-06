@@ -16,7 +16,7 @@ const PriceRangeSlider = ({ updateProductFilters }) => {
         const filters = {
             price: price.value,
         };
-
+console.log('pppppppppppppppppppppppppppppppppp',filters)
         updateProductFilters(filters);
     }, [price, searchTerm]);
 

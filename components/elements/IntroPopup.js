@@ -41,7 +41,7 @@ const IntroPopup = () => {
                                 </div>
                                 <div className="deal-content">
                                     <h6 className="product-title">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 Summer Collection New Morden
                                                 Design
@@ -65,7 +65,7 @@ const IntroPopup = () => {
                                             fixDate.getDate() + 2
                                         )}
                                     />
-                                    <Link href="/products/shop-grid-right">
+                                    <Link href="/products">
                         <a className="btn hover-up">
                             Shop Now <i className="fi-rs-arrow-right"></i>
                         </a>

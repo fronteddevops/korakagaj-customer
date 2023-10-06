@@ -212,16 +212,16 @@ Cheers! You’re happiness will be delivered shortly with Korakagaj
                         </div>
                         <div className="col-lg-6">
                             <p className="float-md-left font-sm text-muted mb-0">
-                                &copy; {new Date().getFullYear()},
-                                <strong className="text-brand"> korakagaj</strong></p>
+                                &copy; {new Date().getFullYear()} 
+                                <strong className="text-brand"> Korakagaj</strong></p>
                         </div>
-                        <div className="col-lg-6">
+                        {/* <div className="col-lg-6">
                             <p className="text-lg-end text-start font-sm text-muted mb-0">
                                 Designed by 
                                 <a href="http://alithemes.com" target="_blank"> Alithemes.com</a>
                                 . All rights reserved
                             </p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </footer>

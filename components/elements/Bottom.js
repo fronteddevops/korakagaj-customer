@@ -18,7 +18,7 @@ const Bottom = () => {
                                         Save 17% on <br />
                                         All Items
                                     </h4>
-                                    <Link href="/products/shop-grid-right">
+                                    <Link href="/products">
                                         <a>
                                             Shop Now
                                             <i className="fi-rs-arrow-right"></i>
@@ -34,7 +34,7 @@ const Bottom = () => {
                             <div className="product-list-small wow fadeIn animated">
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-3.jpg"
@@ -45,7 +45,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Fish Print Patched T-shirt
                                                 </a>
@@ -61,7 +61,7 @@ const Bottom = () => {
                                 </article>
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-4.jpg"
@@ -72,7 +72,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Vintage Floral Print Dress
                                                 </a>
@@ -88,7 +88,7 @@ const Bottom = () => {
                                 </article>
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-5.jpg"
@@ -99,7 +99,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Multi-color Stripe Circle
                                                     Print T-Shirt
@@ -123,7 +123,7 @@ const Bottom = () => {
                             <div className="product-list-small wow fadeIn animated">
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-6.jpg"
@@ -134,7 +134,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Geometric Printed Long
                                                     Sleeve Blosue
@@ -151,7 +151,7 @@ const Bottom = () => {
                                 </article>
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-7.jpg"
@@ -162,7 +162,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Print Patchwork Maxi Dress
                                                 </a>
@@ -178,7 +178,7 @@ const Bottom = () => {
                                 </article>
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-8.jpg"
@@ -189,7 +189,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Daisy Floral Print Straps
                                                     Jumpsuit
@@ -213,7 +213,7 @@ const Bottom = () => {
                             <div className="product-list-small wow fadeIn animated">
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-9.jpg"
@@ -224,7 +224,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Floral Print Casual Cotton
                                                     Dress
@@ -241,7 +241,7 @@ const Bottom = () => {
                                 </article>
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-1.jpg"
@@ -252,7 +252,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Ruffled Solid Long Sleeve
                                                     Blouse
@@ -269,7 +269,7 @@ const Bottom = () => {
                                 </article>
                                 <article className="row align-items-center">
                                     <figure className="col-md-4 mb-0">
-                                        <Link href="/products/shop-grid-right">
+                                        <Link href="/products">
                                             <a>
                                                 <img
                                                     src="/assets/imgs/shop/thumbnail-2.jpg"
@@ -280,7 +280,7 @@ const Bottom = () => {
                                     </figure>
                                     <div className="col-md-8 mb-0">
                                         <h4 className="title-small">
-                                            <Link href="/products/shop-grid-right">
+                                            <Link href="/products">
                                                 <a>
                                                     Multi-color Print V-neck
                                                     T-Shirt

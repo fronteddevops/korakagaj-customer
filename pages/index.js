@@ -1,3 +1,4 @@
+import Link from "next/link";
 import FeatchTab from "../components/ecommerce/fetchTab";
 import FeatchTab2 from "../components/ecommerce/fetchTabSlider";
 import Banner2 from "../components/elements/Banner2";
@@ -28,12 +29,22 @@ export default function Home() {
                     <Intro1 />
                 </section>
 
-              
+
                 <section className="popular-categories section-padding mt-15 mb-25">
                     <div className="container wow fadeIn animated">
-                        <h3 className="section-title mb-20">
-                            <span>Featured</span> Categories
-                        </h3>
+                        <div className="tab-header">
+                            <h3 className="section-title mb-20">
+                                <span>Featured</span> Categories
+                            </h3>
+                            <h6>
+                                <Link href="/categories">
+                                    <a className="view-more d-none d-md-flex">
+                                        View More<i className="fi-rs-angle-double-small-right"></i>
+                                    </a>
+                                </Link>
+                            </h6>
+                        </div>
+                        
                         <div className="carausel-6-columns-cover position-relative">
                             <div
                                 className="carausel-6-columns"
@@ -53,9 +64,9 @@ export default function Home() {
                     </div>
                 </section>
 
-               
 
-               
+
+
                 <section className="banners mb-15">
                     <div className="container">
                         <div className="row">
@@ -107,7 +118,7 @@ export default function Home() {
                     </div>
                 </section>
 
-         
+
 
                 {/* <Bottom/> */}
 
