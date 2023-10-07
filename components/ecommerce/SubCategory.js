@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { updateProductCategory } from "../../redux/action/productFiltersAction";
+import { updateProductSubCategory } from "../../redux/action/productFiltersAction";
 import Form from "react-bootstrap/Form";
 import services from "../../services";
 import { useEffect, useState } from "react";
 
 
-const CategoryProduct = ({ updateProductCategory }) => {
+const CategoryProduct = ({ updateProductSubCategory }) => {
   const [category, setCategory] = useState([]);
   const router = useRouter();
   const [selectAll, setSelectAll] = useState(false);
@@ -18,14 +18,14 @@ const CategoryProduct = ({ updateProductCategory }) => {
     });
   };
 
-  const toggleCategory = (categoryName) => {
+  const toggleCategory = (categorid) => {
     setSelectedCategories((prevSelectedCategories) => {
-      if (prevSelectedCategories.includes(categoryName)) {
+      if (prevSelectedCategories.includes(categorid)) {
         // If the category is already selected, remove it
-        return prevSelectedCategories.filter((category) => category !== categoryName);
+        return prevSelectedCategories.filter((category) => category !== categorid);
       } else {
         // If the category is not selected, add it
-        return [...prevSelectedCategories, categoryName];
+        return [...prevSelectedCategories, categorid];
       }
     });
   };
@@ -33,7 +33,7 @@ const CategoryProduct = ({ updateProductCategory }) => {
   //get category
   const getCategroy = async () => {
     try {
-      const response = await services.category.GET_CATEGORY();
+      const response = await services.subCategory.GET_SUB_CATEGORY();
       if (response) {
         setCategory(response?.data?.data?.rows);
       }
@@ -47,13 +47,13 @@ const CategoryProduct = ({ updateProductCategory }) => {
     // Update the selectedCategories state based on the new state of selectAll
     if (!selectAll) {
       // If "Select All" was unchecked, select all categories
-      setSelectedCategories(category.map((item) => item.categoryName));
+      setSelectedCategories(category.map((item) => item.id));
     } else {
       // If "Select All" was checked, deselect all categories
       setSelectedCategories([]);
     }
   };
-  updateProductCategory(selectedCategories)
+  updateProductSubCategory(selectedCategories)
   useEffect(()=>{
     getCategroy()
    
@@ -76,10 +76,10 @@ const CategoryProduct = ({ updateProductCategory }) => {
         <Form.Check
           key={item.id}
           type="checkbox"
-          id={`default-${item.categoryName}`}
-          label={item.categoryName}
-          onChange={() => toggleCategory(item.categoryName)}
-          checked={selectedCategories.includes(item.categoryName)}
+          id={`default-${item.id}`}
+          label={item.subcategoryName}
+          onChange={() => toggleCategory(item.id)}
+          checked={selectedCategories.includes(item.id)}
         />
       ))}
   </ul>
@@ -88,4 +88,4 @@ const CategoryProduct = ({ updateProductCategory }) => {
   );
 };
 
-export default connect(null, { updateProductCategory })(CategoryProduct);
+export default connect(null, { updateProductSubCategory })(CategoryProduct);

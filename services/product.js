@@ -32,6 +32,18 @@ export default {
       }
     });
   },
-  
+  GET_FILTER_PRODUCT: (categoryid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log('cateaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',categoryid,)
+        const response = await Axios.get(
+          nextConfig.BASE_URL + api.product.GET_FILTER_PRODUCT(categoryid)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
 
 };

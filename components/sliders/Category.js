@@ -14,7 +14,7 @@ const CategorySlider = () => {
     const getCategoryListHandler = async () => {
         try {
             const response = await services.category.GET_CATEGORY()
-    console.log('=========================================',response.data)
+   
           //  setRowData(response.data)
           setCategory(response.data.data.rows)
         } catch (error) {

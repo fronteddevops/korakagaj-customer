@@ -44,7 +44,7 @@ const ProductDetails = ({
   };
 
   const inCart = cartItems.find((cartItem) => cartItem?.id === product?.id);
-console.log('poooopppppppppppppppppppppppppooooooooo',product)
+
   const calculateTotalPrice = (product) => {
     let itemTotalPrice = 0; // Initialize totalPrice to 0
 

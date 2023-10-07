@@ -86,7 +86,9 @@ const PriceRange = ({ updateProductFilters }) => {
 
 const mapStateToProps = (state) => ({
     products: state.products.items,
-});
+  
+}
+);
 
 const mapDidpatchToProps = {
     updateProductFilters,

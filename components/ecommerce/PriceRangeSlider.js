@@ -5,20 +5,22 @@ import { updateProductFilters } from "../../redux/action/productFiltersAction";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-const PriceRangeSlider = ({ updateProductFilters }) => {
-    
+const PriceRangeSlider = ({ updateProductFilters ,products}) => {
+ 
     const Router = useRouter();
     const searchTerm = Router.query.search;
 
-    const [price, setPrice] = useState({ value: { min: 0, max: 500 } });
+    const [price, setPrice] = useState({ value: { min: 0, max: 5000 
+     } });
 
     useEffect(() => {
         const filters = {
             price: price.value,
         };
-console.log('pppppppppppppppppppppppppppppppppp',filters)
+console.log('ppppppppppppppppppppppppppppppppppprice',filters)
         updateProductFilters(filters);
     }, [price, searchTerm]);
+   
 
     return (
         <div className="korakagaj_price_slider_amount">
@@ -27,7 +29,7 @@ console.log('pppppppppppppppppppppppppppppppppp',filters)
                 allowCross={false}
                 defaultValue={[0, 100]}
                 min={0}
-                max={500}
+                max={5000}
                 // onChange={(value) => console.log(value[0], value[1])} 
                 onChange={(value) => setPrice({ value: { min: value[0], max: value[1] } })}
             />

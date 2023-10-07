@@ -2,24 +2,27 @@
 import filterProductList from '../../util/filterProduct'
 import searchItemsByText from '../../util/searchItemsByText'
 import * as Types from '../constants/actionTypes'
-
+import services from '../../services'
 // Fetch Product fetchProduct
 export const fetchProduct = (searchTerm, url, filters) => async dispatch => {
-    console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu',url)
+  
     try {
 
-        const sendRequest = await fetch(url)
-        const data = await sendRequest.json()
-
-        window.products = data
-
-        const searchedItems = searchItemsByText(searchTerm, data)
-        const filteredList = filterProductList(searchedItems, filters)
-
+     
+            const response= await services.product.GET_PRODUCT()  
+          
+            if(response){
+              
+           
+         
+           
+            
+         
         dispatch({
             type: Types.FETCHED_PRODUCT,
-            payload: { products: filteredList }
+            payload: { products: response.data.data.rows }
         })
+    }
 
     } catch (error) {
         console.log(error)

@@ -4,6 +4,7 @@ import * as Types from "../constants/actionTypes";
 // {items:[],filteredList:[]}
 
 export default (state = { items: [] }, action) => {
+    console.log('produxctqqqqqqqqqqqqqqqqqqaaaffffffffffffffffffffffffffffff',action)
     switch (action.type) {
         case Types.FETCHED_PRODUCT:
             return {

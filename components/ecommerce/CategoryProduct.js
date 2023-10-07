@@ -18,14 +18,14 @@ const CategoryProduct = ({ updateProductCategory }) => {
     });
   };
 
-  const toggleCategory = (categoryName) => {
+  const toggleCategory = (categorid) => {
     setSelectedCategories((prevSelectedCategories) => {
-      if (prevSelectedCategories.includes(categoryName)) {
+      if (prevSelectedCategories.includes(categorid)) {
         // If the category is already selected, remove it
-        return prevSelectedCategories.filter((category) => category !== categoryName);
+        return prevSelectedCategories.filter((category) => category !== categorid);
       } else {
         // If the category is not selected, add it
-        return [...prevSelectedCategories, categoryName];
+        return [...prevSelectedCategories, categorid];
       }
     });
   };
@@ -47,7 +47,7 @@ const CategoryProduct = ({ updateProductCategory }) => {
     // Update the selectedCategories state based on the new state of selectAll
     if (!selectAll) {
       // If "Select All" was unchecked, select all categories
-      setSelectedCategories(category.map((item) => item.categoryName));
+      setSelectedCategories(category.map((item) => item.id));
     } else {
       // If "Select All" was checked, deselect all categories
       setSelectedCategories([]);
@@ -76,10 +76,10 @@ const CategoryProduct = ({ updateProductCategory }) => {
         <Form.Check
           key={item.id}
           type="checkbox"
-          id={`default-${item.categoryName}`}
+          id={`default-${item.id}`}
           label={item.categoryName}
-          onChange={() => toggleCategory(item.categoryName)}
-          checked={selectedCategories.includes(item.categoryName)}
+          onChange={() => toggleCategory(item.id)}
+          checked={selectedCategories.includes(item.id)}
         />
       ))}
   </ul>

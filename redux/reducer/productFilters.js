@@ -1,6 +1,8 @@
 import * as Types from "../constants/actionTypes";
 
-export default (state = { category: "" }, action) => {
+export default (state = { category: "",subCategory:[] }, action) => {
+    console.log('actionazzzzzzzzzzzz',action)
+    console.log('stateqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqaaaaaaaaaaaaaaaaaaaaa',state)
     switch (action.type) {
         case Types.UPDATE_PRODUCT_FILTERS:
             return {

@@ -41,10 +41,7 @@ const Header = ({
   // Get sub category list
   const subCategoryList = async (id) => {
     const response = await service.subCategory.GET_ALL_SUB_CATEGORY(id);
-    console.log(
-      "ooooooooooooooooooooooooooooooooooooooooooooooooo",
-      response.data.data.rows
-    );
+  
     setSubCategory(response.data.data.rows);
 
     // Create an array to accumulate subsubcategories
@@ -73,10 +70,7 @@ const Header = ({
   //gt sub category list
   const subSubCategoryList = async (id) => {
     const response = await service.subSubCategory.GET_ALL_SUB_CATEGORY(id);
-    console.log(
-      "ooooooooooooooooooooooooooooooooooooooooooooooooo",
-      response.data.data.rows
-    );
+    
   };
   
   return (
