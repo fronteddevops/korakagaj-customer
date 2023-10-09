@@ -29,7 +29,7 @@ console.log('ppppppppppppppppppppppppppppppppppprice',filters)
                 allowCross={false}
                 defaultValue={[0, 100]}
                 min={0}
-                max={5000}
+                max={50000}
                 // onChange={(value) => console.log(value[0], value[1])} 
                 onChange={(value) => setPrice({ value: { min: value[0], max: value[1] } })}
             />

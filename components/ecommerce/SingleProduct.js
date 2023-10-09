@@ -18,8 +18,8 @@ const SingleProduct = ({
   const [loading, setLoading] = useState(false);
   
   const imageUrl=nextConfig.BASE_URL_UPLOADS
-  const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-  const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+  const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+  const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
 
@@ -53,12 +53,12 @@ const SingleProduct = ({
           <div className="product-cart-wrap mb-30">
             <div className="product-img-action-wrap">
               <div className="product-img product-img-zoom">
-                <Link href="/products/[slug]" as={`/products/${product.id}`}>
+                <Link href="/products/[slug]" as={`/products/${product?.id}`}>
                   <a>
                     <img
                       className="default-img"
                       
-                      src={imageUrl+product.featuredImage}
+                      src={imageUrl+product?.featuredImage}
                       crossOrigin="anonymous"
                       alt=""
                     />
@@ -93,33 +93,33 @@ const SingleProduct = ({
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
-              {product.productType==1 ? <span className="hot">Hot </span> : null}
+              {product?.productType==1 ? <span className="hot">Hot </span> : null}
        
-              {product.productType==0 ? <span className="hot">New Product </span> : null}
+              {product?.productType==0 ? <span className="hot">New Product </span> : null}
                 
-                  {product.productType==2 ? <span className="hot">Best Sell </span> : null}
+                  {product?.productType==2 ? <span className="hot">Best Sell </span> : null}
               
            
               
-                {product.discountPercentage >= 5 ? (
-                  <span className="hot">{product.discountPercentage}%</span>
+                {product?.discountPercentage >= 5 ? (
+                  <span className="hot">{product?.discountPercentage}%</span>
                 ) : null}
               </div>
             </div>
             <div className="product-content-wrap">
               <div className="product-category">
                 <Link href="/products">
-                  <a>{product.brandName}</a>
+                  <a>{product?.brandName}</a>
                 </Link>
               </div>
               <h2>
-                <Link href="/products/[slug]" as={`/products/${product.id}`}>
-                  <a>{product.productName}</a>
+                <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+                  <a>{product?.productName}</a>
                 </Link>
               </h2>
               <div className="rating-result" title="90%">
                 <span>
-                  <span>{product.ratingScore} </span>
+                  <span>{product?.ratingScore} </span>
                 </span>
               </div>
               <div className="product-price">
@@ -127,10 +127,10 @@ const SingleProduct = ({
         {discountPercentage > 0 && (
           <span className="old-price"> ${basePrice}</span>
         )}
-        <span>{product.discountPercentage}%</span>
+        <span>{product?.discountPercentage}%</span>
       </div>
               <div className="product-price">
-                Designer :{product.designerName}
+                Designer :{product?.designerName}
               </div>
 
               <div className="product-action-1 show">

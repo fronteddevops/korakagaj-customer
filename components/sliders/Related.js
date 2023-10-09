@@ -3,21 +3,44 @@ import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { fetchByCatagory } from "../../redux/action/product";
 import SingleProduct from "./../ecommerce/SingleProduct";
-
+import { useRouter } from "next/router";
+import services from "../../services";
 SwiperCore.use([Navigation]);
 
 const RelatedSlider = () => {
     const [related, setRelated] = useState([]);
+    const router = useRouter();
+    const id = router.query.slug;
+   
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    const getProdcut = async () => {
+        // Fetch product data here and return it as props
+        try {
+            const response = await services.product.GET_PRODUCT();
+    
+        const filteredProducts = response.data.data.rows.filter(
+          (product) => product.id == id
+        );
+    
+        if (filteredProducts.length > 0) {
+          // Assuming 'setData' is a state-setting function
+          setRelated(filteredProducts);
+          console.log("Filtered Products:", filteredProducts);
+        } else {
+          // Handle the case where no products match the criteria
+          // For example, set an empty array or show an error message.
+          setData([]); // Set an empty array if no products match
+          console.log("No products match the criteria.");
+        }
+        } catch (error) {
+     console.log(error)
+        }
+        
+      };
+      useEffect(() => {
+        getProdcut();
+      },[]);
 
-    const fetchProducts = async () => {
-        // With Category
-        const allProducts = await fetchByCatagory("/static/product.json");
-        setRelated(allProducts);
-    };
 
     return (
         <>
@@ -33,7 +56,7 @@ const RelatedSlider = () => {
             >
                 {related.map((product, i) => (
                     <SwiperSlide key={i}>
-                        <SingleProduct product={product} />
+                        <SingleProduct product={product[0]} />
                     </SwiperSlide>
                 ))}
             </Swiper>

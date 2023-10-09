@@ -5,16 +5,14 @@ import Form from 'react-bootstrap/Form';
 
 const BrandFilter = ({ updateProductFilters }) => {
     const brands = [
-        {value: "All"},
+      
         {value: "Red"},
         {value: "Blue"},
         {value: "Green"},
     ];
 
-
-    const [selectedBrands, setBrands] = useState([]);
-    const [active, setActive] = useState(0);
-
+    const [selectedBrands, setSelectedBrands] = useState("");
+console.log("setSelectedBrands",selectedBrands)
     useEffect(() => {
         const filters = {
             brand: selectedBrands,
@@ -23,28 +21,35 @@ const BrandFilter = ({ updateProductFilters }) => {
         updateProductFilters(filters);
     }, [selectedBrands]);
 
-    const handleClick = (i, target) => {
-        setBrands(target);
-        setActive(active == i ? 0 : i);
+    const handleCheckboxChange = (value) => {
+        if (value) {
+            // If "All" is selected, clear the selectedBrands array
+            setSelectedBrands(value);
+        } else {
+            // If another brand is selected, update the selectedBrands array
+            if (selectedBrands.includes(value)) {
+                setSelectedBrands(selectedBrands.filter(brand => brand !== value));
+            } else {
+                setSelectedBrands([...selectedBrands, value]);
+            }
+        }
     };
 
     return (
         <>
-        <ul className="categor-list">
-        {brands.map((tag, i) => (
-                    <li onClick={() => handleClick(i, tag.value)} key={i}>
-                        <Form.Check // prettier-ignore
-                        type={'checkbox'}
-                        id={`default-checkbox`}
-                        label={`${tag.value}`}
-                        checked={tag.value == 'All'}
-                        className={`text-brand ${tag.value == 'All' && 'fw-700'}`}
-                    />
-                       
+            <ul className="categor-list">
+                {brands.map((tag, i) => (
+                    <li onClick={() => handleCheckboxChange(tag.value)} key={i}>
+                        <Form.Check
+                            type={'checkbox'}
+                            id={`checkbox-${tag.value}`}
+                            label={tag.value}
+                            checked={selectedBrands.includes(tag.value)}
+                            className={`text-brand ${tag.value === 'All' && 'fw-700'}`}
+                        />
                     </li>
                 ))}
-        </ul>
-          
+            </ul>
         </>
     );
 };
@@ -53,8 +58,8 @@ const mapStateToProps = (state) => ({
     products: state.products.items,
 });
 
-const mapDidpatchToProps = {
+const mapDispatchToProps = {
     updateProductFilters,
 };
 
-export default connect(mapStateToProps, mapDidpatchToProps)(BrandFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(BrandFilter);

@@ -9,6 +9,7 @@ function Pagination({
     pages,
     handleActive,
 }) {
+    console.log('getpagination',getPaginationGroup)
     return (
         <>
             <ul className="pagination justify-content-start">

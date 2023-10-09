@@ -32,12 +32,12 @@ export default {
       }
     });
   },
-  GET_FILTER_PRODUCT: (categoryid) => {
+  GET_FILTER_PRODUCT: (selectedColors,categoryid,subCategory,subSubCategory,min,max,) => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('cateaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',categoryid,)
+      
         const response = await Axios.get(
-          nextConfig.BASE_URL + api.product.GET_FILTER_PRODUCT(categoryid)
+          nextConfig.BASE_URL + api.product.GET_FILTER_PRODUCT(selectedColors,categoryid,subCategory,subSubCategory,min,max)
         );
         resolve(response);
       } catch (err) {
