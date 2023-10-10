@@ -19,7 +19,20 @@ export default {
       }
     });
   },
- 
+  GET_FilTER_FABRIC: (
+    data) => {
+      console.log("fabricType",data.transparency)
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+            nextConfig.BASE_URL + api.fabric.GET_FilTER_FABRIC(data )
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
  
  
 

@@ -78,17 +78,17 @@ const Products = ({ product, productFilters, fetchProduct }) => {
 
     setPagination(arr);
     setPages(Math.ceil(products.length / limit));
-    console.log('111111111111111111111111111111111111111111',arr)
+   
   };
 
   const startIndex = currentPage * limit - limit;
   const endIndex = startIndex + limit;
   const getPaginatedProducts = products.slice(startIndex, endIndex);
-console.log('getpagit22222222222222222222222222222222222222',getPaginatedProducts)
+
   let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
   let end = start + showPagination;
   const getPaginationGroup = pagination.slice(start, end);
-console.log("get3333333333333333333333333333333333",getPaginationGroup)
+
   const next = () => {
     setCurrentPage((page) => page + 1);
   };

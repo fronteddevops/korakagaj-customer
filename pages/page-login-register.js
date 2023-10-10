@@ -72,7 +72,8 @@ const route=useRouter()
         const response = await services.auth.LOGIN_USER(payLoad);
 
         if (response) {
-          const id=response.data.user.id
+       //   const id=response.data.user.id
+          const id=3
           console.log('ppppppppppppppppppppppppppppppppppp',id)
           toastSuccessLogin();
           if(localStorage.length>0){
@@ -83,6 +84,7 @@ const route=useRouter()
            console.log('ppppppppppppppppppppppppppp0',data)
     const response=       await services.cart.UPDATE_CART(id,data)
     if(response){
+      console.log("responmosedata login card",response.data)
       localStorage.removeItem("")
     }
    

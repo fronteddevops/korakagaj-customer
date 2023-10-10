@@ -16,7 +16,7 @@ function FeatchTab() {
     try {
       const response = await services.product.GET_PRODUCT();
 
-      const newProudct = response?.data?.data?.rows.filter(
+      const newProudct = response?.data?.data?.rows?.filter(
         (product) => product.productType == 0
       );
       if (newProudct) {
@@ -32,7 +32,7 @@ function FeatchTab() {
     try {
       const response = await services.product.GET_PRODUCT();
 
-      const hotDeals = response?.data?.data?.rows.filter(
+      const hotDeals = response?.data?.data?.rows?.filter(
         (product) => product.productType == 1
       );
       if (hotDeals) {
@@ -47,7 +47,7 @@ function FeatchTab() {
     try {
       const response = await services.product.GET_PRODUCT();
 
-      const NewArrival = response?.data?.data?.rows.filter(
+      const NewArrival = response?.data?.data?.rows?.filter(
         (product) => product.productType == 2
       );
       if (NewArrival) {

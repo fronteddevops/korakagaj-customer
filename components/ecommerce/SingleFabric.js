@@ -8,7 +8,7 @@ import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
 import { useRouter } from 'next/router'
-
+import nextConfig from "../../next.config";
 
 const SingleProduct = ({
     product,
@@ -19,7 +19,7 @@ const SingleProduct = ({
 }) => {
     const router = useRouter()
     const [loading, setLoading] = useState(false);
-
+const imageUrl=nextConfig.BASE_URL_UPLOADS
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
@@ -41,6 +41,7 @@ const SingleProduct = ({
         addToWishlist(product);
         toast.success("Add to Wishlist !");
     };
+
     return (
         <>
 
@@ -53,29 +54,30 @@ const SingleProduct = ({
                                 <a>
                                     <img
                                         className="default-img"
-                                        src={product.image}
+                                        src={imageUrl+product.image}
                                         alt=""
+                                        crossOrigin="anynomus"
                                     />
 
                                 </a>
 
                             </div>
                             <div className="product-action-1">
-                        <a
+                        {/* <a
                             aria-label="Estimated Final Price will be $200"
                             className="action-btn hover-up"
                             data-bs-toggle="modal"
                             onClick={(e) => console.log(e)}
                         >
                             <i className="fi-rs-eye"></i>
-                        </a>
+                        </a> */}
                        
                         
                     </div>
 
                             <div className="product-badges product-badges-position product-badges-mrg">
 
-                                <span className="new">Max Width: 1.37M</span>
+                                <span className="new">Max Width: {product.maxWidth}M</span>
 
                             </div>
                         </div>
@@ -83,9 +85,14 @@ const SingleProduct = ({
                            
                             <h2>
                               
-                                    <a>{product.title}</a>
+                                    <a>{product.fabricName}</a>
                           
                             </h2>
+                            <div className="product-price">
+                                <span>{product.gsm}/GMS </span>
+                               
+
+                            </div>
                            
                             <div className="product-price">
                                 <span>${product.price}/MTR </span>
