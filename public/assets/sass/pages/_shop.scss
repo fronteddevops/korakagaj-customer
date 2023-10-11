@@ -3,7 +3,7 @@
 .product-cart-wrap {
 	position: relative;
 	background-color: #fff;
-	border: 1px solid #cce7d0;
+	border: 1px solid #E74C2650;
 	border-radius: 25px;	
 	overflow: hidden;	
 	@include transistion-duration-2s;
@@ -77,12 +77,12 @@
 			height: 40px;
 			line-height: 44px;
 			border-radius: 50px;
-			background-color: #e8f6ea;
+			background-color: #E74C2650;
 			text-align: center;
 			margin-right: 3px;
 			position: relative;
 			display: inline-block;
-			border: 1px solid #cce7d0;
+			border: 1px solid #E74C2650;
 
 			&.small {
 				width: 32px;
@@ -335,7 +335,7 @@
 				span {
 					font-size: 15px;
 					&.label {
-						color: #1a1a1a;
+						color: #442452;
 					}
 					&.value {
 						font-weight: 700;

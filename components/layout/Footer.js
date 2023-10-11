@@ -124,10 +124,13 @@ Cheers! You’re happiness will be delivered shortly with Korakagaj
                                         <a href="#">Delivery Information</a>
                                     </li>
                                     <li>
-                                        <a href="#">Privacy Policy</a>
+                                        <Link href="/page-privacy-policy">Privacy Policy</Link>
                                     </li>
                                     <li>
-                                        <a href="#">Terms &amp; Conditions</a>
+                                        <Link href="/page-return-policy">Returns</Link>
+                                    </li>
+                                    <li>
+                                    <Link href="/page-terms">Terms &amp; Conditions</Link>
                                     </li>
                                     <li>
                                         <a href="#">Contact Us</a>

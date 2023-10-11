@@ -275,14 +275,14 @@
 	  width: 100%;
 	  .slider-btn {
 		cursor: pointer;
-		background: #e8f6ea;
+		background: #E74C2650;
 		width: 45px;
 		height: 45px;
 		position: absolute;
 		display: block;
 		z-index: 100;
 		border-radius: 50%;
-		border: 1px solid #cce7d0;
+		border: 1px solid #E74C2650;
 		-webkit-transition: all .2s ease-out;
 		-moz-transition: all .2s ease-out;
 		transition: all .2s ease-out;
@@ -360,7 +360,7 @@
 		}
 	}
 	.product-img {
-		border: 1px solid #cce7d0;
+		border: 1px solid #E74C2650;
 	}
 	.slider-arrow {
 		top: -50px;

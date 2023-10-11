@@ -166,7 +166,7 @@
 
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-	color: #1a1a1a;
+	color: #442452;
 	line-height: 28px
 }
 
@@ -386,7 +386,7 @@
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
 	background-color: #9ddbc9;
-	color: #1a1a1a
+	color: #442452
 }
 
 .select2-container--default .select2-results__group {
