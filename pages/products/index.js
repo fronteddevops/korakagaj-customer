@@ -125,7 +125,7 @@ const Products = ({ product, productFilters, fetchProduct }) => {
   const prodcutFilters = async () => {
     try {
       const response = await services.product.GET_FILTER_PRODUCT(
-        selectedColors,
+      
         selectedCategories,
         
         selectedSubSubCategories,

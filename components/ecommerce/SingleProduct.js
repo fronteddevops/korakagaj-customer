@@ -93,11 +93,11 @@ const SingleProduct = ({
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
-              {product?.productType==1 ? <span className="hot">Hot </span> : null}
+              {product?.productType==1 ? <span className="hot">Hot Deals </span> : null}
        
               {product?.productType==0 ? <span className="hot">New Product </span> : null}
                 
-                  {product?.productType==2 ? <span className="hot">Best Sell </span> : null}
+                  {product?.productType==2 ? <span className="hot">Best Seller </span> : null}
               
            
               

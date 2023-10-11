@@ -88,11 +88,7 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
                                     <a>{product.fabricName}</a>
                           
                             </h2>
-                            <div className="product-price">
-                                <span>{product.gsm}/GMS </span>
-                               
-
-                            </div>
+                          
                            
                             <div className="product-price">
                                 <span>${product.price}/MTR </span>

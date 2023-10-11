@@ -37,7 +37,7 @@ const Cart = ({
       totalPrice += itemTotalPrice * item.quantity; // Accumulate the total price for this item
     });
 
-    return parseInt(totalPrice); // Return the calculated total price
+    return parseFloat(totalPrice); // Return the calculated total price
   };
 
   // Call the function to calculate the total price

@@ -8,7 +8,9 @@ SwiperCore.use([Navigation, Thumbs]);
 const ThumbSlider = ({ product }) => {
     const imageUrl=nextConfig.BASE_URL_UPLOADS
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+var imageData=[]
+imageData= JSON.parse(product.image)
+console.log("imageData",imageData)
     return (
         <div>
             <Swiper
@@ -26,7 +28,7 @@ const ThumbSlider = ({ product }) => {
   "disableOnInteraction": false
 }}
             >
-                {product.image?.map((item,i) => (
+                {imageData?.map((item,i) => (
                     <SwiperSlide key={i}>
                    
                         <img src={ imageUrl+ item} alt="korakagaj" crossOrigin="anonymous"/>
@@ -49,7 +51,7 @@ const ThumbSlider = ({ product }) => {
                 watchSlidesProgress={true}
                 className="mySwiper"
             >
-                {product?.image?.map((item, i) => (
+                {imageData?.map((item, i) => (
                     <SwiperSlide key={i}>
                         <img src={ imageUrl+item} alt="korakagaj"  crossOrigin="anonymous"/>
                     </SwiperSlide>

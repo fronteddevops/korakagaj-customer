@@ -25,7 +25,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
 
   const [selectedfabricType, setSelectedfabricType] = useState([]);
   const [selectedprintType, setSelectedprintType] = useState([]);
-  const [selectedfabricName, setSelectedfabricName] = useState([]);
+
   const [selectedproperties, setSelectedproperties] = useState([]);
   const [selectedtransparency, setSelectedtransparency] = useState([]);
   const [selectedreflection, setSelectedreflection] = useState([]);
@@ -34,7 +34,8 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
 
-  //pagination
+
+//pagination
 
   let Router = useRouter(),
     searchTerm = Router.query.search,
@@ -48,11 +49,91 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(
     Math.ceil(
-      filterFabric.length > 0
-        ? filterFabric?.length / limit
-        : fabricList?.length / limit
+   
+         filterFabric?.length / limit    
     )
   );
+  //fabric aaray
+  const fabricType = [
+    "Cotton ",
+    "Silk",
+    "Linen",
+    "Silk/Cotton ",
+    "Wool",
+    "Viscose",
+    "Tencel",
+    "Modal",
+    "Bemberg",
+    "Cashmere",
+    "Nylon",
+    "Neoprene",
+    "Tencel/Cotton/Elastane",
+    "Polyester/Elastane",
+    "Polyester/Lycra",
+    "Cotton/Linen",
+    "Viscose/Elasttane",
+    "Polyester/Elasttane",
+    "Polyester/Cotton ",
+     
+  ];
+  const weight = ["Light(20-100gsm)", "Medium(101-249gsm)", "Heavy(250+gsm)"];
+  const printType = ["Reactive", "pigment", "sublimation"];
+  const usage = [
+    "Quilting",
+    "Furnishing/Upholstery",
+    "Cushions/Bedding ",
+    "Clothing/Dressmaking",
+    "Home/decor/interiors",
+    "Crafting ",
+    "Lining",
+    "Scarves",
+    "Bridal/Wedding",
+    "Cashmere",
+    "Cushions",
+    "Suit",
+    "Trousers",
+    "TechnicaL",
+    "Cosplay",
+    
+    "Sports",
+    "Swimwear",
+    "Tracksuits",
+    "Accessories/Bags",
+    "Shirting",
+    "Outdoor",
+  ];
+  const properties = [
+    "Waterproof",
+    "Fire/retardant",
+    "Non-Fray",
+    "Water/Resistant",
+    "Durable",
+    "Certified/Organic",
+    "Vegan",
+    "Stretch",
+    "Wicking",
+    "Recycled",
+  ];
+  const handle = ["Soft", "Stiff", "Silky", "Smooth", "Fluffy", "Coarse"];
+  const transparency = [
+    "Mesh/Net",
+    "Opaque",
+    "Blackout",
+    "Semi-transparent/sheer",
+  ];
+  const reflection = ["Shiny", "Mat"];
+  const construction = [
+  "Woven/Stretchy",
+    "Woven/Non-stretch",
+    "Twill",
+    "knitted",
+    "Satin",
+    "Crepe",
+    "Canvas",
+    "Velvet",
+  ];
+  
+  
   const data = {
     // fabricName:selectedfabricName,
     fabricType: selectedfabricType,
@@ -67,24 +148,28 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   };
   const cratePagination = () => {
     // Calculate the number of pages based on the list length and limit
-    const totalItems = filterFabric.length > 0 ? filterFabric.length : fabricList.length;
-    const totalPages = Math.ceil(totalItems / limit);
-  
-    // Create an array of page numbers
-    const pageNumbers = new Array(totalPages).fill().map((_, idx) => idx + 1);
-  
-    // Update the state variables
-    setPagination(pageNumbers);
-    setPages(totalPages);
+   
+      const totalItems =
+      filterFabric.length 
+     const totalPages = Math.ceil(totalItems / limit);
+ 
+     // Create an array of page numbers
+     const pageNumbers = new Array(totalPages).fill().map((_, idx) => idx + 1);
+ 
+     // Update the state variables
+     setPagination(pageNumbers);
+     setPages(totalPages);
+    
+   
   };
 
   useEffect(() => {
-    getFbaric();
+  
     getFilterFabric();
     cratePagination();
   }, [
     selectedfabricType,
-    selectedfabricName,
+    
     selectedprintType,
     selectedproperties,
     selectedtransparency,
@@ -93,17 +178,14 @@ const Products = ({ products, productFilters, fetchProduct }) => {
     selectedhandle,
     selectedusage,
     selectedweight,
-  limit,
-  filterFabric.length
+    limit,
+    filterFabric.length,
   ]);
 
   const startIndex = currentPage * limit - limit;
   const endIndex = startIndex + limit;
-  const getPaginatedProducts =
-    filterFabric.length > 0
-      ? filterFabric.slice(startIndex, endIndex)
-      : fabricList.slice(startIndex, endIndex);
-
+  const getPaginatedProducts = filterFabric.slice(startIndex, endIndex)
+      
   let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
   let end = start + showPagination;
   const getPaginationGroup = pagination?.slice(start, end);
@@ -121,28 +203,16 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   };
 
   //get fabric data
-  const getFbaric = async () => {
-    try {
-      const response = await services.fabric.GET_FABRIC();
-if(response){
-
-  setFabricList(response.data.data.rows);
-  cratePagination()
-}
-     
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
   const getFilterFabric = async () => {
     try {
       const response = await services.fabric.GET_FilTER_FABRIC(data);
-if(response){
-
-  setFilterFabric(response?.data?.data?.rows);
-  cratePagination()
-}
-  
+      if (response) {
+        setFilterFabric(response?.data?.data?.rows);
+    
+        
+        cratePagination();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -173,33 +243,33 @@ if(response){
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          weight
+                          Weight
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.weight) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {weight.length > 0 &&
+                          weight
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.weight}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const weight = item.weight;
-                                  const updatedtweight =
-                                    selectedweight.includes(weight)
-                                      ? selectedweight.filter(
-                                          (weight) => weight !== weight
-                                        )
-                                      : [...selectedweight, weight];
+                                  const weight = item;
+                                  const updatedweight = selectedweight.includes(
+                                    weight
+                                  )
+                                    ? selectedweight.filter(
+                                        (selectedType) =>
+                                          selectedType !== weight
+                                      )
+                                    : [...selectedweight, weight];
 
-                                  setSelectedweight(updatedtweight);
-                                
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedweight(updatedweight);
                                 }}
-                                checked={selectedweight.includes(item.weight)}
+                                checked={selectedweight.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -214,32 +284,28 @@ if(response){
                       </Accordion.Header>
                       <Accordion.Body>
                         {/* <BrandFilter /> */}
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.fabricType) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {fabricType.length > 0 &&
+                          fabricType
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.fabricType}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const fabricType = item.fabricType;
-                                  const updatedfabricType =
+                                  const fabricType = item;
+                                  const updatedFabricType =
                                     selectedfabricType.includes(fabricType)
                                       ? selectedfabricType.filter(
-                                          (fabricType) =>
-                                            fabricType !== fabricType
+                                          (selectedType) =>
+                                            selectedType !== fabricType
                                         )
                                       : [...selectedfabricType, fabricType];
 
-                                  setSelectedfabricType(updatedfabricType);
-                               
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedfabricType(updatedFabricType);
                                 }}
-                                checked={selectedfabricType.includes(
-                                  item.fabricType
-                                )}
+                                checked={selectedfabricType.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -295,31 +361,28 @@ if(response){
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.printType) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {printType.length > 0 &&
+                          printType
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.printType}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const printType = item.printType;
+                                  const printType = item;
                                   const updatedprintType =
                                     selectedprintType.includes(printType)
-                                      ? selectedfabricType.filter(
-                                          (printType) => printType !== printType
+                                      ? selectedprintType.filter(
+                                          (selectedType) =>
+                                            selectedType !== printType
                                         )
                                       : [...selectedprintType, printType];
 
                                   setSelectedprintType(updatedprintType);
-                                
-                                  // You can optionally call your filter function here if needed
                                 }}
-                                checked={selectedprintType.includes(
-                                  item.printType
-                                )}
+                                checked={selectedprintType.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -335,30 +398,28 @@ if(response){
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.usage) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {usage.length > 0 &&
+                          usage
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.usage}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const usage = item.usage;
-                                  const updatedtusage = selectedusage.includes(
+                                  const usage = item;
+                                  const updatedusage = selectedusage.includes(
                                     usage
                                   )
                                     ? selectedusage.filter(
-                                        (usage) => usage !== usage
+                                        (selectedType) => selectedType !== usage
                                       )
                                     : [...selectedusage, usage];
 
-                                  setSelectedusage(updatedtusage);
-                             
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedusage(updatedusage);
                                 }}
-                                checked={selectedusage.includes(item.usage)}
+                                checked={selectedusage.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -371,36 +432,32 @@ if(response){
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          properties
+                          Properties
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.properties) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {properties.length > 0 &&
+                          properties
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.properties}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const properties = item.properties;
+                                  const properties = item;
                                   const updatedproperties =
                                     selectedproperties.includes(properties)
                                       ? selectedproperties.filter(
-                                          (properties) =>
-                                            properties !== properties
+                                          (selectedType) =>
+                                            selectedType !== properties
                                         )
                                       : [...selectedproperties, properties];
 
                                   setSelectedproperties(updatedproperties);
-                             
-                                  // You can optionally call your filter function here if needed
                                 }}
-                                checked={selectedproperties.includes(
-                                  item.properties
-                                )}
+                                checked={selectedproperties.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -417,29 +474,28 @@ if(response){
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.handle) // Filter out items with blank fabricType
-                            .map((item) => (
+                      {handle.length > 0 &&
+                          handle
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.handle}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const handle = item.handle;
-                                  const updatedthandle =
+                                  const handle = item;
+                                  const updatedhandle =
                                     selectedhandle.includes(handle)
                                       ? selectedhandle.filter(
-                                          (handle) => handle !== handle
+                                          (selectedType) =>
+                                            selectedType !== handle
                                         )
                                       : [...selectedhandle, handle];
 
-                                  setSelectedhandle(updatedthandle);
-                                
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedhandle(updatedhandle);
                                 }}
-                                checked={selectedhandle.includes(item.handle)}
+                                checked={selectedhandle.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -456,31 +512,28 @@ if(response){
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.construction) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {construction.length > 0 &&
+                          construction
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.construction}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const construction = item.construction;
-                                  const updatedtconstruction =
+                                  const construction = item;
+                                  const updatedconstruction =
                                     selectedconstruction.includes(construction)
                                       ? selectedconstruction.filter(
-                                          (construction) =>
-                                            construction !== construction
+                                          (selectedType) =>
+                                            selectedType !== construction
                                         )
                                       : [...selectedconstruction, construction];
 
-                                  setSelectedconstruction(updatedtconstruction);
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedconstruction(updatedconstruction);
                                 }}
-                                checked={selectedconstruction.includes(
-                                  item.construction
-                                )}
+                                checked={selectedconstruction.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -497,32 +550,28 @@ if(response){
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.transparency) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {transparency.length > 0 &&
+                          transparency
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.transparency}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const transparency = item.transparency;
-                                  const updatedtransparency =
-                                    selectedtransparency.includes(transparency)
+                                  const fabricType = item;
+                                  const updatedFabricType =
+                                    selectedtransparency.includes(fabricType)
                                       ? selectedtransparency.filter(
-                                          (transparency) =>
-                                            transparency !== transparency
+                                          (selectedType) =>
+                                            selectedType !== fabricType
                                         )
-                                      : [...selectedtransparency, transparency];
+                                      : [...selectedtransparency, fabricType];
 
-                                  setSelectedtransparency(updatedtransparency);
-                               
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedtransparency(updatedFabricType);
                                 }}
-                                checked={selectedtransparency.includes(
-                                  item.transparency
-                                )}
+                                checked={selectedtransparency.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -539,32 +588,28 @@ if(response){
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.reflection) // Filter out items with blank fabricType
-                            .map((item) => (
+                        {reflection.length > 0 &&
+                          reflection
+                            .filter((item, index) => item) // Filter out items with blank fabricType
+                            .map((item, index) => (
                               <Form.Check
-                                key={item.id}
+                                key={index}
                                 type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.reflection}
+                                id={`default-${index}`}
+                                label={item}
                                 onChange={() => {
-                                  const reflection = item.reflection;
-                                  const updatedtreflection =
+                                  const reflection = item;
+                                  const updatedhandle =
                                     selectedreflection.includes(reflection)
                                       ? selectedreflection.filter(
-                                          (reflection) =>
-                                            reflection !== reflection
+                                          (selectedType) =>
+                                            selectedType !== reflection
                                         )
-                                      : [...selectedreflection, transparency];
+                                      : [...selectedreflection, reflection];
 
-                                  setSelectedreflection(updatedtreflection);
-                             
-                                  // You can optionally call your filter function here if needed
+                                  setSelectedreflection(updatedhandle);
                                 }}
-                                checked={selectedreflection.includes(
-                                  item.reflection
-                                )}
+                                checked={selectedreflection.includes(item)}
                               />
                             ))}
                       </Accordion.Body>
@@ -575,27 +620,15 @@ if(response){
               <div className="col-lg-9">
                 <div className="shop-product-fillter">
                   <div className="totall-product">
-                    {filterFabric.length > 0 ? (
-                      <>
-                        {" "}
-                        <p>
-                          We found
-                          <strong className="text-brand">
-                            {filterFabric.length}
-                          </strong>
-                          items for you!
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        {" "}
+                  
+                     
                         We found
                         <strong className="text-brand">
-                          {fabricList.length}
+                          {filterFabric.length}
                         </strong>
                         items for you!
-                      </>
-                    )}
+            
+                 
 
                     <span
                       className="text-brand fw-bold"
@@ -611,11 +644,10 @@ if(response){
                   </div> */}
                 </div>
                 <div className="row product-grid-3">
-                  {fabricList.length === 0 && <h3>No Fabric Found </h3>}
+                  {filterFabric.length === 0 && <h3 > <strong className="text-brand">  
+                       No Fabric Found  </strong></h3>}
 
-                  {filterFabric && filterFabric.length >    0 ? (
-                    <>
-                      {getPaginatedProducts?.map((item, i) => (
+                      { getPaginatedProducts.length>0  && getPaginatedProducts?.map((item, i) => (
                         <div
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
@@ -624,27 +656,14 @@ if(response){
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}
-                    </>
-                  ) : (
-                    <>
-                      {getPaginatedProducts?.map((item, i) => (
-                        <div
-                          className="col-lg-4 col-md-4 col-12 col-sm-6"
-                          key={i}
-                        >
-                          <SingleFabric product={item} />
-                          {/* <SingleProductList product={item}/> */}
-                        </div>
-                      ))}
-                    </>
-                  )}
+                   
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
                   <nav aria-label="Page navigation example">
                     <Pagination
-                      getPaginationGroup={getPaginationGroup}
-                      currentPage={currentPage}
+                      getPaginationGroup={ getPaginationGroup}
+                      currentPage={ currentPage}
                       pages={pages}
                       next={next}
                       prev={prev}
