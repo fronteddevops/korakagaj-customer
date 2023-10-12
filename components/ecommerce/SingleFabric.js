@@ -62,7 +62,7 @@ const SingleProduct = ({
                             </div>
                             <div className="product-action-1">
                         <a
-                            aria-label="Estimated Final Price will be $200"
+                            aria-label="Estimated Final Price will be Rs.200"
                             className="action-btn hover-up"
                             data-bs-toggle="modal"
                             onClick={(e) => console.log(e)}
@@ -88,7 +88,7 @@ const SingleProduct = ({
                             </h2>
                            
                             <div className="product-price">
-                                <span>${product.price}/MTR </span>
+                                <span>Rs.{product.price}/MTR </span>
                                
 
                             </div>

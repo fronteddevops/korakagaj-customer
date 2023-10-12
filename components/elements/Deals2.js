@@ -24,8 +24,8 @@ const Deals2 = () => {
                         </Link>
                     </h6>
                     <div className="product-price">
-                        <span className="new-price">$178.00</span>
-                        <span className="old-price">$256.99</span>
+                        <span className="new-price">Rs.178.00</span>
+                        <span className="old-price">Rs.256.99</span>
                     </div>
                 </div>
                 <div className="deal-bottom">

@@ -130,7 +130,7 @@ const Header = ({
                             <div className="logo logo-width-1">
                                 <Link href="/">
                                     <a>
-                                        <img className="w-100"
+                                        <img
                                             src="/assets/imgs/theme/logo.svg"
                                             alt="logo"
                                         />
@@ -199,7 +199,7 @@ const Header = ({
                             <div className="header-nav d-none d-lg-flex">
                                 <div className="main-categori-wrap d-none d-lg-block">
                                     <a
-                                        className="categori-button-active"
+                                        className="categori-button-active text-dark"
                                         onClick={handleToggle}
                                     >
                                         <span className="fi-rs-apps"></span>
@@ -718,8 +718,8 @@ const Header = ({
                                     </nav>
                                 </div>
                             </div>
-                            <div className="hotline d-none d-lg-block">
-                                <p>
+                            <div className="hotline d-none d-lg-block ">
+                                <p className="text-dark">
                                     <i className="fi-rs-headset"></i>
                                     <span></span> +91-9791028374
                                 </p>
@@ -794,7 +794,7 @@ const Header = ({
                                                         </h4>
                                                         <h3>
                                                             <span>1 × </span>
-                                                            $800.00
+                                                            Rs.800.00
                                                         </h3>
                                                     </div>
                                                     <div className="shopping-cart-delete">
@@ -827,7 +827,7 @@ const Header = ({
                                                         </h4>
                                                         <h3>
                                                             <span>1 × </span>
-                                                            $3500.00
+                                                            Rs.3500.00
                                                         </h3>
                                                     </div>
                                                     <div className="shopping-cart-delete">
@@ -843,7 +843,7 @@ const Header = ({
                                                 <div className="shopping-cart-total">
                                                     <h4>
                                                         Total
-                                                        <span>$383.00</span>
+                                                        <span>Rs.383.00</span>
                                                     </h4>
                                                 </div>
                                                 <div className="shopping-cart-button">

@@ -168,7 +168,7 @@ function Account() {
                                                                             Processing
                                                                         </td>
                                                                         <td>
-                                                                            $125.00
+                                                                            Rs.125.00
                                                                             for
                                                                             2
                                                                             item
@@ -195,7 +195,7 @@ function Account() {
                                                                             Completed
                                                                         </td>
                                                                         <td>
-                                                                            $364.00
+                                                                            Rs.364.00
                                                                             for
                                                                             5
                                                                             item
@@ -222,7 +222,7 @@ function Account() {
                                                                             Completed
                                                                         </td>
                                                                         <td>
-                                                                            $280.00
+                                                                            Rs.280.00
                                                                             for
                                                                             3
                                                                             item

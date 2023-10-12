@@ -639,13 +639,13 @@ const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, de
                                                                 </h5>{" "}
                                                                 <span className="product-qty">x {item.quantity}</span>
                                                             </td>
-                                                            <td>${item.quantity * item.price}</td>
+                                                            <td>Rs.{item.quantity * item.price}</td>
                                                         </tr>
                                                 ))}
                                                 <tr>
                                                     <th>SubTotal</th>
                                                     <td className="product-subtotal" colSpan="2">
-                                                        ${price()}
+                                                        Rs.{price()}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -657,7 +657,7 @@ const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, de
                                                 <tr>
                                                     <th>Total</th>
                                                     <td colSpan="2" className="product-subtotal">
-                                                        <span className="font-xl text-brand fw-900">${price()}</span>
+                                                        <span className="font-xl text-brand fw-900">Rs.{price()}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>

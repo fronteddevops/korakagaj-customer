@@ -52,9 +52,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                            Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -79,9 +79,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                            Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -107,9 +107,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -142,9 +142,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -169,9 +169,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -197,9 +197,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -232,9 +232,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -260,9 +260,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>
@@ -288,9 +288,9 @@ const Bottom = () => {
                                             </Link>
                                         </h4>
                                         <div className="product-price">
-                                            <span>$238.85 </span>
+                                            <span>Rs.238.85 </span>
                                             <span className="old-price">
-                                                $245.8
+                                                Rs.245.8
                                             </span>
                                         </div>
                                     </div>

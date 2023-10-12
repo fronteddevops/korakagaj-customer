@@ -83,7 +83,7 @@ const Wishlist = ({
                                                                 data-title="Price"
                                                             >
                                                                 <span>
-                                                                    $
+                                                                    Rs.
                                                                     {
                                                                         product.price
                                                                     }

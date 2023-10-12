@@ -142,12 +142,12 @@ const ProductDetails = ({
                                                 <div className="product-price primary-color float-left">
                                                     <ins>
                                                         <span className="text-brand">
-                                                            ${product?.price}
+                                                        Rs.{product?.price}
                                                         </span>
                                                     </ins>
                                                     <ins>
                                                         <span className="old-price font-md ml-15">
-                                                            ${product?.oldPrice}
+                                                        Rs.{product?.oldPrice}
                                                         </span>
                                                     </ins>
                                                     <span className="save-price  font-md color3 ml-15">

@@ -74,7 +74,7 @@ const PriceRange = ({ updateProductFilters }) => {
                             >
                                 {i == 0
                                     ? "All"
-                                    : `$${item.min}.00 - $${item.max}.00`}
+                                    : `Rs.${item.min}.00 - Rs.${item.max}.00`}
                             </a>
                         </li>
                     </>

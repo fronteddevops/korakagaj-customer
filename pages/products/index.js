@@ -76,6 +76,24 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
+                        <div className="shop-product-fillter d-lg-none d-block  ">
+                                    <div className="totall-product">
+                                        <p>
+                                            We found
+                                            <strong className="text-brand">
+                                                {products.items.length}
+                                            </strong>
+                                            items for you!
+                                        </p>
+                                    </div>
+                                    <div className="sort-by-product-area justify-content-between align-items-center">
+                                    <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
+                                        
+                                        <div className="sort-by-cover">
+                                            <SortSelect />
+                                        </div>
+                                    </div>
+                                </div>
                            {<div className={`${!isFilterVisible ?  'hide-on-mobile' : ''} col-lg-3 primary-sidebar sticky-sidebar`}>
                                 <div className="widget-category p-3 mb-30">
                                     <Accordion defaultActiveKey="0">
@@ -141,7 +159,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                                 
                             </div>}
                             <div className="col-lg-9">
-                                <div className="shop-product-fillter">
+                                <div className="shop-product-fillter d-lg-block d-none">
                                     <div className="totall-product">
                                         <p>
                                             We found
@@ -150,9 +168,9 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                                             </strong>
                                             items for you!
                                         </p>
-                                        <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
                                     </div>
-                                    <div className="sort-by-product-area">
+                                    <div className="sort-by-product-area justify-content-between align-items-center">
+                                    <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
                                         
                                         <div className="sort-by-cover">
                                             <SortSelect />
@@ -166,7 +184,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
 
                                     {getPaginatedProducts.map((item, i) => (
                                         <div
-                                            className="col-lg-4 col-md-4 col-12 col-sm-6"
+                                            className="col-lg-4 col-md-4 col-6 col-sm-6"
                                             key={i}
                                         >
                                             <SingleProduct product={item} />
