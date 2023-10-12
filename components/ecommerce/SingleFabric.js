@@ -8,6 +8,8 @@ import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
 import { useRouter } from 'next/router'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 
 const SingleProduct = ({
@@ -26,7 +28,14 @@ const SingleProduct = ({
             setLoading(false);
         }, 2000);
     }, []);
-
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Estimated Price</Popover.Header>
+            <Popover.Body>
+                Your product's estimated final price will be <strong className="text-brand">Rs. 3000</strong>.
+            </Popover.Body>
+        </Popover>
+    );
     const handleCart = (product) => {
         addToCart(product);
         toast.success("Add to Cart !");
@@ -46,7 +55,7 @@ const SingleProduct = ({
 
             {!loading ? (
                 <>
-                    <div className="product-cart-wrap mb-30">
+                    <div className="product-cart-wrap fabric mb-30">
                         <div className="product-img-action-wrap">
                             <div className="product-img product-img-zoom">
 
@@ -61,17 +70,11 @@ const SingleProduct = ({
 
                             </div>
                             <div className="product-action-1">
-                        <a
-                            aria-label="Estimated Final Price will be Rs.200"
-                            className="action-btn hover-up"
-                            data-bs-toggle="modal"
-                            onClick={(e) => console.log(e)}
-                        >
-                            <i className="fi-rs-eye"></i>
-                        </a>
-                       
-                        
-                    </div>
+                                <OverlayTrigger trigger="click" placement="top" overlay={popover}>
+                                    <a className="action-btn "><i className="fi-rs-eye"></i></a></OverlayTrigger>
+
+
+                            </div>
 
                             <div className="product-badges product-badges-position product-badges-mrg">
 
@@ -80,22 +83,22 @@ const SingleProduct = ({
                             </div>
                         </div>
                         <div className="product-content-wrap">
-                           
+
                             <h2>
-                              
-                                    <a>{product.title}</a>
-                          
+
+                                <a>{product.title}</a>
+
                             </h2>
-                           
+
                             <div className="product-price">
                                 <span>Rs.{product.price}/MTR </span>
-                               
+
 
                             </div>
-                           
+
 
                             <div className="product-action-1 show">
-                           
+
                                 <a
                                     aria-label="Choose me"
                                     className="action-btn hover-up"
@@ -103,7 +106,7 @@ const SingleProduct = ({
                                 >
                                     <i className="fi-rs-shopping-bag-add"></i>
                                 </a>
-                               
+
                             </div>
 
                         </div>

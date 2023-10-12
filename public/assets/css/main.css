@@ -2063,6 +2063,7 @@ label {
 .button.button-add-to-cart{
   padding: 8px 18px !important;
 }
+
 @media screen and (max-width:768px) {
   .carausel-6-columns-cover .slider-arrow {
     top: -50px;
@@ -2071,9 +2072,14 @@ label {
   body{
     font-size: 12px !important;
   }
+  .product-cart-wrap.fabric .product-action-1.show{
+    bottom: 36px !important;
+  
+  }
   .product-cart-wrap .product-action-1.show{
     bottom: 6px !important;
   }
+
   .shop-product-fillter .sort-by-product-area .sort-by-product-wrap{
     padding: 4px 10px !important;
   }
@@ -3667,14 +3673,14 @@ table .product-thumbnail img {
 }
 
 .product-cart-wrap .product-action-1 button:hover:after, .product-cart-wrap .product-action-1 a.action-btn:hover:after {
-  opacity: 1;
+  opacity: 0;
   visibility: visible;
   -webkit-transform: translateX(-50%) translateY(-8px);
   transform: translateX(-50%) translateY(-8px);
 }
 
 .product-cart-wrap .product-action-1 button:hover:before, .product-cart-wrap .product-action-1 a.action-btn:hover:before {
-  opacity: 1;
+  opacity: 0;
   visibility: visible;
   -webkit-transform: translateY(-8px);
   transform: translateY(-8px);
@@ -4332,9 +4338,10 @@ table .product-thumbnail img {
 
 .detail-gallery .zoom-icon {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  bottom: 21%;
+  left: 55%;
   z-index: 2;
+  transform: translate(-50%, 0px);
 }
 
 .slider-nav-thumbnails .slick-slide {
