@@ -35,14 +35,14 @@ const CategoryProduct = ({ updateProductCategory }) => {
                 <Form.Check // prettier-ignore
                         type={'checkbox'}
                         id={`default-Jeans`}
-                        label={`Jeans`}
+                        label={`Round Neck`}
                     />
                    
                 
                 <Form.Check // prettier-ignore
                         type={'checkbox'}
                         id={`default-Shoe`}
-                        label={`Shoe`}
+                        label={`Collar`}
                     />
                   
               

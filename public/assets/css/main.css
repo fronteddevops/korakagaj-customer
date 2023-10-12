@@ -10124,4 +10124,11 @@ background-color: #fff;
   display: none;
 }
 }
+.accordion-button::after{
+  width: 1rem;
+  height: 1rem;
+  background-size: 1rem;
+  color: #000 !important;
+  filter: invert(1);
+}
 /*# sourceMappingURL=main.css.map */

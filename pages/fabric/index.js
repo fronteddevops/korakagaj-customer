@@ -18,7 +18,7 @@ import Accordion from 'react-bootstrap/Accordion';
 
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 
-const Products = ({ products, productFilters, fetchProduct }) => {
+const Fabrics = ({ products, productFilters, fetchProduct }) => {
 var data = [
     {
         "title": "Cotton Fabric",
@@ -44,7 +44,7 @@ var data = [
 
     const [pagination, setPagination] = useState([]);
     const [limit, setLimit] = useState();
-    const [pages, setPages] = useState(Math.ceil(products.items.length / limit));
+    const [pages, setPages] = useState(Math.ceil(data.length / limit));
     const [currentPage, setCurrentPage] = useState(1);
     const [fabricList, setFabricList] = useState([]);
     let [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -71,7 +71,7 @@ var data = [
                                         <p>
                                             We found
                                             <strong className="text-brand">
-                                                {products.items.length}
+                                                {data.length}
                                             </strong>
                                             items for you!
                                         </p>
@@ -133,7 +133,7 @@ var data = [
                                         <p>
                                             We found
                                             <strong className="text-brand">
-                                                {products.items.length}
+                                                {data.length}
                                             </strong>
                                             items for you!
                                         </p>
@@ -189,15 +189,6 @@ var data = [
     );
 };
 
-const mapStateToProps = (state) => ({
-    products: state.products,
-    productFilters: state.productFilters,
-});
 
-const mapDidpatchToProps = {
-    // openCart,
-    fetchProduct,
-    // fetchMoreProduct,
-};
 
-export default connect(mapStateToProps, mapDidpatchToProps)(Products);
+export default (Fabrics);

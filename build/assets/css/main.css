@@ -210,7 +210,7 @@ a {
 }
 
 a:hover {
-  color: #046963;
+  color: #E74C26;
 }
 
 /*--- Common Classes---------------------*/
@@ -963,16 +963,16 @@ button.submit, button[type='submit'] {
   color: #ffffff;
   border: none;
   background-color: #E74C26;
-  border: 1px solid #046963;
+  border: 1px solid #E74C26;
   border-radius: 5px;
 }
 
 button.submit:hover, button[type='submit']:hover {
-  background-color: #046963 !important;
+  background-color: #E74C26 !important;
 }
 
 .btn-brand:hover {
-  background-color: #046963 !important;
+  background-color: #E74C26 !important;
 }
 
 .btn-login {
@@ -1007,7 +1007,7 @@ button.submit:hover, button[type='submit']:hover {
   padding: 12px 30px;
   border-radius: 4px;
   color: #fff;
-  border: 1px solid #046963;
+  border: 1px solid #E74C26;
   background-color: #E74C26;
   cursor: pointer;
   -webkit-transition: all 300ms linear 0s;
@@ -1016,7 +1016,7 @@ button.submit:hover, button[type='submit']:hover {
 }
 
 .btn:hover, .button:hover {
-  background-color: #046963;
+  background-color: #E74C26;
 }
 
 .btn.btn-sm, .button.btn-sm {
@@ -1305,12 +1305,12 @@ textarea:focus {
   color: #ffffff;
   border: none;
   background-color: #E74C26;
-  border: 1px solid #046963;
+  border: 1px solid #E74C26;
   border-radius: 5px;
 }
 
 .contact-from-area .contact-form-style button:hover {
-  background-color: #046963 !important;
+  background-color: #E74C26 !important;
 }
 
 .form-group {
@@ -1593,7 +1593,7 @@ label {
   color: #ffffff;
   border: none;
   background-color: #E74C26;
-  border: 1px solid #046963;
+  border: 1px solid #E74C26;
   border-radius: 4px;
 }
 
@@ -2060,6 +2060,31 @@ label {
   top: -50px;
   opacity: 0;
 }
+.button.button-add-to-cart{
+  padding: 8px 18px !important;
+}
+
+@media screen and (max-width:768px) {
+  .carausel-6-columns-cover .slider-arrow {
+    top: -50px;
+    opacity: 1;
+  }
+  body{
+    font-size: 12px !important;
+  }
+  .product-cart-wrap.fabric .product-action-1.show{
+    bottom: 36px !important;
+  
+  }
+  .product-cart-wrap .product-action-1.show{
+    bottom: 6px !important;
+  }
+
+  .shop-product-fillter .sort-by-product-area .sort-by-product-wrap{
+    padding: 4px 10px !important;
+  }
+
+}
 
 .carausel-6-columns-cover .slider-arrow .slider-btn.slider-next {
   right: 0;
@@ -2070,6 +2095,9 @@ label {
   left: unset;
 }
 
+.product-cart-wrap .product-content-wrap h2{
+  min-height: 35px;
+}
 .carausel-6-columns-cover.arrow-center .slider-arrow {
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -3133,7 +3161,7 @@ table .product-thumbnail img {
 }
 
 .banner-big .btn:hover {
-  background: #046963 !important;
+  background: #E74C26 !important;
 }
 
 /*Deal banners*/
@@ -3645,14 +3673,14 @@ table .product-thumbnail img {
 }
 
 .product-cart-wrap .product-action-1 button:hover:after, .product-cart-wrap .product-action-1 a.action-btn:hover:after {
-  opacity: 1;
+  opacity: 0;
   visibility: visible;
   -webkit-transform: translateX(-50%) translateY(-8px);
   transform: translateX(-50%) translateY(-8px);
 }
 
 .product-cart-wrap .product-action-1 button:hover:before, .product-cart-wrap .product-action-1 a.action-btn:hover:before {
-  opacity: 1;
+  opacity: 0;
   visibility: visible;
   -webkit-transform: translateY(-8px);
   transform: translateY(-8px);
@@ -4310,9 +4338,10 @@ table .product-thumbnail img {
 
 .detail-gallery .zoom-icon {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  bottom: 21%;
+  left: 55%;
   z-index: 2;
+  transform: translate(-50%, 0px);
 }
 
 .slider-nav-thumbnails .slick-slide {
@@ -5898,7 +5927,7 @@ h6.post-title {
 }
 
 .cart-dropdown-wrap .shopping-cart-footer .shopping-cart-button a:hover {
-  background-color: #046963;
+  background-color: #E74C26;
 }
 
 .sticky-bar.stick {
@@ -5913,7 +5942,7 @@ h6.post-title {
   left: 0;
   -webkit-transition: all .3s ease 0s;
   transition: all .3s ease 0s;
-  border-bottom: 2px solid #046963;
+  border-bottom: 2px solid #E74C26;
   background: #fff;
 }
 
@@ -10094,5 +10123,12 @@ background-color: #fff;
 .hide-on-mobile{
   display: none;
 }
+}
+.accordion-button::after{
+  width: 1rem;
+  height: 1rem;
+  background-size: 1rem;
+  color: #000 !important;
+  filter: invert(1);
 }
 /*# sourceMappingURL=main.css.map */

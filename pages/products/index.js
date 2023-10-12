@@ -99,28 +99,39 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                                     <Accordion defaultActiveKey="0">
                                         <Accordion.Item className="custom-filter" eventKey="0">
                                             <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                                                Category
+                                                Mens
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                            <Accordion defaultActiveKey="0">
+                                            <Accordion.Item className="custom-filter ms-3" eventKey="0">
+                                            <Accordion.Header > <h5 className="w-100  style-1 wow fadeIn animated">
+                                                T-Shirts
                                             </h5></Accordion.Header>
                                             <Accordion.Body>
                                                 <CategoryProduct />
                                             </Accordion.Body>
                                         </Accordion.Item>
-                                        <Accordion.Item className="custom-filter mt-20" eventKey="1">
-                                            <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                                                Sub Category
-                                            </h5></Accordion.Header>
-                                            <Accordion.Body>
-                                                {/* <CategoryProduct /> */}
+                                        </Accordion>
                                             </Accordion.Body>
                                         </Accordion.Item>
-                                        <Accordion.Item className="custom-filter mt-20" eventKey="2">
+                                        <Accordion.Item className="custom-filter" eventKey="1">
                                             <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                                                Sub Sub Category
+                                                Womens
                                             </h5></Accordion.Header>
                                             <Accordion.Body>
-                                                {/* <CategoryProduct /> */}
+                                            <Accordion defaultActiveKey="0">
+                                            <Accordion.Item className="custom-filter ms-3" eventKey="0">
+                                            <Accordion.Header > <h5 className="w-100  style-1 wow fadeIn animated">
+                                                T-Shirts
+                                            </h5></Accordion.Header>
+                                            <Accordion.Body>
+                                                <CategoryProduct />
                                             </Accordion.Body>
                                         </Accordion.Item>
+                                        </Accordion>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        
                                     </Accordion>
                                 </div>
 
