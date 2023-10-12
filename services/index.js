@@ -5,6 +5,7 @@ import subCategory from "./subCategory";
 import subSubCategory from "./subSubCategory";
 import fabric from "./fabric";
 import cart from "./cart";
+import subScribeUers from "./subScribeUers";
 export default{
     category,
     product,
@@ -12,5 +13,6 @@ export default{
     subCategory,
     subSubCategory,
     fabric,
-    cart
+    cart,
+    subScribeUers
 }

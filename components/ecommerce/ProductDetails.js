@@ -95,7 +95,7 @@ const ProductDetails = ({
                     <div className="social-icons single-share">
                       <ul className="text-grey-5 d-inline-block">
                         <li>
-                          <strong className="mr-10">Share this:</strong>
+                          <strong className="mr-10">Share this :</strong>
                         </li>
                         <li className="social-facebook">
                           <a href="#">
@@ -138,7 +138,7 @@ const ProductDetails = ({
                       <div className="product-detail-rating">
                         <div className="pro-details-brand">
                           <span>
-                            Category:&nbsp;
+                            Category&nbsp;:&nbsp;
                             <Link href="/products">
                               <a>{product?.Category?.categoryName}</a>
                             </Link>
@@ -240,7 +240,7 @@ const ProductDetails = ({
                       </div>
                       <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
-                                                    Fabric : <span className="text-brand">{fabricName}</span>
+                                                    Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricName}</span>
                                                 </strong>
 
                                                 <Link href={'/fabric'}>
@@ -306,17 +306,17 @@ const ProductDetails = ({
                       </div>
                       <ul className="product-meta font-xs color-grey mt-50">
                         <li className="mb-5">
-                          SKU:&nbsp;
+                          SKU&nbsp;:&nbsp;
                           <a href="#">{product.sku}</a>
                         </li>
                         <li className="mb-5">
-                          Tags:&nbsp;
+                          Tags&nbsp;:&nbsp;
                           <a href="#" rel="tag" className="me-1">
                             {product.tags}
                           </a>
                         </li>
                         <li>
-                          Availability:&nbsp;
+                          Availability&nbsp;:&nbsp;
                           <span className="in-stock text-success ml-5">
                             {product.currentStock} Items In Stock
                           </span>

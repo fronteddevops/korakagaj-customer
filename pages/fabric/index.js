@@ -55,10 +55,10 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   );
   //fabric aaray
   const fabricType = [
-    "Cotton ",
+    "Cotton",
     "Silk",
     "Linen",
-    "Silk/Cotton ",
+    "Silk/Cotton",
     "Wool",
     "Viscose",
     "Tencel",
@@ -71,12 +71,12 @@ const Products = ({ products, productFilters, fetchProduct }) => {
     "Polyester/Elastane",
     "Polyester/Lycra",
     "Cotton/Linen",
-    "Viscose/Elasttane",
-    "Polyester/Elasttane",
-    "Polyester/Cotton ",
+    "Viscose/Elastane",
+    
+    "Polyester/Cotton",
      
   ];
-  const weight = ["Light(20-100gsm)", "Medium(101-249gsm)", "Heavy(250+gsm)"];
+  const weight = ["Light(20-100gsm)", "Medium(101-249gsm)", "Heavy(250-gsm)"];
   const printType = ["Reactive", "pigment", "sublimation"];
   const usage = [
     "Quilting",
@@ -84,7 +84,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
     "Cushions/Bedding ",
     "Clothing/Dressmaking",
     "Home/decor/interiors",
-    "Crafting ",
+    "Crafting",
     "Lining",
     "Scarves",
     "Bridal/Wedding",
@@ -134,7 +134,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   ];
   
   
-  const data = {
+  const data1 = {
     // fabricName:selectedfabricName,
     fabricType: selectedfabricType,
     printType: selectedprintType,
@@ -195,7 +195,8 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   };
 
   const prev = () => {
-    setCurrentPage((page) => page - 1);
+    console.log("========================================?",pages)
+    setCurrentPage((pages) => pages - 1);
   };
 
   const handleActive = (item) => {
@@ -206,18 +207,26 @@ const Products = ({ products, productFilters, fetchProduct }) => {
  
   const getFilterFabric = async () => {
     try {
-      const response = await services.fabric.GET_FilTER_FABRIC(data);
-      if (response) {
-        setFilterFabric(response?.data?.data?.rows);
-    
+      const response = await services.fabric.GET_FilTER_FABRIC(data1);
+  const data =response?.data?.data?.rows
+  if(data.length<12){
+    setFilterFabric(data)
+    // prev()
+    // console.log("++++++++++++++++++++++++++++++++>")
+    setCurrentPage(1)
+  }
+  else{
+    setFilterFabric(data)
+  }
+  
         
-        cratePagination();
-      }
+        
+      
     } catch (error) {
       console.log(error);
     }
   };
-
+console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqq",currentPage)
   return (
     <>
       <Layout parent="Home" sub="Shop" subChild="Select Fabric">
@@ -630,12 +639,13 @@ const Products = ({ products, productFilters, fetchProduct }) => {
             
                  
 
-                    <span
+                    <a href="#"
                       className="text-brand fw-bold"
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
+                      style={{cursor:"pointer"}}
                     >
                       Show Filters
-                    </span>
+                    </a>
                   </div>
                   {/* <div className="sort-by-product-area">
                     <div className="sort-by-cover">
@@ -658,9 +668,11 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                       ))}
                    
                 </div>
-
+        
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                  <nav aria-label="Page navigation example">
+                  <nav aria-label="Page navigation example">  
+
+
                     <Pagination
                       getPaginationGroup={ getPaginationGroup}
                       currentPage={ currentPage}
@@ -668,6 +680,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                       next={next}
                       prev={prev}
                       handleActive={handleActive}
+                      
                     />
                   </nav>
                 </div>

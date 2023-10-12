@@ -69,7 +69,8 @@ console.log("data",data)
                 </a>
               </Link>
             </div>
-          </div>
+            <br/>
+          </div> 
         );
       })}
     </>

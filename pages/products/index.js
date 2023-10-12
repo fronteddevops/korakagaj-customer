@@ -484,6 +484,7 @@ console.log("profuctttt11111111111111111111111111111",products)
                     <span
                       className="text-brand fw-bold"
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
+                      style={{cursor:"pointer"}}
                     >
                       Show Filters
                     </span>

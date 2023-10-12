@@ -93,11 +93,14 @@ export default function Home() {
                                 <Deals1 />
                             </div>
                             <div className="col-lg-6 deal-co">
-                                <Deals2 />
+                                {/* <Deals2 /> */}
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> 
+               
+ 
+
 
 
                 <section className="section-padding">

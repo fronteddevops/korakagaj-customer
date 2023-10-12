@@ -8,6 +8,7 @@ export const FETCHED_PRODUCT = "FETCHED_PRODUCT"
 export const FETCHED_MORE_PRODUCT = "FETCHED_MORE_PRODUCT"
 
 
+
 // CART TYPES
 
 export const ADD_TO_CART = "ADD_TO_CART"
