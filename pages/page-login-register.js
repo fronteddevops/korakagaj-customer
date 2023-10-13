@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-const route=useRouter()
+  const route = useRouter();
   //error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -72,24 +72,21 @@ const route=useRouter()
         const response = await services.auth.LOGIN_USER(payLoad);
 
         if (response) {
-       //   const id=response.data.user.id
-          const id=3
-          console.log('ppppppppppppppppppppppppppppppppppp',id)
+          //   const id=response.data.user.id
+
           toastSuccessLogin();
-          if(localStorage.length>0){
-       
-             const data={
-              cartDetail: JSON.parse(localStorage.getItem("dokani_cart"))
-             }
-           console.log('ppppppppppppppppppppppppppp0',data)
-    const response=       await services.cart.UPDATE_CART(id,data)
-    if(response){
-      console.log("responmosedata login card",response.data)
-      localStorage.removeItem("")
-    }
-   
-          }
-          route.push('/')
+          //       if(localStorage.length>0){
+
+          //          const data={
+          //           cartDetail: JSON.parse(localStorage.getItem("dokani_cart"))
+          //          }
+          //        console.log('ppppppppppppppppppppppppppp0',data)
+          // const response=       await services.cart.UPDATE_CART(id,data)
+          // if(response){
+          //   console.log("responmosedata login card",response.data)
+          //   localStorage.removeItem("")
+          // }
+          route.push("/");
         } else {
           alert(response.data.guide);
         }
@@ -101,7 +98,7 @@ const route=useRouter()
   // user Register api call
   const handleRegister = async (event) => {
     event.preventDefault();
-    setPasswordConfirmError("")
+    setPasswordConfirmError("");
     let isValid = true;
     setEmailErrorRegister("");
     setPasswordErrorRegister("");
@@ -127,7 +124,7 @@ const route=useRouter()
     }
 
     if (isValid) {
-       setNumberError("")
+      setNumberError("");
       try {
         let payLoad = {
           email: emailRegister,
@@ -142,6 +139,7 @@ const route=useRouter()
 
         if (response) {
           toastSuccess();
+          route.push("/");
         } else {
           alert(response.data.guide);
         }
@@ -515,7 +513,7 @@ const route=useRouter()
                               placeholder="Password"
                               value={passwordRegister}
                               onChange={(e) => {
-                                setPasswordConfirmError("")
+                                setPasswordConfirmError("");
                                 const passwordValue = e.target.value;
                                 setPasswordRegister(passwordValue);
                                 if (passwordValue.trim()) {

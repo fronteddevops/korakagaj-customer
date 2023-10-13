@@ -528,7 +528,7 @@ console.log("profuctttt11111111111111111111111111111",products)
       <div
         className="col-lg-4 col-md-4 col-12 col-sm-6"
         key={i}
-      >{console.log('555555555555555555555555555555555555555555555', item)}
+      >
         <SingleProduct product={item} />
         {/* <SingleProductList product={item}/> */}
       </div>
@@ -541,7 +541,7 @@ console.log("profuctttt11111111111111111111111111111",products)
         className="col-lg-4 col-md-4 col-12 col-sm-6"
         key={i}
       >
-        {console.log('555555555555555555555555555555555555555555555', getPaginatedProducts)}
+       
         <SingleProduct product={item} />
         {/* <SingleProductList product={item}/> */}
       </div>

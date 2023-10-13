@@ -9,6 +9,9 @@ import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
 import { useRouter } from 'next/router'
 import nextConfig from "../../next.config";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+
 
 const SingleProduct = ({
     product,
@@ -26,7 +29,14 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
             setLoading(false);
         }, 2000);
     }, []);
-
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Estimated Price</Popover.Header>
+            <Popover.Body>
+                Your product's estimated final price will be <strong className="text-brand">Rs. {product.price}</strong>.
+            </Popover.Body>
+        </Popover>
+    );
     const handleCart = (product) => {
         addToCart(product);
         toast.success("Add to Cart !");
@@ -47,7 +57,7 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
 
             {!loading ? (
                 <>
-                    <div className="product-cart-wrap mb-30">
+                    <div className="product-cart-wrap fabric mb-30">
                         <div className="product-img-action-wrap">
                             <div className="product-img product-img-zoom">
 
@@ -63,17 +73,11 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
 
                             </div>
                             <div className="product-action-1">
-                        {/* <a
-                            aria-label="Estimated Final Price will be $200"
-                            className="action-btn hover-up"
-                            data-bs-toggle="modal"
-                            onClick={(e) => console.log(e)}
-                        >
-                            <i className="fi-rs-eye"></i>
-                        </a> */}
-                       
-                        
-                    </div>
+                                <OverlayTrigger trigger="click" placement="top" overlay={popover}>
+                                    <a className="action-btn "><i className="fi-rs-eye"></i></a></OverlayTrigger>
+
+
+                            </div>
 
                             <div className="product-badges product-badges-position product-badges-mrg">
 
@@ -82,7 +86,7 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
                             </div>
                         </div>
                         <div className="product-content-wrap">
-                           
+
                             <h2>
                               
                                     <a>{product.fabricName}</a>
@@ -91,14 +95,14 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
                           
                            
                             <div className="product-price">
-                                <span>${product.price}/MTR </span>
-                               
+                                <span>Rs.{product.price}/MTR </span>
+
 
                             </div>
-                           
+
 
                             <div className="product-action-1 show">
-                           
+
                                 <a
                                     aria-label="Choose me"
                                     className="action-btn hover-up"
@@ -106,7 +110,7 @@ const imageUrl=nextConfig.BASE_URL_UPLOADS
                                 >
                                     <i className="fi-rs-shopping-bag-add"></i>
                                 </a>
-                               
+
                             </div>
 
                         </div>

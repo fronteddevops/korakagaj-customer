@@ -42,8 +42,25 @@ const NewArrival = () => {
     return (
         <>
             <Swiper
-                slidesPerView={4}
-                spaceBetween={15}
+            breakpoints={{
+                200: {
+                  // width: 576,
+                  slidesPerView: 1.5,
+                  spaceBetween:10,
+                },
+                768: {
+                  // width: 768,
+                  slidesPerView: 2.5,
+                  spaceBetween:10,
+                },
+                1024: {
+                    // width: 768,
+                    slidesPerView: 6,
+                    spaceBetween:20,
+                  },
+              }}
+                // slidesPerView={4}
+                // spaceBetween={15}
                 //loop={false}
                 navigation={{
                     prevEl: ".custom_prev_n",

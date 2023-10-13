@@ -119,9 +119,9 @@ const SingleProductList = ({
                             </Link>
                         </h2>
                         <div className="product-price">
-                            <span>${product.price} </span>
+                            <span>Rs.{product.price} </span>
                             <span className="old-price">
-                                ${product.oldPrice}
+                            Rs.{product.oldPrice}
                             </span>
                         </div>
 

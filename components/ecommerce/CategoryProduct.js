@@ -11,7 +11,7 @@ const CategoryProduct = ({ updateProductCategory }) => {
   const router = useRouter();
   const [selectAll, setSelectAll] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  console.log('hkkkkkkkkkkkkkkkkkkkhkkkkkkkkk',selectedCategories)
+
   const removeSearchTerm = () => {
     router.push({
       pathname: "/products",

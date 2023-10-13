@@ -19,7 +19,7 @@ import Form from "react-bootstrap/Form";
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 import services from "../../services";
 
-const Products = ({ products, productFilters, fetchProduct }) => {
+const Fabrics  = ({ products, productFilters, fetchProduct }) => {
   const [fabricList, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
 
@@ -697,15 +697,6 @@ console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqq",currentPage)
   );
 };
 
-const mapStateToProps = (state) => ({
-  products: state.products,
-  productFilters: state.productFilters,
-});
 
-const mapDidpatchToProps = {
-  // openCart,
-  fetchProduct,
-  // fetchMoreProduct,
-};
 
-export default connect(mapStateToProps, mapDidpatchToProps)(Products);
+export default (Fabrics);

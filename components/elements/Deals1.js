@@ -24,7 +24,9 @@ const Deals1 = () => {
 
     fetchProducts();
   }, []);
-console.log("data",data)
+
+const daysBetween = new Date().getDate() - new Date(10/15/2023).getDate()
+console.log("date",daysBetween)
   return (
     <>
       {data.map((product, index) => {
@@ -44,7 +46,7 @@ console.log("data",data)
             <div className="deal-top">
               <h2 className="text-brand">Deal of the Day</h2>
               <h5>Limited quantities.</h5>
-            </div>
+            </div> 
             <div className="deal-content">
               <h6 className="product-title">
                 <Link href="/products">
@@ -61,6 +63,7 @@ console.log("data",data)
 
               {product.upComingDate && (
                 <Timer endDateTime={product.upComingDate} />
+                
               )}
 
               <Link href="/products">

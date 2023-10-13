@@ -50,10 +50,10 @@ const IntroPopup = () => {
                                     </h6>
                                     <div className="product-price">
                                         <span className="new-price">
-                                            $139.00
+                                            Rs.139.00
                                         </span>
                                         <span className="old-price">
-                                            $160.99
+                                            Rs.160.99
                                         </span>
                                     </div>
                                 </div>
