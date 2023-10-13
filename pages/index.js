@@ -38,11 +38,13 @@ export default function Home() {
                             </h3>
                             <h6>
                                 <Link href="/categories">
+                             
                                     <a className="view-more d-none d-md-flex">
                                         View More<i className="fi-rs-angle-double-small-right"></i>
                                     </a>
+                                 
                                 </Link>
-                            </h6>
+                                </h6>
                         </div>
                         
                         <div className="carausel-6-columns-cover position-relative">
