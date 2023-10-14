@@ -12,7 +12,8 @@ import { addToWishlist } from "../../redux/action/wishlistAction";
 import ProductTab from "../elements/ProductTab";
 import RelatedSlider from "../sliders/Related";
 import ThumbSlider from "../sliders/Thumb";
-
+import services from "../../services";
+import { useEffect } from "react";
 const ProductDetails = ({
     product,
     cartItems,
@@ -23,27 +24,57 @@ const ProductDetails = ({
     decreaseQuantity,
     quickView,
 }) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",product)
     const [quantity, setQuantity] = useState(1);
-
+    const [fabricName, setFabricName] = useState("");
+  
     const handleCart = (product) => {
-        addToCart(product);
-        toast.success("Add to Cart !");
+      addToCart(product);
+      toast.success("Add to Cart !");
     };
-
+  
     const handleCompare = (product) => {
-        addToCompare(product);
-        toast.success("Add to Compare !");
+      addToCompare(product);
+      toast.success("Add to Compare !");
     };
-
+  
     const handleWishlist = (product) => {
-        addToWishlist(product);
-        toast.success("Add to Wishlist !");
+      addToWishlist(product);
+      toast.success("Add to Wishlist !");
     };
-
-    const inCart = cartItems.find((cartItem) => cartItem.id === product?.id);
-
+  
+    const inCart = cartItems.find((cartItem) => cartItem?.id === product?.id);
+  
+    const calculateTotalPrice = (product) => {
+      let itemTotalPrice = 0; // Initialize totalPrice to 0
+  
+      const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+      const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+      const discountAmount = (basePrice * discountPercentage) / 100;
+      itemTotalPrice = basePrice - discountAmount;
+      return itemTotalPrice; // Return the calculated total price
+    };
+  
+    //fabric apt call
+    const GET_Fabric_Data = async (prodcut) => {
+      const response = await services.fabric.GET_FABRIC();
+      const selectedFabric = response.data.data.rows.find(
+        (fabric) => fabric?.id == prodcut.fabric
+      );
+                                              //     <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#E74C26"><path d="M440-181 240-296q-19-11-29.5-29T200-365v-230q0-22 10.5-40t29.5-29l200-115q19-11 40-11t40 11l200 115q19 11 29.5 29t10.5 40v230q0 22-10.5 40T720-296L520-181q-19 11-40 11t-40-11Zm0-92v-184l-160-93v185l160 92Zm80 0 160-92v-185l-160 93v184ZM80-680v-120q0-33 23.5-56.5T160-880h120v80H160v120H80ZM280-80H160q-33 0-56.5-23.5T80-160v-120h80v120h120v80Zm400 0v-80h120v-120h80v120q0 33-23.5 56.5T800-80H680Zm120-600v-120H680v-80h120q33 0 56.5 23.5T880-800v120h-80ZM480-526l158-93-158-91-158 91 158 93Zm0 45Zm0-45Zm40 69Zm-80 0Z" /></svg>
+                                              // </span>
+  
+      if (selectedFabric) {
+        setFabricName(selectedFabric.fabricName);
+      }
+    };
+    useEffect(() => {
+      GET_Fabric_Data(product);
+    }, [product]);
     console.log(inCart);
-
+const color=JSON?.parse(product?.colour)
+const size=JSON.parse(product.size)
+console.log("color1111111111111111111",color)
     return (
         <>
             <section className="mt-50 mb-50">
@@ -110,7 +141,7 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
                                             <h2 className="title-detail">
-                                                {product?.title}
+                                                {product.productName}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
@@ -118,7 +149,7 @@ const ProductDetails = ({
                                                         Category:
                                                         <Link href="/products">
                                                             <a>
-                                                                {product?.brand}
+                                                                {product?.Category?.categoryName}
                                                             </a>
                                                         </Link>
                                                     </span>
@@ -141,17 +172,17 @@ const ProductDetails = ({
                                                 <div className="product-price primary-color float-left">
                                                     <ins>
                                                         <span className="text-brand">
-                                                        Rs.{product?.price}
+                                                        Rs.{calculateTotalPrice(product)}
                                                         </span>
                                                     </ins>
                                                     <ins>
                                                         <span className="old-price font-md ml-15">
-                                                        Rs.{product?.oldPrice}
+                                                        Rs.{product.totalPrice}
                                                         </span>
                                                     </ins>
                                                     <span className="save-price  font-md color3 ml-15">
                                                         {
-                                                            product?.discount.percentage
+                                                            product.discountPercentage
                                                         }
                                                         % Off
                                                     </span>
@@ -159,7 +190,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
                                             <div className="short-desc mb-30">
-                                                <p>{product?.desc}</p>
+                                                <p>{product.description}</p>
                                             </div>
                                             <div className="product_sort_info font-xs mb-30">
                                                 <ul>
@@ -184,17 +215,18 @@ const ProductDetails = ({
                                                     Color
                                                 </strong>
                                                 <ul className="list-filter color-filter">
-                                                    {product?.variations.map(
-                                                        (clr, i) => (
-                                                            <li key={i}>
-                                                                <a href="#">
-                                                                    <span
-                                                                        className={`product-color-${clr}`}
-                                                                    ></span>
-                                                                </a>
-                                                            </li>
-                                                        )
-                                                    )}
+                                                {  color && color?.map((clr, i) =>
+                            
+                           <li key={i}>
+                             <a href="#">
+                               <span
+                                 className={`product-color-${clr}`}
+                               > 
+                                {console.log("1111111111111111111111111",clr)}</span>
+                             </a>
+                           </li>
+                         
+                       )}
                                                 </ul>
                                             </div>
                                             <div className="attr-detail attr-size">
@@ -202,28 +234,17 @@ const ProductDetails = ({
                                                     Size
                                                 </strong>
                                                 <ul className="list-filter size-filter font-small">
-                                                    {/* {product?.sizes.map(
+                                                     {size.map(
                                                         (size, i) => (
-                                                            <li>
+                                                            <li key={i}>
                                                                 <a href="#">
                                                                     {size}
                                                                 </a>
                                                             </li>
                                                         )
-                                                    )} */}
+                                                    )} 
 
-                                                    <li className="active">
-                                                        <a>M</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>L</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>XL</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>XXL</a>
-                                                    </li>
+                                                   
                                                 </ul>
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
                                                 <span className="text-brand">Size Chart {'>'}</span>
@@ -275,8 +296,8 @@ const ProductDetails = ({
 
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
-                                                <strong className="mr-10">
-                                                    Fabric : <span className="text-brand">Cotton Mix</span>
+                                            <strong className="mr-10">
+                                                    Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricName}</span>
                                                 </strong>
 
                                                 <Link href={'/fabric'}>
@@ -333,25 +354,20 @@ const ProductDetails = ({
                                             </div>
                                             <ul className="product-meta font-xs color-grey mt-50">
                                                 <li className="mb-5">
-                                                    SKU:
-                                                    <a href="#">FWM15VKT</a>
+                                                SKU&nbsp;:&nbsp;
+                          <a href="#">{product.sku}</a>
                                                 </li>
                                                 <li className="mb-5">
                                                     Tags:
-                                                    <a
-                                                        href="#"
-                                                        rel="tag"
-                                                        className="me-1"
-                                                    >
-                                                        Cloth,
-                                                    </a>
+                                                    <a href="#" rel="tag" className="me-1">
+                            {product.tags}
+                          </a>
                                                 </li>
                                                 <li>
-                                                    Availability:
-                                                    <span className="in-stock text-success ml-5">
-                                                        {product?.stock} Items In
-                                                        Stock
-                                                    </span>
+                                                Availability&nbsp;:&nbsp;
+                          <span className="in-stock text-success ml-5">
+                            {product.currentStock} Items In Stock
+                          </span>
                                                 </li>
                                             </ul>
                                         </div>

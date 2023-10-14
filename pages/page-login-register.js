@@ -1,10 +1,210 @@
 import Link from "next/link";
 import Layout from "../components/layout/Layout";
-
-
+import "react-toastify/dist/ReactToastify.css";
+import services from "../services/index.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/router";
 function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+  const route=useRouter()
+    //error handling
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [firstNameError, setFirstNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [numberError, setNumberError] = useState("");
+    const [passwordConfirmError, setPasswordConfirmError] = useState();
+    const [emailErrorRegister, setEmailErrorRegister] = useState("");
+  
+    const [passwordErrorRegister, setPasswordErrorRegister] = useState("");
+    //password show icon set value in state
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
+    const [passwordVisibleConfirmPassword, setpasswordVisibleConfirmPassword] =
+      useState(false);
+  
+    //Register user State
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [number, setNumber] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [emailRegister, setEmailRegister] = useState("");
+    const [passwordRegister, setPasswordRegister] = useState("");
+  
+    //email validate
+  
+    const validateEmail = (email) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+  
+    //handle login  email
+  
+    const handleLogin = async (event) => {
+      event.preventDefault();
+      let isValid = true;
+      setEmailError("");
+      setPasswordError("");
+      if (email === "") {
+        setEmailError("Enter a valid email address");
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        setEmailError("Enter a valid email address");
+        isValid = false;
+      }
+      if (password === "") {
+        setPasswordError("Please enter password");
+        isValid = false;
+      }
+  
+      if (isValid) {
+        try {
+          let payLoad = {
+            email: email,
+            password: password,
+            role: "Customer",
+          };
+          console.log(payLoad);
+          const response = await services.auth.LOGIN_USER(payLoad);
+  
+          if (response) {
+         //   const id=response.data.user.id
+            // const id=3
+            // console.log('ppppppppppppppppppppppppppppppppppp',id)
+            toastSuccessLogin();
+    //         if(localStorage.length>0){
+         
+    //            const data={
+    //             cartDetail: JSON.parse(localStorage.getItem("dokani_cart"))
+    //            }
+    //          console.log('ppppppppppppppppppppppppppp0',data)
+    //   const response=       await services.cart.UPDATE_CART(id,data)
+    //   if(response){
+    //     console.log("responmosedata login card",response.data)
+    //     localStorage.removeItem("")
+    //   }
+     
+    //         }
+            route.push('/')
+          } else {
+            alert(response.data.guide);
+          }
+        } catch (error) {
+          toastErrorLogin(error);
+        }
+      }
+    };
+    // user Register api call
+    const handleRegister = async (event) => {
+      event.preventDefault();
+      setPasswordConfirmError("")
+      let isValid = true;
+      setEmailErrorRegister("");
+      setPasswordErrorRegister("");
+      if (passwordRegister !== passwordConfirm) {
+        // Update the passwordConfirm variable with an error message
+        setPasswordConfirmError("password not match");
+        isValid = false; // Set isValid to false
+      }
+      if (number.length < 10) {
+        setNumberError(" Number should be  10  digits.");
+        isValid = false;
+      }
+      if (emailRegister === "") {
+        setEmailErrorRegister("Enter a valid email address");
+        isValid = false;
+      } else if (!validateEmail(emailRegister)) {
+        setEmailErrorRegister("Enter a valid email address");
+        isValid = false;
+      }
+      if (passwordRegister === "") {
+        setPasswordErrorRegister("Please enter password");
+        isValid = false;
+      }
+  
+      if (isValid) {
+         setNumberError("")
+        try {
+          let payLoad = {
+            email: emailRegister,
+            password: passwordRegister,
+            role: "Customer",
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: number,
+          };
+          console.log(payLoad);
+          const response = await services.auth.REGISTER_USER(payLoad);
+  
+          if (response) {
+            toastSuccess();
+          } else {
+            alert(response.data.guide);
+          }
+        } catch (error) {
+          toastError(error);
+        }
+      }
+    };
+  
+    //number validation
+  
+    const handleInputChange = (e) => {
+      const enteredNumber = e.target.value;
+  
+      // Ensure that the entered number is not negative
+      if (enteredNumber >= 0 || enteredNumber === "") {
+        setNumber(enteredNumber);
+  
+        if (enteredNumber.length >= 10) {
+          setNumberError("");
+        } else if (enteredNumber.length === 0) {
+          setNumberError("Required");
+        } else {
+          setNumberError("");
+        }
+      }
+    };
+  
+    //set toster  register
+    const toastSuccess = () => toast.success("Register User successfully");
+    const toastError = (error) => {
+      toast.error(error.response?.data?.message || "An error occurred");
+    };
+    //set toster  login
+    const toastSuccessLogin = () => toast.success("Login User successfully");
+    const toastErrorLogin = (error) => {
+      toast.error(error.response?.data?.message || "An error occurred");
+    };
+    //password show in eye icon
+    const togglePasswordVisibilityRegister = () => {
+      setPasswordVisible(!passwordVisible);
+    };
+    const toggleVisibilityComfromPaassword = () => {
+      setpasswordVisibleConfirmPassword(!passwordVisibleConfirmPassword);
+    };
+    const togglePasswordVisibilityLogin = () => {
+      setPasswordVisibleLogin(!passwordVisibleLogin);
+    };
+    const exceptThisSymbols = ["e", "E", "+", "-", "."];
+
+
     return (
         <>
+           <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
             <Layout parent="Home" sub="Pages" subChild="Login & Register">
                 <section className="pt-150 pb-150">
                     <div className="container">
@@ -19,61 +219,136 @@ function Login() {
                                                         Login
                                                     </h3>
                                                 </div>
-                                                <form method="post">
-                                                    <div className="form-group">
-                                                        <input
-                                                            type="text"
-                                                            required=""
-                                                            name="email"
-                                                            placeholder="Your Email"
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <input
-                                                            required=""
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Password"
-                                                        />
-                                                    </div>
-                                                    <div className="login_footer form-group">
-                                                        <div className="chek-form">
-                                                            <div className="custome-checkbox">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    name="checkbox"
-                                                                    id="exampleCheckbox1"
-                                                                    value=""
-                                                                />
-                                                                <label
-                                                                    className="form-check-label"
-                                                                    htmlFor="exampleCheckbox1"
-                                                                >
-                                                                    <span>
-                                                                        Remember
-                                                                        me
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <a
-                                                            className="text-muted"
-                                                            href="#"
-                                                        >
-                                                            Forgot password?
-                                                        </a>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button
-                                                            type="submit"
-                                                            className="btn btn-fill-out btn-block hover-up"
-                                                            name="login"
-                                                        >
-                                                            Log in
-                                                        </button>
-                                                    </div>
-                                                </form>
+                                                <form method="post" onSubmit={handleLogin}>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              type="text"
+                              required=""
+                              name="email"
+                              placeholder="Your Email"
+                              value={email}
+                              onChange={(e) => {
+                                setEmail(e.target.value.trim()); // Trim whitespace before setting
+                                if (e.target.value.trim()) {
+                                  setEmail(e.target.value);
+                                }
+                                if (e.target.value.length === 0) {
+                                  setEmailError("Required");
+                                } else {
+                                  setEmailError("");
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                e.key === "Enter"
+                                  ? handleLogin()
+                                  : setEmail(e.target.value);
+                              }}
+                            />
+                            {emailError ? (
+                              <div className="error-message">
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  {emailError}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              required=""
+                              type={passwordVisibleLogin ? "text" : "password"}
+                              name="password"
+                              placeholder="Password"
+                              onChange={(e) => {
+                                setPassword(e.target.value.trim());
+                                if (e.target.value.trim()) {
+                                  setPassword(e.target.value);
+                                }
+                                if (e.target.value.length === 0) {
+                                  setPasswordError("Required");
+                                } else {
+                                  setPasswordError("");
+                                }
+                              }}
+                              value={password}
+                              onKeyDown={(e) => {
+                                e.key === "Enter"
+                                  ? handleLogin()
+                                  : setPassword(e.target.value);
+                                if (e.target.value) {
+                                  setPasswordError("");
+                                }
+                              }}
+                              aria-describedby="password"
+                            />
+                            <FontAwesomeIcon
+                              icon={passwordVisibleLogin ? faEyeSlash : faEye}
+                              className="icon-class" // You can add a custom class for styling
+                              onClick={togglePasswordVisibilityLogin}
+                              style={{
+                                position: "absolute",
+
+                                cursor: "pointer",
+                                marginTop: "13px",
+                                width: "17px",
+                                marginLeft: "-29px",
+                              }}
+                            />
+
+                            {passwordError ? (
+                              <div className="error-message">
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  {passwordError}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
+                          &nbsp; &nbsp; &nbsp;
+                          <div className="login_footer form-group">
+                            <div className="chek-form">
+                              <div className="custome-checkbox">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  name="checkbox"
+                                  id="exampleCheckbox1"
+                                  value=""
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="exampleCheckbox1"
+                                >
+                                  <span>Remember me</span>
+                                </label>
+                              </div>
+                            </div>
+                            <a className="text-muted" href="#">
+                              Forgot password?
+                            </a>
+                          </div>
+                          <div className="form-group">
+                            <button
+                              type="submit"
+                              className="btn btn-fill-out btn-block hover-up"
+                              name="login"
+                              disabled={!(email && password)}
+                              // onClick={handleLogin}
+                            >
+                              Log in
+                            </button>
+                          </div>
+                        </form>
                                             </div>
                                         </div>
                                     </div>
@@ -95,80 +370,304 @@ function Login() {
                                                     purposes described in our
                                                     privacy policy
                                                 </p>
-                                                <form method="post">
-                                                    <div className="form-group">
-                                                        <input
-                                                            type="text"
-                                                            required=""
-                                                            name="username"
-                                                            placeholder="Username"
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <input
-                                                            type="text"
-                                                            required=""
-                                                            name="email"
-                                                            placeholder="Email"
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <input
-                                                            required=""
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Password"
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <input
-                                                            required=""
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Confirm password"
-                                                        />
-                                                    </div>
-                                                    <div className="login_footer form-group">
-                                                        <div className="chek-form">
-                                                            <div className="custome-checkbox">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    name="checkbox"
-                                                                    id="exampleCheckbox12"
-                                                                    value=""
-                                                                />
-                                                                <label
-                                                                    className="form-check-label"
-                                                                    htmlFor="exampleCheckbox12"
-                                                                >
-                                                                    <span>
-                                                                        I agree
-                                                                        to terms
-                                                                        &amp;
-                                                                        Policy.
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <Link href="/page-privacy-policy">
-                                                        <a>
-                                                            <i className="fi-rs-book-alt mr-5 text-muted"></i>
-                                                            Lean more
-                                                        </a>
-                                                        </Link>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button
-                                                            type="submit"
-                                                            className="btn btn-fill-out btn-block hover-up"
-                                                            name="login"
-                                                        >
-                                                            Submit &amp;
-                                                            Register
-                                                        </button>
-                                                    </div>
-                                                </form>
+
+
+
+
+                                                {/* tgfaestgdsgdsgdsgdsgds */}
+                                                <form method="post" onSubmit={handleRegister}>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              type="text"
+                              required=""
+                              name="firstname"
+                              placeholder="First Name"
+                              value={firstName}
+                              onChange={(e) => {
+                                setFirstName(e.target.value.trimStart()); // Trim whitespace before setting
+                                if (e.target.value.trimStart()) {
+                                  setFirstName(e.target.value);
+                                }
+                                if (e.target.value.length === 0) {
+                                  setFirstNameError("Required");
+                                } else {
+                                  setFirstNameError("");
+                                }
+                              }}
+                            />
+                            {firstNameError && (
+                              <>
+                                <div className="error-message">
+                                  <span
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      position: "absolute",
+                                    }}
+                                  >
+                                    {firstNameError}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              type="text"
+                              required=""
+                              name="lastName"
+                              placeholder="Last Name"
+                              value={lastName}
+                              onChange={(e) => {
+                                setLastName(e.target.value.trim()); // Trim whitespace before setting
+                                if (e.target.value.trim()) {
+                                  setLastName(e.target.value);
+                                }
+                                if (e.target.value.length === 0) {
+                                  setLastNameError("Required");
+                                } else {
+                                  setLastNameError("");
+                                }
+                              }}
+                            />
+                            {lastNameError && (
+                              <>
+                                <div className="error-message">
+                                  <span
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      position: "absolute",
+                                    }}
+                                  >
+                                    {lastNameError}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              type="number"
+                              required=""
+                              name="phoneNumber"
+                              placeholder="Phone Number"
+                              onChange={handleInputChange}
+                              min="0"
+                              onKeyDown={(e) => {
+                                exceptThisSymbols.includes(e.key) &&
+                                  e.preventDefault();
+                                if (
+                                  e.target.value.length >= 10 &&
+                                  e.key !== "Backspace" &&
+                                  e.key !== "Delete"
+                                ) {
+                                  e.preventDefault();
+                                  setNumberError(
+                                    "Number should be  10  digits."
+                                  );
+                                }
+                              }}
+                            />
+                            {numberError && (
+                              <>
+                                <div className="error-message">
+                                  <span
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      position: "absolute",
+                                    }}
+                                  >
+                                    {numberError}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              type="email"
+                              required=""
+                              name="email"
+                              placeholder="Email"
+                              value={emailRegister}
+                              onChange={(e) => {
+                                setEmailRegister(e.target.value.trim()); // Trim whitespace before setting
+                                if (e.target.value.trim()) {
+                                  setEmailRegister(e.target.value);
+                                }
+                                if (e.target.value.length === 0) {
+                                  setEmailErrorRegister("Required");
+                                } else {
+                                  setEmailErrorRegister("");
+                                }
+                              }}
+                            />
+                            {emailErrorRegister ? (
+                              <div className="error-message">
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  {emailErrorRegister}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              required=""
+                              type={passwordVisible ? "text" : "password"}
+                              name="password"
+                              placeholder="Password"
+                              value={passwordRegister}
+                              onChange={(e) => {
+                                setPasswordConfirmError("")
+                                const passwordValue = e.target.value;
+                                setPasswordRegister(passwordValue);
+                                if (passwordValue.trim()) {
+                                  setPasswordErrorRegister("");
+                                } else {
+                                  setPasswordErrorRegister("Required");
+                                }
+                              }}
+                              aria-describedby="password"
+                            />
+                            <FontAwesomeIcon
+                              icon={passwordVisible ? faEyeSlash : faEye}
+                              className="icon-class" // You can add a custom class for styling
+                              onClick={togglePasswordVisibilityRegister}
+                              style={{
+                                position: "absolute",
+
+                                cursor: "pointer",
+                                marginTop: "13px",
+                                width: "17px",
+                                marginLeft: "-29px",
+                              }}
+                            />{" "}
+                            {passwordErrorRegister ? (
+                              <div className="error-message">
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  {passwordErrorRegister}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-md-12 mt-4">
+                            <input
+                              required=""
+                              type={
+                                passwordVisibleConfirmPassword
+                                  ? "text"
+                                  : "password"
+                              }
+                              name="password"
+                              placeholder="password Confirm"
+                              value={passwordConfirm}
+                              onChange={(e) => {
+                                const passwordValue = e.target.value;
+                                setPasswordConfirm(passwordValue);
+                                if (passwordValue.trim()) {
+                                  setPasswordConfirmError("");
+                                } else {
+                                  setPasswordConfirmError("Required");
+                                }
+                              }}
+                              aria-describedby="password"
+                            />
+
+                            <FontAwesomeIcon
+                              icon={
+                                passwordVisibleConfirmPassword
+                                  ? faEyeSlash
+                                  : faEye
+                              }
+                              className="icon-class" // You can add a custom class for styling
+                              onClick={toggleVisibilityComfromPaassword}
+                              style={{
+                                position: "absolute",
+                                cursor: "pointer",
+                                marginTop: "13px",
+                                width: "17px",
+                                marginLeft: "-29px",
+                              }}
+                            />
+                            {passwordConfirmError ? (
+                              <div className="error-message">
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    position: "absolute",
+                                  }}
+                                >
+                                  {passwordConfirmError}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
+                          &nbsp; &nbsp; &nbsp;
+                          <div className="login_footer form-group">
+                            <div className="chek-form">
+                              <div className="custome-checkbox">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  name="checkbox"
+                                  id="exampleCheckbox12"
+                                  value=""
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="exampleCheckbox12"
+                                >
+                                  <span>I agree to terms &amp; Policy.</span>
+                                </label>
+                              </div>
+                            </div>
+
+                            <Link href="/page-privacy-policy">
+                              <a>
+                                <i className="fi-rs-book-alt mr-5 text-muted"></i>
+                                Lean more
+                              </a>
+                            </Link>
+                          </div>
+                          <div className="form-group">
+                            <button
+                              type="submit"
+                              className="btn btn-fill-out btn-block hover-up"
+                              name="login"
+                              disabled={
+                                !(
+                                  lastName &&
+                                  firstName &&
+                                  number &&
+                                  emailRegister &&
+                                  passwordRegister &&
+                                  passwordConfirm
+                                )
+                              }
+                            >
+                              Submit &amp; Register
+                            </button>
+                          </div>
+                        </form>
+
+
+
+
                                                 <div className="divider-text-center mt-15 mb-15">
                                                     <span> or</span>
                                                 </div>

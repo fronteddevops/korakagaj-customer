@@ -1,9 +1,65 @@
 import React from "react";
 import Link from "next/link"
-
+import { useState } from "react";
+import services from "../../services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Footer = () => {
+    const [email, setemail] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const validateEmail = (email) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+  
+    //email send function
+  
+    const toastErrorLogin = (error) => {
+      toast.error(error.response?.data?.message || "An error occurred");
+    };
+    const toastSuccessLogin = () => toast.success("Subscribe  User successfully");
+    const handleFormSubmit = async (e) => {
+      e.preventDefault();
+      let isValid = true;
+      setEmailError("");
+  
+      if (email === "") {
+        setEmailError("Enter a valid email address");
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        setEmailError("Enter a valid email address");
+        isValid = false;
+      }
+      if (isValid) {
+        try {
+          let payLoad = {
+            email: email,
+            status: true,
+          };
+          const response = await services.subScribeUers.SUBSCRIBE_USER(payLoad);
+          if (response) {
+            toastSuccessLogin();
+            setemail("");
+          }
+        } catch (error) {
+          toastErrorLogin(error);
+  
+        }
+      }
+    };
     return (
         <>
+   <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
             <footer className="main">
                 <section className="newsletter p-30 mt-30 text-white wow fadeIn animated">
                     <div className="container">
@@ -31,19 +87,31 @@ Cheers! You’re happiness will be delivered shortly with Korakagaj
                                         </h5>
                                     </div>
                             <div className="col-lg-5">
-                                <form className="form-subcriber d-flex wow fadeIn animated">
-                                    <input
-                                        type="email"
-                                        className="form-control bg-white font-small"
-                                        placeholder="Enter your email"
-                                    />
-                                    <button
-                                        className="btn bg-dark text-white"
-                                        type="submit"
-                                    >
-                                        Subscribe
-                                    </button>
-                                </form>
+                            <form
+                  className="form-subscriber d-flex wow fadeIn animated"
+                  onSubmit={handleFormSubmit}
+                >
+                  <input
+                    type="email"
+                    className="form-control bg-white font-small"
+                    placeholder="Enter your email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value.trim())}
+                  />
+                  <button
+                    className="btn bg-dark text-white"
+                    type="submit"
+                    disabled={!email}
+                  >
+                    Subscribe
+                  </button>
+                </form>
+                {emailError ? (
+                  <small style={{ color: "red" }} className="">
+                    {emailError}
+                  </small>
+                ) : null}
                             </div>
                         </div>
                     </div>

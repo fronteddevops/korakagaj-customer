@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import Layout from "../components/layout/Layout";
 import { addToCart } from "../redux/action/cart";
+import nextConfig from "../next.config";
 import {
     clearWishlist,
     closeWishlistModal,
@@ -15,11 +16,21 @@ const Wishlist = ({
     deleteFromWishlist,
     addToCart,
 }) => {
+    const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
     const handleCart = (product) => {
         addToCart(product);
         toast.success("Add to Cart !");
     };
+    const calculateTotalPrice = (product) => {
+        let itemTotalPrice = 0; // Initialize totalPrice to 0
+    
+        const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+        const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+        const discountAmount = (basePrice * discountPercentage) / 100;
+        itemTotalPrice = basePrice - discountAmount;
+        return itemTotalPrice; // Return the calculated total price
+      };
     return (
         <>
             <Layout parent="Home" sub="Shop" subChild="Wishlist">
@@ -48,46 +59,32 @@ const Wishlist = ({
                                                     (product) => (
                                                         <tr>
                                                             <td className="image product-thumbnail">
-                                                                <img
-                                                                    src={
-                                                                        product
-                                                                            .images[0]
-                                                                            .img
-                                                                    }
-                                                                    alt=""
-                                                                    className="img-fluid"
-                                                                    width="70"
-                                                                />
+                                                                  <img
+                                src={imageUrl + product.featuredImage}
+                                crossOrigin="an"
+                                alt=""
+                                className="img-fluid"
+                                width="70"
+                              />
                                                             </td>
 
                                                             <td className="product-des product-name">
                                                                 <h5 className="product-name">
                                                                     <a>
-                                                                        {
-                                                                            product.title
-                                                                        }
+                                                                        
+                                                                            {product.productName}
+                                                                        
                                                                     </a>
                                                                 </h5>
                                                                 <p className="font-xs">
-                                                                    Maboriosam
-                                                                    in a tonto
-                                                                    nesciung
-                                                                    eget
-                                                                    <br />
-                                                                    distingy
-                                                                    magndapibus.
+                                                                {product.description}
                                                                 </p>
                                                             </td>
                                                             <td
                                                                 className="price"
                                                                 data-title="Price"
                                                             >
-                                                                <span>
-                                                                    Rs.
-                                                                    {
-                                                                        product.price
-                                                                    }
-                                                                </span>
+                                                                 <span>${calculateTotalPrice(product)}</span>
                                                             </td>
                                                             <td
                                                                 className="text-center"

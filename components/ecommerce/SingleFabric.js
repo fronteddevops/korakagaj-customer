@@ -10,7 +10,7 @@ import Loader from './../elements/Loader';
 import { useRouter } from 'next/router'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-
+import nextConfig from "../../next.config";
 
 const SingleProduct = ({
     product,
@@ -21,7 +21,7 @@ const SingleProduct = ({
 }) => {
     const router = useRouter()
     const [loading, setLoading] = useState(false);
-
+    const imageUrl=nextConfig.BASE_URL_UPLOADS
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
@@ -32,7 +32,7 @@ const SingleProduct = ({
         <Popover id="popover-basic">
             <Popover.Header as="h3">Estimated Price</Popover.Header>
             <Popover.Body>
-                Your product's estimated final price will be <strong className="text-brand">Rs. 3000</strong>.
+                Your product's estimated final price will be <strong className="text-brand">Rs :{product.price}</strong>.
             </Popover.Body>
         </Popover>
     );
@@ -60,11 +60,13 @@ const SingleProduct = ({
                             <div className="product-img product-img-zoom">
 
                                 <a>
-                                    <img
+                                <img
                                         className="default-img"
-                                        src={product.image}
+                                        src={imageUrl+product.image}
                                         alt=""
+                                        crossOrigin="anynomus"
                                     />
+
 
                                 </a>
 
@@ -78,7 +80,7 @@ const SingleProduct = ({
 
                             <div className="product-badges product-badges-position product-badges-mrg">
 
-                                <span className="new">Max Width: 1.37M</span>
+                            <span className="new">Max Width: {product.maxWidth}M</span>
 
                             </div>
                         </div>
@@ -86,7 +88,7 @@ const SingleProduct = ({
 
                             <h2>
 
-                                <a>{product.title}</a>
+                                   <a>{product.fabricName}</a>
 
                             </h2>
 

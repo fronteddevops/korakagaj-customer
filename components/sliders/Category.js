@@ -1,53 +1,30 @@
 import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import services from "../../services";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import nextConfig from "../../next.config";
 
 SwiperCore.use([Navigation]);
 
 const CategorySlider = () => {
-    var data = [
-        {
-            id: 1,
-            title: "T-Shirt",
-            img: "category-thumb-1.jpg",
-        },
-        {
-            id: 2,
-            title: "Bags",
-            img: "category-thumb-2.jpg",
-        },
-        {
-            id: 3,
-            title: "Sandan",
-            img: "category-thumb-3.jpg",
-        },
-        {
-            id: 4,
-            title: "Scarf Cap",
-            img: "category-thumb-4.jpg",
-        },
-        {
-            id: 5,
-            title: "Shoes",
-            img: "category-thumb-5.jpg",
-        },
-        {
-            id: 6,
-            title: "Pillowcase",
-            img: "category-thumb-6.jpg",
-        },
-        {
-            id: 7,
-            title: "Jumpsuits",
-            img: "category-thumb-7.jpg",
-        },
-        {
-            id: 8,
-            title: "Hats",
-            img: "category-thumb-8.jpg",
-        },
-    ];
+    const [category,setCategory]=useState([])
+   
+    const imageUrl=nextConfig. BASE_URL_UPLOADS
+    const getCategoryListHandler = async () => {
+        try {
+            const response = await services.category.GET_CATEGORY()
+   
+          //  setRowData(response.data)
+          setCategory(response.data.data.rows)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+useEffect(()=>{
+    getCategoryListHandler()
+},[])
+   
     return (
         <>
             <Swiper
@@ -81,22 +58,23 @@ const CategorySlider = () => {
                 }}
                 className="custom-class"
             >
-                {data.map((item, i) => (
+                {category.map((item, i) => (
                     <SwiperSlide key={i}>
                         <div className="card-1">
                             <figure className=" img-hover-scale overflow-hidden">
                                <Link href="/products">
                                     <a>
                                         <img
-                                            src={`assets/imgs/shop/${item.img}`}
+                                            src={ imageUrl+item.image}
                                             alt=""
+                                            crossOrigin="anonymous"
                                         />
                                     </a>
                                 </Link>
                             </figure>
                             <h5>
-                               <Link href="/products">
-                                    <a>{item.title}</a>
+                               <Link href="/products/shop-grid-right">
+                                    <a>{item.categoryName}</a>
                                 </Link>
                             </h5>
                         </div>

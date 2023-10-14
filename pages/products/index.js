@@ -14,232 +14,546 @@ import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
 import { fetchProduct } from "../../redux/action/product";
 import Link from "next/link";
-import Accordion from 'react-bootstrap/Accordion';
-const Products = ({ products, productFilters, fetchProduct }) => {
-    console.log(products);
+import Accordion from "react-bootstrap/Accordion";
+import services from "../../services";
+import Form from "react-bootstrap/Form";
+import Slider from "rc-slider";
+const Products = ({ products1, productFilters, fetchProduct }) => {
+  const [category, setCategory] = useState([]);
+  const [fillter, setFilterProduct] = useState([]);
+  const [products, setProdcut] = useState([]);
+  const [subcategory, setSubCategory] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+  const [selectedSubSubCategories, setSelectedSubSubCategories] = useState([]);
+  const [subSubcategory, setSubSubCategory] = useState([]);
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [selectedSizes, setSizes] = useState([]);
+  const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
+  const [active, setActive] = useState(0);
+  let Router = useRouter(),
+    searchTerm = Router.query.search,
+    showLimit = 12,
+    showPagination = 4;
 
-    let Router = useRouter(),
-        searchTerm = Router.query.search,
-        showLimit = 12,
-        showPagination = 4;
+  let [pagination, setPagination] = useState([]);
+  let [limit, setLimit] = useState(showLimit);
 
-    let [pagination, setPagination] = useState([]);
-    let [limit, setLimit] = useState(showLimit);
-    
-    let [isFilterVisible, setIsFilterVisible] = useState(false);
-    let [pages, setPages] = useState(Math.ceil(products.items.length / limit));
-    let [currentPage, setCurrentPage] = useState(1);
+  let [isFilterVisible, setIsFilterVisible] = useState(false);
+  let [currentPage, setCurrentPage] = useState(1);
+  let [pages, setPages] = useState(Math.ceil(products.length / limit));
+  console.log("pages", pages);
 
-    useEffect(() => {
-        fetchProduct(searchTerm, "/static/product.json", productFilters);
-        cratePagination();
-    }, [productFilters, limit, pages, products.items.length]);
+  useEffect(() => {
+    fetchProduct(searchTerm, productFilters);
+    cratePagination();
+    getSubCategory();
+    getCategroy();
+    // prodcutAll();
+    prodcutFilters();
+    getSubSubCategory();
+  }, [
+    selectedCategories,
+    selectedSubCategories,
+    selectedSubSubCategories,
+    selectedColors,
+    selectedSizes,
+    limit,
+    pages,
+    products.length,
+  ]);
 
-    const cratePagination = () => {
-        // set pagination
-        let arr = new Array(Math.ceil(products.items.length / limit))
-            .fill()
-            .map((_, idx) => idx + 1);
+  // //get prodcut
+  // const prodcutAll = async () => {
+  //   const response = await services.product.GET_PRODUCT();
+  //   setProdcut(response?.data?.data?.rows);
+  // };
 
-        setPagination(arr);
-        setPages(Math.ceil(products.items.length / limit));
+  //color
+  const color = ["red", "blue", "green", "yellow", "white"];
+  const sizes = ["", "s","m", "xl", "xll"];
+  //size function
+
+  const handleClick = (i, target) => {
+    setSizes(target);
+    setActive(active == i ? 0 : i);
+  };
+  const cratePagination = () => {
+    // set pagination
+    let arr = new Array(Math.ceil(products.length / limit))
+      .fill()
+      .map((_, idx) => idx + 1);
+
+    setPagination(arr);
+    setPages(Math.ceil(products.length / limit));
+  };
+
+  const startIndex = currentPage * limit - limit;
+  const endIndex = startIndex + limit;
+  const getPaginatedProducts = products.slice(startIndex, endIndex);
+
+  let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
+  let end = start + showPagination;
+  const getPaginationGroup = pagination.slice(start, end);
+
+  const next = () => {
+    setCurrentPage((page) => page + 1);
+  };
+
+  const prev = () => {
+    setCurrentPage((page) => page - 1);
+  };
+
+  const handleActive = (item) => {
+    setCurrentPage(item);
+  };
+
+  const selectChange = (e) => {
+    setLimit(Number(e.target.value));
+    setCurrentPage(1);
+    setPages(Math.ceil(products.length / Number(e.target.value)));
+  };
+
+  //get category
+  const getCategroy = async () => {
+    try {
+      const response = await services.category.GET_CATEGORY();
+      if (response) {
+        setCategory(response?.data?.data?.rows);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //filter prodcut
+  const prodcutFilters = async () => {
+    const data = {
+      category: selectedCategories,
+
+      subsSubCategory: selectedSubSubCategories,
+      subCategory: selectedSubCategories,
+      maxPrice: price.value.max,
+      minPrice: price.value.min,
+      color: selectedColors,
+      size: selectedSizes,
     };
+    try {
+      const response = await services.product.GET_FILTER_PRODUCT(data);
+      if (response) {
+        setProdcut(response?.data?.data?.rows);
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const startIndex = currentPage * limit - limit;
-    const endIndex = startIndex + limit;
-    const getPaginatedProducts = products.items.slice(startIndex, endIndex);
+  //get subcategory
+  const getSubCategory = async () => {
+    const response = await services.subCategory.GET_SUB_CATEGORY();
+    setSubCategory(response?.data?.data?.rows);
+  };
+  //getSubSubCATEGPRY
+  const getSubSubCategory = async () => {
+    const response = await services.subSubCategory.GET_SUB_SUB_CATEGORY();
+    setSubSubCategory(response?.data?.data?.rows);
+  };
 
-    let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
-    let end = start + showPagination;
-    const getPaginationGroup = pagination.slice(start, end);
+  //SORTING BY DEALS
+  const featuredProduct = async () => {
+    try {
+      const response = await services.product.GET_PRODUCT();
 
-    const next = () => {
-        setCurrentPage((page) => page + 1);
-    };
+      const newProudct = response?.data?.data?.rows.filter(
+        (product) => product.productType == 0
+      );
+      if (newProudct) {
+        setFilterProduct(newProudct);
+        setProdcut([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const prev = () => {
-        setCurrentPage((page) => page - 1);
-    };
+  const trendingProduct = async () => {
+    try {
+      const response = await services.product.GET_PRODUCT();
 
-    const handleActive = (item) => {
-        setCurrentPage(item);
-    };
+      const hotDeals = response?.data?.data?.rows.filter(
+        (product) => product.productType == 1
+      );
+      if (hotDeals) {
+        setFilterProduct(hotDeals);
+        setProdcut([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const newArrivalProduct = async () => {
+    try {
+      const response = await services.product.GET_PRODUCT();
 
-    const selectChange = (e) => {
-        setLimit(Number(e.target.value));
-        setCurrentPage(1);
-        setPages(Math.ceil(products.items.length / Number(e.target.value)));
-    };
-    return (
-        <>
-            <Layout parent="Home" sub="Shop" subChild="Products">
-                <section className="mt-50 mb-50">
-                    <div className="container">
-                        <div className="row">
-                        <div className="shop-product-fillter d-lg-none d-block  ">
-                                    <div className="totall-product">
-                                        <p>
-                                            We found
-                                            <strong className="text-brand">
-                                                {products.items.length}
-                                            </strong>
-                                            items for you!
-                                        </p>
-                                    </div>
-                                    <div className="sort-by-product-area justify-content-between align-items-center">
-                                    <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
-                                        
-                                        <div className="sort-by-cover">
-                                            <SortSelect />
-                                        </div>
-                                    </div>
-                                </div>
-                           {<div className={`${!isFilterVisible ?  'hide-on-mobile' : ''} col-lg-3 primary-sidebar sticky-sidebar`}>
-                                <div className="widget-category p-3 mb-30">
-                                    <Accordion defaultActiveKey="0">
-                                        <Accordion.Item className="custom-filter" eventKey="0">
-                                            <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                                                Mens
-                                            </h5></Accordion.Header>
-                                            <Accordion.Body>
-                                            <Accordion defaultActiveKey="0">
-                                            <Accordion.Item className="custom-filter ms-3" eventKey="0">
-                                            <Accordion.Header > <h5 className="w-100  style-1 wow fadeIn animated">
-                                                T-Shirts
-                                            </h5></Accordion.Header>
-                                            <Accordion.Body>
-                                                <CategoryProduct />
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                        </Accordion>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                        <Accordion.Item className="custom-filter" eventKey="1">
-                                            <Accordion.Header > <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                                                Womens
-                                            </h5></Accordion.Header>
-                                            <Accordion.Body>
-                                            <Accordion defaultActiveKey="0">
-                                            <Accordion.Item className="custom-filter ms-3" eventKey="0">
-                                            <Accordion.Header > <h5 className="w-100  style-1 wow fadeIn animated">
-                                                T-Shirts
-                                            </h5></Accordion.Header>
-                                            <Accordion.Body>
-                                                <CategoryProduct />
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                        </Accordion>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                        
-                                    </Accordion>
-                                </div>
+      const NewArrival = response?.data?.data?.rows.filter(
+        (product) => product.productType == 2
+      );
+      if (NewArrival) {
+        setFilterProduct(NewArrival);
 
-                                <div className="sidebar-widget price_range range mb-30">
-                                    <div className="widget-header position-relative mb-20 pb-10">
-                                        <h5 className="widget-title mb-10">
-                                            Filter by price
-                                        </h5>
-                                        <div className="bt-1 border-color-1"></div>
-                                    </div>
+        setProdcut([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const default1 = async () => {
+    try {
+      const response = await services.product.GET_PRODUCT();
+      setProdcut(response?.data?.data?.rows);
+      setFilterProduct([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //FILTER CASE
+  const handleChange = (selectedValue) => {
+    // Call the appropriate function based on the selected value
+    switch (selectedValue) {
+      case "newProduct":
+        featuredProduct();
+        break;
+      case "hotDeals":
+        trendingProduct();
+        break;
+      case "bestSeller":
+        newArrivalProduct();
+        break;
+      case "Default":
+        default1();
+      // Handle additional cases if needed
+      default:
+        break;
+    }
+  };
 
-                                    <div className="price-filter">
-                                        <div className="price-filter-inner">
-                                            <br />
-                                            <PriceRangeSlider />
-                                            <br />
-                                        </div>
-                                    </div>
+  //color array
 
-                                    <div className="list-group">
-                                        <div className="list-group-item mb-10 mt-10">
-                                            <label className="fw-900">
-                                                Color
-                                            </label>
-                                            <BrandFilter />
-                                            <label className="fw-900 mt-15">
-                                                Item Condition
-                                            </label>
-                                            <SizeFilter />
-                                        </div>
-                                    </div>
-                                    <br />
-                                </div>
+  //color set function
+  const handleCheckboxChange = (value) => {
+    const updatedBrands = selectedColors.includes(value)
+      ? selectedColors.filter((brand) => brand !== value)
+      : [...selectedColors, value];
 
-                                
-                                
-                            </div>}
-                            <div className="col-lg-9">
-                                <div className="shop-product-fillter d-lg-block d-none">
-                                    <div className="totall-product">
-                                        <p>
-                                            We found
-                                            <strong className="text-brand">
-                                                {products.items.length}
-                                            </strong>
-                                            items for you!
-                                        </p>
-                                    </div>
-                                    <div className="sort-by-product-area justify-content-between align-items-center">
-                                    <span className="text-brand fw-bold" onClick={()=>setIsFilterVisible(!isFilterVisible)}>Show Filters</span>
-                                        
-                                        <div className="sort-by-cover">
-                                            <SortSelect />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row product-grid-3">
-                                    {getPaginatedProducts.length === 0 && (
-                                        <h3>No Products Found </h3>
-                                    )}
+    setSelectedColors(updatedBrands);
+    // You can now use the updatedBrands array in your filter logic.
+  };
+  // Replace this with your actual array of products
 
-                                    {getPaginatedProducts.map((item, i) => (
-                                        <div
-                                            className="col-lg-4 col-md-4 col-6 col-sm-6"
-                                            key={i}
-                                        >
-                                            <SingleProduct product={item} />
-                                            {/* <SingleProductList product={item}/> */}
-                                        </div>
-                                    ))}
-                                </div>
 
-                                <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                                    <nav aria-label="Page navigation example">
-                                        <Pagination
-                                            getPaginationGroup={
-                                                getPaginationGroup
-                                            }
-                                            currentPage={currentPage}
-                                            pages={pages}
-                                            next={next}
-                                            prev={prev}
-                                            handleActive={handleActive}
-                                        />
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+  return (
+    <>
+      <Layout parent="Home" sub="Shop" subChild="Products">
+        <section className="mt-50 mb-50">
+          <div className="container">
+            <div className="row">
+              <div className="shop-product-fillter d-lg-none d-block  ">
+                <div className="totall-product">
+                  <p>
+                    We found
+                    {/* <strong className="text-brand">
+                                                {products?.items?.length}
+                                            </strong> */}
+                    items for you!
+                  </p>
+                </div>
+                <div className="sort-by-product-area justify-content-between align-items-center">
+                  <span
+                    className="text-brand fw-bold"
+                    onClick={() => setIsFilterVisible(!isFilterVisible)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Show Filters
+                  </span>
+
+                  <div className="sort-by-cover">
+                    <div className="sort-by-product-wrap">
+                      <div className="sort-by">
+                        <span>
+                          <i className="fi-rs-apps-sort"></i>
+                          Sort by:
+                        </span>
+                      </div>
+                      <div className="sort-by-dropdown-wrap custom-select">
+                        <select
+                          onChange={(event) => handleChange(event.target.value)}
+                        >
+                          <option value="Default">Default</option>
+                          <option value="newProduct">New Product</option>
+                          <option value="hotDeals">Hot Deals</option>
+                          <option value="bestSeller">Best Seller</option>
+                        </select>
+                      </div>
                     </div>
-                </section>
-                <WishlistModal />
-                {/* <CompareModal /> */}
-                {/* <CartSidebar /> */}
-                <QuickView />
-            </Layout>
-        </>
-    );
+                  </div>
+                </div>
+              </div>
+              {
+                <div
+                  className={`${
+                    !isFilterVisible ? "hide-on-mobile" : ""
+                  } col-lg-3 primary-sidebar sticky-sidebar`}
+                >
+                  <div className="widget-category p-3 mb-30">
+                    <Accordion defaultActiveKey="0">
+                      {category.map((category, index) => (
+                        <Accordion.Item
+                          className="custom-filter"
+                          eventKey={index.toString()} // Assuming you have unique keys
+                          key={index}
+                        >
+                          <Accordion.Header>
+                            <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                              {category.categoryName}
+                            </h5>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            {/* Render content specific to this category */}
+                            <CategoryProduct data={category.data} />
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      ))}
+
+                      {/* AAAAAAAAAAAAAAAAAAAAAAAA */}
+                      <Accordion.Item className="custom-filter" eventKey="1">
+                        <Accordion.Header>
+                          {" "}
+                          <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                            Womens
+                          </h5>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Accordion defaultActiveKey="0">
+                            <Accordion.Item
+                              className="custom-filter ms-3"
+                              eventKey="0"
+                            >
+                              <Accordion.Header>
+                                {" "}
+                                <h5 className="w-100  style-1 wow fadeIn animated">
+                                  T-Shirts
+                                </h5>
+                              </Accordion.Header>
+                              <Accordion.Body>
+                                <CategoryProduct />
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          </Accordion>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </div>
+
+                  <div className="sidebar-widget price_range range mb-30">
+                    <div className="widget-header position-relative mb-20 pb-10">
+                      <h5 className="widget-title mb-10">Filter by price</h5>
+                      <div className="bt-1 border-color-1"></div>
+                    </div>
+
+                    <div className="price-filter">
+                      <div className="price-filter-inner">
+                        <br />
+                        {/* <PriceRangeSlider /> */}
+                        <div className="korakagaj_price_slider_amount">
+                          <Slider
+                            range
+                            allowCross={false}
+                            defaultValue={[0, 100]}
+                            min={0}
+                            max={9000}
+                            onChange={(value) => {
+                              //  PriceRange({ value: { min: value[0], max: value[1] } })
+
+                              setPrice({
+                                value: { min: value[0], max: value[1] },
+                              });
+                              prodcutFilters(selectedCategories);
+                            }}
+                          />
+
+                          <div className="d-flex justify-content-between">
+                            <span>{price.value.min}</span>
+                            <span>{price.value.max}</span>
+                          </div>
+                        </div>
+                        <br />
+                      </div>
+                    </div>
+
+                    <div className="list-group">
+                      <div className="list-group-item mb-10 mt-10">
+                        <label className="fw-900">Color</label>
+                        {/* <BrandFilter /> */}
+                        <>
+                          <ul className="categories">
+                            {color?.map((item) => (
+                              <li key={item}>
+                                <Form.Check
+                                  type="checkbox"
+                                  id={`checkbox-${item}`}
+                                  label={item}
+                                  onChange={() => handleCheckboxChange(item)}
+                                  checked={selectedColors.includes(item)}
+                                />
+                                {console.log("ppppppppppppppppppppppp", item)}
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                        <label className="fw-900 mt-15">Item Condition</label>
+                        <ul className="list-filter size-filter font-small">
+                          {sizes.map((tag, i) => (
+                            <li
+                              className={active == i ? "active" : ""}
+                              onClick={() => handleClick(i, tag)}
+                              key={i}
+                            >
+                              <a>{i == 0 ? "All" : `${tag}`}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <br />
+                  </div>
+                </div>
+              }
+              <div className="col-lg-9">
+                <div className="shop-product-fillter d-lg-block d-none">
+                  <div className="totall-product">
+                    <p>
+                      We found
+                      <strong className="text-brand">
+                        {fillter.length > 0 ? (
+                          <>{fillter.length}</>
+                        ) : (
+                          <> {products.length}</>
+                        )}
+                      </strong>
+                      items for you!
+                    </p>
+                  </div>
+                  <div className="sort-by-product-area justify-content-between align-items-center">
+                    <span
+                      className="text-brand fw-bold"
+                      onClick={() => setIsFilterVisible(!isFilterVisible)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Show Filters
+                    </span>
+
+                    <div className="sort-by-cover">
+                      <div className="sort-by-product-wrap">
+                        <div className="sort-by">
+                          <span>
+                            <i className="fi-rs-apps-sort"></i>
+                            Sort by:
+                          </span>
+                        </div>
+                        <div className="sort-by-dropdown-wrap custom-select">
+                          <select
+                            onChange={(event) =>
+                              handleChange(event.target.value)
+                            }
+                          >
+                            <option value="Default">Default</option>
+                            <option value="newProduct">New Product</option>
+                            <option value="hotDeals">Hot Deals</option>
+                            <option value="bestSeller">Best Seller</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* <SortSelect /> */}
+                    </div>
+                  </div>
+                </div>
+                <div className="row product-grid-3">
+                  {getPaginatedProducts.length === 0 && (
+                    <h3>No Products Found </h3>
+                  )}
+
+                  {fillter && fillter.length > 0 ? (
+                    <>
+                      {fillter?.map((item, i) => (
+                        <div
+                          className="col-lg-4 col-md-4 col-12 col-sm-6"
+                          key={i}
+                        >
+                          {console.log(
+                            "555555555555555555555555555555555555555555555",
+                            item
+                          )}
+                          <SingleProduct product={item} />
+                          {/* <SingleProductList product={item}/> */}
+                        </div>
+                      ))}{" "}
+                    </>
+                  ) : (
+                    <>
+                      {getPaginatedProducts?.map((item, i) => (
+                        <div
+                          className="col-lg-4 col-md-4 col-12 col-sm-6"
+                          key={i}
+                        >
+                          {console.log(
+                            "555555555555555555555555555555555555555555555",
+                            getPaginatedProducts
+                          )}
+                          <SingleProduct product={item} />
+                          {/* <SingleProductList product={item}/> */}
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+
+                <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                  <nav aria-label="Page navigation example">
+                    <Pagination
+                      getPaginationGroup={getPaginationGroup}
+                      currentPage={currentPage}
+                      pages={pages}
+                      next={next}
+                      prev={prev}
+                      handleActive={handleActive}
+                    />
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <WishlistModal />
+        {/* <CompareModal /> */}
+        {/* <CartSidebar /> */}
+        <QuickView />
+      </Layout>
+    </>
+  );
 };
 
 const mapStateToProps = (state) => ({
-    products: state.products,
-    productFilters: state.productFilters,
+  products: state.products,
+  productFilters: state.productFilters,
 });
 
 const mapDidpatchToProps = {
-    // openCart,
-    fetchProduct,
-    // fetchMoreProduct,
+  // openCart,
+  fetchProduct,
+  // fetchMoreProduct,
 };
 
 export default connect(mapStateToProps, mapDidpatchToProps)(Products);
