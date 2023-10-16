@@ -3,7 +3,7 @@ import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { fetchByCatagory } from "../../redux/action/product";
 import SingleProduct from "./../ecommerce/SingleProduct";
-
+import services from "../../services";
 SwiperCore.use([Navigation]);
 
 const RelatedSlider = () => {
@@ -15,10 +15,15 @@ const RelatedSlider = () => {
 
     const fetchProducts = async () => {
         // With Category
-        const allProducts = await fetchByCatagory("/static/product.json");
-        setRelated(allProducts);
+        try {
+            const allProducts = await services.product.GET_PRODUCT();
+            setRelated(allProducts?.data?.data?.rows);
+        } catch (error) {
+            console.log(error)
+        }
+      
     };
-
+console.log("?qqqqqqqqqqqqqqqqqqqqq",related)
     return (
         <>
             <Swiper
