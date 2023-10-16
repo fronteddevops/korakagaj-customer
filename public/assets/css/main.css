@@ -4633,6 +4633,11 @@ table .product-thumbnail img {
   border: 0;
 }
 
+.product-color-black {
+  background: #000;
+}
+
+
 .product-color-red {
   background: #ff596d;
 }

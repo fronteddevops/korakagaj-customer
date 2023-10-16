@@ -209,7 +209,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
     try {
       const response = await services.fabric.GET_FilTER_FABRIC(data1);
   const data =response?.data?.data?.rows
-  if(data.length<12){
+  if(data.length<=12){
     setFilterFabric(data)
     // prev()
     // console.log("++++++++++++++++++++++++++++++++>")
