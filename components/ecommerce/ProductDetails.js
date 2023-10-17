@@ -24,7 +24,7 @@ const ProductDetails = ({
     decreaseQuantity,
     quickView,
 }) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",product)
+  
     const [quantity, setQuantity] = useState(1);
     const [fabricName, setFabricName] = useState("");
   
@@ -74,7 +74,7 @@ const ProductDetails = ({
     console.log(inCart);
 const color=JSON?.parse(product?.colour)
 const size=JSON.parse(product.size)
-console.log("color1111111111111111111",color)
+
     return (
         <>
             <section className="mt-50 mb-50">
@@ -222,7 +222,7 @@ console.log("color1111111111111111111",color)
                                <span
                                  className={`product-color-${clr}`}
                                > 
-                                {console.log("1111111111111111111111111",clr)}</span>
+                               </span>
                              </a>
                            </li>
                          
@@ -300,7 +300,7 @@ console.log("color1111111111111111111",color)
                                                     Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricName}</span>
                                                 </strong>
 
-                                                <Link href={'/fabric'}>
+                                                <Link href={`/fabric?Newprice=${calculateTotalPrice(product)}&Newlength=${product.length}&id=${product.id}`}>
                                                     <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
                                                     >
                                                         Choose Fabric

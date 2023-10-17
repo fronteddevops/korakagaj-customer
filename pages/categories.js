@@ -31,7 +31,7 @@ function Categories() {
                                 <div className="col-lg-2 mb-20" key={i}>
                                     <div className="card-1">
                                         <figure className=" img-hover-scale overflow-hidden">
-                                            <Link href="/products">
+                                            <Link href={`/products?id=${item.id}`} >
                                             <a>
                                                     <img
                                                         src={imageUrl+item.image}

@@ -18,56 +18,50 @@ import Accordion from "react-bootstrap/Accordion";
 import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
+
 const Products = ({ products1, productFilters, fetchProduct }) => {
-  const [category, setCategory] = useState([]);
+ 
   const [fillter, setFilterProduct] = useState([]);
   const [products, setProdcut] = useState([]);
-  const [subcategory, setSubCategory] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+  // const [prodcutAll,setprodcutAll]=useState([])
   const [selectedSubSubCategories, setSelectedSubSubCategories] = useState([]);
-  const [subSubcategory, setSubSubCategory] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSizes] = useState([]);
   const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
+  
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
-
+    const productId = Router.query.id ? Router.query.id:""
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
 
   let [isFilterVisible, setIsFilterVisible] = useState(false);
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products.length / limit));
-  console.log("pages", pages);
+
+ 
 
   useEffect(() => {
     fetchProduct(searchTerm, productFilters);
     cratePagination();
-    getSubCategory();
-    getCategroy();
-    // prodcutAll();
     prodcutFilters();
-    getSubSubCategory();
+  
   }, [
-    selectedCategories,
-    selectedSubCategories,
+    productId,
     selectedSubSubCategories,
     selectedColors,
     selectedSizes,
+    price,
     limit,
     pages,
     products.length,
   ]);
 
-  // //get prodcut
-  // const prodcutAll = async () => {
-  //   const response = await services.product.GET_PRODUCT();
-  //   setProdcut(response?.data?.data?.rows);
-  // };
+  //get prodcut
+ 
 
   //color
   const color = ["red", "blue", "green", "yellow", "white"];
@@ -108,64 +102,43 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
     setCurrentPage(item);
   };
 
-  const selectChange = (e) => {
-    setLimit(Number(e.target.value));
-    setCurrentPage(1);
-    setPages(Math.ceil(products.length / Number(e.target.value)));
-  };
 
-  //get category
-  const getCategroy = async () => {
-    try {
-      const response = await services.category.GET_CATEGORY();
-      if (response) {
-        setCategory(response?.data?.data?.rows);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+
 
   //filter prodcut
   const prodcutFilters = async () => {
-    const data = {
-      category: selectedCategories,
 
-      subsSubCategory: selectedSubSubCategories,
-      subCategory: selectedSubCategories,
+    const data = {
+      subSubCategory: selectedSubSubCategories,
+      categoryId:productId,
       maxPrice: price.value.max,
       minPrice: price.value.min,
       color: selectedColors,
       size: selectedSizes,
     };
     try {
-      const response = await services.product.GET_FILTER_PRODUCT(data);
-      if (response) {
-        setProdcut(response?.data?.data?.rows);
+     
+      const response = await services.product.  GET_FILTER_PRODUCT(data,);
+      if (response ) {
+
+       setProdcut (response?.data?.data?.rows);
       } else {
         console.log("error");
       }
-    } catch (error) {
+    
+   } catch (error) {
       console.log(error);
     }
+  
   };
 
-  //get subcategory
-  const getSubCategory = async () => {
-    const response = await services.subCategory.GET_SUB_CATEGORY();
-    setSubCategory(response?.data?.data?.rows);
-  };
-  //getSubSubCATEGPRY
-  const getSubSubCategory = async () => {
-    const response = await services.subSubCategory.GET_SUB_SUB_CATEGORY();
-    setSubSubCategory(response?.data?.data?.rows);
-  };
-
+  
   //SORTING BY DEALS
   const featuredProduct = async () => {
     try {
       const response = await services.product.GET_PRODUCT();
-
+      
       const newProudct = response?.data?.data?.rows.filter(
         (product) => product.productType == 0
       );
@@ -307,53 +280,84 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                   } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
                   <div className="widget-category p-3 mb-30">
+                  {products?.map((Item, index) => (
                     <Accordion defaultActiveKey="0">
-                      {category.map((category, index) => (
+                  
                         <Accordion.Item
                           className="custom-filter"
-                          eventKey={index.toString()} // Assuming you have unique keys
+                          eventKey={1+index} // Assuming you have unique keys
                           key={index}
+                          
                         >
                           <Accordion.Header>
                             <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                              {category.categoryName}
+                              {Item?.Category?.categoryName}
                             </h5>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            {/* Render content specific to this category */}
-                            <CategoryProduct data={category.data} />
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      ))}
-
-                      {/* AAAAAAAAAAAAAAAAAAAAAAAA */}
-                      <Accordion.Item className="custom-filter" eventKey="1">
-                        <Accordion.Header>
-                          {" "}
-                          <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                            Womens
-                          </h5>
-                        </Accordion.Header>
-                        <Accordion.Body>
+                          </Accordion.Header>   
+                           {/* <CategoryProduct data={category.data} /> */}
+                       
+                           <Accordion.Body>
                           <Accordion defaultActiveKey="0">
                             <Accordion.Item
                               className="custom-filter ms-3"
                               eventKey="0"
-                            >
+                            > 
                               <Accordion.Header>
                                 {" "}
                                 <h5 className="w-100  style-1 wow fadeIn animated">
-                                  T-Shirts
+                              
+                                {  Item?.SubCategory?.subCategoryName}
+                             
+                                  {/* T-Shirts */}
                                 </h5>
                               </Accordion.Header>
+                              
                               <Accordion.Body>
-                                <CategoryProduct />
+                              {/* subsubcategory */}
+                              <Form.Check
+                                key={Item?.id}
+                                type="checkbox"
+                                id={`default-${Item.id}`}
+                                label={Item?.SubSubCategory?.subSubCategoryName}
+                                onChange={() => {
+                                  
+                                  const subSubCategoryId = Item?.subSubCategoryId
+                                  const updatedSubCategories =
+                                    selectedSubSubCategories.includes(
+                                      subSubCategoryId
+                                    )
+                                      ? selectedSubSubCategories.filter(
+                                          (id) => id !== subSubCategoryId
+                                        )
+                                      : [
+                                          ...selectedSubSubCategories,
+                                          subSubCategoryId,
+                                        ];
+
+                                  setSelectedSubSubCategories(
+                                    updatedSubCategories
+                                  );
+
+                                  // You can optionally call your filter function here if needed
+                                }}
+                                checked={selectedSubSubCategories?.includes(
+                                  Item?.subSubCategoryId
+                                )}
+                              />
+
+
+
+
+                                {/* <CategoryProduct /> */}
                               </Accordion.Body>
                             </Accordion.Item>
                           </Accordion>
                         </Accordion.Body>
-                      </Accordion.Item>
+                        </Accordion.Item>
+                   
+
                     </Accordion>
+                    ))}
                   </div>
 
                   <div className="sidebar-widget price_range range mb-30">
@@ -379,7 +383,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
-                              prodcutFilters(selectedCategories);
+                            //  prodcutFilters(selectedCategories);
                             }}
                           />
 
@@ -406,8 +410,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                                   label={item}
                                   onChange={() => handleCheckboxChange(item)}
                                   checked={selectedColors.includes(item)}
-                                />
-                                {console.log("ppppppppppppppppppppppp", item)}
+                                />  
                               </li>
                             ))}
                           </ul>
@@ -492,10 +495,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          {console.log(
-                            "555555555555555555555555555555555555555555555",
-                            item
-                          )}
+                          
                           <SingleProduct product={item} />
                           {/* <SingleProductList product={item}/> */}
                         </div>
@@ -508,10 +508,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          {console.log(
-                            "555555555555555555555555555555555555555555555",
-                            getPaginatedProducts
-                          )}
+                         
                           <SingleProduct product={item} />
                           {/* <SingleProductList product={item}/> */}
                         </div>

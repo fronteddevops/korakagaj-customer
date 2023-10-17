@@ -141,6 +141,7 @@ function Login() {
   
           if (response) {
             toastSuccess();
+            route.push('/')
           } else {
             alert(response.data.guide);
           }

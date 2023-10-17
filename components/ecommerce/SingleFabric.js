@@ -12,13 +12,18 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import nextConfig from "../../next.config";
 
+
 const SingleProduct = ({
     product,
     addToCart,
     addToCompare,
     addToWishlist,
     openQuickView,
+    price,
+    length,
+    
 }) => {
+
     const router = useRouter()
     const [loading, setLoading] = useState(false);
     const imageUrl=nextConfig.BASE_URL_UPLOADS
@@ -28,11 +33,14 @@ const SingleProduct = ({
             setLoading(false);
         }, 2000);
     }, []);
+    const totalprice =  length * product.price
+const fabricPrice= parseFloat( totalprice+ +price)
+
     const popover = (
         <Popover id="popover-basic">
             <Popover.Header as="h3">Estimated Price</Popover.Header>
             <Popover.Body>
-                Your product's estimated final price will be <strong className="text-brand">Rs :{product.price}</strong>.
+                Your product's estimated final price will be <strong className="text-brand">Rs :{fabricPrice}</strong>.
             </Popover.Body>
         </Popover>
     );
@@ -104,7 +112,10 @@ const SingleProduct = ({
                                 <a
                                     aria-label="Choose me"
                                     className="action-btn hover-up"
-                                    onClick={() => router.back()}
+                                    onClick={() =>{ 
+                                        const route = `/products?fabricPrice=${fabricPrice}`;
+                                        
+                                        router.push(route)}}
                                 >
                                     <i className="fi-rs-shopping-bag-add"></i>
                                 </a>

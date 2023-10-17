@@ -34,13 +34,14 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
 
-
 //pagination
 
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
+   
+    const { Newprice, Newlength } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -195,7 +196,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
   };
 
   const prev = () => {
-    console.log("========================================?",pages)
+
     setCurrentPage((pages) => pages - 1);
   };
 
@@ -662,7 +663,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          <SingleFabric product={item} />
+                          <SingleFabric product={item}  price={Newprice}  length={Newlength} />
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}
