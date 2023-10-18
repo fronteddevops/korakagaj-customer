@@ -4665,6 +4665,9 @@ table .product-thumbnail img {
 .product-color-purple {
   background: #ff8ff8;
 }
+.product-color-blue {
+  background: blue;
+}
 
 .detail-gallery .slick-slider {
   background-color: #000;

@@ -23,8 +23,9 @@ const ProductDetails = ({
     increaseQuantity,
     decreaseQuantity,
     quickView,
+    fabricPrice
 }) => {
-  
+  console.log("hhhhhhhhhhhhhhhhhhhhhh",fabricPrice)
     const [quantity, setQuantity] = useState(1);
     const [fabricName, setFabricName] = useState("");
   
@@ -170,6 +171,13 @@ const size=JSON.parse(product.size)
                                             </div>
                                             <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
+                                                   {fabricPrice ?(<>
+                                                    <ins>
+                                                        <span className="text-brand">
+                                                   {fabricPrice}
+                                                        </span>
+                                                    </ins>
+                                                   </>):(<>
                                                     <ins>
                                                         <span className="text-brand">
                                                         Rs.{calculateTotalPrice(product)}
@@ -186,6 +194,10 @@ const size=JSON.parse(product.size)
                                                         }
                                                         % Off
                                                     </span>
+                                                   </>)
+
+                                                   }
+                                                 
                                                 </div>
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>

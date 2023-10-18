@@ -20,7 +20,9 @@ import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
 
 const Products = ({ products1, productFilters, fetchProduct }) => {
- 
+  const [category, setCategory] = useState([]);
+  const [subSubcategory, setSubSubCategory] = useState([]);
+
   const [fillter, setFilterProduct] = useState([]);
   const [products, setProdcut] = useState([]);
   // const [prodcutAll,setprodcutAll]=useState([])
@@ -29,12 +31,15 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
   const [selectedSizes, setSizes] = useState([]);
   const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
-  
+  const [subcategory, setSubCategory] = useState([]);
+
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
-    const productId = Router.query.id ? Router.query.id:""
+  const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
+  const productId = Router.query.id ? Router.query.id : "";
+
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
 
@@ -42,13 +47,12 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products.length / limit));
 
- 
-
   useEffect(() => {
     fetchProduct(searchTerm, productFilters);
     cratePagination();
     prodcutFilters();
-  
+
+    getCategroy();
   }, [
     productId,
     selectedSubSubCategories,
@@ -61,11 +65,10 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
   ]);
 
   //get prodcut
- 
 
   //color
-  const color = ["red", "blue", "green", "yellow", "white"];
-  const sizes = ["", "s","m", "xl", "xll"];
+  const color = ["red", "blue", "green", "yellow", "white","black","orange","purple"];
+  const sizes = ["", "s", "m", "xl", "xll"];
   //size function
 
   const handleClick = (i, target) => {
@@ -102,43 +105,44 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
     setCurrentPage(item);
   };
 
-
-
-
-
   //filter prodcut
   const prodcutFilters = async () => {
-
     const data = {
       subSubCategory: selectedSubSubCategories,
-      categoryId:productId,
+      categoryId: productId,
+
       maxPrice: price.value.max,
       minPrice: price.value.min,
       color: selectedColors,
       size: selectedSizes,
     };
     try {
-     
-      const response = await services.product.  GET_FILTER_PRODUCT(data,);
-      if (response ) {
-
-       setProdcut (response?.data?.data?.rows);
+      const response = await services.product.GET_FILTER_PRODUCT(data);
+      if (response) {
+        setProdcut(response?.data?.data?.rows);
       } else {
         console.log("error");
       }
-    
-   } catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  
+  };
+  const getCategroy = async () => {
+    try {
+      const response = await services.category.GET_CATEGORY_ALL();
+      if (response) {
+        setCategory(response?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  
   //SORTING BY DEALS
   const featuredProduct = async () => {
     try {
       const response = await services.product.GET_PRODUCT();
-      
+
       const newProudct = response?.data?.data?.rows.filter(
         (product) => product.productType == 0
       );
@@ -191,6 +195,28 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
       console.log(error);
     }
   };
+  const LowToHigh = async () => {
+    try {
+      const response = await services.product.PRODCUT_GET_LowToHigh();
+      setProdcut(response?.data?.data);
+
+      setFilterProduct([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const HighToLow = async () => {
+    try {
+      const response = await services.product.PRODCUT_GET_HighToLow();
+      setProdcut(response?.data?.data);
+
+      setFilterProduct([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //FILTER CASE
   const handleChange = (selectedValue) => {
     // Call the appropriate function based on the selected value
@@ -203,6 +229,12 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
         break;
       case "bestSeller":
         newArrivalProduct();
+        break;
+      case "LowToHigh":
+        LowToHigh();
+        break;
+      case "HighToLow":
+        HighToLow();
         break;
       case "Default":
         default1();
@@ -224,7 +256,6 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
     // You can now use the updatedBrands array in your filter logic.
   };
   // Replace this with your actual array of products
-
 
   return (
     <>
@@ -267,6 +298,8 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                           <option value="newProduct">New Product</option>
                           <option value="hotDeals">Hot Deals</option>
                           <option value="bestSeller">Best Seller</option>
+                          <option value="LowToHigh">Low To High</option>
+                          <option value="HighToLow">High To Low</option>
                         </select>
                       </div>
                     </div>
@@ -280,83 +313,85 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                   } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
                   <div className="widget-category p-3 mb-30">
-                  {products?.map((Item, index) => (
-                    <Accordion defaultActiveKey="0">
-                  
+                    {category?.map((Item, index) => (
+                      <Accordion defaultActiveKey="0">
                         <Accordion.Item
                           className="custom-filter"
-                          eventKey={1+index} // Assuming you have unique keys
+                          eventKey={1 + index} // Assuming you have unique keys
                           key={index}
-                          
                         >
                           <Accordion.Header>
                             <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                              {Item?.Category?.categoryName}
+                              {Item?.categoryName}
                             </h5>
-                          </Accordion.Header>   
-                           {/* <CategoryProduct data={category.data} /> */}
-                       
-                           <Accordion.Body>
-                          <Accordion defaultActiveKey="0">
-                            <Accordion.Item
-                              className="custom-filter ms-3"
-                              eventKey="0"
-                            > 
-                              <Accordion.Header>
-                                {" "}
-                                <h5 className="w-100  style-1 wow fadeIn animated">
-                              
-                                {  Item?.SubCategory?.subCategoryName}
-                             
-                                  {/* T-Shirts */}
-                                </h5>
-                              </Accordion.Header>
-                              
-                              <Accordion.Body>
-                              {/* subsubcategory */}
-                              <Form.Check
-                                key={Item?.id}
-                                type="checkbox"
-                                id={`default-${Item.id}`}
-                                label={Item?.SubSubCategory?.subSubCategoryName}
-                                onChange={() => {
-                                  
-                                  const subSubCategoryId = Item?.subSubCategoryId
-                                  const updatedSubCategories =
-                                    selectedSubSubCategories.includes(
-                                      subSubCategoryId
-                                    )
-                                      ? selectedSubSubCategories.filter(
-                                          (id) => id !== subSubCategoryId
-                                        )
-                                      : [
-                                          ...selectedSubSubCategories,
-                                          subSubCategoryId,
-                                        ];
+                          </Accordion.Header>
+                          {/* <CategoryProduct data={category.data} /> */}
 
-                                  setSelectedSubSubCategories(
-                                    updatedSubCategories
-                                  );
+                          <Accordion.Body>
+                            <Accordion defaultActiveKey="0">
+                              <Accordion.Item
+                                className="custom-filter ms-3"
+                                eventKey="0"
+                              >
+                                {Item?.SubCategories?.map((subCategory) => (
+                                  <>
+                                    <Accordion.Header key={subCategory.id}>
+                                      <h5 className="w-100 style-1 wow fadeIn animated">
+                                        {subCategory.subCategoryName}
+                                      </h5>
+                                    </Accordion.Header>
+                                    {subCategory.SubSubCategories.map(
+                                      (item) => (
+                                        <Accordion.Body key={item.id}>
+                                          {/* subsubcategory */}
+                                          <Form.Check
+                                            key={item.id}
+                                            type="checkbox"
+                                            id={`default-${item.id}`}
+                                            label={item.subSubCategoryName}
+                                            onChange={() => {
+                                              const subSubCategoryId = item.id;
 
-                                  // You can optionally call your filter function here if needed
-                                }}
-                                checked={selectedSubSubCategories?.includes(
-                                  Item?.subSubCategoryId
-                                )}
-                              />
-
-
-
-
-                                {/* <CategoryProduct /> */}
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          </Accordion>
-                        </Accordion.Body>
+                                              if (
+                                                selectedSubSubCategories.includes(
+                                                  subSubCategoryId
+                                                )
+                                              ) {
+                                                // If the subSubCategoryId is already in the array, remove it
+                                                const updatedSubCategories =
+                                                  selectedSubSubCategories.filter(
+                                                    (id) =>
+                                                      id !== subSubCategoryId
+                                                  );
+                                                setSelectedSubSubCategories(
+                                                  updatedSubCategories
+                                                );
+                                              } else {
+                                                // If the subSubCategoryId is not in the array, add it
+                                                const updatedSubCategories = [
+                                                  ...selectedSubSubCategories,
+                                                  subSubCategoryId,
+                                                ];
+                                                setSelectedSubSubCategories(
+                                                  updatedSubCategories
+                                                );
+                                              }
+                                            }}
+                                            checked={selectedSubSubCategories.includes(
+                                              item.id
+                                            )}
+                                          />
+                                          {/* <CategoryProduct /> */}
+                                        </Accordion.Body>
+                                      )
+                                    )}
+                                  </>
+                                ))}
+                              </Accordion.Item>
+                            </Accordion>
+                          </Accordion.Body>
                         </Accordion.Item>
-                   
-
-                    </Accordion>
+                      </Accordion>
                     ))}
                   </div>
 
@@ -383,7 +418,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
-                            //  prodcutFilters(selectedCategories);
+                              //  prodcutFilters(selectedCategories);
                             }}
                           />
 
@@ -410,7 +445,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                                   label={item}
                                   onChange={() => handleCheckboxChange(item)}
                                   checked={selectedColors.includes(item)}
-                                />  
+                                />
                               </li>
                             ))}
                           </ul>
@@ -475,6 +510,8 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                             <option value="newProduct">New Product</option>
                             <option value="hotDeals">Hot Deals</option>
                             <option value="bestSeller">Best Seller</option>
+                            <option value="LowToHigh">Low To High</option>
+                            <option value="HighToLow">High To Low</option>
                           </select>
                         </div>
                       </div>
@@ -495,8 +532,10 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          
-                          <SingleProduct product={item} />
+                          <SingleProduct
+                            product={item}
+                            fabricPrice={fabricPrice}
+                          />
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}{" "}
@@ -508,8 +547,10 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                         
-                          <SingleProduct product={item} />
+                          <SingleProduct
+                            product={item}
+                            fabricPrice={fabricPrice}
+                          />
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}

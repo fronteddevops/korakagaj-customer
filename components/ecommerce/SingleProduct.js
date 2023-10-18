@@ -14,7 +14,8 @@ const SingleProduct = ({
     addToCart,
     addToCompare,
     addToWishlist,
-    openQuickView,
+  openQuickView,
+    fabricPrice
 }) => {
   const [loading, setLoading] = useState(false);
   
@@ -23,7 +24,7 @@ const SingleProduct = ({
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
-
+  
  
   useEffect(() => {
     setLoading(true);
@@ -98,12 +99,10 @@ const SingleProduct = ({
               {product?.productType==0 ? <span className="hot">New Product </span> : null}
                 
                   {product?.productType==2 ? <span className="hot">Best Seller </span> : null}
-              
+                  {product?.productType==3 ? <span className="hot">UP  Coming </span> : null}
            
               
-                {product?.discountPercentage >= 5 ? (
-                  <span className="hot">{product?.discountPercentage}%</span>
-                ) : null}
+              
               </div>
             </div>
             <div className="product-content-wrap">
@@ -130,7 +129,7 @@ const SingleProduct = ({
         <span>{product?.discountPercentage}%</span>
       </div>
               <div className="product-price">
-                Designer :{product?.designerName}
+                Designer : &nbsp;{product?.designerName}
               </div>
 
               <div className="product-action-1 show">

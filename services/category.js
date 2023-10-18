@@ -17,11 +17,11 @@ export default {
       }
     });
   },
-  GET_CATEGORYALL: () => {
+  GET_CATEGORY_ALL: () => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-            nextConfig.BASE_URL + api.category.GET_CATEGORYALL()
+            nextConfig.BASE_URL + api.category.GET_CATEGORY_ALL()
         );
         resolve(response);
       } catch (err) {

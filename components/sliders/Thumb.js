@@ -9,9 +9,8 @@ const ThumbSlider = ({ product }) => {
    
     const imageUrl=nextConfig.BASE_URL_UPLOADS
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
-var imageData=[]
-imageData= JSON.parse(product.image)
-console.log("imageData",imageData)
+console.log("oooooooooooooooooooooooooooooooo",product)
+
     return (
         <div>
             <Swiper
@@ -25,7 +24,7 @@ console.log("imageData",imageData)
                 thumbs={{ swiper: thumbsSwiper }}
                 className="mySwiper2"
             >
-               {imageData?.map((item,i) => (
+               {product?.image?.map((item,i) => (
                     <SwiperSlide key={i}>
                    
                         <img src={ imageUrl+ item} alt="korakagaj" crossOrigin="anonymous"/>
@@ -48,7 +47,7 @@ console.log("imageData",imageData)
                 watchSlidesProgress={true}
                 className="mySwiper"
             >
-                {imageData?.map((item, i) => (
+                {product?.image?.map((item, i) => (
                     <SwiperSlide key={i}>
                         <img src={ imageUrl+item} alt="korakagaj"  crossOrigin="anonymous"/>
                     </SwiperSlide>

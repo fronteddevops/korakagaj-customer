@@ -45,5 +45,32 @@ export default {
       }
     });
   },
+  PRODCUT_GET_LowToHigh: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+      
+        const response = await Axios.get(
+          nextConfig.BASE_URL + api.product.PRODCUT_GET_LowToHigh()
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  PRODCUT_GET_HighToLow: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+      
+        const response = await Axios.get(
+          nextConfig.BASE_URL + api.product.PRODCUT_GET_HighToLow()
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+
 
 };

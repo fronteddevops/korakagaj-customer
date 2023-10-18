@@ -4,28 +4,32 @@ import Layout from "../../components/layout/Layout";
 import { server } from "../../config/index";
 import { findProductIndex } from "../../util/util";
 import services from "../../services";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
 
 const ProductId = ({ product }) => {
   const [data, setData] = useState([]);
   const router = useRouter();
-  const id = router.query.slug;
-
+  // const id = router.query.slug;
+  
+  const prodcutId=router.query.productId?router.query.productId:router.query.slug;
+  console.log("11111111111111111111111111111111111111111qaaaaaaaaaaaa",prodcutId)
+  const newFabricPrice=router.query.fabricPrice?router.query.fabricPrice:""
+ 
   const getProdcut = async () => {
     // Fetch product data here and return it as props
     try {
-        const response = await services.product.GET_PRODUCT();
+        const response = await services.product.GET_PRODUCT_BY_ID(prodcutId);
+        console.log("Filtered Products:", response?.data?.data[0]);
 
-    const filteredProducts = response.data.data.rows.filter(
-      (product) => product.id == id
-    );
+    // const filteredProducts = response.data.data.rows.filter(
+    //   (product) => product.id == id
+  
 
-    if (filteredProducts.length > 0) {
+    if (response) {
       // Assuming 'setData' is a state-setting function
-      setData(filteredProducts);
-      console.log("Filtered Products:", filteredProducts);
+      setData(response?.data?.data[0]);
     } else {
       // Handle the case where no products match the criteria
       // For example, set an empty array or show an error message.
@@ -39,14 +43,14 @@ const ProductId = ({ product }) => {
   };
   useEffect(() => {
     getProdcut();
-  },[]);
+  },[prodcutId,newFabricPrice]);
 
   return (
     <>
-      {data.length>0 && (
+      { data && data?.length>0 && (
         <Layout parent="Home" sub="Shop" subChild={product?.productName}>
           <div className="container">
-            <ProductDetails product={data[0]} />
+            <ProductDetails product={data} fabricPrice={newFabricPrice} />
           </div>
         </Layout>
       )}

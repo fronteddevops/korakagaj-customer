@@ -21,6 +21,7 @@ const SingleProduct = ({
     openQuickView,
     price,
     length,
+    id
     
 }) => {
 
@@ -109,16 +110,19 @@ const fabricPrice= parseFloat( totalprice+ +price)
 
                             <div className="product-action-1 show">
 
-                                <a
-                                    aria-label="Choose me"
-                                    className="action-btn hover-up"
-                                    onClick={() =>{ 
-                                        const route = `/products?fabricPrice=${fabricPrice}`;
-                                        
-                                        router.push(route)}}
-                                >
-                                    <i className="fi-rs-shopping-bag-add"></i>
-                                </a>
+                           
+                            <Link
+  href={{
+    pathname: '/products/[slug]',
+    query: { fabricPrice: fabricPrice, productId: id },
+  }}
+  as={`/products/${id}`}
+>
+  <a className="action-btn hover-up">
+    <i className="fi-rs-shopping-bag-add"></i>
+  </a>
+</Link>
+
 
                             </div>
 
