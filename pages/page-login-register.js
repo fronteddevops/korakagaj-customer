@@ -71,23 +71,23 @@ function Login() {
           const response = await services.auth.LOGIN_USER(payLoad);
   
           if (response) {
-         //   const id=response.data.user.id
-            // const id=3
-            // console.log('ppppppppppppppppppppppppppppppppppp',id)
+            const id=response.data.user.id
+           localStorage.setItem("userid",id)
             toastSuccessLogin();
-    //         if(localStorage.length>0){
-         
-    //            const data={
-    //             cartDetail: JSON.parse(localStorage.getItem("dokani_cart"))
-    //            }
-    //          console.log('ppppppppppppppppppppppppppp0',data)
-    //   const response=       await services.cart.UPDATE_CART(id,data)
-    //   if(response){
-    //     console.log("responmosedata login card",response.data)
-    //     localStorage.removeItem("")
-    //   }
+             if(localStorage.length>0){
+         const  cartDetail1= JSON.parse(localStorage.getItem("dokani_cart"))
+                const data={
+                  cartDetail:{cartDetail1}
+
+                }
+              console.log('ppppppppppppppppppppppppppp0',data)
+       const response=  await services.cart.UPDATE_CART(data)
+       if(response){
+         console.log("responmosedata login card",response.data)
+         localStorage.removeItem("dokani_cart")
+       }
      
-    //         }
+             }
             route.push('/')
           } else {
             alert(response.data.guide);
@@ -164,7 +164,7 @@ function Login() {
           setNumberError("");
         } else if (enteredNumber.length === 0) {
           setNumberError("Required");
-        } else {
+        } else {  
           setNumberError("");
         }
       }

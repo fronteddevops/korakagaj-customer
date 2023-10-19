@@ -8,6 +8,7 @@ import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
 import nextConfig from "../../next.config";
+import services from "../../services";
 
 const SingleProduct = ({
     product,
@@ -34,10 +35,18 @@ const SingleProduct = ({
   }, []);
 
   const handleCart = (product) => {
-    addToCart(product);
+    if(localStorage.getItem("access_token")){
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      services.newcard([product])
+      toast.success("Add to Cart !");
+      return;
+    }
+    addToCart(product);                                     
+    
     toast.success("Add to Cart !");
   };
 
+  
   const handleCompare = (product) => {
     addToCompare(product);
     toast.success("Add to Compare !");

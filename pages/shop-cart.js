@@ -10,7 +10,8 @@ import {
   increaseQuantity,
   openCart,
 } from "../redux/action/cart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import services from "../services";
 
 const Cart = ({
   openCart,
@@ -24,11 +25,13 @@ const Cart = ({
 }) => {
     //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
+  const [cartData,setCartData]=useState([])
  //set total price in add to card all prodcut 
+ const updateCart= cartItems.length>0 ?cartItems : cartData
   const price = () => {
     let totalPrice = 0; // Initialize totalPrice to 0
 
-    cartItems.forEach((item) => {
+    updateCart.forEach((item) => {
       const basePrice = item.totalPrice || 0; // Ensure basePrice is a number or set it to 0
       const discountPercentage = item.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
       const discountAmount = (basePrice * discountPercentage) / 100;
@@ -40,7 +43,7 @@ const Cart = ({
     return parseFloat(totalPrice); // Return the calculated total price
   };
 
-  // Call the function to calculate the total price
+  //                 Call the function to calculate the total price
 
   var totalPrice;
   const calculateTotalPrice = (product) => {
@@ -53,6 +56,26 @@ const Cart = ({
     totalPrice = itemTotalPrice;
     return itemTotalPrice; // Return the calculated total price
   };
+    const getCartData=async()=>{
+     const userID=localStorage.getItem("userid")
+                        
+     console.log("usrid===================================>",userID)
+
+     try {
+ 
+        const response =await services.cart.GET_CART(userID)
+        console.log("RESSSSSSSSSSSSSSSSSSSSSSSSSSSSS================>",response.data.data[0].cartDetail.cartDetail1)
+        setCartData(response.data.data[0].cartDetail.cartDetail1)
+     } catch (error) {
+      
+     }
+    }
+    useEffect(()=>{
+      getCartData()
+    },[])
+
+console.log("CAR DATA 1223333",cartData)    
+
 
   return (
     <>
@@ -62,10 +85,10 @@ const Cart = ({
             <div className="row">
               <div className="col-12">
                 <div className="table-responsive">
-                  {cartItems.length <= 0 && "No Products"}
+                  {updateCart.length <= 0 && "No Products"}
                   <table
                     className={
-                      cartItems.length > 0
+                      updateCart?.length > 0
                         ? "table shopping-summery text-center clean"
                         : "d-none"
                     }
@@ -81,8 +104,9 @@ const Cart = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {cartItems.map((item, i) => (
+                      { updateCart &&updateCart?.map((item, i) => (
                         <tr key={i}>
+                        {console.log("===========================================>",item)}
                           <td className="image product-thumbnail">
                             <img
                               src={imageUrl + item.featuredImage}
@@ -136,7 +160,7 @@ const Cart = ({
                       ))}
                       <tr>
                         <td colSpan="6" className="text-end">
-                          {cartItems.length > 0 && (
+                          {updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
                               <i className="fi-rs-cross-small"></i>
                               Clear Cart
