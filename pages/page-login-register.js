@@ -74,20 +74,43 @@ function Login() {
             const id=response.data.user.id
            localStorage.setItem("userid",id)
             toastSuccessLogin();
-             if(localStorage.length>0){
-         const  cartDetail1= JSON.parse(localStorage.getItem("dokani_cart"))
-                const data={
-                  cartDetail:{cartDetail1}
 
-                }
-              console.log('ppppppppppppppppppppppppppp0',data)
-       const response=  await services.cart.UPDATE_CART(data)
-       if(response){
-         console.log("responmosedata login card",response.data)
-         localStorage.removeItem("dokani_cart")
-       }
+         const     cartDetails= JSON.parse(localStorage.getItem("dokani_cart"))
+               
+                  const cartResponse = await services.cart.GET_CART(id);
+
+
+                if (cartResponse) {
+                  console.log("Cart data is available",cartResponse.data.data.length);
+      
+                  // Step 2: Join the cart data with the provided 'prodcut' array
+                  const cartData = cartResponse?.data?.data[0].cartDetail?.cartDetail1 ?cartResponse?.data?.data[0].cartDetail?.cartDetail1:[]
+              if(cartDetails.length>0){
+                const cartDetail1 =  cartData?.concat(cartDetails)
+                const data={
+                     cartDetail:{cartDetail1}
+                     }
+             
      
-             }
+                 console.log("Joined Array:", data.cartDetail?.cartDetail1.length
+
+                 );
+                 // Step 3: Update the cart with the joined data
+                   const updateResponse = await services.cart.UPDATE_CART(data,id);
+                   if(updateResponse){
+                    console.log("999999999999999999999999999999999999",updateResponse?.data?.data?.length)
+                       localStorage.setItem("cartitem",updateResponse?.data?.data?.length)
+                       localStorage.removeItem("dokani_cart")
+                     }
+              }
+                 
+              
+                     
+              
+      
+      }
+     
+    
             route.push('/')
           } else {
             alert(response.data.guide);

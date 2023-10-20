@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import Layout from "../components/layout/Layout";
 import nextConfig from "../next.config";
 import Link from "next/link";
+
 import {
   clearCart,
   closeCart,
@@ -26,31 +27,109 @@ const Cart = ({
     //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [cartData,setCartData]=useState([])
+  const [quantity,setquantity]=useState(1)
  //set total price in add to card all prodcut 
- const updateCart= cartItems.length>0 ?cartItems : cartData
+ const updateCart= cartItems?.length>0 ?cartItems : cartData
+
   const price = () => {
     let totalPrice = 0; // Initialize totalPrice to 0
 
     updateCart.forEach((item) => {
-      const basePrice = item.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-      const discountPercentage = item.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+      const basePrice = item?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+      const discountPercentage = item?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
       const discountAmount = (basePrice * discountPercentage) / 100;
       const itemTotalPrice = basePrice - discountAmount;
 
-      totalPrice += itemTotalPrice * item.quantity; // Accumulate the total price for this item
+      totalPrice +=  item?.quantity ? itemTotalPrice * item?.quantity :itemTotalPrice*quantity   ; // Accumulate the total price for this item
     });
 
     return parseFloat(totalPrice); // Return the calculated total price
   };
 
+
+  const updateCartDataOnServer = (updatedData) => {
+    const userid=localStorage.getItem("userid")
+    const cartDetail1=updatedData
+    const data={
+      cartDetail:{cartDetail1}
+      }
+   try {
+       const response= services.cart.UPDATE_CART(data,userid)
+       if(response){
+        getCartData()
+       }
+   } catch (error) {
+    
+   }
+  };
   //                 Call the function to calculate the total price
+  const newIncreaseQuantity = (id) => {
+    console.log("[[[[[[[[[[[[[[[[[[[[[[[[[");
+      console.log("id",id)
+    // Find the item with the given id in the cartData array
+    const itemIndex = cartData.findIndex((item) => item?.id == id);
+    
+    console.log("Item Index:", itemIndex);
+  
+    if (itemIndex !== -1) {
+      // If the item is found, increase its quantity by 1
+      cartData[itemIndex].quantity += 1;
+  
+      // Log the updated cart data
+      console.log("Updated cart data:", cartData);
+  
+      // Create a copy of the cart data to send to the server
+      const updatedCartData = [...cartData];
+    
+      // Send a PUT request to update the cart data on the server
+      console.log("Sending updated cart data to the server:", updatedCartData);
+      updateCartDataOnServer(updatedCartData);
+  
+      // If you want to update the local state with the new quantity, you can do it here
+      // setQuantity(quantity + 1);
+    } else {
+      console.log("Item not found in cart");
+    }
+  };
+  
+  
+  const newDecreaseQuantity = (id) => {
+    console.log("[[[[[[[[[[[[[[[[[[[[[[[[[");
+      
+    // Find the item with the given id in the cartData array
+    const itemIndex = cartData.findIndex((item) => item?.id == id);
+    
+    console.log("Item Index:", itemIndex);
+  
+    if (itemIndex !== -1) {
+      // If the item is found, decrease its quantity by 1
+      cartData[itemIndex].quantity -= 1;
+  console.log("cardData",cartData)
+      // Log the updated cart data
+      console.log("Updated cart data:", cartData);
+  
+      // Create a copy of the cart data to send to the server
+      const updatedCartData = [...cartData];
+    
+      // Send a PUT request to update the cart data on the server
+      console.log("Sending updated cart data to the server:", updatedCartData);
+      updateCartDataOnServer(updatedCartData);
+  
+      // If you want to update the local state with the new quantity, uncomment the line below
+      // setQuantity(quantity - 1);
+    } else {
+      console.log("Item not found in cart");
+    }
+  };
+  
+
 
   var totalPrice;
   const calculateTotalPrice = (product) => {
     let itemTotalPrice = 0; // Initialize totalPrice to 0
 
-    const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-    const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+    const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+    const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
     const discountAmount = (basePrice * discountPercentage) / 100;
     itemTotalPrice = basePrice - discountAmount;
     totalPrice = itemTotalPrice;
@@ -59,19 +138,21 @@ const Cart = ({
     const getCartData=async()=>{
      const userID=localStorage.getItem("userid")
                         
-     console.log("usrid===================================>",userID)
+  
 
      try {
  
         const response =await services.cart.GET_CART(userID)
-        console.log("RESSSSSSSSSSSSSSSSSSSSSSSSSSSSS================>",response.data.data[0].cartDetail.cartDetail1)
-        setCartData(response.data.data[0].cartDetail.cartDetail1)
+        console.log("RESSSSSSSSSSSSSSSSSSSSSSSSSSSSS================>",response.data.data[0].cartDetail.cartDetail1.length)
+        localStorage.setItem("length",response.data.data[0].cartDetail.cartDetail1.length)
+        setCartData(response.data.data[0]?.cartDetail?.cartDetail1)
      } catch (error) {
       
      }
     }
     useEffect(()=>{
       getCartData()
+      localStorage.setItem("length",updateCart?.length)
     },[])
 
 console.log("CAR DATA 1223333",cartData)    
@@ -109,7 +190,7 @@ console.log("CAR DATA 1223333",cartData)
                         {console.log("===========================================>",item)}
                           <td className="image product-thumbnail">
                             <img
-                              src={imageUrl + item.featuredImage}
+                              src={imageUrl + item?.featuredImage}
                               alt=""
                               crossOrigin="anomus"
                             />
@@ -118,35 +199,52 @@ console.log("CAR DATA 1223333",cartData)
                           <td className="product-des product-name">
                             <h5 className="product-name">
                               <Link href="/products">
-                                <a>{item.productName}</a>
+                                <a>{item?.productName}</a>
                               </Link>
                             </h5>
                             <p className="font-xs">
-                            {item.description}
+                            {item?.description}
                             </p>
+
                           </td>
                           <td className="price" data-title="Price">
                             <span>$ {calculateTotalPrice(item)}</span>
                           </td>
                           <td className="text-center" data-title="Stock">
                             <div className="detail-qty border radius  m-auto">
-                              <a
-                                onClick={(e) => decreaseQuantity(item.id)}
+                            {item?.quantity?<> <a
+                                onClick={(e) => newDecreaseQuantity(item?.id)}
                                 className="qty-down"
                               >
                                 <i className="fi-rs-angle-small-down"></i>
-                              </a>
-                              <span className="qty-val">{item.quantity}</span>
-                              <a
-                                onClick={(e) => increaseQuantity(item.id)}
+                              </a></>:<> <a
+                                onClick={()=>newDecreaseQuantity(item?.id)}
+                                className="qty-down"
+                              >
+                                <i className="fi-rs-angle-small-down"></i>
+                              </a></>}
+                             
+                             {item?.quantity? <span className="qty-val">{item.quantity}</span>:   <span className="qty-val">{quantity}</span>}
+                           
+{item?.quantity ?<> <a
+                                onClick={(e) => newIncreaseQuantity(item?.id)}
                                 className="qty-up"
                               >
                                 <i className="fi-rs-angle-small-up"></i>
-                              </a>
+                              </a></>:<>   <a
+                                onClick={(e)=>{newIncreaseQuantity(item?.id)}}
+                                className="qty-up"
+                              >
+                                <i className="fi-rs-angle-small-up"></i>
+                              </a></>}
+                           
+                            
+                           
+
                             </div>
                           </td>
                           <td className="text-right" data-title="Cart">
-                            <span>${totalPrice * item.quantity}</span>
+                            <span>{item?.quantity ?<>{totalPrice * item?.quantity}</>:<>{totalPrice*quantity}</>} </span>
                           </td>
                           <td className="action" data-title="Remove">
                             <a

@@ -36,7 +36,7 @@ const SingleProduct = ({
 
   const handleCart = (product) => {
     if(localStorage.getItem("access_token")){
-      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    
       services.newcard([product])
       toast.success("Add to Cart !");
       return;

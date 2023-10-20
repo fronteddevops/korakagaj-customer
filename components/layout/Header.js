@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Search from "../ecommerce/Search";
 import service from "../../services";
+
 const Header = ({
   totalCartItems,
   totalCompareItems,
@@ -16,7 +17,7 @@ const Header = ({
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-
+const [addCartLength,setAddCartLength]=useState()
   useEffect(() => {
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
@@ -24,6 +25,7 @@ const Header = ({
         setScroll(scrollCheck);
       }
     });
+    setAddCartLength(localStorage.getItem("length") )
   }, []);
 
   const handleToggle = () => {
@@ -208,7 +210,7 @@ const Header = ({
                             src="/assets/imgs/theme/icons/icon-cart.svg"
                           />
                           <span className="pro-count blue">
-                            {totalCartItems}
+                          {totalCartItems>0?totalCartItems:addCartLength }
                           </span>
                         </a>
                       </Link>
@@ -695,7 +697,7 @@ const Header = ({
                           src="/assets/imgs/theme/icons/icon-cart.svg"
                         />
                         <span className="pro-count white">
-                          {totalCartItems}
+                          {totalCartItems>0?totalCartItems:addCartLength }
                         </span>
                       </a>
                     </Link>

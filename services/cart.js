@@ -18,6 +18,7 @@ export default {
     });
   },
   UPDATE_CART : (data,userID) => {
+   
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.put(

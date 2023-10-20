@@ -17,6 +17,7 @@ import Preloader from "./../components/elements/Preloader";
 // Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
 //     "access_token"
 //   )}`;
+
 function MyApp({ Component, pageProps }) {
   
 
@@ -36,6 +37,7 @@ function MyApp({ Component, pageProps }) {
     return (
         <>
             {!loading ? (
+
                 <Provider store={store}>
                     <StorageWrapper>
                     <ToastContainer />
