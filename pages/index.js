@@ -17,7 +17,7 @@ import BrandSlider from "./../components/sliders/Brand";
 import CategorySlider from "./../components/sliders/Category";
 import Intro1 from "./../components/sliders/Intro1";
 import NewArrival from "./../components/sliders/NewArrival";
-
+import React from 'react';
 
 export default function Home() {
     return (
