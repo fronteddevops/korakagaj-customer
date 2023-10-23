@@ -18,6 +18,7 @@ const Header = ({
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
   const [addCartLength, setAddCartLength] = useState()
+  const [addWishlistLength, setAddWishlistLength] = useState()
   useEffect(() => {
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
@@ -26,6 +27,7 @@ const Header = ({
       }
     });
     setAddCartLength(localStorage.getItem("length"))
+    setAddWishlistLength(localStorage.getItem("wishlistcount"))
   }, []);
 
   const handleToggle = () => {

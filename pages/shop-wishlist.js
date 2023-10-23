@@ -11,7 +11,7 @@ import {
     deleteFromWishlist
 } from "../redux/action/wishlistAction";
 import services from "../services";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Wishlist = ({
     wishlist,
@@ -21,13 +21,38 @@ const Wishlist = ({
     addToCart,
 }) => {
     const imageUrl = nextConfig.BASE_URL_UPLOADS;
-
-   
-   
-    const GetWishlistdata =(wishlist)=>{
-        if(localStorage.getItem("access_token")){
+    const [WishlistData,setWishlistdata]=useState()
+ 
     
-            services.NewWishlist(wishlist)
+   
+   
+    const  GetWishlistdata  = async(wishlist)=>{
+        if(localStorage.getItem("access_token")){
+          try {
+          //   const ProductId =product[0].id
+         
+          //   const userID = localStorage.getItem("userid");
+          //  const data ={
+          //   productId:ProductId,
+          //   userId:userID
+          //   }
+            const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
+            setWishlistdata(WishlistResponse.data.data)
+            // console.log("888888888",WishlistResponse.data.data)
+            localStorage.setItem("wishlistcount",WishlistResponse.data.data.length)
+            // localStorage.setItem("wishlistcount")
+          
+        
+    
+    
+            // getWishlistData= await services.Wishlist.GET_WISHLIST_DATA(userID)
+    
+        } catch (error) {
+            // Handle errors here
+            console.error("An error occurred:", error);
+        }
+    
+            // services.NewWishlist(wishlist)
             // toast.success("Add to Wishlist !");
             return;
           }
@@ -59,9 +84,20 @@ const Wishlist = ({
                     <div className="container">
                     <div className="row product-grid-3">
                  
-
+                    {WishlistData?.map((item, i) => (
+                      <div
+                      className="col-lg-3 col-md-3 col-6 col-sm-6"
+                      key={i}
+                      >
+                         
+                          <SingleProduct
+                            product={item?.Product}
+                          />
+                        
+                        </div>
+                      ))}
                 
-                      {wishlist.items?.map((item, i) => (
+                      {/* {wishlist.items?.map((item, i) => (
                         <div
                           className="col-lg-3 col-md-3 col-6 col-sm-6"
                           key={i}
@@ -69,9 +105,9 @@ const Wishlist = ({
                           <SingleProduct
                             product={item}
                           />
-                          {/* <SingleProductList product={item}/> */}
+                          <SingleProductList product={item}/>
                         </div>
-                      ))}
+                      ))} */}
                 </div>
                        
                     </div>
@@ -83,6 +119,7 @@ const Wishlist = ({
 
 const mapStateToProps = (state) => ({
     wishlist: state.wishlist,
+    
 });
 
 const mapDispatchToProps = {

@@ -18,11 +18,11 @@ export default {
       }
     });
   },
-  GET_WISHLIST_DATA: (userID) => {
+  GET_WISHLIST_DATA: () => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-            nextConfig.BASE_URL + api.Wishlist.GET_WISHLIST_DATA(userID)
+            nextConfig.BASE_URL + api.Wishlist.GET_WISHLIST_DATA()
         );
         resolve(response);
       } catch (err) {

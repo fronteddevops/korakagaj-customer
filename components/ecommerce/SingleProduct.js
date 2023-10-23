@@ -21,6 +21,7 @@ const SingleProduct = ({
 }) => {
   const [loading, setLoading] = useState(false);
   
+  
   const imageUrl=nextConfig.BASE_URL_UPLOADS
   const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0

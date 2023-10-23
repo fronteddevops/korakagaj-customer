@@ -2,6 +2,6 @@
   export default {
   
     CREATE_WISHLIST_BY_ID:()=> `/wishList/`,
-    GET_WISHLIST_DATA: (userID) => `/wishList/?${userID}`,
+    GET_WISHLIST_DATA: () => `/wishList/me`,
     UPDATE_WISHLIST:(userID)=>`/wishList/${userID}`,
     };
