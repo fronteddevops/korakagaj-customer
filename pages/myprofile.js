@@ -1,13 +1,110 @@
 import Layout from "../components/layout/Layout";
+import 'font-awesome/css/font-awesome.min.css';
+import { ToastContainer, toast } from "react-toastify";
 import React, { useState } from "react";
 import Link from "next/link"
+import services from "../services";
 
 function Account() {
+    const id=1
     const [activeIndex, setActiveIndex] = useState(1);
+    const [firstName,setFirstName]=useState('')
+    const [lastName,setLastName]=useState('')
+    const [email,setEmail]=useState('')
+    const [phoneNumber,setPhoneNumber]=useState('')
+    const [firstNameError,setFirstNameError]=useState('')
+    const [lastNameError,setLastNameError]=useState('')
+    const [phoneNumberError,setPhoneNumberError]=useState('')
+    const [password, setPassword] = useState("");
+    const [passwordType, setPasswordType] = useState("password");
+    const [newpassword, setNewPassword] = useState("");
+    const [newPasswordType, setNewPasswordType] = useState("password");
+    const [newpasswordError, setNewPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPasswordType, setConfirmPasswordType] = useState("password");
+    const [passwordError, setPasswordError] = useState("");
+    const [isDisabled, setIsDisabled] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(true);
+    const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
-    const handleOnClick = (index) => {
+    
+ 
+    const toastSuccessLogin = () => toast.success("Updated User successfully");
+    const toastErrorLogin = (error) => {
+    toast.error(error.response?.data?.message || "An error occurred");
+  };
+
+    const handleOnClick = async (index) => {
         setActiveIndex(index); // remove the curly braces
-    };
+        
+        if(index===5){
+            try{
+                const response = await services.myprofile.GET_MY_PROFILE(id)
+                setFirstName(response?.data?.data?.firstName)
+                setLastName(response?.data?.data?.lastName)
+                setEmail(response?.data?.data?.email)
+                setPhoneNumber(response?.data?.data?.phoneNumber)
+            }
+            catch(error){
+             console.log(error)
+             
+            }
+     
+    }
+ 
+};
+    const handlesubmit = async()=>{
+        try{
+            const data = {
+            firstName:firstName,
+            lastName:lastName,
+            phoneNumber:phoneNumber,
+            email:email
+
+            }
+            const response = await services.myprofile.UPDATE_MY_PROFILE(id,data)
+            if(response)
+            {
+                toastSuccessLogin();
+            }
+            else{
+
+            }
+        }
+       catch(error){
+         console.log(error)
+         toastErrorLogin(error);
+       }
+      
+    }
+    const changepassword = async ()=>{
+        if(index===6)
+        {
+            let isValid = true;
+            setPasswordError("");
+            if (password === "") {
+                setPasswordError("Please enter password"); // eslint-disable-next-line
+                isValid = false;
+              }
+              if (newpassword !== confirmPassword) {
+                setConfirmPasswordError("Password does not match");
+              } else {
+             try{
+                const data={
+                    oldPassword:password,
+                    newPassword:newPassword
+                }
+            const response = await services.myprofile.CHANGE_PASSWORD(id,data)
+        }
+        catch(error){
+        console.log(error)
+        }
+    }  
+}
+}
+   
+    
     return (
         <>
             <Layout parent="Home" sub="Pages" subChild="Account">
@@ -67,6 +164,15 @@ function Account() {
                                                         Account details
                                                     </a>
                                                 </li>
+                                                <li className="nav-item" onClick={() => handleOnClick(6)}>
+                                                <a
+                                                    className={activeIndex === 6 ? "nav-link active" : "nav-link"}
+                                                    
+                                                >
+                                                <i class="fa fa-key mr-10"></i>
+                                                     Change password
+                                                </a>
+                                            </li>
                                                 <li className="nav-item">
                                                     <Link href="/page-login-register">
                                                     <a
@@ -390,15 +496,7 @@ function Account() {
                                                         <h5>Account Details</h5>
                                                     </div>
                                                     <div className="card-body">
-                                                        <p>
-                                                            Already have an
-                                                            account?
-                                                            <Link href="/page-login-register">
-                                                            <a>
-                                                                Log in instead!
-                                                            </a>
-                                                            </Link>
-                                                        </p>
+                                                        
                                                         <form
                                                             method="post"
                                                             name="enq"
@@ -417,7 +515,35 @@ function Account() {
                                                                         className="form-control square"
                                                                         name="name"
                                                                         type="text"
+                                                                        value={firstName}
+                                                                        placeholder={`Enter ${firstName}`}
+                                                                        onChange={(e) => {
+                                                                            setFirstName(e.target.value);
+                                                                            if (!e.target.value.trim()) {
+                                                                                setFirstNameError(
+                                                                                "First name is required"
+                                                                              )
+                                                                            }
+                                                                            
+                                                                            else {
+                                                                                setFirstNameError("");
+                                                                            }
+                                                                          }}
                                                                     />
+                                                                    <div >
+                                                                    {firstNameError && (
+                                                                      
+                                                                        <span
+                                                                          style={{
+                                                                            color: "red",
+                                                                            position: "absolute",
+                                                                          }}
+                                                                        >
+                                                                          {firstNameError}
+                                                                        </span>
+                                                                      
+                                                                    )}
+                                                                    </div>
                                                                 </div>
                                                                 <div className="form-group col-md-6">
                                                                     <label>
@@ -430,24 +556,80 @@ function Account() {
                                                                     <input
                                                                         required=""
                                                                         className="form-control square"
-                                                                        name="phone"
+                                                                        name="name"
+                                                                        value={lastName}
+                                                                        placeholder={`Enter ${lastName}`}
+                                                                        onChange={(e) => {
+                                                                            setLastName(e.target.value);
+                                                                            if (!e.target.value.trim()) {
+                                                                                setLastNameError(
+                                                                                "Last name is required"
+                                                                              )
+                                                                            }
+                                                                            
+                                                                            else {
+                                                                                setLastNameError("");
+                                                                            }
+                                                                          }}
                                                                     />
-                                                                </div>
-                                                                <div className="form-group col-md-12">
-                                                                    <label>
-                                                                        Display
-                                                                        Name
-                                                                        <span className="required">
-                                                                            *
+                                                                    <div >
+                                                                    {lastNameError && (
+                                                                      
+                                                                        <span
+                                                                          style={{
+                                                                            color: "red",
+                                                                            position: "absolute",
+                                                                          }}
+                                                                        >
+                                                                          {lastNameError}
                                                                         </span>
-                                                                    </label>
-                                                                    <input
-                                                                        required=""
-                                                                        className="form-control square"
-                                                                        name="dname"
-                                                                        type="text"
-                                                                    />
+                                                                      
+                                                                    )}
+                                                                    </div>
                                                                 </div>
+                                                           
+                                                                <div className="form-group col-md-12">
+                                                                <label>
+                                                                  Phone Number 
+                                                                    <span className="required">
+                                                                        *
+                                                                    </span>
+                                                                </label>
+                                                                <input
+                                                                    required=""
+                                                                    className="form-control square"
+                                                                    name="phone"
+                                                                    type="number"
+                                                                    value={phoneNumber}
+                                                                    placeholder={`Enter ${phoneNumber}`}
+                                                                    onChange={(e) => {
+                                                                            setPhoneNumber(e.target.value);
+                                                                            if (!e.target.value.trim()) {
+                                                                                setPhoneNumberError(
+                                                                                "Phone number is required"
+                                                                              )
+                                                                            }
+                                                                            
+                                                                            else {
+                                                                                setPhoneNumberError("");
+                                                                            }
+                                                                          }}
+                                                                />
+                                                                <div >
+                                                                    {phoneNumberError && (
+                                                                      
+                                                                        <span
+                                                                          style={{
+                                                                            color: "red",
+                                                                            position: "absolute",
+                                                                          }}
+                                                                        >
+                                                                          {phoneNumberError}
+                                                                        </span>
+                                                                      
+                                                                    )}
+                                                                    </div>
+                                                            </div>
                                                                 <div className="form-group col-md-12">
                                                                     <label>
                                                                         Email
@@ -461,61 +643,18 @@ function Account() {
                                                                         className="form-control square"
                                                                         name="email"
                                                                         type="email"
+                                                                        value={email}
+                                                                        
                                                                     />
+                                                                   
                                                                 </div>
-                                                                <div className="form-group col-md-12">
-                                                                    <label>
-                                                                        Current
-                                                                        Password
-                                                                        <span className="required">
-                                                                            *
-                                                                        </span>
-                                                                    </label>
-                                                                    <input
-                                                                        required=""
-                                                                        className="form-control square"
-                                                                        name="password"
-                                                                        type="password"
-                                                                    />
-                                                                </div>
-                                                                <div className="form-group col-md-12">
-                                                                    <label>
-                                                                        New
-                                                                        Password
-                                                                        <span className="required">
-                                                                            *
-                                                                        </span>
-                                                                    </label>
-                                                                    <input
-                                                                        required=""
-                                                                        className="form-control square"
-                                                                        name="npassword"
-                                                                        type="password"
-                                                                    />
-                                                                </div>
-                                                                <div className="form-group col-md-12">
-                                                                    <label>
-                                                                        Confirm
-                                                                        Password
-                                                                        <span className="required">
-                                                                            *
-                                                                        </span>
-                                                                    </label>
-                                                                    <input
-                                                                        required=""
-                                                                        className="form-control square"
-                                                                        name="cpassword"
-                                                                        type="password"
-                                                                    />
-                                                                </div>
-                                                                <div className="col-md-12">
+                                                                <div className="col-md-12 mt-5">
                                                                     <button
-                                                                        type="submit"
-                                                                        className="btn btn-fill-out submit"
-                                                                        name="submit"
-                                                                        value="Submit"
+                                                                    className="btn btn-fill-out submit"
+                                                                    disabled={firstNameError || lastNameError || phoneNumberError }
+                                                                    onClick={handlesubmit}
                                                                     >
-                                                                        Save
+                                                                    Save
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -523,6 +662,147 @@ function Account() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div
+                                            className={activeIndex === 6 ? "tab-pane fade show active" : "tab-pane fade"}
+                                            id="account-detail"
+                                            role="tabpanel"
+                                            aria-labelledby="account-detail-tab"
+                                        >
+                                            <div className="card">
+                                                <div className="card-header">
+                                                    <h5>Change Password</h5>
+                                                </div>
+                                                <div className="card-body">
+                                                    
+                                                    <form
+                                                        method="post"
+                                                        name="enq"
+                                                    >
+                                                        <div className="row">
+                                                         <div className="form-group col-md-12">
+                                                                <label>
+                                                                    Current
+                                                                    Password
+                                                                    <span className="required">
+                                                                        *
+                                                                    </span>
+                                                                </label>
+                                                                <input
+                                                                    required=""
+                                                                    className="form-control square"
+                                                                    name="password"
+                                                                    type={passwordType}
+                                                                    value={password}
+                                                                    placeholder="password"
+                                                                    onChange={(e) => {
+                                                                        if (e.target.value.trim() === "") {
+                                                                          setIsDisabled(true);
+                                                        
+                                                                          setPasswordError("Requierd");
+                                                                        } else {
+                                                                          setPassword(e.target.value.trimStart());
+                                                                          setPasswordError("");
+                                                        
+                                                                        }
+                                                                        
+                                                                        setPassword(e.target.value.trimStart());
+                                                                      }}
+                                                                    onKeyDown={(e) =>
+                                                                    exceptThisSymbols.includes(e.key) && e.preventDefault()
+                                                                      }
+            
+                                                                />
+                                                                {passwordError ? (
+                                                                    <p className="text-start  position-absolute mt-2" style={{ color: "red" }}>
+                                                                      {passwordError}
+                                                                    </p>
+                                                                  ) : null}
+                                                      
+                                                            </div>
+                                                            <div className="form-group col-md-12">
+                                                                <label>
+                                                                    New
+                                                                    Password
+                                                                    <span className="required">
+                                                                        *
+                                                                    </span>
+                                                                </label>
+                                                                <input
+                                                                    required=""
+                                                                    className="form-control square"
+                                                                    name="npassword"
+                                                                    password="password"
+                                                                    autoComplete="off"
+                                                                    type={newPasswordType}
+                                                                    onChange={(e) => {
+                                                                        if (e.target.value.trim() === "") {
+                                                                          setIsDisabled(true);
+                                                        
+                                                                          setNewPasswordError("Requierd");
+                                                                        } else if (e.target.value.trim() === confirmPassword) {
+                                                                          setIsDisabled(false);
+                                                                          setNewPasswordError("");
+                                                                          setConfirmPasswordError("");
+                                                                        } else {
+                                                                          setNewPassword(e.target.value.trimStart());
+                                                                          setNewPasswordError("");
+                                                                        }
+                                                        
+                                                                        setNewPassword(e.target.value.trimStart());
+                                                                      }}
+                                                                      value={newpassword}
+                                                                      onKeyDown={(e) =>
+                                                                        exceptThisSymbols.includes(e.key) && e.preventDefault()
+                                                                      }
+                                                                />
+                                                                {newpasswordError ? (
+                                                                    <p className="text-start  position-absolute mt-2" style={{ color: "red" }}>
+                                                                      {newpasswordError}
+                                                                    </p>
+                                                                  ) : null}
+                                                      
+                                                            </div>
+                                                            <div className="form-group col-md-12">
+                                                                <label>
+                                                                    Confirm
+                                                                    Password
+                                                                    <span className="required">
+                                                                        *
+                                                                    </span>
+                                                                </label>
+                                                                <input
+                                                                    required=""
+                                                                    className="form-control square"
+                                                                    name="cpassword"
+                                                                    type="password"
+                                                                    onClick={() => {
+                                                                        confirmPasswordType === "password"
+                                                                          ? setConfirmPasswordType("text")
+                                                                          : setConfirmPasswordType("password");
+                                                                      }}
+                                                                />
+                                                                {confirmPasswordType === "password" ? (
+                                                                    <i className="bi bi-eye fs-2"></i>
+                                                                  ) : (
+                                                                    <i className="bi bi-eye-slash fs-2"></i>
+                                                                  )}
+                                                            </div>
+                                                            <div className="col-md-12">
+                                                                <button
+                                                                    // type="submit"
+                                                                    className="btn btn-fill-out submit"
+                                                                    // name="submit"
+                                                                    // value="Submit"
+                                                                    onClick={changepassword}
+                                                                >
+                                                                    Save
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
