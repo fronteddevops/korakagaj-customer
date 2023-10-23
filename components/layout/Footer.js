@@ -61,7 +61,7 @@ const Footer = () => {
       />
 
             <footer className="main">
-                <section className="newsletter p-30 mt-30 text-white wow fadeIn animated">
+                <section className="newsletter p-30  text-white wow fadeIn animated">
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-12 mb-md-3 mb-lg-0">

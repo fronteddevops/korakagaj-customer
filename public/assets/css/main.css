@@ -1441,6 +1441,7 @@ label {
   border-color: #e2e9e1;
   border-style: solid;
   border-width: 1px;
+  background-color: #fff;
 }
 
 /*comment*/
@@ -10138,5 +10139,18 @@ background-color: #fff;
   background-size: 1rem;
   color: #000 !important;
   filter: invert(1);
+}
+.profile-dropdown .dropdown-item{
+  font-size: 0.8rem;
+  padding: 10px 10px;
+}
+.bg-image{
+
+
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 /*# sourceMappingURL=main.css.map */
