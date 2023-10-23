@@ -10,6 +10,7 @@ import Loader from './../elements/Loader';
 import nextConfig from "../../next.config";
 import services from "../../services";
 
+
 const SingleProduct = ({
     product,
     addToCart,
@@ -25,8 +26,8 @@ const SingleProduct = ({
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
+
   
- 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -52,9 +53,21 @@ const SingleProduct = ({
     toast.success("Add to Compare !");
   };
 
-  const handleWishlist = (product) => {
-    addToWishlist(product);
-    toast.success("Add to Wishlist !");
+
+  const handleWishlist =async (product) => {
+
+
+    if(localStorage.getItem("access_token")){
+
+      services.NewWishlist([product])
+      toast.success("Add to Wishlist !");
+    
+      return;
+    }else{
+      addToWishlist(product);
+      toast.success("Add to Wishlist !");
+    }
+   
   };
   return (
     <>

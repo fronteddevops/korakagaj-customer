@@ -10,6 +10,8 @@ import {
     closeWishlistModal,
     deleteFromWishlist
 } from "../redux/action/wishlistAction";
+import services from "../services";
+import { useEffect } from "react";
 
 const Wishlist = ({
     wishlist,
@@ -19,6 +21,23 @@ const Wishlist = ({
     addToCart,
 }) => {
     const imageUrl = nextConfig.BASE_URL_UPLOADS;
+
+   
+   
+    const GetWishlistdata =(wishlist)=>{
+        if(localStorage.getItem("access_token")){
+    
+            services.NewWishlist(wishlist)
+            // toast.success("Add to Wishlist !");
+            return;
+          }
+
+    }
+
+
+    useEffect((wishlist) => {
+        GetWishlistdata (wishlist);
+      }, [wishlist]);
 
     const handleCart = (product) => {
         addToCart(product);

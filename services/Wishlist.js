@@ -1,0 +1,50 @@
+import Axios from "axios";
+import nextConfig from "../next.config";
+import api from "../api";
+import axios from "axios";
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  
+    CREATE_WISHLIST_BY_ID: (data) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.post(
+            nextConfig.BASE_URL + api.Wishlist.CREATE_WISHLIST_BY_ID(),data
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  GET_WISHLIST_DATA: (userID) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+            nextConfig.BASE_URL + api.Wishlist.GET_WISHLIST_DATA(userID)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    
+  },
+  UPDATE_WISHLIST : (data,userID) => {
+   
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.put(
+            nextConfig.BASE_URL + api.Wishlist.UPDATE_WISHLIST(userID),data
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+}
+
+
+ 
+}
