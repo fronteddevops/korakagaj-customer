@@ -266,7 +266,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
 
   return (
     <>
-     <Layout parent="Home" sub="Shop" subChild="Products">
+     <Layout parent="Home" sub={<><a   href="/products"> shop</a></>}  subChild="Products">
     
     <section className="mt-50 mb-50">
       <div className="container">

@@ -1,26 +1,26 @@
 
 import Link from 'next/link';
 import Layout from '../components/layout/Layout';
-import nextConfig from '../next.config';
+import nextConfig  from '../next.config';
 import services from '../services';
 import { useEffect, useState } from 'react';
 function Categories() {
-    const [categories, setCategories] = useState([])
-    const getCategories = async () => {
+    const [categories,setCategories]=useState([])
+    const getCategories= async()=>{
         try {
-            const response = await services.category.GET_CATEGORY()
-            if (response) {
-                setCategories(response?.data?.data?.rows)
+            const response =await services.category.GET_CATEGORY()
+            if(response){
+         setCategories(response?.data?.data?.rows)
             }
         } catch (error) {
-            console.log(error)
+           console.log(error)
         }
     }
-    useEffect(() => {
-        getCategories()
-    }, [Categories])
-
-    const imageUrl = nextConfig.BASE_URL_UPLOADS
+   useEffect(()=>{
+       getCategories()
+   },[Categories])
+     
+   const imageUrl=nextConfig.BASE_URL_UPLOADS
     return (
         <>
             <Layout parent="Home" sub="Categories" subChild="List">
@@ -31,21 +31,31 @@ function Categories() {
                                 <div className="col-lg-2 mb-20" key={i}>
                                     <div className="card-1">
                                         <figure className=" img-hover-scale overflow-hidden">
-                                        <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
-                                                <a>
+                                            <Link href={`/products?id=${item.id}`} >
+                                            <a>
                                                     <img
-                                                        src={imageUrl + item.image}
+                                                        src={imageUrl+item.image}
                                                         alt=""
-
+                                                     
                                                         crossOrigin='anonymous'
                                                     />
                                                 </a>
 
 
+
+
+
+
+
+
+
+
+
+                                                
                                             </Link>
                                         </figure>
                                         <h5>
-                                        <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
+                                            <Link href="/products">
                                                 <a>{item.categoryName}</a>
                                             </Link>
                                         </h5>

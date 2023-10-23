@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Search from "../ecommerce/Search";
 import service from "../../services";
-
+import NavDropdown from 'react-bootstrap/NavDropdown';
 const Header = ({
   totalCartItems,
   totalCompareItems,
@@ -17,7 +17,7 @@ const Header = ({
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-const [addCartLength,setAddCartLength]=useState()
+  const [addCartLength, setAddCartLength] = useState()
   useEffect(() => {
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
@@ -25,7 +25,7 @@ const [addCartLength,setAddCartLength]=useState()
         setScroll(scrollCheck);
       }
     });
-    setAddCartLength(localStorage.getItem("length") )
+    setAddCartLength(localStorage.getItem("length"))
   }, []);
 
   const handleToggle = () => {
@@ -43,7 +43,7 @@ const [addCartLength,setAddCartLength]=useState()
   // Get sub category list
   const subCategoryList = async (id) => {
     const response = await service.subCategory.GET_ALL_SUB_CATEGORY(id);
-  
+
     setSubCategory(response.data.data.rows);
 
     // Create an array to accumulate subsubcategories
@@ -55,7 +55,7 @@ const [addCartLength,setAddCartLength]=useState()
         await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
           subCategoryItem.id
         );
-   
+
 
       // Add the fetched subsubcategories to the temporary array
       subSubCategoriesArray.push(...subSubCategoryResponse.data.data.rows);
@@ -68,9 +68,9 @@ const [addCartLength,setAddCartLength]=useState()
   //gt sub category list
   const subSubCategoryList = async (id) => {
     const response = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(id);
-    
+
   };
-  
+
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -158,7 +158,23 @@ const [addCartLength,setAddCartLength]=useState()
                     </li>
                     <li>
                       <i className="fi-rs-user"></i>
-                      <Link href="/page-login-register">
+                      <NavDropdown
+                        id="nav-dropdown-light-example"
+                        title="User Name"
+                        menuVariant="light"
+                        className="profile-dropdown"
+                      >
+                        <NavDropdown.Item href="/myprofile?index=2">My Orders</NavDropdown.Item>
+                        <NavDropdown.Item href="/myprofile?index=4">
+                          My Address
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/myprofile?index=5">My Profile</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="#action/3.4">
+                          Logout
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                      <Link href="/login">
                         <a>Log In / Sign Up</a>
                       </Link>
                     </li>
@@ -210,7 +226,7 @@ const [addCartLength,setAddCartLength]=useState()
                             src="/assets/imgs/theme/icons/icon-cart.svg"
                           />
                           <span className="pro-count blue">
-                          {totalCartItems>0?totalCartItems:addCartLength }
+                            {totalCartItems > 0 ? totalCartItems : addCartLength}
                           </span>
                         </a>
                       </Link>
@@ -239,14 +255,13 @@ const [addCartLength,setAddCartLength]=useState()
               </div>
               <div className="header-nav d-none d-lg-flex">
                 <div className="main-categori-wrap d-none d-lg-block">
-                <a
-                                        className="categori-button-active text-dark"
-                                        onClick={handleToggle}
-                                    >
-                                        <span className="fi-rs-apps"></span>
-                                        Browse Categories
-                                    </a>
-                    
+                  <a
+                    className="categori-button-active text-dark"
+                    onClick={handleToggle}
+                  >
+                    <span className="fi-rs-apps"></span>
+                    Browse Categories
+                  </a>
 
                   <div
                     className={
@@ -281,11 +296,11 @@ const [addCartLength,setAddCartLength]=useState()
                                     <li className="mega-menu-col col-lg-6">
                                       <ul>
                                         <li>
-                                
-                                 
+
+
                                           <span className="submenu-title">
                                             {item.subCategoryName}
-                                         
+
                                           </span>
                                         </li>
 
@@ -652,10 +667,10 @@ const [addCartLength,setAddCartLength]=useState()
                 </div>
               </div>
               <div className="hotline d-none d-lg-block">
-              <p className="text-dark">
-                                    <i className="fi-rs-headset"></i>
-                                    <span></span> +91-9791028374
-                                </p>
+                <p className="text-dark">
+                  <i className="fi-rs-headset"></i>
+                  <span></span> +91-9791028374
+                </p>
               </div>
               <p className="mobile-promotion">
                 Happy
@@ -698,7 +713,7 @@ const [addCartLength,setAddCartLength]=useState()
                           src="/assets/imgs/theme/icons/icon-cart.svg"
                         />
                         <span className="pro-count white">
-                          {totalCartItems>0?totalCartItems:addCartLength }
+                          {totalCartItems > 0 ? totalCartItems : addCartLength}
                         </span>
                       </a>
                     </Link>

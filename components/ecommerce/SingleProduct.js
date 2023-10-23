@@ -62,28 +62,20 @@ const SingleProduct = ({
         <>
           <div className="product-cart-wrap mb-30">
             <div className="product-img-action-wrap">
-              <div className="product-img product-img-zoom">
-                <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                  <a>
-                    <img
-                      className="default-img"
-                      
-                      src={imageUrl+product?.featuredImage}
-                      crossOrigin="anonymous"
-                      alt=""
-                    />
-                    {/* <img
-                      className="hover-img"
-                      src={imageUrl+product.image}
-                      alt=""
-                    /> */}
+            <div className="product-img product-img-zoom" style={{ backgroundColor: '#f2f2f2', width: '270px', height: '250 px' }}>
+  <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+    <a>
+      <img
+        className="default-img"
+        src={imageUrl + product?.featuredImage}
+        crossOrigin="anonymous"
+        alt=""
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </a>
+  </Link>
+</div>
 
-                    
-                  </a>
-                
-                </Link>
-              </div>
-            
               <div className="product-action-1">
                 <a
                   aria-label="Quick view"
@@ -100,6 +92,7 @@ const SingleProduct = ({
                 >
                   <i className="fi-rs-heart"></i>
                 </a>
+            
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">

@@ -68,9 +68,11 @@ useEffect(()=>{
                                             src={ imageUrl+item.image}
                                             alt=""
                                             crossOrigin="anonymous"
+                                               style={{ width: '200px', height: '150px', objectFit: 'cover' }}
                                         />
                                     </a>
                                 </Link>
+                               
                             </figure>
                             <h5>
                             <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
