@@ -403,7 +403,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/page-login-register">
+                                                <Link href="/login">
                                                     <a>login/register</a>
                                                 </Link>
                                             </li>
@@ -469,7 +469,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                 </Link>
                             </div>
                             <div className="single-mobile-header-info">
-                                <Link href="/page-login-register">
+                                <Link href="/login">
                                     <a>Log In / Sign Up </a>
                                 </Link>
                             </div>
