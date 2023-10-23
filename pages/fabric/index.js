@@ -41,7 +41,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
     showLimit = 12,
     showPagination = 4;
    
-    const { Newprice, Newlength,id } = Router.query;
+    const { basePrice,discountPercentage, newlength,id } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -663,7 +663,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          <SingleFabric product={item}  price={Newprice}  length={Newlength} id={id} />
+                          <SingleFabric product={item}  length={newlength} id={id} basePrice={basePrice} discountPercentage={discountPercentage} />
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}

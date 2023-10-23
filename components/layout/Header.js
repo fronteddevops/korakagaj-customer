@@ -246,6 +246,7 @@ const [addCartLength,setAddCartLength]=useState()
                                         <span className="fi-rs-apps"></span>
                                         Browse Categories
                                     </a>
+                    
 
                   <div
                     className={

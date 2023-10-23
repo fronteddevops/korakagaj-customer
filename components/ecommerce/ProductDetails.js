@@ -25,9 +25,9 @@ const ProductDetails = ({
     quickView,
     fabricPrice
 }) => {
-  console.log("hhhhhhhhhhhhhhhhhhhhhh",fabricPrice)
+
     const [quantity, setQuantity] = useState(1);
-    const [fabricName, setFabricName] = useState("");
+    const [fabricType, setfabricType] = useState("");
   
     const handleCart = (product) => {
       addToCart(product);
@@ -66,7 +66,7 @@ const ProductDetails = ({
                                               // </span>
   
       if (selectedFabric) {
-        setFabricName(selectedFabric.fabricName);
+        setfabricType(selectedFabric.fabricType);
       }
     };
     useEffect(() => {
@@ -141,15 +141,15 @@ const size=JSON.parse(product.size)
                                     </div>
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
-                                            <h2 className="title-detail">
+                                            <h2 className="title-detail text-capitalize">
                                                 {product.productName}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
                                                     <span>
-                                                        Category:
+                                                        Category &nbsp;&nbsp;:&nbsp;&nbsp;
                                                         <Link href="/products">
-                                                            <a>
+                                                            <a className="text-capitalize">
                                                                 {product?.Category?.categoryName}
                                                             </a>
                                                         </Link>
@@ -202,7 +202,7 @@ const size=JSON.parse(product.size)
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
                                             <div className="short-desc mb-30">
-                                                <p>{product.description}</p>
+                                                <p className="text-capitalize">{product.description}</p>
                                             </div>
                                             <div className="product_sort_info font-xs mb-30">
                                                 <ul>
@@ -308,11 +308,11 @@ const size=JSON.parse(product.size)
 
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
-                                            <strong className="mr-10">
-                                                    Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricName}</span>
+                                            <strong className="mr-10 text-capitalize ">
+                                                    Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
                                                 </strong>
 
-                                                <Link href={`/fabric?Newprice=${calculateTotalPrice(product)}&Newlength=${product.length}&id=${product.id}`}>
+                                                <Link href={`/fabric?&newlength=${product.length}&id=${product.id}&basePrice=${product.basePrice}&discountPercentage=${product.discountPercentage}`}>
                                                     <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
                                                     >
                                                         Choose Fabric
@@ -365,20 +365,23 @@ const size=JSON.parse(product.size)
                                                 </div>
                                             </div>
                                             <ul className="product-meta font-xs color-grey mt-50">
-                                                <li className="mb-5">
-                                                SKU&nbsp;:&nbsp;
-                          <a href="#">{product.sku}</a>
+                                                <li className="mb-5 text-capitalize">
+                                                SKU&nbsp;:
+                          <a href="#">&nbsp;{product.sku}</a>
                                                 </li>
-                                                <li className="mb-5">
-                                                    Tags:
-                                                    <a href="#" rel="tag" className="me-1">
+                                                <li className="mb-5 text-capitalize">
+                                                    Tags&nbsp;:
+                                                   <a href="#" rel="tag" className="me-1">&nbsp;
                             {product.tags}
                           </a>
                                                 </li>
                                                 <li>
-                                                Availability&nbsp;:&nbsp;
-                          <span className="in-stock text-success ml-5">
-                            {product.currentStock} Items In Stock
+                                                Availability&nbsp;:
+                          <span className="in-stock text-success ml-5" >
+                        
+                        
+                        
+                        {product.currentStock} Items In Stock
                           </span>
                                                 </li>
                                             </ul>

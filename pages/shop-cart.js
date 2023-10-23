@@ -153,7 +153,21 @@ const Cart = ({
 
     if (itemIndex !== -1) {
       // If the item is found, decrease its quantity by 1, but don't let it go below minQuantity
-      if (cartData[itemIndex].quantity > 0) {
+      if (cartData[itemIndex].quantity > 1
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        ) {
         cartData[itemIndex].quantity -= 1;
         console.log("cardData", cartData);
 
@@ -204,7 +218,7 @@ const Cart = ({
   console.log("CAR DATA 1223333", cartData)
 
 
- 
+
   return (
     <>
       <Layout parent="Home" sub="Shop" subChild="Cart">

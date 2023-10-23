@@ -25,8 +25,8 @@ const SingleProduct = ({
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
-  
- 
+    
+ console.log("+===================================",totalPrice)
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -117,12 +117,12 @@ const SingleProduct = ({
             <div className="product-content-wrap">
               <div className="product-category">
                 <Link href="/products">
-                  <a>{product?.brandName}</a>
+                  <a  className="text-capitalize">{product?.SubSubCategory?.subSubCategoryName}</a>
                 </Link>
               </div>
               <h2>
                 <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                  <a>{product?.productName}</a>
+                  <a  className="text-capitalize">{product?.productName}</a>
                 </Link>
               </h2>
               <div className="rating-result" title="90%">
@@ -131,13 +131,17 @@ const SingleProduct = ({
                 </span>
               </div>
               <div className="product-price">
-        <span> ${totalPrice}</span>
+        <span>${totalPrice}</span>
         {discountPercentage > 0 && (
           <span className="old-price"> ${basePrice}</span>
         )}
-        <span>{product?.discountPercentage}%</span>
+     <span>
+  {product?.discountPercentage > 0
+    ? `${product?.discountPercentage}%`
+    : ''}
+</span>
       </div>
-              <div className="product-price">
+              <div className="product-price text-capitalize ">
                 Designer : &nbsp;{product?.designerName}
               </div>
 
