@@ -1,5 +1,5 @@
 export default {
-    GET_MY_PROFILE:(id)=>`/user/${id}`,
-    UPDATE_MY_PROFILE:(id)=>`/user/${id}`,
-    CHANGE_PASSWORD:(id)=>`/change-password/${id}`
+    GET_MY_PROFILE:()=>`/user/me`,
+    UPDATE_MY_PROFILE:()=>`/user/me`,
+    CHANGE_PASSWORD:()=>`/auth/change-password`
 }

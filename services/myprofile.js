@@ -19,11 +19,11 @@ export default {
     });
   },
 
-  UPDATE_MY_PROFILE: (id,data) => {
+  UPDATE_MY_PROFILE: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.put(
-            nextConfig.BASE_URL + api.myprofile.UPDATE_MY_PROFILE(id),data
+            nextConfig.BASE_URL + api.myprofile.UPDATE_MY_PROFILE(),data
         );
         resolve(response);
       } catch (err) {
@@ -32,11 +32,11 @@ export default {
     });
   },
 
-  CHANGE_PASSWORD: (id,data) => {
+  CHANGE_PASSWORD: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await Axios.put(
-            nextConfig.BASE_URL + api.myprofile.CHANGE_PASSWORD(id),data
+        const response = await Axios.post(
+            nextConfig.BASE_URL + api.myprofile.CHANGE_PASSWORD(),data
         );
         resolve(response);
       } catch (err) {

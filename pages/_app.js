@@ -17,27 +17,52 @@ import Preloader from "./../components/elements/Preloader";
 // Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
 //     "access_token"
 //   )}`;
-
 function MyApp({ Component, pageProps }) {
-  
-
+    const initialiseInterceptor = () => {
+        Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage?.getItem("access_token")}`;
+    console.log("=================________________________________")
+        Axios.interceptors.request.use(
+          (config) => {
+            return config;
+          },
+          (error) => {
+            return Promise.reject(error);
+          }
+        );
+        Axios.interceptors.response.use(
+          (response) => {
+            return response;
+          },
+          (error) => {
+            console.log('error in interceptor ==>', error);
+            if (error.response && (error.response.status == 401 || error.response.status == 403)) {
+              sessionStorage.clear();
+              if (window.location.pathname !== "/") {
+                setTimeout(() => {
+                  window.location.replace("/");
+                }, 500);
+              }
+            } else {
+              return Promise.reject(error);
+            }
+          }
+        );
+      };
     const [loading, setLoading] = useState(false);
     useEffect(() => {
+        initialiseInterceptor(); // Initialize the interceptor when the app loads
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
         }, 2000);
-
         if (typeof window !== "undefined") {
             window.WOW = require("wowjs");
         }
         new WOW.WOW().init();
     }, []);
-
     return (
         <>
             {!loading ? (
-
                 <Provider store={store}>
                     <StorageWrapper>
                     <ToastContainer />
@@ -46,9 +71,8 @@ function MyApp({ Component, pageProps }) {
                 </Provider>
             ): (
                 <Preloader />
-            )} 
+            )}
         </>
     );
 }
-
 export default MyApp;

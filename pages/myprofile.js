@@ -6,7 +6,7 @@ import Link from "next/link"
 import services from "../services";
 
 function Account() {
-    const id=1
+    // const id=1
     const [activeIndex, setActiveIndex] = useState(1);
     const [firstName,setFirstName]=useState('')
     const [lastName,setLastName]=useState('')
@@ -28,10 +28,11 @@ function Account() {
     const [isLoaded, setIsLoaded] = useState(true);
     const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
+    // const token = JSON.parse(localStorage.getItem("access_token"))
     
- 
-    const toastSuccessLogin = () => toast.success("Updated User successfully");
-    const toastErrorLogin = (error) => {
+    const toastSuccesschangepassword = () => toast.success("Change password successfully");
+    const toastSuccessprofileupdate = () => toast.success("Updated User successfully");
+    const toastError = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };
 
@@ -40,7 +41,7 @@ function Account() {
         
         if(index===5){
             try{
-                const response = await services.myprofile.GET_MY_PROFILE(id)
+                const response = await services.myprofile.GET_MY_PROFILE()
                 setFirstName(response?.data?.data?.firstName)
                 setLastName(response?.data?.data?.lastName)
                 setEmail(response?.data?.data?.email)
@@ -63,10 +64,10 @@ function Account() {
             email:email
 
             }
-            const response = await services.myprofile.UPDATE_MY_PROFILE(id,data)
+            const response = await services.myprofile.UPDATE_MY_PROFILE(data)
             if(response)
             {
-                toastSuccessLogin();
+                toastSuccessprofileupdate();
             }
             else{
 
@@ -74,14 +75,16 @@ function Account() {
         }
        catch(error){
          console.log(error)
-         toastErrorLogin(error);
+         toastError(error);
        }
       
     }
+
+    
     const changepassword = async ()=>{
-        if(index===6)
-        {
-            let isValid = true;
+       
+        // if(index===6){
+         let isValid = true;
             setPasswordError("");
             if (password === "") {
                 setPasswordError("Please enter password"); // eslint-disable-next-line
@@ -92,16 +95,22 @@ function Account() {
               } else {
              try{
                 const data={
+                    newPassword:newpassword,
                     oldPassword:password,
-                    newPassword:newPassword
+                    
                 }
-            const response = await services.myprofile.CHANGE_PASSWORD(id,data)
+            const response = await services.myprofile.CHANGE_PASSWORD(data)
+           if(response)
+           {
+            toastSuccesschangepassword()
+           }
         }
         catch(error){
         console.log(error)
+        toastError(error);
         }
-    }  
-}
+    
+}    
 }
    
     
@@ -174,7 +183,7 @@ function Account() {
                                                 </a>
                                             </li>
                                                 <li className="nav-item">
-                                                    <Link href="/page-login-register">
+                                                    <Link href="/login">
                                                     <a
                                                         className="nav-link"
                                                         
@@ -496,7 +505,7 @@ function Account() {
                                                         <h5>Account Details</h5>
                                                     </div>
                                                     <div className="card-body">
-                                                        
+                                                       
                                                         <form
                                                             method="post"
                                                             name="enq"
@@ -717,7 +726,7 @@ function Account() {
                                                                       {passwordError}
                                                                     </p>
                                                                   ) : null}
-                                                      
+                                                            
                                                             </div>
                                                             <div className="form-group col-md-12">
                                                                 <label>
@@ -731,7 +740,7 @@ function Account() {
                                                                     required=""
                                                                     className="form-control square"
                                                                     name="npassword"
-                                                                    password="password"
+                                                                    placeholder="new password"
                                                                     autoComplete="off"
                                                                     type={newPasswordType}
                                                                     onChange={(e) => {
@@ -760,7 +769,7 @@ function Account() {
                                                                       {newpasswordError}
                                                                     </p>
                                                                   ) : null}
-                                                      
+                                                                
                                                             </div>
                                                             <div className="form-group col-md-12">
                                                                 <label>
@@ -772,27 +781,50 @@ function Account() {
                                                                 </label>
                                                                 <input
                                                                     required=""
+                                                                    type={confirmPasswordType}
                                                                     className="form-control square"
                                                                     name="cpassword"
-                                                                    type="password"
-                                                                    onClick={() => {
-                                                                        confirmPasswordType === "password"
-                                                                          ? setConfirmPasswordType("text")
-                                                                          : setConfirmPasswordType("password");
+                                                                    placeholder="confirm password"
+                                                                    autoComplete="off"
+                                                                    onChange={(e) => {
+                                                                        if (e.target.value.trim() === "") {
+                                                                          setIsDisabled(true);
+                                                        
+                                                                          setConfirmPasswordError("Requierd");
+                                                                        }
+                                                                        else if (e.target.value.trim() !== newpassword) {
+                                                                          setIsDisabled(true);
+                                                        
+                                                                          setConfirmPasswordError("Password does not match");
+                                                                        }
+                                                                        else {
+                                                                          setIsDisabled(false)
+                                                                          setConfirmPassword(e.target.value.trimStart());
+                                                                          setConfirmPasswordError("");
+                                                                        }
+                                                        
+                                                                        setConfirmPassword(e.target.value.trimStart());
                                                                       }}
+                                                                      value={confirmPassword}
+                                                                      onKeyDown={(e) =>
+                                                                        exceptThisSymbols.includes(e.key) && e.preventDefault()
+                                                                      }
+                                                        
                                                                 />
-                                                                {confirmPasswordType === "password" ? (
-                                                                    <i className="bi bi-eye fs-2"></i>
-                                                                  ) : (
-                                                                    <i className="bi bi-eye-slash fs-2"></i>
-                                                                  )}
+                                                                {confirmPasswordError ? (
+                                                                    <p className="text-start  position-absolute mt-2" style={{ color: "red" }}>
+                                                                      {confirmPasswordError}
+                                                                    </p>
+                                                                  ) : null}
+                                                                
                                                             </div>
                                                             <div className="col-md-12">
                                                                 <button
                                                                     // type="submit"
-                                                                    className="btn btn-fill-out submit"
+                                                                    className="btn btn-fill-out "
                                                                     // name="submit"
                                                                     // value="Submit"
+                                                                    disabled={!(password && newpassword && confirmPassword)}
                                                                     onClick={changepassword}
                                                                 >
                                                                     Save
