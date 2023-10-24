@@ -20,6 +20,8 @@ const SingleProduct = ({
     fabricPrice
 }) => {
   const [loading, setLoading] = useState(false);
+  const [productId, setProductId] = useState(false);
+  const [verifyStatus, setVerifyStatus] = useState(false);
   
   
   const imageUrl=nextConfig.BASE_URL_UPLOADS
@@ -30,6 +32,7 @@ const SingleProduct = ({
 
   
   useEffect(() => {
+    setProductId(product.id)
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -56,25 +59,69 @@ const SingleProduct = ({
 
 
   const handleWishlist =async (product) => {
-const productstatus=localStorage.getItem("productstatus")
-// console.log("kkkkkkkkkkkkkkkkkkkk",productstatus)
-
+  
     if(localStorage.getItem("access_token")){
-      if(!localStorage.getItem("productstatus")){
-        services.NewWishlist([product])
-        toast.success("Add to Wishlist !");
-      
-        return;
-      }else if(localStorage.getItem("productstatus")){
-        services.NewWishlist([product])
-        toast.success("Remove to Wishlist !");
-      }
+     
+    try {
+     
 
-   
+      // const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(productId);
+      //     localStorage.setItem("productstatus",false)
+      // const ProductId =product[0].id
+     
+      const userID = localStorage.getItem("userid");
+     const data ={
+      productId:productId,
+      userId:userID
+      }
+    
+    //   const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+    //   toast.success("Add to Wishlist !");
+    //   localStorage.setItem("productstatus",true)
+    
+      if(verifyStatus===false){
+        
+          const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+          setVerifyStatus(true)
+          toast.success("Add to Wishlist !");
+          // localStorage.setItem("productstatus",true)
+      }else if(verifyStatus===true){
+          const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(productId);
+          setVerifyStatus(false)
+          toast.success("Remove to Wishlist !");
+          // localStorage.setItem("productstatus",false)
+      }
+    
+  
+  } catch (error) {
+      
+      console.error("An error occurred:", error);
+  }
+
     }else{
       addToWishlist(product);
-      toast.success("Add to Wishlist !");
+            toast.success("Add to Wishlist !");
     }
+
+
+// const productstatus=localStorage.getItem("productstatus")
+
+//     if(localStorage.getItem("access_token")){
+//       if(!localStorage.getItem("productstatus")){
+//         services.NewWishlist([product])
+//         toast.success("Add to Wishlist !");
+      
+//         return;
+//       }else if(localStorage.getItem("productstatus")){
+//         services.NewWishlist([product])
+//         toast.success("Remove to Wishlist !");
+//       }
+
+   
+//     }else{
+//       addToWishlist(product);
+//       toast.success("Add to Wishlist !");
+//     }
    
   };
   return (

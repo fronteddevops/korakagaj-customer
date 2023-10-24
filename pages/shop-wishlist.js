@@ -12,8 +12,10 @@ import {
 } from "../redux/action/wishlistAction";
 import services from "../services";
 import { useEffect, useState } from "react";
+import Header from "../components/layout/Header";
 
 const Wishlist = ({
+  handleWishlistLength,
     wishlist,
     clearWishlist,
     closeWishlistModal,
@@ -22,6 +24,7 @@ const Wishlist = ({
 }) => {
     const imageUrl = nextConfig.BASE_URL_UPLOADS;
     const [WishlistData,setWishlistdata]=useState()
+    const [WishlistLength,setWishlistLength]=useState()
  
     
    
@@ -31,7 +34,8 @@ const Wishlist = ({
           try {
           
             const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
-            setWishlistdata(WishlistResponse.data.data)
+            setWishlistdata(WishlistResponse?.data?.data)
+            setWishlistLength(WishlistResponse?.data?.data?.length)
             localStorage.setItem("wishlistcount",WishlistResponse.data.data.length)
             localStorage.setItem("productstatus",WishlistResponse.data.data[0].status)
            
@@ -48,8 +52,10 @@ const Wishlist = ({
     }
 
 
+
     useEffect((wishlist) => {
         GetWishlistdata (wishlist);
+        <Header lengthData={WishlistLength} />
       }, [wishlist]);
 
     const handleCart = (product) => {
@@ -65,6 +71,8 @@ const Wishlist = ({
         itemTotalPrice = basePrice - discountAmount;
         return itemTotalPrice; // Return the calculated total price
       };
+   
+   
     return (
         <>
             <Layout parent="Home" sub="Shop" subChild="Wishlist">

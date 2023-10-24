@@ -8,6 +8,7 @@ import cart from "./cart";
 import subscribeuser from "./subscribeuser";
 import Wishlist from "./Wishlist";
 import myprofile from "./myprofile";
+import orderDetials from "./orderDetials";
 
 export default {
   category,
@@ -20,5 +21,6 @@ export default {
   subscribeuser,
   Wishlist,
   myprofile,
+  orderDetials,
   
 };

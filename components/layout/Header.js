@@ -4,13 +4,17 @@ import { connect } from "react-redux";
 import Search from "../ecommerce/Search";
 import service from "../../services";
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import ShopWishlist from "../../pages/shop-wishlist";
+import services from "../../services";
 const Header = ({
+  lengthData,
   totalCartItems,
   totalCompareItems,
   toggleClick,
   totalWishlistItems,
   headerStyle,
 }) => {
+
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
@@ -19,7 +23,32 @@ const Header = ({
   const [subSubCategory, setSubSubCategory] = useState([]);
   const [addCartLength, setAddCartLength] = useState()
   const [addWishlistLength, setAddWishlistLength] = useState()
+  const [wishlistLength, setWishlistLength] = useState()
+
+
+const  GetWishlistdata  = async()=>{
+
+  if(localStorage.getItem("access_token")){
+   
+    try {
+    
+      const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
+  
+      setWishlistLength(WishlistResponse?.data?.data?.length)
+   
+     
+  } catch (error) {
+      // Handle errors here
+      console.error("An error occurred:", error);
+  }
+
+      return;
+    }
+
+}
+
   useEffect(() => {
+    GetWishlistdata()
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
       if (scrollCheck !== scroll) {
@@ -215,7 +244,8 @@ const Header = ({
                             src="/assets/imgs/theme/icons/icon-heart.svg"
                           />
                           <span className="pro-count blue">
-                            {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
+                          {wishlistLength}
+                            {/* {totalWishlistItems>0?totalWishlistItems:addWishlistLength} */}
                           </span>
                         </a>
                       </Link>
@@ -702,7 +732,8 @@ const Header = ({
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
                         <span className="pro-count white">
-                        {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
+                          {wishlistLength}
+                        {/* {totalWishlistItems>0?totalWishlistItems:addWishlistLength} */}
                         </span>
                       </a>
                     </Link>

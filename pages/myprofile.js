@@ -28,6 +28,7 @@ function Account() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoaded, setIsLoaded] = useState(true);
   const [alladdress, setAllAddress] = useState([]);
+  const [orderDetailsData,setOrderDetailsData] = useState([]);
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   // const token = JSON.parse(localStorage.getItem("access_token"))
@@ -53,6 +54,18 @@ function Account() {
       } catch (error) {
         console.log(error);
       }
+    }if(index==2){
+
+      try {
+     
+        const response = await services.orderDetails.GET_ORDER_DETAILS();
+        setOrderDetailsData(response?.data?.data.rows)
+      //  console.log("777777777777777777",response.data.data.rows)
+      } catch (error) {
+        console.log(error);
+        toastError(error);
+      }
+      console.log("jjjjjjjjjjj")
     }
     if (index === 4) {
       try {
@@ -285,23 +298,49 @@ function Account() {
                                 <table className="table">
                                   <thead>
                                     <tr>
-                                      <th>Order</th>
+                                      <th>Order Id</th>
                                       <th>Date</th>
-                                      <th>Status</th>
-                                      <th>Total</th>
+                                      <th>Tracking Link</th>
+                                      <th>Amount</th>
                                       <th>Actions</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
+                                    {/*    "id": 2,
+                    "type": "Return",
+                    "amount": 500,
+                    "trackingId": "ABC123XYZ",
+                    "trackingLink": "abcdef",
+                    "totalQuantity": 2,
+                    "status": true,
+                    "createdAt": "2023-10-24T12:21:47.000Z",
+                    "updatedAt": "2023-10-24T12:21:47.000Z" */}
+                                    {orderDetailsData?.map((item,key)=>{return(
+                                      <tr key={key}> 
+                                         <td>{item.OrderDetail.trackingId}</td>
+                                         <td>{item.OrderDetail.createdAt}</td>
+                                         <td>{item.OrderDetail.trackingLink}</td>
+                                         <td>{item.OrderDetail.amount}</td>
+                                         <td>   <Link href="/OrderViewDetails">
+                          <a> View details</a>
+                        </Link></td>
+                                         {/* <td>#1357</td>
+                                         <td>#1357</td> */}
+                                      </tr>
+                                    )})}
+                                    {/* <tr>
                                       <td>#1357</td>
                                       <td>March 45, 2020</td>
                                       <td>Processing</td>
                                       <td>Rs.125.00 for 2 item</td>
                                       <td>
+                                      <Link href="/OrderViewDetails">
+                          <a> View details</a>
+                        </Link>
                                         <a
-                                          href="#"
+                                          href="/OrderViewDetails"
                                           className="btn-small d-block"
+
                                         >
                                           View
                                         </a>
@@ -334,7 +373,7 @@ function Account() {
                                           View
                                         </a>
                                       </td>
-                                    </tr>
+                                    </tr> */}
                                   </tbody>
                                 </table>
                               </div>
