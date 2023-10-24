@@ -43,6 +43,19 @@ export default {
         reject(err);
       }
     });
+},
+DELETE_WISHLIST_BY_ID : (id) => {
+   
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await Axios.delete(
+          nextConfig.BASE_URL + api.Wishlist.DELETE_WISHLIST_BY_ID(id)
+      );
+      resolve(response);
+    } catch (err) {
+      reject(err);
+    }
+  });
 }
 
 

@@ -215,7 +215,7 @@ const Header = ({
                             src="/assets/imgs/theme/icons/icon-heart.svg"
                           />
                           <span className="pro-count blue">
-                            {totalWishlistItems}
+                            {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
                           </span>
                         </a>
                       </Link>
@@ -702,7 +702,7 @@ const Header = ({
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
                         <span className="pro-count white">
-                          {totalWishlistItems}
+                        {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
                         </span>
                       </a>
                     </Link>

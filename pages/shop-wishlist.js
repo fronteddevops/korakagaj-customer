@@ -29,24 +29,12 @@ const Wishlist = ({
     const  GetWishlistdata  = async(wishlist)=>{
         if(localStorage.getItem("access_token")){
           try {
-          //   const ProductId =product[0].id
-         
-          //   const userID = localStorage.getItem("userid");
-          //  const data ={
-          //   productId:ProductId,
-          //   userId:userID
-          //   }
+          
             const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
             setWishlistdata(WishlistResponse.data.data)
-            // console.log("888888888",WishlistResponse.data.data)
             localStorage.setItem("wishlistcount",WishlistResponse.data.data.length)
-            // localStorage.setItem("wishlistcount")
-          
-        
-    
-    
-            // getWishlistData= await services.Wishlist.GET_WISHLIST_DATA(userID)
-    
+            localStorage.setItem("productstatus",WishlistResponse.data.data[0].status)
+           
         } catch (error) {
             // Handle errors here
             console.error("An error occurred:", error);

@@ -56,14 +56,21 @@ const SingleProduct = ({
 
 
   const handleWishlist =async (product) => {
-
+const productstatus=localStorage.getItem("productstatus")
+// console.log("kkkkkkkkkkkkkkkkkkkk",productstatus)
 
     if(localStorage.getItem("access_token")){
+      if(!localStorage.getItem("productstatus")){
+        services.NewWishlist([product])
+        toast.success("Add to Wishlist !");
+      
+        return;
+      }else if(localStorage.getItem("productstatus")){
+        services.NewWishlist([product])
+        toast.success("Remove to Wishlist !");
+      }
 
-      services.NewWishlist([product])
-      toast.success("Add to Wishlist !");
-    
-      return;
+   
     }else{
       addToWishlist(product);
       toast.success("Add to Wishlist !");
