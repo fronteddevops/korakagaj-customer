@@ -43,5 +43,30 @@ export default {
         reject(err);
       }
     });
-  }
+  },
+  GET_MY_ADDRESS: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+            nextConfig.BASE_URL + api.myprofile.GET_MY_ADDRESS()
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  
+  CREATE_MY_ADDRESS: (data) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.post(
+            nextConfig.BASE_URL + api.myprofile.CREATE_MY_ADDRESS(),data
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
 }

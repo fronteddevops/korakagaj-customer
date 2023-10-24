@@ -7,6 +7,7 @@ import fabric from "./fabric";
 import cart from "./cart";
 import subscribeuser from "./subscribeuser";
 import myprofile from "./myprofile";
+
 export default {
   category,
   product,
@@ -16,5 +17,6 @@ export default {
   fabric,
   cart,
   subscribeuser,
-  myprofile
+  myprofile,
+  
 };

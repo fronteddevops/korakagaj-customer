@@ -8,6 +8,7 @@ import cart from "./cart";
 import subScribeUers from "./subScribeUers";
 import newcard from "./newcard";
 import myprofile from "./myprofile";
+
 export default{
     category,
     product,
@@ -18,5 +19,6 @@ export default{
     cart,
     subScribeUers,
     newcard,
-    myprofile
+    myprofile,
+   
 }
