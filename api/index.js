@@ -7,6 +7,9 @@ import fabric from "./fabric";
 import cart from "./cart";
 import subscribeuser from "./subscribeuser";
 import searchProduct from "./searchProduct";
+import Wishlist from "./Wishlist";
+import myprofile from "./myprofile";
+
 export default {
   category,
   product,
@@ -16,5 +19,8 @@ export default {
   fabric,
   cart,
   subscribeuser,
-  searchProduct
+  searchProduct,
+  Wishlist,
+  myprofile,
+  
 };

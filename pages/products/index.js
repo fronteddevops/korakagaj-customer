@@ -12,14 +12,13 @@ import SizeFilter from "../../components/ecommerce/SizeFilter";
 import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
-import { fetchProduct } from "../../redux/action/product";
 import Link from "next/link";
 import Accordion from "react-bootstrap/Accordion";
 import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
-import Loader from '../../components/./elements/Loader';
-const Products = ({ products1, productFilters, fetchProduct }) => {
+
+const Products = ({ products1, productFilters }) => {
   const [category, setCategory] = useState([]);
   const [subSubcategory, setSubSubCategory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,7 +48,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
   let [pages, setPages] = useState(Math.ceil(products.length / limit));
 
   useEffect(() => {
-    fetchProduct(searchTerm, productFilters);
+
     cratePagination();
     prodcutFilters();
      
@@ -609,9 +608,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDidpatchToProps = {
-  // openCart,
-  fetchProduct,
-  // fetchMoreProduct,
+
 };
 
 export default connect(mapStateToProps, mapDidpatchToProps)(Products);

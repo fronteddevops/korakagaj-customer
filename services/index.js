@@ -5,9 +5,11 @@ import subCategory from "./subCategory";
 import subSubCategory from "./subSubCategory";
 import fabric from "./fabric";
 import cart from "./cart";
+import Wishlist from "./Wishlist";
 import subScribeUers from "./subScribeUers";
-import newcard from "./newcard";
 import searchProdcut from "./searchProdcut";
+import myprofile from "./myprofile";
+
 export default{
     category,
     product,
@@ -18,5 +20,7 @@ export default{
     cart,
     subScribeUers,
     searchProdcut,
-    newcard
+    Wishlist,
+    myprofile,
+   
 }

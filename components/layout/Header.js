@@ -19,6 +19,7 @@ const Header = ({
   const [subSubCategory, setSubSubCategory] = useState([]);
   const [addCartLength, setAddCartLength] = useState()
   const [userName,setUserName]=useState([])
+  const [addWishlistLength, setAddWishlistLength] = useState()
   useEffect(() => {
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
@@ -26,8 +27,7 @@ const Header = ({
         setScroll(scrollCheck);
       }
     });
-    setAddCartLength(localStorage?.getItem("length"))
-    setUserName (JSON?.parse(localStorage?.getItem("user")))
+   
   }, []);
 
   const handleToggle = () => {
@@ -229,7 +229,7 @@ const Header = ({
                             src="/assets/imgs/theme/icons/icon-heart.svg"
                           />
                           <span className="pro-count blue">
-                            {totalWishlistItems}
+                            {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
                           </span>
                         </a>
                       </Link>
@@ -716,7 +716,7 @@ const Header = ({
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
                         <span className="pro-count white">
-                          {totalWishlistItems}
+                        {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
                         </span>
                       </a>
                     </Link>
