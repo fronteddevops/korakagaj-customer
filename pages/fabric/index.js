@@ -12,14 +12,13 @@ import SizeFilter from "../../components/ecommerce/SizeFilter";
 import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
-import { fetchProduct } from "../../redux/action/product";
 import Link from "next/link";
 import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 import services from "../../services";
 
-const Products = ({ products, productFilters, fetchProduct }) => {
+const Products = ({ products, productFilters }) => {
   const [fabricList, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
 
@@ -704,9 +703,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDidpatchToProps = {
-  // openCart,
-  fetchProduct,
-  // fetchMoreProduct,
+
 };
 
 export default connect(mapStateToProps, mapDidpatchToProps)(Products);
