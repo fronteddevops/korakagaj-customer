@@ -40,7 +40,7 @@ const Products = ({ products, productFilters }) => {
     showLimit = 12,
     showPagination = 4;
    
-    const { Newprice, Newlength,id } = Router.query;
+    const { basePrice,discountPercentage, newlength,id,prodcutName } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -229,7 +229,14 @@ const Products = ({ products, productFilters }) => {
 
   return (
     <>
-      <Layout parent="Home" sub="Shop" subChild="Select Fabric">
+      <Layout parent="Home" sub={<><a   href="/products"> product</a></>} subSub={<>
+        <Link href="/products/[slug]" as={`/products/${id}`}>
+<a>
+{prodcutName}
+</a>
+</Link>
+      
+      </>}  >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -662,7 +669,7 @@ const Products = ({ products, productFilters }) => {
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          <SingleFabric product={item}  price={Newprice}  length={Newlength} id={id} />
+                          <SingleFabric product={item}  length={newlength} id={id} basePrice={basePrice} discountPercentage={discountPercentage} />
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}

@@ -27,8 +27,7 @@ const SingleProduct = ({
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
-
-  
+    
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -39,11 +38,11 @@ const SingleProduct = ({
   const handleCart = (product) => {
     if(localStorage.getItem("access_token")){
     
-      services.newcard([product])
+     
       toast.success("Add to Cart !");
       return;
     }
-    addToCart(product);                                     
+                                 
     
     toast.success("Add to Cart !");
   };
@@ -83,28 +82,20 @@ const productstatus=localStorage.getItem("productstatus")
         <>
           <div className="product-cart-wrap mb-30">
             <div className="product-img-action-wrap">
-              <div className="product-img product-img-zoom">
-                <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                  <a>
-                    <img
-                      className="default-img"
-                      
-                      src={imageUrl+product?.featuredImage}
-                      crossOrigin="anonymous"
-                      alt=""
-                    />
-                    {/* <img
-                      className="hover-img"
-                      src={imageUrl+product.image}
-                      alt=""
-                    /> */}
+            <div className="product-img product-img-zoom" style={{ backgroundColor: '#f2f2f2', width: '270px', height: '250 px' }}>
+  <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+    <a>
+      <img
+        className="default-img"
+        src={imageUrl + product?.featuredImage}
+        crossOrigin="anonymous"
+        alt=""
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </a>
+  </Link>
+</div>
 
-                    
-                  </a>
-                
-                </Link>
-              </div>
-            
               <div className="product-action-1">
                 <a
                   aria-label="Quick view"
@@ -121,6 +112,7 @@ const productstatus=localStorage.getItem("productstatus")
                 >
                   <i className="fi-rs-heart"></i>
                 </a>
+            
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
@@ -138,12 +130,12 @@ const productstatus=localStorage.getItem("productstatus")
             <div className="product-content-wrap">
               <div className="product-category">
                 <Link href="/products">
-                  <a>{product?.brandName}</a>
+                  <a  className="text-capitalize">{product?.SubSubCategory?.subSubCategoryName}</a>
                 </Link>
               </div>
               <h2>
                 <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                  <a>{product?.productName}</a>
+                  <a  className="text-capitalize">{product?.productName}</a>
                 </Link>
               </h2>
               <div className="rating-result" title="90%">
@@ -152,13 +144,17 @@ const productstatus=localStorage.getItem("productstatus")
                 </span>
               </div>
               <div className="product-price">
-        <span> ${totalPrice}</span>
+        <span>${totalPrice}</span>
         {discountPercentage > 0 && (
           <span className="old-price"> ${basePrice}</span>
         )}
-        <span>{product?.discountPercentage}%</span>
+     <span>
+  {product?.discountPercentage > 0
+    ? `${product?.discountPercentage}%`
+    : ''}
+</span>
       </div>
-              <div className="product-price">
+              <div className="product-price text-capitalize ">
                 Designer : &nbsp;{product?.designerName}
               </div>
 

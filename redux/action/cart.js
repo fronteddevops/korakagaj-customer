@@ -1,5 +1,4 @@
-import * as Types from '../constants/actionTypes'
-import storage from '../../util/localStorage';
+
 
 export const addToCart = product => dispatch => {
     dispatch({
