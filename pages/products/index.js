@@ -329,7 +329,7 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
             >
               <div className="widget-category p-3 mb-30">
                 {category?.map((Item, index) => (
-                  <Accordion defaultActiveKey="0">
+                  <Accordion defaultActiveKey={index+1}>
                     <Accordion.Item
                       className="custom-filter"
                       eventKey={1 + index} // Assuming you have unique keys
@@ -343,21 +343,21 @@ const Products = ({ products1, productFilters, fetchProduct }) => {
                       {/* <CategoryProduct data={category.data} /> */}
 
                       <Accordion.Body>
-                        <Accordion defaultActiveKey="0">
+                        <Accordion defaultActiveKey={index+1}>
                           <Accordion.Item
                             className="custom-filter ms-3"
-                            eventKey="0"
+                            eventKey={1 + index}
                           >
                             {Item?.SubCategories?.map((subCategory) => (
                               <>
-                                <Accordion.Header key={subCategory.id}>
+                                <Accordion.Header key={subCategory.id}    >
                                   <h5 className="w-100 style-1 wow fadeIn animated">
                                     {subCategory?.subCategoryName}
                                   </h5>
                                 </Accordion.Header>
                                 {subCategory?.SubSubCategories.map(
                                   (item) => (
-                                    <Accordion.Body key={item.id}>
+                                    <Accordion.Body key={item.id} >
                                       {/* subsubcategory */}
                                       <Form.Check
                                         key={item.id}

@@ -41,7 +41,7 @@ const Products = ({ products, productFilters, fetchProduct }) => {
     showLimit = 12,
     showPagination = 4;
    
-    const { basePrice,discountPercentage, newlength,id } = Router.query;
+    const { basePrice,discountPercentage, newlength,id,prodcutName } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -230,7 +230,14 @@ const Products = ({ products, productFilters, fetchProduct }) => {
 
   return (
     <>
-      <Layout parent="Home" sub="Shop" subChild="Select Fabric">
+      <Layout parent="Home" sub={<><a   href="/products"> product</a></>} subSub={<>
+        <Link href="/products/[slug]" as={`/products/${id}`}>
+<a>
+{prodcutName}
+</a>
+</Link>
+      
+      </>}  >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">

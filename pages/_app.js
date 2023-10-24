@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
       };
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-      //  initialiseInterceptor(); // Initialize the interceptor when the app loads
+        initialiseInterceptor(); // Initialize the interceptor when the app loads
 
         setLoading(true);
         setTimeout(() => {

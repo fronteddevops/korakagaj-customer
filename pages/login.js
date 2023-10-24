@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import Layout from "../components/layout/Layout";
 import "react-toastify/dist/ReactToastify.css";
 import services from "../services/index.js";
@@ -14,27 +14,13 @@ function Login() {
   //error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [numberError, setNumberError] = useState("");
-  const [passwordConfirmError, setPasswordConfirmError] = useState();
-  const [emailErrorRegister, setEmailErrorRegister] = useState("");
-
-  const [passwordErrorRegister, setPasswordErrorRegister] = useState("");
+ 
+ 
   //password show icon set value in state
-  const [passwordVisible, setPasswordVisible] = useState(false);
+ 
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
-  const [passwordVisibleConfirmPassword, setpasswordVisibleConfirmPassword] =
-    useState(false);
-
-  //Register user State
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [number, setNumber] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [emailRegister, setEmailRegister] = useState("");
-  const [passwordRegister, setPasswordRegister] = useState("");
-
+ 
+  
   //email validate
 
   const validateEmail = (email) => {
@@ -71,7 +57,8 @@ function Login() {
         const response = await services.auth.LOGIN_USER(payLoad);
 console.log("++++++++++++++++++++++++++++")
         if (response) {
-        console.log("1111111111111111111111111111111111",response.data.data)
+       
+        localStorage.setItem("user",JSON.stringify(response?.data?.user))
           toastSuccessLogin();
           //step 1 get data localstorage 
       
@@ -105,100 +92,21 @@ setTimeout(() => {
     }
   };
 
-  // user Register api call
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    setPasswordConfirmError("")
-    let isValid = true;
-    setEmailErrorRegister("");
-    setPasswordErrorRegister("");
-    if (passwordRegister !== passwordConfirm) {
-      // Update the passwordConfirm variable with an error message
-      setPasswordConfirmError("password not match");
-      isValid = false; // Set isValid to false
-    }
-    if (number.length < 10) {
-      setNumberError(" Number should be  10  digits.");
-      isValid = false;
-    }
-    if (emailRegister === "") {
-      setEmailErrorRegister("Enter a valid email address");
-      isValid = false;
-    } else if (!validateEmail(emailRegister)) {
-      setEmailErrorRegister("Enter a valid email address");
-      isValid = false;
-    }
-    if (passwordRegister === "") {
-      setPasswordErrorRegister("Please enter password");
-      isValid = false;
-    }
+ 
 
-    if (isValid) {
-      setNumberError("")
-      try {
-        let payLoad = {
-          email: emailRegister,
-          password: passwordRegister,
-          role: "Customer",
-          firstName: firstName,
-          lastName: lastName,
-          phoneNumber: number,
-        };
-        console.log(payLoad);
-        const response = await services.auth.REGISTER_USER(payLoad);
+  
 
-        if (response) {
-          toastSuccess();
-          route.push('/')
-        } else {
-          alert(response.data.guide);
-        }
-      } catch (error) {
-        toastError(error);
-      }
-    }
-  };
-
-  //number validation
-
-  const handleInputChange = (e) => {
-    const enteredNumber = e.target.value;
-
-    // Ensure that the entered number is not negative
-    if (enteredNumber >= 0 || enteredNumber === "") {
-      setNumber(enteredNumber);
-
-      if (enteredNumber.length >= 10) {
-        setNumberError("");
-      } else if (enteredNumber.length === 0) {
-        setNumberError("Required");
-      } else {
-        setNumberError("");
-      }
-    }
-  };
-
-  //set toster  register
-  const toastSuccess = () => toast.success("Register User successfully");
-  const toastError = (error) => {
-    toast.error(error.response?.data?.message || "An error occurred");
-  };
+  
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
   const toastErrorLogin = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };
-  //password show in eye icon
-  const togglePasswordVisibilityRegister = () => {
-    setPasswordVisible(!passwordVisible);
-  };
-  const toggleVisibilityComfromPaassword = () => {
-    setpasswordVisibleConfirmPassword(!passwordVisibleConfirmPassword);
-  };
+
   const togglePasswordVisibilityLogin = () => {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
-  const exceptThisSymbols = ["e", "E", "+", "-", "."];
+
 
 
   return (
@@ -359,7 +267,22 @@ setTimeout(() => {
                             </button>
                           </div>
                         </form>
-                        
+                        <div className="form-group">
+                        <a href="/register">
+                            <button
+                              type="submit"
+                              className="btn btn-fill-out btn-block hover-up w-100"
+                              name="login"
+                            
+                            // onClick={handleLogin}
+                            >
+                            
+                              Register
+                           
+                       
+                            </button>
+                            </a>
+                          </div>
 
 
 

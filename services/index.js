@@ -7,6 +7,7 @@ import fabric from "./fabric";
 import cart from "./cart";
 import subScribeUers from "./subScribeUers";
 import newcard from "./newcard";
+import searchProdcut from "./searchProdcut";
 export default{
     category,
     product,
@@ -16,5 +17,6 @@ export default{
     fabric,
     cart,
     subScribeUers,
+    searchProdcut,
     newcard
 }

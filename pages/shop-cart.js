@@ -154,18 +154,7 @@ const Cart = ({
     if (itemIndex !== -1) {
       // If the item is found, decrease its quantity by 1, but don't let it go below minQuantity
       if (cartData[itemIndex].quantity > 1
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+      
         
         ) {
         cartData[itemIndex].quantity -= 1;
@@ -221,7 +210,7 @@ const Cart = ({
 
   return (
     <>
-      <Layout parent="Home" sub="Shop" subChild="Cart">
+      <Layout parent="Home"sub={<><a   href="/products"> prodcut</a></>} subChild="Cart">
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">

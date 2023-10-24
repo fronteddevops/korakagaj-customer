@@ -312,7 +312,7 @@ const size=JSON.parse(product.size)
                                                     Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
                                                 </strong>
 
-                                                <Link href={`/fabric?&newlength=${product.length}&id=${product.id}&basePrice=${product.basePrice}&discountPercentage=${product.discountPercentage}`}>
+                                                <Link href={`/fabric?&newlength=${product?.length}&id=${product.id}&basePrice=${product?.basePrice}&discountPercentage=${product?.discountPercentage}&prodcutName=${product?.productName}`}>
                                                     <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
                                                     >
                                                         Choose Fabric
