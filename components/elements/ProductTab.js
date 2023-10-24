@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const ProductTab = () => {
+const ProductTab = ({prodcutD}) => {
     const [activeIndex, setActiveIndex] = useState(1);
 
     const handleOnClick = (index) => {
         setActiveIndex(index);
     };
-
+console.log("===========================",prodcutD)
     return (
         <>
             <div className="tab-style3">
@@ -64,7 +64,8 @@ const ProductTab = () => {
                         id="Description"
                     >
                         <div className="">
-                            <p>
+                     <p>{prodcutD}</p>
+                            {/* <p>
                                 Uninhibited carnally hired played in whimpered
                                 dear gorilla koala depending and much yikes off
                                 far quetzal goodness and from for grimaced
@@ -135,7 +136,7 @@ const ProductTab = () => {
                                 less across objectively fanciful grimaced wildly
                                 some wow and rose jeepers outgrew lugubrious
                                 luridly irrationally attractively dachshund.
-                            </p>
+                            </p> */}
                         </div>
                     </div>
                     <div

@@ -39,6 +39,7 @@ const Products = ({ products1, productFilters }) => {
     //get query data 
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
+  const categoryName=Router.query.categoryName
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -265,7 +266,7 @@ const Products = ({ products1, productFilters }) => {
 
   return (
     <>
-     <Layout parent="Home" sub={<><a   href="/products"> shop</a></>}  subChild="Products">
+     <Layout parent="Home" sub={ categoryId? (<><a   href="/categories"> Category</a></>):  <><a   href="/products"> shop</a></>}  subChild="Products">
     
     <section className="mt-50 mb-50">
       <div className="container">

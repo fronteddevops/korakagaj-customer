@@ -88,7 +88,7 @@ export default function Home() {
 
                 <section className="deals section-padding">
                     <div className="container">
-                        <div className="row">
+                        <div className="row ">
                             <div className="col-lg-6 deal-co">
                                 <Deals1 />
                             </div>

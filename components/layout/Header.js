@@ -27,7 +27,7 @@ const Header = ({
         setScroll(scrollCheck);
       }
     });
-   
+    setUserName(JSON.parse(localStorage.getItem("user")))
   }, []);
 
   const handleToggle = () => {

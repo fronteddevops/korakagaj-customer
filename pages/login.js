@@ -55,7 +55,7 @@ function Login() {
         };
         console.log(payLoad);
         const response = await services.auth.LOGIN_USER(payLoad);
-console.log("++++++++++++++++++++++++++++")
+
         if (response) {
        
         localStorage.setItem("user",JSON.stringify(response?.data?.user))
@@ -267,25 +267,7 @@ setTimeout(() => {
                             </button>
                           </div>
                         </form>
-                        <div className="form-group">
-                        <a href="/register">
-                            <button
-                              type="submit"
-                              className="btn btn-fill-out btn-block hover-up w-100"
-                              name="login"
-                            
-                            // onClick={handleLogin}
-                            >
-                            
-                              Register
-                           
-                       
-                            </button>
-                            </a>
-                          </div>
-
-
-
+                      
                         <div className="divider-text-center mt-15 mb-15">
                           <span> or</span>
                         </div>
@@ -307,6 +289,7 @@ setTimeout(() => {
                             </a>
                           </li>
                         </ul>
+                        <div class="text-muted text-center">Already have an account? <a href="/register">Sign in now</a></div>
                       </div>
                     </div>
                   </div>

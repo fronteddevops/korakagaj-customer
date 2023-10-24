@@ -11,7 +11,7 @@ export default {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-            nextConfig.BASE_URL + api.product.GET_PRODUCT()
+            nextConfig.BASE_URL + api.product.UP_COMING_PRODUCT()
         );
         resolve(response);
       } catch (err) {
@@ -25,6 +25,18 @@ export default {
       try {
         const response = await Axios.get(
           nextConfig.BASE_URL + api.product.GET_PRODUCT_BY_ID(id)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  UP_COMING_PRODUCT: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+          nextConfig.BASE_URL + api.product.UP_COMING_PRODUCT(id)
         );
         resolve(response);
       } catch (err) {

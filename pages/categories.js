@@ -23,7 +23,7 @@ function Categories() {
    const imageUrl=nextConfig.BASE_URL_UPLOADS
     return (
         <>
-            <Layout parent="Home" sub="Categories" subChild="List">
+            <Layout parent="Home" sub={<a   href="/"> Category</a>} subChild="List">
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
@@ -31,28 +31,16 @@ function Categories() {
                                 <div className="col-lg-2 mb-20" key={i}>
                                     <div className="card-1">
                                         <figure className=" img-hover-scale overflow-hidden">
-                                            <Link href={`/products?id=${item.id}`} >
-                                            <a>
-                                                    <img
-                                                        src={imageUrl+item.image}
-                                                        alt=""
-                                                     
-                                                        crossOrigin='anonymous'
-                                                    />
-                                                </a>
-
-
-
-
-
-
-
-
-
-
-
-                                                
-                                            </Link>
+                                        <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
+                                    <a>
+                                        <img
+                                            src={ imageUrl+item.image}
+                                            alt=""
+                                            crossOrigin="anonymous"
+                                               style={{ width: '200px', height: '150px', objectFit: 'cover' }}
+                                        />
+                                    </a>
+                                </Link>
                                         </figure>
                                         <h5>
                                             <Link href="/products">
