@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import services from '../services'
 import { useRouter } from "next/router";
-
+import { ToastContainer, toast } from "react-toastify";
 export default function addaddress() {
     const route = useRouter()
     const [fullName,setFullName]=useState('')
@@ -12,10 +12,15 @@ export default function addaddress() {
     
     const [phoneNumberError,setPhoneNumberError]=useState('')
     const [pinCode,setPinCode]=useState('')
+    const [pinCodeError,setPinCodeError]=useState('')
     const [state,setState]=useState('')
+    const [stateError,setStateError]=useState('')
     const [city,setCity]=useState('')
+    const [cityError,setCityError]=useState('')
     const [houseNo,setHouseNo]=useState('')
+    const [houseNoError,setHouseNoError]=useState('')
     const [address,setAddress]=useState('')
+    const [addressError,setAddressError]=useState('')
     const toastSuccesscreateaddress = () => toast.success("Created Address successfully");
 
     const handlesave = async ()=>{
@@ -32,14 +37,18 @@ export default function addaddress() {
                 }
             }
             const response = await services.myprofile.CREATE_MY_ADDRESS(data)
+            console.log(response)
             if(response)
-            {
+          {
+              
+                console.log('Before route.push');
+                route.push('/myprofile?index=4');
+                console.log('After route.push');
                 toastSuccesscreateaddress()
-                // route.push('/myprofile?index=4')
 
             }
         }
-        catch(erro){
+        catch(error){
           console.log(error)
         }
       
@@ -82,7 +91,20 @@ export default function addaddress() {
                 type="text"
                 value={fullName}
                 placeholder="Enter Full Name"
-                onChange={(e)=>setFullName(e.target.value)}
+                onChange={(e) => {
+                  setFullName(e.target.value);
+                
+                  {
+                    setFullNameError()
+                  }
+                  if (!e.target.value.trim()) {
+                    setFullNameError(
+                      "Full name is required"
+                    );
+                  } else {
+                      setFullNameError("");
+                  }
+                }}
                
             />
             <div >
@@ -115,17 +137,17 @@ export default function addaddress() {
             value={phoneNumber}
             // placeholder="Enter Phone Number"
             onChange={(e) => {
-                    setPhoneNumber(e.target.value);
-                    if (!e.target.value.trim()) {
-                        setPhoneNumberError(
-                        "Phone number is required"
-                      )
-                    }
-                    
-                    else {
-                        setPhoneNumberError("");
-                    }
-                  }}
+              setPhoneNumber(e.target.value);
+              if (!e.target.value.trim()) {
+                  setPhoneNumberError(
+                  "Phone number is required"
+                )
+              }
+              
+              else {
+                  setPhoneNumberError("");
+              }
+            }}
         />
         <div >
             {phoneNumberError && (
@@ -155,9 +177,33 @@ export default function addaddress() {
                         name="pincode"
                         type="number"
                         value={pinCode}
-                        onChange={(e)=>setPinCode(e.target.value)}
-                        // placeholder='Enter PinCode'
+                        onChange={(e) => {
+                          setPinCode(e.target.value);
+                          if (!e.target.value.trim()) {
+                              setPinCodeError(
+                              "Pin Code is required"
+                            )
+                          }
+                          
+                          else {
+                              setPinCodeError("");
+                          }
+                        }}
                     />
+                    <div >
+                    {pinCodeError && (
+                      
+                        <span
+                          style={{
+                            color: "red",
+                            position: "absolute",
+                          }}
+                        >
+                          {pinCodeError}
+                        </span>
+                      
+                    )}
+                    </div>
                 </div>
                 <div className="form-group col-md-6">
                 <label>
@@ -172,10 +218,34 @@ export default function addaddress() {
                     name="state"
                     type="text"
                     value={state}
-                    // placeholder="Enter State"
-                    onChange={(e)=>setState(e.target.value)}
+                    onChange={(e) => {
+                      setState(e.target.value);
+                      if (!e.target.value.trim()) {
+                          setStateError(
+                          "State is required"
+                        )
+                      }
+                      
+                      else {
+                         setStateError("");
+                      }
+                    }}
               
                 />
+                <div >
+                {stateError && (
+                  
+                    <span
+                      style={{
+                        color: "red",
+                        position: "absolute",
+                      }}
+                    >
+                      {stateError}
+                    </span>
+                  
+                )}
+                </div>
             </div>
             <div className="form-group col-md-6">
             <label>
@@ -191,8 +261,33 @@ export default function addaddress() {
                 type="text"
                 value={city}
                 // placeholder={`Enter ${phoneNumber}`}
-                onChange={(e)=>setCity(e.target.value)}
+                onChange={(e) => {
+                  setCity(e.target.value);
+                  if (!e.target.value.trim()) {
+                      setCityError(
+                      "City is required"
+                    )
+                  }
+                  
+                  else {
+                     setCityError("");
+                  }
+                }}
             />
+            <div >
+            {cityError && (
+              
+                <span
+                  style={{
+                    color: "red",
+                    position: "absolute",
+                  }}
+                >
+                  {cityError}
+                </span>
+              
+            )}
+            </div>
         </div>
         <div className="form-group col-md-6">
         <label>
@@ -207,9 +302,33 @@ export default function addaddress() {
             name="houseno"
             type="text"
             value={houseNo}
-            // placeholder="Enter House No."
-            onChange={(e)=>setHouseNo(e.target.value)}
+            onChange={(e) => {
+              setHouseNo(e.target.value);
+              if (!e.target.value.trim()) {
+                  setHouseNoError(
+                  "HouseNo is required"
+                )
+              }
+              
+              else {
+                 setHouseNoError("");
+              }
+            }}
         />
+        <div >
+        {houseNoError && (
+          
+            <span
+              style={{
+                color: "red",
+                position: "absolute",
+              }}
+            >
+              {houseNoError}
+            </span>
+          
+        )}
+        </div>
     </div>
     <div className="form-group col-md-12">
     <label>
@@ -224,17 +343,52 @@ export default function addaddress() {
         name="address"
         type="address"
         value={address}
-        onChange={(e)=>setAddress(e.target.value)}
+        onChange={(e) => {
+          setAddress(e.target.value);
+          if (!e.target.value.trim()) {
+              setAddressError(
+              "Address is required"
+            )
+          }
+          
+          else {
+             setAddressError("");
+          }
+        }}
     />
+    <div >
+    {addressError && (
+      
+        <span
+          style={{
+            color: "red",
+            position: "absolute",
+          }}
+        >
+          {addressError}
+        </span>
+      
+    )}
+    </div>
 </div>
             </div>
         </form>
                 <a
                     href="#"
                     className="btn-small"
-                    onClick={handlesave}
+                    
+                    
                 >
-                    save
+                <button
+                className="btn btn-fill-out mt-10"
+                disabled={fullName==="" 
+                   || phoneNumber==="" || pinCode==="" || state==="" || city==="" || houseNo==="" || address==="" 
+                  ||fullNameError|| phoneNumberError || pinCodeError || stateError || cityError || houseNoError||addressError}
+                onClick={handlesave}
+                >
+                save
+                </button>
+                   
                 </a>
             </div>
             </div>

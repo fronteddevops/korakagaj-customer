@@ -41,8 +41,8 @@ function Account() {
   };
 
   const handleOnClick = async (index) => {
-    setActiveIndex(index); // remove the curly braces
-
+    setActiveIndex(index);
+    setFirstNameError("")
     if (index === 5) {
       try {
         const response = await services.myprofile.GET_MY_PROFILE();
@@ -67,14 +67,14 @@ function Account() {
   };
   const handlesubmit = async () => {
     try {
-      const dataString = JSON.stringify(data);
+   
       const data = {
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
         email: email,
       };
-      const response = await services.myprofile.UPDATE_MY_PROFILE(dataString);
+      const response = await services.myprofile.UPDATE_MY_PROFILE(data);
       if (response) {
         toastSuccessprofileupdate();
       } else {
@@ -110,7 +110,13 @@ function Account() {
         toastError(error);
       }
     }
+    
   };
+  function handle() {
+
+    setFirstNameError("")
+    }
+
 
   return (
       <div>
@@ -421,12 +427,23 @@ function Account() {
                                   <div
                                     className="card-body"
                                     onChange={(e) => setAllAddress()}
-                                    
+                                    key={index}
                                   >
-       
-                                    <address>{user.id}</address>
-  
-                                    <a href="/editaddress" className="btn-small">
+                                 
+                                    <address>  {user.address.fullName}
+                                    <br/>  {user.address.phoneNumber}
+                                    <br/>{user.address.houseNo}{user.address.address}<br/>
+                                    {user.address.city}
+                                    <br/>
+                                  
+                                 
+                                  
+                                    {user.address.pinCode}
+                                    <br/>
+                                    {user.address.state}
+                                    
+                                    </address>
+                                    <a href={`/editaddress/?userid=${user.id}`} className="btn-small">
                                       Edit
                                     </a>
                                   </div>
@@ -470,14 +487,24 @@ function Account() {
                                       value={firstName}
                                       placeholder={`Enter ${firstName}`}
                                       onChange={(e) => {
+                                       
                                         setFirstName(e.target.value);
                                         if (!e.target.value.trim()) {
                                           setFirstNameError(
                                             "First name is required"
                                           );
-                                        } else {
-                                          setFirstNameError("");
+                                          
                                         }
+                                        
+                                        else {
+                                          setFirstName(e.target.value);
+                                          setFirstNameError("");
+                                        
+                                    
+                                        }
+                                        setFirstName(e.target.value.trim());
+                                     
+                                     
                                       }}
                                     />
                                     <div>
@@ -513,6 +540,8 @@ function Account() {
                                         } else {
                                           setLastNameError("");
                                         }
+                                        setLastName(e.target.value);
+                                        setLastNameError("");
                                       }}
                                     />
                                     <div>
@@ -550,6 +579,8 @@ function Account() {
                                         } else {
                                           setPhoneNumberError("");
                                         }
+                                        setPhoneNumber(e.target.value);
+                                        setPhoneNumberError("");
                                       }}
                                     />
                                     <div>
@@ -580,7 +611,7 @@ function Account() {
                                   </div>
                                   <div className="col-md-12 mt-5">
                                     <button
-                                      className="btn btn-fill-out submit"
+                                      className="btn btn-fill-out "
                                       disabled={
                                         firstNameError ||
                                         lastNameError ||
@@ -762,10 +793,8 @@ function Account() {
                                       // name="submit"
                                       // value="Submit"
                                       disabled={
-                                        !(
-                                          password &&
-                                          newpassword &&
-                                          confirmPassword
+                                        (
+                                          passwordError || newpasswordError || confirmPasswordError
                                         )
                                       }
                                       onClick={changepassword}
