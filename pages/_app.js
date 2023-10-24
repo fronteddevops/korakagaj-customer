@@ -14,9 +14,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Preloader from "./../components/elements/Preloader";
-Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
-    "access_token"
-  )}`;
+// Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
+//     "access_token"
+//   )}`;
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
