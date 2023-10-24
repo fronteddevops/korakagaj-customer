@@ -10,6 +10,7 @@ import Loader from './../elements/Loader';
 import nextConfig from "../../next.config";
 import services from "../../services";
 
+
 const SingleProduct = ({
     product,
     addToCart,
@@ -20,13 +21,14 @@ const SingleProduct = ({
 }) => {
   const [loading, setLoading] = useState(false);
   
+  
   const imageUrl=nextConfig.BASE_URL_UPLOADS
   const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
+
   
- 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -52,9 +54,28 @@ const SingleProduct = ({
     toast.success("Add to Compare !");
   };
 
-  const handleWishlist = (product) => {
-    addToWishlist(product);
-    toast.success("Add to Wishlist !");
+
+  const handleWishlist =async (product) => {
+const productstatus=localStorage.getItem("productstatus")
+// console.log("kkkkkkkkkkkkkkkkkkkk",productstatus)
+
+    if(localStorage.getItem("access_token")){
+      if(!localStorage.getItem("productstatus")){
+        services.NewWishlist([product])
+        toast.success("Add to Wishlist !");
+      
+        return;
+      }else if(localStorage.getItem("productstatus")){
+        services.NewWishlist([product])
+        toast.success("Remove to Wishlist !");
+      }
+
+   
+    }else{
+      addToWishlist(product);
+      toast.success("Add to Wishlist !");
+    }
+   
   };
   return (
     <>

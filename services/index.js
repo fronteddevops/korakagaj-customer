@@ -5,8 +5,8 @@ import subCategory from "./subCategory";
 import subSubCategory from "./subSubCategory";
 import fabric from "./fabric";
 import cart from "./cart";
+import Wishlist from "./Wishlist";
 import subScribeUers from "./subScribeUers";
-import newcard from "./newcard";
 import myprofile from "./myprofile";
 
 export default{
@@ -18,7 +18,7 @@ export default{
     fabric,
     cart,
     subScribeUers,
-    newcard,
+    Wishlist,
     myprofile,
    
 }

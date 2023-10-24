@@ -8,10 +8,9 @@ import SingleProduct from "../../components/ecommerce/SingleProduct";
 import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
-import { fetchProduct } from "../../redux/action/product";
 import ShopFilter from "./../../components/ecommerce/Filter";
 
-const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
+const ProductsFullWidth = ({ products, productFilters }) => {
 
     let Router = useRouter(),
         searchTerm = Router.query.search,
@@ -24,7 +23,6 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
     let [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        fetchProduct(searchTerm, "/static/product.json", productFilters);
         cratePagination();
     }, [productFilters, limit, pages, products.items.length]);
 
@@ -144,9 +142,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDidpatchToProps = {
-    // openCart,
-    fetchProduct,
-    // fetchMoreProduct,
+
 };
 
 export default connect(mapStateToProps, mapDidpatchToProps)(ProductsFullWidth);
