@@ -14,13 +14,13 @@ function Login() {
   //error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
- 
- 
+
+
   //password show icon set value in state
- 
+
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
- 
-  
+
+
   //email validate
 
   const validateEmail = (email) => {
@@ -55,34 +55,15 @@ function Login() {
         };
         console.log(payLoad);
         const response = await services.auth.LOGIN_USER(payLoad);
-console.log("++++++++++++++++++++++++++++")
+        await handleCart()
         if (response) {
-       
-        localStorage.setItem("user",JSON.stringify(response?.data?.user))
+
+          localStorage.setItem("user", JSON.stringify(response?.data?.user))
           toastSuccessLogin();
-          //step 1 get data localstorage 
-      
-          //map cart function 
+          setTimeout(() => {
+            route.push('/')
+          }, 1000);
 
-
-          // const mappedData = cartDetails.map((item) => {
-          //   return {
-          //     quantity: item.quantity,
-          //     totalPrice: item.totalPrice,
-          //     productId: item.id
-          //   };
-          // });
-
-          // console.log("Mapped Data:", mappedData);
-
-
-          //get cart api call
-         
-// navigate home page \
-setTimeout(() => {
-  route.push('/')
-}, 1000);
-         
         } else {
           alert(response.data.guide);
         }
@@ -91,12 +72,34 @@ setTimeout(() => {
       }
     }
   };
-
- 
-
-  
-
-  
+  const handleCart = async () => {
+    if (localStorage.getItem("cartDetail")) {
+    
+      const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
+      let cartDetailsLocal = []
+      if (cartLocal && cartLocal.cartDetails.length > 0) {
+        cartDetailsLocal = cartLocal.cartDetails
+      }
+      const cart = await services.cart.GET_CART()
+      let cartDetails = []
+      if (cart.data.data[0].cartDetail) {
+        cartDetails = cart.data.data[0].cartDetail.cartDetails
+      }
+      cartDetails = [...cartDetails, ...cartDetailsLocal]
+      
+      const key = 'id';
+      const unique = [...new Map(cartDetails.map(item =>
+        [item[key], item])).values()];
+      let data = {
+        cartDetail: {cartDetails: unique}
+      }
+      console.log(data)
+      const updateCart = await services.cart.UPDATE_CART(data)
+      console.log(updateCart)
+      localStorage.removeItem('cartDetail')
+     
+    } 
+  };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
   const toastErrorLogin = (error) => {
@@ -106,8 +109,6 @@ setTimeout(() => {
   const togglePasswordVisibilityLogin = () => {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
-
-
 
   return (
     <>
@@ -123,8 +124,8 @@ setTimeout(() => {
         pauseOnHover
       />
       <Layout parent="Home" sub="Login" >
-        <section className="pt-100 pb-100 bg-image" style={{backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')"}}>
-          
+        <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
+
           <div className="container">
             <div className="row">
               <div className="col-lg-12 m-auto">
@@ -268,21 +269,21 @@ setTimeout(() => {
                           </div>
                         </form>
                         <div className="form-group">
-                        <a href="/register">
+                          <a href="/register">
                             <button
                               type="submit"
                               className="btn btn-fill-out btn-block hover-up w-100"
                               name="login"
-                            
+
                             // onClick={handleLogin}
                             >
-                            
+
                               Register
-                           
-                       
+
+
                             </button>
-                            </a>
-                          </div>
+                          </a>
+                        </div>
 
 
 
