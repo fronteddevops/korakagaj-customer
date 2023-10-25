@@ -4,6 +4,7 @@ import Layout from '../components/layout/Layout';
 import nextConfig  from '../next.config';
 import services from '../services';
 import { useEffect, useState } from 'react';
+
 function Categories() {
     const [categories,setCategories]=useState([])
     const getCategories= async()=>{
@@ -23,7 +24,7 @@ function Categories() {
    const imageUrl=nextConfig.BASE_URL_UPLOADS
     return (
         <>
-            <Layout parent="Home" sub={<a   href="/"> Category</a>} subChild="List">
+            <Layout parent="Home" sub={<a   href="/"> { }</a>} subChild="List">
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
