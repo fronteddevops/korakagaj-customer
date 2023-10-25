@@ -7,6 +7,7 @@ import services from "../../services";
 import { Router, useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const ProductId = ({ product }) => {
   const [data, setData] = useState([]);
@@ -48,7 +49,7 @@ const ProductId = ({ product }) => {
   return (
     <>
       { data && data?.length>0 && (
-        <Layout parent="Home" sub="Shop" subChild={product?.productName}>
+        <Layout parent="Home" sub={<><a   href="/products"> prodcut</a></>} subChild={data?.productName}>
           <div className="container">
             <ProductDetails product={data} fabricPrice={newFabricPrice} />
           </div>

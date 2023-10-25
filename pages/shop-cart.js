@@ -28,186 +28,19 @@ const Cart = ({
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [cartData, setCartData] = useState([])
   const [quantity, setquantity] = useState(1)
+  const [price , setprice ] = useState(1)
+  const [updateCart, setUpdateCart] = useState([])
   //set total price in add to card all prodcut 
-  const updateCart = cartItems?.length > 0 ? cartItems : cartData
-
-  const price = () => {
-    let totalPrice = 0; // Initialize totalPrice to 0
-
-    updateCart.forEach((item) => {
-      const basePrice = item?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-      const discountPercentage = item?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-      const discountAmount = (basePrice * discountPercentage) / 100;
-      const itemTotalPrice = basePrice - discountAmount;
-
-      totalPrice += item?.quantity ? itemTotalPrice * item?.quantity : itemTotalPrice * quantity; // Accumulate the total price for this item
-    });
-
-    return parseFloat(totalPrice); // Return the calculated total price
-  };
 
 
 
 
-  const getCartData = async () => {
-    const userID = localStorage.getItem("userid")
-
-    try {
-
-      const response = await services.cart.GET_CART(userID)
-
-      localStorage.setItem("length", response.data.data[0].cartDetail.cartDetail1.length)
-      setCartData(response.data.data[0]?.cartDetail?.cartDetail1)
-    } catch (error) {
-
-    }
-  }
-  //update cart data function 
-  const updateCartData = useCallback(async (updatedData) => {
-    const userid = localStorage.getItem("userid")
-    const cartDetail1 = updatedData
-    const data = {
-      cartDetail: { cartDetail1 }
-    }
-    try {
-      const response = services.cart.UPDATE_CART(data, userid)
-      if (response) {
-
-        const response = await services.cart.GET_CART(userid)
-
-        localStorage.setItem("length", response.data.data[0].cartDetail.cartDetail1.length)
-        setCartData(response.data.data[0]?.cartDetail?.cartDetail1)
-        getCartData()
-      }
-    } catch (error) {
-
-    }
-  }, [getCartData, cartData]);
 
 
 
-  //                 Call the function to calculate the total price
-  const newIncreaseQuantity = (id) => {
-
-    console.log("id", id);
-
-    // Find all items with the given id in the cartData array
-    const itemIndices = cartData.reduce((indices, item, index) => {
-      if (item?.id === id) {
-        indices.push(index);
-      }
-      return indices;
-    }, []);
-
-    console.log("Item Indices:", itemIndices);
-
-    if (itemIndices.length > 0) {
-      // If items with the same id are found, increase the quantity of the first item
-      const firstItemIndex = itemIndices[0];
-      cartData[firstItemIndex].quantity += 1;
-
-      // Log the updated cart data
-      console.log("Updated cart data:", cartData);
-
-      // Create a copy of the cart data to send to the server
-      const updatedCartData = [...cartData];
-
-      // Send a PUT request to update the cart data on the server
-      console.log("Sending updated cart data to the server:", updatedCartData);
-      updateCartData(updatedCartData);
-
-      // If you want to update the local state with the new quantity, you can do it here
-      // setQuantity(quantity + 1);
-    } else {
-      console.log("Item not found in cart. You can add it to the cart.");
-      // Create a new item with the given ID and add it to the cart
-      const newItem = {
-        id: id,
-        quantity: 1,
-        // Add other item properties here
-      };
-
-      // Push the new item to the cartData array
-      cartData.push(newItem);
-
-      // Log the updated cart data
-      console.log("Updated cart data:", cartData);
-
-      // Create a copy of the cart data to send to the server
-      const updatedCartData = [...cartData];
-
-      // Send a PUT request to update the cart data on the server
-      console.log("Sending updated cart data to the server:", updatedCartData);
-
-    }
-  }
-
-
-  const newDecreaseQuantity = (id, minQuantity) => {
-
-
-    // Find the item with the given id in the cartData array
-    const itemIndex = cartData.findIndex((item) => item?.id == id);
-
-    console.log("Item Index:", itemIndex);
-
-    if (itemIndex !== -1) {
-      // If the item is found, decrease its quantity by 1, but don't let it go below minQuantity
-      if (cartData[itemIndex].quantity > 0) {
-        cartData[itemIndex].quantity -= 1;
-        console.log("cardData", cartData);
-
-        // Log the updated cart data
-        console.log("Updated cart data:", cartData);
-
-        // Create a copy of the cart data to send to the server
-        const updatedCartData = [...cartData];
-
-        // Send a PUT request to update the cart data on the server
-        console.log("Sending updated cart data to the server:", updatedCartData);
-        updateCartData(updatedCartData);
-
-
-      };
-
-
-      // If you want to update the local state with the new quantity, uncomment the line below
-      // setQuantity(quantity - 1);
-    } else {
-      console.log("Item quantity is already at or below the minimum value.");
-    }
-
-  };
-
-
-
-
-  var totalPrice;
-  const calculateTotalPrice = (product) => {
-    let itemTotalPrice = 0; // Initialize totalPrice to 0
-
-    const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-    const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-    const discountAmount = (basePrice * discountPercentage) / 100;
-    itemTotalPrice = basePrice - discountAmount;
-    totalPrice = itemTotalPrice;
-    return itemTotalPrice; // Return the calculated total price
-  };
-
-  useEffect(() => {
-    getCartData()
-    localStorage.setItem("length", updateCart?.length)
-
-
-  }, [])
-
-  console.log("CAR DATA 1223333", cartData)
-
-
- 
   return (
     <>
-      <Layout parent="Home" sub="Shop" subChild="Cart">
+      <Layout parent="Home"sub={<><a   href="/products"> prodcut</a></>} subChild="Cart">
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -682,7 +515,7 @@ const Cart = ({
                               </td>
                               <td className="cart_total_amount">
                                 <span className="font-lg fw-900 text-brand">
-                                  $ {price()}
+                                  $ {300}
                                 </span>
                               </td>
                             </tr>
@@ -698,7 +531,7 @@ const Cart = ({
                               <td className="cart_total_amount">
                                 <strong>
                                   <span className="font-xl fw-900 text-brand">
-                                    ${price()}
+                                    ${300}
                                   </span>
                                 </strong>
                               </td>

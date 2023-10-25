@@ -36,8 +36,7 @@ const Wishlist = ({
             const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
             setWishlistdata(WishlistResponse?.data?.data)
             setWishlistLength(WishlistResponse?.data?.data?.length)
-            localStorage.setItem("wishlistcount",WishlistResponse.data.data.length)
-            localStorage.setItem("productstatus",WishlistResponse.data.data[0].status)
+         
            
         } catch (error) {
             // Handle errors here

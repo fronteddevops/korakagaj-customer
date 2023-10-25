@@ -62,18 +62,20 @@ useEffect(()=>{
                     <SwiperSlide key={i}>
                         <div className="card-1">
                             <figure className=" img-hover-scale overflow-hidden">
-                               <Link href={`/products?id=${item.id}`}  >
+                               <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
                                     <a>
                                         <img
                                             src={ imageUrl+item.image}
                                             alt=""
                                             crossOrigin="anonymous"
+                                               style={{ width: '200px', height: '150px', objectFit: 'cover' }}
                                         />
                                     </a>
                                 </Link>
+                               
                             </figure>
                             <h5>
-                               <Link href={`/products?id=${item.id}`} >
+                            <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
                                     <a>{item.categoryName}</a>
                                 </Link>
                             </h5>

@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 
 
-const Intro1 = () => {
+const   Intro1 = () => {
     return (
         <>
             <Swiper
