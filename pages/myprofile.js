@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Addaddress from "./addaddress";
+import Editaddress from "./editaddress";
 
 import services from "../services";
 import Link from "next/link";
@@ -13,6 +14,7 @@ import { useRouter } from "next/router";
 
 function Account() {
   const route = useRouter();
+  const [selectedid, setSelectedId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(1);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -37,6 +39,7 @@ function Account() {
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
+  const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
 
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
@@ -51,14 +54,24 @@ function Account() {
   };
 
   const handleOnClick = async (index) => {
+  
     setActiveIndex(index);
+    setShowAddAddressComponent(false);
+    setShowEditAddressComponent(false)
     setFirstNameError("");
     setLastNameError("");
     setPhoneNumberError("");
+    setPassword("")
+    setNewPassword("")
+    setConfirmPassword("")
     setPasswordError("");
     setNewPasswordError("");
     setConfirmPasswordError("");
+   
+  
+   
     if (index === 5) {
+     
       try {
         const response = await services.myprofile.GET_MY_PROFILE();
         setFirstName(response?.data?.data?.firstName);
@@ -70,6 +83,7 @@ function Account() {
       }
     }
     if (index === 4) {
+      
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
@@ -97,8 +111,9 @@ function Account() {
     }
   };
 
-  const changepassword = async () => {
-    if (index === 6) {
+  const changepassword = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+   
       setPasswordError("");
       if (password === "") {
         setPasswordError("Please enter password"); // eslint-disable-next-line
@@ -120,13 +135,21 @@ function Account() {
           toastError(error);
           console.log(error);
         }
-      }
+    
     }
   };
 
   const handleaddaddress = () => {
+    setShowEditAddressComponent(false)
     // Set the state to true to render the AddAddressComponent
     setShowAddAddressComponent(true);
+  };
+
+  
+  const handleeditaddress = (id) => {
+    setSelectedId(id);
+    // Set the state to true to render the AddAddressComponent
+    setShowEditAddressComponent(true);
   };
 
   return (
@@ -146,11 +169,14 @@ function Account() {
                 aria-labelledby="address-tab"
               >
                 <div className="col-lg-11 text-end mb-2">
+                
                   <button
                     className="btn btn-fill-out"
                     style={{ width: "150px", padding: "1rem" }}
                     onClick={handleaddaddress}
+                    
                   >
+                  
                     <i class="fa fa-plus fs-6 me-2"></i>
                     Add Address
                   </button>
@@ -417,7 +443,7 @@ function Account() {
                         </div>
                         <div
                           className={
-                            activeIndex === 4 && showAddAddressComponent===false
+                            activeIndex === 4 && showAddAddressComponent===false && showEditAddressComponent===false
                               ? "tab-pane fade show active"
                               : "tab-pane fade"
                           }
@@ -434,6 +460,7 @@ function Account() {
                                     <div className="card-header">
                                       <h5 className="mb-0">Billing Address</h5>
                                     </div>
+                                 
                                     <div
                                       className="card-body"
                                       onChange={(e) => setAllAddress()}
@@ -441,24 +468,96 @@ function Account() {
                                     >
                                       <address>
                                         {" "}
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
                                         {user.address.fullName}
-                                        <br /> {user.address.phoneNumber}
+                                        </span>
+                                        <br /> 
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.phoneNumber}
+                                        </span>
                                         <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
                                         {user.address.houseNo}
+                                        </span>
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
                                         {user.address.address}
+                                        </span>
                                         <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
                                         {user.address.city}
+                                        </span>
                                         <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
                                         {user.address.pinCode}
+                                        </span>
                                         <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
                                         {user.address.state}
+                                        </span>
                                       </address>
-                                      <a
-                                        href={`/editaddress/?userid=${user.id}`}
-                                        className="btn-small"
+                                     
+                                       
+                                 
+                                      <div className="col-lg-12 text-end ">
+                                      <span 
+                                       
+                                        style={{ width: "150px", padding: "1rem",color:"red" ,cursor:'pointer'}}
+                                       
+                                        onClick={() => handleeditaddress(user.id)}
                                       >
-                                        Edit
-                                      </a>
+                                        
+                                      Edit
+                                      </span>
+                                    </div>
                                     </div>
                                   </div>
                                 </div>
@@ -467,6 +566,8 @@ function Account() {
                           </div>
                         </div>
                         {showAddAddressComponent && <Addaddress />}
+                        
+                      {showEditAddressComponent && <Editaddress  id={selectedid}/>}
                         <div
                           className={
                             activeIndex === 5
@@ -540,10 +641,10 @@ function Account() {
                                             "Last name is required"
                                           );
                                         } else {
+                                          setLastName(e.target.value);
                                           setLastNameError("");
                                         }
-                                        setLastName(e.target.value);
-                                        setLastNameError("");
+                                        setLastName(e.target.value.trim());
                                       }}
                                     />
                                     <div>
@@ -573,16 +674,18 @@ function Account() {
                                       value={phoneNumber}
                                       placeholder={`Enter ${phoneNumber}`}
                                       onChange={(e) => {
-                                        setPhoneNumber(e.target.value);
-                                        if (!e.target.value.trim()) {
-                                          setPhoneNumberError(
-                                            "Phone number is required"
-                                          );
+                                        const enteredNumber = e.target.value.trim(); // Trim leading and trailing spaces
+                                        // Ensure that the entered number is not negative, and it should be 10 digits.
+                                      
+                                        setPhoneNumber(enteredNumber);
+                                      
+                                        if (enteredNumber.length === 0) {
+                                          setPhoneNumberError("Phone Number is required");
+                                        } else if (enteredNumber.length !== 10) {
+                                          setPhoneNumberError("Phone Number should be 10 digits");
                                         } else {
                                           setPhoneNumberError("");
                                         }
-                                        setPhoneNumber(e.target.value);
-                                        setPhoneNumberError("");
                                       }}
                                     />
                                     <div>
@@ -606,6 +709,7 @@ function Account() {
                                     <input
                                       required=""
                                       className="form-control square"
+                                      disabled="true"
                                       name="email"
                                       type="email"
                                       value={email}
@@ -652,26 +756,25 @@ function Account() {
                                       <span className="required">*</span>
                                     </label>
                                     <div className="d-flex flex-column align-items-end ">
-                                      <input
-                                        required=""
-                                        className="form-control square"
-                                        name="password"
-                                        type={
-                                          showPassword ? "text" : "password"
-                                        }
-                                        value={password}
-                                        placeholder="password"
-                                        onChange={(e) => {
-                                          if (e.target.value.trim() === "") {
-                                            setIsDisabled(true);
-                                            setPasswordError("Required");
-                                          } else {
-                                            setPassword(
-                                              e.target.value.trimStart()
-                                            );
-                                            setPasswordError("");
-                                          }
-                                        }}
+                                    <input
+                                    required=""
+                                    className="form-control square"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    placeholder="Password"
+                                    onChange={(e) => {
+                                      const trimmedValue = e.target.value.trim(); // Remove leading/trailing spaces
+                                      if (trimmedValue !== "") {
+                                        setPassword(trimmedValue);
+                                        setPasswordError(""); // Clear the error if the input is not just spaces
+                                      } else {
+                                        setPassword(""); // Optionally, you can clear the password state
+                                        setPasswordError("Password is required");
+                                      }
+                                    }}
+                                 
+                                  
                                       />
                                       <span className="">
                                         <i
@@ -693,14 +796,14 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
-
+                                      
                                     {passwordError ? (
-                                      <p
+                                      <span
                                         className="text-start  position-absolute "
-                                        style={{ color: "red" }}
+                                        style={{ color: "red", fontSize: "15px" }}
                                       >
                                         {passwordError}
-                                      </p>
+                                      </span>
                                     ) : null}
                                   </div>
                                   <div className="form-group col-md-12">
@@ -765,8 +868,8 @@ function Account() {
                                     </div>
                                     {newpasswordError ? (
                                       <p
-                                        className="text-start  position-absolute mt-2"
-                                        style={{ color: "red" }}
+                                        className="text-start  position-absolute "
+                                        style={{ color: "red" ,fontSize:"15px"}}
                                       >
                                         {newpasswordError}
                                       </p>
@@ -837,8 +940,8 @@ function Account() {
                                     </div>
                                     {confirmPasswordError ? (
                                       <p
-                                        className="text-start  position-absolute mt-2"
-                                        style={{ color: "red" }}
+                                        className="text-start  position-absolute"
+                                        style={{ color: "red" ,fontSize:"15px"}}
                                       >
                                         {confirmPasswordError}
                                       </p>
@@ -847,7 +950,7 @@ function Account() {
                                   <div className="col-md-12">
                                     <button
                                       // type="submit"
-                                      className="btn btn-fill-out "
+                                      className="btn btn-fill-out mt-10 "
                                       // name="submit"
                                       // value="Submit"
                                       disabled={
