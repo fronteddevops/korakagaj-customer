@@ -11,7 +11,7 @@ export default {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-            nextConfig.BASE_URL + api.product.UP_COMING_PRODUCT()
+            nextConfig.BASE_URL + api.product.GET_PRODUCT()
         );
         resolve(response);
       } catch (err) {
