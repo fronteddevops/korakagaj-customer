@@ -244,8 +244,8 @@ const  GetWishlistdata  = async()=>{
                             src="/assets/imgs/theme/icons/icon-heart.svg"
                           />
                           <span className="pro-count blue">
-                          {wishlistLength}
-                            {/* {totalWishlistItems>0?totalWishlistItems:addWishlistLength} */}
+                          {/* {wishlistLength} */}
+                         {totalWishlistItems>0?totalWishlistItems:wishlistLength} 
                           </span>
                         </a>
                       </Link>
@@ -732,8 +732,8 @@ const  GetWishlistdata  = async()=>{
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
                         <span className="pro-count white">
-                          {wishlistLength}
-                        {/* {totalWishlistItems>0?totalWishlistItems:addWishlistLength} */}
+                          {/* {wishlistLength} */}
+                        {totalWishlistItems>0?totalWishlistItems:wishlistLength}
                         </span>
                       </a>
                     </Link>

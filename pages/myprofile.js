@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 
 import services from "../services";
 import Link from "next/link";
+import moment from "moment";
 
 function Account() {
   const [activeIndex, setActiveIndex] = useState(1);
@@ -306,19 +307,10 @@ function Account() {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {/*    "id": 2,
-                    "type": "Return",
-                    "amount": 500,
-                    "trackingId": "ABC123XYZ",
-                    "trackingLink": "abcdef",
-                    "totalQuantity": 2,
-                    "status": true,
-                    "createdAt": "2023-10-24T12:21:47.000Z",
-                    "updatedAt": "2023-10-24T12:21:47.000Z" */}
                                     {orderDetailsData?.map((item,key)=>{return(
                                       <tr key={key}> 
                                          <td>{item.OrderDetail.trackingId}</td>
-                                         <td>{item.OrderDetail.createdAt}</td>
+                                         <td>{moment(item.OrderDetail.createdAt).format("MMM DD, YYYY hh:mm A" )}</td>
                                          <td>{item.OrderDetail.trackingLink}</td>
                                          <td>{item.OrderDetail.amount}</td>
                                          <td>   <Link href="/OrderViewDetails">
