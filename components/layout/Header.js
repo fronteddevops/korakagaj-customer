@@ -18,6 +18,7 @@ const Header = ({
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
   const [addCartLength, setAddCartLength] = useState()
+  const [userName,setUserName]=useState([])
   const [addWishlistLength, setAddWishlistLength] = useState()
   useEffect(() => {
     document.addEventListener("scroll", () => {
@@ -26,8 +27,7 @@ const Header = ({
         setScroll(scrollCheck);
       }
     });
-    setAddCartLength(localStorage.getItem("length"))
-    setAddWishlistLength(localStorage.getItem("wishlistcount"))
+   
   }, []);
 
   const handleToggle = () => {
@@ -72,6 +72,8 @@ const Header = ({
     const response = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(id);
 
   };
+//user name
+
 
   return (
     <>
@@ -172,13 +174,25 @@ const Header = ({
                         </NavDropdown.Item>
                         <NavDropdown.Item href="/myprofile?index=5">My Profile</NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">
+                        <NavDropdown.Item href="/"
+                        onClick={()=>{
+                          localStorage.clear()
+                        }}
+                        >
                           Logout
                         </NavDropdown.Item>
                       </NavDropdown>
-                      <Link href="/login">
-                        <a>Log In / Sign Up</a>
-                      </Link>
+                       { userName ?(
+  <div>
+    {userName.firstName} {userName.lastName}
+  </div>
+) : (
+  <Link href="/login">
+    <a>Log In / Sign Up</a>
+  </Link>
+)
+                       }
+                   
                     </li>
                   </ul>
                 </div>

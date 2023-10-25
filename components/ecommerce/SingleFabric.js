@@ -19,29 +19,38 @@ const SingleProduct = ({
     addToCompare,
     addToWishlist,
     openQuickView,
-    price,
+
     length,
-    id
+    id,
+    discountPercentage,
+    basePrice
     
 }) => {
 
     const router = useRouter()
     const [loading, setLoading] = useState(false);
     const imageUrl=nextConfig.BASE_URL_UPLOADS
-    useEffect(() => {
+    useEffect(() => {  
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
         }, 2000);
     }, []);
-    const totalprice =  length * product.price
-const fabricPrice= parseFloat( totalprice+ +price)
+
+     const fabricPrice= length*product?.price
+     const newbasePrice=fabricPrice+ +basePrice
+  const newTotalPrice= parseFloat(newbasePrice - (newbasePrice * discountPercentage) / 100)
+
+     console.log("===============================",fabricPrice)
 
     const popover = (
         <Popover id="popover-basic">
             <Popover.Header as="h3">Estimated Price</Popover.Header>
             <Popover.Body>
-                Your product's estimated final price will be <strong className="text-brand">Rs :{fabricPrice}</strong>.
+                Your product's estimated final price will be <strong className="text-brand">Rs :{newTotalPrice
+
+
+                }</strong>.
             </Popover.Body>
         </Popover>
     );
@@ -97,12 +106,12 @@ const fabricPrice= parseFloat( totalprice+ +price)
 
                             <h2>
 
-                                   <a>{product.fabricName}</a>
+                                   <a>{product?.fabricType}</a>
 
                             </h2>
 
                             <div className="product-price">
-                                <span>Rs.{product.price}/MTR </span>
+                                <span>Rs.{product?.price}/MTR </span>
 
 
                             </div>
@@ -114,7 +123,7 @@ const fabricPrice= parseFloat( totalprice+ +price)
                             <Link
   href={{
     pathname: '/products/[slug]',
-    query: { fabricPrice: fabricPrice, productId: id },
+    query: { fabricPrice: newTotalPrice, productId: id },
   }}
   as={`/products/${id}`}
 >

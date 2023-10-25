@@ -6,6 +6,7 @@ import subSubCategory from "./subSubCategory";
 import fabric from "./fabric";
 import cart from "./cart";
 import subscribeuser from "./subscribeuser";
+import searchProduct from "./searchProduct";
 import Wishlist from "./Wishlist";
 import myprofile from "./myprofile";
 
@@ -18,6 +19,7 @@ export default {
   fabric,
   cart,
   subscribeuser,
+  searchProduct,
   Wishlist,
   myprofile,
   

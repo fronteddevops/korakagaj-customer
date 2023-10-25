@@ -74,52 +74,8 @@ function Register() {
           const id = response.data.user.id
           localStorage.setItem("userid", id)
           toastSuccessLogin();
-          //step 1 get data localstorage 
-          const cartDetails = JSON.parse(localStorage.getItem("dokani_cart"))
-          //map cart function 
 
-
-          // const mappedData = cartDetails.map((item) => {
-          //   return {
-          //     quantity: item.quantity,
-          //     totalPrice: item.totalPrice,
-          //     productId: item.id
-          //   };
-          // });
-
-          // console.log("Mapped Data:", mappedData);
-
-
-          //get cart api call
-          const cartResponse = await services.cart.GET_CART(id);
-
-
-          if (cartResponse) {
-            console.log("Cart data is available", cartResponse.data.data.length);
-
-            // Step 2: Join the cart data with the provided 'prodcut' array
-            const cartData = cartResponse?.data?.data[0].cartDetail?.cartDetail1 ? cartResponse?.data?.data[0].cartDetail?.cartDetail1 : []
-            if (cartDetails.length > 0) {
-              const cartDetail1 = cartData?.concat(cartDetails)
-              const data = {
-                cartDetail: { cartDetail1 }
-              }
-
-
-              console.log("Joined Array:", data.cartDetail?.cartDetail1.length
-
-              );
-              // Step 3: Update the cart with the joined data and update api call
-
-              const updateResponse = await services.cart.UPDATE_CART(data, id);
-              if (updateResponse) {
-                console.log("999999999999999999999999999999999999", updateResponse?.data?.data?.length)
-                localStorage.setItem("cartitem", updateResponse?.data?.data?.length)
-                localStorage.removeItem("dokani_cart")
-              }
-            }
-          }
-// navigate home page 
+          // navigate home page 
           route.push('/')
         } else {
           alert(response.data.guide);
@@ -240,14 +196,14 @@ function Register() {
         pauseOnHover
       />
       <Layout parent="Home" sub="Register">
-        <section className="pt-100 pb-100 bg-image" style={{backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')"}}>
-          
+        <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
+
           <div className="container">
             <div className="row">
               <div className="col-lg-12 m-auto">
                 <div className="row justify-content-around">
                   <div className="col-lg-5">
-                  <div className="login_wrap widget-taber-content p-30 background-white border-radius-5">
+                    <div className="login_wrap widget-taber-content p-30 background-white border-radius-5">
                       <div className="padding_eight_all bg-white">
                         <div className="heading_s1">
                           <h3 className="mb-30">
