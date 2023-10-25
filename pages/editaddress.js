@@ -69,6 +69,7 @@ export default function addaddress() {
           const response = await services.myprofile.UPDATE_MY_ADDRESS_BY_ID(id,data)
           console.log()
           if (response) {
+            route.push('/myprofile?index=4');
             toastSuccessprofileupdate();
           } else {
           }

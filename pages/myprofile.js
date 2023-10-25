@@ -3,11 +3,16 @@ import Layout from "../components/layout/Layout";
 import "font-awesome/css/font-awesome.min.css";
 import { ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Addaddress from "./addaddress";
 
 import services from "../services";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Account() {
+  const route = useRouter();
   const [activeIndex, setActiveIndex] = useState(1);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,6 +33,11 @@ function Account() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoaded, setIsLoaded] = useState(true);
   const [alladdress, setAllAddress] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
+
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   // const token = JSON.parse(localStorage.getItem("access_token"))
@@ -42,7 +52,12 @@ function Account() {
 
   const handleOnClick = async (index) => {
     setActiveIndex(index);
-    setFirstNameError("")
+    setFirstNameError("");
+    setLastNameError("");
+    setPhoneNumberError("");
+    setPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
     if (index === 5) {
       try {
         const response = await services.myprofile.GET_MY_PROFILE();
@@ -58,16 +73,13 @@ function Account() {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
-        setAllAddress(response?.data?.data)
+        setAllAddress(response?.data?.data);
       } catch {}
-
-      
     } else {
     }
   };
   const handlesubmit = async () => {
     try {
-   
       const data = {
         firstName: firstName,
         lastName: lastName,
@@ -86,40 +98,39 @@ function Account() {
   };
 
   const changepassword = async () => {
-    // if(index===6){
-    let isValid = true;
-    setPasswordError("");
-    if (password === "") {
-      setPasswordError("Please enter password"); // eslint-disable-next-line
-      isValid = false;
-    }
-    if (newpassword !== confirmPassword) {
-      setConfirmPasswordError("Password does not match");
-    } else {
-      try {
-        const data = {
-          newPassword: newpassword,
-          oldPassword: password,
-        };
-        const response = await services.myprofile.CHANGE_PASSWORD(data);
-        if (response) {
-          toastSuccesschangepassword();
+    if (index === 6) {
+      setPasswordError("");
+      if (password === "") {
+        setPasswordError("Please enter password"); // eslint-disable-next-line
+        isValid = false;
+      }
+      if (newpassword !== confirmPassword) {
+        setConfirmPasswordError("Password does not match");
+      } else {
+        try {
+          const data = {
+            newPassword: newpassword,
+            oldPassword: password,
+          };
+          const response = await services.myprofile.CHANGE_PASSWORD(data);
+          if (response) {
+            toastSuccesschangepassword();
+          }
+        } catch (error) {
+          toastError(error);
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-        toastError(error);
       }
     }
-    
   };
-  function handle() {
 
-    setFirstNameError("")
-    }
-
+  const handleaddaddress = () => {
+    // Set the state to true to render the AddAddressComponent
+    setShowAddAddressComponent(true);
+  };
 
   return (
-      <div>
+    <div>
       <Layout parent="Home" sub="Pages" subChild="Account">
         <section className="pt-150 pb-150">
           <div className="container">
@@ -135,15 +146,14 @@ function Account() {
                 aria-labelledby="address-tab"
               >
                 <div className="col-lg-11 text-end mb-2">
-                  <a href="/addaddress">
-                    <button
-                      className="btn btn-fill-out"
-                      style={{ width: "150px", padding: "1rem" }}
-                    >
-                      <i class="fa fa-plus fs-6 me-2"></i>
-                      Add Address
-                    </button>
-                  </a>
+                  <button
+                    className="btn btn-fill-out"
+                    style={{ width: "150px", padding: "1rem" }}
+                    onClick={handleaddaddress}
+                  >
+                    <i class="fa fa-plus fs-6 me-2"></i>
+                    Add Address
+                  </button>
                 </div>
               </div>
 
@@ -407,7 +417,7 @@ function Account() {
                         </div>
                         <div
                           className={
-                            activeIndex === 4
+                            activeIndex === 4 && showAddAddressComponent===false
                               ? "tab-pane fade show active"
                               : "tab-pane fade"
                           }
@@ -415,48 +425,48 @@ function Account() {
                           role="tabpanel"
                           aria-labelledby="address-tab"
                         >
+                         
                           <div className="row">
-                          {alladdress?.map((user, index) => {
-                            return (
+                            {alladdress?.map((user, index) => {
+                              return (
                                 <div className="col-lg-6">
-                                <div className="card mb-3 mb-lg-0">
-                        
-                                  <div className="card-header">
-                                    <h5 className="mb-0">Billing Address</h5>
-                                  </div>
-                                  <div
-                                    className="card-body"
-                                    onChange={(e) => setAllAddress()}
-                                    key={index}
-                                  >
-                                 
-                                    <address>  {user.address.fullName}
-                                    <br/>  {user.address.phoneNumber}
-                                    <br/>{user.address.houseNo}{user.address.address}<br/>
-                                    {user.address.city}
-                                    <br/>
-                                  
-                                 
-                                  
-                                    {user.address.pinCode}
-                                    <br/>
-                                    {user.address.state}
-                                    
-                                    </address>
-                                    <a href={`/editaddress/?userid=${user.id}`} className="btn-small">
-                                      Edit
-                                    </a>
+                                  <div className="card mb-3 mb-lg-0">
+                                    <div className="card-header">
+                                      <h5 className="mb-0">Billing Address</h5>
+                                    </div>
+                                    <div
+                                      className="card-body"
+                                      onChange={(e) => setAllAddress()}
+                                      key={index}
+                                    >
+                                      <address>
+                                        {" "}
+                                        {user.address.fullName}
+                                        <br /> {user.address.phoneNumber}
+                                        <br />
+                                        {user.address.houseNo}
+                                        {user.address.address}
+                                        <br />
+                                        {user.address.city}
+                                        <br />
+                                        {user.address.pinCode}
+                                        <br />
+                                        {user.address.state}
+                                      </address>
+                                      <a
+                                        href={`/editaddress/?userid=${user.id}`}
+                                        className="btn-small"
+                                      >
+                                        Edit
+                                      </a>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                           );
-                        }
-                        )
-                        }
-                          
-                          
+                              );
+                            })}
                           </div>
                         </div>
+                        {showAddAddressComponent && <Addaddress />}
                         <div
                           className={
                             activeIndex === 5
@@ -487,24 +497,16 @@ function Account() {
                                       value={firstName}
                                       placeholder={`Enter ${firstName}`}
                                       onChange={(e) => {
-                                       
                                         setFirstName(e.target.value);
                                         if (!e.target.value.trim()) {
                                           setFirstNameError(
                                             "First name is required"
                                           );
-                                          
-                                        }
-                                        
-                                        else {
+                                        } else {
                                           setFirstName(e.target.value);
                                           setFirstNameError("");
-                                        
-                                    
                                         }
                                         setFirstName(e.target.value.trim());
-                                     
-                                     
                                       }}
                                     />
                                     <div>
@@ -649,35 +651,52 @@ function Account() {
                                       Current Password
                                       <span className="required">*</span>
                                     </label>
-                                    <input
-                                      required=""
-                                      className="form-control square"
-                                      name="password"
-                                      type={passwordType}
-                                      value={password}
-                                      placeholder="password"
-                                      onChange={(e) => {
-                                        if (e.target.value.trim() === "") {
-                                          setIsDisabled(true);
-
-                                          setPasswordError("Requierd");
-                                        } else {
-                                          setPassword(
-                                            e.target.value.trimStart()
-                                          );
-                                          setPasswordError("");
+                                    <div className="d-flex flex-column align-items-end ">
+                                      <input
+                                        required=""
+                                        className="form-control square"
+                                        name="password"
+                                        type={
+                                          showPassword ? "text" : "password"
                                         }
+                                        value={password}
+                                        placeholder="password"
+                                        onChange={(e) => {
+                                          if (e.target.value.trim() === "") {
+                                            setIsDisabled(true);
+                                            setPasswordError("Required");
+                                          } else {
+                                            setPassword(
+                                              e.target.value.trimStart()
+                                            );
+                                            setPasswordError("");
+                                          }
+                                        }}
+                                      />
+                                      <span className="">
+                                        <i
+                                          onClick={() =>
+                                            setShowPassword(!showPassword)
+                                          }
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={
+                                              showPassword ? faEyeSlash : faEye
+                                            }
+                                            style={{
+                                              height: "1rem",
+                                              verticalAlign: "text-top",
+                                              marginTop: "-2rem",
+                                              marginRight: "1rem",
+                                            }}
+                                          />
+                                        </i>
+                                      </span>
+                                    </div>
 
-                                        setPassword(e.target.value.trimStart());
-                                      }}
-                                      onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                      }
-                                    />
                                     {passwordError ? (
                                       <p
-                                        className="text-start  position-absolute mt-2"
+                                        className="text-start  position-absolute "
                                         style={{ color: "red" }}
                                       >
                                         {passwordError}
@@ -689,42 +708,61 @@ function Account() {
                                       New Password
                                       <span className="required">*</span>
                                     </label>
-                                    <input
-                                      required=""
-                                      className="form-control square"
-                                      name="npassword"
-                                      placeholder="new password"
-                                      autoComplete="off"
-                                      type={newPasswordType}
-                                      onChange={(e) => {
-                                        if (e.target.value.trim() === "") {
-                                          setIsDisabled(true);
+                                    <div className="d-flex flex-column align-items-end ">
+                                      <input
+                                        required=""
+                                        className="form-control square"
+                                        name="npassword"
+                                        placeholder="new password"
+                                        autoComplete="off"
+                                        type={
+                                          showPassword1 ? "text" : "password"
+                                        }
+                                        onChange={(e) => {
+                                          if (e.target.value.trim() === "") {
+                                            setIsDisabled(true);
 
-                                          setNewPasswordError("Requierd");
-                                        } else if (
-                                          e.target.value.trim() ===
-                                          confirmPassword
-                                        ) {
-                                          setIsDisabled(false);
-                                          setNewPasswordError("");
-                                          setConfirmPasswordError("");
-                                        } else {
+                                            setNewPasswordError("Requierd");
+                                          } else if (
+                                            e.target.value.trim() ===
+                                            confirmPassword
+                                          ) {
+                                            setIsDisabled(false);
+                                            setNewPasswordError("");
+                                            setConfirmPasswordError("");
+                                          } else {
+                                            setNewPassword(
+                                              e.target.value.trimStart()
+                                            );
+                                            setNewPasswordError("");
+                                          }
+
                                           setNewPassword(
                                             e.target.value.trimStart()
                                           );
-                                          setNewPasswordError("");
-                                        }
-
-                                        setNewPassword(
-                                          e.target.value.trimStart()
-                                        );
-                                      }}
-                                      value={newpassword}
-                                      onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                      }
-                                    />
+                                        }}
+                                        value={newpassword}
+                                      />
+                                      <span className="">
+                                        <i
+                                          onClick={() =>
+                                            setShowPassword1(!showPassword1)
+                                          }
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={
+                                              showPassword1 ? faEyeSlash : faEye
+                                            }
+                                            style={{
+                                              height: "1rem",
+                                              verticalAlign: "text-top",
+                                              marginTop: "-2rem",
+                                              marginRight: "1rem",
+                                            }}
+                                          />
+                                        </i>
+                                      </span>
+                                    </div>
                                     {newpasswordError ? (
                                       <p
                                         className="text-start  position-absolute mt-2"
@@ -739,44 +777,64 @@ function Account() {
                                       Confirm Password
                                       <span className="required">*</span>
                                     </label>
-                                    <input
-                                      required=""
-                                      type={confirmPasswordType}
-                                      className="form-control square"
-                                      name="cpassword"
-                                      placeholder="confirm password"
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        if (e.target.value.trim() === "") {
-                                          setIsDisabled(true);
+                                    <div className="d-flex flex-column align-items-end ">
+                                      <input
+                                        required=""
+                                        type={
+                                          showPassword2 ? "text" : "password"
+                                        }
+                                        className="form-control square"
+                                        name="cpassword"
+                                        placeholder="confirm password"
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          if (e.target.value.trim() === "") {
+                                            setIsDisabled(true);
 
-                                          setConfirmPasswordError("Requierd");
-                                        } else if (
-                                          e.target.value.trim() !== newpassword
-                                        ) {
-                                          setIsDisabled(true);
+                                            setConfirmPasswordError("Requierd");
+                                          } else if (
+                                            e.target.value.trim() !==
+                                            newpassword
+                                          ) {
+                                            setIsDisabled(true);
 
-                                          setConfirmPasswordError(
-                                            "Password does not match"
-                                          );
-                                        } else {
-                                          setIsDisabled(false);
+                                            setConfirmPasswordError(
+                                              "Password does not match"
+                                            );
+                                          } else {
+                                            setIsDisabled(false);
+                                            setConfirmPassword(
+                                              e.target.value.trimStart()
+                                            );
+                                            setConfirmPasswordError("");
+                                          }
+
                                           setConfirmPassword(
                                             e.target.value.trimStart()
                                           );
-                                          setConfirmPasswordError("");
-                                        }
-
-                                        setConfirmPassword(
-                                          e.target.value.trimStart()
-                                        );
-                                      }}
-                                      value={confirmPassword}
-                                      onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                      }
-                                    />
+                                        }}
+                                        value={confirmPassword}
+                                      />
+                                      <span className="">
+                                        <i
+                                          onClick={() =>
+                                            setShowPassword2(!showPassword2)
+                                          }
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={
+                                              showPassword2 ? faEyeSlash : faEye
+                                            }
+                                            style={{
+                                              height: "1rem",
+                                              verticalAlign: "text-top",
+                                              marginTop: "-2rem",
+                                              marginRight: "1rem",
+                                            }}
+                                          />
+                                        </i>
+                                      </span>
+                                    </div>
                                     {confirmPasswordError ? (
                                       <p
                                         className="text-start  position-absolute mt-2"
@@ -793,8 +851,10 @@ function Account() {
                                       // name="submit"
                                       // value="Submit"
                                       disabled={
-                                        (
-                                          passwordError || newpasswordError || confirmPasswordError
+                                        !(
+                                          password &&
+                                          newpassword &&
+                                          confirmPassword
                                         )
                                       }
                                       onClick={changepassword}
@@ -816,7 +876,7 @@ function Account() {
           </div>
         </section>
       </Layout>
-      </div>
+    </div>
   );
 }
 
