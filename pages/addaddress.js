@@ -27,7 +27,16 @@ export default function Addaddress() {
   const toastSuccesscreateaddress = () =>
     toast.success("Created Address successfully");
 
-  const handlesave = async () => {
+  const handlesave = async (event) => {
+    event.preventDefault();
+
+    let isValid = true;
+     if (phoneNumber.length < 10) {
+      setPhoneNumberError(" Number should be  10  digits.");
+      isValid = false;
+    }
+    if (isValid) {
+      setPhoneNumberError("")
     try {
       const data = {
         address: {
@@ -42,18 +51,38 @@ export default function Addaddress() {
         defaultAddress:isChecked
       };
       const response = await services.myprofile.CREATE_MY_ADDRESS(data);
-      console.log(response);
+   
       if (response) {
         setIsDisabled(true);
         toastSuccesscreateaddress();
         window.location.reload();
+      }else {
+        alert(response?.data?.guide);
       }
     } catch (error) {
       console.log(error);
     }
+  }
   };
   const handleToggle = () => {
     setIsChecked(!isChecked);
+  };
+
+  const handleInputChange = (e) => {
+    const enteredNumber = e.target.value;
+
+    // Ensure that the entered number is not negative
+    if (enteredNumber >= 0 || enteredNumber === "") {
+      setPhoneNumber(enteredNumber);
+
+      if (enteredNumber.length >= 10) {
+        setPhoneNumberError("");
+      } else if (enteredNumber.length === 0) {
+        setPhoneNumberError("Phone Number is Required ");
+      } else {
+        setPhoneNumberError("");
+      }
+    }
   };
   return (
     <div className=" ">
@@ -81,7 +110,7 @@ export default function Addaddress() {
           </div>
          
           <div className="card-body">
-            <form method="post" name="enq">
+            <form method="post"  onSubmit={handlesave}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>
@@ -113,6 +142,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {fullNameError}
@@ -126,27 +156,26 @@ export default function Addaddress() {
                     <span className="required">*</span>
                   </label>
                   <input
-                    required=""
-                    className="form-control square"
-                    name="phone"
-                    type="number"
-                    value={phoneNumber}
-                    placeholder="Enter Phone Number"
-                    onChange={(e) => {
-                      const enteredNumber = e.target.value.trim(); // Trim leading and trailing spaces
-                      // Ensure that the entered number is not negative, and it should be 10 digits.
-                    
-                      setPhoneNumber(enteredNumber);
-                    
-                      if (enteredNumber.length === 0) {
-                        setPhoneNumberError("Phone Number is required");
-                      } else if (enteredNumber.length !== 10) {
-                        setPhoneNumberError("Phone Number should be 10 digits");
-                      } else {
-                        setPhoneNumberError("");
-                      }
-                    }}
-                   
+                  type="number"
+                  required=""
+                  name="phoneNumber"
+                  placeholder="Enter Phone Number"
+                  onChange={handleInputChange}
+                  min="0"
+                  onKeyDown={(e) => {
+                    exceptThisSymbols.includes(e.key) &&
+                      e.preventDefault();
+                    if (
+                      e.target.value.length >= 10 &&
+                      e.key !== "Backspace" &&
+                      e.key !== "Delete"
+                    ) {
+                      e.preventDefault();
+                      setPhoneNumberError(
+                        "Number should be  10  digits."
+                      );
+                    }
+                  }}
                
                   />
                   <div>
@@ -155,6 +184,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {phoneNumberError}
@@ -189,6 +219,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {pinCodeError}
@@ -223,6 +254,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {stateError}
@@ -257,6 +289,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {cityError}
@@ -291,6 +324,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {houseNoError}
@@ -325,6 +359,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {addressError}
@@ -343,14 +378,14 @@ export default function Addaddress() {
                         houseNo === "" ||
                         address === "" ||
                         fullNameError ||
-                        phoneNumberError ||
+                        
                         pinCodeError ||
                         stateError ||
                         cityError ||
                         houseNoError ||
                         addressError
                       }
-                      onClick={handlesave}
+                     
                     >
                       save
                     </button>

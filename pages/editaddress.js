@@ -51,7 +51,16 @@ export default function Editaddress(props) {
     }
   };
 
-  const handlesubmit = async () => {
+  const handlesubmit = async (event) => {
+    event.preventDefault();
+
+    let isValid = true;
+     if (phoneNumber.length < 10) {
+      setPhoneNumberError(" Number should be  10  digits.");
+      isValid = false;
+    }
+    if (isValid) {
+      setPhoneNumberError("")
     try {
       const data = {
         address: {
@@ -78,16 +87,34 @@ export default function Editaddress(props) {
         toastSuccessprofileupdate();
         window.location.reload();
       } else {
+        alert(response?.data?.guide);
       }
     } catch (error) {
       console.log(error);
       toastError(error);
     }
+  }
   };
   
   const handleToggle = () => {
     setIsChecked(!isChecked);
   }
+  const handleInputChange = (e) => {
+    const enteredNumber = e.target.value;
+
+    // Ensure that the entered number is not negative
+    if (enteredNumber >= 0 || enteredNumber === "") {
+      setPhoneNumber(enteredNumber);
+
+      if (enteredNumber.length >= 10) {
+        setPhoneNumberError("");
+      } else if (enteredNumber.length === 0) {
+        setPhoneNumberError("Phone Number is Required ");
+      } else {
+        setPhoneNumberError("");
+      }
+    }
+  };
 
   useEffect(() => {
     handleaddress();
@@ -117,7 +144,7 @@ export default function Editaddress(props) {
     
     </div>
           <div className="card-body">
-            <form method="post" name="enq">
+            <form method="post"  onSubmit={handlesubmit}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>
@@ -148,6 +175,7 @@ export default function Editaddress(props) {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {fullNameError}
@@ -165,26 +193,26 @@ export default function Editaddress(props) {
                     className="form-control square"
                     name="phone"
                     type="number"
-                    min={0}
+                 
                    
                     value={phoneNumber}
                     placeholder={`Enter Phone Number ${phoneNumber}`}
-                    onChange={(e) => {
-                      const enteredNumber = e.target.value.trim(); // Trim leading and trailing spaces
-                      // Ensure that the entered number is not negative, and it should be 10 digits.
-                    
-                      setPhoneNumber(enteredNumber);
-                    
-                      if (enteredNumber.length === 0) {
-                        setPhoneNumberError("Phone Number is required");
-                      } else if (enteredNumber.length !== 10) {
-                        setPhoneNumberError("Phone Number should be 10 digits");
-                      } else {
-                        setPhoneNumberError("");
+                    onChange={handleInputChange}
+                    min="0"
+                    onKeyDown={(e) => {
+                      exceptThisSymbols.includes(e.key) &&
+                        e.preventDefault();
+                      if (
+                        e.target.value.length >= 10 &&
+                        e.key !== "Backspace" &&
+                        e.key !== "Delete"
+                      ) {
+                        e.preventDefault();
+                        setPhoneNumberError(
+                          "Number should be  10  digits."
+                        );
                       }
                     }}
-                    
-                
                
                   />
                   <div>
@@ -193,6 +221,7 @@ export default function Editaddress(props) {
                         style={{
                           color: "red",
                           position: "absolute",
+                          fontSize:"12px"
                         }}
                       >
                         {phoneNumberError}
@@ -227,6 +256,7 @@ export default function Editaddress(props) {
                       style={{
                         color: "red",
                         position: "absolute",
+                        fontSize:"12px"
                       }}
                     >
                       {pinCodeError}
@@ -261,6 +291,7 @@ export default function Editaddress(props) {
                       style={{
                         color: "red",
                         position: "absolute",
+                        fontSize:"12px"
                       }}
                     >
                       {stateError}
@@ -295,6 +326,7 @@ export default function Editaddress(props) {
                       style={{
                         color: "red",
                         position: "absolute",
+                        fontSize:"12px"
                       }}
                     >
                       {cityError}
@@ -329,6 +361,7 @@ export default function Editaddress(props) {
                       style={{
                         color: "red",
                         position: "absolute",
+                        fontSize:"12px"
                       }}
                     >
                       {houseNoError}
@@ -363,6 +396,7 @@ export default function Editaddress(props) {
                       style={{
                         color: "red",
                         position: "absolute",
+                        fontSize:"12px"
                       }}
                     >
                       {addressError}
@@ -371,28 +405,32 @@ export default function Editaddress(props) {
                 </div>
                 </div>
               </div>
-            </form>
-            <a
-              href="#"
-              className="btn-small"
-              // onClick={handlesave}
-            >
+              <div>
               <button
-                className="btn btn-fill-out mt-5"
-                disabled={isDisabled ||
+                className="btn btn-fill-out mt-25"
+                disabled={isDisabled||
+                  fullName === "" ||
+                  phoneNumber === "" ||
+                  pinCode === "" ||
+                  state === "" ||
+                  city === "" ||
+                  houseNo === "" ||
+                  address === "" ||
                   fullNameError ||
-                  phoneNumberError ||
+                  
                   pinCodeError ||
                   stateError ||
                   cityError ||
                   houseNoError ||
                   addressError
                 }
-                onClick={handlesubmit}
+               
               >
-                Save
+                save
               </button>
-            </a>
+            </div>
+            </form>
+           
           </div>
         </div>
       </div>

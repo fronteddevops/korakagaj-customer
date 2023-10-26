@@ -92,7 +92,16 @@ function Account() {
     } else {
     }
   };
-  const handlesubmit = async () => {
+  const handlesubmit = async (event) => {
+    event.preventDefault();
+
+    let isValid = true;
+     if (phoneNumber.length < 10) {
+      setPhoneNumberError(" Number should be  10  digits.");
+      isValid = false;
+    }
+    if (isValid) {
+      setPhoneNumberError("")
     try {
       const data = {
         firstName: firstName,
@@ -109,20 +118,26 @@ function Account() {
       console.log(error);
       toastError(error);
     }
+  }
   };
 
-  const changepassword = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-   
-      setPasswordError("");
-      if (password === "") {
-        setPasswordError("Please enter password"); // eslint-disable-next-line
-        isValid = false;
-      }
-      if (newpassword !== confirmPassword) {
-        setConfirmPasswordError("Password does not match");
-      } else {
-        try {
+  const changepassword = async (event) => {
+    event.preventDefault();
+    setNewPasswordError("")
+    let isValid = true;
+  
+    setConfirmPasswordError("");
+    if (newpassword !== confirmPassword) {
+      // Update the passwordConfirm variable with an error message
+      setConfirmPasswordError("password not match");
+      isValid = false; // Set isValid to false
+    }
+    if (newpassword === "") {
+      setNewPasswordError("Please enter password");
+      isValid = false;
+    }
+    if (isValid) {
+      try {
           const data = {
             newPassword: newpassword,
             oldPassword: password,
@@ -130,6 +145,8 @@ function Account() {
           const response = await services.myprofile.CHANGE_PASSWORD(data);
           if (response) {
             toastSuccesschangepassword();
+          }else {
+            alert(response.data.guide);
           }
         } catch (error) {
           toastError(error);
@@ -150,6 +167,23 @@ function Account() {
     setSelectedId(id);
     // Set the state to true to render the AddAddressComponent
     setShowEditAddressComponent(true);
+  };
+
+  const handleInputChange = (e) => {
+    const enteredNumber = e.target.value;
+
+    // Ensure that the entered number is not negative
+    if (enteredNumber >= 0 || enteredNumber === "") {
+      setPhoneNumber(enteredNumber);
+
+      if (enteredNumber.length >= 10) {
+        setPhoneNumberError("");
+      } else if (enteredNumber.length === 0) {
+        setPhoneNumberError("Phone Number is Required ");
+      } else {
+        setPhoneNumberError("");
+      }
+    }
   };
 
   return (
@@ -583,7 +617,7 @@ function Account() {
                               <h5>Account Details</h5>
                             </div>
                             <div className="card-body">
-                              <form method="post" name="enq">
+                              <form method="post" onSubmit={handlesubmit}>
                                 <div className="row">
                                   <div className="form-group col-md-6">
                                     <label>
@@ -616,6 +650,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
+                                            fontSize:"12px"
                                           }}
                                         >
                                           {firstNameError}
@@ -653,6 +688,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
+                                            fontSize:"12px"
                                           }}
                                         >
                                           {lastNameError}
@@ -673,18 +709,20 @@ function Account() {
                                       type="number"
                                       value={phoneNumber}
                                       placeholder={`Enter ${phoneNumber}`}
-                                      onChange={(e) => {
-                                        const enteredNumber = e.target.value.trim(); // Trim leading and trailing spaces
-                                        // Ensure that the entered number is not negative, and it should be 10 digits.
-                                      
-                                        setPhoneNumber(enteredNumber);
-                                      
-                                        if (enteredNumber.length === 0) {
-                                          setPhoneNumberError("Phone Number is required");
-                                        } else if (enteredNumber.length !== 10) {
-                                          setPhoneNumberError("Phone Number should be 10 digits");
-                                        } else {
-                                          setPhoneNumberError("");
+                                      onChange={handleInputChange}
+                                      min="0"
+                                      onKeyDown={(e) => {
+                                        exceptThisSymbols.includes(e.key) &&
+                                          e.preventDefault();
+                                        if (
+                                          e.target.value.length >= 10 &&
+                                          e.key !== "Backspace" &&
+                                          e.key !== "Delete"
+                                        ) {
+                                          e.preventDefault();
+                                          setPhoneNumberError(
+                                            "Number should be  10  digits."
+                                          );
                                         }
                                       }}
                                     />
@@ -694,6 +732,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
+                                            fontSize:"12px"
                                           }}
                                         >
                                           {phoneNumberError}
@@ -720,10 +759,10 @@ function Account() {
                                       className="btn btn-fill-out "
                                       disabled={
                                         firstNameError ||
-                                        lastNameError ||
-                                        phoneNumberError
+                                        lastNameError 
+                                        
                                       }
-                                      onClick={handlesubmit}
+                                      // onClick={handlesubmit}
                                     >
                                       Save
                                     </button>
@@ -748,7 +787,7 @@ function Account() {
                               <h5>Change Password</h5>
                             </div>
                             <div className="card-body">
-                              <form method="post" name="enq">
+                              <form method="post" onSubmit={changepassword}>
                                 <div className="row">
                                   <div className="form-group col-md-12">
                                     <label>
@@ -770,7 +809,7 @@ function Account() {
                                         setPasswordError(""); // Clear the error if the input is not just spaces
                                       } else {
                                         setPassword(""); // Optionally, you can clear the password state
-                                        setPasswordError("Password is required");
+                                        setPasswordError("Old Password is required");
                                       }
                                     }}
                                  
@@ -796,17 +835,21 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
-                                      
+                                      <div style={{marginTop:'-1rem',paddingBottom:'17px'}}>
                                     {passwordError ? (
                                       <span
-                                        className="text-start  position-absolute "
-                                        style={{ color: "red", fontSize: "15px" }}
+                                        className="text-start position-absolute"
+                                        style={{ color: "red", fontSize: "12px" ,
+                                        }}
                                       >
                                         {passwordError}
                                       </span>
                                     ) : null}
+                                    </div>
                                   </div>
-                                  <div className="form-group col-md-12">
+                                  <div className="form-group col-md-12" 
+                                  style={{marginTop:"-1rem"}}
+                                  >
                                     <label>
                                       New Password
                                       <span className="required">*</span>
@@ -825,7 +868,7 @@ function Account() {
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
-                                            setNewPasswordError("Requierd");
+                                            setNewPasswordError("Requierd New Password");
                                           } else if (
                                             e.target.value.trim() ===
                                             confirmPassword
@@ -866,16 +909,20 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
-                                    {newpasswordError ? (
-                                      <p
-                                        className="text-start  position-absolute "
-                                        style={{ color: "red" ,fontSize:"15px"}}
-                                      >
-                                        {newpasswordError}
-                                      </p>
-                                    ) : null}
+                                   <div style={{marginTop:'-1rem',paddingBottom:'17px'}}>
+                                   {newpasswordError ? (
+                                    <span
+                                      className="text-start position-absolute"
+                                      style={{ color: "red" ,fontSize:"12px"}}
+                                    >
+                                      {newpasswordError}
+                                    </span>
+                                  ) : null}
+                                   </div>
                                   </div>
-                                  <div className="form-group col-md-12">
+                                  <div className="form-group col-md-12"
+                                  style={{marginTop:"-1rem"}}
+                                  >
                                     <label>
                                       Confirm Password
                                       <span className="required">*</span>
@@ -894,7 +941,7 @@ function Account() {
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
-                                            setConfirmPasswordError("Requierd");
+                                            setConfirmPasswordError("Requierd Confirm Password");
                                           } else if (
                                             e.target.value.trim() !==
                                             newpassword
@@ -938,19 +985,21 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
+                                    <div style={{marginTop:'-1rem',paddingBottom:'17px'}}>
                                     {confirmPasswordError ? (
-                                      <p
+                                      <span
                                         className="text-start  position-absolute"
-                                        style={{ color: "red" ,fontSize:"15px"}}
+                                        style={{ color: "red" ,fontSize:"12px"}}
                                       >
                                         {confirmPasswordError}
-                                      </p>
+                                      </span>
                                     ) : null}
+                                    </div>
                                   </div>
                                   <div className="col-md-12">
                                     <button
                                       // type="submit"
-                                      className="btn btn-fill-out mt-10 "
+                                      className="btn btn-fill-out  "
                                       // name="submit"
                                       // value="Submit"
                                       disabled={
@@ -960,7 +1009,7 @@ function Account() {
                                           confirmPassword
                                         )
                                       }
-                                      onClick={changepassword}
+                                      // onClick={changepassword}
                                     >
                                       Save
                                     </button>
