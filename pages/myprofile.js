@@ -29,7 +29,7 @@ function Account() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoaded, setIsLoaded] = useState(true);
   const [alladdress, setAllAddress] = useState([]);
-  const [orderDetailsData,setOrderDetailsData] = useState([]);
+  const [orderDetailsData, setOrderDetailsData] = useState([]);
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   // const token = JSON.parse(localStorage.getItem("access_token"))
@@ -55,27 +55,27 @@ function Account() {
       } catch (error) {
         console.log(error);
       }
-    }if(index==2){
+    } if (index == 2) {
 
       try {
-     
+
         const response = await services.orderDetails.GET_ORDER_DETAILS();
         setOrderDetailsData(response?.data?.data.rows)
-      //  console.log("777777777777777777",response.data.data.rows)
+        const productId = response?.data?.data.rows.map((item) => { localStorage.setItem("ProductID", item.id) })
+
       } catch (error) {
         console.log(error);
         toastError(error);
       }
-      console.log("jjjjjjjjjjj")
     }
     if (index === 4) {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
         setAllAddress(response?.data?.data)
-      } catch {}
+      } catch { }
 
-      
+
     } else {
     }
   };
@@ -127,7 +127,7 @@ function Account() {
   };
 
   return (
-      <div>
+    <div>
       <Layout parent="Home" sub="Pages" subChild="Account">
         <section className="pt-150 pb-150">
           <div className="container">
@@ -301,71 +301,27 @@ function Account() {
                                     <tr>
                                       <th>Order Id</th>
                                       <th>Date</th>
-                                      <th>Tracking Link</th>
-                                      <th>Amount</th>
+                                      <th>Total Item</th>
+                                      <th>Total Quantity</th>
                                       <th>Actions</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {orderDetailsData?.map((item,key)=>{return(
-                                      <tr key={key}> 
-                                         <td>{item.OrderDetail.trackingId}</td>
-                                         <td>{moment(item.OrderDetail.createdAt).format("MMM DD, YYYY hh:mm A" )}</td>
-                                         <td>{item.OrderDetail.trackingLink}</td>
-                                         <td>{item.OrderDetail.amount}</td>
-                                         <td>   <Link href="/OrderViewDetails">
-                          <a> View details</a>
-                        </Link></td>
-                                         {/* <td>#1357</td>
-                                         <td>#1357</td> */}
-                                      </tr>
-                                    )})}
-                                    {/* <tr>
-                                      <td>#1357</td>
-                                      <td>March 45, 2020</td>
-                                      <td>Processing</td>
-                                      <td>Rs.125.00 for 2 item</td>
-                                      <td>
-                                      <Link href="/OrderViewDetails">
-                          <a> View details</a>
-                        </Link>
-                                        <a
-                                          href="/OrderViewDetails"
-                                          className="btn-small d-block"
+                                    {orderDetailsData?.map((item, key) => {
+                                      return (
+                                        <tr key={key}>
+                                          <td>{item.id}</td>
+                                          <td>{moment(item.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
+                                          <td>{item.totalItems}</td>
+                                          <td>{item.totalQuantity}</td>
+                                          <td>   <Link href="/OrderViewDetails">
+                                            <a> View details</a>
+                                          </Link></td>
 
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2468</td>
-                                      <td>June 29, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.364.00 for 5 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2366</td>
-                                      <td>August 02, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.280.00 for 3 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr> */}
+                                        </tr>
+                                      )
+                                    })}
+
                                   </tbody>
                                 </table>
                               </div>
@@ -441,34 +397,34 @@ function Account() {
                           aria-labelledby="address-tab"
                         >
                           <div className="row">
-                          {alladdress?.map((user, index) => {
-                            return (
+                            {alladdress?.map((user, index) => {
+                              return (
                                 <div className="col-lg-6">
-                                <div className="card mb-3 mb-lg-0">
-                        
-                                  <div className="card-header">
-                                    <h5 className="mb-0">Billing Address</h5>
-                                  </div>
-                                  <div
-                                    className="card-body"
-                                    onChange={(e) => setAllAddress()}
-                                    
-                                  >
-       
-                                    <address>{user.id}</address>
-  
-                                    <a href="/editaddress" className="btn-small">
-                                      Edit
-                                    </a>
+                                  <div className="card mb-3 mb-lg-0">
+
+                                    <div className="card-header">
+                                      <h5 className="mb-0">Billing Address</h5>
+                                    </div>
+                                    <div
+                                      className="card-body"
+                                      onChange={(e) => setAllAddress()}
+
+                                    >
+
+                                      <address>{user.id}</address>
+
+                                      <a href="/editaddress" className="btn-small">
+                                        Edit
+                                      </a>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                           );
-                        }
-                        )
-                        }
-                          
-                          
+                              );
+                            }
+                            )
+                            }
+
+
                           </div>
                         </div>
                         <div
@@ -818,7 +774,7 @@ function Account() {
           </div>
         </section>
       </Layout>
-      </div>
+    </div>
   );
 }
 

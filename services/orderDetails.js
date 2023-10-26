@@ -19,6 +19,19 @@ export default {
       }
     });
   },
+  GET_ORDER_DETAILS_BY_ID : (userID) => {
+   
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+            nextConfig.BASE_URL + api.orderDetials.GET_ORDER_DETAILS_BY_ID(userID)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+},
 
 
 };

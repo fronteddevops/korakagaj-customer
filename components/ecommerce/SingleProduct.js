@@ -12,6 +12,7 @@ import services from "../../services";
 
 
 const SingleProduct = ({
+  data1,
   product,
   addToCart,
   addToCompare,
@@ -20,17 +21,29 @@ const SingleProduct = ({
   fabricPrice
 }) => {
   const [loading, setLoading] = useState(false);
-  const [productId, setProductId] = useState(false);
-  const [verifyStatus, setVerifyStatus] = useState(false);
-  
-  
-  const imageUrl=nextConfig.BASE_URL_UPLOADS
+  const [productId, setProductId] = useState(data1?.productId);
+  const [UserId, setUserId] = useState(data1?.User?.id);
+  const [verifyStatus, setVerifyStatus] = useState();
+
+
+  const productDataShow = () => {
+    setVerifyStatus(product.isWishlisted)
+    setProductId(data1?.productId)
+    setUserId(data1?.User?.id)
+  }
+
+
+
+  const imageUrl = nextConfig.BASE_URL_UPLOADS
   const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
 
+  useEffect(() => {
+    productDataShow()
 
+  }, []);
 
 
   const handleCart = async (product) => {
@@ -45,15 +58,15 @@ const SingleProduct = ({
       const unique = [...new Map(cartDetails.map(item =>
         [item[key], item])).values()];
       let data = {
-        cartDetail: {cartDetails: unique}
+        cartDetail: { cartDetails: unique }
       }
       console.log(data)
       const updateCart = await services.cart.UPDATE_CART(data)
       console.log(updateCart)
       toast.success("Add to Cart !");
-      
+
     } else {
-      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
+      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
       let cartDetails = []
       if (cart) {
         cartDetails = cart.cartDetails
@@ -63,57 +76,50 @@ const SingleProduct = ({
       const unique = [...new Map(cartDetails.map(item =>
         [item[key], item])).values()];
       let data = {
-        cartDetail: {cartDetails: unique}
+        cartDetail: { cartDetails: unique }
       }
       console.log(data)
-     localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
     }
   };
 
 
-  const handleWishlist =async (product) => {
-  
-    if(localStorage.getItem("access_token")){
-     
-    try {
-     
+  const handleWishlist = async (product) => {
 
-      // const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(productId);
-      //     localStorage.setItem("productstatus",false)
-      // const ProductId =product[0].id
-     
-      const userID = localStorage.getItem("userid");
-     const data ={
-      productId:productId,
-      userId:userID
-      }
-    
-    //   const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-    //   toast.success("Add to Wishlist !");
-    //   localStorage.setItem("productstatus",true)
-    
-      if(verifyStatus===false){
-        
+
+    if (localStorage.getItem("access_token")) {
+
+
+      try {
+
+        const userID = localStorage.getItem("userId");
+
+        const data = {
+          productId: product.id,
+          userId: userID
+        }
+
+        if (product.isWishlisted === false) {
+
+
           const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-          setVerifyStatus(true)
+          productDataShow()
           toast.success("Add to Wishlist !");
-          // localStorage.setItem("productstatus",true)
-      }else if(verifyStatus===true){
-          const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(productId);
-          setVerifyStatus(false)
-          toast.success("Remove to Wishlist !");
-          // localStorage.setItem("productstatus",false)
-      }
-    
-  
-  } catch (error) {
-      
-      console.error("An error occurred:", error);
-  }
+        } else if (product.isWishlisted === true) {
 
-    }else{
+          const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+          productDataShow()
+          toast.success("Remove to Wishlist !");
+        }
+
+      } catch (error) {
+
+        console.error("An error occurred:", error);
+      }
+
+    } else {
       addToWishlist(product);
-            toast.success("Add to Wishlist !");
+      toast.success("Add to Wishlist !");
     }
 
   };
@@ -176,12 +182,12 @@ const SingleProduct = ({
               </div>
               <h2>
                 <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                  <a className="text-capitalize">{product?.productName}</a>
+                  <a className="text-capitalize">{product?.product?.productName}</a>
                 </Link>
               </h2>
               <div className="rating-result" title="90%">
                 <span>
-                  <span>{product?.ratingScore} </span>
+                  <span>{product?.product?.ratingScore} </span>
                 </span>
               </div>
               <div className="product-price">
@@ -196,7 +202,7 @@ const SingleProduct = ({
                 </span>
               </div>
               <div className="product-price text-capitalize ">
-                Designer : &nbsp;{product?.designerName}
+                Designer : &nbsp;{product?.product?.designerName}
               </div>
 
               <div className="product-action-1 show">

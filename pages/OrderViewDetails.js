@@ -6,21 +6,25 @@ import React, { useEffect, useState } from "react";
 
 import services from "../services";
 import Link from "next/link";
+import moment from "moment";
 
-function OrderViewDetails() {
-  const [orderDetailsData,setOrderDetailsData] = useState([]);
+function OrderViewDetails({ data }) {
 
-  const  orderDetials  = async()=>{
+  const [orderDetailsData, setOrderDetailsData] = useState();
+
+  const orderDetials = async (id) => {
+    const productID = localStorage.getItem("ProductID");
     try {
-     
-      const response = await services.orderDetails.GET_ORDER_DETAILS();
-      setOrderDetailsData(response?.data?.data.rows)
-    //  console.log("777777777777777777",response.data.data.rows)
+
+      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(productID);
+      setOrderDetailsData(response?.data?.data)
+      // localStorage.removeItem("ProductID")
     } catch (error) {
       console.log(error);
-   
+
     }
   }
+
 
   useEffect(() => {
     orderDetials()
@@ -31,89 +35,54 @@ function OrderViewDetails() {
   return (
     <Layout parent="Home" sub="Pages" subChild="View Order Details">
       <div className="container">
-        
-             <div className="card">
-                            <div className="card-header">
-                              <h5 className="mb-0">Your Orders</h5>
-                            </div>
-                            <div className="card-body">
-                              <div className="table-responsive">
-                                <table className="table">
-                                  <thead>
-                                    <tr>
-                                    <th>Order Id</th>
-                                      <th>Date</th>
-                                      <th>Tracking Link</th>
-                                      <th>Amount</th>
-                                      <th>Total Quantity</th>
-                                      {/* <th>Actions</th> */}
-                                    
-                                    
-                                      
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                  {orderDetailsData?.map((item,key)=>{return(
-                                      <tr key={key}> 
-                                         <td>{item.OrderDetail.trackingId}</td>
-                                         <td>{item.OrderDetail.createdAt}</td>
-                                         <td>{item.OrderDetail.trackingLink}</td>
-                                         <td>{item.OrderDetail.amount}</td>
-                                         <td>{item.totalQuantity}</td>
-                                        
-                                         {/* <td>#1357</td>
-                                         <td>#1357</td> */}
-                                      </tr>
-                                    )})}
-                                    {/* <tr>
-                                      <td>#1357</td>
-                                      <td>March 45, 2020</td>
-                                      <td>Processing</td>
-                                      <td>Rs.125.00 for 2 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2468</td>
-                                      <td>June 29, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.364.00 for 5 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2366</td>
-                                      <td>August 02, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.280.00 for 3 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr> */}
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
+
+
+        <div className="container mt-5">
+          <h1 className="text-center">Order Details</h1>
+          <div className="card">
+
+            <div className="card-body">
+
+              {orderDetailsData?.map((item, key) => {
+                return (
+                  <ul className="list-group" key={key}>
+                    <li className="list-group-item">Brand Name : {item?.Product?.brandName}</li>
+                    <li className="list-group-item">Product Name : {item?.Product?.productName}</li>
+                    <li className="list-group-item">Designer Name : {item?.Product?.designerName}</li>
+                    <li className="list-group-item">Description : {item?.Product?.description}</li>
+                    <li className="list-group-item">Tracking Id : {item?.Product?.trackingId}</li>
+                    <li className="list-group-item">Tracking Link : {item?.trackingLink}</li>
+                    <li className="list-group-item">Order Date : {moment(item?.createdAt).format("MMM DD, YYYY hh:mm A")
+                    }</li>
+                    <li className="list-group-item">Tag :{item?.Product?.tags}</li>
+                    <li className="list-group-item">Sku Number : {item?.Product?.sku}</li>
+                    <li className="list-group-item">Fabric Name : {item?.Product?.fabric}</li>
+                    <li className="list-group-item">Colour : {item?.Product?.colour}</li>
+                    <li className="list-group-item">Quantity : {item?.Product?.quantity}</li>
+                    <li className="list-group-item">Price : {item?.amount}</li>
+                    <li className="list-group-item">Total Price : {item?.Product?.totalPrice}</li>
+                    <li className="list-group-item">Current Stock : {item?.Product?.currentStock}</li>
+                    <li className="list-group-item">Additional Information : {item?.Product?.additionalInformation}</li>
+
+                    <li className="list-group-item">Total Items : {item?.Order?.totalItems
+                    }</li>
+                    <li className="list-group-item">Total Quantity : {item?.Order?.totalQuantity
+                    }</li>
+                  </ul>
+                )
+              })}
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+
       </div>
-      </Layout>
+    </Layout>
   );
 }
 

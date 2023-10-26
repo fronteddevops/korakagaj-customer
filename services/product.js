@@ -19,6 +19,18 @@ export default {
       }
     });
   },
+  GET_PRODUCT_AUTH: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+            nextConfig.BASE_URL + api.product.GET_PRODUCT_AUTH()
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
   
   GET_PRODUCT_BY_ID: (id) => {
     return new Promise(async (resolve, reject) => {
