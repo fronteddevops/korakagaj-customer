@@ -74,6 +74,7 @@ const Products = ({ products1, productFilters }) => {
 
   //color
   const color = ["red", "blue", "green", "yellow", "white","black","orange","purple"];
+  //size
   const sizes = ["", "s", "m", "xl", "xll"];
   //size function
 
@@ -268,7 +269,6 @@ const Products = ({ products1, productFilters }) => {
   // Replace this with your actual array of products
 
 
-  const [activeItems, setActiveItems] = useState([]);
 
   
 

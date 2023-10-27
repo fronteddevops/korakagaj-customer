@@ -66,7 +66,7 @@ const Wishlist = ({
       };
     return (
         <>
-            <Layout parent="Home" sub="Shop" subChild="Wishlist">
+            <Layout parent="Home" sub={<><a href="/products"> prodcut</a></>} subChild="Wishlist">
                 <section className="mt-50 mb-50">
                     <div className="container">
                     <div className="row product-grid-3">
