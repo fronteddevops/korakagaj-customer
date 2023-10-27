@@ -244,7 +244,7 @@ const handleCart = async () => {
                             src="/assets/imgs/theme/icons/icon-heart.svg"
                           />
                           <span className="pro-count blue">
-                            {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
+                            {totalWishlistItems>0?totalWishlistItems:0}
                           </span>
                         </a>
                       </Link>
@@ -257,7 +257,7 @@ const handleCart = async () => {
                             src="/assets/imgs/theme/icons/icon-cart.svg"
                           />
                           <span className="pro-count blue">
-                            {totalCartItems > 0 ? totalCartItems : addCartLength}
+                            {totalCartItems > 0 ? totalCartItems : 0}
                           </span>
                         </a>
                       </Link>
