@@ -76,10 +76,12 @@ function Account() {
      
       try {
         const response = await services.myprofile.GET_MY_PROFILE();
+        console.log(response.data.data)
         setFirstName(response?.data?.data?.firstName);
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
         setPhoneNumber(response?.data?.data?.phoneNumber);
+        localStorage.setItem("user",JSON.stringify())
       } catch (error) {
         console.log(error);
       }
@@ -125,6 +127,9 @@ function Account() {
       };
       const response = await services.myprofile.UPDATE_MY_PROFILE(data);
       if (response) {
+      
+       localStorage.setItem("user",JSON.stringify({firstName:data.firstName,lastName:data.lastName}))
+    
         toastSuccessprofileupdate();
       } else {
       }

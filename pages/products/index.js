@@ -314,10 +314,10 @@ const Products = ({ products1, productFilters }) => {
   // Replace this with your actual array of products
 
 
-
+  const [activeCategory, setActiveCategory] = useState([0,0,0]); // Replace DEFAULT_CATEGORY_INDEX with the actual index of your default category
   
 
-  const [activeCategory, setActiveCategory] = useState(null);
+  // const [activeCategory, setActiveCategory] = useState(null);
 
   const toggleCategory = (categoryIndex) => {
     setActiveCategory(activeCategory === categoryIndex ? null : categoryIndex);
@@ -326,7 +326,7 @@ const Products = ({ products1, productFilters }) => {
 
   return (
     <>
-     <Layout parent="Home" sub={ categoryId? (<><a   href="/Categories"> Category</a></>): 
+     <Layout parent="Home" sub={ categoryId? (<><a   href="/categories"> Category</a></>): 
       <><a   href="/products"> shop</a></>}    subSub={ categoryId && <a   href="/categories"> {categoryName} <span></span></a>
       }  subChild="Products">
     
@@ -390,77 +390,70 @@ const Products = ({ products1, productFilters }) => {
               } col-lg-3 primary-sidebar sticky-sidebar`}
             >
               <div className="widget-category p-3 mb-30">
-              {category?.map((Item, index) => (
-        <Accordion key={index} activeKey={activeCategory}>
-          <Accordion.Item className="custom-filter" eventKey={index} key={index}>
-            <Accordion.Header onClick={() => toggleCategory(index)}>
-              <h5 className="w-100 section-title style-1 wow fadeIn animated">
-                {Item?.categoryName}
-              </h5>
-            </Accordion.Header>
-            <Accordion.Body>
-              <Accordion>
-                {Item?.SubCategories?.map((subCategory, subIndex) => (
-                  <Accordion.Item
-                    className="custom-filter ms-3"
-                    eventKey={subIndex}
-                    key={subCategory.id}
-                  >
-                    <Accordion.Header>
-                      <h5 className="w-100 style-1 wow fadeIn animated">
-                        {subCategory?.subCategoryName}
-                      </h5>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                      {/* Subcategory content here */}
-                      {subCategory?.SubSubCategories.map((item) => (
-                        <div key={item.id}>
-                          <Form.Check
-                            type="checkbox"
-                            id={`default-${item.id}`}
-                            label={item?.subSubCategoryName}
-                            onChange={() => {
-                              const subSubCategoryId = item.id;
+        {category?.map((Item, index) => (
+  <Accordion key={index} activeKey={activeCategory}>
+    <Accordion.Item className="custom-filter" eventKey={index} key={index}>
+      <Accordion.Header onClick={() => toggleCategory(index)}>
+        <h5 className="w-100 section-title style-1 wow fadeIn animated">
+          {Item?.categoryName}
+        </h5>
+      </Accordion.Header>
+      <Accordion.Body>
+        <Accordion>
+          {Item?.SubCategories?.map((subCategory, subIndex) => (
+            <Accordion.Item
+              className="custom-filter ms-3"
+              eventKey={subIndex}
+              key={subCategory.id}
+            >
+              <Accordion.Header>
+                <h5 className="w-100 style-1 wow fadeIn animated">
+                  {subCategory?.subCategoryName}
+                </h5>
+              </Accordion.Header>
+              <Accordion.Body>
+                {/* Subcategory content here */}
+                {subCategory?.SubSubCategories.map((item, itemIndex) => (
+                  <div key={item.id}>
+                    <Form.Check
+                      type="checkbox"
+                      id={`default-${item.id}`}
+                      label={item?.subSubCategoryName}
+                      onChange={() => {
+                        const subSubCategoryId = item.id;
 
-                              if (
-                                selectedSubSubCategories?.includes(
-                                  subSubCategoryId
-                                )
-                              ) {
-                                // If the subSubCategoryId is already in the array, remove it
-                                const updatedSubCategories =
-                                  selectedSubSubCategories?.filter(
-                                    (id) =>
-                                      id !== subSubCategoryId
-                                  );
-                                setSelectedSubSubCategories(
-                                  updatedSubCategories
-                                );
-                              } else {
-                                // If the subSubCategoryId is not in the array, add it
-                                const updatedSubCategories = [
-                                  ...selectedSubSubCategories,
-                                  subSubCategoryId,
-                                ];
-                                setSelectedSubSubCategories(
-                                  updatedSubCategories
-                                );
-                              }
-                            }}
-                            checked={selectedSubSubCategories?.includes(
-                              item?.id
-                            )}
-                          />
-                        </div>
-                      ))}
-                    </Accordion.Body>
-                  </Accordion.Item>
+                        if (
+                          selectedSubSubCategories?.includes(subSubCategoryId)
+                        ) {
+                          // If the subSubCategoryId is already in the array, remove it
+                          const updatedSubCategories =
+                            selectedSubSubCategories?.filter(
+                              (id) => id !== subSubCategoryId
+                            );
+                          setSelectedSubSubCategories(updatedSubCategories);
+                        } else {
+                          // If the subSubCategoryId is not in the array, add it
+                          const updatedSubCategories = [
+                            ...selectedSubSubCategories,
+                            subSubCategoryId,
+                          ];
+                          setSelectedSubSubCategories(updatedSubCategories);
+                        }
+                      }}
+                      checked={selectedSubSubCategories?.includes(item?.id)}
+                    />
+                  </div>
                 ))}
-              </Accordion>
-            </Accordion.Body>
-          </Accordion.Item>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
         </Accordion>
-      ))}
+      </Accordion.Body>
+    </Accordion.Item>
+  </Accordion>
+))}
+
+
               </div>
 
               <div className="sidebar-widget price_range range mb-30">
