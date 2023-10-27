@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import services from "../../services";
 import Link from "next/link";
+import nextConfig from "../../next.config";
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [prodcut,setProdcut]=useState([])
     const router = useRouter();
-
+    const imageUrl=nextConfig.BASE_URL_UPLOADS
     // Define your useEffect for specific side effects
     useEffect(() => {
         // You can put your side effects logic here
@@ -61,24 +62,37 @@ const Search = () => {
       />
     </form>
 
-  {prodcut?.length > 0 ? (
-    <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
-      <div className="card bg-white">
-        <ul className="list-group list-group-flush">
-          {prodcut?.map((product, index) => (
-            <li className="list-group-item bg-white" key={index}>
-              <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                <a>
-                  <h4>{product.productName}</h4>
-                </a>
-              </Link>
-              {/* Additional content can be added here */}
-            </li>
-          ))}
-        </ul>
-      </div>
+    {prodcut?.length > 0 ? (
+  <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
+    <div className="card bg-white">
+      <ul className="list-group list-group-flush">
+        {prodcut?.map((product, index) => (
+          <li className="list-group-item bg-white" key={index}>
+            <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+              <a>
+                <div style={{display:'flex'}}>
+                <img
+                  className="default-img"
+                  src={imageUrl + product?.featuredImage}
+                  crossOrigin="anonymous"
+                  alt=""
+                  height={50}
+                  width={50}
+                
+                /> &nbsp; &nbsp;
+                <h4 style={{ maxWidth: "200px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {product.productName}
+                </h4>
+                </div>
+              </a>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
-  ) : null}
+  </div>
+) : null}
+
 </div>
 
     )

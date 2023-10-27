@@ -30,7 +30,7 @@ function Login() {
   //handle login  email
 
   const handleLogin = async (event) => {
-    event?.preventDefault();
+    event.preventDefault();
     let isValid = true;
     setEmailError("");
     setPasswordError("");
@@ -69,6 +69,7 @@ function Login() {
         }
       } catch (error) {
         toastErrorLogin(error);
+       
       }
     }
   };
