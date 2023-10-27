@@ -27,7 +27,7 @@ export default function Editaddress(props) {
   const [addressError, setAddressError] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isChecked, setIsChecked] = useState();
-  console.log(isChecked)
+  console.log(isChecked);
 
   const toastSuccessprofileupdate = () =>
     toast.success("Updated Address  successfully");
@@ -45,7 +45,7 @@ export default function Editaddress(props) {
       setCity(response?.data?.data[0]?.address.city);
       setHouseNo(response?.data?.data[0]?.address.houseNo);
       setAddress(response?.data?.data[0]?.address.address);
-      setIsChecked(response?.data?.data[0]?.defaultAddress)
+      setIsChecked(response?.data?.data[0]?.defaultAddress);
     } catch (error) {
       console.log(error);
     }
@@ -55,50 +55,55 @@ export default function Editaddress(props) {
     event.preventDefault();
 
     let isValid = true;
-     if (phoneNumber.length < 10) {
+    if (phoneNumber.length < 10) {
       setPhoneNumberError(" Number should be  10  digits.");
       isValid = false;
     }
-    if (isValid) {
-      setPhoneNumberError("")
-    try {
-      const data = {
-        address: {
-          fullName,
-          phoneNumber,
-          pinCode,
-          state,
-          city,
-          houseNo,
-          address,
-        },
-        defaultAddress:isChecked
-      };
-      //   const dataString = JSON.stringify(data);
-      //   console.log(dataString)
-      const response = await services.myprofile.UPDATE_MY_ADDRESS_BY_ID(
-        id,
-        data
-      );
-      console.log();
-      if (response) {
-        setIsDisabled(true);
-    
-        toastSuccessprofileupdate();
-        window.location.reload();
-      } else {
-        alert(response?.data?.guide);
-      }
-    } catch (error) {
-      console.log(error);
-      toastError(error);
+    if (pinCode.length < 6) {
+      setPinCodeError(" Pin Code should be  6  digits.");
+      isValid = false;
     }
-  }
+    if (isValid) {
+      setPhoneNumberError("");
+      setPinCodeError("");
+      try {
+        const data = {
+          address: {
+            fullName,
+            phoneNumber,
+            pinCode,
+            state,
+            city,
+            houseNo,
+            address,
+          },
+          defaultAddress: isChecked,
+        };
+        //   const dataString = JSON.stringify(data);
+        //   console.log(dataString)
+        const response = await services.myprofile.UPDATE_MY_ADDRESS_BY_ID(
+          id,
+          data
+        );
+        console.log();
+        if (response) {
+          setIsDisabled(true);
+
+          toastSuccessprofileupdate();
+          window.location.reload();
+        } else {
+          alert(response?.data?.guide);
+        }
+      } catch (error) {
+        console.log(error);
+        toastError(error);
+      }
+    }
   };
-  
+
   const handleToggle = () => {
     setIsChecked(!isChecked);
-  }
+  };
   const handleInputChange = (e) => {
     const enteredNumber = e.target.value;
 
@@ -116,6 +121,51 @@ export default function Editaddress(props) {
     }
   };
 
+
+
+
+  const handlePinCodeInputChange = (e) => {
+    const enteredNumber = e.target.value;
+
+    // Ensure that the entered number is not negative
+    if (enteredNumber >= 0 || enteredNumber === "") {
+      setPinCode(enteredNumber);
+
+      if (enteredNumber.length >= 6) {
+        setPinCodeError("");
+      } else if (enteredNumber.length === 0) {
+        setPinCodeError("Pin Code is Required ");
+      } else {
+        setPinCodeError("");
+      }
+    }
+  };
+
+
+  const handlePaste = (e) => {
+    let isValid = true;
+    const pastedText = e.clipboardData.getData("Text");
+    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+  
+    if (!isValidNumber.test(pastedText)) {
+      e.preventDefault(); // Prevent pasting invalid input
+      setPhoneNumberError("Invalid phone number format");
+      isValid = false;
+    }
+  };
+
+  const handlePinCodePaste = (e) => {
+    let isValid = true;
+    const pastedText = e.clipboardData.getData("Text");
+    const isValidPinCode = /^\d{6}$/; // Validate 6-digit pin code
+  
+    if (!isValidPinCode.test(pastedText)) {
+      e.preventDefault(); // Prevent pasting invalid input
+      setPinCodeError("Invalid pin code format");
+      isValid = false;
+    }
+  };
+
   useEffect(() => {
     handleaddress();
   }, []);
@@ -129,22 +179,21 @@ export default function Editaddress(props) {
         aria-labelledby="account-detail-tab"
       >
         <div className="card">
-        <div className=" d-flex justify-content-between card-header">
-        <h5>Edit Address</h5>
-        <span>
-        <input
-        className="form-check-input"
-        type="checkbox"
-        role="switch"
-        id="flexSwitchCheckDefault"
-        checked={isChecked}
-        onChange={handleToggle}
-      />
-        </span>
-    
-    </div>
+          <div className=" d-flex justify-content-between card-header">
+            <h5>Edit Address</h5>
+            <span>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                checked={isChecked}
+                onChange={handleToggle}
+              />
+            </span>
+          </div>
           <div className="card-body">
-            <form method="post"  onSubmit={handlesubmit}>
+            <form method="post" onSubmit={handlesubmit}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>
@@ -156,10 +205,8 @@ export default function Editaddress(props) {
                     name="full name"
                     type="text"
                     value={fullName}
-                    
                     // placeholder="Enter Full Name"
                     placeholder={`Enter Full Name ${fullName}`}
-                    
                     onChange={(e) => {
                       setFullName(e.target.value);
                       if (!e.target.value.trim()) {
@@ -175,7 +222,7 @@ export default function Editaddress(props) {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {fullNameError}
@@ -193,27 +240,22 @@ export default function Editaddress(props) {
                     className="form-control square"
                     name="phone"
                     type="number"
-                 
-                   
                     value={phoneNumber}
                     placeholder={`Enter Phone Number ${phoneNumber}`}
                     onChange={handleInputChange}
+                    onPaste={handlePaste}
                     min="0"
                     onKeyDown={(e) => {
-                      exceptThisSymbols.includes(e.key) &&
-                        e.preventDefault();
+                      exceptThisSymbols.includes(e.key) && e.preventDefault();
                       if (
                         e.target.value.length >= 10 &&
                         e.key !== "Backspace" &&
                         e.key !== "Delete"
                       ) {
                         e.preventDefault();
-                        setPhoneNumberError(
-                          "Number should be  10  digits."
-                        );
+                        setPhoneNumberError("Number should be  10  digits.");
                       }
                     }}
-               
                   />
                   <div>
                     {phoneNumberError && (
@@ -221,7 +263,7 @@ export default function Editaddress(props) {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {phoneNumberError}
@@ -241,28 +283,34 @@ export default function Editaddress(props) {
                     type="number"
                     value={pinCode}
                     placeholder={`Enter Pin Code ${pinCode}`}
-                    onChange={(e) => {
-                      setPinCode(e.target.value);
-                      if (!e.target.value.trim()) {
-                        setPinCodeError("Pin Code is required");
-                      } else {
-                        setPinCodeError("");
+                    onChange={handlePinCodeInputChange}
+                    onPaste={handlePinCodePaste}
+                    min="0"
+                    onKeyDown={(e) => {
+                      exceptThisSymbols.includes(e.key) && e.preventDefault();
+                      if (
+                        e.target.value.length >= 6 &&
+                        e.key !== "Backspace" &&
+                        e.key !== "Delete"
+                      ) {
+                        e.preventDefault();
+                        setPinCodeError("Pin Code should be  6  digits.");
                       }
                     }}
                   />
                   <div>
-                  {pinCodeError && (
-                    <span
-                      style={{
-                        color: "red",
-                        position: "absolute",
-                        fontSize:"12px"
-                      }}
-                    >
-                      {pinCodeError}
-                    </span>
-                  )}
-                </div>
+                    {pinCodeError && (
+                      <span
+                        style={{
+                          color: "red",
+                          position: "absolute",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {pinCodeError}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group col-md-6">
                   <label>
@@ -286,18 +334,18 @@ export default function Editaddress(props) {
                     }}
                   />
                   <div>
-                  {stateError && (
-                    <span
-                      style={{
-                        color: "red",
-                        position: "absolute",
-                        fontSize:"12px"
-                      }}
-                    >
-                      {stateError}
-                    </span>
-                  )}
-                </div>
+                    {stateError && (
+                      <span
+                        style={{
+                          color: "red",
+                          position: "absolute",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {stateError}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group col-md-6">
                   <label>
@@ -321,18 +369,18 @@ export default function Editaddress(props) {
                     }}
                   />
                   <div>
-                  {cityError && (
-                    <span
-                      style={{
-                        color: "red",
-                        position: "absolute",
-                        fontSize:"12px"
-                      }}
-                    >
-                      {cityError}
-                    </span>
-                  )}
-                </div>
+                    {cityError && (
+                      <span
+                        style={{
+                          color: "red",
+                          position: "absolute",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {cityError}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group col-md-6">
                   <label>
@@ -356,18 +404,18 @@ export default function Editaddress(props) {
                     }}
                   />
                   <div>
-                  {houseNoError && (
-                    <span
-                      style={{
-                        color: "red",
-                        position: "absolute",
-                        fontSize:"12px"
-                      }}
-                    >
-                      {houseNoError}
-                    </span>
-                  )}
-                </div>
+                    {houseNoError && (
+                      <span
+                        style={{
+                          color: "red",
+                          position: "absolute",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {houseNoError}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group col-md-12">
                   <label>
@@ -391,46 +439,43 @@ export default function Editaddress(props) {
                     }}
                   />
                   <div>
-                  {addressError&& (
-                    <span
-                      style={{
-                        color: "red",
-                        position: "absolute",
-                        fontSize:"12px"
-                      }}
-                    >
-                      {addressError}
-                    </span>
-                  )}
-                </div>
+                    {addressError && (
+                      <span
+                        style={{
+                          color: "red",
+                          position: "absolute",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {addressError}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
               <div>
-              <button
-                className="btn btn-fill-out mt-25"
-                disabled={isDisabled||
-                  fullName === "" ||
-                  phoneNumber === "" ||
-                  pinCode === "" ||
-                  state === "" ||
-                  city === "" ||
-                  houseNo === "" ||
-                  address === "" ||
-                  fullNameError ||
-                  
-                  pinCodeError ||
-                  stateError ||
-                  cityError ||
-                  houseNoError ||
-                  addressError
-                }
-               
-              >
-                save
-              </button>
-            </div>
+                <button
+                  className="btn btn-fill-out mt-25"
+                  disabled={
+                    isDisabled ||
+                    fullName === "" ||
+                    phoneNumber === "" ||
+                    pinCode === "" ||
+                    state === "" ||
+                    city === "" ||
+                    houseNo === "" ||
+                    address === "" ||
+                    fullNameError ||
+                    stateError ||
+                    cityError ||
+                    houseNoError ||
+                    addressError
+                  }
+                >
+                  save
+                </button>
+              </div>
             </form>
-           
           </div>
         </div>
       </div>

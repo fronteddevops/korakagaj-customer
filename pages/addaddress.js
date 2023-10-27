@@ -28,42 +28,50 @@ export default function Addaddress() {
     toast.success("Created Address successfully");
 
   const handlesave = async (event) => {
+    
     event.preventDefault();
 
     let isValid = true;
-     if (phoneNumber.length < 10) {
+    if (phoneNumber.length < 10) {
       setPhoneNumberError(" Number should be  10  digits.");
       isValid = false;
     }
-    if (isValid) {
-      setPhoneNumberError("")
-    try {
-      const data = {
-        address: {
-          fullName,
-          phoneNumber,
-          pinCode,
-          state,
-          city,
-          houseNo,
-          address,
-        },
-        defaultAddress:isChecked
-      };
-      const response = await services.myprofile.CREATE_MY_ADDRESS(data);
-   
-      if (response) {
-        setIsDisabled(true);
-        toastSuccesscreateaddress();
-        window.location.reload();
-      }else {
-        alert(response?.data?.guide);
-      }
-    } catch (error) {
-      console.log(error);
+    if (pinCode.length < 6) {
+      setPinCodeError(" Pin Code should be  6  digits.");
+      isValid = false;
     }
-  }
+    if (isValid) {
+      setPhoneNumberError("");
+      setPinCodeError("")
+      try {
+        const data = {
+          address: {
+            fullName,
+            phoneNumber,
+            pinCode,
+            state,
+            city,
+            houseNo,
+            address,
+          },
+          defaultAddress: isChecked,
+        };
+        const response = await services.myprofile.CREATE_MY_ADDRESS(data);
+
+        if (response) {
+          setIsDisabled(true);
+          toastSuccesscreateaddress();
+          window.location.reload();
+        } else {
+          alert(response?.data?.guide);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+
+
   const handleToggle = () => {
     setIsChecked(!isChecked);
   };
@@ -84,6 +92,46 @@ export default function Addaddress() {
       }
     }
   };
+  const handlePinCodeInputChange = (e) => {
+    const enteredNumber = e.target.value;
+
+    // Ensure that the entered number is not negative
+    if (enteredNumber >= 0 || enteredNumber === "") {
+      setPinCode(enteredNumber);
+
+      if (enteredNumber.length >= 6) {
+        setPinCodeError("");
+      } else if (enteredNumber.length === 0) {
+        setPinCodeError("Pin Code is Required ");
+      } else {
+        setPinCodeError("");
+      }
+    }
+  };
+
+  const handlePaste = (e) => {
+    let isValid = true;
+    const pastedText = e.clipboardData.getData("Text");
+    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+  
+    if (!isValidNumber.test(pastedText)) {
+      e.preventDefault(); // Prevent pasting invalid input
+      setPhoneNumberError("Invalid phone number format");
+      isValid = false;
+    }
+  };
+
+  const handlePinCodePaste = (e) => {
+    let isValid = true;
+    const pastedText = e.clipboardData.getData("Text");
+    const isValidPinCode = /^\d{6}$/; // Validate 6-digit pin code
+  
+    if (!isValidPinCode.test(pastedText)) {
+      e.preventDefault(); // Prevent pasting invalid input
+      setPinCodeError("Invalid pin code format");
+      isValid = false;
+    }
+  };
   return (
     <div className=" ">
       <div
@@ -96,21 +144,19 @@ export default function Addaddress() {
           <div className=" d-flex justify-content-between card-header">
             <h5>Add Address</h5>
             <span>
-         
-       
-            <input
-            className="form-check-input"
-            type="checkbox"
-            role="switch"
-            id="flexSwitchCheckDefault"
-            checked={isChecked}
-            onChange={handleToggle}
-          />
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                checked={isChecked}
+                onChange={handleToggle}
+              />
             </span>
           </div>
-         
+
           <div className="card-body">
-            <form method="post"  onSubmit={handlesave}>
+            <form method="post" onSubmit={handlesave}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>
@@ -142,7 +188,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {fullNameError}
@@ -156,27 +202,24 @@ export default function Addaddress() {
                     <span className="required">*</span>
                   </label>
                   <input
-                  type="number"
-                  required=""
-                  name="phoneNumber"
-                  placeholder="Enter Phone Number"
-                  onChange={handleInputChange}
-                  min="0"
-                  onKeyDown={(e) => {
-                    exceptThisSymbols.includes(e.key) &&
-                      e.preventDefault();
-                    if (
-                      e.target.value.length >= 10 &&
-                      e.key !== "Backspace" &&
-                      e.key !== "Delete"
-                    ) {
-                      e.preventDefault();
-                      setPhoneNumberError(
-                        "Number should be  10  digits."
-                      );
-                    }
-                  }}
-               
+                    type="number"
+                    required=""
+                    name="phoneNumber"
+                    placeholder="Enter Phone Number"
+                    onPaste={handlePaste}
+                    onChange={handleInputChange}
+                    min="0"
+                    onKeyDown={(e) => {
+                      exceptThisSymbols.includes(e.key) && e.preventDefault();
+                      if (
+                        e.target.value.length >= 10 &&
+                        e.key !== "Backspace" &&
+                        e.key !== "Delete"
+                      ) {
+                        e.preventDefault();
+                        setPhoneNumberError("Number should be  10  digits.");
+                      }
+                    }}
                   />
                   <div>
                     {phoneNumberError && (
@@ -184,7 +227,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {phoneNumberError}
@@ -204,12 +247,18 @@ export default function Addaddress() {
                     type="number"
                     value={pinCode}
                     placeholder="Enter Pin Code"
-                    onChange={(e) => {
-                      setPinCode(e.target.value);
-                      if (!e.target.value.trim()) {
-                        setPinCodeError("Pin Code is required");
-                      } else {
-                        setPinCodeError("");
+                    onChange={handlePinCodeInputChange}
+                    onPaste={handlePinCodePaste}
+                    min="0"
+                    onKeyDown={(e) => {
+                      exceptThisSymbols.includes(e.key) && e.preventDefault();
+                      if (
+                        e.target.value.length >= 6 &&
+                        e.key !== "Backspace" &&
+                        e.key !== "Delete"
+                      ) {
+                        e.preventDefault();
+                        setPinCodeError("Pin Code should be  6  digits.");
                       }
                     }}
                   />
@@ -219,7 +268,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {pinCodeError}
@@ -254,7 +303,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {stateError}
@@ -289,7 +338,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {cityError}
@@ -324,7 +373,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {houseNoError}
@@ -359,7 +408,7 @@ export default function Addaddress() {
                         style={{
                           color: "red",
                           position: "absolute",
-                          fontSize:"12px"
+                          fontSize: "12px",
                         }}
                       >
                         {addressError}
@@ -369,7 +418,8 @@ export default function Addaddress() {
                   <div>
                     <button
                       className="btn btn-fill-out mt-25"
-                      disabled={isDisabled||
+                      disabled={
+                        isDisabled ||
                         fullName === "" ||
                         phoneNumber === "" ||
                         pinCode === "" ||
@@ -379,13 +429,11 @@ export default function Addaddress() {
                         address === "" ||
                         fullNameError ||
                         
-                        pinCodeError ||
                         stateError ||
                         cityError ||
                         houseNoError ||
                         addressError
                       }
-                     
                     >
                       save
                     </button>

@@ -14,7 +14,7 @@ function Login() {
   const route = useRouter()
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
+ 
  
 
 
@@ -137,7 +137,7 @@ function Login() {
     let isValidForget = true;
     setEmailErrorForgot("");
 
-    if (email === "") {
+    if (emailForgot === "") {
       setEmailErrorForgot("Enter a valid email address");
       isValidForget = false;
     } else if (!validateEmailForgot(emailForgot)) {
@@ -155,7 +155,7 @@ function Login() {
           const response = await services.auth.FORGOT_PASSWORD(data)
           if(response)
           {
-            setIsDisabled(true);
+           
             toastSuccessEmailSent()
             
            setShowForgetPasswordComponent(false)
@@ -459,7 +459,7 @@ function Login() {
                         className="btn btn-fill-out btn-block hover-up w-100"
                        
                  
-                          disabled={isDisabled && !emailForgot}
+                          disabled={!emailForgot}
 
                         
                  
