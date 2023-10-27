@@ -9,13 +9,26 @@ const Deals1 = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await services.product.UP_COMING_PRODUCT();
-      
-      
-        if (response) {
-     
-          setData(response?.data?.data?.rows);
+        if(!localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT();
+          const newProducts = response?.data?.data?.filter(
+            (product) => product.productType === 3
+          );
+  
+          if (newProducts) {
+            setData(newProducts);
+          }
+        }else if(localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT_AUTH();
+          const newProducts = response?.data?.data?.filter(
+            (product) => product.productType === 3
+          );
+  
+          if (newProducts) {
+            setData(newProducts);
+          }
         }
+    
       } catch (error) {
         console.log(error);
       }

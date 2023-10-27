@@ -1,6 +1,7 @@
 export default {
   LOGIN: () => "/auth/login",
-  FORGOTPASSWORD: () => `/forgot-password`,
+  FORGOT_PASSWORD: () => `/auth/forgot-password`,
+  RESET_PASSWORD:(query)=>`/auth/reset-password?${query? query:""}`,
   REGISTER: () => `/auth/register`,
   UPDATE: () => `/update/`,
 };

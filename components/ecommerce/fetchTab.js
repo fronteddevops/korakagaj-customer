@@ -13,15 +13,28 @@ function FeatchTab() {
   
     const featuredProduct = async () => {
       try {
-        const response = await services.product.GET_PRODUCT();
-     
-        const newProudct = response?.data?.data?.filter(
-          (product) => product.productType == 0
-        );
-        if (newProudct) {
-          setNewProduct(newProudct);
-          setActive("0");
+        if(!localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT();
+          const newProudct = response?.data?.data?.filter(
+            (product) => product.productType == 0
+          );
+          if (newProudct) {
+            setNewProduct(newProudct);
+            setActive("0");
+          }
+        }else if(localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT_AUTH();
+          const newProudct = response?.data?.data?.filter(
+            (product) => product.productType == 0
+          );
+          if (newProudct) {
+            setNewProduct(newProudct);
+            setActive("0");
+          } 
         }
+      
+  
+     
       } catch (error) {
         console.log(error);
       }
@@ -29,23 +42,37 @@ function FeatchTab() {
   
     const trendingProduct = async () => {
       try {
-        const response = await services.product.GET_PRODUCT();
-  
-        const hotDeals = response?.data?.data?.filter(
-          (product) => product.productType == 1
-        );
-        if (hotDeals) {
-          setHotDeals(hotDeals);
-          setActive("1");
+        if( !localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT();
+          const hotDeals = response?.data?.data?.filter(
+            (product) => product.productType == 1
+          );
+          if (hotDeals) {
+            setHotDeals(hotDeals);
+            setActive("1");
+          }
+        }else if(localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT_AUTH();
+          const hotDeals = response?.data?.data?.filter(
+            (product) => product.productType == 1
+          );
+          if (hotDeals) {
+            setHotDeals(hotDeals);
+            setActive("1");
+          }
         }
+      
+  
+     
       } catch (error) {
         console.log(error);
       }
     };
     const newArrivalProduct = async () => {
       try {
-        const response = await services.product.GET_PRODUCT();
-  
+        if(!localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT();
+
         const NewArrival = response?.data?.data?.filter(
           (product) => product.productType == 2
         );
@@ -53,6 +80,19 @@ function FeatchTab() {
           setNewArrival(NewArrival);
           setActive("2");
         }
+        }else if(localStorage.getItem('access_token')){
+          const response = await services.product.GET_PRODUCT_AUTH();
+
+        const NewArrival = response?.data?.data?.filter(
+          (product) => product.productType == 2
+        );
+        if (NewArrival) {
+          setNewArrival(NewArrival);
+          setActive("2");
+        }
+        }
+      
+  
       } catch (error) {
         console.log(error);
       }

@@ -53,14 +53,14 @@ const Search = () => {
     return (
       <div>
   
-    <form>
+    <span>
       <input
         value={searchTerm}
         onChange={handleSearch}
         type="text"
         placeholder="Search"
       />
-    </form>
+    </span>
 
     {prodcut?.length > 0 ? (
   <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>

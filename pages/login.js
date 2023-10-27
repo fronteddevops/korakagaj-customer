@@ -7,24 +7,35 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const route = useRouter()
-  //error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+ 
 
-
-  //password show icon set value in state
 
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
+  const [showForgetPasswordComponent, setShowForgetPasswordComponent] = useState(false);
+
+  const [emailForgot, setEmailForgot] = useState("");
+  const [emailErrorForgot, setEmailErrorForgot] = useState("");
+
+  const toastErrorForgot = (error) => {
+    toast.error(error.response?.data?.message || "An error occurred");
+  };
 
 
   //email validate
 
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+  const validateEmailForgot = (emailForget) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailForget);
   };
 
   //handle login  email
@@ -59,6 +70,7 @@ function Login() {
         if (response) {
 
           localStorage.setItem("user", JSON.stringify(response?.data?.user))
+          localStorage.setItem("userId", JSON.stringify(response?.data?.user.id))
           toastSuccessLogin();
           setTimeout(() => {
             route.push('/')
@@ -110,7 +122,56 @@ function Login() {
   const togglePasswordVisibilityLogin = () => {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
+  const toastSuccessEmailSent = () =>
+  toast.success("Email Sent successfully");
 
+
+
+  const handleForgetPassword = async () =>{
+    setShowForgetPasswordComponent(true)
+  }
+
+  const handleForgotEmail = async (event) => {
+    
+    event.preventDefault();
+    let isValidForget = true;
+    setEmailErrorForgot("");
+
+    if (email === "") {
+      setEmailErrorForgot("Enter a valid email address");
+      isValidForget = false;
+    } else if (!validateEmailForgot(emailForgot)) {
+      setEmailErrorForgot("Enter a valid email address");
+      isValidForget = false;
+    }
+    
+
+    if (isValidForget) {
+      try{
+        let data={
+            email:emailForgot
+          }
+          console.log(data)
+          const response = await services.auth.FORGOT_PASSWORD(data)
+          if(response)
+          {
+            setIsDisabled(true);
+            toastSuccessEmailSent()
+            
+           setShowForgetPasswordComponent(false)
+          
+          
+          }else {
+            alert(response.data.guide);
+          }
+      }
+      catch(error){
+        toastErrorForgot(error);
+       console.log(error)
+     
+      }
+    }
+}
   return (
     <>
       <ToastContainer
@@ -124,6 +185,7 @@ function Login() {
         draggable
         pauseOnHover
       />
+      {showForgetPasswordComponent===false &&
       <Layout parent="Home" sub="Login" >
         <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
 
@@ -253,9 +315,12 @@ function Login() {
                                 </label>
                               </div>
                             </div>
-                            <a className="text-muted" href="#">
+                            <span
+                            onClick={handleForgetPassword}
+                            style={{cursor:'pointer'}}
+                            >
                               Forgot password?
-                            </a>
+                            </span>
                           </div>
                           <div className="form-group">
                             <button
@@ -319,6 +384,102 @@ function Login() {
           </div>
         </section>
       </Layout>
+       }
+       {showForgetPasswordComponent && 
+        <Layout parent="Home" sub="Login" >
+    <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
+
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12 m-auto">
+            <div className="row justify-content-around">
+              <div className="col-lg-5">
+                <div className="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                  <div className="padding_eight_all bg-white">
+                    <div className="heading_s1">
+                      <h4 className="mb-30">
+                        Enter your email to reset your password
+                      </h4>
+                    </div>
+                    <form method="post"
+                    
+                  onSubmit={handleForgotEmail}
+                    
+                    >
+                      <div className="col-md-12 mt-4">
+                        <input
+                          type="text"
+                          required=""
+                          name="email"
+                          placeholder="Your Email"
+                          value={emailForgot}
+                          onChange={(e) => {
+                            setEmailForgot(e.target.value.trim());
+                             
+                            if (e.target.value.trim()) {
+                              setEmailForgot(e.target.value);
+                            }
+                            if (e.target.value.length === 0) {
+                              setEmailErrorForgot("Required");
+                            } else {
+                              setEmailErrorForgot("");
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            e.key === "Enter"
+                              ? handleForgotEmail()
+                              : setEmailForgot(e.target.value);
+                          }}
+                         
+                         
+                        />
+                        {emailErrorForgot ? (
+                            <div className="error-message">
+                              <span
+                                style={{
+                                  color: "red",
+                                  fontSize: "12px",
+                                  position: "absolute",
+                                }}
+                              >
+                                {emailErrorForgot}
+                              </span>
+                            </div>
+                          ) : null}
+                
+                     
+                 
+                      </div>
+                
+                      &nbsp; &nbsp; &nbsp;
+                
+                      <div className="form-group">
+                      <button
+                        // type="submit"
+                        className="btn btn-fill-out btn-block hover-up w-100"
+                       
+                 
+                          disabled={isDisabled && !emailForgot}
+
+                        
+                 
+                      // onClick={handleLogin}
+                      >
+                      save
+                      </button>
+                    </div>
+                    </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </Layout>
+      
+      }
     </>
   );
 }

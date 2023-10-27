@@ -9,6 +9,7 @@ import subscribeuser from "./subscribeuser";
 import searchProduct from "./searchProduct";
 import Wishlist from "./Wishlist";
 import myprofile from "./myprofile";
+import orderDetials from "./orderDetials";
 
 export default {
   category,
@@ -22,5 +23,6 @@ export default {
   searchProduct,
   Wishlist,
   myprofile,
+  orderDetials,
   
 };

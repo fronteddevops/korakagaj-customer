@@ -18,20 +18,11 @@ const SingleProductList = ({
 }) => {
     // console.log(product);
 
-    const handleCart = (product) => {
-        addToCart(product);
-        toast.success("Add to Cart !");
-    };
 
-    const handleCompare = (product) => {
-        addToCompare(product);
-        toast.success("Add to Compare !");
-    };
 
-    const handleWishlist = (product) => {
-        addToWishlist(product);
-        toast.success("Add to Wishlist !");
-    };
+
+
+
     return (
         <>
             <div className="product-list mb-30">

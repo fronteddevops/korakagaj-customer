@@ -3,11 +3,19 @@ import Layout from "../components/layout/Layout";
 import "font-awesome/css/font-awesome.min.css";
 import { ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Addaddress from "./addaddress";
+import Editaddress from "./editaddress";
 
 import services from "../services";
 import Link from "next/link";
+import moment from "moment";
+import { useRouter } from "next/router";
 
 function Account() {
+  const route = useRouter();
+  const [selectedid, setSelectedId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(1);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,6 +36,13 @@ function Account() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoaded, setIsLoaded] = useState(true);
   const [alladdress, setAllAddress] = useState([]);
+  const [orderDetailsData, setOrderDetailsData] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
+  const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
+
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   // const token = JSON.parse(localStorage.getItem("access_token"))
@@ -41,9 +56,24 @@ function Account() {
   };
 
   const handleOnClick = async (index) => {
-    setActiveIndex(index); // remove the curly braces
-
+  
+    setActiveIndex(index);
+    setShowAddAddressComponent(false);
+    setShowEditAddressComponent(false)
+    setFirstNameError("");
+    setLastNameError("");
+    setPhoneNumberError("");
+    setPassword("")
+    setNewPassword("")
+    setConfirmPassword("")
+    setPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
+   
+  
+   
     if (index === 5) {
+     
       try {
         const response = await services.myprofile.GET_MY_PROFILE();
         setFirstName(response?.data?.data?.firstName);
@@ -53,28 +83,47 @@ function Account() {
       } catch (error) {
         console.log(error);
       }
+    } if (index == 2) {
+
+      try {
+
+        const response = await services.orderDetails.GET_ORDER_DETAILS();
+        setOrderDetailsData(response?.data?.data.rows)
+        const productId = response?.data?.data.rows.map((item) => { localStorage.setItem("ProductID", item.id) })
+
+      } catch (error) {
+        console.log(error);
+        toastError(error);
+      }
     }
     if (index === 4) {
+      
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
-        setAllAddress(response?.data?.data)
+        setAllAddress(response?.data?.data);
       } catch {}
-
-      
     } else {
     }
   };
-  const handlesubmit = async () => {
+  const handlesubmit = async (event) => {
+    event.preventDefault();
+
+    let isValid = true;
+     if (phoneNumber.length < 10) {
+      setPhoneNumberError(" Number should be  10  digits.");
+      isValid = false;
+    }
+    if (isValid) {
+      setPhoneNumberError("")
     try {
-      const dataString = JSON.stringify(data);
       const data = {
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
         email: email,
       };
-      const response = await services.myprofile.UPDATE_MY_PROFILE(dataString);
+      const response = await services.myprofile.UPDATE_MY_PROFILE(data);
       if (response) {
         toastSuccessprofileupdate();
       } else {
@@ -83,37 +132,76 @@ function Account() {
       console.log(error);
       toastError(error);
     }
+  }
   };
 
-  const changepassword = async () => {
-    // if(index===6){
+  const changepassword = async (event) => {
+    event.preventDefault();
+    setNewPasswordError("")
     let isValid = true;
-    setPasswordError("");
-    if (password === "") {
-      setPasswordError("Please enter password"); // eslint-disable-next-line
+  
+    setConfirmPasswordError("");
+    if (newpassword !== confirmPassword) {
+      // Update the passwordConfirm variable with an error message
+      setConfirmPasswordError("password not match");
+      isValid = false; // Set isValid to false
+    }
+    if (newpassword === "") {
+      setNewPasswordError("Please enter password");
       isValid = false;
     }
-    if (newpassword !== confirmPassword) {
-      setConfirmPasswordError("Password does not match");
-    } else {
+    if (isValid) {
       try {
-        const data = {
-          newPassword: newpassword,
-          oldPassword: password,
-        };
-        const response = await services.myprofile.CHANGE_PASSWORD(data);
-        if (response) {
-          toastSuccesschangepassword();
+          const data = {
+            newPassword: newpassword,
+            oldPassword: password,
+          };
+          const response = await services.myprofile.CHANGE_PASSWORD(data);
+          if (response) {
+            toastSuccesschangepassword();
+          }else {
+            alert(response.data.guide);
+          }
+        } catch (error) {
+          toastError(error);
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-        toastError(error);
+    
+    }
+  };
+
+  const handleaddaddress = () => {
+    setShowEditAddressComponent(false)
+    // Set the state to true to render the AddAddressComponent
+    setShowAddAddressComponent(true);
+  };
+
+  
+  const handleeditaddress = (id) => {
+    setSelectedId(id);
+    // Set the state to true to render the AddAddressComponent
+    setShowEditAddressComponent(true);
+  };
+
+  const handleInputChange = (e) => {
+    const enteredNumber = e.target.value;
+
+    // Ensure that the entered number is not negative
+    if (enteredNumber >= 0 || enteredNumber === "") {
+      setPhoneNumber(enteredNumber);
+
+      if (enteredNumber.length >= 10) {
+        setPhoneNumberError("");
+      } else if (enteredNumber.length === 0) {
+        setPhoneNumberError("Phone Number is Required ");
+      } else {
+        setPhoneNumberError("");
       }
     }
   };
 
   return (
-      <div>
+    <div>
       <Layout parent="Home" sub="Pages" subChild="Account">
         <section className="pt-150 pb-150">
           <div className="container">
@@ -129,15 +217,17 @@ function Account() {
                 aria-labelledby="address-tab"
               >
                 <div className="col-lg-11 text-end mb-2">
-                  <a href="/addaddress">
-                    <button
-                      className="btn btn-fill-out"
-                      style={{ width: "150px", padding: "1rem" }}
-                    >
-                      <i class="fa fa-plus fs-6 me-2"></i>
-                      Add Address
-                    </button>
-                  </a>
+                
+                  <button
+                    className="btn btn-fill-out"
+                    style={{ width: "150px", padding: "1rem" }}
+                    onClick={handleaddaddress}
+                    
+                  >
+                  
+                    <i class="fa fa-plus fs-6 me-2"></i>
+                    Add Address
+                  </button>
                 </div>
               </div>
 
@@ -285,56 +375,29 @@ function Account() {
                                 <table className="table">
                                   <thead>
                                     <tr>
-                                      <th>Order</th>
+                                      <th>Order Id</th>
                                       <th>Date</th>
-                                      <th>Status</th>
-                                      <th>Total</th>
+                                      <th>Total Item</th>
+                                      <th>Total Quantity</th>
                                       <th>Actions</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <td>#1357</td>
-                                      <td>March 45, 2020</td>
-                                      <td>Processing</td>
-                                      <td>Rs.125.00 for 2 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2468</td>
-                                      <td>June 29, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.364.00 for 5 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2366</td>
-                                      <td>August 02, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.280.00 for 3 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
+                                    {orderDetailsData?.map((item, key) => {
+                                      return (
+                                        <tr key={key}>
+                                          <td>{item.id}</td>
+                                          <td>{moment(item.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
+                                          <td>{item.totalItems}</td>
+                                          <td>{item.totalQuantity}</td>
+                                          <td>   <Link href="/OrderViewDetails">
+                                            <a> View details</a>
+                                          </Link></td>
+
+                                        </tr>
+                                      )
+                                    })}
+
                                   </tbody>
                                 </table>
                               </div>
@@ -401,7 +464,7 @@ function Account() {
                         </div>
                         <div
                           className={
-                            activeIndex === 4
+                            activeIndex === 4 && showAddAddressComponent===false && showEditAddressComponent===false
                               ? "tab-pane fade show active"
                               : "tab-pane fade"
                           }
@@ -409,37 +472,123 @@ function Account() {
                           role="tabpanel"
                           aria-labelledby="address-tab"
                         >
+                         
                           <div className="row">
-                          {alladdress?.map((user, index) => {
-                            return (
+                            {alladdress?.map((user, index) => {
+                              return (
                                 <div className="col-lg-6">
-                                <div className="card mb-3 mb-lg-0">
-                        
-                                  <div className="card-header">
-                                    <h5 className="mb-0">Billing Address</h5>
-                                  </div>
-                                  <div
-                                    className="card-body"
-                                    onChange={(e) => setAllAddress()}
-                                    
-                                  >
-       
-                                    <address>{user.id}</address>
-  
-                                    <a href="/editaddress" className="btn-small">
+                                  <div className="card mb-3 mb-lg-0">
+                                    <div className="card-header">
+                                      <h5 className="mb-0">Billing Address</h5>
+                                    </div>
+                                 
+                                    <div
+                                      className="card-body"
+                                      onChange={(e) => setAllAddress()}
+                                      key={index}
+                                    >
+                                      <address>
+                                        {" "}
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.fullName}
+                                        </span>
+                                        <br /> 
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.phoneNumber}
+                                        </span>
+                                        <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.houseNo}
+                                        </span>
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.address}
+                                        </span>
+                                        <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.city}
+                                        </span>
+                                        <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.pinCode}
+                                        </span>
+                                        <br />
+                                        <span
+                                        style={{
+                                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                                          wordWrap: "break-word", // This property allows for breaking words when needed
+                                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                        }}
+                                        >
+                                        {user.address.state}
+                                        </span>
+                                      </address>
+                                     
+                                       
+                                 
+                                      <div className="col-lg-12 text-end ">
+                                      <span 
+                                       
+                                        style={{ width: "150px", padding: "1rem",color:"red" ,cursor:'pointer'}}
+                                       
+                                        onClick={() => handleeditaddress(user.id)}
+                                      >
+                                        
                                       Edit
-                                    </a>
+                                      </span>
+                                    </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                           );
-                        }
-                        )
-                        }
-                          
-                          
+                              );
+                            })}
                           </div>
                         </div>
+                        {showAddAddressComponent && <Addaddress />}
+                        
+                      {showEditAddressComponent && <Editaddress  id={selectedid}/>}
                         <div
                           className={
                             activeIndex === 5
@@ -455,7 +604,7 @@ function Account() {
                               <h5>Account Details</h5>
                             </div>
                             <div className="card-body">
-                              <form method="post" name="enq">
+                              <form method="post" onSubmit={handlesubmit}>
                                 <div className="row">
                                   <div className="form-group col-md-6">
                                     <label>
@@ -476,8 +625,10 @@ function Account() {
                                             "First name is required"
                                           );
                                         } else {
+                                          setFirstName(e.target.value);
                                           setFirstNameError("");
                                         }
+                                        setFirstName(e.target.value.trim());
                                       }}
                                     />
                                     <div>
@@ -486,6 +637,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
+                                            fontSize:"12px"
                                           }}
                                         >
                                           {firstNameError}
@@ -511,8 +663,10 @@ function Account() {
                                             "Last name is required"
                                           );
                                         } else {
+                                          setLastName(e.target.value);
                                           setLastNameError("");
                                         }
+                                        setLastName(e.target.value.trim());
                                       }}
                                     />
                                     <div>
@@ -521,6 +675,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
+                                            fontSize:"12px"
                                           }}
                                         >
                                           {lastNameError}
@@ -541,14 +696,20 @@ function Account() {
                                       type="number"
                                       value={phoneNumber}
                                       placeholder={`Enter ${phoneNumber}`}
-                                      onChange={(e) => {
-                                        setPhoneNumber(e.target.value);
-                                        if (!e.target.value.trim()) {
+                                      onChange={handleInputChange}
+                                      min="0"
+                                      onKeyDown={(e) => {
+                                        exceptThisSymbols.includes(e.key) &&
+                                          e.preventDefault();
+                                        if (
+                                          e.target.value.length >= 10 &&
+                                          e.key !== "Backspace" &&
+                                          e.key !== "Delete"
+                                        ) {
+                                          e.preventDefault();
                                           setPhoneNumberError(
-                                            "Phone number is required"
+                                            "Number should be  10  digits."
                                           );
-                                        } else {
-                                          setPhoneNumberError("");
                                         }
                                       }}
                                     />
@@ -558,6 +719,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
+                                            fontSize:"12px"
                                           }}
                                         >
                                           {phoneNumberError}
@@ -573,6 +735,7 @@ function Account() {
                                     <input
                                       required=""
                                       className="form-control square"
+                                      disabled="true"
                                       name="email"
                                       type="email"
                                       value={email}
@@ -580,13 +743,13 @@ function Account() {
                                   </div>
                                   <div className="col-md-12 mt-5">
                                     <button
-                                      className="btn btn-fill-out submit"
+                                      className="btn btn-fill-out "
                                       disabled={
                                         firstNameError ||
-                                        lastNameError ||
-                                        phoneNumberError
+                                        lastNameError 
+                                        
                                       }
-                                      onClick={handlesubmit}
+                                      // onClick={handlesubmit}
                                     >
                                       Save
                                     </button>
@@ -611,154 +774,219 @@ function Account() {
                               <h5>Change Password</h5>
                             </div>
                             <div className="card-body">
-                              <form method="post" name="enq">
+                              <form method="post" onSubmit={changepassword}>
                                 <div className="row">
                                   <div className="form-group col-md-12">
                                     <label>
                                       Current Password
                                       <span className="required">*</span>
                                     </label>
+                                    <div className="d-flex flex-column align-items-end ">
                                     <input
-                                      required=""
-                                      className="form-control square"
-                                      name="password"
-                                      type={passwordType}
-                                      value={password}
-                                      placeholder="password"
-                                      onChange={(e) => {
-                                        if (e.target.value.trim() === "") {
-                                          setIsDisabled(true);
-
-                                          setPasswordError("Requierd");
-                                        } else {
-                                          setPassword(
-                                            e.target.value.trimStart()
-                                          );
-                                          setPasswordError("");
-                                        }
-
-                                        setPassword(e.target.value.trimStart());
-                                      }}
-                                      onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
+                                    required=""
+                                    className="form-control square"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    placeholder="Password"
+                                    onChange={(e) => {
+                                      const trimmedValue = e.target.value.trim(); // Remove leading/trailing spaces
+                                      if (trimmedValue !== "") {
+                                        setPassword(trimmedValue);
+                                        setPasswordError(""); // Clear the error if the input is not just spaces
+                                      } else {
+                                        setPassword(""); // Optionally, you can clear the password state
+                                        setPasswordError("Old Password is required");
                                       }
-                                    />
+                                    }}
+                                 
+                                  
+                                      />
+                                      <span className="">
+                                        <i
+                                          onClick={() =>
+                                            setShowPassword(!showPassword)
+                                          }
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={
+                                              showPassword ? faEyeSlash : faEye
+                                            }
+                                            style={{
+                                              height: "1rem",
+                                              verticalAlign: "text-top",
+                                              marginTop: "-2rem",
+                                              marginRight: "1rem",
+                                            }}
+                                          />
+                                        </i>
+                                      </span>
+                                    </div>
+                                      <div style={{marginTop:'-1rem',paddingBottom:'17px'}}>
                                     {passwordError ? (
-                                      <p
-                                        className="text-start  position-absolute mt-2"
-                                        style={{ color: "red" }}
+                                      <span
+                                        className="text-start position-absolute"
+                                        style={{ color: "red", fontSize: "12px" ,
+                                        }}
                                       >
                                         {passwordError}
-                                      </p>
+                                      </span>
                                     ) : null}
+                                    </div>
                                   </div>
-                                  <div className="form-group col-md-12">
+                                  <div className="form-group col-md-12" 
+                                  style={{marginTop:"-1rem"}}
+                                  >
                                     <label>
                                       New Password
                                       <span className="required">*</span>
                                     </label>
-                                    <input
-                                      required=""
-                                      className="form-control square"
-                                      name="npassword"
-                                      placeholder="new password"
-                                      autoComplete="off"
-                                      type={newPasswordType}
-                                      onChange={(e) => {
-                                        if (e.target.value.trim() === "") {
-                                          setIsDisabled(true);
+                                    <div className="d-flex flex-column align-items-end ">
+                                      <input
+                                        required=""
+                                        className="form-control square"
+                                        name="npassword"
+                                        placeholder="new password"
+                                        autoComplete="off"
+                                        type={
+                                          showPassword1 ? "text" : "password"
+                                        }
+                                        onChange={(e) => {
+                                          if (e.target.value.trim() === "") {
+                                            setIsDisabled(true);
 
-                                          setNewPasswordError("Requierd");
-                                        } else if (
-                                          e.target.value.trim() ===
-                                          confirmPassword
-                                        ) {
-                                          setIsDisabled(false);
-                                          setNewPasswordError("");
-                                          setConfirmPasswordError("");
-                                        } else {
+                                            setNewPasswordError("Requierd New Password");
+                                          } else if (
+                                            e.target.value.trim() ===
+                                            confirmPassword
+                                          ) {
+                                            setIsDisabled(false);
+                                            setNewPasswordError("");
+                                            setConfirmPasswordError("");
+                                          } else {
+                                            setNewPassword(
+                                              e.target.value.trimStart()
+                                            );
+                                            setNewPasswordError("");
+                                          }
+
                                           setNewPassword(
                                             e.target.value.trimStart()
                                           );
-                                          setNewPasswordError("");
-                                        }
-
-                                        setNewPassword(
-                                          e.target.value.trimStart()
-                                        );
-                                      }}
-                                      value={newpassword}
-                                      onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                      }
-                                    />
-                                    {newpasswordError ? (
-                                      <p
-                                        className="text-start  position-absolute mt-2"
-                                        style={{ color: "red" }}
-                                      >
-                                        {newpasswordError}
-                                      </p>
-                                    ) : null}
+                                        }}
+                                        value={newpassword}
+                                      />
+                                      <span className="">
+                                        <i
+                                          onClick={() =>
+                                            setShowPassword1(!showPassword1)
+                                          }
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={
+                                              showPassword1 ? faEyeSlash : faEye
+                                            }
+                                            style={{
+                                              height: "1rem",
+                                              verticalAlign: "text-top",
+                                              marginTop: "-2rem",
+                                              marginRight: "1rem",
+                                            }}
+                                          />
+                                        </i>
+                                      </span>
+                                    </div>
+                                   <div style={{marginTop:'-1rem',paddingBottom:'17px'}}>
+                                   {newpasswordError ? (
+                                    <span
+                                      className="text-start position-absolute"
+                                      style={{ color: "red" ,fontSize:"12px"}}
+                                    >
+                                      {newpasswordError}
+                                    </span>
+                                  ) : null}
+                                   </div>
                                   </div>
-                                  <div className="form-group col-md-12">
+                                  <div className="form-group col-md-12"
+                                  style={{marginTop:"-1rem"}}
+                                  >
                                     <label>
                                       Confirm Password
                                       <span className="required">*</span>
                                     </label>
-                                    <input
-                                      required=""
-                                      type={confirmPasswordType}
-                                      className="form-control square"
-                                      name="cpassword"
-                                      placeholder="confirm password"
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        if (e.target.value.trim() === "") {
-                                          setIsDisabled(true);
+                                    <div className="d-flex flex-column align-items-end ">
+                                      <input
+                                        required=""
+                                        type={
+                                          showPassword2 ? "text" : "password"
+                                        }
+                                        className="form-control square"
+                                        name="cpassword"
+                                        placeholder="confirm password"
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          if (e.target.value.trim() === "") {
+                                            setIsDisabled(true);
 
-                                          setConfirmPasswordError("Requierd");
-                                        } else if (
-                                          e.target.value.trim() !== newpassword
-                                        ) {
-                                          setIsDisabled(true);
+                                            setConfirmPasswordError("Requierd Confirm Password");
+                                          } else if (
+                                            e.target.value.trim() !==
+                                            newpassword
+                                          ) {
+                                            setIsDisabled(true);
 
-                                          setConfirmPasswordError(
-                                            "Password does not match"
-                                          );
-                                        } else {
-                                          setIsDisabled(false);
+                                            setConfirmPasswordError(
+                                              "Password does not match"
+                                            );
+                                          } else {
+                                            setIsDisabled(false);
+                                            setConfirmPassword(
+                                              e.target.value.trimStart()
+                                            );
+                                            setConfirmPasswordError("");
+                                          }
+
                                           setConfirmPassword(
                                             e.target.value.trimStart()
                                           );
-                                          setConfirmPasswordError("");
-                                        }
-
-                                        setConfirmPassword(
-                                          e.target.value.trimStart()
-                                        );
-                                      }}
-                                      value={confirmPassword}
-                                      onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                      }
-                                    />
+                                        }}
+                                        value={confirmPassword}
+                                      />
+                                      <span className="">
+                                        <i
+                                          onClick={() =>
+                                            setShowPassword2(!showPassword2)
+                                          }
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={
+                                              showPassword2 ? faEyeSlash : faEye
+                                            }
+                                            style={{
+                                              height: "1rem",
+                                              verticalAlign: "text-top",
+                                              marginTop: "-2rem",
+                                              marginRight: "1rem",
+                                            }}
+                                          />
+                                        </i>
+                                      </span>
+                                    </div>
+                                    <div style={{marginTop:'-1rem',paddingBottom:'17px'}}>
                                     {confirmPasswordError ? (
-                                      <p
-                                        className="text-start  position-absolute mt-2"
-                                        style={{ color: "red" }}
+                                      <span
+                                        className="text-start  position-absolute"
+                                        style={{ color: "red" ,fontSize:"12px"}}
                                       >
                                         {confirmPasswordError}
-                                      </p>
+                                      </span>
                                     ) : null}
+                                    </div>
                                   </div>
                                   <div className="col-md-12">
                                     <button
                                       // type="submit"
-                                      className="btn btn-fill-out "
+                                      className="btn btn-fill-out  "
                                       // name="submit"
                                       // value="Submit"
                                       disabled={
@@ -768,7 +996,7 @@ function Account() {
                                           confirmPassword
                                         )
                                       }
-                                      onClick={changepassword}
+                                      // onClick={changepassword}
                                     >
                                       Save
                                     </button>
@@ -787,7 +1015,7 @@ function Account() {
           </div>
         </section>
       </Layout>
-      </div>
+    </div>
   );
 }
 

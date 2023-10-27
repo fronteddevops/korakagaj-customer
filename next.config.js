@@ -6,9 +6,9 @@ const nextConfig = {
 
     // BASE_URL : 'http://3.109.196.67:3000/v1',
     // BASE_URL_UPLOADS : 'http://3.109.196.67:3000/uploads/', 
-    //satish
+    // distDir: 'dist',
     BASE_URL : 'http://192.168.29.131:5000/v1',
-   BASE_URL_UPLOADS : 'http://192.168.29.131:5000/uploads/',
+    BASE_URL_UPLOADS : 'http://192.168.29.131:5000/uploads/',
     distDir: 'dist',
   }
    
