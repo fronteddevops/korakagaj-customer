@@ -77,8 +77,13 @@ const Header = ({
 
 const handleCart = async () => {
   if (localStorage.getItem("access_token")) {
-    const cart = await service.cart.GET_CART()
-    setTotalCartItems(cart.data.data[0].cartDetail.cartDetails.length)
+    try {
+      const cart = await service.cart.GET_CART()
+      setTotalCartItems(cart.data.data[0].cartDetail.cartDetails.length)
+    } catch (error) {
+      console.log(error)
+    }
+
     
   } else {
     const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
