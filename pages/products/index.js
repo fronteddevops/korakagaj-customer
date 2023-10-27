@@ -124,7 +124,7 @@ const Products = ({ products1, productFilters }) => {
     try {
       const response = await services.product.GET_FILTER_PRODUCT(data);
       if (response) {
-        setProdcut(response?.data?.data?.rows);
+        setProdcut(response?.data?.data);
         setLoading(true )
       } else {
         console.log("error");
@@ -147,15 +147,28 @@ const Products = ({ products1, productFilters }) => {
   //SORTING BY DEALS
   const featuredProduct = async () => {
     try {
-      const response = await services.product.GET_PRODUCT();
-
-      const newProudct = response?.data?.data?.rows.filter(
-        (product) => product.productType == 0
-      );
-      if (newProudct) {
-        setFilterProduct(newProudct);
-        setProdcut([]);
+      if( !localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT();
+    
+        const newProudct = response?.data?.data?.filter(
+          (product) => product.productType == 0
+        );
+        if (newProudct) {
+          setFilterProduct(newProudct);
+          setProdcut([]);
+        }
+      }else if(localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT_AUTH();
+        const newProudct = response?.data?.data?.filter(
+          (product) => product.productType == 0
+        );
+        if (newProudct) {
+          setFilterProduct(newProudct);
+          setProdcut([]);
+        }
       }
+
+    
     } catch (error) {
       console.log(error);
     }
@@ -163,40 +176,72 @@ const Products = ({ products1, productFilters }) => {
 
   const trendingProduct = async () => {
     try {
-      const response = await services.product.GET_PRODUCT();
-
-      const hotDeals = response?.data?.data?.rows.filter(
-        (product) => product.productType == 1
-      );
-      if (hotDeals) {
-        setFilterProduct(hotDeals);
-        setProdcut([]);
+      if( !localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT();
+        const hotDeals = response?.data?.data?.filter(
+          (product) => product.productType == 1
+        );
+        if (hotDeals) {
+          setFilterProduct(hotDeals);
+          setProdcut([]);
+        }
+      }else if(localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT_AUTH();
+        const hotDeals = response?.data?.data?.filter(
+          (product) => product.productType == 1
+        );
+        if (hotDeals) {
+          setFilterProduct(hotDeals);
+          setProdcut([]);
+        }
       }
+
+    
     } catch (error) {
       console.log(error);
     }
   };
   const newArrivalProduct = async () => {
     try {
-      const response = await services.product.GET_PRODUCT();
-
-      const NewArrival = response?.data?.data?.rows.filter(
-        (product) => product.productType == 2
-      );
-      if (NewArrival) {
-        setFilterProduct(NewArrival);
-
-        setProdcut([]);
+      if( !localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT();
+        const NewArrival = response?.data?.data?.filter(
+          (product) => product.productType == 2
+        );
+        if (NewArrival) {
+          setFilterProduct(NewArrival);
+  
+          setProdcut([]);
+        }
+      }else if(localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT_AUTH();
+        const NewArrival = response?.data?.data?.filter(
+          (product) => product.productType == 2
+        );
+        if (NewArrival) {
+          setFilterProduct(NewArrival);
+  
+          setProdcut([]);
+        }
       }
+
+     
     } catch (error) {
       console.log(error);
     }
   };
   const default1 = async () => {
     try {
-      const response = await services.product.GET_PRODUCT();
-      setProdcut(response?.data?.data?.rows);
-      setFilterProduct([]);
+      if( !localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT();
+        setProdcut(response?.data?.data);
+        setFilterProduct([]);
+      }else if(localStorage.getItem('access_token')){
+        const response = await services.product.GET_PRODUCT_AUTH();
+        setProdcut(response?.data?.data);
+        setFilterProduct([]);
+      }
+     
     } catch (error) {
       console.log(error);
     }

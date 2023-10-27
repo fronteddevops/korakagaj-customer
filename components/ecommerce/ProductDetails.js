@@ -54,45 +54,85 @@ const ProductDetails = ({
     useEffect(() => {
         GET_Fabric_Data(product);
     }, [product]);
+    const handleWishlist = async (product) => {
+
+
+        if (localStorage.getItem("access_token")) {
+    
+    
+          try {
+    
+            const userID = localStorage.getItem("userId");
+    
+            const data = {
+              productId: product.id,
+              userId: userID
+            }
+    
+            if (!product.isWishlisted) {
+    
+    
+              const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+              productDataShow()
+              toast.success("Added to Wishlist!");
+              window.location.reload()
+            } else {
+              const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+              productDataShow()
+              toast.success("Removed from Wishlist");
+              window.location.reload()
+            }
+    
+          } catch (error) {
+    
+            console.error("An error occurred:", error);
+          }
+    
+        } else {
+          
+          toast.error("Please Login!");
+        }
+    
+      };
     const color = JSON?.parse(product?.colour)
     const size = JSON.parse(product.size)
 
     const handleCart = async (product) => {
         if (localStorage.getItem("access_token")) {
-          const cart = await services.cart.GET_CART()
-          let cartDetails = []
-          if (cart.data.data[0].cartDetail) {
-            cartDetails = cart.data.data[0].cartDetail.cartDetails
-          }
-          cartDetails.push(product)
-          const key = 'id';
-          const unique = [...new Map(cartDetails.map(item =>
-            [item[key], item])).values()];
-          let data = {
-            cartDetail: {cartDetails: unique}
-          }
-          console.log(data)
-          const updateCart = await services.cart.UPDATE_CART(data)
-          console.log(updateCart)
-          toast.success("Add to Cart !");
-          
+            const cart = await services.cart.GET_CART()
+            let cartDetails = []
+            if (cart.data.data[0].cartDetail) {
+                cartDetails = cart.data.data[0].cartDetail.cartDetails
+            }
+            cartDetails.push(product)
+            const key = 'id';
+            const unique = [...new Map(cartDetails.map(item =>
+                [item[key], item])).values()];
+            let data = {
+                cartDetail: { cartDetails: unique }
+            }
+            console.log(data)
+            const updateCart = await services.cart.UPDATE_CART(data)
+            console.log(updateCart)
+            toast.success("Add to Cart !");
+
         } else {
-          const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
-          let cartDetails = []
-          if (cart) {
-            cartDetails = cart.cartDetails
-          }
-          cartDetails.push(product)
-          const key = 'id';
-          const unique = [...new Map(cartDetails.map(item =>
-            [item[key], item])).values()];
-          let data = {
-            cartDetail: {cartDetails: unique}
-          }
-          console.log(data)
-         localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+            const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
+            let cartDetails = []
+            if (cart) {
+                cartDetails = cart.cartDetails
+            }
+            cartDetails.push(product)
+            const key = 'id';
+            const unique = [...new Map(cartDetails.map(item =>
+                [item[key], item])).values()];
+            let data = {
+                cartDetail: { cartDetails: unique }
+            }
+            console.log(data)
+            localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
         }
-      };
+    };
     return (
         <>
             <section className="mt-50 mb-50">

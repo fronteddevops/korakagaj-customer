@@ -18,7 +18,7 @@ const RelatedSlider = () => {
     try {
       const allProducts = await services.product.GET_PRODUCT();
       if (allProducts) {
-        setRelated(allProducts?.data?.data?.rows);
+        setRelated(allProducts?.data?.data);
       }
     } catch (error) {
       console.log(error);

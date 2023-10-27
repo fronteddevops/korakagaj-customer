@@ -12,6 +12,7 @@ import services from "../../services";
 
 
 const SingleProduct = ({
+  data1,
   product,
   addToCart,
   addToCompare,
@@ -20,6 +21,17 @@ const SingleProduct = ({
   fabricPrice
 }) => {
   const [loading, setLoading] = useState(false);
+  const [productId, setProductId] = useState(data1?.productId);
+  const [UserId, setUserId] = useState(data1?.User?.id);
+  const [verifyStatus, setVerifyStatus] = useState();
+
+
+  const productDataShow = () => {
+    setVerifyStatus(product.isWishlisted)
+    setProductId(data1?.productId)
+    setUserId(data1?.User?.id)
+  }
+
 
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
@@ -28,7 +40,10 @@ const SingleProduct = ({
   const discountAmount = (basePrice * discountPercentage) / 100;
   const totalPrice = basePrice - discountAmount;
 
+  useEffect(() => {
+    productDataShow()
 
+  }, []);
 
 
   const handleCart = async (product) => {
@@ -43,15 +58,15 @@ const SingleProduct = ({
       const unique = [...new Map(cartDetails.map(item =>
         [item[key], item])).values()];
       let data = {
-        cartDetail: {cartDetails: unique}
+        cartDetail: { cartDetails: unique }
       }
       console.log(data)
       const updateCart = await services.cart.UPDATE_CART(data)
       console.log(updateCart)
       toast.success("Add to Cart !");
-      
+
     } else {
-      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
+      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
       let cartDetails = []
       if (cart) {
         cartDetails = cart.cartDetails
@@ -61,36 +76,50 @@ const SingleProduct = ({
       const unique = [...new Map(cartDetails.map(item =>
         [item[key], item])).values()];
       let data = {
-        cartDetail: {cartDetails: unique}
+        cartDetail: { cartDetails: unique }
       }
       console.log(data)
-     localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
     }
   };
 
-
-
-
-
   const handleWishlist = async (product) => {
-    const productstatus = localStorage.getItem("productstatus")
-    // console.log("kkkkkkkkkkkkkkkkkkkk",productstatus)
+
 
     if (localStorage.getItem("access_token")) {
-      if (!localStorage.getItem("productstatus")) {
-        services.NewWishlist([product])
-        toast.success("Add to Wishlist !");
 
-        return;
-      } else if (localStorage.getItem("productstatus")) {
-        services.NewWishlist([product])
-        toast.success("Remove to Wishlist !");
+
+      try {
+
+        const userID = localStorage.getItem("userId");
+
+        const data = {
+          productId: product.id,
+          userId: userID
+        }
+
+        if (!product.isWishlisted) {
+
+
+          const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+          productDataShow()
+          toast.success("Added to Wishlist!");
+          window.location.reload()
+        } else {
+          const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+          productDataShow()
+          toast.success("Removed from Wishlist");
+          window.location.reload()
+        }
+
+      } catch (error) {
+
+        console.error("An error occurred:", error);
       }
 
-
     } else {
-      addToWishlist(product);
-      toast.success("Add to Wishlist !");
+      
+      toast.error("Please Login!");
     }
 
   };

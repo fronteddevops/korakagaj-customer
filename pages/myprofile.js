@@ -10,6 +10,7 @@ import Editaddress from "./editaddress";
 
 import services from "../services";
 import Link from "next/link";
+import moment from "moment";
 import { useRouter } from "next/router";
 
 function Account() {
@@ -35,6 +36,7 @@ function Account() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoaded, setIsLoaded] = useState(true);
   const [alladdress, setAllAddress] = useState([]);
+  const [orderDetailsData, setOrderDetailsData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
@@ -80,6 +82,18 @@ function Account() {
         setPhoneNumber(response?.data?.data?.phoneNumber);
       } catch (error) {
         console.log(error);
+      }
+    } if (index == 2) {
+
+      try {
+
+        const response = await services.orderDetails.GET_ORDER_DETAILS();
+        setOrderDetailsData(response?.data?.data.rows)
+        const productId = response?.data?.data.rows.map((item) => { localStorage.setItem("ProductID", item.id) })
+
+      } catch (error) {
+        console.log(error);
+        toastError(error);
       }
     }
     if (index === 4) {
@@ -361,56 +375,29 @@ function Account() {
                                 <table className="table">
                                   <thead>
                                     <tr>
-                                      <th>Order</th>
+                                      <th>Order Id</th>
                                       <th>Date</th>
-                                      <th>Status</th>
-                                      <th>Total</th>
+                                      <th>Total Item</th>
+                                      <th>Total Quantity</th>
                                       <th>Actions</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <td>#1357</td>
-                                      <td>March 45, 2020</td>
-                                      <td>Processing</td>
-                                      <td>Rs.125.00 for 2 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2468</td>
-                                      <td>June 29, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.364.00 for 5 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>#2366</td>
-                                      <td>August 02, 2020</td>
-                                      <td>Completed</td>
-                                      <td>Rs.280.00 for 3 item</td>
-                                      <td>
-                                        <a
-                                          href="#"
-                                          className="btn-small d-block"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-                                    </tr>
+                                    {orderDetailsData?.map((item, key) => {
+                                      return (
+                                        <tr key={key}>
+                                          <td>{item.id}</td>
+                                          <td>{moment(item.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
+                                          <td>{item.totalItems}</td>
+                                          <td>{item.totalQuantity}</td>
+                                          <td>   <Link href="/OrderViewDetails">
+                                            <a> View details</a>
+                                          </Link></td>
+
+                                        </tr>
+                                      )
+                                    })}
+
                                   </tbody>
                                 </table>
                               </div>

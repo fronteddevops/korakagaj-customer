@@ -70,6 +70,7 @@ function Login() {
         if (response) {
 
           localStorage.setItem("user", JSON.stringify(response?.data?.user))
+          localStorage.setItem("userId", JSON.stringify(response?.data?.user.id))
           toastSuccessLogin();
           setTimeout(() => {
             route.push('/')

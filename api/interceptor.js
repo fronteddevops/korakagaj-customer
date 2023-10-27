@@ -24,6 +24,7 @@ const initialiseInterceptor = () => {
         console.log('error in interceptor ==>', error);
         if (error.response && (error.response.status == 401 || error.response.status == 403)) {
           localStorage.clear();
+          localStorage?.removeItem("access_token")
           console.log("====================================+++++++++++++++++++++++++++++++++")
           if (window.location.pathname !== "/") {
             setTimeout(() => {

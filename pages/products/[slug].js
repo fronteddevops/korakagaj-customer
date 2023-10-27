@@ -41,8 +41,6 @@ const ProductId = ({ product }) => {
     }
 
   };
-  
-
   useEffect(() => {
     getProdcut();
   }, [prodcutId, newFabricPrice]);
