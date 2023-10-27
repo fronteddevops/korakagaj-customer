@@ -55,14 +55,12 @@ function Login() {
         };
         console.log(payLoad);
         const response = await services.auth.LOGIN_USER(payLoad);
+        await handleCart()
         if (response) {
 
           localStorage.setItem("user", JSON.stringify(response?.data?.user))
           localStorage.setItem("userId", JSON.stringify(response?.data?.user.id))
           toastSuccessLogin();
-
-
-          // navigate home page \
           setTimeout(() => {
             route.push('/')
           }, 1000);
@@ -75,7 +73,34 @@ function Login() {
       }
     }
   };
-
+  const handleCart = async () => {
+    if (localStorage.getItem("cartDetail")) {
+    
+      const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
+      let cartDetailsLocal = []
+      if (cartLocal && cartLocal.cartDetails.length > 0) {
+        cartDetailsLocal = cartLocal.cartDetails
+      }
+      const cart = await services.cart.GET_CART()
+      let cartDetails = []
+      if (cart.data.data[0].cartDetail) {
+        cartDetails = cart.data.data[0].cartDetail.cartDetails
+      }
+      cartDetails = [...cartDetails, ...cartDetailsLocal]
+      
+      const key = 'id';
+      const unique = [...new Map(cartDetails.map(item =>
+        [item[key], item])).values()];
+      let data = {
+        cartDetail: {cartDetails: unique}
+      }
+      console.log(data)
+      const updateCart = await services.cart.UPDATE_CART(data)
+      console.log(updateCart)
+      localStorage.removeItem('cartDetail')
+     
+    } 
+  };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
   const toastErrorLogin = (error) => {
@@ -85,8 +110,6 @@ function Login() {
   const togglePasswordVisibilityLogin = () => {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
-
-
 
   return (
     <>

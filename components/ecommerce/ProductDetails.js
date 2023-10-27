@@ -28,54 +28,110 @@ const ProductDetails = ({
 
     const [quantity, setQuantity] = useState(1);
     const [fabricType, setfabricType] = useState("");
-  
-    const handleCart = (product) => {
-      addToCart(product);
-      toast.success("Add to Cart !");
-    };
-  
-    const handleCompare = (product) => {
-      addToCompare(product);
-      toast.success("Add to Compare !");
-    };
-  
-    const handleWishlist = (product) => {
-      addToWishlist(product);
-      toast.success("Add to Wishlist !");
-    };
-  
-    const inCart = cartItems.find((cartItem) => cartItem?.id === product?.id);
-  
     const calculateTotalPrice = (product) => {
-      let itemTotalPrice = 0; // Initialize totalPrice to 0
-  
-      const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-      const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-      const discountAmount = (basePrice * discountPercentage) / 100;
-      itemTotalPrice = basePrice - discountAmount;
-      return itemTotalPrice; // Return the calculated total price
+        let itemTotalPrice = 0; // Initialize totalPrice to 0
+
+        const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+        const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+        const discountAmount = (basePrice * discountPercentage) / 100;
+        itemTotalPrice = basePrice - discountAmount;
+        return itemTotalPrice; // Return the calculated total price
     };
-  
+
     //fabric apt call
     const GET_Fabric_Data = async (prodcut) => {
-      const response = await services.fabric.GET_FABRIC();
-      const selectedFabric = response.data.data.rows.find(
-        (fabric) => fabric?.id == prodcut.fabric
-      );
-                                              //     <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#E74C26"><path d="M440-181 240-296q-19-11-29.5-29T200-365v-230q0-22 10.5-40t29.5-29l200-115q19-11 40-11t40 11l200 115q19 11 29.5 29t10.5 40v230q0 22-10.5 40T720-296L520-181q-19 11-40 11t-40-11Zm0-92v-184l-160-93v185l160 92Zm80 0 160-92v-185l-160 93v184ZM80-680v-120q0-33 23.5-56.5T160-880h120v80H160v120H80ZM280-80H160q-33 0-56.5-23.5T80-160v-120h80v120h120v80Zm400 0v-80h120v-120h80v120q0 33-23.5 56.5T800-80H680Zm120-600v-120H680v-80h120q33 0 56.5 23.5T880-800v120h-80ZM480-526l158-93-158-91-158 91 158 93Zm0 45Zm0-45Zm40 69Zm-80 0Z" /></svg>
-                                              // </span>
-  
-      if (selectedFabric) {
-        setfabricType(selectedFabric.fabricType);
-      }
+        const response = await services.fabric.GET_FABRIC();
+        const selectedFabric = response.data.data.rows.find(
+            (fabric) => fabric?.id == prodcut.fabric
+        );
+        //     <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#E74C26"><path d="M440-181 240-296q-19-11-29.5-29T200-365v-230q0-22 10.5-40t29.5-29l200-115q19-11 40-11t40 11l200 115q19 11 29.5 29t10.5 40v230q0 22-10.5 40T720-296L520-181q-19 11-40 11t-40-11Zm0-92v-184l-160-93v185l160 92Zm80 0 160-92v-185l-160 93v184ZM80-680v-120q0-33 23.5-56.5T160-880h120v80H160v120H80ZM280-80H160q-33 0-56.5-23.5T80-160v-120h80v120h120v80Zm400 0v-80h120v-120h80v120q0 33-23.5 56.5T800-80H680Zm120-600v-120H680v-80h120q33 0 56.5 23.5T880-800v120h-80ZM480-526l158-93-158-91-158 91 158 93Zm0 45Zm0-45Zm40 69Zm-80 0Z" /></svg>
+        // </span>
+
+        if (selectedFabric) {
+            setfabricType(selectedFabric.fabricType);
+        }
     };
     useEffect(() => {
-      GET_Fabric_Data(product);
+        GET_Fabric_Data(product);
     }, [product]);
-    console.log(inCart);
-const color=JSON?.parse(product?.colour)
-const size=JSON.parse(product.size)
+    const handleWishlist = async (product) => {
 
+
+        if (localStorage.getItem("access_token")) {
+
+
+            try {
+
+                const userID = localStorage.getItem("userId");
+
+                const data = {
+                    productId: product.id,
+                    userId: userID
+                }
+
+                if (product.isWishlisted === false) {
+
+
+                    const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+                    productDataShow()
+                    toast.success("Add to Wishlist !");
+                } else if (product.isWishlisted === true) {
+
+                    const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+                    productDataShow()
+                    toast.success("Remove to Wishlist !");
+                }
+
+            } catch (error) {
+
+                console.error("An error occurred:", error);
+            }
+
+        } else {
+
+            toast.error("Please Login!");
+        }
+
+    };
+    const color = JSON?.parse(product?.colour)
+    const size = JSON.parse(product.size)
+
+    const handleCart = async (product) => {
+        if (localStorage.getItem("access_token")) {
+            const cart = await services.cart.GET_CART()
+            let cartDetails = []
+            if (cart.data.data[0].cartDetail) {
+                cartDetails = cart.data.data[0].cartDetail.cartDetails
+            }
+            cartDetails.push(product)
+            const key = 'id';
+            const unique = [...new Map(cartDetails.map(item =>
+                [item[key], item])).values()];
+            let data = {
+                cartDetail: { cartDetails: unique }
+            }
+            console.log(data)
+            const updateCart = await services.cart.UPDATE_CART(data)
+            console.log(updateCart)
+            toast.success("Add to Cart !");
+
+        } else {
+            const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
+            let cartDetails = []
+            if (cart) {
+                cartDetails = cart.cartDetails
+            }
+            cartDetails.push(product)
+            const key = 'id';
+            const unique = [...new Map(cartDetails.map(item =>
+                [item[key], item])).values()];
+            let data = {
+                cartDetail: { cartDetails: unique }
+            }
+            console.log(data)
+            localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+        }
+    };
     return (
         <>
             <section className="mt-50 mb-50">
@@ -87,7 +143,7 @@ const size=JSON.parse(product.size)
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-gallery">
                                             <span className="zoom-icon">
-                                                <img width={'80%'} src="/assets/imgs/360.svg"/>
+                                                <img width={'80%'} src="/assets/imgs/360.svg" />
                                             </span>
 
                                             <div className="product-image-slider">
@@ -171,33 +227,33 @@ const size=JSON.parse(product.size)
                                             </div>
                                             <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
-                                                   {fabricPrice ?(<>
-                                                    <ins>
-                                                        <span className="text-brand">
-                                                   {fabricPrice}
+                                                    {fabricPrice ? (<>
+                                                        <ins>
+                                                            <span className="text-brand">
+                                                                {fabricPrice}
+                                                            </span>
+                                                        </ins>
+                                                    </>) : (<>
+                                                        <ins>
+                                                            <span className="text-brand">
+                                                                Rs.{calculateTotalPrice(product)}
+                                                            </span>
+                                                        </ins>
+                                                        <ins>
+                                                            <span className="old-price font-md ml-15">
+                                                                Rs.{product.totalPrice}
+                                                            </span>
+                                                        </ins>
+                                                        <span className="save-price  font-md color3 ml-15">
+                                                            {
+                                                                product.discountPercentage
+                                                            }
+                                                            % Off
                                                         </span>
-                                                    </ins>
-                                                   </>):(<>
-                                                    <ins>
-                                                        <span className="text-brand">
-                                                        Rs.{calculateTotalPrice(product)}
-                                                        </span>
-                                                    </ins>
-                                                    <ins>
-                                                        <span className="old-price font-md ml-15">
-                                                        Rs.{product.totalPrice}
-                                                        </span>
-                                                    </ins>
-                                                    <span className="save-price  font-md color3 ml-15">
-                                                        {
-                                                            product.discountPercentage
-                                                        }
-                                                        % Off
-                                                    </span>
-                                                   </>)
+                                                    </>)
 
-                                                   }
-                                                 
+                                                    }
+
                                                 </div>
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -227,18 +283,18 @@ const size=JSON.parse(product.size)
                                                     Color
                                                 </strong>
                                                 <ul className="list-filter color-filter">
-                                                {  color && color?.map((clr, i) =>
-                            
-                           <li key={i}>
-                             <a href="#">
-                               <span
-                                 className={`product-color-${clr}`}
-                               > 
-                               </span>
-                             </a>
-                           </li>
-                         
-                       )}
+                                                    {color && color?.map((clr, i) =>
+
+                                                        <li key={i}>
+                                                            <a href="#">
+                                                                <span
+                                                                    className={`product-color-${clr}`}
+                                                                >
+                                                                </span>
+                                                            </a>
+                                                        </li>
+
+                                                    )}
                                                 </ul>
                                             </div>
                                             <div className="attr-detail attr-size">
@@ -246,7 +302,7 @@ const size=JSON.parse(product.size)
                                                     Size
                                                 </strong>
                                                 <ul className="list-filter size-filter font-small">
-                                                     {size.map(
+                                                    {size.map(
                                                         (size, i) => (
                                                             <li key={i}>
                                                                 <a href="#">
@@ -254,13 +310,13 @@ const size=JSON.parse(product.size)
                                                                 </a>
                                                             </li>
                                                         )
-                                                    )} 
+                                                    )}
 
-                                                   
+
                                                 </ul>
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
-                                                <span className="text-brand">Size Chart {'>'}</span>
-                                                </strong>   
+                                                    <span className="text-brand">Size Chart {'>'}</span>
+                                                </strong>
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
@@ -269,36 +325,18 @@ const size=JSON.parse(product.size)
                                                 <div className="detail-qty border radius">
                                                     <a
                                                         onClick={(e) =>
-                                                            !inCart
-                                                                ? setQuantity(
-                                                                    quantity >
-                                                                        1
-                                                                        ? quantity -
-                                                                        1
-                                                                        : 1
-                                                                )
-                                                                : decreaseQuantity(
-                                                                    product?.id
-                                                                )
+                                                            setQuantity(1)
                                                         }
                                                         className="qty-down"
                                                     >
                                                         <i className="fi-rs-angle-small-down"></i>
                                                     </a>
                                                     <span className="qty-val">
-                                                        {inCart?.quantity ||
-                                                            quantity}
+                                                        {quantity}
                                                     </span>
                                                     <a
                                                         onClick={() =>
-                                                            !inCart
-                                                                ? setQuantity(
-                                                                    quantity +
-                                                                    1
-                                                                )
-                                                                : increaseQuantity(
-                                                                    product?.id
-                                                                )
+                                                            setQuantity(1)
                                                         }
                                                         className="qty-up"
                                                     >
@@ -308,7 +346,7 @@ const size=JSON.parse(product.size)
 
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
-                                            <strong className="mr-10 text-capitalize ">
+                                                <strong className="mr-10 text-capitalize ">
                                                     Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
                                                 </strong>
 
@@ -366,23 +404,23 @@ const size=JSON.parse(product.size)
                                             </div>
                                             <ul className="product-meta font-xs color-grey mt-50">
                                                 <li className="mb-5 text-capitalize">
-                                                SKU&nbsp;:
-                          <a href="#">&nbsp;{product.sku}</a>
+                                                    SKU&nbsp;:
+                                                    <a href="#">&nbsp;{product.sku}</a>
                                                 </li>
                                                 <li className="mb-5 text-capitalize">
                                                     Tags&nbsp;:
-                                                   <a href="#" rel="tag" className="me-1">&nbsp;
-                            {product.tags}
-                          </a>
+                                                    <a href="#" rel="tag" className="me-1">&nbsp;
+                                                        {product.tags}
+                                                    </a>
                                                 </li>
                                                 <li>
-                                                Availability&nbsp;:
-                          <span className="in-stock text-success ml-5" >
-                        
-                        
-                        
-                        {product.currentStock} Items In Stock
-                          </span>
+                                                    Availability&nbsp;:
+                                                    <span className="in-stock text-success ml-5" >
+
+
+
+                                                        {product.currentStock} Items In Stock
+                                                    </span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -416,16 +454,8 @@ const size=JSON.parse(product.size)
     );
 };
 
-const mapStateToProps = (state) => ({
-    cartItems: state.cart,
-});
 
-const mapDispatchToProps = {
-    addToCompare,
-    addToWishlist,
-    addToCart,
-    increaseQuantity,
-    decreaseQuantity,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+
+
+export default ProductDetails;

@@ -118,8 +118,8 @@ const SingleProduct = ({
       }
 
     } else {
-      addToWishlist(product);
-      toast.success("Add to Wishlist !");
+      
+      toast.error("Please Login!");
     }
 
   };

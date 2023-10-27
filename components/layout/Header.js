@@ -7,11 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ShopWishlist from "../../pages/shop-wishlist";
 import services from "../../services";
 const Header = ({
-  lengthData,
-  totalCartItems,
-  totalCompareItems,
   toggleClick,
-  totalWishlistItems,
   headerStyle,
 }) => {
 
@@ -22,42 +18,46 @@ const Header = ({
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
   const [addCartLength, setAddCartLength] = useState()
-  const [userName,setUserName]=useState([])
+  const [userName, setUserName] = useState([])
   const [addWishlistLength, setAddWishlistLength] = useState()
-  const [wishlistLength, setWishlistLength] = useState()
+
+  const [totalCartItems, setTotalCartItems] = useState()
+  const [totalWishlistItems, setTotalWishlistItems] = useState()
+
+  const GetWishlistdata = async () => {
+
+    if (localStorage.getItem("access_token")) {
+
+      try {
+
+        const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
+
+        setTotalWishlistItems(WishlistResponse?.data?.data?.length)
 
 
-const  GetWishlistdata  = async()=>{
-
-  if(localStorage.getItem("access_token")){
-   
-    try {
-    
-      const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
-  
-      setWishlistLength(WishlistResponse?.data?.data?.length)
-   
-     
-  } catch (error) {
-      // Handle errors here
-      console.error("An error occurred:", error);
-  }
+      } catch (error) {
+        // Handle errors here
+        console.error("An error occurred:", error);
+      }
 
       return;
     }
-    
 
-}
+
+  }
+
+
 
   useEffect(() => {
     GetWishlistdata()
+    handleCart()
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
       if (scrollCheck !== scroll) {
         setScroll(scrollCheck);
       }
     });
-   
+
   }, []);
 
   const handleToggle = () => {
@@ -102,9 +102,23 @@ const  GetWishlistdata  = async()=>{
     const response = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(id);
 
   };
-//user name
+  //user name
+
+  const handleCart = async () => {
+    if (localStorage.getItem("access_token")) {
+      try {
+        const cart = await service.cart.GET_CART()
+        setTotalCartItems(cart.data.data[0].cartDetail.cartDetails.length)
+      } catch (error) {
+        console.log(error)
+      }
 
 
+    } else {
+      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
+      setTotalCartItems(cart?.cartDetails?.length)
+    }
+  };
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -205,24 +219,24 @@ const  GetWishlistdata  = async()=>{
                         <NavDropdown.Item href="/myprofile?index=5">My Profile</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item href="/"
-                        onClick={()=>{
-                          localStorage.clear()
-                        }}
+                          onClick={() => {
+                            localStorage.clear()
+                          }}
                         >
                           Logout
                         </NavDropdown.Item>
                       </NavDropdown>
-                       { userName ?(
-  <div>
-    {userName.firstName} {userName.lastName}
-  </div>
-) : (
-  <Link href="/login">
-    <a>Log In / Sign Up</a>
-  </Link>
-)
-                       }
-                   
+                      {userName ? (
+                        <div>
+                          {userName.firstName} {userName.lastName}
+                        </div>
+                      ) : (
+                        <Link href="/login">
+                          <a>Log In / Sign Up</a>
+                        </Link>
+                      )
+                      }
+
                     </li>
                   </ul>
                 </div>
@@ -259,112 +273,111 @@ const  GetWishlistdata  = async()=>{
                             src="/assets/imgs/theme/icons/icon-heart.svg"
                           />
                           <span className="pro-count blue">
-                          {/* {wishlistLength} */}
-                         {totalWishlistItems>0?totalWishlistItems:wishlistLength} 
-                          </span>
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="header-action-icon-2">
-                      <Link href="/shop-cart">
-                        <a className="mini-cart-icon">
-                          <img
-                            alt="korakagaj"
-                            src="/assets/imgs/theme/icons/icon-cart.svg"
-                          />
-                          <span className="pro-count blue">
-                            {totalCartItems > 0 ? totalCartItems : addCartLength}
-                          </span>
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                            {totalWishlistItems>0?totalWishlistItems:0}
+                          </span >
+                        </a >
+                      </Link >
+                    </div >
+  <div className="header-action-icon-2">
+    <Link href="/shop-cart">
+      <a className="mini-cart-icon">
+        <img
+          alt="korakagaj"
+          src="/assets/imgs/theme/icons/icon-cart.svg"
+        />
+        <span className="pro-count blue">
+          {totalCartItems > 0 ? totalCartItems : 0}
+        </span>
+      </a>
+    </Link>
+  </div>
+                  </div >
+                </div >
+              </div >
+            </div >
+          </div >
+        </div >
+  <div
+    className={
+      scroll
+        ? "header-bottom header-bottom-bg-color sticky-bar stick"
+        : "header-bottom header-bottom-bg-color sticky-bar"
+    }
+  >
+    <div className="container">
+      <div className="header-wrap header-space-between position-relative">
+        <div className="logo logo-width-1 d-block d-lg-none">
+          <Link href="/">
+            <a>
+              <img src="/assets/imgs/theme/logo.svg" alt="logo" />
+            </a>
+          </Link>
         </div>
-        <div
-          className={
-            scroll
-              ? "header-bottom header-bottom-bg-color sticky-bar stick"
-              : "header-bottom header-bottom-bg-color sticky-bar"
-          }
-        >
-          <div className="container">
-            <div className="header-wrap header-space-between position-relative">
-              <div className="logo logo-width-1 d-block d-lg-none">
-                <Link href="/">
-                  <a>
-                    <img src="/assets/imgs/theme/logo.svg" alt="logo" />
-                  </a>
-                </Link>
-              </div>
-              <div className="header-nav d-none d-lg-flex">
-                <div className="main-categori-wrap d-none d-lg-block">
-                  <a
-                    className="categori-button-active text-dark"
-                    onClick={handleToggle}
-                  >
-                    <span className="fi-rs-apps"></span>
-                    Browse Categories
-                  </a>
+        <div className="header-nav d-none d-lg-flex">
+          <div className="main-categori-wrap d-none d-lg-block">
+            <a
+              className="categori-button-active text-dark"
+              onClick={handleToggle}
+            >
+              <span className="fi-rs-apps"></span>
+              Browse Categories
+            </a>
 
-                  <div
-                    className={
-                      isToggled
-                        ? "categori-dropdown-wrap categori-dropdown-active-large open"
-                        : "categori-dropdown-wrap categori-dropdown-active-large"
-                    }
-                  >
-                    <ul>
-                      <li className="has-children">
-                        {categoryList &&
-                          categoryList.map((item) => (
-                            // Remove curly braces around item.categoryName
+            <div
+              className={
+                isToggled
+                  ? "categori-dropdown-wrap categori-dropdown-active-large open"
+                  : "categori-dropdown-wrap categori-dropdown-active-large"
+              }
+            >
+              <ul>
+                <li className="has-children">
+                  {categoryList &&
+                    categoryList.map((item) => (
+                      // Remove curly braces around item.categoryName
 
-                            <Link href="/products/shop-grid-right">
-                              <a
-                                key={item.id}
-                                onMouseEnter={() => subCategoryList(item.id)}
-                                onMouseLeave={() => setHoveredCategoryId(null)}
-                              >
-                                <i className="korakagaj-font-dress"></i>
-                                {item.categoryName}
-                              </a>
-                            </Link>
-                          ))}
-                        <div className="dropdown-menu">
-                          <ul className="mega-menu d-lg-flex">
-                            <li className="mega-menu-col col-lg-7">
-                              <ul className="d-lg-flex">
-                                {subCategory &&
-                                  subCategory.map((item) => (
-                                    <li className="mega-menu-col col-lg-6">
-                                      <ul>
-                                        <li>
+                      <Link href="/products/shop-grid-right">
+                        <a
+                          key={item.id}
+                          onMouseEnter={() => subCategoryList(item.id)}
+                          onMouseLeave={() => setHoveredCategoryId(null)}
+                        >
+                          <i className="korakagaj-font-dress"></i>
+                          {item.categoryName}
+                        </a>
+                      </Link>
+                    ))}
+                  <div className="dropdown-menu">
+                    <ul className="mega-menu d-lg-flex">
+                      <li className="mega-menu-col col-lg-7">
+                        <ul className="d-lg-flex">
+                          {subCategory &&
+                            subCategory.map((item) => (
+                              <li className="mega-menu-col col-lg-6">
+                                <ul>
+                                  <li>
 
 
-                                          <span className="submenu-title">
-                                            {item.subCategoryName}
+                                    <span className="submenu-title">
+                                      {item.subCategoryName}
 
-                                          </span>
-                                        </li>
+                                    </span>
+                                  </li>
 
-                                        {subSubCategory.map((item) => (
-                                          <li>
-                                            <Link href="/#">
-                                              <a className="dropdown-item nav-link nav_item">
-                                                {item.subSubCategoryName}
-                                              </a>
-                                            </Link>
-                                          </li>
-                                        ))}
-                                      </ul>
+                                  {subSubCategory.map((item) => (
+                                    <li>
+                                      <Link href="/#">
+                                        <a className="dropdown-item nav-link nav_item">
+                                          {item.subSubCategoryName}
+                                        </a>
+                                      </Link>
                                     </li>
                                   ))}
+                                </ul>
+                              </li>
+                            ))}
 
-                                {/* <li className="mega-menu-col col-lg-6">
+                          {/* <li className="mega-menu-col col-lg-6">
                                                                     <ul>
                                                                         <li>
                                                                             <span className="submenu-title">
@@ -432,327 +445,314 @@ const  GetWishlistdata  = async()=>{
                                                                         </li>
                                                                     </ul>
                                                                 </li> */}
-                              </ul>
-                            </li>
-
-                            <li className="mega-menu-col col-lg-5">
-                              <div className="header-banner2">
-                                <img
-                                  src="/assets/imgs/banner/menu-banner-2.jpg"
-                                  alt="menu_banner1"
-                                />
-                                <div className="banne_info">
-                                  <h6>10% Off</h6>
-                                  <h4>New Arrival</h4>
-                                  <Link href="/#">
-                                    <a>Shop now</a>
-                                  </Link>
-                                </div>
-                              </div>
-                              <div className="header-banner2">
-                                <img
-                                  src="/assets/imgs/banner/menu-banner-3.jpg"
-                                  alt="menu_banner2"
-                                />
-                                <div className="banne_info">
-                                  <h6>15% Off</h6>
-                                  <h4>Hot Deals</h4>
-                                  <Link href="/#">
-                                    <a>Shop now</a>
-                                  </Link>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
+                        </ul>
                       </li>
-                      <li className="has-children">
-                        <Link href="/products/shop-grid-right">
-                          <a>
-                            <i className="korakagaj-font-tshirt"></i>
-                            Men's Clothing
-                          </a>
-                        </Link>
-                        <div className="dropdown-menu">
-                          <ul className="mega-menu d-lg-flex">
-                            <li className="mega-menu-col col-lg-7">
-                              <ul className="d-lg-flex">
-                                <li className="mega-menu-col col-lg-6">
-                                  <ul>
-                                    <li>
-                                      <span className="submenu-title">
-                                        Jackets & Coats
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Down Jackets
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Jackets
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Parkas
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Faux Leather Coats
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Trench
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Wool & Blends
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Vests & Waistcoats
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Leather Coats
-                                        </a>
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </li>
-                                <li className="mega-menu-col col-lg-6">
-                                  <ul>
-                                    <li>
-                                      <span className="submenu-title">
-                                        Suits & Blazers
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Blazers
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Suit Jackets
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Suit Pants
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Suits
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Vests
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Tailor-made Suits
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Cover-Ups
-                                        </a>
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li>
-                            <li className="mega-menu-col col-lg-5">
-                              <div className="header-banner2">
-                                <img
-                                  src="/assets/imgs/banner/menu-banner-4.jpg"
-                                  alt="menu_banner1"
-                                />
-                                <div className="banne_info">
-                                  <h6>10% Off</h6>
-                                  <h4>New Arrival</h4>
-                                  <Link href="/#">
-                                    <a>Shop now</a>
-                                  </Link>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+
+                      <li className="mega-menu-col col-lg-5">
+                        <div className="header-banner2">
+                          <img
+                            src="/assets/imgs/banner/menu-banner-2.jpg"
+                            alt="menu_banner1"
+                          />
+                          <div className="banne_info">
+                            <h6>10% Off</h6>
+                            <h4>New Arrival</h4>
+                            <Link href="/#">
+                              <a>Shop now</a>
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="header-banner2">
+                          <img
+                            src="/assets/imgs/banner/menu-banner-3.jpg"
+                            alt="menu_banner2"
+                          />
+                          <div className="banne_info">
+                            <h6>15% Off</h6>
+                            <h4>Hot Deals</h4>
+                            <Link href="/#">
+                              <a>Shop now</a>
+                            </Link>
+                          </div>
                         </div>
                       </li>
                     </ul>
                   </div>
-                </div>
-                <div className="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
-                  <nav>
-                    <ul>
-                      <li>
-                        <Link href="/">
-                          <a className="active">Home</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/page-about">
-                          <a>About</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/products">
-                          <a>Shop</a>
-                        </Link>
-                      </li>
-
-                      <li>
-                        <Link href="/blog-category-grid">
-                          <a>
-                            Blog
-                            <i className="fi-rs-angle-down"></i>
-                          </a>
-                        </Link>
-                        <ul className="sub-menu">
-                          <li>
-                            <Link href="/blog-category-grid">
-                              <a>Blog Category Grid</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/blog-category-list">
-                              <a>Blog Category List</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/blog-category-big">
-                              <a>Blog Category Big</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/blog-category-fullwidth">
-                              <a>Blog Category Wide</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/#">
-                              <a>
-                                Single Post
-                                <i className="fi-rs-angle-right"></i>
-                              </a>
-                            </Link>
-                            <ul className="level-menu level-menu-modify">
+                </li>
+                <li className="has-children">
+                  <Link href="/products/shop-grid-right">
+                    <a>
+                      <i className="korakagaj-font-tshirt"></i>
+                      Men's Clothing
+                    </a>
+                  </Link>
+                  <div className="dropdown-menu">
+                    <ul className="mega-menu d-lg-flex">
+                      <li className="mega-menu-col col-lg-7">
+                        <ul className="d-lg-flex">
+                          <li className="mega-menu-col col-lg-6">
+                            <ul>
                               <li>
-                                <Link href="/blog-post-left">
-                                  <a>Left Sidebar</a>
+                                <span className="submenu-title">
+                                  Jackets & Coats
+                                </span>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Down Jackets
+                                  </a>
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/blog-post-right">
-                                  <a>Right Sidebar</a>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Jackets
+                                  </a>
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/blog-post-fullwidth">
-                                  <a>No Sidebar</a>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Parkas
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Faux Leather Coats
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Trench
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Wool & Blends
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Vests & Waistcoats
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Leather Coats
+                                  </a>
+                                </Link>
+                              </li>
+                            </ul>
+                          </li>
+                          <li className="mega-menu-col col-lg-6">
+                            <ul>
+                              <li>
+                                <span className="submenu-title">
+                                  Suits & Blazers
+                                </span>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Blazers
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Suit Jackets
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Suit Pants
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Suits
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Vests
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Tailor-made Suits
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link href="/#">
+                                  <a className="dropdown-item nav-link nav_item">
+                                    Cover-Ups
+                                  </a>
                                 </Link>
                               </li>
                             </ul>
                           </li>
                         </ul>
                       </li>
-
-                      <li>
-                        <Link href="/page-contact">
-                          <a>Our Team</a>
-                        </Link>
-                      </li>
-
-                      <li>
-                        <Link href="/page-contact">
-                          <a>Contact</a>
-                        </Link>
+                      <li className="mega-menu-col col-lg-5">
+                        <div className="header-banner2">
+                          <img
+                            src="/assets/imgs/banner/menu-banner-4.jpg"
+                            alt="menu_banner1"
+                          />
+                          <div className="banne_info">
+                            <h6>10% Off</h6>
+                            <h4>New Arrival</h4>
+                            <Link href="/#">
+                              <a>Shop now</a>
+                            </Link>
+                          </div>
+                        </div>
                       </li>
                     </ul>
-                  </nav>
-                </div>
-              </div>
-              <div className="hotline d-none d-lg-block">
-                <p className="text-dark">
-                  <i className="fi-rs-headset"></i>
-                  <span></span> +91-9791028374
-                </p>
-              </div>
-              <p className="mobile-promotion">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+            <nav>
+              <ul>
+                <li>
+                  <Link href="/">
+                    <a className="active">Home</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/page-about">
+                    <a>About</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/products">
+                    <a>Shop</a>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="/blog-category-grid">
+                    <a>
+                      Blog
+                      <i className="fi-rs-angle-down"></i>
+                    </a>
+                  </Link>
+                  <ul className="sub-menu">
+                    <li>
+                      <Link href="/blog-category-grid">
+                        <a>Blog Category Grid</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/blog-category-list">
+                        <a>Blog Category List</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/blog-category-big">
+                        <a>Blog Category Big</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/blog-category-fullwidth">
+                        <a>Blog Category Wide</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/#">
+                        <a>
+                          Single Post
+                          <i className="fi-rs-angle-right"></i>
+                        </a>
+                      </Link>
+                      <ul className="level-menu level-menu-modify">
+                        <li>
+                          <Link href="/blog-post-left">
+                            <a>Left Sidebar</a>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/blog-post-right">
+                            <a>Right Sidebar</a>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/blog-post-fullwidth">
+                            <a>No Sidebar</a>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <Link href="/page-contact">
+                    <a>Our Team</a>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="/page-contact">
+                    <a>Contact</a>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div className="hotline d-none d-lg-block">
+          <p className="text-dark">
+            <i className="fi-rs-headset"></i>
+            <span></span> +91-9791028374
+          </p>
+        </div>
+        {/* <p className="mobile-promotion">
                 Happy
                 <span className="text-brand">Mother's Day</span>. Big Sale Up to
                 40%
-              </p>
-              <div className="header-action-right d-block d-lg-none">
-                <div className="header-action-2">
-                  <div className="header-action-icon-2">
-                    <Link href="/shop-wishlist">
-                      <a>
-                        <img
-                          alt="korakagaj"
-                          src="/assets/imgs/theme/icons/icon-compare.svg"
-                        />
-                        <span className="pro-count white">
-                          {totalCompareItems}
-                        </span>
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="header-action-icon-2">
-                    <Link href="/shop-wishlist">
-                      <a>
-                        <img
-                          alt="korakagaj"
-                          src="/assets/imgs/theme/icons/icon-heart.svg"
-                        />
-                        <span className="pro-count white">
-                          {/* {wishlistLength} */}
-                        {totalWishlistItems>0?totalWishlistItems:wishlistLength}
-                        </span>
-                      </a>
-                    </Link>
-                  </div>
+              </p> */}
+        <div className="header-action-right d-block d-lg-none">
+          <div className="header-action-2">
+
+            <div className="header-action-icon-2">
+              <Link href="/shop-wishlist">
+                <a>
+                  <img
+                    alt="korakagaj"
+                    src="/assets/imgs/theme/icons/icon-heart.svg"
+                  />
+                  <span className="pro-count white">
+                        {totalWishlistItems>0?totalWishlistItems:0}
+                        </span >
+                      </a >
+                    </Link >
+                  </div >
                   <div className="header-action-icon-2">
                     <Link href="/shop-cart">
                       <a className="mini-cart-icon">
@@ -761,90 +761,11 @@ const  GetWishlistdata  = async()=>{
                           src="/assets/imgs/theme/icons/icon-cart.svg"
                         />
                         <span className="pro-count white">
-                          {totalCartItems > 0 ? totalCartItems : addCartLength}
+                          {totalCartItems > 0 ? totalCartItems : 0}
                         </span>
                       </a>
                     </Link>
-                    <div className="cart-dropdown-wrap cart-dropdown-hm2">
-                      <ul>
-                        <li>
-                          <div className="shopping-cart-img">
-                            <Link href="/products/shop-grid-right">
-                              <a>
-                                <img
-                                  alt="korakagaj"
-                                  src="/assets/imgs/shop/thumbnail-3.jpg"
-                                />
-                              </a>
-                            </Link>
-                          </div>
-                          <div className="shopping-cart-title">
-                            <h4>
-                              <Link href="/products/shop-grid-right">
-                                <a>Plain Striola Shirts</a>
-                              </Link>
-                            </h4>
-                            <h3>
-                              <span>1 × </span>
-                              $800.00
-                            </h3>
-                          </div>
-                          <div className="shopping-cart-delete">
-                            <Link href="/#">
-                              <a>
-                                <i className="fi-rs-cross-small"></i>
-                              </a>
-                            </Link>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="shopping-cart-img">
-                            <Link href="/products/shop-grid-right">
-                              <a>
-                                <img
-                                  alt="korakagaj"
-                                  src="/assets/imgs/shop/thumbnail-4.jpg"
-                                />
-                              </a>
-                            </Link>
-                          </div>
-                          <div className="shopping-cart-title">
-                            <h4>
-                              <Link href="/products/shop-grid-right">
-                                <a>Macbook Pro 2022</a>
-                              </Link>
-                            </h4>
-                            <h3>
-                              <span>1 × </span>
-                              $3500.00
-                            </h3>
-                          </div>
-                          <div className="shopping-cart-delete">
-                            <Link href="/#">
-                              <a>
-                                <i className="fi-rs-cross-small"></i>
-                              </a>
-                            </Link>
-                          </div>
-                        </li>
-                      </ul>
-                      <div className="shopping-cart-footer">
-                        <div className="shopping-cart-total">
-                          <h4>
-                            Total
-                            <span>$383.00</span>
-                          </h4>
-                        </div>
-                        <div className="shopping-cart-button">
-                          <Link href="/shop-cart">
-                            <a>View cart</a>
-                          </Link>
-                          <Link href="/shop-checkout">
-                            <a>Checkout</a>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
+          
                   </div>
                   <div className="header-action-icon-2 d-block d-lg-none">
                     <div
@@ -856,20 +777,16 @@ const  GetWishlistdata  = async()=>{
                       <span className="burger-icon-bottom"></span>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+                </div >
+              </div >
+            </div >
+          </div >
+        </div >
+      </header >
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  totalCartItems: state.cart.length,
-  totalCompareItems: state.compare.items.length,
-  totalWishlistItems: state.wishlist.items.length,
-});
 
-export default connect(mapStateToProps, null)(Header);
+
+export default Header;
