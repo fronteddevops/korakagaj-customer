@@ -90,8 +90,8 @@ export default {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.post(
-          constant.BASE_URL + api.Login.FORGOTPASSWORD(),
-          data
+         nextConfig.BASE_URL + api.auth.FORGOT_PASSWORD(),data
+          
         );
         resolve(response);
       } catch (err) {
@@ -99,11 +99,11 @@ export default {
       }
     });
   },
-  RESET_PASSWORD: (data) => {
+  RESET_PASSWORD: (query,data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.post(
-          constant.BASE_URL + api.ResetPassword.RESETPASSWORD(),
+          nextConfig.BASE_URL + api.auth.RESET_PASSWORD(query),
           data
         );
         resolve(response);

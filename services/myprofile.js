@@ -56,12 +56,35 @@ export default {
       }
     });
   },
-  
+  GET_MY_ADDRESS_BY_ID: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+            nextConfig.BASE_URL + api.myprofile.GET_MY_ADDRESS_BY_ID(id)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
   CREATE_MY_ADDRESS: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.post(
             nextConfig.BASE_URL + api.myprofile.CREATE_MY_ADDRESS(),data
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+  UPDATE_MY_ADDRESS_BY_ID: (id,data) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.put(
+            nextConfig.BASE_URL + api.myprofile.UPDATE_MY_ADDRESS_BY_ID(id),data
         );
         resolve(response);
       } catch (err) {
