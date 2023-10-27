@@ -8,12 +8,10 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+ 
   const route = useRouter()
   //error handling
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [numberError, setNumberError] = useState("");
@@ -43,48 +41,6 @@ function Register() {
 
   //handle login  email
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    let isValid = true;
-    setEmailError("");
-    setPasswordError("");
-    if (email === "") {
-      setEmailError("Enter a valid email address");
-      isValid = false;
-    } else if (!validateEmail(email)) {
-      setEmailError("Enter a valid email address");
-      isValid = false;
-    }
-    if (password === "") {
-      setPasswordError("Please enter password");
-      isValid = false;
-    }
-
-    if (isValid) {
-      try {
-        let payLoad = {
-          email: email,
-          password: password,
-          role: "Customer",
-        };
-        console.log(payLoad);
-        const response = await services.auth.LOGIN_USER(payLoad);
-
-        if (response) {
-          const id = response.data.user.id
-          localStorage.setItem("userid", id)
-          toastSuccessLogin();
-
-          // navigate home page 
-          route.push('/')
-        } else {
-          alert(response.data.guide);
-        }
-      } catch (error) {
-        toastErrorLogin(error);
-      }
-    }
-  };
 
   // user Register api call
   const handleRegister = async (event) => {

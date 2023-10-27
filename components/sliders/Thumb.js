@@ -9,7 +9,7 @@ const ThumbSlider = ({ product }) => {
    
     const imageUrl=nextConfig.BASE_URL_UPLOADS
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
-console.log("oooooooooooooooooooooooooooooooo",product)
+
 
     return (
         <div>

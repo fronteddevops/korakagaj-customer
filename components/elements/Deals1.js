@@ -23,9 +23,17 @@ const Deals1 = () => {
 
     fetchProducts();
   }, []);
-console.log("data",data)
+  const deals1Style = {
+    display: "flex",     // Make the container a flex container
+    justifyContent: "center", // Center content horizontally
+    alignItems: "center",
+    margin: "3px",   // Center content vertically
+    // Add any other CSS properties as needed
+  };
+
   return (
-    <>
+    <div style={deals1Style}>
+    
       {  data&&data?.map((product, index) => {
         const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
         const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
@@ -33,11 +41,13 @@ console.log("data",data)
         const totalPrice = basePrice - discountAmount;
         const endDateTime = new Date(product.upComingDate);
         return (
-          <div
+          <div 
+        
   key={index}
   className="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0  d-flex flex-wrap"
   style={{
     backgroundImage: "url('assets/imgs/banner/menu-banner-7.jpg')",
+    margin:'10px'
   }}
 >
   <div className="deal-top">
@@ -72,7 +82,7 @@ console.log("data",data)
 
         );
       })}
-    </>
+    </div>
   );
 };
 

@@ -22,7 +22,7 @@ tempElement.innerHTML = htmlData;
 const textContent = tempElement.textContent;
 
 // Now 'textContent' contains the filtered text data
-console.log(textContent);
+
     return (
         <>
             <div className="tab-style3">

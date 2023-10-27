@@ -1,3 +1,4 @@
+
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import services from "../../services";
@@ -13,19 +14,10 @@ const Search = () => {
         // For example, you can perform some action when searchTerm changes
         {searchTerm.length>0  && searchProduct()}
         
-        console.log("searchTerm has changed:", searchTerm);
+     
     }, [searchTerm]);
 
-    const handleSearch = () => {
-        console.log("click");
-        router.push({
-            pathname: "/products",
-            query: {
-                search: searchTerm,
-            },
-        });
-        setSearchTerm("");
-    };
+    
 
     const handleInput = (e) => {
         if (e.key === "Enter") {
@@ -40,7 +32,7 @@ const Search = () => {
 
     const response= await services.searchProdcut.SEARCH_PRODCUT(searchTerm)
     if(response){
-        console.log("======================",response)
+
         setProdcut(response?.data?.data?.rows)
     }
   } catch (error) {
@@ -48,43 +40,45 @@ const Search = () => {
   }
     };
 
-    return (
-        <div>
-      <form>
-      <input
-  value={searchTerm}
 
-  onChange={(e) => {
-    if (e.target.value !== "") {
-      setSearchTerm(e.target.value);
-    } else if (e.target.value === "") {
-      setSearchTerm(""); // Clear the search term
-      setProdcut([]); // Clear search results
+    const handleSearch=(e)=>{
+      if (e.target.value !== "") {
+        setSearchTerm(e.target.value);
+      } else if (e.target.value === "") {
+        setSearchTerm(""); // Clear the search term
+        setProdcut([]); // Clear search results
+      }
     }
-  }}
-  type="text"
-  placeholder="Search"
-/>
+    return (
+      <div>
+  
+    <form>
+      <input
+        value={searchTerm}
+        onChange={handleSearch}
+        type="text"
+        placeholder="Search"
+      />
+    </form>
 
-      </form>
-      {prodcut?.length > 0 ? (
-  <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
-    <div className="card bg-white">
-      <ul className="list-group list-group-flush">
-        {prodcut?.map((product, index) => (
-          <li className="list-group-item bg-white" key={index}>
-            <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-<a>
-<h4>{product.productName}</h4>
-</a>
-</Link>
-            {/* Additional content can be added here */}
-          </li>
-        ))}
-      </ul>
+  {prodcut?.length > 0 ? (
+    <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
+      <div className="card bg-white">
+        <ul className="list-group list-group-flush">
+          {prodcut?.map((product, index) => (
+            <li className="list-group-item bg-white" key={index}>
+              <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+                <a>
+                  <h4>{product.productName}</h4>
+                </a>
+              </Link>
+              {/* Additional content can be added here */}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
-  </div>
-) : null}
+  ) : null}
 </div>
 
     )

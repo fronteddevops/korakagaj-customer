@@ -30,7 +30,7 @@ function Login() {
   //handle login  email
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event?.preventDefault();
     let isValid = true;
     setEmailError("");
     setPasswordError("");
@@ -57,7 +57,7 @@ function Login() {
         const response = await services.auth.LOGIN_USER(payLoad);
         await handleCart()
         if (response) {
-console.log("========================================")
+
           localStorage.setItem("user", JSON.stringify(response?.data?.user))
           toastSuccessLogin();
           setTimeout(() => {
