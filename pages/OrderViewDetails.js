@@ -7,16 +7,18 @@ import React, { useEffect, useState } from "react";
 import services from "../services";
 import Link from "next/link";
 import moment from "moment";
+import { useRouter } from "next/router";
 
 function OrderViewDetails({ data }) {
-
+const Router=useRouter()
   const [orderDetailsData, setOrderDetailsData] = useState();
+ const ProductId=Router.query.orderId
 
   const orderDetials = async (id) => {
-    const productID = localStorage.getItem("ProductID");
+  
     try {
 
-      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(productID);
+      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
       setOrderDetailsData(response?.data?.data)
       // localStorage.removeItem("ProductID")
     } catch (error) {
@@ -24,8 +26,6 @@ function OrderViewDetails({ data }) {
 
     }
   }
-
-
   useEffect(() => {
     orderDetials()
   }, []);
@@ -44,6 +44,7 @@ function OrderViewDetails({ data }) {
             <div className="card-body">
 
               {orderDetailsData?.map((item, key) => {
+                const color= JSON.parse(item?.Product?.colour)
                 return (
                   <ul className="list-group" key={key}>
                     <li className="list-group-item">Brand Name : {item?.Product?.brandName}</li>
@@ -57,7 +58,7 @@ function OrderViewDetails({ data }) {
                     <li className="list-group-item">Tag :{item?.Product?.tags}</li>
                     <li className="list-group-item">Sku Number : {item?.Product?.sku}</li>
                     <li className="list-group-item">Fabric Name : {item?.Product?.fabric}</li>
-                    <li className="list-group-item">Colour : {item?.Product?.colour}</li>
+                    <li className="list-group-item">Colour : {color}</li>
                     <li className="list-group-item">Quantity : {item?.Product?.quantity}</li>
                     <li className="list-group-item">Price : {item?.amount}</li>
                     <li className="list-group-item">Total Price : {item?.Product?.totalPrice}</li>

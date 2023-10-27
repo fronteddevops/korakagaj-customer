@@ -89,7 +89,7 @@ function Account() {
 
         const response = await services.orderDetails.GET_ORDER_DETAILS();
         setOrderDetailsData(response?.data?.data.rows)
-        const productId = response?.data?.data.rows.map((item) => { localStorage.setItem("ProductID", item.id) })
+      
 
       } catch (error) {
         console.log(error);
@@ -262,7 +262,7 @@ function Account() {
                             Orders
                           </a>
                         </li>
-                        <li
+                        {/* <li
                           className="nav-item"
                           onClick={() => handleOnClick(3)}
                         >
@@ -274,7 +274,7 @@ function Account() {
                             <i className="fi-rs-shopping-cart-check mr-10"></i>
                             Track Your Order
                           </a>
-                        </li>
+                        </li> */}
                         <li
                           className="nav-item"
                           onClick={() => handleOnClick(4)}
@@ -380,6 +380,7 @@ function Account() {
                                       <th>Total Item</th>
                                       <th>Total Quantity</th>
                                       <th>Actions</th>
+                                      <th>Review</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -390,8 +391,12 @@ function Account() {
                                           <td>{moment(item.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
                                           <td>{item.totalItems}</td>
                                           <td>{item.totalQuantity}</td>
-                                          <td>   <Link href="/OrderViewDetails">
+                                       
+                                          <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
                                             <a> View details</a>
+                                          </Link></td>
+                                          <td>   <Link href="/ReviewRetting">
+                                            <a> Review</a>
                                           </Link></td>
 
                                         </tr>
