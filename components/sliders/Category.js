@@ -75,7 +75,7 @@ useEffect(()=>{
                                
                             </figure>
                             <h5>
-                            <Link as={`/products?categoryId=${item.id}`} href={`/products/id=${item.id}`}  >
+                            <Link as={`/products?categoryId=${item.id}&categoryName=${item.categoryName} `} href={`/products/categoryId=${item.id}`}  >
                                     <a>{item.categoryName}</a>
                                 </Link>
                             </h5>

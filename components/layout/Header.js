@@ -5,10 +5,8 @@ import Search from "../ecommerce/Search";
 import service from "../../services";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 const Header = ({
-  totalCartItems,
-  totalCompareItems,
+
   toggleClick,
-  totalWishlistItems,
   headerStyle,
 }) => {
   const [isToggled, setToggled] = useState(false);
@@ -20,7 +18,10 @@ const Header = ({
   const [addCartLength, setAddCartLength] = useState()
   const [userName,setUserName]=useState([])
   const [addWishlistLength, setAddWishlistLength] = useState()
+  const [totalCartItems, setTotalCartItems] = useState()
+  const [totalWishlistItems, setTotalWishlistItems] = useState()
   useEffect(() => {
+    handleCart()
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
       if (scrollCheck !== scroll) {
@@ -74,7 +75,16 @@ const Header = ({
   };
 //user name
 
-
+const handleCart = async () => {
+  if (localStorage.getItem("access_token")) {
+    const cart = await service.cart.GET_CART()
+    setTotalCartItems(cart.data.data[0].cartDetail.cartDetails.length)
+    
+  } else {
+    const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
+    setTotalCartItems(cart?.cartDetails?.length)
+  }
+};
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -333,74 +343,7 @@ const Header = ({
                                     </li>
                                   ))}
 
-                                {/* <li className="mega-menu-col col-lg-6">
-                                                                    <ul>
-                                                                        <li>
-                                                                            <span className="submenu-title">
-                                                                                Bottoms
-                                                                            </span>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Leggings
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Skirts
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Shorts
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Jeans
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Pants
-                                                                                    &
-                                                                                    Capris
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Bikini
-                                                                                    Sets
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Cover-Ups
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Swimwear
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li> */}
+                              
                               </ul>
                             </li>
 
@@ -688,26 +631,14 @@ const Header = ({
                   <span></span> +91-9791028374
                 </p>
               </div>
-              <p className="mobile-promotion">
+              {/* <p className="mobile-promotion">
                 Happy
                 <span className="text-brand">Mother's Day</span>. Big Sale Up to
                 40%
-              </p>
+              </p> */}
               <div className="header-action-right d-block d-lg-none">
                 <div className="header-action-2">
-                  <div className="header-action-icon-2">
-                    <Link href="/shop-wishlist">
-                      <a>
-                        <img
-                          alt="korakagaj"
-                          src="/assets/imgs/theme/icons/icon-compare.svg"
-                        />
-                        <span className="pro-count white">
-                          {totalCompareItems}
-                        </span>
-                      </a>
-                    </Link>
-                  </div>
+               
                   <div className="header-action-icon-2">
                     <Link href="/shop-wishlist">
                       <a>
@@ -716,7 +647,7 @@ const Header = ({
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
                         <span className="pro-count white">
-                        {totalWishlistItems>0?totalWishlistItems:addWishlistLength}
+                        {totalWishlistItems>0?totalWishlistItems:0}
                         </span>
                       </a>
                     </Link>
@@ -729,90 +660,11 @@ const Header = ({
                           src="/assets/imgs/theme/icons/icon-cart.svg"
                         />
                         <span className="pro-count white">
-                          {totalCartItems > 0 ? totalCartItems : addCartLength}
+                          {totalCartItems > 0 ? totalCartItems : 0}
                         </span>
                       </a>
                     </Link>
-                    <div className="cart-dropdown-wrap cart-dropdown-hm2">
-                      <ul>
-                        <li>
-                          <div className="shopping-cart-img">
-                            <Link href="/products/shop-grid-right">
-                              <a>
-                                <img
-                                  alt="korakagaj"
-                                  src="/assets/imgs/shop/thumbnail-3.jpg"
-                                />
-                              </a>
-                            </Link>
-                          </div>
-                          <div className="shopping-cart-title">
-                            <h4>
-                              <Link href="/products/shop-grid-right">
-                                <a>Plain Striola Shirts</a>
-                              </Link>
-                            </h4>
-                            <h3>
-                              <span>1 × </span>
-                              $800.00
-                            </h3>
-                          </div>
-                          <div className="shopping-cart-delete">
-                            <Link href="/#">
-                              <a>
-                                <i className="fi-rs-cross-small"></i>
-                              </a>
-                            </Link>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="shopping-cart-img">
-                            <Link href="/products/shop-grid-right">
-                              <a>
-                                <img
-                                  alt="korakagaj"
-                                  src="/assets/imgs/shop/thumbnail-4.jpg"
-                                />
-                              </a>
-                            </Link>
-                          </div>
-                          <div className="shopping-cart-title">
-                            <h4>
-                              <Link href="/products/shop-grid-right">
-                                <a>Macbook Pro 2022</a>
-                              </Link>
-                            </h4>
-                            <h3>
-                              <span>1 × </span>
-                              $3500.00
-                            </h3>
-                          </div>
-                          <div className="shopping-cart-delete">
-                            <Link href="/#">
-                              <a>
-                                <i className="fi-rs-cross-small"></i>
-                              </a>
-                            </Link>
-                          </div>
-                        </li>
-                      </ul>
-                      <div className="shopping-cart-footer">
-                        <div className="shopping-cart-total">
-                          <h4>
-                            Total
-                            <span>$383.00</span>
-                          </h4>
-                        </div>
-                        <div className="shopping-cart-button">
-                          <Link href="/shop-cart">
-                            <a>View cart</a>
-                          </Link>
-                          <Link href="/shop-checkout">
-                            <a>Checkout</a>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
+          
                   </div>
                   <div className="header-action-icon-2 d-block d-lg-none">
                     <div
@@ -834,10 +686,6 @@ const Header = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  totalCartItems: state.cart.length,
-  totalCompareItems: state.compare.items.length,
-  totalWishlistItems: state.wishlist.items.length,
-});
 
-export default connect(mapStateToProps, null)(Header);
+
+export default Header;

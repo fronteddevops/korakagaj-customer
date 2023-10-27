@@ -37,6 +37,7 @@ const Search = () => {
     const searchProduct = async () => {
     
   try {
+
     const response= await services.searchProdcut.SEARCH_PRODCUT(searchTerm)
     if(response){
         console.log("======================",response)
@@ -52,7 +53,7 @@ const Search = () => {
       <form>
       <input
   value={searchTerm}
-  onKeyDown={handleInput}
+
   onChange={(e) => {
     if (e.target.value !== "") {
       setSearchTerm(e.target.value);

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Link from "next/link";
 import useClickOutside from "../../util/outsideClick";
+import Search from "../ecommerce/Search";
 
 const MobileMenu = ({ isToggled, toggleClick }) => {
     const [isActive, setIsActive] = useState({
@@ -49,7 +50,8 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     <div className="mobile-header-content-area">
                         <div className="mobile-search search-style-3 mobile-header-border">
                             <form action="#">
-                                <input type="text" placeholder="Search for items…" />
+                                {/* <input type="text" placeholder="Search for items…" /> */}
+                                <Search/>
                                 <button type="submit">
                                     <i className="fi-rs-search"></i>
                                 </button>

@@ -12,8 +12,8 @@ const Breadcrumb = ({parent, sub, subSub, subChild, noBreadcrumb}) => {
                         </a>
                         </Link>
                         <span></span> {sub}
-                        <span></span>    {subSub}
-                         {subChild}        
+                        <span></span> {subSub}
+                        {subChild}        
                        
 
                     </div>

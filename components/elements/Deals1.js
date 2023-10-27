@@ -11,9 +11,9 @@ const Deals1 = () => {
       try {
         const response = await services.product.UP_COMING_PRODUCT();
       
-
+      
         if (response) {
-
+     
           setData(response?.data?.data?.rows);
         }
       } catch (error) {
@@ -26,7 +26,7 @@ const Deals1 = () => {
 console.log("data",data)
   return (
     <>
-      {data?.map((product, index) => {
+      {  data&&data?.map((product, index) => {
         const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
         const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
         const discountAmount = (basePrice * discountPercentage) / 100;

@@ -28,24 +28,6 @@ const ProductDetails = ({
 
     const [quantity, setQuantity] = useState(1);
     const [fabricType, setfabricType] = useState("");
-
-    const handleCart = (product) => {
-        addToCart(product);
-        toast.success("Add to Cart !");
-    };
-
-    const handleCompare = (product) => {
-        addToCompare(product);
-        toast.success("Add to Compare !");
-    };
-
-    const handleWishlist = (product) => {
-        addToWishlist(product);
-        toast.success("Add to Wishlist !");
-    };
-
-    const inCart = cartItems.find((cartItem) => cartItem?.id === product?.id);
-
     const calculateTotalPrice = (product) => {
         let itemTotalPrice = 0; // Initialize totalPrice to 0
 
@@ -72,10 +54,45 @@ const ProductDetails = ({
     useEffect(() => {
         GET_Fabric_Data(product);
     }, [product]);
-    console.log(inCart);
     const color = JSON?.parse(product?.colour)
-    const size = JSON.parse(product.size)
+    const size = JSON?.parse(product.size)
 
+    const handleCart = async (product) => {
+        if (localStorage.getItem("access_token")) {
+          const cart = await services.cart.GET_CART()
+          let cartDetails = []
+          if (cart.data.data[0].cartDetail) {
+            cartDetails = cart.data.data[0].cartDetail.cartDetails
+          }
+          cartDetails.push(product)
+          const key = 'id';
+          const unique = [...new Map(cartDetails.map(item =>
+            [item[key], item])).values()];
+          let data = {
+            cartDetail: {cartDetails: unique}
+          }
+          console.log(data)
+          const updateCart = await services.cart.UPDATE_CART(data)
+          console.log(updateCart)
+          toast.success("Add to Cart !");
+          
+        } else {
+          const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail')) 
+          let cartDetails = []
+          if (cart) {
+            cartDetails = cart.cartDetails
+          }
+          cartDetails.push(product)
+          const key = 'id';
+          const unique = [...new Map(cartDetails.map(item =>
+            [item[key], item])).values()];
+          let data = {
+            cartDetail: {cartDetails: unique}
+          }
+          console.log(data)
+         localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+        }
+      };
     return (
         <>
             <section className="mt-50 mb-50">
@@ -269,36 +286,18 @@ const ProductDetails = ({
                                                 <div className="detail-qty border radius">
                                                     <a
                                                         onClick={(e) =>
-                                                            !inCart
-                                                                ? setQuantity(
-                                                                    quantity >
-                                                                        1
-                                                                        ? quantity -
-                                                                        1
-                                                                        : 1
-                                                                )
-                                                                : decreaseQuantity(
-                                                                    product?.id
-                                                                )
+                                                            setQuantity(1)
                                                         }
                                                         className="qty-down"
                                                     >
                                                         <i className="fi-rs-angle-small-down"></i>
                                                     </a>
                                                     <span className="qty-val">
-                                                        {inCart?.quantity ||
-                                                            quantity}
+                                                        {quantity}
                                                     </span>
                                                     <a
                                                         onClick={() =>
-                                                            !inCart
-                                                                ? setQuantity(
-                                                                    quantity +
-                                                                    1
-                                                                )
-                                                                : increaseQuantity(
-                                                                    product?.id
-                                                                )
+                                                            setQuantity(1)
                                                         }
                                                         className="qty-up"
                                                     >
@@ -391,7 +390,7 @@ const ProductDetails = ({
 
                                 {quickView ? null : (
                                     <>
-                                        <ProductTab prodcutD={product.description} />
+                                        <ProductTab prodcut={product}  />
                                         <div className="row mt-60">
                                             <div className="col-12">
                                                 <h3 className="section-title style-1 mb-30">
@@ -400,7 +399,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="col-12">
                                                 <div className="row related-products position-relative">
-                                                    <RelatedSlider />
+                                                    <RelatedSlider/>
                                                 </div>
                                             </div>
                                         </div>
@@ -416,16 +415,8 @@ const ProductDetails = ({
     );
 };
 
-const mapStateToProps = (state) => ({
-    cartItems: state.cart,
-});
 
-const mapDispatchToProps = {
-    addToCompare,
-    addToWishlist,
-    addToCart,
-    increaseQuantity,
-    decreaseQuantity,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+
+
+export default ProductDetails;

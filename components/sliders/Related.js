@@ -18,7 +18,7 @@ const RelatedSlider = () => {
     try {
       const allProducts = await services.product.GET_PRODUCT();
       if (allProducts) {
-        setRelated(allProducts?.data?.data?.rows);
+        setRelated(allProducts?.data?.data);
       }
     } catch (error) {
       console.log(error);
@@ -36,7 +36,7 @@ const RelatedSlider = () => {
         }}
         className="custom-class"
       >
-        {related.map((product, i) => (
+        {related?.map((product, i) => (
           <SwiperSlide key={i}>
             <SingleProduct product={product} />
           </SwiperSlide>

@@ -21,7 +21,7 @@ const NewArrival = () => {
             try {
               const response = await services.product.GET_PRODUCT();
         
-              const newProudct = response?.data?.data?.rows.filter(
+              const newProudct = response?.data?.data?.filter(
                 (product) => product.productType == 3
               );
               if (newProudct) {

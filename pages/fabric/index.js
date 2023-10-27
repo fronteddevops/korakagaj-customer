@@ -72,7 +72,7 @@ const Products = ({ products, productFilters }) => {
     "Polyester/Lycra",
     "Cotton/Linen",
     "Viscose/Elastane",
-    
+    "Cotton/Elastane",
     "Polyester/Cotton",
      
   ];
@@ -234,9 +234,11 @@ const Products = ({ products, productFilters }) => {
 <a>
 {prodcutName}
 </a>
+
 </Link>
-      
-      </>}  >
+<span></span>    
+      </>} 
+      subChild="select Fabric"  >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">

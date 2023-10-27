@@ -46,7 +46,7 @@ const Products = ({ products1, productFilters }) => {
 
   let [isFilterVisible, setIsFilterVisible] = useState(false);
   let [currentPage, setCurrentPage] = useState(1);
-  let [pages, setPages] = useState(Math.ceil(products.length / limit));
+  let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
   useEffect(() => {
 
@@ -125,7 +125,7 @@ const Products = ({ products1, productFilters }) => {
     try {
       const response = await services.product.GET_FILTER_PRODUCT(data);
       if (response) {
-        setProdcut(response?.data?.data?.rows);
+        setProdcut(response?.data?.data);
         setLoading(true )
       } else {
         console.log("error");
@@ -145,8 +145,11 @@ const Products = ({ products1, productFilters }) => {
     }
   };
 
-  //SORTING BY DEALS
+  //SORTING BY 
+  
+
   const featuredProduct = async () => {
+ 
     try {
       const response = await services.product.GET_PRODUCT();
 
@@ -196,7 +199,7 @@ const Products = ({ products1, productFilters }) => {
   const default1 = async () => {
     try {
       const response = await services.product.GET_PRODUCT();
-      setProdcut(response?.data?.data?.rows);
+      setProdcut(response?.data?.data);
       setFilterProduct([]);
     } catch (error) {
       console.log(error);
@@ -266,7 +269,9 @@ const Products = ({ products1, productFilters }) => {
 
   return (
     <>
-     <Layout parent="Home" sub={ categoryId? (<><a   href="/categories"> Category</a></>):  <><a   href="/products"> shop</a></>}  subChild="Products">
+     <Layout parent="Home" sub={ categoryId? (<><a   href="/Categories"> Category</a></>): 
+      <><a   href="/products"> shop</a></>}    subSub={ categoryId && <a   href="/categories"> {categoryName} <span></span></a>
+      }  subChild="Products">
     
     <section className="mt-50 mb-50">
       <div className="container">

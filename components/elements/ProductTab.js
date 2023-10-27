@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 
-const ProductTab = ({prodcutD}) => {
+const ProductTab = ({prodcut}) => {
     const [activeIndex, setActiveIndex] = useState(1);
 
     const handleOnClick = (index) => {
         setActiveIndex(index);
     };
-console.log("===========================",prodcutD)
+
+    
+ 
+
+
+
+const htmlData =  prodcut?.additionalInformation
+
+// Create a temporary element to parse the HTML
+const tempElement = document.createElement('div');
+tempElement.innerHTML = htmlData;
+
+// Extract the text content from the element
+const textContent = tempElement.textContent;
+
+// Now 'textContent' contains the filtered text data
+console.log(textContent);
     return (
         <>
             <div className="tab-style3">
@@ -64,7 +80,7 @@ console.log("===========================",prodcutD)
                         id="Description"
                     >
                         <div className="">
-                     <p>{prodcutD}</p>
+                     <p>{prodcut.description}</p>
                             {/* <p>
                                 Uninhibited carnally hired played in whimpered
                                 dear gorilla koala depending and much yikes off
@@ -146,7 +162,19 @@ console.log("===========================",prodcutD)
                                 : "tab-pane fade"
                         }
                         id="Additional-info"
-                    >
+                    > 
+                    <div />
+                
+                    <div>
+       
+                    <ul>
+  
+     <li  dangerouslySetInnerHTML={{ __html: textContent }} />
+
+  {}
+</ul>
+
+      </div>
                         <table className="font-md">
                             <tbody>
                                 <tr className="stand-up">
@@ -195,9 +223,9 @@ console.log("===========================",prodcutD)
                                     </td>
                                 </tr>
                                 <tr className="width">
-                                    <th>Width</th>
+                                    <th>Length  </th>
                                     <td>
-                                        <p>24″</p>
+                                        <p>{prodcut?.length}</p>
                                     </td>
                                 </tr>
                                 <tr className="handle-height-ground-to-handle">
@@ -212,28 +240,55 @@ console.log("===========================",prodcutD)
                                         <p>12″ air / wide track slick tread</p>
                                     </td>
                                 </tr>
+                                <tr className="wheels">
+                                    <th>Name and Address of Importer</th>
+                                    <td>
+                                        <p>adidas India Marketing Private Limited, Office no. 6, 2nd Floor, Sector-B,
+                                             Pocket no. 7, Plot no. 11, Vasant Kunj, New Delhi - 110070</p>
+                                    </td>
+                                </tr>
                                 <tr className="seat-back-height">
-                                    <th>Seat back height</th>
+                                    <th>Country of Origin</th>
+                                    <td>
+                                        <p>21.5″</p>
+                                    </td>
+                                </tr>
+                                <tr className="seat-back-height">
+                                    <th>Gender</th>
                                     <td>
                                         <p>21.5″</p>
                                     </td>
                                 </tr>
                                 <tr className="head-room-inside-canopy">
-                                    <th>Head room (inside canopy)</th>
+                                    <th>BrandName</th>
                                     <td>
-                                        <p>25″</p>
+                                        <p>{prodcut?.brandName}</p>
                                     </td>
                                 </tr>
-                                <tr className="pa_color">
-                                    <th>Color</th>
-                                    <td>
-                                        <p>Black, Blue, Red, White</p>
-                                    </td>
-                                </tr>
+                             
+                               <tr className="pa_color">
+  <th>Color</th>
+  <td>
+    <p className="mb-2">
+      {prodcut?.colour && JSON.parse(prodcut?.colour).map((color, index) => (
+        <span key={index}>
+          <span>{index + 1}:</span> {color}&nbsp;
+        </span>
+      ))}
+    </p>
+  </td>
+</tr>
+
                                 <tr className="pa_size">
-                                    <th>Size</th>
+                                    <th>size</th>
                                     <td>
-                                        <p>M, S</p>
+                                    <p className="mb-2">
+      {prodcut?.size && JSON.parse(prodcut?.size).map((size, index) => (
+        <span key={index}>
+          <span>{index + 1}:</span> {size}&nbsp;
+        </span>
+      ))}
+    </p>
                                     </td>
                                 </tr>
                             </tbody>
