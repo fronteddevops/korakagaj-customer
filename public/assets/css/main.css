@@ -6005,7 +6005,7 @@ h6.post-title {
   position: absolute;
 }
 
-.search-style-2 form input {
+.search-style-2 span input {
   width: 100%;
   max-width: 683px;
   border-radius: 0;
@@ -6021,15 +6021,15 @@ h6.post-title {
   font-style: italic;
 }
 
-.search-style-2 form input::-moz-input-placeholder {
+.search-style-2 span input::-moz-input-placeholder {
   opacity: 1;
 }
 
-.search-style-2 form input::-webkit-input-placeholder {
+.search-style-2 span input::-webkit-input-placeholder {
   opacity: 1;
 }
 
-.search-style-2 form input:focus {
+.search-style-2 span input:focus {
   border-color: #414648;
   border-width: 0 0 3px 0;
   border-style: solid;
@@ -6648,7 +6648,7 @@ h6.post-title {
   max-width: 700px;
 }
 
-.header-style-2 .search-style-2 form input {
+.header-style-2 .search-style-2 span input {
   color: #442452;
   max-width: 600px;
   background-color: #fff;
@@ -6740,7 +6740,7 @@ h6.post-title {
   max-width: 700px;
 }
 
-.header-style-3 .search-style-2 form input {
+.header-style-3 .search-style-2 span input {
   color: #442452;
   max-width: 600px;
   background-color: #fff;
@@ -6799,7 +6799,7 @@ h6.post-title {
   max-width: 700px;
 }
 
-.header-style-4 .search-style-2 form input {
+.header-style-4 .search-style-2 span input {
   color: #442452;
   max-width: 600px;
   background-color: #fff;
@@ -6913,7 +6913,7 @@ h6.post-title {
   max-width: 700px;
 }
 
-.header-style-5 .search-style-2 form input {
+.header-style-5 .search-style-2 span input {
   color: #442452;
   max-width: 600px;
   background-color: #fff;
@@ -9735,7 +9735,7 @@ span.fi-rs-apps {
   .header-action.header-action-hm3 .header-action-icon:last-child {
     margin-right: 0;
   }
-  .search-style-2 form input {
+  .search-style-2 span input {
     width: 340px;
   }
   .hotline p {

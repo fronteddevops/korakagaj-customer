@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import Link from "next/link";
 import useClickOutside from "../../util/outsideClick";
+import Search from "../ecommerce/Search";
 
 const MobileMenu = ({ isToggled, toggleClick }) => {
     const [isActive, setIsActive] = useState({
         status: false,
         key: "",
     });
+    const [userName,setUserName]=useState([])
+   useEffect(()=>{
+  
+        setUserName(JSON.parse(localStorage.getItem("user")))
+  
+   },[])
 
     const handleToggle = (key) => {
         if (isActive.key === key) {
@@ -27,6 +34,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
             status: false,
         });
     });
+    
     return (
         <>
             <div className={isToggled ? "mobile-header-active mobile-header-wrapper-style sidebar-visible" : "mobile-header-active mobile-header-wrapper-style"}>
@@ -49,7 +57,8 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     <div className="mobile-header-content-area">
                         <div className="mobile-search search-style-3 mobile-header-border">
                             <form action="#">
-                                <input type="text" placeholder="Search for items…" />
+                                {/* <input type="text" placeholder="Search for items…" /> */}
+                                <Search/>
                                 <button type="submit">
                                     <i className="fi-rs-search"></i>
                                 </button>
@@ -403,9 +412,11 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/login">
-                                                    <a>login/register</a>
-                                                </Link>
+                                          
+  <Link href="/login">
+    <a>Log In / Sign Up</a>
+  </Link>
+
                                             </li>
                                             <li>
                                                 <Link href="/page-purchase-guide">
@@ -469,9 +480,16 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                 </Link>
                             </div>
                             <div className="single-mobile-header-info">
-                                <Link href="/login">
-                                    <a>Log In / Sign Up </a>
-                                </Link>
+                            { userName ?(
+  <div>
+    {userName.firstName} {userName.lastName}
+  </div>
+) : (
+  <Link href="/login">
+    <a>Log In / Sign Up</a>
+  </Link>
+)
+                       }
                             </div>
                             <div className="single-mobile-header-info">
                                 <Link href="#">

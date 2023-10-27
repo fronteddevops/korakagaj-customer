@@ -39,7 +39,13 @@ const NewArrival = () => {
                       }
                   }
         
-     
+              const newProudct = response?.data?.data?.filter(
+                (product) => product.productType == 3
+              );
+              if (newProudct) {
+                setNewArrival(newProudct);
+             
+              }
             } catch (error) {
               console.log(error);
             }

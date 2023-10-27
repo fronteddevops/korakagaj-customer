@@ -44,6 +44,18 @@ export default {
       }
     });
   },
+  UP_COMING_PRODUCT: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+          nextConfig.BASE_URL + api.product.UP_COMING_PRODUCT(id)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
   GET_FILTER_PRODUCT: (data) => {
     return new Promise(async (resolve, reject) => {
       try {

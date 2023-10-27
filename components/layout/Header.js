@@ -57,7 +57,7 @@ const Header = ({
         setScroll(scrollCheck);
       }
     });
-
+    setUserName(JSON.parse(localStorage.getItem("user")))
   }, []);
 
   const handleToggle = () => {
@@ -108,7 +108,7 @@ const Header = ({
     if (localStorage.getItem("access_token")) {
       try {
         const cart = await service.cart.GET_CART()
-        setTotalCartItems(cart.data.data[0].cartDetail.cartDetails.length)
+        setTotalCartItems(cart.data.data[0]?.cartDetail?.cartDetails?.length)
       } catch (error) {
         console.log(error)
       }
@@ -206,9 +206,9 @@ const Header = ({
                     </li>
                     <li>
                       <i className="fi-rs-user"></i>
-                      <NavDropdown
+                      {userName ? ( <NavDropdown
                         id="nav-dropdown-light-example"
-                        title="User Name"
+                        title={`${userName.firstName} ${userName.lastName}`}
                         menuVariant="light"
                         className="profile-dropdown"
                       >
@@ -226,10 +226,8 @@ const Header = ({
                           Logout
                         </NavDropdown.Item>
                       </NavDropdown>
-                      {userName ? (
-                        <div>
-                          {userName.firstName} {userName.lastName}
-                        </div>
+              
+                        
                       ) : (
                         <Link href="/login">
                           <a>Log In / Sign Up</a>
@@ -376,106 +374,10 @@ const Header = ({
                                 </ul>
                               </li>
                             ))}
-
-                          {/* <li className="mega-menu-col col-lg-6">
-                                                                    <ul>
-                                                                        <li>
-                                                                            <span className="submenu-title">
-                                                                                Bottoms
-                                                                            </span>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Leggings
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Skirts
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Shorts
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Jeans
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Pants
-                                                                                    &
-                                                                                    Capris
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Bikini
-                                                                                    Sets
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Cover-Ups
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            <Link href="/#">
-                                                                                <a className="dropdown-item nav-link nav_item">
-                                                                                    Swimwear
-                                                                                </a>
-                                                                            </Link>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li> */}
                         </ul>
                       </li>
 
-                      <li className="mega-menu-col col-lg-5">
-                        <div className="header-banner2">
-                          <img
-                            src="/assets/imgs/banner/menu-banner-2.jpg"
-                            alt="menu_banner1"
-                          />
-                          <div className="banne_info">
-                            <h6>10% Off</h6>
-                            <h4>New Arrival</h4>
-                            <Link href="/#">
-                              <a>Shop now</a>
-                            </Link>
-                          </div>
-                        </div>
-                        <div className="header-banner2">
-                          <img
-                            src="/assets/imgs/banner/menu-banner-3.jpg"
-                            alt="menu_banner2"
-                          />
-                          <div className="banne_info">
-                            <h6>15% Off</h6>
-                            <h4>Hot Deals</h4>
-                            <Link href="/#">
-                              <a>Shop now</a>
-                            </Link>
-                          </div>
-                        </div>
-                      </li>
+                   
                     </ul>
                   </div>
                 </li>

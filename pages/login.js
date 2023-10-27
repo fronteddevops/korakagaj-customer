@@ -81,6 +81,7 @@ function Login() {
         }
       } catch (error) {
         toastErrorLogin(error);
+       
       }
     }
   };
@@ -373,6 +374,7 @@ function Login() {
                             </a>
                           </li>
                         </ul>
+                        <div class="text-muted text-center">Already have an account? <a href="/register">Sign in now</a></div>
                       </div>
                     </div>
                   </div>

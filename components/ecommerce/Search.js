@@ -1,31 +1,24 @@
+
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import services from "../../services";
 import Link from "next/link";
+import nextConfig from "../../next.config";
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [prodcut,setProdcut]=useState([])
     const router = useRouter();
-
+    const imageUrl=nextConfig.BASE_URL_UPLOADS
     // Define your useEffect for specific side effects
     useEffect(() => {
         // You can put your side effects logic here
         // For example, you can perform some action when searchTerm changes
         {searchTerm.length>0  && searchProduct()}
         
-        console.log("searchTerm has changed:", searchTerm);
+     
     }, [searchTerm]);
 
-    const handleSearch = () => {
-        console.log("click");
-        router.push({
-            pathname: "/products",
-            query: {
-                search: searchTerm,
-            },
-        });
-        setSearchTerm("");
-    };
+    
 
     const handleInput = (e) => {
         if (e.key === "Enter") {
@@ -37,9 +30,10 @@ const Search = () => {
     const searchProduct = async () => {
     
   try {
+
     const response= await services.searchProdcut.SEARCH_PRODCUT(searchTerm)
     if(response){
-        console.log("======================",response)
+
         setProdcut(response?.data?.data?.rows)
     }
   } catch (error) {
@@ -47,43 +41,58 @@ const Search = () => {
   }
     };
 
-    return (
-        <div>
-      <form>
-      <input
-  value={searchTerm}
-  onKeyDown={handleInput}
-  onChange={(e) => {
-    if (e.target.value !== "") {
-      setSearchTerm(e.target.value);
-    } else if (e.target.value === "") {
-      setSearchTerm(""); // Clear the search term
-      setProdcut([]); // Clear search results
-    }
-  }}
-  type="text"
-  placeholder="Search"
-/>
 
-      </form>
-      {prodcut?.length > 0 ? (
+    const handleSearch=(e)=>{
+      if (e.target.value !== "") {
+        setSearchTerm(e.target.value);
+      } else if (e.target.value === "") {
+        setSearchTerm(""); // Clear the search term
+        setProdcut([]); // Clear search results
+      }
+    }
+    return (
+      <div>
+  
+    <span>
+      <input
+        value={searchTerm}
+        onChange={handleSearch}
+        type="text"
+        placeholder="Search"
+      />
+    </span>
+
+    {prodcut?.length > 0 ? (
   <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
     <div className="card bg-white">
       <ul className="list-group list-group-flush">
         {prodcut?.map((product, index) => (
           <li className="list-group-item bg-white" key={index}>
             <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-<a>
-<h4>{product.productName}</h4>
-</a>
-</Link>
-            {/* Additional content can be added here */}
+              <a>
+                <div style={{display:'flex'}}>
+                <img
+                  className="default-img"
+                  src={imageUrl + product?.featuredImage}
+                  crossOrigin="anonymous"
+                  alt=""
+                  height={50}
+                  width={50}
+                
+                /> &nbsp; &nbsp;
+                <h4 style={{ maxWidth: "200px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {product.productName}
+                </h4>
+                </div>
+              </a>
+            </Link>
           </li>
         ))}
       </ul>
     </div>
   </div>
 ) : null}
+
 </div>
 
     )

@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Axios from "axios";
 import initialiseInterceptor from "../api/interceptor";
+
 // Swiper Slider
 import "swiper/css";
 import "swiper/css/pagination";

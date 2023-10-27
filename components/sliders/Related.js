@@ -36,7 +36,7 @@ const RelatedSlider = () => {
         }}
         className="custom-class"
       >
-        {related.map((product, i) => (
+        {related?.map((product, i) => (
           <SwiperSlide key={i}>
             <SingleProduct product={product} />
           </SwiperSlide>

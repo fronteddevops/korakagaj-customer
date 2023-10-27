@@ -95,7 +95,7 @@ const ProductDetails = ({
     
       };
     const color = JSON?.parse(product?.colour)
-    const size = JSON.parse(product.size)
+    const size = JSON?.parse(product.size)
 
     const handleCart = async (product) => {
         if (localStorage.getItem("access_token")) {
@@ -430,7 +430,7 @@ const ProductDetails = ({
 
                                 {quickView ? null : (
                                     <>
-                                        <ProductTab />
+                                        <ProductTab prodcut={product}  />
                                         <div className="row mt-60">
                                             <div className="col-12">
                                                 <h3 className="section-title style-1 mb-30">
@@ -439,7 +439,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="col-12">
                                                 <div className="row related-products position-relative">
-                                                    <RelatedSlider />
+                                                    <RelatedSlider/>
                                                 </div>
                                             </div>
                                         </div>
