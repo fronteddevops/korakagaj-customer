@@ -58,41 +58,42 @@ const ProductDetails = ({
 
 
         if (localStorage.getItem("access_token")) {
-
-
-            try {
-
-                const userID = localStorage.getItem("userId");
-
-                const data = {
-                    productId: product.id,
-                    userId: userID
-                }
-
-                if (product.isWishlisted === false) {
-
-
-                    const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-                    productDataShow()
-                    toast.success("Add to Wishlist !");
-                } else if (product.isWishlisted === true) {
-
-                    const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-                    productDataShow()
-                    toast.success("Remove to Wishlist !");
-                }
-
-            } catch (error) {
-
-                console.error("An error occurred:", error);
+    
+    
+          try {
+    
+            const userID = localStorage.getItem("userId");
+    
+            const data = {
+              productId: product.id,
+              userId: userID
             }
-
+    
+            if (!product.isWishlisted) {
+    
+    
+              const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+              productDataShow()
+              toast.success("Added to Wishlist!");
+              window.location.reload()
+            } else {
+              const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+              productDataShow()
+              toast.success("Removed from Wishlist");
+              window.location.reload()
+            }
+    
+          } catch (error) {
+    
+            console.error("An error occurred:", error);
+          }
+    
         } else {
-
-            toast.error("Please Login!");
+          
+          toast.error("Please Login!");
         }
-
-    };
+    
+      };
     const color = JSON?.parse(product?.colour)
     const size = JSON.parse(product.size)
 

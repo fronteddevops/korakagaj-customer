@@ -83,7 +83,6 @@ const SingleProduct = ({
     }
   };
 
-
   const handleWishlist = async (product) => {
 
 
@@ -99,17 +98,18 @@ const SingleProduct = ({
           userId: userID
         }
 
-        if (product.isWishlisted === false) {
+        if (!product.isWishlisted) {
 
 
           const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
           productDataShow()
-          toast.success("Add to Wishlist !");
-        } else if (product.isWishlisted === true) {
-
+          toast.success("Added to Wishlist!");
+          window.location.reload()
+        } else {
           const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           productDataShow()
-          toast.success("Remove to Wishlist !");
+          toast.success("Removed from Wishlist");
+          window.location.reload()
         }
 
       } catch (error) {
@@ -182,12 +182,12 @@ const SingleProduct = ({
               </div>
               <h2>
                 <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-                  <a className="text-capitalize">{product?.product?.productName}</a>
+                  <a className="text-capitalize">{product?.productName}</a>
                 </Link>
               </h2>
               <div className="rating-result" title="90%">
                 <span>
-                  <span>{product?.product?.ratingScore} </span>
+                  <span>{product?.ratingScore} </span>
                 </span>
               </div>
               <div className="product-price">
@@ -202,7 +202,7 @@ const SingleProduct = ({
                 </span>
               </div>
               <div className="product-price text-capitalize ">
-                Designer : &nbsp;{product?.product?.designerName}
+                Designer : &nbsp;{product?.designerName}
               </div>
 
               <div className="product-action-1 show">
