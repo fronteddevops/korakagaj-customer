@@ -44,7 +44,7 @@ const Router=useRouter()
             <div className="card-body">
 
               {orderDetailsData?.map((item, key) => {
-                const color= JSON.parse(item?.Product?.colour)
+                const color= JSON.parse(item?.Product?.colour).join(', ')
                 return (
                   <ul className="list-group" key={key}>
                     <li className="list-group-item">Brand Name : {item?.Product?.brandName}</li>
