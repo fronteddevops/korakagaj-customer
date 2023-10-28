@@ -17,6 +17,8 @@ import Accordion from "react-bootstrap/Accordion";
 import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
+import "../../redux/i18n/i18n"
+
 
 const Products = ({ products1, productFilters }) => {
   const [category, setCategory] = useState([]);
@@ -326,6 +328,7 @@ const Products = ({ products1, productFilters }) => {
 
   return (
     <>
+
      <Layout parent="Home" sub={ categoryId? (<><a   href="/Categories"> Category</a></>): 
       <><a   href="/products"> shop</a></>}    subSub={ categoryId && <a   href="/categories"> {categoryName} <span></span></a>
       }  subChild="Products">
@@ -651,8 +654,7 @@ const Products = ({ products1, productFilters }) => {
     {/* <CartSidebar /> */}
     <QuickView />
   </Layout>
-     
-    </>
+      </>
   );
 };
 
