@@ -191,7 +191,7 @@ const SingleProduct = ({
                 </span>
               </div>
               <div className="product-price">
-                <span>${totalPrice}</span>
+                <span>${product.finalAmount}</span>
                 {discountPercentage > 0 && (
                   <span className="old-price"> ${basePrice}</span>
                 )}
