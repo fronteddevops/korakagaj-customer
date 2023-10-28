@@ -30,8 +30,8 @@ function Login() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailForget);
   };
   //handle login  email
-  const handleLogin = async (e) => {
-    e.preventDefault(); // This prevents the default form submission behavior
+  const  handleLogin = async (event) => {
+    event?.preventDefault(); // This prevents the default form submission behavior
     let isValid = true;
     setEmailError("");
     setPasswordError("");
@@ -56,18 +56,19 @@ function Login() {
         };
         console.log(payLoad);
         const response = await services.auth.LOGIN_USER(payLoad);
-        await handleCart();
+        // await handleCart();
+    
         if (response) {
           localStorage.setItem("user", JSON.stringify(response?.data?.user));
-          localStorage.setItem("userId", JSON.stringify(response?.data?.user.id));
+          localStorage.setItem("userId", response?.data?.user.id);
           toastSuccessLogin();
           setTimeout(() => {
             route.push('/');
           }, 1000);
-        } else {
-          alert(response.data.guide);
-        }
+        } 
+      
       } catch (error) {
+       
         toastErrorLogin(error);
       }
     }
@@ -319,25 +320,7 @@ function Login() {
                               </button>
                             </div>
                           </form>
-                          <div className="form-group">
-                            <a href="/register">
-                              <button
-                                type="submit"
-                                className="btn btn-fill-out btn-block hover-up w-100"
-                                name="login"
-
-                              // onClick={handleLogin}
-                              >
-
-                                Register
-
-
-                              </button>
-                            </a>
-                          </div>
-
-
-
+                      
                           <div className="divider-text-center mt-15 mb-15">
                             <span> or</span>
                           </div>
@@ -353,13 +336,13 @@ function Login() {
                             <li>
                               <a
                                 href="#"
-                                className="btn btn-google hover-up"
+                                className="btn btn-google hover-up mt-2"
                               >
                                 Login With Google
                               </a>
                             </li>
                           </ul>
-                          <div class="text-muted text-center">Already have an account? <a href="/register">Sign in now</a></div>
+                          <div class="text-muted text-center"> Don't have an account ?  <a href="/register">Sign up now</a></div>
                         </div>
                       </div>
                     </div>

@@ -40,6 +40,7 @@ const Products = ({ products1, productFilters }) => {
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
   const categoryName=Router.query.categoryName
+  const searchProduct=Router.query.searchProduct?Router.query.searchProduct:"";
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -49,6 +50,8 @@ const Products = ({ products1, productFilters }) => {
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
   useEffect(() => {
+
+  
 
     cratePagination();
     prodcutFilters();
@@ -62,7 +65,7 @@ const Products = ({ products1, productFilters }) => {
     price,
     limit,
     pages,
-    products.length,
+    products?.length,
   ]);
   
    const clearAllFilter =()=>{
@@ -84,17 +87,17 @@ const Products = ({ products1, productFilters }) => {
   };
   const cratePagination = () => {
     // set pagination
-    let arr = new Array(Math.ceil(products.length / limit))
+    let arr = new Array(Math.ceil(products?.length / limit))
       .fill()
       .map((_, idx) => idx + 1);
 
     setPagination(arr);
-    setPages(Math.ceil(products.length / limit));
+    setPages(Math.ceil(products?.length / limit));
   };
 
   const startIndex = currentPage * limit - limit;
   const endIndex = startIndex + limit;
-  const getPaginatedProducts = products.slice(startIndex, endIndex);
+  const getPaginatedProducts = products?.slice(startIndex, endIndex);
 
   let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
   let end = start + showPagination;
@@ -126,8 +129,21 @@ const Products = ({ products1, productFilters }) => {
     try {
       const response = await services.product.GET_FILTER_PRODUCT(data);
       if (response) {
-        setProdcut(response?.data?.data);
-        setLoading(true )
+        const data =response?.data?.data
+
+
+        if(data.length<=12){
+          setProdcut(data)
+          setLoading(true )
+          // prev()
+          // console.log("++++++++++++++++++++++++++++++++>")
+          setCurrentPage(1)
+        }
+        else{
+          setProdcut(data)
+        }
+       
+      
       } else {
         console.log("error");
       }
@@ -512,7 +528,7 @@ const Products = ({ products1, productFilters }) => {
                         ))}
                       </ul>
                     </>
-                    <label className="fw-900 mt-15">Item Condition</label>
+                    <label className="fw-900 mt-15">Item Size</label>
                     <ul className="list-filter size-filter font-small">
                       {sizes.map((tag, i) => (
                         <li
@@ -583,7 +599,7 @@ const Products = ({ products1, productFilters }) => {
               </div>
             </div>
             <div className="row product-grid-3">
-              {getPaginatedProducts.length === 0 && (
+              {getPaginatedProducts?.length === 0 && (
                 <h3>No Products Found </h3>
               )}
 

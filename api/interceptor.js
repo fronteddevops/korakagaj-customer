@@ -1,6 +1,7 @@
 import Axios from 'axios';
 
 const initialiseInterceptor = () => {
+  
   if (typeof window !== 'undefined') {
     // Check if the code is running on the client side
     Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage?.getItem("access_token")}`;
@@ -21,17 +22,20 @@ const initialiseInterceptor = () => {
         return response;
       },
       (error) => {
-        console.log('error in interceptor ==>', error);
+      
         if (error.response && (error.response.status == 401 || error.response.status == 403)) {
           localStorage.clear();
           localStorage?.removeItem("access_token")
-          console.log("====================================+++++++++++++++++++++++++++++++++")
-          if (window.location.pathname !== "/") {
+      
+          if (window.location.pathname !== "/login") {
+            console.log("======================")
             setTimeout(() => {
-              window.location.replace("/");
+              window.location.replace("/login");
             }, 500);
           }
+          return Promise.reject(error);
         } else {
+         
           return Promise.reject(error);
         }
       }

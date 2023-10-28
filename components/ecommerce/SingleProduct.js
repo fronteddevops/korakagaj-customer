@@ -118,7 +118,7 @@ const SingleProduct = ({
       }
 
     } else {
-      
+
       toast.error("Please Login!");
     }
 

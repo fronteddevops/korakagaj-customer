@@ -644,7 +644,7 @@ const Products = ({ products, productFilters }) => {
                         <strong className="text-brand">
                           {filterFabric.length}
                         </strong>
-                        items for you!
+                        items for you! &nbsp;&nbsp;
             
                  
 
