@@ -10,6 +10,7 @@ import subScribeUers from "./subScribeUers";
 import searchProdcut from "./searchProdcut";
 import myprofile from "./myprofile";
 import orderDetails from "./orderDetails";
+import review from "./review";
 
 export default{
     category,
@@ -24,5 +25,6 @@ export default{
     Wishlist,
     myprofile,
     orderDetails,
+    review,
    
 }
