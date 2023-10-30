@@ -9,6 +9,7 @@ const Search = () => {
     const [prodcut,setProdcut]=useState([])
     const router = useRouter();
     const imageUrl=nextConfig.BASE_URL_UPLOADS
+    const Router=useRouter()
     // Define your useEffect for specific side effects
     useEffect(() => {
         // You can put your side effects logic here
@@ -57,6 +58,11 @@ const Search = () => {
       <input
         value={searchTerm}
         onChange={handleSearch}
+        onKeyDown={(e)=>{
+          if(e.key==="Enter"){
+            Router.push(`/products?searchProdcut=${e.target.value}`)
+          }
+        }}
         type="text"
         placeholder="Search"
       />
@@ -65,30 +71,30 @@ const Search = () => {
     {prodcut?.length > 0 ? (
   <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
     <div className="card bg-white">
-      <ul className="list-group list-group-flush">
-        {prodcut?.map((product, index) => (
-          <li className="list-group-item bg-white" key={index}>
-            <Link href="/products/[slug]" as={`/products/${product?.id}`}>
-              <a>
-                <div style={{display:'flex'}}>
-                <img
-                  className="default-img"
-                  src={imageUrl + product?.featuredImage}
-                  crossOrigin="anonymous"
-                  alt=""
-                  height={50}
-                  width={50}
-                
-                /> &nbsp; &nbsp;
-                <h4 style={{ maxWidth: "200px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {product.productName}
-                </h4>
-                </div>
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <ul className="list-group list-group-flush">
+  {prodcut?.map((product, index) => (
+    <li className="list-group-item bg-white" key={index}>
+      <Link href="/products[slug]" as={`/products/${product?.id}`}>
+        <a>
+          <div style={{ display: 'flex' }}>
+            <img
+              className="default-img"
+              src={imageUrl + product?.featuredImage}
+              crossOrigin="anonymous"
+              alt=""
+              height={50}
+              width={50}
+            /> &nbsp; &nbsp;
+            <h4 style={{ maxWidth: "200px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {product.productName}
+            </h4>
+          </div>
+        </a>
+      </Link>
+    </li>
+  ))}
+</ul>
+
     </div>
   </div>
 ) : null}

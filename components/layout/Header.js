@@ -57,7 +57,14 @@ const Header = ({
         setScroll(scrollCheck);
       }
     });
-    setUserName(JSON.parse(localStorage.getItem("user")))
+    if(  localStorage.getItem("user")&&  localStorage.getItem("user").length>0){
+    
+      setUserName(JSON.parse(localStorage.getItem("user") ) )
+    }
+    else{
+      setUserName(null)
+    }
+  
   }, []);
 
   const handleToggle = () => {
@@ -206,12 +213,12 @@ const Header = ({
                     </li>
                     <li>
                       <i className="fi-rs-user"></i>
-                      {userName ? ( <NavDropdown
-                        id="nav-dropdown-light-example"
-                        title={`${userName.firstName} ${userName.lastName}`}
-                        menuVariant="light"
-                        className="profile-dropdown"
-                      >
+                      {userName ? (<NavDropdown
+  id="nav-dropdown-light-example"
+  title={`${(userName.firstName?.length > 15 ? userName.firstName?.substring(0, 15) + ".." : userName.firstName)} ${(userName.lastName?.length > 15 ? userName.lastName?.substring(0, 15) + ".." : userName.lastName)}`}
+  menuVariant="light"
+  className="profile-dropdown"
+>
                         <NavDropdown.Item href="/myprofile?index=2">My Orders</NavDropdown.Item>
                         <NavDropdown.Item href="/myprofile?index=4">
                           My Address

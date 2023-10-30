@@ -17,7 +17,7 @@ function Register() {
   const [numberError, setNumberError] = useState("");
   const [passwordConfirmError, setPasswordConfirmError] = useState();
   const [emailErrorRegister, setEmailErrorRegister] = useState("");
-
+ const [isValid,setIsValid]=useState(true)
   const [passwordErrorRegister, setPasswordErrorRegister] = useState("");
   //password show icon set value in state
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -51,7 +51,7 @@ function Register() {
     setPasswordErrorRegister("");
     if (passwordRegister !== passwordConfirm) {
       // Update the passwordConfirm variable with an error message
-      setPasswordConfirmError("password not match");
+      setPasswordConfirmError("Password not match");
       isValid = false; // Set isValid to false
     }
     if (number.length < 10) {
@@ -73,6 +73,7 @@ function Register() {
     if (isValid) {
       setNumberError("")
       try {
+        setIsValid(false)
         let payLoad = {
           email: emailRegister,
           password: passwordRegister,
@@ -84,13 +85,18 @@ function Register() {
         console.log(payLoad);
         const response = await services.auth.REGISTER_USER(payLoad);
 
+      
         if (response) {
+          localStorage.setItem("user", JSON.stringify(response?.data?.user));
+          localStorage.setItem("userId", response?.data?.user.id);
           toastSuccess();
+          setIsValid(false)
           route.push('/')
         } else {
           alert(response.data.guide);
         }
       } catch (error) {
+        setIsValid(true)
         toastError(error);
       }
     }
@@ -378,7 +384,7 @@ function Register() {
                                   : "password"
                               }
                               name="password"
-                              placeholder="password Confirm"
+                              placeholder="Password Confirm"
                               value={passwordConfirm}
                               onChange={(e) => {
                                 const passwordValue = e.target.value;
@@ -461,11 +467,12 @@ function Register() {
                                   number &&
                                   emailRegister &&
                                   passwordRegister &&
-                                  passwordConfirm
+                                  passwordConfirm 
+                                  &&isValid
                                 )
                               }
                             >
-                              Submit &amp; Register
+                              Submit &amp; Sing up
                             </button>
                           </div>
                         </form>
@@ -488,7 +495,7 @@ function Register() {
                           <li>
                             <a
                               href="#"
-                              className="btn btn-google hover-up"
+                              className="btn btn-google hover-up mt-2"
                             >
                               Login With Google
                             </a>
@@ -496,7 +503,7 @@ function Register() {
                         </ul>
                         <div className="text-muted text-center">
                           Already have an account?{" "}
-                          <a href="#">Sign in now</a>
+                          <a href="/login">Sign in now</a>
                         </div>
                       </div>
                     </div>
