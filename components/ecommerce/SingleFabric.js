@@ -24,25 +24,23 @@ const SingleProduct = ({
     id,
     discountPercentage,
     basePrice
-    
-}) => {
 
- 
+}) => {
     const [loading, setLoading] = useState(false);
-    const imageUrl=nextConfig.BASE_URL_UPLOADS
-    useEffect(() => {  
+    const imageUrl = nextConfig.BASE_URL_UPLOADS
+    useEffect(() => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
         }, 2000);
     }, []);
 
-     const fabricPrice= length*product?.price
-     const newbasePrice=fabricPrice+ +basePrice
-  const newTotalPrice= parseFloat(newbasePrice - (newbasePrice * discountPercentage) / 100)
+    const fabricPrice = length * (parseFloat(product?.price) || 0);
+    const newbasePrice = fabricPrice + +basePrice;
+    const discountAmount = discountPercentage === null || discountPercentage === 0 ? discountPercentage : 0;
+    const newTotalPrice = parseFloat(newbasePrice - (newbasePrice * discountAmount) / 100);
 
-    
-
+    // Check if newTotalPrice is NaN and set a default value if it is
     const popover = (
         <Popover id="popover-basic">
             <Popover.Header as="h3">Estimated Price</Popover.Header>
@@ -68,9 +66,9 @@ const SingleProduct = ({
                             <div className="product-img product-img-zoom">
 
                                 <a>
-                                <img
+                                    <img
                                         className="default-img"
-                                        src={imageUrl+product.image}
+                                        src={imageUrl + product.image}
                                         alt=""
                                         crossOrigin="anynomus"
                                     />
@@ -88,7 +86,7 @@ const SingleProduct = ({
 
                             <div className="product-badges product-badges-position product-badges-mrg">
 
-                            <span className="new">Max Width: {product.maxWidth}M</span>
+                                <span className="new">Max Width: {product.maxWidth}M</span>
 
                             </div>
                         </div>
@@ -96,7 +94,7 @@ const SingleProduct = ({
 
                             <h2>
 
-                                   <a>{product?.fabricType}</a>
+                                <a>{product?.fabricType}</a>
 
                             </h2>
 
@@ -109,18 +107,18 @@ const SingleProduct = ({
 
                             <div className="product-action-1 show">
 
-                           
-                            <Link
-  href={{
-    pathname: '/products/[slug]',
-    query: { fabricPrice: newTotalPrice, productId: id },
-  }}
-  as={`/products/${id}`}
->
-  <a className="action-btn hover-up">
-    <i className="fi-rs-shopping-bag-add"></i>
-  </a>
-</Link>
+
+                                <Link
+                                    href={{
+                                        pathname: '/products/[slug]',
+                                        query: { fabricPrice: newTotalPrice, productId: id },
+                                    }}
+                                    as={`/products/${id}`}
+                                >
+                                    <a className="action-btn hover-up">
+                                        <i className="fi-rs-shopping-bag-add"></i>
+                                    </a>
+                                </Link>
 
 
                             </div>

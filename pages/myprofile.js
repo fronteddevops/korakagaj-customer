@@ -26,16 +26,17 @@ function Account() {
   const [lastNameError, setLastNameError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordType, setPasswordType] = useState("password");
+
   const [newpassword, setNewPassword] = useState("");
-  const [newPasswordType, setNewPasswordType] = useState("password");
+ 
   const [newpasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordType, setConfirmPasswordType] = useState("password");
+
   const [passwordError, setPasswordError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isDisabledAcount, setIsDisabledAcount] = useState(true);
+  const [isDisabledChangeP,setIsDisabledChangep]=useState(true)
   const [alladdress, setAllAddress] = useState([]);
   const [orderDetailsData, setOrderDetailsData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +44,7 @@ function Account() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
-  const [addressError,setAddressError]=useState("")
+
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
@@ -135,13 +136,16 @@ function Account() {
       };
       const response = await services.myprofile.UPDATE_MY_PROFILE(data);
       if (response) {
-      
-       localStorage.setItem("user",JSON.stringify({firstName:data.firstName,lastName:data.lastName}))
-    
-        toastSuccessprofileupdate();
+        setIsDisabledAcount(false)
+      toastSuccessprofileupdate();
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
+     
       } else {
       }
     }catch(e){
+      setIsDisabledAcount(true)
       console.log(e)
     }
   }}
@@ -162,7 +166,7 @@ function Account() {
     event.preventDefault();
     setNewPasswordError("")
     let isValid = true;
-
+    setIsDisabledChangep(false)
     setConfirmPasswordError("");
     if (newpassword !== confirmPassword) {
       // Update the passwordConfirm variable with an error message
@@ -181,6 +185,7 @@ function Account() {
           };
           const response = await services.myprofile.CHANGE_PASSWORD(data);
           if (response) {
+            setIsDisabledChangep(false)
             toastSuccesschangepassword();
             route.push("/login")
           }else {
@@ -188,12 +193,13 @@ function Account() {
           }
         } catch (error) {
           toastError(error);
+          setIsDisabledChangep(true)
           console.log(error);
         }
       }
    
     }
-  };
+  
 
   const handleaddaddress = () => {
     setShowEditAddressComponent(false)
@@ -227,7 +233,7 @@ function Account() {
 
   return (
     <div>
-      <Layout parent="Home" sub="Pages" subChild="Account">
+      <Layout parent="Home"  sub={<a  href="/myprofile?index=2"> <>pages</></a>} subChild="Account">
         <section className="pt-150 pb-150">
           <div className="container">
             <div className="row">
@@ -437,7 +443,7 @@ function Account() {
                                           }, [])}
 
                                           </td>
-                                          <td>{item?.OrderDetails?.map((item, index) => {
+                                          {/* <td>{item?.OrderDetails?.map((item, index) => {
                                             if (index === 0) {
                                               item?.image?.map((item, index) => {
                                                 if (index === 0) {
@@ -449,7 +455,7 @@ function Account() {
 
                                           }, [])}
 
-                                          </td>
+                                          </td> */}
 
                                           <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
                                             <a> View details</a>
@@ -816,8 +822,9 @@ function Account() {
                                     <button
                                       className="btn btn-fill-out "
                                       disabled={
-                                        firstNameError ||
-                                        lastNameError
+                                       !( isDisabledAcount &&
+                                        firstName &&
+                                        lastName && phoneNumber)
 
                                       }
                                     // onClick={handlesubmit}
@@ -1061,8 +1068,9 @@ function Account() {
                                       className="btn btn-fill-out  "
                                       // name="submit"
                                       // value="Submit"
-                                      disabled={
-                                        !(
+                                      disabled={ !(
+                                        isDisabledChangeP &&
+                                       
                                           password &&
                                           newpassword &&
                                           confirmPassword

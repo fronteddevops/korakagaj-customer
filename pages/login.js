@@ -14,7 +14,8 @@ function Login() {
   const route = useRouter()
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabledPassword, setIsDisabledpassword] = useState(true);
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
   const [showForgetPasswordComponent, setShowForgetPasswordComponent] = useState(false);
   const [emailForgot, setEmailForgot] = useState("");
@@ -31,6 +32,7 @@ function Login() {
   };
   //handle login  email
   const  handleLogin = async (event) => {
+    
     event?.preventDefault(); // This prevents the default form submission behavior
     let isValid = true;
     setEmailError("");
@@ -49,6 +51,7 @@ function Login() {
 
     if (isValid) {
       try {
+      
         let payLoad = {
           email: email,
           password: password,
@@ -59,17 +62,19 @@ function Login() {
         // await handleCart();
     
         if (response) {
-          localStorage.setItem("user", JSON.stringify(response?.data?.user));
+         
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccessLogin();
+          setIsDisabled(false)
           setTimeout(() => {
             route.push('/');
           }, 1000);
         } 
       
       } catch (error) {
-       
+        setIsDisabled(true)
         toastErrorLogin(error);
+        
       }
     }
   };
@@ -115,11 +120,12 @@ function Login() {
     toast.success("Email Sent successfully");
 
   const handleForgetPassword = async () => {
+    setIsDisabledpassword(true)
     setShowForgetPasswordComponent(true)
   }
 
   const handleForgotEmail = async (event) => {
-
+setIsDisabledpassword(false)
     event.preventDefault();
     let isValidForget = true;
     setEmailErrorForgot("");
@@ -146,7 +152,7 @@ function Login() {
             toastSuccessEmailSent()
             
            setShowForgetPasswordComponent(false)
-          
+          setIsDisabledpassword(false)
           
           }else {
             alert(response.data.guide);
@@ -154,6 +160,8 @@ function Login() {
       }
       catch (error) {
         toastErrorForgot(error);
+        setIsDisabledpassword(true
+          )
         console.log(error)
 
       }
@@ -314,7 +322,7 @@ function Login() {
                                 type="submit"
                                 className="btn btn-fill-out btn-block hover-up w-100"
                                 name="login"
-                                disabled={!(email && password)}
+                                disabled={!(email && password && isDisabled)}
                               // onClick={handleLogin}
                               >
                                 Log in
@@ -384,12 +392,14 @@ function Login() {
                                 value={emailForgot}
                                 onChange={(e) => {
                                   setEmailForgot(e.target.value.trim());
-
+                                  setIsDisabledpassword(true)
                                   if (e.target.value.trim()) {
                                     setEmailForgot(e.target.value);
                                   }
                                   if (e.target.value.length === 0) {
                                     setEmailErrorForgot("Required");
+                                    setIsDisabledpassword(true)
+
                                   } else {
                                     setEmailErrorForgot("");
                                   }
@@ -428,7 +438,7 @@ function Login() {
                                 className="btn btn-fill-out btn-block hover-up w-100"
 
 
-                                disabled={isDisabled && !emailForgot}
+                                disabled={!(isDisabledPassword && emailForgot)}
 
 
 

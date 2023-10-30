@@ -104,7 +104,7 @@ const ProductDetails = ({
             if (cart.data.data[0].cartDetail) {
                 cartDetails = cart.data.data[0].cartDetail.cartDetails
             }
-            cartDetails.push(product)
+            cartDetails?.push(product)
             const key = 'id';
             const unique = [...new Map(cartDetails.map(item =>
                 [item[key], item])).values()];

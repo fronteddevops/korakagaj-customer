@@ -16,6 +16,8 @@ const Header = ({
   toggleClick,
   headerStyle,
 }) => {
+  const [firstName,setFirstName]=useState("")
+  const [lastName,setLastName]=useState("")
   const languages = [
     {
       lang: "en",
@@ -107,15 +109,22 @@ const handleLang = ()=>{
         setScroll(scrollCheck);
       }
     });
-    if(  localStorage.getItem("user")&&  localStorage.getItem("user").length>0){
-    
-      setUserName(JSON.parse(localStorage.getItem("user") ) )
-    }
-    else{
-      setUserName(null)
-    }
+    getProfile()
+     
   
   }, []);
+  const getProfile=async()=>{
+ try {
+   const response= await service.myprofile.GET_MY_PROFILE()
+   if(response){
+    console.log(response,"==================")
+    setFirstName(response?.data?.data?.firstName)
+    setLastName(response?.data?.data?.lastName)
+   }
+ } catch (error) {
+  console.log(error)
+ }
+  }
 
   const handleToggle = () => {
     CategoryList();
@@ -269,9 +278,9 @@ const handleLang = ()=>{
                     </li>
                     <li>
                       <i className="fi-rs-user"></i>
-                      {userName ? (<NavDropdown
+                      {lastName && firstName ? (<NavDropdown
   id="nav-dropdown-light-example"
-  title={`${(userName.firstName?.length > 15 ? userName.firstName?.substring(0, 15) + ".." : userName.firstName)} ${(userName.lastName?.length > 15 ? userName.lastName?.substring(0, 15) + ".." : userName.lastName)}`}
+  title={`${(firstName?.length > 15 ? firstName?.substring(0, 15) + ".." :firstName)} ${(lastName?.length > 15 ? lastName?.substring(0, 15) + ".." : lastName)}`}
   menuVariant="light"
   className="profile-dropdown"
 >

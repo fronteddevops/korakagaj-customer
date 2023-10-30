@@ -9,7 +9,7 @@ export default function Addaddress() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   const [fullNameError, setFullNameError] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [pinCode, setPinCode] = useState("");
@@ -23,6 +23,7 @@ export default function Addaddress() {
   const [address, setAddress] = useState("");
   const [addressError, setAddressError] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+
 
   const toastSuccesscreateaddress = () =>
     toast.success("Created Address successfully");
@@ -59,13 +60,17 @@ export default function Addaddress() {
         const response = await services.myprofile.CREATE_MY_ADDRESS(data);
 
         if (response) {
-          setIsDisabled(true);
+          setIsDisabled(false)
           toastSuccesscreateaddress();
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+         
         } else {
           alert(response?.data?.guide);
         }
       } catch (error) {
+        setIsDisabled(true)
         console.log(error);
       }
     }
@@ -357,11 +362,11 @@ export default function Addaddress() {
                     name="houseno"
                     type="text"
                     value={houseNo}
-                    placeholder="Enter HouseNo."
+                    placeholder="Enter House No."
                     onChange={(e) => {
                       setHouseNo(e.target.value);
                       if (!e.target.value.trim()) {
-                        setHouseNoError("HouseNo is required");
+                        setHouseNoError("House No is required");
                       } else {
                         setHouseNoError("");
                       }
@@ -418,21 +423,10 @@ export default function Addaddress() {
                   <div>
                     <button
                       className="btn btn-fill-out mt-25"
-                      disabled={
-                        isDisabled ||
-                        fullName === "" ||
-                        phoneNumber === "" ||
-                        pinCode === "" ||
-                        state === "" ||
-                        city === "" ||
-                        houseNo === "" ||
-                        address === "" ||
-                        fullNameError ||
-                        
-                        stateError ||
-                        cityError ||
-                        houseNoError ||
-                        addressError
+                      disabled={!(fullName&&phoneNumber&& pinCode&& state&&city&&houseNo&&address  &&isDisabled)
+                       
+                       
+                       
                       }
                     >
                       save

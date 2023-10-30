@@ -22,7 +22,20 @@ tempElement.innerHTML = htmlData;
 const textContent = tempElement.textContent;
 
 // Now 'textContent' contains the filtered text data
+//color function
 
+function parseAndFormatColors(colorsJSON) {
+    try {
+      const colorArray = JSON.parse(colorsJSON);
+      if (Array.isArray(colorArray)) {
+        return colorArray.join(', ');
+      }
+    } catch (error) {
+      // Handle the JSON parsing error here, or you can ignore it
+    }
+    return "";
+  }
+  
     return (
         <>
             <div className="tab-style3">
@@ -270,11 +283,7 @@ const textContent = tempElement.textContent;
   <th>Color</th>
   <td>
     <p className="mb-2">
-      {prodcut?.colour && JSON.parse(prodcut?.colour).map((color, index) => (
-        <span key={index}>
-          <span>{index + 1}:</span> {color}&nbsp;
-        </span>
-      ))}
+     {parseAndFormatColors(prodcut?.colour)}
     </p>
   </td>
 </tr>
@@ -283,7 +292,7 @@ const textContent = tempElement.textContent;
                                     <th>size</th>
                                     <td>
                                     <p className="mb-2">
-      {prodcut?.size && JSON.parse(prodcut?.size).map((size, index) => (
+      {prodcut?.size && JSON?.parse(prodcut?.size).map((size, index) => (
         <span key={index}>
           <span>{index + 1}:</span> {size}&nbsp;
         </span>

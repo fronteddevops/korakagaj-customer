@@ -29,9 +29,10 @@ const initialiseInterceptor = () => {
       
           if (window.location.pathname !== "/login") {
             console.log("======================")
-            setTimeout(() => {
-              window.location.replace("/login");
-            }, 500);
+            // window.location.replace("/");
+            // setTimeout(() => {
+            
+            // }, 500);
           }
           return Promise.reject(error);
         } else {

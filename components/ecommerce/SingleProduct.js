@@ -35,10 +35,10 @@ const SingleProduct = ({
 
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
-  const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-  const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-  const discountAmount = (basePrice * discountPercentage) / 100;
-  const totalPrice = basePrice - discountAmount;
+   const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+  // const discountAmount = (basePrice * discountPercentage) / 100;
+  // const totalPrice = basePrice - discountAmount;
 
   useEffect(() => {
     productDataShow()

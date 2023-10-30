@@ -64,7 +64,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
     }
    
   };
-  return <Layout parent="Home" sub="Pages" subChild="Review Reting" >
+  return <Layout parent="Home"  sub={<a  href="/myprofile?index=2"> <>pages</></a>} subChild="Review Reting" >
     <div className='d-flex-inline-block justify-content-center align-item-center '>
       <div className="container m-20 p-20 w-50 ">
 

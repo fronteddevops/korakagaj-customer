@@ -44,7 +44,21 @@ const Router=useRouter()
             <div className="card-body">
 
               {orderDetailsData?.map((item, key) => {
-                const color= JSON.parse(item?.Product?.colour).join(', ')
+               let color = "";
+
+               if (item?.Product?.colour && item?.Product?.colour.length > 0) {
+                 try {
+                   const colorArray = JSON.parse(item.Product.colour);
+                   if (Array.isArray(colorArray)) {
+                     color = colorArray.join(', ');
+                   }
+                 } catch (error) {
+                   // Handle the JSON parsing error here, or you can ignore it
+                 }
+               }
+               
+            
+             
                 return (
                   <ul className="list-group" key={key}>
                     <li className="list-group-item">Brand Name : {item?.Product?.brandName}</li>

@@ -7,12 +7,9 @@ import services from "../services";
 import { useRouter } from "next/router";
 export default function Forgetpassword() {
   const route = useRouter();
-  const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
+ 
   const [newpassword, setNewPassword] = useState("");
-  const [newPasswordType, setNewPasswordType] = useState("password");
+
   const [newpasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -40,7 +37,8 @@ export default function Forgetpassword() {
     setConfirmPasswordError("");
     if (newpassword !== confirmPassword) {
       // Update the passwordConfirm variable with an error message
-      setConfirmPasswordError("password not match");
+      setIsDisabled(false)
+      setConfirmPasswordError("Password does not match");
       isValid = false; // Set isValid to false
     }
     if (newpassword === "") {
@@ -58,13 +56,16 @@ export default function Forgetpassword() {
       };
       const response = await services.auth.RESET_PASSWORD(query, data);
       if (response) {
+        setIsDisabled(false)
         toastSuccessResetPassword();
         route.push("/login");
       }else {
         alert(response.data.guide);
       }
     } catch (error) {
+      setIsDisabled(true)
         toastError(error);
+        
       console.log(error);
     }
   }
@@ -113,7 +114,7 @@ export default function Forgetpassword() {
                                 type={showPassword1 ? "text" : "password"}
                                 onChange={(e) => {
                                   if (e.target.value.trim() === "") {
-                                    setIsDisabled(true);
+                                    setIsDisabled(false);
 
                                     setNewPasswordError(
                                       "Requierd New Password"
@@ -121,10 +122,11 @@ export default function Forgetpassword() {
                                   } else if (
                                     e.target.value.trim() === confirmPassword
                                   ) {
-                                    setIsDisabled(false);
+                                    setIsDisabled(true);
                                     setNewPasswordError("");
                                     setConfirmPasswordError("");
                                   } else {
+                                    setIsDisabled(true);
                                     setNewPassword(e.target.value.trimStart());
                                     setNewPasswordError("");
                                   }
@@ -185,7 +187,7 @@ export default function Forgetpassword() {
                                 autoComplete="off"
                                 onChange={(e) => {
                                   if (e.target.value.trim() === "") {
-                                    setIsDisabled(true);
+                                    setIsDisabled(false);
 
                                     setConfirmPasswordError(
                                       "Requierd Confirm Password"
@@ -193,13 +195,13 @@ export default function Forgetpassword() {
                                   } else if (
                                     e.target.value.trim() !== newpassword
                                   ) {
-                                    setIsDisabled(true);
+                                    setIsDisabled(false);
 
                                     setConfirmPasswordError(
                                       "Password does not match"
                                     );
                                   } else {
-                                    setIsDisabled(false);
+                                    setIsDisabled(true);
                                     setConfirmPassword(
                                       e.target.value.trimStart()
                                     );
@@ -254,10 +256,11 @@ export default function Forgetpassword() {
                               //   name="login"
                               disabled={
                                 !(
+                                  isDisabled &&
                                   newpassword &&
-                                  confirmPassword &&
-                                  !newpasswordError &&
-                                  !confirmPasswordError
+                                  confirmPassword
+                               
+                                 
                                 )
                               }
                               // onClick={handleResetPassword}

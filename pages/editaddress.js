@@ -25,7 +25,7 @@ export default function Editaddress(props) {
   const [houseNoError, setHouseNoError] = useState("");
   const [address, setAddress] = useState("");
   const [addressError, setAddressError] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isChecked, setIsChecked] = useState();
   console.log(isChecked);
 
@@ -87,15 +87,19 @@ export default function Editaddress(props) {
         );
         console.log();
         if (response) {
-          setIsDisabled(true);
+          setIsDisabled(false);
 
           toastSuccessprofileupdate();
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          
         } else {
           alert(response?.data?.guide);
         }
       } catch (error) {
         console.log(error);
+        setIsDisabled(true);
         toastError(error);
       }
     }
@@ -457,19 +461,14 @@ export default function Editaddress(props) {
                 <button
                   className="btn btn-fill-out mt-25"
                   disabled={
-                    isDisabled ||
-                    fullName === "" ||
-                    phoneNumber === "" ||
-                    pinCode === "" ||
-                    state === "" ||
-                    city === "" ||
-                    houseNo === "" ||
-                    address === "" ||
-                    fullNameError ||
-                    stateError ||
-                    cityError ||
-                    houseNoError ||
-                    addressError
+                    !(isDisabled &&
+                    fullName&&
+                    phoneNumber&&
+                    pinCode&&
+                    state&&
+                    city&&
+                    houseNo&&
+                    address)
                   }
                 >
                   save

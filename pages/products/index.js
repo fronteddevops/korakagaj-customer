@@ -38,12 +38,12 @@ const Products = ({ products1, productFilters }) => {
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
-    //get query data 
+  //get query data 
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
-  const categoryName=Router.query.categoryName
-  const searchProduct=Router.query.searchProdcut?Router.query.searchProdcut:"";
-console.log("=+++++++++++++++",searchProduct)
+  const categoryName = Router.query.categoryName
+  const searchProduct = Router.query.searchProdcut ? Router.query.searchProdcut : "";
+
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
 
@@ -55,7 +55,7 @@ console.log("=+++++++++++++++",searchProduct)
 
     cratePagination();
     prodcutFilters();
-   
+
     getCategroy();
   }, [
     categoryId,
@@ -67,20 +67,20 @@ console.log("=+++++++++++++++",searchProduct)
     pages,
     products?.length,
   ]);
-  
-   const clearAllFilter =()=>{
-    window.location.href='/products'
-   
-   
-   }
 
-  
-    
-       
+  const clearAllFilter = () => {
+    window.location.href = '/products'
+
+
+  }
+
+
+
+
   //get prodcut
 
   //color
-  const color = ["red", "blue", "green", "yellow", "white","black","orange","purple"];
+  const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
   //size
   const sizes = ["", "s", "m", "xl", "xll"];
   //size function
@@ -131,37 +131,37 @@ console.log("=+++++++++++++++",searchProduct)
       size: selectedSizes,
     };
     try {
-  if(searchProduct){
+      if (searchProduct) {
 
 
-    const response= await services.searchProdcut.SEARCH_PRODCUT(searchProduct)
-    if(response){
-      setProdcut(response?.data?.data?.rows)
-    }
-  }
-else{
-
-      const response = await services.product.GET_FILTER_PRODUCT(data);
-      if (response) {
-        const data =response?.data?.data
-
-
-        if(data.length<=12){
-          setProdcut(data)
-          setLoading(true )
-          // prev()
-          // console.log("++++++++++++++++++++++++++++++++>")
-          setCurrentPage(1)
+        const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct)
+        if (response) {
+          setProdcut(response?.data?.data?.rows)
         }
-        else{
-          setProdcut(data)
-        }
-       
-      
-      } else {
-        console.log("error");
       }
-    }} catch (error) {
+      else {
+
+        const response = await services.product.GET_FILTER_PRODUCT(data);
+        if (response) {
+          const data = response?.data?.data
+
+
+          if (data.length <= 12) {
+            setProdcut(data)
+            setLoading(true)
+
+            setCurrentPage(1)
+          }
+          else {
+            setProdcut(data)
+          }
+
+
+        } else {
+          console.log("error");
+        }
+      }
+    } catch (error) {
       console.log(error);
     }
   };
@@ -177,33 +177,43 @@ else{
   };
 
   //SORTING BY 
-  
+
 
   const featuredProduct = async () => {
- 
+
     try {
-      if( !localStorage.getItem('access_token')){
+      if (!localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT();
-    
+
         const newProudct = response?.data?.data?.filter(
           (product) => product.productType == 0
         );
-        if (newProudct) {
+        if (newProudct.length <= 12) {
+       //   setCurrentPage(1)
+        //  setFilterProduct(newProudct);
+          setCurrentPage(1)
+          setProdcut(newProudct);
+        } else {
           setFilterProduct(newProudct);
           setProdcut([]);
         }
-      }else if(localStorage.getItem('access_token')){
+
+      } else if (localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT_AUTH();
         const newProudct = response?.data?.data?.filter(
           (product) => product.productType == 0
         );
-        if (newProudct) {
+        if (newProudct.length <= 12) {
+          setCurrentPage(1)
+          setFilterProduct(newProudct);
+          setProdcut([]);
+        } else {
           setFilterProduct(newProudct);
           setProdcut([]);
         }
       }
 
-    
+
     } catch (error) {
       console.log(error);
     }
@@ -211,72 +221,116 @@ else{
 
   const trendingProduct = async () => {
     try {
-      if( !localStorage.getItem('access_token')){
+      if (!localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT();
         const hotDeals = response?.data?.data?.filter(
           (product) => product.productType == 1
         );
-        if (hotDeals) {
+        if (hotDeals.length <= 12) {
           setFilterProduct(hotDeals);
+          setCurrentPage(1)
           setProdcut([]);
         }
-      }else if(localStorage.getItem('access_token')){
+        else {
+          setFilterProduct(hotDeals);
+
+          setProdcut([]);
+        }
+
+
+
+      } else if (localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT_AUTH();
         const hotDeals = response?.data?.data?.filter(
           (product) => product.productType == 1
         );
-        if (hotDeals) {
+        if (hotDeals.length <= 12) {
           setFilterProduct(hotDeals);
+          console.log("================")
+          setCurrentPage(1)
+          setProdcut([]);
+        }
+        else {
+          setFilterProduct(hotDeals);
+
           setProdcut([]);
         }
       }
 
-    
+
     } catch (error) {
       console.log(error);
     }
   };
   const newArrivalProduct = async () => {
     try {
-      if( !localStorage.getItem('access_token')){
+      if (!localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT();
         const NewArrival = response?.data?.data?.filter(
           (product) => product.productType == 2
         );
-        if (NewArrival) {
+        if (NewArrival.length <= 12) {
           setFilterProduct(NewArrival);
-  
+          setCurrentPage(1)
           setProdcut([]);
         }
-      }else if(localStorage.getItem('access_token')){
+        else {
+          setFilterProduct(NewArrival);
+
+          setProdcut([]);
+
+        }
+      } else if (localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT_AUTH();
         const NewArrival = response?.data?.data?.filter(
           (product) => product.productType == 2
         );
-        if (NewArrival) {
+        if (NewArrival.length <= 12) {
           setFilterProduct(NewArrival);
-  
+          setCurrentPage(1)
           setProdcut([]);
+        }
+        else {
+          setFilterProduct(NewArrival);
+
+          setProdcut([]);
+
         }
       }
 
-     
+
     } catch (error) {
       console.log(error);
     }
   };
   const default1 = async () => {
     try {
-      if( !localStorage.getItem('access_token')){
+      if (!localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT();
-        setProdcut(response?.data?.data);
-        setFilterProduct([]);
-      }else if(localStorage.getItem('access_token')){
+        if (response?.data?.data?.length <= 12) {
+          setProdcut(response?.data?.data);
+          setFilterProduct([]);
+          setCurrentPage(1)
+        }
+        else {
+          setProdcut(response?.data?.data);
+          setFilterProduct([]);
+
+        }
+
+      } else if (localStorage.getItem('access_token')) {
         const response = await services.product.GET_PRODUCT_AUTH();
-        setProdcut(response?.data?.data);
-        setFilterProduct([]);
+        if (response?.data?.data?.length <= 12) {
+          setProdcut(response?.data?.data);
+          setFilterProduct([]);
+          setCurrentPage(1)
+        }
+        else {
+          setProdcut(response?.data?.data);
+          setFilterProduct([]);
+
+        }
       }
-     
     } catch (error) {
       console.log(error);
     }
@@ -284,9 +338,20 @@ else{
   const LowToHigh = async () => {
     try {
       const response = await services.product.PRODCUT_GET_LowToHigh();
-      setProdcut(response?.data?.data);
+      if (response?.data?.data?.length <= 12) {
+        setProdcut(response?.data?.data);
 
-      setFilterProduct([]);
+        setFilterProduct([]);
+        setCurrentPage(1)
+      }
+      else {
+        setProdcut(response?.data?.data);
+
+        setFilterProduct([]);
+
+
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -295,9 +360,19 @@ else{
   const HighToLow = async () => {
     try {
       const response = await services.product.PRODCUT_GET_HighToLow();
-      setProdcut(response?.data?.data);
+      if (response?.data?.data?.length <= 12) {
+        setProdcut(response?.data?.data);
 
-      setFilterProduct([]);
+        setFilterProduct([]);
+        setCurrentPage(1)
+      }
+      else {
+        setProdcut(response?.data?.data);
+
+        setFilterProduct([]);
+
+
+      }
     } catch (error) {
       console.log(error);
     }
@@ -344,8 +419,8 @@ else{
   // Replace this with your actual array of products
 
 
-  const [activeCategory, setActiveCategory] = useState([0,0,0]); // Replace DEFAULT_CATEGORY_INDEX with the actual index of your default category
-  
+  const [activeCategory, setActiveCategory] = useState([0, 0, 0]); // Replace DEFAULT_CATEGORY_INDEX with the actual index of your default category
+
 
   // const [activeCategory, setActiveCategory] = useState(null);
 
@@ -356,325 +431,324 @@ else{
 
   return (
     <>
-     <Layout parent="Home" sub={ categoryId? (<><a   href="/categories"> Category</a></>): 
-      <><a   href="/products"> shop</a></>}    subSub={ categoryId && <a   href="/categories"> {categoryName} <span></span></a>
-      }  subChild="Products">
-    
-    <section className="mt-50 mb-50">
-      <div className="container">
-        <div className="row">
-          <div className="shop-product-fillter d-lg-none d-block  ">
-            <div className="totall-product">
-              <p>
-                We found
-                {/* <strong className="text-brand">
+      <Layout parent="Home" sub={categoryId ? (<><a href="/categories"> Category</a></>) :
+        <><a href="/products"> shop</a></>} subSub={categoryId && <a href="/categories"> {categoryName} <span></span></a>
+        } subChild="Products">
+
+        <section className="mt-50 mb-50">
+          <div className="container">
+            <div className="row">
+              <div className="shop-product-fillter d-lg-none d-block  ">
+                <div className="totall-product">
+                  <p>
+                    We found
+                    {/* <strong className="text-brand">
                                             {products?.items?.length}
                                         </strong> */}
-                items for you!
-              </p>
-            </div>
-            <div className="sort-by-product-area justify-content-between align-items-center">
-              <span
-                className="text-brand fw-bold"
-                onClick={() => setIsFilterVisible(!isFilterVisible)}
-                style={{ cursor: "pointer" }}
-              >
-                Show Filters
-              </span>
-              <span
-                  className="text-brand fw-bold"
-                  onClick={ ()=>clearAllFilter()}
-                  style={{ cursor: "pointer" }}
+                    items for you!
+                  </p>
+                </div>
+                <div className="sort-by-product-area justify-content-between align-items-center">
+                  <span
+                    className="text-brand fw-bold"
+                    onClick={() => setIsFilterVisible(!isFilterVisible)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Show Filters
+                  </span>
+                  <span
+                    className="text-brand fw-bold"
+                    onClick={() => clearAllFilter()}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Clear All Filter
+                  </span>
+
+                  <div className="sort-by-cover">
+                    <div className="sort-by-product-wrap">
+                      <div className="sort-by">
+                        <span>
+                          <i className="fi-rs-apps-sort"></i>
+                          Sort by:
+                        </span>
+                      </div>
+                      <div className="sort-by-dropdown-wrap custom-select">
+                        <select
+                          onChange={(event) => handleChange(event.target.value)}
+                        >
+                          <option value="Default">Default</option>
+                          <option value="newProduct">New Product</option>
+                          <option value="hotDeals">Hot Deals</option>
+                          <option value="bestSeller">Best Seller</option>
+                          <option value="LowToHigh">Low To High</option>
+                          <option value="HighToLow">High To Low</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {
+                <div
+                  className={`${!isFilterVisible ? "hide-on-mobile" : ""
+                    } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
-                Clear All Filter
-                </span>
+                  <div className="widget-category p-3 mb-30">
+                    {category?.map((Item, index) => (
+                      <Accordion key={index} activeKey={activeCategory}>
+                        <Accordion.Item className="custom-filter" eventKey={index} key={index}>
+                          <Accordion.Header onClick={() => toggleCategory(index)}>
+                            <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                              {Item?.categoryName}
+                            </h5>
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <Accordion>
+                              {Item?.SubCategories?.map((subCategory, subIndex) => (
+                                <Accordion.Item
+                                  className="custom-filter ms-3"
+                                  eventKey={subIndex}
+                                  key={subCategory.id}
+                                >
+                                  <Accordion.Header>
+                                    <h5 className="w-100 style-1 wow fadeIn animated">
+                                      {subCategory?.subCategoryName}
+                                    </h5>
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    {/* Subcategory content here */}
+                                    {subCategory?.SubSubCategories.map((item, itemIndex) => (
+                                      <div key={item.id}>
+                                        <Form.Check
+                                          type="checkbox"
+                                          id={`default-${item.id}`}
+                                          label={item?.subSubCategoryName}
+                                          onChange={() => {
+                                            const subSubCategoryId = item.id;
 
-              <div className="sort-by-cover">
-                <div className="sort-by-product-wrap">
-                  <div className="sort-by">
-                    <span>
-                      <i className="fi-rs-apps-sort"></i>
-                      Sort by:
-                    </span>
+                                            if (
+                                              selectedSubSubCategories?.includes(subSubCategoryId)
+                                            ) {
+                                              // If the subSubCategoryId is already in the array, remove it
+                                              const updatedSubCategories =
+                                                selectedSubSubCategories?.filter(
+                                                  (id) => id !== subSubCategoryId
+                                                );
+                                              setSelectedSubSubCategories(updatedSubCategories);
+                                            } else {
+                                              // If the subSubCategoryId is not in the array, add it
+                                              const updatedSubCategories = [
+                                                ...selectedSubSubCategories,
+                                                subSubCategoryId,
+                                              ];
+                                              setSelectedSubSubCategories(updatedSubCategories);
+                                            }
+                                          }}
+                                          checked={selectedSubSubCategories?.includes(item?.id)}
+                                        />
+                                      </div>
+                                    ))}
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              ))}
+                            </Accordion>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                    ))}
+
+
                   </div>
-                  <div className="sort-by-dropdown-wrap custom-select">
-                    <select
-                      onChange={(event) => handleChange(event.target.value)}
-                    >
-                      <option value="Default">Default</option>
-                      <option value="newProduct">New Product</option>
-                      <option value="hotDeals">Hot Deals</option>
-                      <option value="bestSeller">Best Seller</option>
-                      <option value="LowToHigh">Low To High</option>
-                      <option value="HighToLow">High To Low</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {
-            <div
-              className={`${
-                !isFilterVisible ? "hide-on-mobile" : ""
-              } col-lg-3 primary-sidebar sticky-sidebar`}
-            >
-              <div className="widget-category p-3 mb-30">
-        {category?.map((Item, index) => (
-  <Accordion key={index} activeKey={activeCategory}>
-    <Accordion.Item className="custom-filter" eventKey={index} key={index}>
-      <Accordion.Header onClick={() => toggleCategory(index)}>
-        <h5 className="w-100 section-title style-1 wow fadeIn animated">
-          {Item?.categoryName}
-        </h5>
-      </Accordion.Header>
-      <Accordion.Body>
-        <Accordion>
-          {Item?.SubCategories?.map((subCategory, subIndex) => (
-            <Accordion.Item
-              className="custom-filter ms-3"
-              eventKey={subIndex}
-              key={subCategory.id}
-            >
-              <Accordion.Header>
-                <h5 className="w-100 style-1 wow fadeIn animated">
-                  {subCategory?.subCategoryName}
-                </h5>
-              </Accordion.Header>
-              <Accordion.Body>
-                {/* Subcategory content here */}
-                {subCategory?.SubSubCategories.map((item, itemIndex) => (
-                  <div key={item.id}>
-                    <Form.Check
-                      type="checkbox"
-                      id={`default-${item.id}`}
-                      label={item?.subSubCategoryName}
-                      onChange={() => {
-                        const subSubCategoryId = item.id;
 
-                        if (
-                          selectedSubSubCategories?.includes(subSubCategoryId)
-                        ) {
-                          // If the subSubCategoryId is already in the array, remove it
-                          const updatedSubCategories =
-                            selectedSubSubCategories?.filter(
-                              (id) => id !== subSubCategoryId
-                            );
-                          setSelectedSubSubCategories(updatedSubCategories);
-                        } else {
-                          // If the subSubCategoryId is not in the array, add it
-                          const updatedSubCategories = [
-                            ...selectedSubSubCategories,
-                            subSubCategoryId,
-                          ];
-                          setSelectedSubSubCategories(updatedSubCategories);
-                        }
-                      }}
-                      checked={selectedSubSubCategories?.includes(item?.id)}
-                    />
-                  </div>
-                ))}
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Accordion.Body>
-    </Accordion.Item>
-  </Accordion>
-))}
+                  <div className="sidebar-widget price_range range mb-30">
+                    <div className="widget-header position-relative mb-20 pb-10">
+                      <h5 className="widget-title mb-10">Filter by price</h5>
+                      <div className="bt-1 border-color-1"></div>
+                    </div>
 
+                    <div className="price-filter">
+                      <div className="price-filter-inner">
+                        <br />
+                        {/* <PriceRangeSlider /> */}
+                        <div className="korakagaj_price_slider_amount">
+                          <Slider
+                            range
+                            allowCross={false}
+                            defaultValue={[0, 100]}
+                            min={0}
+                            max={9000}
+                            onChange={(value) => {
+                              //  PriceRange({ value: { min: value[0], max: value[1] } })
 
-              </div>
+                              setPrice({
+                                value: { min: value[0], max: value[1] },
+                              });
+                              //  prodcutFilters(selectedCategories);
+                            }}
+                          />
 
-              <div className="sidebar-widget price_range range mb-30">
-                <div className="widget-header position-relative mb-20 pb-10">
-                  <h5 className="widget-title mb-10">Filter by price</h5>
-                  <div className="bt-1 border-color-1"></div>
-                </div>
+                          <div className="d-flex justify-content-between">
+                            <span>{price?.value?.min}</span>
+                            <span>{price?.value?.max}</span>
+                          </div>
+                        </div>
+                        <br />
+                      </div>
+                    </div>
 
-                <div className="price-filter">
-                  <div className="price-filter-inner">
-                    <br />
-                    {/* <PriceRangeSlider /> */}
-                    <div className="korakagaj_price_slider_amount">
-                      <Slider
-                        range
-                        allowCross={false}
-                        defaultValue={[0, 100]}
-                        min={0}
-                        max={9000}
-                        onChange={(value) => {
-                          //  PriceRange({ value: { min: value[0], max: value[1] } })
-
-                          setPrice({
-                            value: { min: value[0], max: value[1] },
-                          });
-                          //  prodcutFilters(selectedCategories);
-                        }}
-                      />
-
-                      <div className="d-flex justify-content-between">
-                        <span>{price?.value?.min}</span>
-                        <span>{price?.value?.max}</span>
+                    <div className="list-group">
+                      <div className="list-group-item mb-10 mt-10">
+                        <label className="fw-900">Color</label>
+                        {/* <BrandFilter /> */}
+                        <>
+                          <ul className="categories">
+                            {color?.map((item) => (
+                              <li key={item}>
+                                <Form.Check
+                                  type="checkbox"
+                                  id={`checkbox-${item}`}
+                                  label={item}
+                                  onChange={() => handleCheckboxChange(item)}
+                                  checked={selectedColors?.includes(item)}
+                                  style={{ textTransform: "capitalize" }}
+                                />
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                        <label className="fw-900 mt-15">Item Size</label>
+                        <ul className="list-filter size-filter font-small">
+                          {sizes.map((tag, i) => (
+                            <li
+                              className={active == i ? "active" : ""}
+                              onClick={() => handleClick(i, tag)}
+                              key={i}
+                            >
+                              <a>{i == 0 ? "All" : `${tag}`}</a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <br />
                   </div>
                 </div>
+              }
+              <div className="col-lg-9">
+                <div className="shop-product-fillter d-lg-block d-none">
+                  <div className="totall-product">
+                    <p>
+                      We found
+                      <strong className="text-brand">
+                        {fillter.length > 0 ? (
+                          <>{fillter?.length}</>
+                        ) : (
+                          <> {products?.length}</>
+                        )}
+                      </strong>
+                      items for you!
+                    </p>
+                  </div>
+                  <div className="sort-by-product-area justify-content-between align-items-center">
+                    <span
+                      className="text-brand fw-bold"
+                      onClick={() => clearAllFilter()}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Clear All Filter
+                    </span>
 
-                <div className="list-group">
-                  <div className="list-group-item mb-10 mt-10">
-                    <label className="fw-900">Color</label>
-                    {/* <BrandFilter /> */}
+                    <div className="sort-by-cover">
+                      <div className="sort-by-product-wrap">
+                        <div className="sort-by">
+                          <span>
+                            <i className="fi-rs-apps-sort"></i>
+                            Sort by:
+                          </span>
+                        </div>
+                        <div className="sort-by-dropdown-wrap custom-select">
+                          <select
+                            onChange={(event) =>
+                              handleChange(event.target.value)
+                            }
+                          >
+                            <option value="Default">Default</option>
+                            <option value="newProduct">New Product</option>
+                            <option value="hotDeals">Hot Deals</option>
+                            <option value="bestSeller">Best Seller</option>
+                            <option value="LowToHigh">Low To High</option>
+                            <option value="HighToLow">High To Low</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* <SortSelect /> */}
+                    </div>
+                  </div>
+                </div>
+                <div className="row product-grid-3">
+                  {getPaginatedProducts?.length === 0 && (
+                    <h3>No Products Found </h3>
+                  )}
+
+                  {fillter && fillter.length > 0 ? (
                     <>
-                      <ul className="categories">
-                        {color?.map((item) => (
-                          <li key={item}>
-                            <Form.Check
-                              type="checkbox"
-                              id={`checkbox-${item}`}
-                              label={item}
-                              onChange={() => handleCheckboxChange(item)}
-                              checked={selectedColors?.includes(item)}
-                              style={{textTransform: "capitalize"}}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                    <label className="fw-900 mt-15">Item Size</label>
-                    <ul className="list-filter size-filter font-small">
-                      {sizes.map((tag, i) => (
-                        <li
-                          className={active == i ? "active" : ""}
-                          onClick={() => handleClick(i, tag)}
+                      {fillter?.map((item, i) => (
+                        <div
+                          className="col-lg-4 col-md-4 col-12 col-sm-6"
                           key={i}
                         >
-                          <a>{i == 0 ? "All" : `${tag}`}</a>
-                        </li>
+                          <SingleProduct
+                            product={item}
+                            fabricPrice={fabricPrice}
+                          />
+                          {/* <SingleProductList product={item}/> */}
+                        </div>
+                      ))}{" "}
+                    </>
+                  ) : (
+                    <>
+                      {getPaginatedProducts?.map((item, i) => (
+                        <div
+                          className="col-lg-4 col-md-4 col-12 col-sm-6"
+                          key={i}
+                        >
+                          <SingleProduct
+                            product={item}
+                            fabricPrice={fabricPrice}
+                          />
+
+                          {/* <SingleProductList product={item}/> */}
+                        </div>
                       ))}
-                    </ul>
-                  </div>
+                    </>
+                  )}
                 </div>
-                <br />
-              </div>
-            </div>
-          }
-          <div className="col-lg-9">
-            <div className="shop-product-fillter d-lg-block d-none">
-              <div className="totall-product">
-                <p>
-                  We found
-                  <strong className="text-brand">
-                    {fillter.length > 0 ? (
-                      <>{fillter?.length}</>
-                    ) : (
-                      <> {products?.length}</>
-                    )}
-                  </strong>
-                  items for you!
-                </p>
-              </div>
-              <div className="sort-by-product-area justify-content-between align-items-center">
-                <span
-                  className="text-brand fw-bold"
-                  onClick={ ()=>clearAllFilter()}
-                  style={{ cursor: "pointer" }}
-                >
-                Clear All Filter
-                </span>
 
-                <div className="sort-by-cover">
-                  <div className="sort-by-product-wrap">
-                    <div className="sort-by">
-                      <span>
-                        <i className="fi-rs-apps-sort"></i>
-                        Sort by:
-                      </span>
-                    </div>
-                    <div className="sort-by-dropdown-wrap custom-select">
-                      <select
-                        onChange={(event) =>
-                          handleChange(event.target.value)
-                        }
-                      >
-                        <option value="Default">Default</option>
-                        <option value="newProduct">New Product</option>
-                        <option value="hotDeals">Hot Deals</option>
-                        <option value="bestSeller">Best Seller</option>
-                        <option value="LowToHigh">Low To High</option>
-                        <option value="HighToLow">High To Low</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* <SortSelect /> */}
+                <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                  <nav aria-label="Page navigation example">
+                    <Pagination
+                      getPaginationGroup={getPaginationGroup}
+                      currentPage={currentPage}
+                      pages={pages}
+                      next={next}
+                      prev={prev}
+                      handleActive={handleActive}
+                    />
+                  </nav>
                 </div>
               </div>
-            </div>
-            <div className="row product-grid-3">
-              {getPaginatedProducts?.length === 0 && (
-                <h3>No Products Found </h3>
-              )}
-
-              {fillter && fillter.length > 0 ? (
-                <>
-                  {fillter?.map((item, i) => (
-                    <div
-                      className="col-lg-4 col-md-4 col-12 col-sm-6"
-                      key={i}
-                    >
-                        <SingleProduct
-                        product={item}
-                        fabricPrice={fabricPrice}
-                      />
-                      {/* <SingleProductList product={item}/> */}
-                    </div>
-                  ))}{" "}
-                </>
-              ) : (
-                <>
-                  {getPaginatedProducts?.map((item, i) => (
-                    <div
-                      className="col-lg-4 col-md-4 col-12 col-sm-6"
-                      key={i}
-                    >
-                    <SingleProduct
-                        product={item}
-                        fabricPrice={fabricPrice}
-                      />
-                     
-                      {/* <SingleProductList product={item}/> */}
-                    </div>
-                  ))}
-                </>
-              )}
-            </div>
-
-            <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
-              <nav aria-label="Page navigation example">
-                <Pagination
-                  getPaginationGroup={getPaginationGroup}
-                  currentPage={currentPage}
-                  pages={pages}
-                  next={next}
-                  prev={prev}
-                  handleActive={handleActive}
-                />
-              </nav>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  
+        </section>
 
-    <WishlistModal />
-    {/* <CompareModal /> */}
-    {/* <CartSidebar /> */}
-    <QuickView />
-  </Layout>
-      </>
+
+        <WishlistModal />
+        {/* <CompareModal /> */}
+        {/* <CartSidebar /> */}
+        <QuickView />
+      </Layout>
+    </>
   );
 };
 

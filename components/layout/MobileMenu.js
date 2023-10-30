@@ -3,23 +3,29 @@ import { useState,useEffect } from "react";
 import Link from "next/link";
 import useClickOutside from "../../util/outsideClick";
 import Search from "../ecommerce/Search";
-
+import services from "../../services";
 const MobileMenu = ({ isToggled, toggleClick }) => {
     const [isActive, setIsActive] = useState({
         status: false,
         key: "",
     });
-    const [userName,setUserName]=useState([])
-   useEffect(()=>{
-    if(  localStorage.getItem("user")&&  localStorage.getItem("user").length>0){
     
-        setUserName(JSON.parse(localStorage.getItem("user") ) )
-      }
-      else{
-        setUserName(null)
-      }
+    const [firstName,setFirstName]=useState("")
+    const [lastName,setLastName]=useState("")
+   useEffect(()=>{
+    getProfile()
    },[])
-
+   const getProfile=async()=>{
+    try {
+      const response= await services.myprofile.GET_MY_PROFILE()
+      if(response){
+          setFirstName(response?.data?.data?.firstName)
+       setLastName(response?.data?.data?.lastName)
+      }
+    } catch (error) {
+     console.log(error)
+    }
+     }
     const handleToggle = (key) => {
         if (isActive.key === key) {
             setIsActive({
@@ -484,9 +490,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                 </Link>
                             </div>
                             <div className="single-mobile-header-info">
-                            { userName ?(
+                            { lastName&& firstName ?(
   <div>
-    {userName.firstName} {userName.lastName}
+    {firstName} {lastName}
   </div>
 ) : (
   <Link href="/login">
