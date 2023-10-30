@@ -40,8 +40,8 @@ const Products = ({ products1, productFilters }) => {
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
   const categoryName=Router.query.categoryName
-  const searchProduct=Router.query.searchProduct?Router.query.searchProduct:"";
-
+  const searchProduct=Router.query.searchProdcut?Router.query.searchProdcut:"";
+console.log("=+++++++++++++++",searchProduct)
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
 
@@ -51,11 +51,9 @@ const Products = ({ products1, productFilters }) => {
 
   useEffect(() => {
 
-  
-
     cratePagination();
     prodcutFilters();
-     
+   
     getCategroy();
   }, [
     categoryId,
@@ -73,6 +71,10 @@ const Products = ({ products1, productFilters }) => {
    
    
    }
+
+  
+    
+       
   //get prodcut
 
   //color
@@ -127,6 +129,16 @@ const Products = ({ products1, productFilters }) => {
       size: selectedSizes,
     };
     try {
+  if(searchProduct){
+console.log("===============",searchProduct)
+
+    const response= await services.searchProdcut.SEARCH_PRODCUT(searchProduct)
+    if(response){
+      setProdcut(response?.data?.data?.rows)
+    }
+  }
+else{
+
       const response = await services.product.GET_FILTER_PRODUCT(data);
       if (response) {
         const data =response?.data?.data
@@ -147,7 +159,7 @@ const Products = ({ products1, productFilters }) => {
       } else {
         console.log("error");
       }
-    } catch (error) {
+    }} catch (error) {
       console.log(error);
     }
   };

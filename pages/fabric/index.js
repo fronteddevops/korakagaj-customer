@@ -329,44 +329,7 @@ const Products = ({ products, productFilters }) => {
                       </Accordion.Body>
                     </Accordion.Item>
 
-                    {/* <Accordion.Item
-                      className="custom-filter mt-20"
-                      eventKey="2"
-                    >
-                      <Accordion.Header>
-                        {" "}
-                        <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Fabric Name
-                        </h5>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                      
-                        {fabricList.length > 0 &&
-                          fabricList
-                            .filter((item) => item.fabricType) // Filter out items with blank fabricType
-                            .map((item) => (
-                              <Form.Check
-                                key={item.id}
-                                type="checkbox"
-                                id={`default-${item.id}`}
-                                label={item.fabricName}
-                                onChange={() => {
-                                  const fabricName = item.fabricName;
-                                  const updatedfabricName =
-                                    selectedfabricName.includes(fabricName)
-                                      ? selectedfabricName.filter(
-                                          (fabricName) => fabricName !== fabricName
-                                        )
-                                      : [...selectedfabricName, fabricName];
-
-                                  setSelectedfabricName(updatedfabricName);
-                                  // You can optionally call your filter function here if needed
-                                }}
-                                checked={selectedfabricName.includes(item.fabricName)}
-                              />
-                            ))}
-                      </Accordion.Body>
-                    </Accordion.Item> */}
+                  
 
                     <Accordion.Item
                       className="custom-filter mt-20"

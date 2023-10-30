@@ -60,7 +60,7 @@ const Search = () => {
         onChange={handleSearch}
         onKeyDown={(e)=>{
           if(e.key==="Enter"){
-            Router.push(`/products`)
+            Router.push(`/products?searchProdcut=${e.target.value}`)
           }
         }}
         type="text"
