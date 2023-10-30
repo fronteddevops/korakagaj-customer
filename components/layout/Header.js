@@ -1,4 +1,6 @@
+import i18n from 'next-i18next';
 import Link from "next/link";
+
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Search from "../ecommerce/Search";
@@ -6,11 +8,38 @@ import service from "../../services";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ShopWishlist from "../../pages/shop-wishlist";
 import services from "../../services";
+import { useTranslation  } from 'react-i18next';
+import i18next from 'i18next';
+
+
 const Header = ({
   toggleClick,
   headerStyle,
 }) => {
+  const languages = [
+    {
+      lang: "en",
+      name: "English",
+      // flag: toAbsoluteUrl("/media/flags/united-states.svg"),
+    },
+    {
+      lang: "hi",
+      name: "Hindi",
+      // flag: toAbsoluteUrl("/media/flags/china.svg"),
+    },
+ 
+  ];
+  const {t, i18n} = useTranslation("common");
 
+  // console.log("5555555555",i18n)
+  const changeLanguage = (lng) => {
+
+  };
+  // i18n.changeLanguage(lng);
+
+  const [selectedLang, setSelectedLang] = useState("")
+  
+  const [lang, setLang] = useState("")
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
@@ -46,9 +75,30 @@ const Header = ({
 
   }
 
+ 
+const handleLang = ()=>{
+  if(localStorage.getItem("lang")==="Hindi")
+  {
+  
+    (i18n.changeLanguage('hi'))
+    const lng=localStorage.getItem("lang")
+    setLang(lng)
+  }
+  else
+  {
+  
+    (i18n.changeLanguage('en'))
+    
+    setLang("English")
+  }
+}
 
+  
 
   useEffect(() => {
+    handleLang(
+
+    )
     GetWishlistdata()
     handleCart()
     document.addEventListener("scroll", () => {
@@ -126,6 +176,7 @@ const Header = ({
       setTotalCartItems(cart?.cartDetails?.length)
     }
   };
+
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -158,6 +209,7 @@ const Header = ({
                         Get great offer up to 50% off
                         <Link href="/products">
                           <a> View details</a>
+                        
                         </Link>
                       </li>
                     </ul>
@@ -166,49 +218,53 @@ const Header = ({
               </div>
               <div className="col-xl-3 col-lg-4">
                 <div className="header-info header-info-right">
+              
                   <ul>
                     <li>
                       <Link href="/#">
                         <a className="language-dropdown-active">
                           <i className="fi-rs-world"></i>
-                          English
+                          {lang&&(<span>{lang}</span>)}
                           <i className="fi-rs-angle-small-down"></i>
                         </a>
                       </Link>
                       <ul className="language-dropdown">
                         <li>
                           <Link href="/#">
-                            <a>
+                            <a
+                            
+                            onClick={() => {i18n.changeLanguage('hi')
+                          setLang("Hindi")
+                          localStorage.setItem('lang',"Hindi")
+                        }
+                          }
+                            >
                               <img
-                                src="/assets/imgs/theme/flag-fr.png"
+                                src="/assets/imgs/theme/India-flag.png"
                                 alt=""
                               />
-                              Français
+                                
+                            Hindi
                             </a>
                           </Link>
                         </li>
                         <li>
                           <Link href="/#">
-                            <a>
+                            <a
+                            onClick={() =>{ i18n.changeLanguage('en')
+                           setLang("English")
+                            localStorage.setItem("lang","English")
+                          }}
+                            >
                               <img
-                                src="/assets/imgs/theme/flag-dt.png"
-                                alt=""
+                                src="/assets/imgs/theme/English-flag.png" height="10px" width="20px" 
+                               
                               />
-                              Deutsch
+                             English
                             </a>
                           </Link>
                         </li>
-                        <li>
-                          <Link href="/#">
-                            <a>
-                              <img
-                                src="/assets/imgs/theme/flag-ru.png"
-                                alt=""
-                              />
-                              Pусский
-                            </a>
-                          </Link>
-                        </li>
+                      
                       </ul>
                     </li>
                     <li>
@@ -550,7 +606,9 @@ const Header = ({
               <ul>
                 <li>
                   <Link href="/">
-                    <a className="active">Home</a>
+                    <a className="active">
+                   Home
+                    </a>
                   </Link>
                 </li>
                 <li>
@@ -691,6 +749,7 @@ const Header = ({
             </div >
           </div >
         </div >
+    
       </header >
     </>
   );

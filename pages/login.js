@@ -124,7 +124,7 @@ function Login() {
     let isValidForget = true;
     setEmailErrorForgot("");
 
-    if (email === "") {
+    if (emailForgot === "") {
       setEmailErrorForgot("Enter a valid email address");
       isValidForget = false;
     } else if (!validateEmailForgot(emailForgot)) {
@@ -134,22 +134,23 @@ function Login() {
 
 
     if (isValidForget) {
-      try {
-        let data = {
-          email: emailForgot
-        }
-        console.log(data)
-        const response = await services.auth.FORGOT_PASSWORD(data)
-        if (response) {
-          setIsDisabled(true);
-          toastSuccessEmailSent()
-
-          setShowForgetPasswordComponent(false)
-
-
-        } else {
-          alert(response.data.guide);
-        }
+      try{
+        let data={
+            email:emailForgot
+          }
+          console.log(data)
+          const response = await services.auth.FORGOT_PASSWORD(data)
+          if(response)
+          {
+           
+            toastSuccessEmailSent()
+            
+           setShowForgetPasswordComponent(false)
+          
+          
+          }else {
+            alert(response.data.guide);
+          }
       }
       catch (error) {
         toastErrorForgot(error);

@@ -17,6 +17,8 @@ import Accordion from "react-bootstrap/Accordion";
 import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
+import 'i18next'
+
 
 const Products = ({ products1, productFilters }) => {
   const [category, setCategory] = useState([]);
@@ -672,8 +674,7 @@ else{
     {/* <CartSidebar /> */}
     <QuickView />
   </Layout>
-     
-    </>
+      </>
   );
 };
 

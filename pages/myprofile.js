@@ -43,7 +43,7 @@ function Account() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
-
+  const [addressError,setAddressError]=useState("")
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
@@ -101,14 +101,19 @@ function Account() {
         toastError(error);
       }
     }
-    if (index === 4) {
-
+    if (index === 4 ) {
+      
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
         setAllAddress(response?.data?.data);
-      } catch { }
+      } catch {
+       
+
+      }
+          
     } else {
+      
     }
   };
   const handlesubmit = async (event) => {
@@ -141,6 +146,18 @@ function Account() {
     }
   }}
 
+  const handlePaste = (e) => {
+    let isValid = true;
+    const pastedText = e.clipboardData.getData("Text");
+    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+  
+    if (!isValidNumber.test(pastedText)) {
+      e.preventDefault(); // Prevent pasting invalid input
+      setPhoneNumberError("Invalid phone number format");
+      isValid = false;
+    }
+  };
+
   const changepassword = async (event) => {
     event.preventDefault();
     setNewPasswordError("")
@@ -158,21 +175,23 @@ function Account() {
     }
     if (isValid) {
       try {
-        const data = {
-          newPassword: newpassword,
-          oldPassword: password,
-        };
-        const response = await services.myprofile.CHANGE_PASSWORD(data);
-        if (response) {
-          toastSuccesschangepassword();
-        } else {
-          alert(response.data.guide);
+          const data = {
+            newPassword: newpassword,
+            oldPassword: password,
+          };
+          const response = await services.myprofile.CHANGE_PASSWORD(data);
+          if (response) {
+            toastSuccesschangepassword();
+            route.push("/login")
+          }else {
+            alert(response.data.guide);
+          }
+        } catch (error) {
+          toastError(error);
+          console.log(error);
         }
-      } catch (error) {
-        toastError(error);
-        console.log(error);
       }
-
+   
     }
   };
 
@@ -519,7 +538,13 @@ function Account() {
                         >
 
                           <div className="row">
-                            {alladdress?.map((user, index) => {
+                          {alladdress?.length === 0 ? (
+                            <span className="text-danger m-10" 
+                            style={{    textAlign: "center",
+                              padding: "173px"}}
+                            >No Address Found</span>
+                          ) : (
+                            alladdress?.map((user, index) => {
                               return (
                                 <div className="col-lg-6">
                                   <div className="card mb-3 mb-lg-0">
@@ -628,7 +653,7 @@ function Account() {
                                   </div>
                                 </div>
                               );
-                            })}
+  }))}
                           </div>
                         </div>
                         {showAddAddressComponent && <Addaddress />}
@@ -673,7 +698,7 @@ function Account() {
                                           setFirstName(e.target.value);
                                           setFirstNameError("");
                                         }
-                                        setFirstName(e.target.value.trim());
+                                       
                                       }}
                                     />
                                     <div>
@@ -711,7 +736,7 @@ function Account() {
                                           setLastName(e.target.value);
                                           setLastNameError("");
                                         }
-                                        setLastName(e.target.value.trim());
+                                       
                                       }}
                                     />
                                     <div>
@@ -742,6 +767,7 @@ function Account() {
                                       value={phoneNumber}
                                       placeholder={`Enter ${phoneNumber}`}
                                       onChange={handleInputChange}
+                                      onPaste={handlePaste}
                                       min="0"
                                       onKeyDown={(e) => {
                                         exceptThisSymbols.includes(e.key) &&
