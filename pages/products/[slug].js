@@ -48,7 +48,7 @@ const ProductId = ({ product }) => {
   return (
     <>
       {data && data?.length > 0 && (
-        <Layout parent="Home" sub={<><a href="/products"> prodcut</a></>} subChild={data?.productName}>
+        <Layout parent="Home" sub={<><a href="/products"> product</a></>} subChild={data?.productName}>
           <div className="container">
             <ProductDetails product={data} fabricPrice={newFabricPrice} />
           </div>

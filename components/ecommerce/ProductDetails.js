@@ -237,7 +237,7 @@ const ProductDetails = ({
                                                     </>) : (<>
                                                         <ins>
                                                             <span className="text-brand">
-                                                                Rs.{calculateTotalPrice(product)}
+                                                                Rs.{product?.finalAmount}
                                                             </span>
                                                         </ins>
                                                         <ins>

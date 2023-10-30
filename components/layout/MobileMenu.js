@@ -11,9 +11,13 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
     });
     const [userName,setUserName]=useState([])
    useEffect(()=>{
-  
-        setUserName(JSON.parse(localStorage.getItem("user")))
-  
+    if(  localStorage.getItem("user")&&  localStorage.getItem("user").length>0){
+    
+        setUserName(JSON.parse(localStorage.getItem("user") ) )
+      }
+      else{
+        setUserName(null)
+      }
    },[])
 
     const handleToggle = (key) => {

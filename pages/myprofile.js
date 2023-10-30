@@ -78,10 +78,12 @@ function Account() {
 
       try {
         const response = await services.myprofile.GET_MY_PROFILE();
+        console.log(response.data.data)
         setFirstName(response?.data?.data?.firstName);
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
         setPhoneNumber(response?.data?.data?.phoneNumber);
+        localStorage.setItem("user",JSON.stringify())
       } catch (error) {
         console.log(error);
       }
@@ -124,24 +126,25 @@ function Account() {
     }
     if (isValid) {
       setPhoneNumberError("")
-      try {
-        const data = {
-          firstName: firstName,
-          lastName: lastName,
-          phoneNumber: phoneNumber,
-          email: email,
-        };
-        const response = await services.myprofile.UPDATE_MY_PROFILE(data);
-        if (response) {
-          toastSuccessprofileupdate();
-        } else {
-        }
-      } catch (error) {
-        console.log(error);
-        toastError(error);
+    try {
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        email: email,
+      };
+      const response = await services.myprofile.UPDATE_MY_PROFILE(data);
+      if (response) {
+      
+       localStorage.setItem("user",JSON.stringify({firstName:data.firstName,lastName:data.lastName}))
+    
+        toastSuccessprofileupdate();
+      } else {
       }
+    }catch(e){
+      console.log(e)
     }
-  };
+  }}
 
   const handlePaste = (e) => {
     let isValid = true;

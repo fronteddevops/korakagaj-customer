@@ -7,7 +7,7 @@ import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
-import { useRouter } from 'next/router'
+
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import nextConfig from "../../next.config";
@@ -27,7 +27,7 @@ const SingleProduct = ({
     
 }) => {
 
-    const router = useRouter()
+ 
     const [loading, setLoading] = useState(false);
     const imageUrl=nextConfig.BASE_URL_UPLOADS
     useEffect(() => {  
@@ -41,7 +41,7 @@ const SingleProduct = ({
      const newbasePrice=fabricPrice+ +basePrice
   const newTotalPrice= parseFloat(newbasePrice - (newbasePrice * discountPercentage) / 100)
 
-     console.log("===============================",fabricPrice)
+    
 
     const popover = (
         <Popover id="popover-basic">

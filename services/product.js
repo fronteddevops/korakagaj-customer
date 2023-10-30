@@ -44,11 +44,11 @@ export default {
       }
     });
   },
-  UP_COMING_PRODUCT: (id) => {
+  UP_COMING_PRODUCT: () => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-          nextConfig.BASE_URL + api.product.UP_COMING_PRODUCT(id)
+          nextConfig.BASE_URL + api.product.UP_COMING_PRODUCT()
         );
         resolve(response);
       } catch (err) {

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Footer = () => {
     const [email, setemail] = useState("");
     const [emailError, setEmailError] = useState("");
+    const [isValid,setIsValid]=useState(true)
     const validateEmail = (email) => {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
@@ -37,10 +38,12 @@ const Footer = () => {
           };
           const response = await services.subScribeUers.SUBSCRIBE_USER(payLoad);
           if (response) {
+            setIsValid(false)
             toastSuccessLogin();
             setemail("");
           }
         } catch (error) {
+            setIsValid(true)
           toastErrorLogin(error);
   
         }
@@ -97,12 +100,15 @@ Cheers! You’re happiness will be delivered shortly with Korakagaj
                     placeholder="Enter your email"
                     name="email"
                     value={email}
-                    onChange={(e) => setemail(e.target.value.trim())}
+                    onChange={(e) =>{ setemail(e.target.value.trim())
+                    
+                    setIsValid(true)
+                    }}
                   />
                   <button
                     className="btn bg-dark text-white"
                     type="submit"
-                    disabled={!email}
+                    disabled={!(email &&isValid)}
                   >
                     Subscribe
                   </button>
