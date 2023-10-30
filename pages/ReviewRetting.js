@@ -80,7 +80,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
                 </div>
                 <div className="card-body">
 
-                  <div className='d-flex justify-content-center align-item-center '>
+                  <div className='d-flex justify-content-start align-item-center '>
 
                     <div className=' '>  <img
                       className='rounded'
