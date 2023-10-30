@@ -10,6 +10,7 @@ import searchProduct from "./searchProduct";
 import Wishlist from "./Wishlist";
 import myprofile from "./myprofile";
 import orderDetials from "./orderDetials";
+import review from "./review";
 
 export default {
   category,
@@ -24,5 +25,6 @@ export default {
   Wishlist,
   myprofile,
   orderDetials,
+  review,
   
 };
