@@ -130,7 +130,7 @@ console.log("=+++++++++++++++",searchProduct)
     };
     try {
   if(searchProduct){
-console.log("===============",searchProduct)
+
 
     const response= await services.searchProdcut.SEARCH_PRODCUT(searchProduct)
     if(response){
