@@ -38,6 +38,7 @@ const Header = ({
   // i18n.changeLanguage(lng);
 
   const [selectedLang, setSelectedLang] = useState("")
+  
   const [lang, setLang] = useState("")
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
@@ -75,13 +76,29 @@ const Header = ({
   }
 
  
-
+const handleLang = ()=>{
+  if(localStorage.getItem("lang")==="Hindi")
+  {
+  
+    (i18n.changeLanguage('hi'))
+    const lng=localStorage.getItem("lang")
+    setLang(lng)
+  }
+  else
+  {
+  
+    (i18n.changeLanguage('en'))
+    
+    setLang("English")
+  }
+}
 
   
 
   useEffect(() => {
-    const langData=localStorage.getItem("lang")
-    setLang(langData)
+    handleLang(
+
+    )
     GetWishlistdata()
     handleCart()
     document.addEventListener("scroll", () => {
@@ -211,7 +228,7 @@ const Header = ({
                             
                             onClick={() => {i18n.changeLanguage('hi')
                           setLang("Hindi")
-                          localStorage.setItem('i18nextLng', lang)
+                          localStorage.setItem('lang',"Hindi")
                         }
                           }
                             >
@@ -229,7 +246,7 @@ const Header = ({
                             <a
                             onClick={() =>{ i18n.changeLanguage('en')
                            setLang("English")
-                            localStorage.setItem("lang",lang)
+                            localStorage.setItem("lang","English")
                           }}
                             >
                               <img
@@ -582,7 +599,9 @@ const Header = ({
               <ul>
                 <li>
                   <Link href="/">
-                    <a className="active">{t('Home')}</a>
+                    <a className="active">
+                   Home
+                    </a>
                   </Link>
                 </li>
                 <li>

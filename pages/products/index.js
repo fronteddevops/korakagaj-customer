@@ -17,7 +17,7 @@ import Accordion from "react-bootstrap/Accordion";
 import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
-import "../../redux/i18n/i18n"
+import 'i18next'
 
 
 const Products = ({ products1, productFilters }) => {
