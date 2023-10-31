@@ -42,8 +42,8 @@ const Wishlist = ({
 
       return;
     } else {
-      addToWishlist(product);
-      toast.success("Add to Wishlist !");
+   //  addToWishlist(product);
+     // toast.success("Add to Wishlist !");
     }
 
   }

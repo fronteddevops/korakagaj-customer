@@ -1,33 +1,37 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
 import useClickOutside from "../../util/outsideClick";
 import Search from "../ecommerce/Search";
 import services from "../../services";
 const MobileMenu = ({ isToggled, toggleClick }) => {
+
+
+    const [categoryList, setCategory] = useState([]);
     const [isActive, setIsActive] = useState({
         status: false,
         key: "",
     });
-    
-    const [firstName,setFirstName]=useState("")
-    const [lastName,setLastName]=useState("")
-   useEffect(()=>{
-    getProfile()
-   },[])
-   const getProfile=async()=>{
-    try {
-      const response= await services.myprofile.GET_MY_PROFILE()
-      if(response){
-          setFirstName(response?.data?.data?.firstName)
-       setLastName(response?.data?.data?.lastName)
-      }
-    } catch (error) {
-     console.log(error)
+
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    useEffect(() => {
+        getProfile()
+    }, [])
+    const getProfile = async () => {
+        try {
+            const response = await services.myprofile.GET_MY_PROFILE()
+            if (response) {
+                setFirstName(response?.data?.data?.firstName)
+                setLastName(response?.data?.data?.lastName)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
-     }
     const handleToggle = (key) => {
         if (isActive.key === key) {
+            getCategroy()
             setIsActive({
                 status: false,
             });
@@ -44,7 +48,25 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
             status: false,
         });
     });
-    
+    //category list 
+
+    //get category list
+
+    //gt sub category list
+    // Get sub category list
+
+
+    const getCategroy = async () => {
+        try {
+            const response = await services.category.GET_CATEGORY_ALL();
+            if (response) {
+                setCategory(response?.data?.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <>
             <div className={isToggled ? "mobile-header-active mobile-header-wrapper-style sidebar-visible" : "mobile-header-active mobile-header-wrapper-style"}>
@@ -68,7 +90,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         <div className="mobile-search search-style-3 mobile-header-border">
                             <form action="#">
                                 {/* <input type="text" placeholder="Search for items…" /> */}
-                                <Search/>
+                                <Search />
                                 <button type="submit">
                                     <i className="fi-rs-search"></i>
                                 </button>
@@ -76,85 +98,15 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </div>
                         <div className="mobile-menu-wrap mobile-header-border">
                             <div className="main-categori-wrap mobile-header-border">
-                                <Link href="#">
-                                    <a className="categori-button-active-2">
-                                        <span className="fi-rs-apps"></span> Browse Categories
-                                    </a>
-                                </Link>
+
+                                <a className="categori-button-active-2">
+                                    <span className="fi-rs-apps" ></span> Browse Categories
+                                </a>
+
                                 <div className="categori-dropdown-wrap categori-dropdown-active-small">
                                     <ul>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-dress"></i>
-                                                    Women's Clothing
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-tshirt"></i>
-                                                    Men's Clothing
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            {" "}
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-smartphone"></i> Cellphones
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-desktop"></i>
-                                                    Computer & Office
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-cpu"></i>
-                                                    Consumer Electronics
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-home"></i>
-                                                    Home & Garden
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-high-heels"></i>
-                                                    Shoes
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-teddy-bear"></i>
-                                                    Mother & Kids
-                                                </a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/products">
-                                                <a>
-                                                    <i className="korakagaj-font-kite"></i>
-                                                    Outdoor fun
-                                                </a>
-                                            </Link>
-                                        </li>
+
+
                                     </ul>
                                 </div>
                             </div>
@@ -163,72 +115,29 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                 <ul className="mobile-menu" ref={domNode}>
                                     <li className={isActive.key == 1 ? "menu-item-has-children active" : "menu-item-has-children"}>
                                         <span className="menu-expand" onClick={() => handleToggle(1)}>
-                                            <i className="fi-rs-angle-small-down"></i>
+
                                         </span>
-                                        <Link href="/index">
+                                        <Link href="/">
                                             <a>Home</a>
                                         </Link>
-                                        <ul className={isActive.key == 1 ? "dropdown" : "d-none"}>
-                                            <li>
-                                                <Link href="/index">
-                                                    <a>Home 1</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/index-2">
-                                                    <a>Home 2</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/index-3">
-                                                    <a>Home 3</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/index-4">
-                                                    <a>Home 4</a>
-                                                </Link>
-                                            </li>
-                                        </ul>
+
                                     </li>
                                     <li className={isActive.key == 2 ? "menu-item-has-children active" : "menu-item-has-children"}>
                                         <span className="menu-expand" onClick={() => handleToggle(2)}>
                                             <i className="fi-rs-angle-small-down"></i>
                                         </span>
-                                        <Link href="/products">
+                                      
                                             <a>shop</a>
-                                        </Link>
+                                   
                                         <ul className={isActive.key == 2 ? "dropdown" : "d-none"}>
+                                          
                                             <li>
                                                 <Link href="/products">
-                                                    <a>Shop Grid – Right Sidebar</a>
+                                                    <a>Shop List</a>
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="/products/products">
-                                                    <a>Shop Grid – Left Sidebar</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/products/shop-list-right">
-                                                    <a>Shop List – Right Sidebar</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/products/shop-list-left">
-                                                    <a>Shop List – Left Sidebar</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/products/shop-fullwidth">
-                                                    <a>Shop - Wide</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="/shop-filter">
-                                                    <a>Shop – Filter</a>
-                                                </Link>
-                                            </li>
+                                           
+                                           
                                             <li>
                                                 <Link href="/shop-wishlist">
                                                     <a>Shop – Wishlist</a>
@@ -244,114 +153,62 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                                     <a>Shop – Checkout</a>
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="/shop-compare">
-                                                    <a>Shop – Compare</a>
-                                                </Link>
-                                            </li>
+                                          
                                         </ul>
                                     </li>
+
+                                {/* moblie menu category show in the start  */}
                                     <li className={isActive.key == 3 ? "menu-item-has-children active" : "menu-item-has-children"}>
                                         <span className="menu-expand" onClick={() => handleToggle(3)}>
                                             <i className="fi-rs-angle-small-down"></i>
                                         </span>
-                                        <Link href="#">
+                                      
                                             <a>Mega menu</a>
-                                        </Link>
+                                     
                                         <ul className={isActive.key == 3 ? "dropdown" : "d-none"}>
-                                            <li className="menu-item-has-children">
-                                                <span className="menu-expand"></span>
-                                                <Link href="#">
-                                                    <a>Women's Fashion</a>
-                                                </Link>
-                                                <ul className="dropdown">
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Dresses</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Blouses & Shirts</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Hoodies & Sweatshirts</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Women's Sets</a>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="menu-item-has-children">
-                                                <span className="menu-expand"></span>
-                                                <Link href="#">
-                                                    <a>Men's Fashion</a>
-                                                </Link>
-                                                <ul className="dropdown">
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Jackets</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Casual Faux Leather</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Genuine Leather</a>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="menu-item-has-children">
-                                                <span className="menu-expand"></span>
-                                                <Link href="#">
-                                                    <a>Technology</a>
-                                                </Link>
-                                                <ul className="dropdown">
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Gaming Laptops</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Ultraslim Laptops</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Tablets</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Laptop Accessories</a>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link href="/products">
-                                                            <a>Tablet Accessories</a>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+  {categoryList &&
+    categoryList?.map((item) => (
+      <li className="menu-item-has-children" key={item.id}>
+        <span className="menu-expand"></span>
+        <Link href="/products">
+          <a>{item?.categoryName}</a>
+        </Link>
+        <ul className="dropdown">
+          {item?.SubCategories?.map((subCategory, subIndex) => (
+            <li className="menu-item-has-children" key={subCategory?.id}>
+              <Link href="/products">
+                <a>{subCategory?.subCategoryName}</a>
+              </Link>
+              {subCategory?.SubSubCategories.map((subSubCategory, subSubIndex) => (
+                <ul className="dropdown" key={subSubCategory?.id}>
+                  <li className="menu-item-has-children" key={subSubCategory?.id}>
+                    <Link href="/products">
+                      <a>{subSubCategory?.subSubCategoryName}</a>
+                    </Link>
+                  </li>
+                </ul>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+</ul>
+
+
                                     </li>
+
+
+                                {/* moblie menu category show in the end  */}
+
+
                                     <li className={isActive.key == 4 ? "menu-item-has-children active" : "menu-item-has-children"}>
                                         <span className="menu-expand" onClick={() => handleToggle(4)}>
                                             <i className="fi-rs-angle-small-down"></i>
                                         </span>
-                                        <Link href="/blog-category-fullwidth">
+                                     
                                             <a>Blog</a>
-                                        </Link>
+                                      
                                         <ul className={isActive.key == 4 ? "dropdown" : "d-none"}>
                                             <li>
                                                 <Link href="/blog-category-grid">
@@ -402,9 +259,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                         <span className="menu-expand" onClick={() => handleToggle(5)}>
                                             <i className="fi-rs-angle-small-down"></i>
                                         </span>
-                                        <Link href="#">
+                                       
                                             <a>Pages</a>
-                                        </Link>
+                                     
                                         <ul className={isActive.key == 5 ? "dropdown" : "d-none"}>
                                             <li>
                                                 <Link href="/page-about">
@@ -416,18 +273,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                                     <a>Contact</a>
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="/page-account">
-                                                    <a>My Account</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                          
-  <Link href="/login">
-    <a>Log In / Sign Up</a>
-  </Link>
-
-                                            </li>
+                                            
                                             <li>
                                                 <Link href="/page-purchase-guide">
                                                     <a>Purchase Guide</a>
@@ -454,9 +300,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                         <span className="menu-expand" onClick={() => handleToggle(6)}>
                                             <i className="fi-rs-angle-small-down"></i>
                                         </span>
-                                        <Link href="#">
+                                      
                                             <a>Language</a>
-                                        </Link>
+                                      
                                         <ul className={isActive.key == 6 ? "dropdown" : "d-none"}>
                                             <li>
                                                 <Link href="#">
@@ -465,41 +311,59 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                             </li>
                                             <li>
                                                 <Link href="#">
-                                                    <a>French</a>
+                                                    <a>Hindi</a>
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="#">
-                                                    <a>German</a>
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link href="#">
-                                                    <a>Spanish</a>
-                                                </Link>
-                                            </li>
+                                           
                                         </ul>
                                     </li>
+
+                                    {firstName&&lastName &&
+                                    <li className={isActive.key == 7 ? "menu-item-has-children active" : "menu-item-has-children"}>
+                                        <span className="menu-expand" onClick={() => handleToggle(7)}>
+                                            <i className="fi-rs-angle-small-down"></i>
+                                        </span>
+                                      
+                                            <a>My Profile</a>
+                                      
+                                        <ul className={isActive.key == 7 ? "dropdown" : "d-none"}>
+                                        <li>
+                                                <Link href="/myprofile?index=5">
+                                                    <a>My Profile</a>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/myprofile?index=4">
+                                                    <a>My Address</a>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/myprofile?index=2">
+                                                    <a>My Orders</a>
+                                                </Link>
+                                            </li>
+                                          
+                                           
+                                        </ul>
+                                    </li>
+}
                                 </ul>
                             </nav>
                         </div>
                         <div className="mobile-header-info-wrap mobile-header-border">
-                            <div className="single-mobile-header-info mt-30">
-                                <Link href="/page-contact">
-                                    <a> Our location </a>
-                                </Link>
-                            </div>
+                           
                             <div className="single-mobile-header-info">
-                            { lastName&& firstName ?(
-  <div>
-    {firstName} {lastName}
-  </div>
-) : (
-  <Link href="/login">
-    <a>Log In / Sign Up</a>
-  </Link>
-)
-                       }
+                                {lastName && firstName ? (
+                                    <div>
+                                      <b>  {firstName} {lastName}</b>  
+                                    </div>
+                                ) : (
+                                    <Link href="/login">
+                                        <a>Log In / Sign Up</a>
+                                    </Link>
+                                )
+                                }
+                                {lastName&&firstName  && <><a href="/"  onClick={()=>localStorage.clear()}>Logout</a></>}
                             </div>
                             <div className="single-mobile-header-info">
                                 <Link href="#">

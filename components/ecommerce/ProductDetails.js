@@ -25,7 +25,7 @@ const ProductDetails = ({
     quickView,
     fabricPrice
 }) => {
-
+ 
     const [quantity, setQuantity] = useState(1);
     const [fabricType, setfabricType] = useState("");
     const calculateTotalPrice = (product) => {

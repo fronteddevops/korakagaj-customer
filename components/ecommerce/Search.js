@@ -11,10 +11,10 @@ const Search = () => {
     const imageUrl=nextConfig.BASE_URL_UPLOADS
     const Router=useRouter()
     // Define your useEffect for specific side effects
-    useEffect(() => {
+    useEffect( () => {
         // You can put your side effects logic here
         // For example, you can perform some action when searchTerm changes
-        {searchTerm.length>0  && searchProduct()}
+        {searchTerm.length>0   &&    searchProduct()}
         
      
     }, [searchTerm]);
