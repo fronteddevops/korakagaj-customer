@@ -1,61 +1,64 @@
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const BlogGrid = ({ show, col }) => {
+    const { t } = useTranslation("common");
     var data = [
         {
             id: 1,
-            title: "The litigants on the screen are not actors",
+            title: t("The litigants on the screen are not actors"),
+            img: "blog-6.jpg",
             category: "Politic",
             views: 126,
             date: "25 April 2021",
-            img: "blog-6.jpg",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
+        
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
     ];
 
@@ -75,7 +78,7 @@ const BlogGrid = ({ show, col }) => {
                             </Link>
                             <div className="entry-meta">
                                 <Link href="/blog-category-grid">
-                                    <a className="entry-meta meta-2">Politic</a>
+                                    <a className="entry-meta meta-2">{t("Politic")}</a>
                                 </Link>
                             </div>
                         </div>
@@ -86,10 +89,7 @@ const BlogGrid = ({ show, col }) => {
                                 </Link>
                             </h3>
                             <p className="post-exerpt mb-30">
-                                These people envy me for having a lifestyle they
-                                don’t have, but the truth is, sometimes I envy
-                                their lifestyle instead. Struggling to sell one
-                                multi.
+                            {t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")}
                             </p>
                             <div className="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
                                 <div>
@@ -106,7 +106,7 @@ const BlogGrid = ({ show, col }) => {
                                     className="text-brand"
                                 >
                                     <a>
-                                        Read more{" "}
+                                    {t("Read more")}{" "}
                                         <i className="fi-rs-arrow-right"></i>
                                     </a>
                                 </Link>

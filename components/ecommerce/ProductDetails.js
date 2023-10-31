@@ -14,6 +14,7 @@ import RelatedSlider from "../sliders/Related";
 import ThumbSlider from "../sliders/Thumb";
 import services from "../../services";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 const ProductDetails = ({
     product,
     cartItems,
@@ -25,7 +26,7 @@ const ProductDetails = ({
     quickView,
     fabricPrice
 }) => {
-
+    const { t} = useTranslation("common");
     const [quantity, setQuantity] = useState(1);
     const [fabricType, setfabricType] = useState("");
     const calculateTotalPrice = (product) => {
@@ -158,7 +159,7 @@ const ProductDetails = ({
                                             <ul className="text-grey-5 d-inline-block">
                                                 <li>
                                                     <strong className="mr-10">
-                                                        Share this:
+                                                        {t("Share this:")}
                                                     </strong>
                                                 </li>
                                                 <li className="social-facebook">
@@ -199,12 +200,12 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
                                             <h2 className="title-detail text-capitalize">
-                                                {product.productName}
+                                                 {product.productName}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
                                                     <span>
-                                                        Category &nbsp;&nbsp;:&nbsp;&nbsp;
+                                                        {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
                                                         <Link href="/products">
                                                             <a className="text-capitalize">
                                                                 {product?.Category?.categoryName}
@@ -222,7 +223,7 @@ const ProductDetails = ({
                                                         ></div>
                                                     </div>
                                                     <span className="font-small ml-5 text-muted">
-                                                        (25 reviews)
+                                                        {t("25 reviews")}
                                                     </span>
                                                 </div>
                                             </div>
@@ -265,23 +266,21 @@ const ProductDetails = ({
                                                 <ul>
                                                     <li className="mb-10">
                                                         <i className="fi-rs-crown mr-5"></i>
-                                                        1 Year AL Jazeera Brand
-                                                        Warranty
+                                                        {t("1 Year AL Jazeera Brand Warranty")}
                                                     </li>
                                                     <li className="mb-10">
                                                         <i className="fi-rs-refresh mr-5"></i>
-                                                        30 Day Return Policy
+                                                        {t("30 Day Return Policy")}
                                                     </li>
                                                     <li>
                                                         <i className="fi-rs-credit-card mr-5"></i>
-                                                        Cash on Delivery
-                                                        available
+                                                        {t("Cash on Delivery available")}
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div className="attr-detail attr-color mb-15">
                                                 <strong className="mr-10">
-                                                    Color
+                                                    {t("Color")}
                                                 </strong>
                                                 <ul className="list-filter color-filter">
                                                     {color && color?.map((clr, i) =>
@@ -300,7 +299,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size">
                                                 <strong className="mr-10">
-                                                    Size
+                                                    {t("Size")}
                                                 </strong>
                                                 <ul className="list-filter size-filter font-small">
                                                     {size.map(
@@ -316,12 +315,12 @@ const ProductDetails = ({
 
                                                 </ul>
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
-                                                    <span className="text-brand">Size Chart {'>'}</span>
+                                                    <span className="text-brand">{t("Size Chart")} {'>'}</span>
                                                 </strong>
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
-                                                    Quantity
+                                                    {t("Quantity")}
                                                 </strong>
                                                 <div className="detail-qty border radius">
                                                     <a
@@ -348,13 +347,13 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10 text-capitalize ">
-                                                    Fabric&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
+                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
                                                 </strong>
 
                                                 <Link href={`/fabric?&newlength=${product?.length}&id=${product.id}&basePrice=${product?.basePrice}&discountPercentage=${product?.discountPercentage}&prodcutName=${product?.productName}`}>
                                                     <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
                                                     >
-                                                        Choose Fabric
+                                                        {t("Choose Fabric")}
                                                     </button></Link>
                                             </div>
 
@@ -373,7 +372,7 @@ const ProductDetails = ({
                                                         }
                                                         className="button button-add-to-cart me-3"
                                                     >
-                                                        Design My Way
+                                                        {t("Design My Way")}
                                                     </button>
                                                     <button
                                                         onClick={(e) =>
@@ -386,7 +385,7 @@ const ProductDetails = ({
                                                         }
                                                         className="button button-add-to-cart me-3"
                                                     >
-                                                        Add to cart
+                                                        {t("Add to cart")}
                                                     </button>
 
                                                     <a
@@ -405,17 +404,17 @@ const ProductDetails = ({
                                             </div>
                                             <ul className="product-meta font-xs color-grey mt-50">
                                                 <li className="mb-5 text-capitalize">
-                                                    SKU&nbsp;:
+                                                    {t("SKU")}&nbsp;:
                                                     <a href="#">&nbsp;{product.sku}</a>
                                                 </li>
                                                 <li className="mb-5 text-capitalize">
-                                                    Tags&nbsp;:
+                                                    {t("Tags")}&nbsp;:
                                                     <a href="#" rel="tag" className="me-1">&nbsp;
                                                         {product.tags}
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    Availability&nbsp;:
+                                                    {t("Availability")}&nbsp;:
                                                     <span className="in-stock text-success ml-5" >
 
 
@@ -434,7 +433,7 @@ const ProductDetails = ({
                                         <div className="row mt-60">
                                             <div className="col-12">
                                                 <h3 className="section-title style-1 mb-30">
-                                                    Related products
+                                                    {t("Related products")}
                                                 </h3>
                                             </div>
                                             <div className="col-12">

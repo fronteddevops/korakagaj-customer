@@ -18,9 +18,11 @@ import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
 import 'i18next'
+import { useTranslation } from "react-i18next";
 
 
 const Products = ({ products1, productFilters }) => {
+  const { t } = useTranslation("common");
   const [category, setCategory] = useState([]);
   const [subSubcategory, setSubSubCategory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -431,9 +433,9 @@ const Products = ({ products1, productFilters }) => {
 
   return (
     <>
-      <Layout parent="Home" sub={categoryId ? (<><a href="/categories"> Category</a></>) :
-        <><a href="/products"> shop</a></>} subSub={categoryId && <a href="/categories"> {categoryName} <span></span></a>
-        } subChild="Products">
+      <Layout parent={t("Home")} sub={categoryId ? (<><a href="/categories"> {t("Category")}</a></>) :
+        <><a href="/products"> {t("Shop")}</a></>} subSub={categoryId && <a href="/categories"> {categoryName} <span></span></a>
+        } subChild={t("Products")}>
 
         <section className="mt-50 mb-50">
           <div className="container">
@@ -441,11 +443,11 @@ const Products = ({ products1, productFilters }) => {
               <div className="shop-product-fillter d-lg-none d-block  ">
                 <div className="totall-product">
                   <p>
-                    We found
+                    {t("We found")}
                     {/* <strong className="text-brand">
                                             {products?.items?.length}
                                         </strong> */}
-                    items for you!
+                    {t("items for you!")}
                   </p>
                 </div>
                 <div className="sort-by-product-area justify-content-between align-items-center">
@@ -454,14 +456,14 @@ const Products = ({ products1, productFilters }) => {
                     onClick={() => setIsFilterVisible(!isFilterVisible)}
                     style={{ cursor: "pointer" }}
                   >
-                    Show Filters
+                    {t("Show Filters")}
                   </span>
                   <span
                     className="text-brand fw-bold"
                     onClick={() => clearAllFilter()}
                     style={{ cursor: "pointer" }}
                   >
-                    Clear All Filter
+                    {t("Clear All Filter")}
                   </span>
 
                   <div className="sort-by-cover">
@@ -469,19 +471,19 @@ const Products = ({ products1, productFilters }) => {
                       <div className="sort-by">
                         <span>
                           <i className="fi-rs-apps-sort"></i>
-                          Sort by:
+                          {t('Sort by:')}
                         </span>
                       </div>
                       <div className="sort-by-dropdown-wrap custom-select">
                         <select
                           onChange={(event) => handleChange(event.target.value)}
                         >
-                          <option value="Default">Default</option>
-                          <option value="newProduct">New Product</option>
-                          <option value="hotDeals">Hot Deals</option>
-                          <option value="bestSeller">Best Seller</option>
-                          <option value="LowToHigh">Low To High</option>
-                          <option value="HighToLow">High To Low</option>
+                          <option value="Default">{t("Default")}</option>
+                          <option value="newProduct">{t("New Product")}</option>
+                          <option value="hotDeals">{t("Hot Deals")}</option>
+                          <option value="bestSeller">{t("Best Seller")}</option>
+                          <option value="LowToHigh">{t("Low To High")}</option>
+                          <option value="HighToLow">{t("High To Low")}</option>
                         </select>
                       </div>
                     </div>
@@ -562,7 +564,7 @@ const Products = ({ products1, productFilters }) => {
 
                   <div className="sidebar-widget price_range range mb-30">
                     <div className="widget-header position-relative mb-20 pb-10">
-                      <h5 className="widget-title mb-10">Filter by price</h5>
+                      <h5 className="widget-title mb-10">{t("Filter by price")}</h5>
                       <div className="bt-1 border-color-1"></div>
                     </div>
 
@@ -598,7 +600,7 @@ const Products = ({ products1, productFilters }) => {
 
                     <div className="list-group">
                       <div className="list-group-item mb-10 mt-10">
-                        <label className="fw-900">Color</label>
+                        <label className="fw-900">{t("Color")}</label>
                         {/* <BrandFilter /> */}
                         <>
                           <ul className="categories">
@@ -616,7 +618,7 @@ const Products = ({ products1, productFilters }) => {
                             ))}
                           </ul>
                         </>
-                        <label className="fw-900 mt-15">Item Size</label>
+                        <label className="fw-900 mt-15">{t("Item Size")}</label>
                         <ul className="list-filter size-filter font-small">
                           {sizes.map((tag, i) => (
                             <li
@@ -638,7 +640,7 @@ const Products = ({ products1, productFilters }) => {
                 <div className="shop-product-fillter d-lg-block d-none">
                   <div className="totall-product">
                     <p>
-                      We found
+                      {t("We found")}
                       <strong className="text-brand">
                         {fillter.length > 0 ? (
                           <>{fillter?.length}</>
@@ -655,7 +657,7 @@ const Products = ({ products1, productFilters }) => {
                       onClick={() => clearAllFilter()}
                       style={{ cursor: "pointer" }}
                     >
-                      Clear All Filter
+                      {t("Clear All Filter")}
                     </span>
 
                     <div className="sort-by-cover">
@@ -663,7 +665,7 @@ const Products = ({ products1, productFilters }) => {
                         <div className="sort-by">
                           <span>
                             <i className="fi-rs-apps-sort"></i>
-                            Sort by:
+                            {t("Sort by:")}
                           </span>
                         </div>
                         <div className="sort-by-dropdown-wrap custom-select">
@@ -672,12 +674,12 @@ const Products = ({ products1, productFilters }) => {
                               handleChange(event.target.value)
                             }
                           >
-                            <option value="Default">Default</option>
-                            <option value="newProduct">New Product</option>
-                            <option value="hotDeals">Hot Deals</option>
-                            <option value="bestSeller">Best Seller</option>
-                            <option value="LowToHigh">Low To High</option>
-                            <option value="HighToLow">High To Low</option>
+                            <option value="Default">{t("Default")}</option>
+                            <option value="newProduct">{t("New Product")}</option>
+                            <option value="hotDeals">{t("Hot Deals")}</option>
+                            <option value="bestSeller">{t("Best Seller")}</option>
+                            <option value="LowToHigh">{t("Low To High")}</option>
+                            <option value="HighToLow">{t("High To Low")}</option>
                           </select>
                         </div>
                       </div>

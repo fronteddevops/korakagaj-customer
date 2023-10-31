@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const msInSecond = 1000;
 const msInMinute = 60 * 1000;
@@ -15,6 +16,7 @@ const getPartsofTimeDuration = (duration) => {
 };
 
 const Timer = (endDateTime) => {
+    const { t } = useTranslation("common");
     const [time, setTime] = useState(new Date().toLocaleTimeString());
 
     useEffect(() => {
@@ -40,25 +42,25 @@ const Timer = (endDateTime) => {
                     <span className="countdown-amount hover-up" suppressHydrationWarning>
                         {timeParts.days}
                     </span>
-                    <span className="countdown-period"> days </span>
+                    <span className="countdown-period"> {t("days")} </span>
                 </span>
                 <span className="countdown-section">
                     <span className="countdown-amount hover-up" suppressHydrationWarning>
                         {timeParts.hours}
                     </span>
-                    <span className="countdown-period"> hours </span>
+                    <span className="countdown-period"> {t("hours")} </span>
                 </span>
                 <span className="countdown-section">
                     <span className="countdown-amount hover-up" suppressHydrationWarning>
                         {timeParts.minutes}
                     </span>
-                    <span className="countdown-period"> mins </span>
+                    <span className="countdown-period"> {t("mins")} </span>
                 </span>
                 <span className="countdown-section">
                     <span className="countdown-amount hover-up" suppressHydrationWarning>
                         {timeParts.seconds}
                     </span>
-                    <span className="countdown-period"> sec </span>
+                    <span className="countdown-period"> {t("sec")} </span>
                 </span>
             </div>
         </>

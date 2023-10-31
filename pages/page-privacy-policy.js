@@ -1,32 +1,33 @@
+import { useTranslation } from "react-i18next";
 import Layout from "../components/layout/Layout";
 import BlogSidebar from "./../components/elements/BlogSidebar";
 
 function Privacy() {
+    const { t } = useTranslation("common");
     return (
         <>
-            <Layout parent="Home" sub="Pages" subChild="Privacy">
+            <Layout parent={t("Home") }sub={t("Pages")} subChild={t("Privacy")}>
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-9">
                                 <div className="single-page pr-30">
                                     <div className="single-header style-2">
-                                        <h2>Privacy Policy</h2>
+                                        <h2>{t("Privacy Policy")}</h2>
                                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                                             <span className="post-by">
-                                                By <a href="#">Jonh</a>
+                                                {t("By")} <a href="#">Jonh</a>
                                             </span>
-                                            <span className="post-on has-dot">9 April 2020</span>
-                                            <span className="time-reading has-dot">8 mins read</span>
-                                            <span className="hit-count has-dot">69k Views</span>
+                                            <span className="post-on has-dot">{t("9 April 2020")}</span>
+                                            <span className="time-reading has-dot">8 {t("mins read")}</span>
+                                            <span className="hit-count has-dot">69k {t("Views")}</span>
                                         </div>
                                     </div>
                                     <div className="single-content">
-                                        <h4>Welcome to korakagaj’s Privacy Policy</h4>
+                                        <h4>{t("Welcome to korakagaj’s Privacy Policy")}</h4>
                                         <ol start="1">
                                             <li>
-                                                Hi there, we’re korakagaj Pty Ltd (ABN 11 119 159 741) of Level 1, 121 King Street Melbourne, 3000, Australia (“
-                                                <strong>korakagaj</strong>”) and welcome to our privacy policy which also applies to our Affiliate Companies. This policy sets out how we handle your personal information if you’re an korakagaj user or visitor to our Sites. It applies across korakagaj Elements, korakagaj Market, korakagaj Twenty20, korakagaj Studio, korakagaj Sites, korakagaj Tuts+ and Placeit (the “<strong>Sites</strong>”).
+                                           {t("Hi there, we’re korakagaj Pty Ltd (ABN 11 119 159 741) of Level 1, 121 King Street Melbourne, 3000, Australia korakagaj and welcome to our privacy policy which also applies to our Affiliate Companies. This policy sets out how we handle your personal information if you’re an korakagaj user or visitor to our Sites. It applies across korakagaj Elements, korakagaj Market, korakagaj Twenty20, korakagaj Studio, korakagaj Sites, korakagaj Tuts+ and Placeit")}
                                             </li>
                                             <li>When we say ‘we’, ‘us’ or ‘korakagaj’ it’s because that’s who we are and we own and run the Sites.</li>
                                             <li>If we say ‘policy’ we’re talking about this privacy policy. If we say ‘user terms’ we’re talking about the rules for using each of the Sites. The rules vary by product and each product makes them separately available and seeks consent to them separately to this policy.</li>

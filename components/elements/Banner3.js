@@ -1,20 +1,22 @@
 import React from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 const Banner3 = () => {
+    const { t } = useTranslation("common");
     return (
         <>
             <div className="col-md-6">
                 <div className="banner-img banner-1 wow fadeIn animated">
                     <img src="assets/imgs/banner/banner-5.jpg" alt="" />
                     <div className="banner-text">
-                        <span>Accessories</span>
+                        <span>{t("Accessories")}</span>
                         <h4>
-                            Save 17% on <br />
-                            Autumn Hat
+                            {t("Save 17% on")} <br />
+                            {t("Autumn Hat")}
                         </h4>
                         <Link href="/products">
                             <a>
-                                Shop Now <i className="fi-rs-arrow-right"></i>
+                                {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
                             </a>
                         </Link>
                     </div>
@@ -24,14 +26,14 @@ const Banner3 = () => {
                 <div className="banner-img mb-15 wow fadeIn animated">
                     <img src="assets/imgs/banner/banner-6.jpg" alt="" />
                     <div className="banner-text">
-                        <span>Big Offer</span>
+                        <span>{t("Big Offer")}</span>
                         <h4>
-                            Save 20% on <br />
-                            Women's socks
+                            {t("Save 20% on")} <br />
+                            {t("Women's socks")}
                         </h4>
                         <Link href="/products">
                             <a>
-                                Shop Now <i className="fi-rs-arrow-right"></i>
+                                {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
                             </a>
                         </Link>
                     </div>
@@ -39,14 +41,14 @@ const Banner3 = () => {
                 <div className="banner-img banner-2 wow fadeIn animated">
                     <img src="assets/imgs/banner/banner-7.jpg" alt="" />
                     <div className="banner-text">
-                        <span>Smart Offer</span>
+                        <span>{t("Smart Offer")}</span>
                         <h4>
-                            Save 20% on <br />
-                            Eardrop
+                            {t("Save 20% on")} <br />
+                            {t("Eardrop")}
                         </h4>
                         <Link href="/products">
                             <a>
-                                Shop Now <i className="fi-rs-arrow-right"></i>
+                                {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
                             </a>
                         </Link>
                     </div>

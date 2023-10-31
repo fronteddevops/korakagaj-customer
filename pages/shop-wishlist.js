@@ -13,8 +13,10 @@ import {
 import services from "../services";
 import { useEffect, useState } from "react";
 import Header from "../components/layout/Header";
+import { useTranslation } from "react-i18next";
 
 const Wishlist = ({
+  
   handleWishlistLength,
   wishlist,
   clearWishlist,
@@ -22,6 +24,7 @@ const Wishlist = ({
   deleteFromWishlist,
   addToCart,
 }) => {
+  const { t } = useTranslation("common");
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [WishlistData, setWishlistdata] = useState()
   const [WishlistLength, setWishlistLength] = useState()
@@ -42,7 +45,7 @@ const Wishlist = ({
 
       return;
     } else {
-      addToWishlist(product);
+      // addToWishlist(product);
       toast.success("Add to Wishlist !");
     }
 
@@ -70,7 +73,7 @@ const Wishlist = ({
 
   return (
     <>
-      <Layout parent="Home"  sub={<><a href="/products"> product</a></>} subChild="Wishlist">
+      <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={t("Wishlist")}>
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row product-grid-3">

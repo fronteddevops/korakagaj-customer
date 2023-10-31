@@ -7,8 +7,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 function Login() {
+  const { t } = useTranslation("common");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const route = useRouter()
@@ -181,7 +183,7 @@ setIsDisabledpassword(false)
         pauseOnHover
       />
       {showForgetPasswordComponent === false &&
-        <Layout parent="Home" sub="Login" >
+        <Layout parent={t("Home")} sub={t("Login")} >
           <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
 
             <div className="container">
@@ -193,7 +195,7 @@ setIsDisabledpassword(false)
                         <div className="padding_eight_all bg-white">
                           <div className="heading_s1">
                             <h3 className="mb-30">
-                              Login
+                              {t("Login")}
                             </h3>
                           </div>
                           <form method="post" onSubmit={handleLogin}>
@@ -202,7 +204,7 @@ setIsDisabledpassword(false)
                                 type="text"
                                 required=""
                                 name="email"
-                                placeholder="Your Email"
+                                placeholder={t("Your Email")}
                                 value={email}
                                 onChange={(e) => {
                                   setEmail(e.target.value.trim()); // Trim whitespace before setting
@@ -240,7 +242,7 @@ setIsDisabledpassword(false)
                                 required=""
                                 type={passwordVisibleLogin ? "text" : "password"}
                                 name="password"
-                                placeholder="Password"
+                                placeholder={t("Password")}
                                 onChange={(e) => {
                                   setPassword(e.target.value.trim());
                                   if (e.target.value.trim()) {
@@ -306,7 +308,7 @@ setIsDisabledpassword(false)
                                     className="form-check-label"
                                     htmlFor="exampleCheckbox1"
                                   >
-                                    <span>Remember me</span>
+                                    <span>{t("Remember me")}</span>
                                   </label>
                                 </div>
                               </div>
@@ -314,7 +316,7 @@ setIsDisabledpassword(false)
                                 onClick={handleForgetPassword}
                                 style={{ cursor: 'pointer' }}
                               >
-                                Forgot password?
+                                {t("Forgot password?")}
                               </span>
                             </div>
                             <div className="form-group">
@@ -325,13 +327,13 @@ setIsDisabledpassword(false)
                                 disabled={!(email && password && isDisabled)}
                               // onClick={handleLogin}
                               >
-                                Log in
+                                {t("Log in")}
                               </button>
                             </div>
                           </form>
                       
                           <div className="divider-text-center mt-15 mb-15">
-                            <span> or</span>
+                            <span> {t("or")}</span>
                           </div>
                           <ul className="btn-login list_none text-center mb-15">
                             <li>
@@ -339,7 +341,7 @@ setIsDisabledpassword(false)
                                 href="#"
                                 className="btn btn-facebook hover-up mb-lg-0 mb-sm-4"
                               >
-                                Login With Facebook
+                                {t("Login With Facebook")}
                               </a>
                             </li>
                             <li>
@@ -347,11 +349,11 @@ setIsDisabledpassword(false)
                                 href="#"
                                 className="btn btn-google hover-up mt-2"
                               >
-                                Login With Google
+                                {t("Login With Google")}
                               </a>
                             </li>
                           </ul>
-                          <div class="text-muted text-center"> Don't have an account ?  <a href="/register">Sign up now</a></div>
+                          <div class="text-muted text-center"> {t("Don't have an account ?")}  <a href="/register">{t("Sign up now")}</a></div>
                         </div>
                       </div>
                     </div>
@@ -363,7 +365,7 @@ setIsDisabledpassword(false)
         </Layout>
       }
       {showForgetPasswordComponent &&
-        <Layout parent="Home" sub="Login" >
+        <Layout parent={t("Home")} sub={t("Login")} >
           <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
 
             <div className="container">
@@ -375,7 +377,7 @@ setIsDisabledpassword(false)
                         <div className="padding_eight_all bg-white">
                           <div className="heading_s1">
                             <h4 className="mb-30">
-                              Enter your email to reset your password
+                              {t("Enter your email to reset your password")}
                             </h4>
                           </div>
                           <form method="post"
@@ -388,7 +390,7 @@ setIsDisabledpassword(false)
                                 type="text"
                                 required=""
                                 name="email"
-                                placeholder="Your Email"
+                                placeholder={t("Your Email")}
                                 value={emailForgot}
                                 onChange={(e) => {
                                   setEmailForgot(e.target.value.trim());
@@ -444,7 +446,7 @@ setIsDisabledpassword(false)
 
                               // onClick={handleLogin}
                               >
-                                save
+                              {t("Save")}
                               </button>
                             </div>
                           </form>

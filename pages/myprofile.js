@@ -13,8 +13,10 @@ import Link from "next/link";
 import moment from "moment";
 import { useRouter } from "next/router";
 import nextConfig from "../next.config";
+import { useTranslation } from "react-i18next";
 
 function Account() {
+  const { t } = useTranslation("common");
   const route = useRouter();
   const [selectedid, setSelectedId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(1);
@@ -44,6 +46,10 @@ function Account() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
+  const [isChecked, setIsChecked] = useState(
+    
+  );
+  console.log("dfg",isChecked)
 
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
@@ -108,6 +114,8 @@ function Account() {
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
         setAllAddress(response?.data?.data);
+        
+          
       } catch {
        
 
@@ -230,10 +238,13 @@ function Account() {
       }
     }
   };
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+  };
 
   return (
     <div>
-      <Layout parent="Home"  sub={<a  href="/myprofile?index=2"> <>pages</></a>} subChild="Account">
+      <Layout parent={t("Home")}  sub={<a  href="/myprofile?index=2"> <>{t("Pages")}</></a>} subChild={t("Account")}>
         <section className="pt-150 pb-150">
           <div className="container">
             <div className="row">
@@ -257,7 +268,7 @@ function Account() {
                   >
 
                     <i class="fa fa-plus fs-6 me-2"></i>
-                    Add Address
+                    {t("Add Address")}
                   </button>
                 </div>
               </div>
@@ -277,7 +288,7 @@ function Account() {
                             }
                           >
                             <i className="fi-rs-settings-sliders mr-10"></i>
-                            Dashboard
+                            {t("Dashboard")}
                           </a>
                         </li>
                         <li
@@ -290,7 +301,7 @@ function Account() {
                             }
                           >
                             <i className="fi-rs-shopping-bag mr-10"></i>
-                            Orders
+                            {t("Orders")}
                           </a>
                         </li>
                         {/* <li
@@ -316,7 +327,7 @@ function Account() {
                             }
                           >
                             <i className="fi-rs-marker mr-10"></i>
-                            My Address
+                            {t("My Address")}
                           </a>
                         </li>
                         <li
@@ -329,7 +340,7 @@ function Account() {
                             }
                           >
                             <i className="fi-rs-user mr-10"></i>
-                            Account details
+                            {t("Account details")}
                           </a>
                         </li>
                         <li
@@ -342,14 +353,14 @@ function Account() {
                             }
                           >
                             <i class="fa fa-key mr-10"></i>
-                            Change password
+                            {t("Change password")}
                           </a>
                         </li>
                         <li className="nav-item">
                           <Link href="/login">
                             <a className="nav-link">
                               <i className="fi-rs-sign-out mr-10"></i>
-                              Logout
+                              {t("Logout")}
                             </a>
                           </Link>
                         </li>
@@ -371,17 +382,17 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5 className="mb-0">Hello Rosie!</h5>
+                              <h5 className="mb-0">{t("Hello Rosie!")}</h5>
                             </div>
                             <div className="card-body">
                               <p>
                                 From your account dashboard. you can easily
                                 check &amp; view your
                                 <a href="#">recent orders</a>, manage your
-                                <a href="#">shipping and billing addresses</a>
+                                <a href="#">{t("shipping and billing addresses")}</a>
                                 and
                                 <a href="#">
-                                  edit your password and account details.
+                                  {t("edit your password and account details.")}
                                 </a>
                               </p>
                             </div>
@@ -399,22 +410,22 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5 className="mb-0">Your Orders</h5>
+                              <h5 className="mb-0">{t("Your Orders")}</h5>
                             </div>
                             <div className="card-body">
                               <div className="table-responsive">
                                 <table className="table">
                                   <thead>
                                     <tr>
-                                      <th>Product Image</th>
-                                      <th>Order Id</th>
-                                      <th>Date</th>
-                                      <th>Total Item</th>
-                                      <th>Total Quantity</th>
-                                      <th>Total Amount</th>
-                                      <th>Order Status</th>
-                                      <th>Actions</th>
-                                      <th>Review</th>
+                                      <th>{t("Product Image")}</th>
+                                      <th>{t("Order Id")}</th>
+                                      <th>{t("Date")}</th>
+                                      <th>{t("Total Item")}</th>
+                                      <th>{t("Total Quantity")}</th>
+                                      <th>{t("Total Amount")}</th>
+                                      <th>{t("Order Status")}</th>
+                                      <th>{t("Actions")}</th>
+                                      <th>{t("Review")}</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -458,10 +469,10 @@ function Account() {
                                           </td> */}
 
                                           <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
-                                            <a> View details</a>
+                                            <a> {t("View details")}</a>
                                           </Link></td>
                                           <td>   <Link href={`/ReviewRetting?orderId=${item.id}`}>
-                                            <a> Review</a>
+                                            <a> {t("Review")}</a>
                                           </Link></td>
 
                                         </tr>
@@ -486,14 +497,11 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5 className="mb-0">Orders tracking</h5>
+                              <h5 className="mb-0">{t("Orders tracking")}</h5>
                             </div>
                             <div className="card-body contact-from-area">
                               <p>
-                                To track your order please enter your OrderID in
-                                the box below and press "Track" button. This was
-                                given to you on your receipt and in the
-                                confirmation email you should have received.
+                               {t(" To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.")}
                               </p>
                               <div className="row">
                                 <div className="col-lg-8">
@@ -503,7 +511,7 @@ function Account() {
                                     method="post"
                                   >
                                     <div className="input-style mb-20">
-                                      <label>Order ID</label>
+                                      <label>{t("Order ID")}</label>
                                       <input
                                         name="order-id"
                                         placeholder="Found in your order confirmation email"
@@ -512,7 +520,7 @@ function Account() {
                                       />
                                     </div>
                                     <div className="input-style mb-20">
-                                      <label>Billing email</label>
+                                      <label>{t("Billing email")}</label>
                                       <input
                                         name="billing-email"
                                         placeholder="Email you used during checkout"
@@ -524,7 +532,7 @@ function Account() {
                                       className="submit submit-auto-width"
                                       type="submit"
                                     >
-                                      Track
+                                      {t("Track")}
                                     </button>
                                   </form>
                                 </div>
@@ -548,14 +556,25 @@ function Account() {
                             <span className="text-danger m-10" 
                             style={{    textAlign: "center",
                               padding: "173px"}}
-                            >No Address Found</span>
+                            >{t("No Address Found")}</span>
                           ) : (
                             alladdress?.map((user, index) => {
                               return (
                                 <div className="col-lg-6">
                                   <div className="card mb-3 mb-lg-0">
-                                    <div className="card-header">
-                                      <h5 className="mb-0">Billing Address</h5>
+                                    <div className="card-header d-flex justify-content-between">
+                                      <h5 className="mb-0">{t("Billing Address")}</h5>
+                                      <span>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="flexSwitchCheckDefault"
+                                        disabled="true"
+                                        // checked={isChecked}
+                                        onChange={()=>setIsChecked(index)}
+                                      />
+                                    </span>
                                     </div>
 
                                     <div
@@ -652,7 +671,7 @@ function Account() {
                                           onClick={() => handleeditaddress(user.id)}
                                         >
 
-                                          Edit
+                                          {t("Edit")}
                                         </span>
                                       </div>
                                     </div>
@@ -677,14 +696,14 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5>Account Details</h5>
+                              <h5>{t("Account Details")}</h5>
                             </div>
                             <div className="card-body">
                               <form method="post" onSubmit={handlesubmit}>
                                 <div className="row">
                                   <div className="form-group col-md-6">
                                     <label>
-                                      First Name
+                                      {t("First Name")}
                                       <span className="required">*</span>
                                     </label>
                                     <input
@@ -693,7 +712,7 @@ function Account() {
                                       name="name"
                                       type="text"
                                       value={firstName}
-                                      placeholder={`Enter ${firstName}`}
+                                      placeholder={t("Enter First Name") + firstName}
                                       onChange={(e) => {
                                         setFirstName(e.target.value);
                                         if (!e.target.value.trim()) {
@@ -723,7 +742,7 @@ function Account() {
                                   </div>
                                   <div className="form-group col-md-6">
                                     <label>
-                                      Last Name
+                                      {t("Last Name")}
                                       <span className="required">*</span>
                                     </label>
                                     <input
@@ -731,7 +750,7 @@ function Account() {
                                       className="form-control square"
                                       name="name"
                                       value={lastName}
-                                      placeholder={`Enter ${lastName}`}
+                                      placeholder={t("Enter Last Name")  + lastName}
                                       onChange={(e) => {
                                         setLastName(e.target.value);
                                         if (!e.target.value.trim()) {
@@ -762,7 +781,7 @@ function Account() {
 
                                   <div className="form-group col-md-12">
                                     <label>
-                                      Phone Number
+                                      {t("Phone Number")}
                                       <span className="required">*</span>
                                     </label>
                                     <input
@@ -771,7 +790,7 @@ function Account() {
                                       name="phone"
                                       type="number"
                                       value={phoneNumber}
-                                      placeholder={`Enter ${phoneNumber}`}
+                                      placeholder={t("Enter Phone Number") + phoneNumber}
                                       onChange={handleInputChange}
                                       onPaste={handlePaste}
                                       min="0"
@@ -806,7 +825,7 @@ function Account() {
                                   </div>
                                   <div className="form-group col-md-12">
                                     <label>
-                                      Email Address
+                                      {t("Email Address")}
                                       <span className="required">*</span>
                                     </label>
                                     <input
@@ -829,7 +848,7 @@ function Account() {
                                       }
                                     // onClick={handlesubmit}
                                     >
-                                      Save
+                                      {t("Save")}
                                     </button>
                                   </div>
                                 </div>
@@ -849,14 +868,14 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5>Change Password</h5>
+                              <h5>{t("Change Password")}</h5>
                             </div>
                             <div className="card-body">
                               <form method="post" onSubmit={changepassword}>
                                 <div className="row">
                                   <div className="form-group col-md-12">
                                     <label>
-                                      Current Password
+                                      {t("Current Password")}
                                       <span className="required">*</span>
                                     </label>
                                     <div className="d-flex flex-column align-items-end ">
@@ -866,7 +885,7 @@ function Account() {
                                         name="password"
                                         type={showPassword ? "text" : "password"}
                                         value={password}
-                                        placeholder="Password"
+                                        placeholder={t("Password")}
                                         onChange={(e) => {
                                           const trimmedValue = e.target.value.trim(); // Remove leading/trailing spaces
                                           if (trimmedValue !== "") {
@@ -917,7 +936,7 @@ function Account() {
                                     style={{ marginTop: "-1rem" }}
                                   >
                                     <label>
-                                      New Password
+                                      {t("New Password")}
                                       <span className="required">*</span>
                                     </label>
                                     <div className="d-flex flex-column align-items-end ">
@@ -925,7 +944,7 @@ function Account() {
                                         required=""
                                         className="form-control square"
                                         name="npassword"
-                                        placeholder="new password"
+                                        placeholder={t("new password")}
                                         autoComplete="off"
                                         type={
                                           showPassword1 ? "text" : "password"
@@ -990,7 +1009,7 @@ function Account() {
                                     style={{ marginTop: "-1rem" }}
                                   >
                                     <label>
-                                      Confirm Password
+                                      {t("Confirm Password")}
                                       <span className="required">*</span>
                                     </label>
                                     <div className="d-flex flex-column align-items-end ">
@@ -1001,7 +1020,7 @@ function Account() {
                                         }
                                         className="form-control square"
                                         name="cpassword"
-                                        placeholder="confirm password"
+                                        placeholder={t("confirm password")}
                                         autoComplete="off"
                                         onChange={(e) => {
                                           if (e.target.value.trim() === "") {
@@ -1078,7 +1097,7 @@ function Account() {
                                       }
                                     // onClick={changepassword}
                                     >
-                                      Save
+                                      {t("Save")}
                                     </button>
                                   </div>
                                 </div>

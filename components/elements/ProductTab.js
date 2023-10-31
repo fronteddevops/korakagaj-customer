@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ProductTab = ({prodcut}) => {
+    const { t} = useTranslation("common");
     const [activeIndex, setActiveIndex] = useState(1);
 
     const handleOnClick = (index) => {
@@ -51,7 +53,7 @@ function parseAndFormatColors(colorsJSON) {
                             data-bs-toggle="tab"
                             onClick={() => handleOnClick(1)}
                         >
-                            Description
+                            {t("Description")}
                         </a>
                     </li>
                     <li className="nav-item">
@@ -65,7 +67,7 @@ function parseAndFormatColors(colorsJSON) {
                             data-bs-toggle="tab"
                             onClick={() => handleOnClick(2)}
                         >
-                            Additional info
+                            {t("Additional info")}
                         </a>
                     </li>
                     <li className="nav-item">
@@ -79,7 +81,7 @@ function parseAndFormatColors(colorsJSON) {
                             data-bs-toggle="tab"
                             onClick={() => handleOnClick(3)}
                         >
-                            Reviews (3)
+                            {t("Reviews (3)")}
                         </a>
                     </li>
                 </ul>
@@ -191,7 +193,7 @@ function parseAndFormatColors(colorsJSON) {
                         <table className="font-md">
                             <tbody>
                                 <tr className="stand-up">
-                                    <th>Stand Up</th>
+                                    <th>{t("Stand Up")}</th>
                                     <td>
                                         <p>
                                             35″L x 24″W x 37-45″H(front to back
@@ -200,87 +202,86 @@ function parseAndFormatColors(colorsJSON) {
                                     </td>
                                 </tr>
                                 <tr className="folded-wo-wheels">
-                                    <th>Folded (w/o wheels)</th>
+                                    <th>{t("Folded")} (w/o wheels)</th>
                                     <td>
                                         <p>32.5″L x 18.5″W x 16.5″H</p>
                                     </td>
                                 </tr>
                                 <tr className="folded-w-wheels">
-                                    <th>Folded (w/ wheels)</th>
+                                    <th>{t("Folded")} ({t("w/ wheels")})</th>
                                     <td>
                                         <p>32.5″L x 24″W x 18.5″H</p>
                                     </td>
                                 </tr>
                                 <tr className="door-pass-through">
-                                    <th>Door Pass Through</th>
+                                    <th>{t("Door Pass Through")}</th>
                                     <td>
                                         <p>24</p>
                                     </td>
                                 </tr>
                                 <tr className="frame">
-                                    <th>Frame</th>
+                                    <th>{t("Frame")}</th>
                                     <td>
-                                        <p>Aluminum</p>
+                                        <p>{t("Aluminum")}</p>
                                     </td>
                                 </tr>
                                 <tr className="weight-wo-wheels">
-                                    <th>Weight (w/o wheels)</th>
+                                    <th>{t("Weight")} {t("w/o wheels")}</th>
                                     <td>
                                         <p>20 LBS</p>
                                     </td>
                                 </tr>
                                 <tr className="weight-capacity">
-                                    <th>Weight Capacity</th>
+                                    <th>{t("Weight Capacity")}</th>
                                     <td>
                                         <p>60 LBS</p>
                                     </td>
                                 </tr>
                                 <tr className="width">
-                                    <th>Length  </th>
+                                    <th>{t("Length")}  </th>
                                     <td>
                                         <p>{prodcut?.length}</p>
                                     </td>
                                 </tr>
                                 <tr className="handle-height-ground-to-handle">
-                                    <th>Handle height (ground to handle)</th>
+                                    <th>{t("Handle height")} {t("ground to handle")}</th>
                                     <td>
                                         <p>37-45″</p>
                                     </td>
                                 </tr>
                                 <tr className="wheels">
-                                    <th>Wheels</th>
+                                    <th>{t("Wheels")}</th>
                                     <td>
-                                        <p>12″ air / wide track slick tread</p>
+                                        <p>{t("12″ air / wide track slick tread")}</p>
                                     </td>
                                 </tr>
                                 <tr className="wheels">
-                                    <th>Name and Address of Importer</th>
+                                    <th>{t("Name and Address of Importer")}</th>
                                     <td>
-                                        <p>adidas India Marketing Private Limited, Office no. 6, 2nd Floor, Sector-B,
-                                             Pocket no. 7, Plot no. 11, Vasant Kunj, New Delhi - 110070</p>
+                                        <p>{t("adidas India Marketing Private Limited, Office no. 6, 2nd Floor, Sector-B, Pocket no. 7, Plot no. 11, Vasant Kunj, New Delhi - 110070")}</p>
                                     </td>
                                 </tr>
                                 <tr className="seat-back-height">
-                                    <th>Country of Origin</th>
+                                    <th>{t("Country of Origin")}</th>
                                     <td>
                                         <p>21.5″</p>
                                     </td>
                                 </tr>
                                 <tr className="seat-back-height">
-                                    <th>Gender</th>
+                                    <th>{t("Gender")}</th>
                                     <td>
                                         <p>21.5″</p>
                                     </td>
                                 </tr>
                                 <tr className="head-room-inside-canopy">
-                                    <th>BrandName</th>
+                                    <th>{t("BrandName")}</th>
                                     <td>
                                         <p>{prodcut?.brandName}</p>
                                     </td>
                                 </tr>
                              
                                <tr className="pa_color">
-  <th>Color</th>
+  <th>{t("Color")}</th>
   <td>
     <p className="mb-2">
      {parseAndFormatColors(prodcut?.colour)}
@@ -289,7 +290,7 @@ function parseAndFormatColors(colorsJSON) {
 </tr>
 
                                 <tr className="pa_size">
-                                    <th>size</th>
+                                    <th>{t("size")}</th>
                                     <td>
                                     <p className="mb-2">
       {prodcut?.size && JSON?.parse(prodcut?.size).map((size, index) => (
@@ -315,7 +316,7 @@ function parseAndFormatColors(colorsJSON) {
                             <div className="row">
                                 <div className="col-lg-8">
                                     <h4 className="mb-30">
-                                        Customer questions & answers
+                                        {t("Customer questions & answers")}
                                     </h4>
                                     <div className="comment-list">
                                         <div className="single-comment justify-content-between d-flex">
@@ -331,7 +332,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         </a>
                                                     </h6>
                                                     <p className="font-xxs">
-                                                        Since 2012
+                                                        {t("Since")} 2012
                                                     </p>
                                                 </div>
                                                 <div className="desc">
@@ -344,9 +345,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         ></div>
                                                     </div>
                                                     <p>
-                                                        Thank you very fast
-                                                        shipping from Poland
-                                                        only 3days.
+                                                        {t("Thank you very fast shipping from Poland only 3days.")}
                                                     </p>
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
@@ -358,7 +357,7 @@ function parseAndFormatColors(colorsJSON) {
                                                                 href="#"
                                                                 className="text-brand btn-reply"
                                                             >
-                                                                Reply
+                                                                {t("Reply")}
                                                                 <i className="fi-rs-arrow-right"></i>
                                                             </a>
                                                         </div>
@@ -380,7 +379,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         </a>
                                                     </h6>
                                                     <p className="font-xxs">
-                                                        Since 2008
+                                                        {t("Since")} 2008
                                                     </p>
                                                 </div>
                                                 <div className="desc">
@@ -393,8 +392,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         ></div>
                                                     </div>
                                                     <p>
-                                                        Great low price and
-                                                        works well.
+                                                        {t("Great low price and works well.")}
                                                     </p>
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
@@ -406,7 +404,7 @@ function parseAndFormatColors(colorsJSON) {
                                                                 href="#"
                                                                 className="text-brand btn-reply"
                                                             >
-                                                                Reply
+                                                                {t("Reply")}
                                                                 <i className="fi-rs-arrow-right"></i>
                                                             </a>
                                                         </div>
@@ -428,7 +426,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         </a>
                                                     </h6>
                                                     <p className="font-xxs">
-                                                        Since 2010
+                                                        {t("Since")} 2010
                                                     </p>
                                                 </div>
                                                 <div className="desc">
@@ -441,10 +439,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         ></div>
                                                     </div>
                                                     <p>
-                                                        Authentic and Beautiful,
-                                                        Love these way more than
-                                                        ever expected They are
-                                                        Great earphones
+                                                      {t("  Authentic and Beautiful, Love these way more than ever expected They are Great earphones")}
                                                     </p>
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
@@ -456,7 +451,7 @@ function parseAndFormatColors(colorsJSON) {
                                                                 href="#"
                                                                 className="text-brand btn-reply"
                                                             >
-                                                                Reply
+                                                                {t("Reply")}
                                                                 <i className="fi-rs-arrow-right"></i>
                                                             </a>
                                                         </div>
@@ -467,7 +462,7 @@ function parseAndFormatColors(colorsJSON) {
                                     </div>
                                 </div>
                                 <div className="col-lg-4">
-                                    <h4 className="mb-30">Customer reviews</h4>
+                                    <h4 className="mb-30">{t("Customer reviews")}</h4>
                                     <div className="d-flex mb-30">
                                         <div className="product-rate d-inline-block mr-15">
                                             <div
@@ -480,7 +475,7 @@ function parseAndFormatColors(colorsJSON) {
                                         <h6>4.8 out of 5</h6>
                                     </div>
                                     <div className="progress">
-                                        <span>5 star</span>
+                                        <span>5 {t("star")}</span>
                                         <div
                                             className="progress-bar"
                                             role="progressbar"
@@ -495,7 +490,7 @@ function parseAndFormatColors(colorsJSON) {
                                         </div>
                                     </div>
                                     <div className="progress">
-                                        <span>4 star</span>
+                                        <span>4 {t("star")}</span>
                                         <div
                                             className="progress-bar"
                                             role="progressbar"
@@ -510,7 +505,7 @@ function parseAndFormatColors(colorsJSON) {
                                         </div>
                                     </div>
                                     <div className="progress">
-                                        <span>3 star</span>
+                                        <span>3 {t("star")}</span>
                                         <div
                                             className="progress-bar"
                                             role="progressbar"
@@ -525,7 +520,7 @@ function parseAndFormatColors(colorsJSON) {
                                         </div>
                                     </div>
                                     <div className="progress">
-                                        <span>2 star</span>
+                                        <span>2 {t("star")}</span>
                                         <div
                                             className="progress-bar"
                                             role="progressbar"
@@ -540,7 +535,7 @@ function parseAndFormatColors(colorsJSON) {
                                         </div>
                                     </div>
                                     <div className="progress mb-30">
-                                        <span>1 star</span>
+                                        <span>1 {t("star")}</span>
                                         <div
                                             className="progress-bar"
                                             role="progressbar"
@@ -555,14 +550,14 @@ function parseAndFormatColors(colorsJSON) {
                                         </div>
                                     </div>
                                     <a href="#" className="font-xs text-muted">
-                                        How are ratings calculated?
+                                        {t("How are ratings calculated?")}
                                     </a>
                                 </div>
                             </div>
                         </div>
 
                         <div className="comment-form">
-                            <h4 className="mb-15">Add a review</h4>
+                            <h4 className="mb-15">{t("Add a review")}</h4>
                             <div className="product-rate d-inline-block mb-30"></div>
                             <div className="row">
                                 <div className="col-lg-8 col-md-12">
@@ -580,7 +575,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         id="comment"
                                                         cols="30"
                                                         rows="9"
-                                                        placeholder="Write Comment"
+                                                        placeholder={t("Write Comment")}
                                                     ></textarea>
                                                 </div>
                                             </div>
@@ -591,7 +586,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         name="name"
                                                         id="name"
                                                         type="text"
-                                                        placeholder="Name"
+                                                        placeholder={t("Name")}
                                                     />
                                                 </div>
                                             </div>
@@ -602,7 +597,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         name="email"
                                                         id="email"
                                                         type="email"
-                                                        placeholder="Email"
+                                                        placeholder={t("Email")}
                                                     />
                                                 </div>
                                             </div>
@@ -613,7 +608,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         name="website"
                                                         id="website"
                                                         type="text"
-                                                        placeholder="Website"
+                                                        placeholder={t("Website")}
                                                     />
                                                 </div>
                                             </div>
@@ -623,7 +618,7 @@ function parseAndFormatColors(colorsJSON) {
                                                 type="submit"
                                                 className="button button-contactForm"
                                             >
-                                                Submit Review
+                                                {t("Submit Review")}
                                             </button>
                                         </div>
                                     </form>

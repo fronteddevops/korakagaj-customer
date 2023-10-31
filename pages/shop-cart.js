@@ -13,6 +13,7 @@ import {
 } from "../redux/action/cart";
 import { useEffect, useState, useCallback } from "react";
 import services from "../services";
+import { useTranslation } from "react-i18next";
 
 const Cart = ({
   openCart,
@@ -24,6 +25,7 @@ const Cart = ({
   deleteFromCart,
   clearCart,
 }) => {
+  const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [cartData, setCartData] = useState([])
@@ -40,13 +42,13 @@ const Cart = ({
 
   return (
     <>
-      <Layout parent="Home"sub={<><a   href="/products"> prodcut</a></>} subChild="Cart">
+      <Layout parent={t("Home")}sub={<><a   href="/products"> {t("Product")}</a></>} subChild={t("Cart")}>
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
               <div className="col-12">
                 <div className="table-responsive">
-                  {updateCart.length <= 0 && "No Products"}
+                  {updateCart.length <= 0 && t("No Products")}
                   <table
                     className={
                       updateCart?.length > 0
@@ -56,12 +58,12 @@ const Cart = ({
                   >
                     <thead>
                       <tr className="main-heading">
-                        <th scope="col">Image</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Subtotal</th>
-                        <th scope="col">Remove</th>
+                        <th scope="col">{t("Image")}</th>
+                        <th scope="col">{t("Name")}</th>
+                        <th scope="col">{t("Price")}</th>
+                        <th scope="col">{t("Quantity")}</th>
+                        <th scope="col">{t("Subtotal")}</th>
+                        <th scope="col">{t("Remove")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -152,7 +154,7 @@ const Cart = ({
                 <div className="cart-action text-end">
                   <a className="btn ">
                     <i className="fi-rs-shopping-bag mr-10"></i>
-                    Continue Shopping
+                    {t("Continue Shopping")}
                   </a>
                 </div>
                 <div className="divider center_icon mt-50 mb-50">
@@ -161,10 +163,10 @@ const Cart = ({
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-12">
                     <div className="heading_s1 mb-3">
-                      <h4>Calculate Shipping</h4>
+                      <h4>{t("Calculate Shipping")}</h4>
                     </div>
                     <p className="mt-15 mb-30">
-                      Flat rate:
+                      {t("Flat rate:")}
                       <span className="font-xl text-brand fw-900">5%</span>
                     </p>
                     <form className="field_form shipping_calculator">
@@ -172,7 +174,7 @@ const Cart = ({
                         <div className="form-group col-lg-12">
                           <div className="custom_select">
                             <select className="form-control select-active">
-                              <option value="">Choose a option...</option>
+                              <option value="">{t("Choose a option...")}</option>
                               <option value="AX">Aland Islands</option>
                               <option value="AF">Afghanistan</option>
                               <option value="AL">Albania</option>
@@ -449,7 +451,7 @@ const Cart = ({
                         <div className="form-group col-lg-6">
                           <input
                             required="required"
-                            placeholder="State / Country"
+                            placeholder={t("State / Country")}
                             name="name"
                             type="text"
                           />
@@ -457,7 +459,7 @@ const Cart = ({
                         <div className="form-group col-lg-6">
                           <input
                             required="required"
-                            placeholder="PostCode / ZIP"
+                            placeholder={t("PostCode / ZIP")}
                             name="name"
                             type="text"
                           />
@@ -467,14 +469,14 @@ const Cart = ({
                         <div className="form-group col-lg-12">
                           <button className="btn  btn-sm">
                             <i className="fi-rs-shuffle mr-10"></i>
-                            Update
+                            {t("Update")}
                           </button>
                         </div>
                       </div>
                     </form>
                     <div className="mb-30 mt-50">
                       <div className="heading_s1 mb-3">
-                        <h4>Apply Coupon</h4>
+                        <h4>{t("Apply Coupon")}</h4>
                       </div>
                       <div className="total-amount">
                         <div className="left">
@@ -485,14 +487,14 @@ const Cart = ({
                                   <input
                                     className="font-medium"
                                     name="Coupon"
-                                    placeholder="Enter Your Coupon"
+                                    placeholder={t("Enter your Coupon")}
                                   />
                                 </div>
                                 <div className="form-group col-lg-6">
-                                  <button className="btn  btn-sm">
+                                  <span className="btn  btn-sm">
                                     <i className="fi-rs-label mr-10"></i>
-                                    Apply
-                                  </button>
+                                    {t("Apply")}
+                                  </span>
                                 </div>
                               </div>
                             </form>
@@ -504,14 +506,14 @@ const Cart = ({
                   <div className="col-lg-6 col-md-12">
                     <div className="border p-md-4 p-30 border-radius cart-totals">
                       <div className="heading_s1 mb-3">
-                        <h4>Cart Totals</h4>
+                        <h4>{t("Cart Totals")}</h4>
                       </div>
                       <div className="table-responsive">
                         <table className="table">
                           <tbody>
                             <tr>
                               <td className="cart_total_label">
-                                Cart Subtotal
+                                {t("Cart Subtotal")}
                               </td>
                               <td className="cart_total_amount">
                                 <span className="font-lg fw-900 text-brand">
@@ -520,14 +522,14 @@ const Cart = ({
                               </td>
                             </tr>
                             <tr>
-                              <td className="cart_total_label">Shipping</td>
+                              <td className="cart_total_label">{t("Shipping")}</td>
                               <td className="cart_total_amount">
                                 <i className="ti-gift mr-5"></i>
-                                Free Shipping
+                                {t("Free Shipping")}
                               </td>
                             </tr>
                             <tr>
-                              <td className="cart_total_label">Total</td>
+                              <td className="cart_total_label">{t("Total")}</td>
                               <td className="cart_total_amount">
                                 <strong>
                                   <span className="font-xl fw-900 text-brand">
@@ -541,7 +543,7 @@ const Cart = ({
                       </div>
                       <a href="#" className="btn ">
                         <i className="fi-rs-box-alt mr-10"></i>
-                        Proceed To CheckOut
+                        {t("Proceed To CheckOut")}
                       </a>
                     </div>
                   </div>

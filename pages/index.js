@@ -18,8 +18,10 @@ import CategorySlider from "./../components/sliders/Category";
 import Intro1 from "./../components/sliders/Intro1";
 import NewArrival from "./../components/sliders/NewArrival";
 import React from 'react';
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+    const { t } = useTranslation("common");
     return (
         <>
             {/* <IntroPopup /> */}
@@ -34,12 +36,12 @@ export default function Home() {
                     <div className="container wow fadeIn animated">
                         <div className="tab-header">
                             <h3 className="section-title mb-20">
-                                <span>Featured</span> Categories
+                                <span>{t("Featured")}</span> {t("Categories")}
                             </h3>
                             <h6>
                                 <Link href="/categories">
                                     <a className="view-more d-none d-md-flex">
-                                        View More<i className="fi-rs-angle-double-small-right"></i>
+                                        {t("View More")}<i className="fi-rs-angle-double-small-right"></i>
                                     </a>
                                 </Link>
                             </h6>
@@ -78,7 +80,7 @@ export default function Home() {
                 <section className="section-padding">
                     <div className="container wow fadeIn animated">
                         <h3 className="section-title mb-20">
-                            <span>New</span> Arrivals
+                            <span>{t("New")}</span> {t("Arrivals")}
                         </h3>
                         <div className="carausel-6-columns-cover position-relative">
                             <NewArrival />
@@ -103,7 +105,7 @@ export default function Home() {
                         <div className="row">
                             <div className="col-lg-6">
                                 <h3 className="section-title mb-20">
-                                    <span>From</span> blog
+                                    <span>{t("From")}</span> {t("blog")}
                                 </h3>
                                 <HomeBlog />
                             </div>

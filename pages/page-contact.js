@@ -1,38 +1,36 @@
+import { useTranslation } from "react-i18next";
 import Layout from "../components/layout/Layout";
 
 import Link from "next/link"
 
 function Contact() {
+    const { t } = useTranslation("common");
     return (
         <>
-            <Layout parent="Home" sub="Pages" subChild="Contact">
+            <Layout parent={t("Home")} sub={t("Pages")} subChild={t("Contact")}>
                 <section className="hero-2 bg-green">
                     <div className="hero-content">
                         <div className="container">
                             <div className="text-center">
                                 <h4 className="text-brand mb-20">
-                                    Get in touch
+                                    {t("Get in touch")}
                                 </h4>
                                 <h1 className="mb-20 wow fadeIn animated font-xxl fw-900">
-                                    Let's Talk About <br />
-                                    Your{" "}
-                                    <span className="text-style-1">Idea</span>
+                                    {t("Let's Talk About")} <br />
+                                    {t("Your")}{" "}
+                                    <span className="text-style-1">{t("Idea")}</span>
                                 </h1>
                                 <p className="w-50 m-auto mb-50 wow fadeIn animated">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Harum quam eius placeat, a
-                                    quidem mollitia at accusantium reprehenderit
-                                    pariatur provident nam ratione incidunt
-                                    magnam sequi.
+                                   {t(" Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum quam eius placeat, a quidem mollitia at accusantium reprehenderit pariatur provident nam ratione incidun magnam sequi.")}
                                 </p>
                                 <p className="wow fadeIn animated">
                                     <Link href="/page-about">
                                         <a className="btn btn-brand btn-lg font-weight-bold text-white border-radius-5 btn-shadow-brand hover-up">
-                                            About Us
+                                            {t("About Us")}
                                         </a>
                                     </Link>
                                     <a className="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
-                                        Support Center
+                                        {t("Support Center")}
                                     </a>
                                 </p>
                             </div>
@@ -43,52 +41,52 @@ function Contact() {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-4 mb-4 mb-md-0">
-                                <h4 className="mb-15 text-brand">Office</h4>
-                                205 North Michigan Avenue, Suite 810
+                                <h4 className="mb-15 text-brand">{t("Office")}</h4>
+                                {t("205 North Michigan Avenue, Suite 810")}
                                 <br />
                                 Chicago, 60601, USA
                                 <br />
-                                <abbr title="Phone">Phone:</abbr> (123) 456-7890
+                                <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
-                                <abbr title="Email">Email: </abbr>
+                                <abbr title="Email">{t("Email:")} </abbr>
                                 contact@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
-                                    <i className="fi-rs-marker mr-10"></i>View
-                                    map
+                                    <i className="fi-rs-marker mr-10"></i>{t("View")}
+                                    {t("map")}
                                 </a>
                             </div>
                             <div className="col-md-4 mb-4 mb-md-0">
-                                <h4 className="mb-15 text-brand">Studio</h4>
+                                <h4 className="mb-15 text-brand">{t("Studio")}</h4>
                                 205 North Michigan Avenue, Suite 810
                                 <br />
                                 Chicago, 60601, USA
                                 <br />
-                                <abbr title="Phone">Phone:</abbr> (123) 456-7890
+                                <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
-                                <abbr title="Email">Email: </abbr>
+                                <abbr title="Email">{t("Email:")} </abbr>
                                 contact@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
-                                    <i className="fi-rs-marker mr-10"></i>View
-                                    map
+                                    <i className="fi-rs-marker mr-10"></i>{t("View")}
+                                    {t("map")}
                                 </a>
                             </div>
                             <div className="col-md-4">
-                                <h4 className="mb-15 text-brand">Shop</h4>
+                                <h4 className="mb-15 text-brand">{t("Shop")}</h4>
                                 205 North Michigan Avenue, Suite 810
                                 <br />
                                 Chicago, 60601, USA
                                 <br />
-                                <abbr title="Phone">Phone:</abbr> (123) 456-7890
+                                <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
-                                <abbr title="Email">Email: </abbr>
+                                <abbr title="Email">{t("Email:")} </abbr>
                                 contact@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     {" "}
-                                    <i className="fi-rs-marker mr-10"></i> View
-                                    map
+                                    <i className="fi-rs-marker mr-10"></i> {t("View")}
+                                    {t("map")}
                                 </a>
                             </div>
                         </div>
@@ -100,10 +98,10 @@ function Contact() {
                             <div className="col-xl-8 col-lg-10 m-auto">
                                 <div className="contact-from-area padding-20-row-col wow FadeInUp">
                                     <h3 className="mb-10 text-center">
-                                        Drop Us a Line
+                                        {t("Drop Us a Line")}
                                     </h3>
                                     <p className="text-muted mb-30 text-center font-sm">
-                                        Lorem ipsum dolor sit amet consectetur.
+                                        {t("Lorem ipsum dolor sit amet consectetur.")}
                                     </p>
                                     <form
                                         className="contact-form-style text-center"
@@ -116,7 +114,7 @@ function Contact() {
                                                 <div className="input-style mb-20">
                                                     <input
                                                         name="name"
-                                                        placeholder="First Name"
+                                                        placeholder={t("First Name")}
                                                         type="text"
                                                     />
                                                 </div>
@@ -125,7 +123,7 @@ function Contact() {
                                                 <div className="input-style mb-20">
                                                     <input
                                                         name="email"
-                                                        placeholder="Your Email"
+                                                        placeholder={t("Your Email")}
                                                         type="email"
                                                     />
                                                 </div>
@@ -134,7 +132,7 @@ function Contact() {
                                                 <div className="input-style mb-20">
                                                     <input
                                                         name="telephone"
-                                                        placeholder="Your Phone"
+                                                        placeholder={t("Phone Number")}
                                                         type="tel"
                                                     />
                                                 </div>
@@ -143,7 +141,7 @@ function Contact() {
                                                 <div className="input-style mb-20">
                                                     <input
                                                         name="subject"
-                                                        placeholder="Subject"
+                                                        placeholder={t("Subject")}
                                                         type="text"
                                                     />
                                                 </div>
@@ -152,14 +150,14 @@ function Contact() {
                                                 <div className="textarea-style mb-30">
                                                     <textarea
                                                         name="message"
-                                                        placeholder="Message"
+                                                        placeholder={t("Message")}
                                                     ></textarea>
                                                 </div>
                                                 <button
                                                     className="submit submit-auto-width"
                                                     type="submit"
                                                 >
-                                                    Send message
+                                                    {t("Send message")}
                                                 </button>
                                             </div>
                                         </div>

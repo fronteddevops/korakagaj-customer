@@ -24,7 +24,7 @@ const BlogSingle = () => {
                         <div className="social-icons single-share">
                             <ul className="text-grey-5 d-inline-block">
                                 <li>
-                                    <strong className="mr-10">Share this:</strong>
+                                    <strong className="mr-10">{t("Share this:")}</strong>
                                 </li>
                                 <li className="social-facebook">
                                     <a href="#">
@@ -245,7 +245,7 @@ const BlogSingle = () => {
                     <div className="social-icons single-share">
                         <ul className="text-grey-5 d-inline-block">
                             <li>
-                                <strong className="mr-10">Share this:</strong>
+                                <strong className="mr-10">{t("Share this:")}</strong>
                             </li>
                             <li className="social-facebook">
                                 <a href="#">

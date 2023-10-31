@@ -1,62 +1,65 @@
 import React from "react";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const BlogGridBig = ({ show }) => {
+    const { t } = useTranslation("common");
     var data = [
         {
             id: 1,
-            title: "The litigants on the screen are not actors",
+            title: t("The litigants on the screen are not actors"),
             img: "blog-6.jpg",
             category: "Politic",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
+        
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.")
         },
         {
             id: 2,
-            title: "Essential Qualities of Highly Successful Music",
+            title: t("Essential Qualities of Highly Successful Music"),
             img: "blog-3.jpg",
             category: "Global",
             views: 126,
             date: "25 April 2021",
-            desc: "These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",
+            desc: t("These people envy me for having a lifestyle they don’t have, but the truth is, sometimes I envy their lifestyle instead. Struggling to sell one multi.",)
         },
     ];
 
@@ -85,7 +88,7 @@ const BlogGridBig = ({ show }) => {
                                 <Link href="/blog-category-grid">
                                     <a className="entry-meta meta-0">
                                         <span className="post-in background4 text-brand font-xs">
-                                            Mobile Phone
+                                            {t("Mobile Phone")}
                                         </span>
                                     </a>
                                 </Link>
@@ -121,23 +124,23 @@ const BlogGridBig = ({ show }) => {
                             <div className="mb-20 entry-meta meta-2">
                                 <div className="font-xs ">
                                     <span className="post-by">
-                                        By{" "}
+                                        {t("By")}{" "}
                                         <Link href="/blog-category-grid">
                                             <a>{item.category}</a>
                                         </Link>
                                     </span>
                                     <span className="post-on">{item.date}</span>
                                     <span className="time-reading">
-                                        8 mins read
+                                        {t("8 mins read")}
                                     </span>
                                     <p className="font-xs mt-5">
-                                        Updated 18/08/2021 07:12 EST
+                                        {t("Updated 18/08/2021 07:12 EST")}
                                     </p>
                                 </div>
 
                                 <Link href="/blog-post-right">
                                     <a className="btn btn-sm">
-                                        Read more
+                                        {t("Read more")}
                                         <i className="fi-rs-arrow-right ml-10"></i>
                                     </a>
                                 </Link>

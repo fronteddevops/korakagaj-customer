@@ -2,10 +2,12 @@ import Link from "next/link";
 import { Navigation, Pagination } from "swiper";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useTranslation } from "react-i18next";
 
 
 
 const   Intro1 = () => {
+    const { t } = useTranslation("common");
     return (
         <>
             <Swiper
@@ -26,21 +28,20 @@ const   Intro1 = () => {
                                 <div className="col-lg-5 col-md-6">
                                     <div className="hero-slider-content-2">
                                         <h4 className="animated">
-                                            Trade-in offer
+                                            {t("Trade-in offer")}
                                         </h4>
                                         <h2 className="animated fw-900">
-                                            Supper value deals
+                                            {t("Supper value deals")}
                                         </h2>
                                         <h1 className="animated fw-900 text-brand">
-                                            On all products
+                                            {t("On all products")}
                                         </h1>
                                         <p className="animated">
-                                            Save more with coupons & up to 70%
-                                            off
+                                         {t( "Save more with coupons & up to 70% off")}
                                         </p>
                                         <Link href="/products">
                                             <a className="animated btn btn-brush btn-brush-3">
-                                                Shop Now
+                                                {t("Shop Now")}
                                             </a>
                                         </Link>
                                     </div>
@@ -65,21 +66,20 @@ const   Intro1 = () => {
                                 <div className="col-lg-5 col-md-6">
                                     <div className="hero-slider-content-2">
                                         <h4 className="animated">
-                                            Hot promotions
+                                            {t("Hot promotions")}
                                         </h4>
                                         <h2 className="animated fw-900">
-                                            Fashion Trending
+                                            {t("Fashion Trending")}
                                         </h2>
                                         <h1 className="animated fw-900 text-7">
-                                            Great Collection
+                                            {t("Great Collection")}
                                         </h1>
                                         <p className="animated">
-                                            Save more with coupons & up to 20%
-                                            off
+                                            {t("Save more with coupons & up to 20% off")}
                                         </p>
                                         <Link href="/products">
                                             <a className="animated btn btn-brush btn-brush-2">
-                                                Discover Now
+                                                {t(" Discover Now")}
                                             </a>
                                         </Link>
                                     </div>
@@ -104,20 +104,20 @@ const   Intro1 = () => {
                                 <div className="col-lg-5 col-md-6">
                                     <div className="hero-slider-content-2">
                                         <h4 className="animated">
-                                            Upcoming Offer
+                                            {t("Upcoming Offer")}
                                         </h4>
                                         <h2 className="animated fw-900">
-                                            Big Deals From
+                                            {t("Big Deals From")}
                                         </h2>
                                         <h1 className="animated fw-900 text-8">
-                                            Manufacturer
+                                            {t("Manufacturer")}
                                         </h1>
                                         <p className="animated">
-                                            Clothing, Shoes, Bags, Wallets...
+                                            {t("Clothing, Shoes, Bags, Wallets...")}
                                         </p>
                                         <Link href="/products">
                                             <a className="animated btn btn-brush btn-brush-1">
-                                                Shop Now
+                                                {t("Shop Now")}
                                             </a>
                                         </Link>
                                     </div>

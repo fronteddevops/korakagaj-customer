@@ -3,8 +3,10 @@ import services from "../services";
 import { useRouter } from "next/router";
 
 import { ToastContainer, toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export default function Editaddress(props) {
+  const { t } = useTranslation("common");
   const route = useRouter();
   const [fullName, setFullName] = useState("");
 
@@ -184,7 +186,7 @@ export default function Editaddress(props) {
       >
         <div className="card">
           <div className=" d-flex justify-content-between card-header">
-            <h5>Edit Address</h5>
+            <h5>{t("Edit Address")}</h5>
             <span>
               <input
                 className="form-check-input"
@@ -201,7 +203,7 @@ export default function Editaddress(props) {
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>
-                    Full Name
+                    {t("Full Name")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -210,7 +212,7 @@ export default function Editaddress(props) {
                     type="text"
                     value={fullName}
                     // placeholder="Enter Full Name"
-                    placeholder={`Enter Full Name ${fullName}`}
+                    placeholder={t("Enter Full Name") + fullName}
                     onChange={(e) => {
                       setFullName(e.target.value);
                       if (!e.target.value.trim()) {
@@ -236,7 +238,7 @@ export default function Editaddress(props) {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    Phone Number
+                    {t("Phone Number")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -245,7 +247,7 @@ export default function Editaddress(props) {
                     name="phone"
                     type="number"
                     value={phoneNumber}
-                    placeholder={`Enter Phone Number ${phoneNumber}`}
+                    placeholder={t("Enter Phone Number") + phoneNumber}
                     onChange={handleInputChange}
                     onPaste={handlePaste}
                     min="0"
@@ -277,7 +279,7 @@ export default function Editaddress(props) {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    Pin Code
+                    {t("Pin Code")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -286,7 +288,7 @@ export default function Editaddress(props) {
                     name="pincode"
                     type="number"
                     value={pinCode}
-                    placeholder={`Enter Pin Code ${pinCode}`}
+                    placeholder={t("Enter Pin Code") + pinCode}
                     onChange={handlePinCodeInputChange}
                     onPaste={handlePinCodePaste}
                     min="0"
@@ -318,7 +320,7 @@ export default function Editaddress(props) {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    State
+                    {t("State")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -327,7 +329,7 @@ export default function Editaddress(props) {
                     name="state"
                     type="text"
                     value={state}
-                    placeholder={`Enter Sate ${state}`}
+                    placeholder={t("Enter Sate")+ state}
                     onChange={(e) => {
                       setState(e.target.value);
                       if (!e.target.value.trim()) {
@@ -353,7 +355,7 @@ export default function Editaddress(props) {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    City
+                    {t("City")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -362,7 +364,7 @@ export default function Editaddress(props) {
                     name="city"
                     type="text"
                     value={city}
-                    placeholder={`Enter City ${city}`}
+                    placeholder={t("Enter City") + city}
                     onChange={(e) => {
                       setCity(e.target.value);
                       if (!e.target.value.trim()) {

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import services from "../services";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 export default function Addaddress() {
+  const { t } = useTranslation("common");
   const route = useRouter();
   const [fullName, setFullName] = useState("");
 
@@ -147,7 +149,7 @@ export default function Addaddress() {
       >
         <div className="card">
           <div className=" d-flex justify-content-between card-header">
-            <h5>Add Address</h5>
+            <h5>{t("Add Address")}</h5>
             <span>
               <input
                 className="form-check-input"
@@ -165,7 +167,7 @@ export default function Addaddress() {
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>
-                    Full Name
+                    {t("Full Name")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -173,7 +175,7 @@ export default function Addaddress() {
                     name="full name"
                     type="text"
                     value={fullName}
-                    placeholder="Enter Full Name"
+                    placeholder={t("Enter Full Name")}
                     onChange={(e) => {
                       setFullName(e.target.value);
 
@@ -203,14 +205,14 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    Phone Number
+                    {t("Phone Number")}
                     <span className="required">*</span>
                   </label>
                   <input
                     type="number"
                     required=""
                     name="phoneNumber"
-                    placeholder="Enter Phone Number"
+                    placeholder={t("Enter Phone Number")}
                     onPaste={handlePaste}
                     onChange={handleInputChange}
                     min="0"
@@ -242,7 +244,7 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    Pin Code
+                    {t("Pin Code")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -251,7 +253,7 @@ export default function Addaddress() {
                     name="pincode"
                     type="number"
                     value={pinCode}
-                    placeholder="Enter Pin Code"
+                    placeholder={t("Enter Pin Code")}
                     onChange={handlePinCodeInputChange}
                     onPaste={handlePinCodePaste}
                     min="0"
@@ -283,7 +285,7 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    State
+                    {t("State")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -292,7 +294,7 @@ export default function Addaddress() {
                     name="state"
                     type="text"
                     value={state}
-                    placeholder="Enter State"
+                    placeholder={t("Enter State")}
                     onChange={(e) => {
                       setState(e.target.value);
                       if (!e.target.value.trim()) {
@@ -318,7 +320,7 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    City
+                    {t("City")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -327,7 +329,7 @@ export default function Addaddress() {
                     name="city"
                     type="text"
                     value={city}
-                    placeholder="Enter City"
+                    placeholder={t("Enter City")}
                     onChange={(e) => {
                       setCity(e.target.value);
                       if (!e.target.value.trim()) {
@@ -353,7 +355,7 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-6">
                   <label>
-                    House No.
+                    {t("House No.")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -362,7 +364,7 @@ export default function Addaddress() {
                     name="houseno"
                     type="text"
                     value={houseNo}
-                    placeholder="Enter House No."
+                    placeholder={t("Enter House No.")}
                     onChange={(e) => {
                       setHouseNo(e.target.value);
                       if (!e.target.value.trim()) {
@@ -388,7 +390,7 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-12">
                   <label>
-                    Address
+                    {t("Address")}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -397,7 +399,7 @@ export default function Addaddress() {
                     name="address"
                     type="address"
                     value={address}
-                    placeholder="Enter Address"
+                    placeholder={t("Enter Address")}
                     onChange={(e) => {
                       setAddress(e.target.value);
                       if (!e.target.value.trim()) {
@@ -429,7 +431,7 @@ export default function Addaddress() {
                        
                       }
                     >
-                      save
+                      {t("Save")}
                     </button>
                   </div>
                 </div>

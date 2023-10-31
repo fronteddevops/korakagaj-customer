@@ -17,8 +17,11 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 import services from "../../services";
+import { useTranslation } from "react-i18next";
+
 
 const Products = ({ products, productFilters }) => {
+  const { t} = useTranslation("common");
   const [fabricList, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
 
@@ -229,7 +232,7 @@ const Products = ({ products, productFilters }) => {
 
   return (
     <>
-      <Layout parent="Home" sub={<><a   href="/products"> product</a></>} subSub={<>
+      <Layout parent={t("Home")} sub={<><a   href="/products"> {t("Product")}</a></>} subSub={<>
         <Link href="/products/[slug]" as={`/products/${id}`}>
 <a>
 {prodcutName}
@@ -238,7 +241,7 @@ const Products = ({ products, productFilters }) => {
 </Link>
 <span></span>    
       </>} 
-      subChild="select Fabric"  >
+      subChild={t("Select Fabric")}  >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -249,7 +252,7 @@ const Products = ({ products, productFilters }) => {
               >
                 <div className="sidebar-widget price_range range mb-30">
                   <div className="widget-header position-relative mb-20 pb-10">
-                    <h5 className="widget-title mb-10">Filter Fabric</h5>
+                    <h5 className="widget-title mb-10">{t("Filter Fabric")}</h5>
                     <div className="bt-1 border-color-1"></div>
                   </div>
 
@@ -261,7 +264,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Weight
+                          {t("Weight")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -297,7 +300,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Fabric Type
+                          {t("Fabric Type")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -338,7 +341,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Print Type
+                          {t("Print Type")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -375,7 +378,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Usage
+                          {t("Usage")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -413,7 +416,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Properties
+                          {t("Properties")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -451,7 +454,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Handle
+                          {t("Handle")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -489,7 +492,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Construction
+                          {t("Construction")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -527,7 +530,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Transparency
+                          {t("Transparency")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -565,7 +568,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Reflection
+                          {t("Reflection")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -603,11 +606,11 @@ const Products = ({ products, productFilters }) => {
                   <div className="totall-product">
                   
                      
-                        We found
+                        {t("We found")}
                         <strong className="text-brand">
                           {filterFabric.length}
                         </strong>
-                        items for you! &nbsp;&nbsp;
+                        {t("items for you!")} &nbsp;&nbsp;
             
                  
 
@@ -616,7 +619,7 @@ const Products = ({ products, productFilters }) => {
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
                       style={{cursor:"pointer"}}
                     >
-                      Show Filters
+                      {t("Show Filters")}
                     </a>
                   </div>
                   {/* <div className="sort-by-product-area">
@@ -627,7 +630,7 @@ const Products = ({ products, productFilters }) => {
                 </div>
                 <div className="row product-grid-3">
                   {filterFabric.length === 0 && <h3 > <strong className="text-brand">  
-                       No Fabric Found  </strong></h3>}
+                       {t("No Fabric Found")}  </strong></h3>}
 
                       { getPaginatedProducts.length>0  && getPaginatedProducts?.map((item, i) => (
                         <div
