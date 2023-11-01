@@ -9,6 +9,7 @@ import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from './../elements/Loader';
 import nextConfig from "../../next.config";
 import services from "../../services";
+import { useTranslation } from "react-i18next";
 
 
 const SingleProduct = ({
@@ -32,6 +33,7 @@ const SingleProduct = ({
     setUserId(data1?.User?.id)
   }
 
+  const { t, i18n } = useTranslation("common");
 
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
@@ -163,12 +165,12 @@ const SingleProduct = ({
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
-                {product?.productType == 1 ? <span className="hot">Hot Deals </span> : null}
+                {product?.productType == 1 ? <span className="hot">{t("Hot Deals")} </span> : null}
 
-                {product?.productType == 0 ? <span className="hot">New Product </span> : null}
+                {product?.productType == 0 ? <span className="hot">{t("New Product")} </span> : null}
 
-                {product?.productType == 2 ? <span className="hot">Best Seller </span> : null}
-                {product?.productType == 3 ? <span className="hot">UP  Coming </span> : null}
+                {product?.productType == 2 ? <span className="hot">{t("Best Seller")} </span> : null}
+                {product?.productType == 3 ? <span className="hot">{t("UP  Coming")} </span> : null}
 
 
 

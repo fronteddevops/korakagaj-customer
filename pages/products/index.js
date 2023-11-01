@@ -35,7 +35,8 @@ const Products = ({ products1, productFilters }) => {
   const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
   const [toggle,setToggle]=useState(true)
-
+  const [productType,setProdcutType]=useState("")
+  const [prodcutprice,setProdcutPrice]=useState("")
 
   let Router = useRouter(),
     searchTerm = Router.query.search,
@@ -63,6 +64,8 @@ const Products = ({ products1, productFilters }) => {
   }, [
     categoryId,
     selectedSubSubCategories,
+  productType,
+    prodcutprice,
     selectedColors,
     selectedSizes,
     price,
@@ -127,7 +130,8 @@ const Products = ({ products1, productFilters }) => {
     const data = {
       subSubCategory: selectedSubSubCategories,
       categoryId: categoryId,
-
+      productType:productType,
+      order:prodcutprice,
       maxPrice: price.value.max,
       minPrice: price.value.min,
       color: selectedColors,
@@ -381,23 +385,28 @@ setToggle(false)
   const handleChange = (selectedValue) => {
     // Call the appropriate function based on the selected value
     switch (selectedValue) {
-      case "newProduct":
-        featuredProduct();
+      case "0":
+       setProdcutType("0")
         break;
-      case "hotDeals":
-        trendingProduct();
+      case "1":
+        setProdcutType("1")
         break;
-      case "bestSeller":
-        newArrivalProduct();
+      case "2":
+        setProdcutType("2")
         break;
       case "LowToHigh":
-        LowToHigh();
+        setProdcutPrice("asc")
+        setProdcutType("")
         break;
       case "HighToLow":
-        HighToLow();
+        setProdcutPrice("desc")
+        setProdcutType("")
         break;
       case "Default":
-        default1();
+        prodcutFilters();
+        setProdcutType("")
+        setProdcutPrice("")
+        break;
       // Handle additional cases if needed
       default:
         break;
@@ -676,9 +685,9 @@ setToggle(false)
                             }
                           >
                             <option value="Default">{t("Default")}</option>
-                            <option value="newProduct">{t("New Product")}</option>
-                            <option value="hotDeals">{t("Hot Deals")}</option>
-                            <option value="bestSeller">{t("Best Seller")}</option>
+                            <option value="0">{t("New Product")}</option>
+                            <option value="1">{t("Hot Deals")}</option>
+                            <option value="2">{t("Best Seller")}</option>
                             <option value="LowToHigh">{t("Low To High")}</option>
                             <option value="HighToLow">{t("High To Low")}</option>
                           </select>

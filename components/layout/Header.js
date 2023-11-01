@@ -65,7 +65,7 @@ const Header = ({ toggleClick, headerStyle }) => {
 
   useEffect(() => {
    const langdata= sessionStorage.getItem("lang")
-   console.log("kkkkkkkkkkkkkkkkkk",langdata)
+  
     setLang(langdata)
     handleLang();
     GetWishlistdata();
@@ -82,7 +82,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     try {
       const response = await service.myprofile.GET_MY_PROFILE();
       if (response) {
-        console.log(response, "==================");
+       
         setFirstName(response?.data?.data?.firstName);
         setLastName(response?.data?.data?.lastName);
       }
