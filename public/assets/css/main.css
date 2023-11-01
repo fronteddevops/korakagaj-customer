@@ -2073,13 +2073,13 @@ label {
   body{
     font-size: 12px !important;
   }
-  .product-cart-wrap.fabric .product-action-1.show{
+  /* .product-cart-wrap.fabric .product-action-1.show{
     bottom: 36px !important;
   
   }
   .product-cart-wrap .product-action-1.show{
     bottom: 6px !important;
-  }
+  } */
 
   .shop-product-fillter .sort-by-product-area .sort-by-product-wrap{
     padding: 4px 10px !important;
@@ -3535,14 +3535,18 @@ table .product-thumbnail img {
   position: relative;
   background-color: #fff;
   padding: 10px 12px;
-  overflow: hidden;
-  max-height: 320px;
+  /* overflow: hidden; */
+  max-height: 270px;
+  min-height: 270px;
 }
 
 .product-cart-wrap .product-img-action-wrap .product-img {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  border: 1px solid #E74C2650;
 }
 
 .product-cart-wrap .product-img-action-wrap .product-img a {
@@ -3550,11 +3554,17 @@ table .product-thumbnail img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  min-height: 250px;
+  max-height: 250px;
 }
 
 .product-cart-wrap .product-img-action-wrap .product-img a img {
   width: 100%;
   border-radius: 10px;
+  min-height: 250px;
+  max-height: 250px;
+  object-fit: cover;
+  object-position: top;
 }
 
 .product-cart-wrap .product-img-action-wrap .product-img a img.hover-img {
@@ -3584,7 +3594,15 @@ table .product-thumbnail img {
   transition: all .3s ease 0s;
   z-index: 9;
 }
+@media screen and (max-width:800px) {
+  .product-cart-wrap .product-action-1 {
+    position: relative;
+    right: 0 !important;
+    bottom: 0 !important;
+  }
 
+  
+}
 .product-cart-wrap .product-action-1.show {
   visibility: visible;
   opacity: 1;
@@ -3757,6 +3775,8 @@ table .product-thumbnail img {
 .product-cart-wrap .product-content-wrap h2 {
   font-size: 14.5px;
   font-weight: 600;
+  height: 55px;
+  overflow: hidden;
 }
 
 .product-cart-wrap .product-content-wrap h2 a {
@@ -3769,6 +3789,9 @@ table .product-thumbnail img {
 
 .product-cart-wrap .product-content-wrap .product-price {
   padding-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .product-cart-wrap .product-content-wrap .product-price span {

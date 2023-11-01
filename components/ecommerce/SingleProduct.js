@@ -131,7 +131,7 @@ const SingleProduct = ({
         <>
           <div className="product-cart-wrap mb-30">
             <div className="product-img-action-wrap">
-              <div className="product-img product-img-zoom" style={{ backgroundColor: '#f2f2f2', width: '270px', height: '250 px' }}>
+              <div className="product-img product-img-zoom" style={{ height: '250 px' }}>
                 <Link href="/products/[slug]" as={`/products/${product?.id}`}>
                   <a>
                     <img
@@ -139,7 +139,7 @@ const SingleProduct = ({
                       src={imageUrl + product?.featuredImage}
                       crossOrigin="anonymous"
                       alt=""
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      
                     />
                   </a>
                 </Link>

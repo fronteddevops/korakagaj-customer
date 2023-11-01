@@ -70,7 +70,7 @@ const NewArrival = () => {
                 },
                 1024: {
                     // width: 768,
-                    slidesPerView: 6,
+                    slidesPerView: 4,
                     spaceBetween:20,
                   },
               }}
