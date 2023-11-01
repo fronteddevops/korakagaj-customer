@@ -63,7 +63,7 @@ const ProductsFullWidth = ({ products, productFilters }) => {
     };
     return (
         <>
-            <Layout parent="Home" sub="Shop" subChild="Filter">
+            <Layout parent={t("Home")} sub={t("Shop")} subChild={("Filter")}>
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
@@ -74,11 +74,11 @@ const ProductsFullWidth = ({ products, productFilters }) => {
                                 <div className="shop-product-fillter">
                                     <div className="totall-product">
                                         <p>
-                                            We found
+                                            {t("We found")}
                                             <strong className="text-brand">
                                                 {products.items.length}
                                             </strong>
-                                            items for you!
+                                            {t("items for you!")}
                                         </p>
                                     </div>
                                     <div className="sort-by-product-area">
@@ -95,7 +95,7 @@ const ProductsFullWidth = ({ products, productFilters }) => {
                                 </div>
                                 <div className="row product-grid-3">
                                     {getPaginatedProducts.length === 0 && (
-                                        <h3>No Products Found </h3>
+                                        <h3>{t("No Products Found")} </h3>
                                     )}
 
                                     {getPaginatedProducts.map((item, i) => (

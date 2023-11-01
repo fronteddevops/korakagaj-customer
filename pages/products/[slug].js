@@ -8,8 +8,10 @@ import { Router, useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const ProductId = ({ product }) => {
+  const { t} = useTranslation("common");
   const [data, setData] = useState([]);
   const router = useRouter();
   // const id = router.query.slug;
@@ -48,7 +50,7 @@ const ProductId = ({ product }) => {
   return (
     <>
       {data && data?.length > 0 && (
-        <Layout parent="Home" sub={<><a href="/products"> product</a></>} subChild={data?.productName}>
+        <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={data?.productName}>
           <div className="container">
             <ProductDetails product={data} fabricPrice={newFabricPrice} />
           </div>

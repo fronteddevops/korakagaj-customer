@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Link from "next/link";
 import services from "../../services";
+import { useTranslation } from "react-i18next";
 
 const Deals1 = () => {
+  const { t } = useTranslation("common");
   const [data, setData] = useState([]);
  const [width,setWidth]=useState()
   useEffect(() => {
@@ -60,8 +62,8 @@ const Deals1 = () => {
             }}
           >
             <div className="deal-top">
-              <h2 className="text-brand">Deal of the Day</h2>
-              <h5>Limited quantities.</h5>
+              <h2 className="text-brand">{t("Deal of the Day")}</h2>
+              <h5>{t("Limited quantities.")}</h5>
             </div>
             <div className="deal-content">
               <h6 className="product-title">
@@ -75,7 +77,7 @@ const Deals1 = () => {
               </div>
             </div>
             <div className="deal-bottom">
-              <p>Hurry Up! Offer Ends In:</p>
+              <p>{t("Hurry Up! Offer Ends In:")}</p>
 
               {product.upComingDate && (
                 <Timer endDateTime={endDateTime} />
@@ -83,7 +85,7 @@ const Deals1 = () => {
 
               <Link href="/products">
                 <a className="btn hover-up">
-                  Shop Now <i className="fi-rs-arrow-right"></i>
+                  {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
                 </a>
               </Link>
             </div>

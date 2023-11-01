@@ -11,6 +11,7 @@ import Loader from './../elements/Loader';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import nextConfig from "../../next.config";
+import { useTranslation } from "react-i18next";
 
 
 const SingleProduct = ({
@@ -34,7 +35,7 @@ const SingleProduct = ({
             setLoading(false);
         }, 2000);
     }, []);
-
+    const { t } = useTranslation("common");
     const fabricPrice = length * (parseFloat(product?.price) || 0);
     const newbasePrice = fabricPrice + +basePrice;
     const discountAmount = discountPercentage === null || discountPercentage === 0 ? discountPercentage : 0;
@@ -43,9 +44,9 @@ const SingleProduct = ({
     // Check if newTotalPrice is NaN and set a default value if it is
     const popover = (
         <Popover id="popover-basic">
-            <Popover.Header as="h3">Estimated Price</Popover.Header>
+            <Popover.Header as="h3">{t("Estimated Price")}</Popover.Header>
             <Popover.Body>
-                Your product's estimated final price will be <strong className="text-brand">Rs :{newTotalPrice
+                {t("Your product's estimated final price will be")} <strong className="text-brand">Rs :{newTotalPrice
 
 
                 }</strong>.

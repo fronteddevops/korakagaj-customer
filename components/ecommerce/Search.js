@@ -4,7 +4,9 @@ import React, { useState, useEffect } from "react";
 import services from "../../services";
 import Link from "next/link";
 import nextConfig from "../../next.config";
+import { useTranslation } from "react-i18next";
 const Search = () => {
+  const { t } = useTranslation("common");
     const [searchTerm, setSearchTerm] = useState("");
     const [prodcut,setProdcut]=useState([])
     const router = useRouter();
@@ -64,7 +66,7 @@ const Search = () => {
           }
         }}
         type="text"
-        placeholder="Search"
+        placeholder={t("Search")}
       />
     </span>
 

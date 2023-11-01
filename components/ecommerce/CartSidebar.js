@@ -43,7 +43,7 @@ const CartSidebar = ({
                         </span>
                         {cartItems.length > 0
                             ? `${cartItems.length} items`
-                            : "No Products"}
+                            : t("No Products")}
                     </div>
                     <span className="close-cart-sidebar" onClick={closeCart}>
                         <i className="fas fa-times"></i>

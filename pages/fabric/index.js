@@ -17,8 +17,11 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 import services from "../../services";
+import { useTranslation } from "react-i18next";
+
 
 const Products = ({ products, productFilters }) => {
+  const { t} = useTranslation("common");
   const [fabricList, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
 
@@ -55,82 +58,82 @@ const Products = ({ products, productFilters }) => {
   );
   //fabric aaray
   const fabricType = [
-    "Cotton",
-    "Silk",
-    "Linen",
-    "Silk/Cotton",
-    "Wool",
-    "Viscose",
-    "Tencel",
-    "Modal",
-    "Bemberg",
-    "Cashmere",
-    "Nylon",
-    "Neoprene",
-    "Tencel/Cotton/Elastane",
-    "Polyester/Elastane",
-    "Polyester/Lycra",
-    "Cotton/Linen",
-    "Viscose/Elastane",
-    "Cotton/Elastane",
-    "Polyester/Cotton",
+    t("Cotton"),
+    t("Silk"),
+    t("Linen"),
+    t("Silk/Cotton"),
+    t("Wool"),
+    t("Viscose"),
+    t("Tencel"),
+    t("Modal"),
+    t("Bemberg"),
+    t("Cashmere"),
+    t("Nylon"),
+    t("Neoprene"),
+    t("Tencel/Cotton/Elastane"),
+    t("Polyester/Elastane"),
+    t("Polyester/Lycra"),
+    t("Cotton/Linen"),
+    t("Viscose/Elastane"),
+    t("Cotton/Elastane"),
+    t("Polyester/Cotton"),
      
   ];
-  const weight = ["Light(20-100gsm)","Medium(101-249gsm)","Heavy(250-gsm)"];
-  const printType = ["Reactive","pigment","sublimation"];
+  const weight = [t("Light(20-100gsm)"),t("Medium(101-249gsm)"),t("Heavy(250-gsm)")];
+  const printType = [t("Reactive"),t("pigment"),t("sublimation")];
   const usage = [
-    "Quilting",
-    "Furnishing/Upholstery",
-    "Cushions/Bedding ",
-    "Clothing/Dressmaking",
-    "Home/decor/interiors",
-    "Crafting",
-    "Lining",
-    "Scarves",
-    "Bridal/Wedding",
-    "Cashmere",
-    "Cushions",
-    "Suit",
-    "Trousers",
-    "TechnicaL",
-    "Cosplay",
+    t("Quilting"),
+    t("Furnishing/Upholstery"),
+    t("Cushions/Bedding"),
+    t("Clothing/Dressmaking"),
+    t("Home/decor/interiors"),
+    t("Crafting"),
+    t("Lining"),
+    t("Scarves"),
+    t("Bridal/Wedding"),
+    t("Cashmere"),
+    t("Cushions"),
+    t("Suit"),
+    t("Trousers"),
+    t("TechnicaL"),
+    t("Cosplay"),
     
-    "Sports",
-    "Swimwear",
-    "Tracksuits",
-    "Accessories/Bags",
-    "Shirting",
-    "Outdoor",
+    t("Sports"),
+    t("Swimwear"),
+    t("Tracksuits"),
+    t("Accessories/Bags"),
+    t("Shirting"),
+    t("Outdoor"),
   ];
   const properties = [
-    "Waterproof",
-    "Fire/retardant",
-    "Non-Fray",
-    "Water/Resistant",
-    "Durable",
-    "Certified/Organic",
-    "Vegan",
-    "Stretch",
-    "Wicking",
-    "Recycled",
+    t("Waterproof"),
+    t("Fire/retardant"),
+    t("Non-Fray"),
+    t("Water/Resistant"),
+    t("Durable"),
+    t("Certified/Organic"),
+    t("Vegan"),
+    t("Stretch"),
+    t("Wicking"),
+    t("Recycled"),
   ];
-  const handle = ["Soft","Stiff","Silky","Smooth","Fluffy","Coarse"];
+  const handle = [t("Soft"),t("Stiff"),t("Silky"),t("Smooth"),t("Fluffy"),t("Coarse")];
   const transparency = [
-    "Mesh/Net",
-    "Opaque",
-    "Blackout",
-    "Semi-transparent/sheer",
+    t("Mesh/Net"),
+    t("Opaque"),
+    t("Blackout"),
+    t("Semi-transparent/sheer"),
   ];
-  const reflection = ["Shiny","Mat"];
+  const reflection = [t("Shiny"),t("Mat")];
   const construction = [
-  "Woven/Stretchy",
-    "Woven/Non-stretch",
-    "Twill",
-    "knitted",
-    "Satin",
-    "Crepe",
-    "Canvas",
-    "Velvet",
+  t("Woven/Stretchy"),
+    t("Woven/Non-stretch"),
+    t("Twill"),
+    t("knitted"),
+    t("Satin"),
+    t("Crepe"),
+    t("Canvas"),
+    t("Velvet"),
   ];
   
   
@@ -229,7 +232,7 @@ const Products = ({ products, productFilters }) => {
 
   return (
     <>
-      <Layout parent="Home" sub={<><a   href="/products"> product</a></>} subSub={<>
+      <Layout parent={t("Home")} sub={<><a   href="/products"> {t("Product")}</a></>} subSub={<>
         <Link href="/products/[slug]" as={`/products/${id}`}>
 <a>
 {prodcutName}
@@ -238,7 +241,7 @@ const Products = ({ products, productFilters }) => {
 </Link>
 <span></span>    
       </>} 
-      subChild="select Fabric"  >
+      subChild={t("Select Fabric")}  >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -249,7 +252,7 @@ const Products = ({ products, productFilters }) => {
               >
                 <div className="sidebar-widget price_range range mb-30">
                   <div className="widget-header position-relative mb-20 pb-10">
-                    <h5 className="widget-title mb-10">Filter Fabric</h5>
+                    <h5 className="widget-title mb-10">{t("Filter Fabric")}</h5>
                     <div className="bt-1 border-color-1"></div>
                   </div>
 
@@ -261,7 +264,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Weight
+                          {t("Weight")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -297,7 +300,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Fabric Type
+                          {t("Fabric Type")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -338,7 +341,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Print Type
+                          {t("Print Type")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -375,7 +378,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Usage
+                          {t("Usage")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -413,7 +416,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Properties
+                          {t("Properties")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -451,7 +454,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Handle
+                          {t("Handle")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -489,7 +492,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Construction
+                          {t("Construction")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -527,7 +530,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Transparency
+                          {t("Transparency")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -565,7 +568,7 @@ const Products = ({ products, productFilters }) => {
                       <Accordion.Header>
                         {" "}
                         <h5 className="font-size-sm w-100 style-1 wow fadeIn animated">
-                          Reflection
+                          {t("Reflection")}
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
@@ -603,11 +606,11 @@ const Products = ({ products, productFilters }) => {
                   <div className="totall-product">
                   
                      
-                        We found
+                        {t("We found")}
                         <strong className="text-brand">
                           {filterFabric.length}
                         </strong>
-                        items for you! &nbsp;&nbsp;
+                        {t("items for you!")} &nbsp;&nbsp;
             
                  
 
@@ -616,7 +619,7 @@ const Products = ({ products, productFilters }) => {
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
                       style={{cursor:"pointer"}}
                     >
-                      Show Filters
+                      {t("Show Filters")}
                     </a>
                   </div>
                   {/* <div className="sort-by-product-area">
@@ -627,7 +630,7 @@ const Products = ({ products, productFilters }) => {
                 </div>
                 <div className="row product-grid-3">
                   {filterFabric.length === 0 && <h3 > <strong className="text-brand">  
-                       No Fabric Found  </strong></h3>}
+                       {t("No Fabric Found")}  </strong></h3>}
 
                       { getPaginatedProducts.length>0  && getPaginatedProducts?.map((item, i) => (
                         <div

@@ -73,7 +73,7 @@ export default function Forgetpassword() {
 
   return (
     <div>
-      <Layout parent="Home" sub="Login">
+      <Layout parent={t("Home")} sub={t("Login")}>
         <section
           className="pt-100 pb-100 bg-image"
           style={{
@@ -89,7 +89,7 @@ export default function Forgetpassword() {
                     <div className="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
                       <div className="padding_eight_all bg-white">
                         <div className="heading_s1">
-                          <h3 className="mb-30">Forgot Password</h3>
+                          <h3 className="mb-30">{t("Forgot Password")}</h3>
                         </div>
                         <form
                           method="post"
@@ -101,7 +101,7 @@ export default function Forgetpassword() {
                             style={{ marginTop: "-1rem" }}
                           >
                             <label>
-                              New Password
+                              {t("New Password")}
                               <span className="required">*</span>
                             </label>
                             <div className="d-flex flex-column align-items-end ">
@@ -109,7 +109,7 @@ export default function Forgetpassword() {
                                 required=""
                                 className="form-control square"
                                 name="npassword"
-                                placeholder="Enter New password"
+                                placeholder={t("Enter New password")}
                                 autoComplete="off"
                                 type={showPassword1 ? "text" : "password"}
                                 onChange={(e) => {
@@ -174,7 +174,7 @@ export default function Forgetpassword() {
                             style={{ marginTop: "-1rem" }}
                           >
                             <label>
-                              Confirm Password
+                              {t("Confirm Password")}
                               <span className="required">*</span>
                             </label>
                             <div className="d-flex flex-column align-items-end ">
@@ -183,7 +183,7 @@ export default function Forgetpassword() {
                                 type={showPassword2 ? "text" : "password"}
                                 className="form-control square"
                                 name="cpassword"
-                                placeholder="Enter Confirm password"
+                                placeholder={t("Enter Confirm password")}
                                 autoComplete="off"
                                 onChange={(e) => {
                                   if (e.target.value.trim() === "") {
@@ -265,7 +265,7 @@ export default function Forgetpassword() {
                               }
                               // onClick={handleResetPassword}
                             >
-                              Save
+                            {t("Save")}
                             </button>
                           </div>
                         </form>

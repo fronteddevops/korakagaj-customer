@@ -21,12 +21,12 @@ const CompareModal = ({ compare, closeCompareModal, deleteFromCompare , clearCom
                                         className="clear-btn"
                                         onClick={clearCompare}
                                     >
-                                        Clear All
+                                        {t("Clear All")}
                                     </span>
                                 </div>
                             </>
                         ) : (
-                            <h4>No Products</h4>
+                            <h4>{t("No Products")}</h4>
                         )}
                     </div>
                 </div>

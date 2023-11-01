@@ -1,69 +1,44 @@
-import i18n from 'next-i18next';
+import i18n from "next-i18next";
 import Link from "next/link";
 
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Search from "../ecommerce/Search";
 import service from "../../services";
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import NavDropdown from "react-bootstrap/NavDropdown";
 import ShopWishlist from "../../pages/shop-wishlist";
 import services from "../../services";
-import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
+const Header = ({ toggleClick, headerStyle }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-const Header = ({
-  toggleClick,
-  headerStyle,
-}) => {
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const languages = [
-    {
-      lang: "en",
-      name: "English",
-      // flag: toAbsoluteUrl("/media/flags/united-states.svg"),
-    },
-    {
-      lang: "hi",
-      name: "Hindi",
-      // flag: toAbsoluteUrl("/media/flags/china.svg"),
-    },
-
-  ];
   const { t, i18n } = useTranslation("common");
 
-  // console.log("5555555555",i18n)
-  const changeLanguage = (lng) => {
-
-  };
-  // i18n.changeLanguage(lng);
-
+  
  
 
-  const [lang, setLang] = useState("")
+  const [lang, setLang] = useState("");
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
+
  
 
-  const [totalCartItems, setTotalCartItems] = useState()
-  const [totalWishlistItems, setTotalWishlistItems] = useState()
+  const [totalCartItems, setTotalCartItems] = useState();
+  const [totalWishlistItems, setTotalWishlistItems] = useState();
 
   const GetWishlistdata = async () => {
-
     if (localStorage.getItem("access_token")) {
-
       try {
-
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
 
-        setTotalWishlistItems(WishlistResponse?.data?.data?.length)
-
-
+        setTotalWishlistItems(WishlistResponse?.data?.data?.length);
       } catch (error) {
         // Handle errors here
         console.error("An error occurred:", error);
@@ -71,56 +46,50 @@ const Header = ({
 
       return;
     }
-
-
-  }
-
-
+  };  
+  const hindi=""
+//language change function 
   const handleLang = () => {
-    if (localStorage.getItem("lang") === "Hindi") {
 
-      (i18n.changeLanguage('hi'))
-      const lng = localStorage.getItem("lang")
-      setLang(lng)
+    if (sessionStorage.getItem("lang") === "Hindi") {
+      i18n.changeLanguage("hi");
+      const lng = sessionStorage.getItem("lang");
+      setLang(lng);
+    } else if(sessionStorage.getItem("lang") === "English"){
+      i18n.changeLanguage("en");
+      const lng = sessionStorage.getItem("lang");
+
+      setLang(lng);
     }
-    else {
-
-      (i18n.changeLanguage('en'))
-
-      setLang("English")
-    }
-  }
-
-
+  };
 
   useEffect(() => {
-    handleLang(
-
-    )
-    GetWishlistdata()
-    handleCart()
+   const langdata= sessionStorage.getItem("lang")
+   console.log("kkkkkkkkkkkkkkkkkk",langdata)
+    setLang(langdata)
+    handleLang();
+    GetWishlistdata();
+    handleCart();
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
       if (scrollCheck !== scroll) {
         setScroll(scrollCheck);
       }
     });
-    getProfile()
-
-
-  }, []);
+    getProfile();
+  }, [lang]);
   const getProfile = async () => {
     try {
-      const response = await service.myprofile.GET_MY_PROFILE()
+      const response = await service.myprofile.GET_MY_PROFILE();
       if (response) {
-
-        setFirstName(response?.data?.data?.firstName)
-        setLastName(response?.data?.data?.lastName)
+        console.log(response, "==================");
+        setFirstName(response?.data?.data?.firstName);
+        setLastName(response?.data?.data?.lastName);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleToggle = () => {
     CategoryList();
@@ -131,9 +100,7 @@ const Header = ({
     const response = await service.category.GET_CATEGORY();
 
     setCategoryList(response?.data?.data?.rows);
-  };
-
-  //gt sub category list
+  }
   // Get sub category list
   const subCategoryList = async (id) => {
     const response = await service.subCategory.GET_ALL_SUB_CATEGORY(id);
@@ -150,7 +117,6 @@ const Header = ({
           subCategoryItem.id
         );
 
-
       // Add the fetched subsubcategories to the temporary array
       subSubCategoriesArray.push(...subSubCategoryResponse.data.data.rows);
     }
@@ -159,23 +125,22 @@ const Header = ({
     setSubSubCategory(subSubCategoriesArray);
   };
 
-  //gt sub category list
  
   //user name
 
   const handleCart = async () => {
     if (localStorage.getItem("access_token")) {
       try {
-        const cart = await service.cart.GET_CART()
-        setTotalCartItems(cart.data.data[0]?.cartDetail?.cartDetails?.length)
+        const cart = await service.cart.GET_CART();
+        setTotalCartItems(cart.data.data[0]?.cartDetail?.cartDetails?.length);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-
-
     } else {
-      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-      setTotalCartItems(cart?.cartDetails?.length)
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      setTotalCartItems(cart?.cartDetails?.length);
     }
   };
 
@@ -197,7 +162,7 @@ const Header = ({
                     <li>
                       <i className="fi-rs-marker"></i>
                       <Link href="/page-contact">
-                        <a>Basti, UP, India</a>
+                        <a>{t("Basti, UP, India")}</a>
                       </Link>
                     </li>
                   </ul>
@@ -208,10 +173,9 @@ const Header = ({
                   <div id="news-flash" className="d-inline-block">
                     <ul>
                       <li>
-                        Get great offer up to 50% off
+                        {t("Get great offer up to 50% off")}
                         <Link href="/products">
-                          <a> View details</a>
-
+                          <a> {t("View detail")}</a>
                         </Link>
                       </li>
                     </ul>
@@ -220,13 +184,12 @@ const Header = ({
               </div>
               <div className="col-xl-3 col-lg-4">
                 <div className="header-info header-info-right">
-
                   <ul>
                     <li>
                       <Link href="/#">
                         <a className="language-dropdown-active">
                           <i className="fi-rs-world"></i>
-                          {lang && (<span>{lang}</span>)}
+                          {lang && <span>{lang}</span>}
                           <i className="fi-rs-angle-small-down"></i>
                         </a>
                       </Link>
@@ -234,19 +197,16 @@ const Header = ({
                         <li>
                           <Link href="/#">
                             <a
-
                               onClick={() => {
-                                i18n.changeLanguage('hi')
-                                setLang("Hindi")
-                                localStorage.setItem('lang', "Hindi")
-                              }
-                              }
+                                i18n.changeLanguage("hi");
+                                setLang("Hindi");
+                                sessionStorage.setItem("lang", "Hindi");
+                              }}
                             >
                               <img
                                 src="/assets/imgs/theme/India-flag.png"
                                 alt=""
                               />
-
                               Hindi
                             </a>
                           </Link>
@@ -255,53 +215,63 @@ const Header = ({
                           <Link href="/#">
                             <a
                               onClick={() => {
-                                i18n.changeLanguage('en')
-                                setLang("English")
-                                localStorage.setItem("lang", "English")
+                                i18n.changeLanguage("en");
+                                setLang("English");
+                                sessionStorage.setItem("lang", "English");
                               }}
                             >
                               <img
-                                src="/assets/imgs/theme/English-flag.png" height="10px" width="20px"
-
+                                src="/assets/imgs/theme/English-flag.png"
+                                height="10px"
+                                width="20px"
                               />
                               English
                             </a>
                           </Link>
                         </li>
-
                       </ul>
                     </li>
                     <li>
                       <i className="fi-rs-user"></i>
-                      {lastName && firstName ? (<NavDropdown
-                        id="nav-dropdown-light-example"
-                        title={`${(firstName?.length > 15 ? firstName?.substring(0, 15) + ".." : firstName)} ${(lastName?.length > 15 ? lastName?.substring(0, 15) + ".." : lastName)}`}
-                        menuVariant="light"
-                        className="profile-dropdown"
-                      >
-                        <NavDropdown.Item href="/myprofile?index=2">My Orders</NavDropdown.Item>
-                        <NavDropdown.Item href="/myprofile?index=4">
-                          My Address
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/myprofile?index=5">My Profile</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="/"
-                          onClick={() => {
-                            localStorage.clear()
-                          }}
+                      {lastName && firstName ? (
+                        <NavDropdown
+                          id="nav-dropdown-light-example"
+                          title={`${
+                            firstName?.length > 15
+                              ? firstName?.substring(0, 15) + ".."
+                              : firstName
+                          } ${
+                            lastName?.length > 15
+                              ? lastName?.substring(0, 15) + ".."
+                              : lastName
+                          }`}
+                          menuVariant="light"
+                          className="profile-dropdown"
                         >
-                          Logout
-                        </NavDropdown.Item>
-                      </NavDropdown>
-
-
+                          <NavDropdown.Item href="/myprofile?index=2">
+                          {t("My Orders")}
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="/myprofile?index=4">
+                          {t("My Address")}
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="/myprofile?index=5">
+                          {t("My Profile")}
+                          </NavDropdown.Item>
+                          <NavDropdown.Divider />
+                          <NavDropdown.Item
+                            href="/"
+                            onClick={() => {
+                              localStorage.clear();
+                            }}
+                          >
+                          {t("Logout")}
+                          </NavDropdown.Item>
+                        </NavDropdown>
                       ) : (
                         <Link href="/login">
-                          <a>Log In / Sign Up</a>
+                          <a>{t("Log In")}/{t("Sign Up")}</a>
                         </Link>
-                      )
-                      }
-
+                      )}
                     </li>
                   </ul>
                 </div>
@@ -339,10 +309,10 @@ const Header = ({
                           />
                           <span className="pro-count blue">
                             {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                          </span >
-                        </a >
-                      </Link >
-                    </div >
+                          </span>
+                        </a>
+                      </Link>
+                    </div>
                     <div className="header-action-icon-2">
                       <Link href="/shop-cart">
                         <a className="mini-cart-icon">
@@ -356,12 +326,12 @@ const Header = ({
                         </a>
                       </Link>
                     </div>
-                  </div >
-                </div >
-              </div >
-            </div >
-          </div >
-        </div >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           className={
             scroll
@@ -385,7 +355,7 @@ const Header = ({
                     onClick={handleToggle}
                   >
                     <span className="fi-rs-apps"></span>
-                    Browse Categories
+                    {t("Browse Categories")}
                   </a>
 
                   <div
@@ -401,7 +371,7 @@ const Header = ({
                           categoryList.map((item) => (
                             // Remove curly braces around item.categoryName
 
-                            <Link href="/products">
+                            <Link href="/products/shop-grid-right">
                               <a
                                 key={item.id}
                                 onMouseEnter={() => subCategoryList(item.id)}
@@ -421,11 +391,8 @@ const Header = ({
                                     <li className="mega-menu-col col-lg-6">
                                       <ul>
                                         <li>
-
-
                                           <span className="submenu-title">
                                             {item.subCategoryName}
-
                                           </span>
                                         </li>
 
@@ -443,11 +410,10 @@ const Header = ({
                                   ))}
                               </ul>
                             </li>
-
-
                           </ul>
                         </div>
                       </li>
+                   
 
                     </ul>
                   </div>
@@ -457,71 +423,69 @@ const Header = ({
                     <ul>
                       <li>
                         <Link href="/">
-                          <a className="active">
-                            Home
-                          </a>
+                          <a className="active">{t("Home")}</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/page-about">
-                          <a>About</a>
+                          <a>{t("About")}</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/products">
-                          <a>Shop</a>
+                          <a>{t("Shop")}</a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/blog-category-grid">
                           <a>
-                            Blog
+                          {t("Blog")}
                             <i className="fi-rs-angle-down"></i>
                           </a>
                         </Link>
                         <ul className="sub-menu">
                           <li>
                             <Link href="/blog-category-grid">
-                              <a>Blog Category Grid</a>
+                              <a>{t("Blog Category Grid")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-list">
-                              <a>Blog Category List</a>
+                              <a>{t("Blog Category List")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-big">
-                              <a>Blog Category Big</a>
+                              <a>{t("Blog Category Big")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-fullwidth">
-                              <a>Blog Category Wide</a>
+                              <a>{t("Blog Category Wide")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/#">
                               <a>
-                                Single Post
+                                {t("Single Post")}
                                 <i className="fi-rs-angle-right"></i>
                               </a>
                             </Link>
                             <ul className="level-menu level-menu-modify">
                               <li>
                                 <Link href="/blog-post-left">
-                                  <a>Left Sidebar</a>
+                                  <a>{t("Left Sidebar")}</a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-right">
-                                  <a>Right Sidebar</a>
+                                  <a>{t("Right Sidebar")}</a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-fullwidth">
-                                  <a>No Sidebar</a>
+                                  <a>{t("No Sidebar")}</a>
                                 </Link>
                               </li>
                             </ul>
@@ -531,13 +495,13 @@ const Header = ({
 
                       <li>
                         <Link href="/page-contact">
-                          <a>Our Team</a>
+                          <a>{t("Our Team")}</a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/page-contact">
-                          <a>Contact</a>
+                          <a>{t("Contact")}</a>
                         </Link>
                       </li>
                     </ul>
@@ -557,7 +521,6 @@ const Header = ({
               </p> */}
               <div className="header-action-right d-block d-lg-none">
                 <div className="header-action-2">
-
                   <div className="header-action-icon-2">
                     <Link href="/shop-wishlist">
                       <a>
@@ -567,10 +530,10 @@ const Header = ({
                         />
                         <span className="pro-count white">
                           {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                        </span >
-                      </a >
-                    </Link >
-                  </div >
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
                   <div className="header-action-icon-2">
                     <Link href="/shop-cart">
                       <a className="mini-cart-icon">
@@ -583,7 +546,6 @@ const Header = ({
                         </span>
                       </a>
                     </Link>
-
                   </div>
                   <div className="header-action-icon-2 d-block d-lg-none">
                     <div
@@ -595,17 +557,14 @@ const Header = ({
                       <span className="burger-icon-bottom"></span>
                     </div>
                   </div>
-                </div >
-              </div >
-            </div >
-          </div >
-        </div >
-
-      </header >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
     </>
   );
 };
-
-
 
 export default Header;

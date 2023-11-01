@@ -7,9 +7,11 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 function Register() {
  
   const route = useRouter()
+  const { t } = useTranslation("common");
   //error handling
 
   const [firstNameError, setFirstNameError] = useState("");
@@ -157,7 +159,7 @@ function Register() {
         draggable
         pauseOnHover
       />
-      <Layout parent="Home" sub="Register">
+      <Layout parent={t("Home")} sub={t("Register")}>
         <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
 
           <div className="container">
@@ -169,17 +171,11 @@ function Register() {
                       <div className="padding_eight_all bg-white">
                         <div className="heading_s1">
                           <h3 className="mb-30">
-                            Create an Account
+                            {t("Create an Account")}
                           </h3>
                         </div>
                         <p className="mb-50 font-sm">
-                          Your personal data will be
-                          used to support your
-                          experience throughout this
-                          website, to manage access to
-                          your account, and for other
-                          purposes described in our
-                          privacy policy
+                          {t("Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy")}
                         </p>
 
 
@@ -192,7 +188,7 @@ function Register() {
                               type="text"
                               required=""
                               name="firstname"
-                              placeholder="First Name"
+                              placeholder={t("First Name")}
                               value={firstName}
                               onChange={(e) => {
                                 setFirstName(e.target.value.trimStart()); // Trim whitespace before setting
@@ -227,7 +223,7 @@ function Register() {
                               type="text"
                               required=""
                               name="lastName"
-                              placeholder="Last Name"
+                              placeholder={t("Last Name")}
                               value={lastName}
                               onChange={(e) => {
                                 setLastName(e.target.value.trim()); // Trim whitespace before setting
@@ -262,7 +258,7 @@ function Register() {
                               type="number"
                               required=""
                               name="phoneNumber"
-                              placeholder="Phone Number"
+                              placeholder={t("Phone Number")}
                               onChange={handleInputChange}
                               min="0"
                               onKeyDown={(e) => {
@@ -301,7 +297,7 @@ function Register() {
                               type="email"
                               required=""
                               name="email"
-                              placeholder="Email"
+                              placeholder={t("Email")}
                               value={emailRegister}
                               onChange={(e) => {
                                 setEmailRegister(e.target.value.trim()); // Trim whitespace before setting
@@ -334,7 +330,7 @@ function Register() {
                               required=""
                               type={passwordVisible ? "text" : "password"}
                               name="password"
-                              placeholder="Password"
+                              placeholder={t("Password")}
                               value={passwordRegister}
                               onChange={(e) => {
                                 setPasswordConfirmError("")
@@ -384,7 +380,7 @@ function Register() {
                                   : "password"
                               }
                               name="password"
-                              placeholder="Password Confirm"
+                              placeholder={t("Password Confirm")}
                               value={passwordConfirm}
                               onChange={(e) => {
                                 const passwordValue = e.target.value;
@@ -443,7 +439,7 @@ function Register() {
                                   className="form-check-label"
                                   htmlFor="exampleCheckbox12"
                                 >
-                                  <span>I agree to terms &amp; Policy.</span>
+                                  <span>{t("I agree to terms")} &amp; {t("Policy.")}</span>
                                 </label>
                               </div>
                             </div>
@@ -451,7 +447,7 @@ function Register() {
                             <Link href="/page-privacy-policy">
                               <a>
                                 <i className="fi-rs-book-alt mr-5 text-muted"></i>
-                                Lean more
+                                {t("Lean more")}
                               </a>
                             </Link>
                           </div>
@@ -472,7 +468,7 @@ function Register() {
                                 )
                               }
                             >
-                              Submit &amp; Sing up
+                              {t("Submit")} &amp; {t("Sing up")}
                             </button>
                           </div>
                         </form>
@@ -481,7 +477,7 @@ function Register() {
 
 
                         <div className="divider-text-center mt-15 mb-15">
-                          <span> or</span>
+                          <span> {t("or")}</span>
                         </div>
                         <ul className="btn-login list_none text-center mb-15">
                           <li>
@@ -489,7 +485,7 @@ function Register() {
                               href="#"
                               className="btn btn-facebook hover-up mb-lg-0 mb-sm-4"
                             >
-                              Login With Facebook
+                              {t("Login With Facebook")}
                             </a>
                           </li>
                           <li>
@@ -497,13 +493,13 @@ function Register() {
                               href="#"
                               className="btn btn-google hover-up mt-2"
                             >
-                              Login With Google
+                              {t("Login With Google")}
                             </a>
                           </li>
                         </ul>
                         <div className="text-muted text-center">
-                          Already have an account?{" "}
-                          <a href="/login">Sign in now</a>
+                          {t("Already have an account?")}{" "}
+                          <a href="/login">{t("Sign in now")}</a>
                         </div>
                       </div>
                     </div>

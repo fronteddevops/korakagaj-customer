@@ -18,9 +18,11 @@ import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
 import 'i18next'
+import { useTranslation } from "react-i18next";
 
 
 const Products = ({ products1, productFilters }) => {
+  const { t } = useTranslation("common");
   const [category, setCategory] = useState([]);
   const [subSubcategory, setSubSubCategory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -81,9 +83,9 @@ const Products = ({ products1, productFilters }) => {
   //get prodcut
 
   //color
-  const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
+  const color = [t("red"), t("Blue"), t("Green"), t("Yellow"), t("White"), t("Black"), t("Orange"), t("Purple")];
   //size
-  const sizes = ["", "s", "m", "xl", "xll"];
+  const sizes = ["", t("S"), t("M"), t("XL"), t("XXL")];
   //size function
 
   const handleClick = (i, target) => {
@@ -428,9 +430,9 @@ setToggle(false)
 
   return (
     <>
-      <Layout parent="Home" sub={categoryId ? (<><a href="/categories"> Category</a></>) :
-        <><a href="/products"> shop</a></>} subSub={categoryId && <a href="/categories"> {categoryName} <span></span></a>
-        } subChild="Products">
+      <Layout parent={t("Home")} sub={categoryId ? (<><a href="/categories"> {t("Category")}</a></>) :
+        <><a href="/products"> {t("Shop")}</a></>} subSub={categoryId && <a href="/categories"> {categoryName} <span></span></a>
+        } subChild={t("Products")}>
 
         <section className="mt-50 mb-50">
           <div className="container">
@@ -438,11 +440,11 @@ setToggle(false)
               <div className="shop-product-fillter d-lg-none d-block  ">
                 <div className="totall-product">
                   <p>
-                    We found
+                    {t("We found")}
                     {/* <strong className="text-brand">
                                             {products?.items?.length}
                                         </strong> */}
-                    items for you!
+                    {t("items for you!")}
                   </p>
                 </div>
                 <div className="sort-by-product-area justify-content-between align-items-center">
@@ -451,14 +453,14 @@ setToggle(false)
                     onClick={() => setIsFilterVisible(!isFilterVisible)}
                     style={{ cursor: "pointer" }}
                   >
-                    Show Filters
+                    {t("Show Filters")}
                   </span>
                   <span
                     className="text-brand fw-bold"
                     onClick={() => clearAllFilter()}
                     style={{ cursor: "pointer" }}
                   >
-                    Clear All Filter
+                    {t("Clear All Filter")}
                   </span>
 
                   <div className="sort-by-cover">
@@ -466,19 +468,19 @@ setToggle(false)
                       <div className="sort-by">
                         <span>
                           <i className="fi-rs-apps-sort"></i>
-                          Sort by:
+                          {t('Sort by:')}
                         </span>
                       </div>
                       <div className="sort-by-dropdown-wrap custom-select">
                         <select
                           onChange={(event) => handleChange(event.target.value)}
                         >
-                          <option value="Default">Default</option>
-                          <option value="newProduct">New Product</option>
-                          <option value="hotDeals">Hot Deals</option>
-                          <option value="bestSeller">Best Seller</option>
-                          <option value="LowToHigh">Low To High</option>
-                          <option value="HighToLow">High To Low</option>
+                          <option value="Default">{t("Default")}</option>
+                          <option value="newProduct">{t("New Product")}</option>
+                          <option value="hotDeals">{t("Hot Deals")}</option>
+                          <option value="bestSeller">{t("Best Seller")}</option>
+                          <option value="LowToHigh">{t("Low To High")}</option>
+                          <option value="HighToLow">{t("High To Low")}</option>
                         </select>
                       </div>
                     </div>
@@ -559,7 +561,7 @@ setToggle(false)
 
                   <div className="sidebar-widget price_range range mb-30">
                     <div className="widget-header position-relative mb-20 pb-10">
-                      <h5 className="widget-title mb-10">Filter by price</h5>
+                      <h5 className="widget-title mb-10">{t("Filter by price")}</h5>
                       <div className="bt-1 border-color-1"></div>
                     </div>
 
@@ -595,7 +597,7 @@ setToggle(false)
 
                     <div className="list-group">
                       <div className="list-group-item mb-10 mt-10">
-                        <label className="fw-900">Color</label>
+                        <label className="fw-900">{t("Color")}</label>
                         {/* <BrandFilter /> */}
                         <>
                           <ul className="categories">
@@ -615,7 +617,7 @@ setToggle(false)
                             ))}
                           </ul>
                         </>
-                        <label className="fw-900 mt-15">Item Size</label>
+                        <label className="fw-900 mt-15">{t("Item Size")}</label>
                         <ul className="list-filter size-filter font-small">
                           {sizes.map((tag, i) => (
                             <li
@@ -625,7 +627,7 @@ setToggle(false)
                                 handleClick(i, tag)}}
                               key={i}
                             >
-                              <a>{i == 0 ? "All" : `${tag}`}</a>
+                              <a>{i == 0 ? t("ALL") : `${tag}`}</a>
                             </li>
                           ))}
                         </ul>
@@ -639,7 +641,7 @@ setToggle(false)
                 <div className="shop-product-fillter d-lg-block d-none">
                   <div className="totall-product">
                     <p>
-                      We found
+                      {t("We found")}
                       <strong className="text-brand">
                         {fillter.length > 0 ? (
                           <>{fillter?.length}</>
@@ -647,7 +649,7 @@ setToggle(false)
                           <> {products?.length}</>
                         )}
                       </strong>
-                      items for you!
+                      {t("items for you!")}
                     </p>
                   </div>
                   <div className="sort-by-product-area justify-content-between align-items-center">
@@ -656,7 +658,7 @@ setToggle(false)
                       onClick={() => clearAllFilter()}
                       style={{ cursor: "pointer" }}
                     >
-                      Clear All Filter
+                      {t("Clear All Filter")}
                     </span>
 
                     <div className="sort-by-cover">
@@ -664,7 +666,7 @@ setToggle(false)
                         <div className="sort-by">
                           <span>
                             <i className="fi-rs-apps-sort"></i>
-                            Sort by:
+                            {t("Sort by:")}
                           </span>
                         </div>
                         <div className="sort-by-dropdown-wrap custom-select">
@@ -673,12 +675,12 @@ setToggle(false)
                               handleChange(event.target.value)
                             }
                           >
-                            <option value="Default">Default</option>
-                            <option value="newProduct">New Product</option>
-                            <option value="hotDeals">Hot Deals</option>
-                            <option value="bestSeller">Best Seller</option>
-                            <option value="LowToHigh">Low To High</option>
-                            <option value="HighToLow">High To Low</option>
+                            <option value="Default">{t("Default")}</option>
+                            <option value="newProduct">{t("New Product")}</option>
+                            <option value="hotDeals">{t("Hot Deals")}</option>
+                            <option value="bestSeller">{t("Best Seller")}</option>
+                            <option value="LowToHigh">{t("Low To High")}</option>
+                            <option value="HighToLow">{t("High To Low")}</option>
                           </select>
                         </div>
                       </div>
@@ -689,7 +691,7 @@ setToggle(false)
                 </div>
                 <div className="row product-grid-3">
                   {getPaginatedProducts?.length === 0 && (
-                    <h3>No Products Found </h3>
+                    <h3>{t("No Products Found")} </h3>
                   )}
 
                  

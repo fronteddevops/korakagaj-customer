@@ -5,7 +5,9 @@ import NewArrivalTab from './../elements/NewArrivalTab';
 import TrendingTab from './../elements/TrendingTab';
 import Link from "next/link"
 import services from "../../services";
+import { useTranslation } from "react-i18next";
 function FeatchTab() {
+  const { t } = useTranslation("common");
     const [active, setActive] = useState("1");
     const [newProudct, setNewProduct] = useState([]);
     const [hotDeals, setHotDeals] = useState([]);
@@ -109,24 +111,24 @@ function FeatchTab() {
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
                         <button className={active === "0" ? "nav-link active" : "nav-link"} onClick={featuredProduct}>
-                        New Product
+                        {t("New Product")}
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
                         <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={trendingProduct}>
-                        Hot Deals
+                        {t("Hot Deals")}
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
                         <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={newArrivalProduct}>
-                        Best Seller
+                        {t("Best Seller")}
                         </button>
                     </li>
                 </ul>
                 <h6>
                     <Link href="/products">
                         <a className="view-more d-none d-md-flex">
-                            View More<i className="fi-rs-angle-double-small-right"></i>
+                            {t("View More")}<i className="fi-rs-angle-double-small-right"></i>
                         </a>
                     </Link>
                 </h6>
