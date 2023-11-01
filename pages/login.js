@@ -181,7 +181,7 @@ setIsDisabledpassword(false)
         pauseOnHover
       />
       {showForgetPasswordComponent === false &&
-        <Layout parent="Home" sub="Login" >
+        <Layout parent="Home" sub={<a href="/login">login</a>} >
           <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
 
             <div className="container">
@@ -363,7 +363,7 @@ setIsDisabledpassword(false)
         </Layout>
       }
       {showForgetPasswordComponent &&
-        <Layout parent="Home" sub="Login" >
+        <Layout parent="Home" sub={<a href="/login">login</a>} >
           <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
 
             <div className="container">

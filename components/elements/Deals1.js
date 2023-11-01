@@ -5,8 +5,14 @@ import services from "../../services";
 
 const Deals1 = () => {
   const [data, setData] = useState([]);
-
+ const [width,setWidth]=useState()
   useEffect(() => {
+    const updateWidth = () => {
+      width = window.innerWidth;
+      setWidth(width)
+    };
+
+    window.addEventListener('resize', updateWidth);
     const fetchProducts = async () => {
       try {
 
@@ -22,15 +28,15 @@ const Deals1 = () => {
         // Handle the error, e.g., show an error message to the user
       }
     };
-
     fetchProducts();
-  }, []);
+  }, [width]);
 
   const deals1Style = {
-    display: "flex",     // Make the container a flex container
+    display: width <= 700 ? "block" : "flex",  // Make the container a flex container
     justifyContent: "center", // Center content horizontally
     alignItems: "center",
-    margin: "3px",   // Center content vertically
+    margin: "auto", 
+      // Center content vertically
     // Add any other CSS properties as needed
   };
 

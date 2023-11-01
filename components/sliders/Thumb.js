@@ -49,7 +49,7 @@ const ThumbSlider = ({ product }) => {
             >
                 {product?.image?.map((item, i) => (
                     <SwiperSlide key={i}>
-                        <img src={ imageUrl+item} alt="korakagaj"  crossOrigin="anonymous"/>
+                        <img src={ imageUrl+item} alt="korakagaj" crossOrigin="anonymous"/>
                     </SwiperSlide>
                 ))}
             </Swiper>
