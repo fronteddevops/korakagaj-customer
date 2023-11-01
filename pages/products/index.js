@@ -83,9 +83,9 @@ const Products = ({ products1, productFilters }) => {
   //get prodcut
 
   //color
-  const color = [t("red"), t("Blue"), t("Green"), t("Yellow"), t("White"), t("Black"), t("Orange"), t("Purple")];
+  const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
   //size
-  const sizes = ["", t("S"), t("M"), t("XL"), t("XXL")];
+  const sizes = ["", "s", "m", "xl", "xxl"];
   //size function
 
   const handleClick = (i, target) => {
@@ -627,7 +627,7 @@ setToggle(false)
                                 handleClick(i, tag)}}
                               key={i}
                             >
-                              <a>{i == 0 ? t("ALL") : `${tag}`}</a>
+                              <a>{i == 0 ? "all" : `${tag}`}</a>
                             </li>
                           ))}
                         </ul>

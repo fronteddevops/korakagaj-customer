@@ -554,18 +554,18 @@
      "Price :":"Price :",
 
      "red":"red",
-     "Blue":"Blue",
-     "Green":"Green",
-     "Yellow":"Yellow",
-     "White":"White",
-     "Black":"Black",
-     "Orange":"Orange",
-     "Purple":"Purple",
-     "ALL":"All",
-     "S":"S",
-     "M":"M",
-     "XL":"XL",
-     "XXL":"XXl",
+     "blue":"blue",
+     "green":"green",
+     "yellow":"yellow",
+     "white":"white",
+     "black":"black",
+     "orange":"orange",
+     "purple":"purple",
+     "all":"all",
+     "s":"s",
+     "m":"m",
+     "xl":"xl",
+     "xxl":"xxl",
      "Light(20-100gsm)":"Light(20-100gsm)",
      "Medium(101-249gsm)":"Medium(101-249gsm)",
      "Heavy(250-gsm)":"Heavy(250-gsm)",
@@ -653,7 +653,10 @@
      "Single Product Layout":"Single Product Layout",
      "Purchase Guide":"Purchase Guide",
      "Terms of Service":"Terms of Service",
-     "404 Page":"404 Page"
+     "404 Page":"404 Page",
+
+     "205 North Michigan Avenue, Suite 810":"205 North Michigan Avenue, Suite 810",
+     "Chicago, 60601, USA":"Chicago, 60601, USA"
      
 
 }

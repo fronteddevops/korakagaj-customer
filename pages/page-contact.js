@@ -44,12 +44,12 @@ function Contact() {
                                 <h4 className="mb-15 text-brand">{t("Office")}</h4>
                                 {t("205 North Michigan Avenue, Suite 810")}
                                 <br />
-                                Chicago, 60601, USA
+                                {t("Chicago, 60601, USA")}
                                 <br />
                                 <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                {t("contact")}@korakagaj.com
+                                contact@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
@@ -58,14 +58,14 @@ function Contact() {
                             </div>
                             <div className="col-md-4 mb-4 mb-md-0">
                                 <h4 className="mb-15 text-brand">{t("Studio")}</h4>
-                                205 North Michigan Avenue, Suite 810
+                                {t("205 North Michigan Avenue, Suite 810")}
                                 <br />
-                                Chicago, 60601, USA
+                                {t("Chicago, 60601, USA")}
                                 <br />
                                 <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                {t("contact")}@korakagaj.com
+                                contact@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
@@ -74,14 +74,14 @@ function Contact() {
                             </div>
                             <div className="col-md-4">
                                 <h4 className="mb-15 text-brand">{t("Shop")}</h4>
-                                205 North Michigan Avenue, Suite 810
+                                {t("205 North Michigan Avenue, Suite 810")}
                                 <br />
-                                Chicago, 60601, USA
+                                {t("Chicago, 60601, USA")}
                                 <br />
                                 <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                {t("contact")}@korakagaj.com
+                                contact@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     {" "}
