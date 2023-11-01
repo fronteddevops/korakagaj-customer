@@ -642,7 +642,18 @@
      "Semi-transparent/sheer":"Semi-transparent/sheer",
      "Shiny":"Shiny",
      "Mat":"Mat",
-     "No Products Found":"No Products Found"
+     "No Products Found":"No Products Found",
+
+     "Mega Menu":"Mega Menu",
+     "Language":"Language",
+     "Shop List":"Shop List",
+     "Shop – Wishlist":"Shop – Wishlist",
+     "Shop – Cart":"Shop – Cart",
+     "Shop – Checkout":"Shop – Checkout",
+     "Single Product Layout":"Single Product Layout",
+     "Purchase Guide":"Purchase Guide",
+     "Terms of Service":"Terms of Service",
+     "404 Page":"404 Page"
      
 
 }

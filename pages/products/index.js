@@ -34,6 +34,7 @@ const Products = ({ products1, productFilters }) => {
   const [selectedSizes, setSizes] = useState([]);
   const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
+  const [toggle,setToggle]=useState(true)
 
 
   let Router = useRouter(),
@@ -144,7 +145,7 @@ const Products = ({ products1, productFilters }) => {
       else {
 
         const response = await services.product.GET_FILTER_PRODUCT(data);
-        if (response) {
+        if (response && toggle) {
           const data = response?.data?.data
 
 
@@ -191,13 +192,14 @@ const Products = ({ products1, productFilters }) => {
           (product) => product.productType == 0
         );
         if (newProudct.length <= 12) {
-       //   setCurrentPage(1)
-        //  setFilterProduct(newProudct);
+        
+       
           setCurrentPage(1)
           setProdcut(newProudct);
+          setToggle(false)
         } else {
-          setFilterProduct(newProudct);
-          setProdcut([]);
+          setProdcut(newProudct);
+          setToggle(false)
         }
 
       } else if (localStorage.getItem('access_token')) {
@@ -206,17 +208,18 @@ const Products = ({ products1, productFilters }) => {
           (product) => product.productType == 0
         );
         if (newProudct.length <= 12) {
-          setCurrentPage(1)
-          setFilterProduct(newProudct);
-          setProdcut([]);
-        } else {
-          setFilterProduct(newProudct);
-          setProdcut([]);
-        }
-      }
+        
+         
+           setCurrentPage(1)
+           setProdcut(newProudct);
+           setToggle(false)
+         } else {
+           setProdcut(newProudct);
+           setToggle(false)
+         }
 
 
-    } catch (error) {
+    }} catch (error) {
       console.log(error);
     }
   };
@@ -229,14 +232,13 @@ const Products = ({ products1, productFilters }) => {
           (product) => product.productType == 1
         );
         if (hotDeals.length <= 12) {
-          setFilterProduct(hotDeals);
+          setProdcut(hotDeals);
           setCurrentPage(1)
-          setProdcut([]);
+        setToggle(false)
         }
         else {
-          setFilterProduct(hotDeals);
-
-          setProdcut([]);
+          setProdcut(hotDeals);
+          setCurrentPage(1)
         }
 
 
@@ -247,15 +249,13 @@ const Products = ({ products1, productFilters }) => {
           (product) => product.productType == 1
         );
         if (hotDeals.length <= 12) {
-          setFilterProduct(hotDeals);
-          console.log("================")
+          setProdcut(hotDeals);
           setCurrentPage(1)
-          setProdcut([]);
+        setToggle(false)
         }
         else {
-          setFilterProduct(hotDeals);
-
-          setProdcut([]);
+          setProdcut(hotDeals);
+          setCurrentPage(1)
         }
       }
 
@@ -272,14 +272,14 @@ const Products = ({ products1, productFilters }) => {
           (product) => product.productType == 2
         );
         if (NewArrival.length <= 12) {
-          setFilterProduct(NewArrival);
+          setProdcut(NewArrival);
           setCurrentPage(1)
-          setProdcut([]);
+         setToggle(false)
         }
         else {
-          setFilterProduct(NewArrival);
-
-          setProdcut([]);
+          setProdcut(NewArrival);
+        
+         setToggle(false)
 
         }
       } else if (localStorage.getItem('access_token')) {
@@ -288,14 +288,14 @@ const Products = ({ products1, productFilters }) => {
           (product) => product.productType == 2
         );
         if (NewArrival.length <= 12) {
-          setFilterProduct(NewArrival);
+          setProdcut(NewArrival);
           setCurrentPage(1)
-          setProdcut([]);
+         setToggle(false)
         }
         else {
-          setFilterProduct(NewArrival);
-
-          setProdcut([]);
+          setProdcut(NewArrival);
+        
+         setToggle(false)
 
         }
       }
@@ -311,12 +311,12 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.product.GET_PRODUCT();
         if (response?.data?.data?.length <= 12) {
           setProdcut(response?.data?.data);
-          setFilterProduct([]);
+          setToggle(true)
           setCurrentPage(1)
         }
         else {
           setProdcut(response?.data?.data);
-          setFilterProduct([]);
+          setToggle(true)
 
         }
 
@@ -324,13 +324,13 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.product.GET_PRODUCT_AUTH();
         if (response?.data?.data?.length <= 12) {
           setProdcut(response?.data?.data);
-          setFilterProduct([]);
+        setToggle(true)
           setCurrentPage(1)
         }
         else {
           setProdcut(response?.data?.data);
-          setFilterProduct([]);
-
+       
+          setToggle(true)
         }
       }
     } catch (error) {
@@ -343,15 +343,12 @@ const Products = ({ products1, productFilters }) => {
       if (response?.data?.data?.length <= 12) {
         setProdcut(response?.data?.data);
 
-        setFilterProduct([]);
+     setToggle(false)
         setCurrentPage(1)
       }
       else {
         setProdcut(response?.data?.data);
-
-        setFilterProduct([]);
-
-
+        setToggle(false)
       }
 
     } catch (error) {
@@ -364,14 +361,14 @@ const Products = ({ products1, productFilters }) => {
       const response = await services.product.PRODCUT_GET_HighToLow();
       if (response?.data?.data?.length <= 12) {
         setProdcut(response?.data?.data);
-
-        setFilterProduct([]);
+setToggle(false)
+      
         setCurrentPage(1)
       }
       else {
         setProdcut(response?.data?.data);
 
-        setFilterProduct([]);
+        setToggle(false)
 
 
       }
@@ -527,7 +524,7 @@ const Products = ({ products1, productFilters }) => {
                                           label={item?.subSubCategoryName}
                                           onChange={() => {
                                             const subSubCategoryId = item.id;
-
+                                          setToggle(true)
                                             if (
                                               selectedSubSubCategories?.includes(subSubCategoryId)
                                             ) {
@@ -581,7 +578,7 @@ const Products = ({ products1, productFilters }) => {
                             max={9000}
                             onChange={(value) => {
                               //  PriceRange({ value: { min: value[0], max: value[1] } })
-
+                              setToggle(true)
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
@@ -610,7 +607,9 @@ const Products = ({ products1, productFilters }) => {
                                   type="checkbox"
                                   id={`checkbox-${item}`}
                                   label={item}
-                                  onChange={() => handleCheckboxChange(item)}
+                                  onChange={() =>{
+                                    setToggle(true)
+                                    handleCheckboxChange(item)}}
                                   checked={selectedColors?.includes(item)}
                                   style={{ textTransform: "capitalize" }}
                                 />
@@ -623,7 +622,9 @@ const Products = ({ products1, productFilters }) => {
                           {sizes.map((tag, i) => (
                             <li
                               className={active == i ? "active" : ""}
-                              onClick={() => handleClick(i, tag)}
+                              onClick={() =>{
+                                setToggle(true)
+                                handleClick(i, tag)}}
                               key={i}
                             >
                               <a>{i == 0 ? t("ALL") : `${tag}`}</a>
@@ -693,23 +694,7 @@ const Products = ({ products1, productFilters }) => {
                     <h3>{t("No Products Found")} </h3>
                   )}
 
-                  {fillter && fillter.length > 0 ? (
-                    <>
-                      {fillter?.map((item, i) => (
-                        <div
-                          className="col-lg-4 col-md-4 col-12 col-sm-6"
-                          key={i}
-                        >
-                          <SingleProduct
-                            product={item}
-                            fabricPrice={fabricPrice}
-                          />
-                          {/* <SingleProductList product={item}/> */}
-                        </div>
-                      ))}{" "}
-                    </>
-                  ) : (
-                    <>
+                 
                       {getPaginatedProducts?.map((item, i) => (
                         <div
                           className="col-lg-4 col-md-4 col-12 col-sm-6"
@@ -723,8 +708,7 @@ const Products = ({ products1, productFilters }) => {
                           {/* <SingleProductList product={item}/> */}
                         </div>
                       ))}
-                    </>
-                  )}
+              
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">

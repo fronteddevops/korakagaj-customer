@@ -6,8 +6,9 @@ import Search from "../ecommerce/Search";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 const MobileMenu = ({ isToggled, toggleClick }) => {
-  const { t} = useTranslation("common");
-
+  const { t ,i18n} = useTranslation("common");
+  const [lang, setLang] = useState("");
+  const [categoryList, setCategory] = useState([]);
   const [isActive, setIsActive] = useState({
     status: false,
     key: "",
@@ -15,9 +16,29 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+ //language change function 
+ const handleLang = () => {
+
+  if (sessionStorage.getItem("lang") === "Hindi") {
+    i18n.changeLanguage("hi");
+    const lng = sessionStorage.getItem("lang");
+    setLang(lng);
+  } else if(sessionStorage.getItem("lang") === "English"){
+    i18n.changeLanguage("en");
+    const lng = sessionStorage.getItem("lang");
+
+    setLang(lng);
+  }
+};
+
   useEffect(() => {
+    const langdata= sessionStorage.getItem("lang")
+
+    setLang(langdata)
+    handleLang();
     getProfile();
-  }, []);
+  }, [lang]);
   const getProfile = async () => {
     try {
       const response = await services.myprofile.GET_MY_PROFILE();
@@ -31,6 +52,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
   };
   const handleToggle = (key) => {
     if (isActive.key === key) {
+      getCategroy();
       setIsActive({
         status: false,
       });
@@ -47,6 +69,23 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
       status: false,
     });
   });
+  //category list
+
+  //get category list
+
+  //gt sub category list
+  // Get sub category list
+
+  const getCategroy = async () => {
+    try {
+      const response = await services.category.GET_CATEGORY_ALL();
+      if (response) {
+        setCategory(response?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -88,88 +127,12 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
             </div>
             <div className="mobile-menu-wrap mobile-header-border">
               <div className="main-categori-wrap mobile-header-border">
-                <Link href="#">
-                  <a className="categori-button-active-2">
-                    <span className="fi-rs-apps"></span>{" "}
-                    {t("Browse Categories")}
-                  </a>
-                </Link>
+                <a className="categori-button-active-2">
+                  <span className="fi-rs-apps"></span> {t("Browse Categories")}
+                </a>
+
                 <div className="categori-dropdown-wrap categori-dropdown-active-small">
-                  <ul>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-dress"></i>
-                          {t("Women's Clothing")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-tshirt"></i>
-                          {t("Men's Clothing")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      {" "}
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-smartphone"></i>{" "}
-                          {t("Cellphones")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-desktop"></i>
-                          {t("Computer & Office")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-cpu"></i>
-                          {t("Consumer Electronics")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-home"></i>
-                          {t("Home & Garden")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-high-heels"></i>
-                          {t("Shoes")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-teddy-bear"></i>
-                          {t("Mother & Kids")}
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/products">
-                        <a>
-                          <i className="korakagaj-font-kite"></i>
-                          {t("Outdoor fun")}
-                        </a>
-                      </Link>
-                    </li>
-                  </ul>
+                  <ul></ul>
                 </div>
               </div>
 
@@ -185,34 +148,10 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     <span
                       className="menu-expand"
                       onClick={() => handleToggle(1)}
-                    >
-                      <i className="fi-rs-angle-small-down"></i>
-                    </span>
-                    <Link href="/index">
+                    ></span>
+                    <Link href="/">
                       <a>{t("Home")}</a>
                     </Link>
-                    <ul className={isActive.key == 1 ? "dropdown" : "d-none"}>
-                      <li>
-                        <Link href="/index">
-                          <a>{t("Home 1")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/index-2">
-                          <a>{t("Home 2")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/index-3">
-                          <a>{t("Home 3")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/index-4">
-                          <a>{t("Home 4")}</a>
-                        </Link>
-                      </li>
-                    </ul>
                   </li>
                   <li
                     className={
@@ -227,40 +166,16 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     >
                       <i className="fi-rs-angle-small-down"></i>
                     </span>
-                    <Link href="/products">
-                      <a>{t("shop")}</a>
-                    </Link>
+
+                    <a>{t("Shop")}</a>
+
                     <ul className={isActive.key == 2 ? "dropdown" : "d-none"}>
                       <li>
                         <Link href="/products">
-                          <a>{t("Shop Grid – Right Sidebar")}</a>
+                          <a>{t("Shop List")}</a>
                         </Link>
                       </li>
-                      <li>
-                        <Link href="/products/products">
-                          <a>{t("Shop Grid – Left Sidebar")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/products/shop-list-right">
-                          <a>{t("Shop List – Right Sidebar")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/products/shop-list-left">
-                          <a>{t("Shop List – Left Sidebar")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/products/shop-fullwidth">
-                          <a>{t("Shop - Wide")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/shop-filter">
-                          <a>{t("Shop – Filter")}</a>
-                        </Link>
-                      </li>
+
                       <li>
                         <Link href="/shop-wishlist">
                           <a>{t("Shop – Wishlist")}</a>
@@ -276,13 +191,10 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           <a>{t("Shop – Checkout")}</a>
                         </Link>
                       </li>
-                      <li>
-                        <Link href="/shop-compare">
-                          <a>{t("Shop – Compare")}</a>
-                        </Link>
-                      </li>
                     </ul>
                   </li>
+
+                  {/* moblie menu category show in the start  */}
                   <li
                     className={
                       isActive.key == 3
@@ -296,96 +208,59 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     >
                       <i className="fi-rs-angle-small-down"></i>
                     </span>
-                    <Link href="#">
-                      <a>{t("Mega menu")}</a>
-                    </Link>
+
+                    <a>{t("Mega Menu")}</a>
+
                     <ul className={isActive.key == 3 ? "dropdown" : "d-none"}>
-                      <li className="menu-item-has-children">
-                        <span className="menu-expand"></span>
-                        <Link href="#">
-                          <a>{t("Women's Fashion")}</a>
-                        </Link>
-                        <ul className="dropdown">
-                          <li>
+                      {categoryList &&
+                        categoryList?.map((item) => (
+                          <li className="menu-item-has-children" key={item.id}>
+                            <span className="menu-expand"></span>
                             <Link href="/products">
-                              <a>{t("Dresses")}</a>
+                              <a>{item?.categoryName}</a>
                             </Link>
+                            <ul className="dropdown">
+                              {item?.SubCategories?.map(
+                                (subCategory, subIndex) => (
+                                  <li
+                                    className="menu-item-has-children"
+                                    key={subCategory?.id}
+                                  >
+                                    <Link href="/products">
+                                      <a>{subCategory?.subCategoryName}</a>
+                                    </Link>
+                                    {subCategory?.SubSubCategories.map(
+                                      (subSubCategory, subSubIndex) => (
+                                        <ul
+                                          className="dropdown"
+                                          key={subSubCategory?.id}
+                                        >
+                                          <li
+                                            className="menu-item-has-children"
+                                            key={subSubCategory?.id}
+                                          >
+                                            <Link href="/products">
+                                              <a>
+                                                {
+                                                  subSubCategory?.subSubCategoryName
+                                                }
+                                              </a>
+                                            </Link>
+                                          </li>
+                                        </ul>
+                                      )
+                                    )}
+                                  </li>
+                                )
+                              )}
+                            </ul>
                           </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Blouses & Shirts")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Hoodies & Sweatshirts")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Women's Sets")}</a>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="menu-item-has-children">
-                        <span className="menu-expand"></span>
-                        <Link href="#">
-                          <a>{t("Men's Fashion")}</a>
-                        </Link>
-                        <ul className="dropdown">
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Jackets")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Casual Faux Leather")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Genuine Leather")}</a>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="menu-item-has-children">
-                        <span className="menu-expand"></span>
-                        <Link href="#">
-                          <a>{t("Technology")}</a>
-                        </Link>
-                        <ul className="dropdown">
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Gaming Laptops")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Ultraslim Laptops")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Tablets")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Laptop Accessories")}</a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="/products">
-                              <a>{t("Tablet Accessories")}</a>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
+                        ))}
                     </ul>
                   </li>
+
+                  {/* moblie menu category show in the end  */}
+
                   <li
                     className={
                       isActive.key == 4
@@ -399,9 +274,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     >
                       <i className="fi-rs-angle-small-down"></i>
                     </span>
-                    <Link href="/blog-category-fullwidth">
-                      <a>{t("Blog")}</a>
-                    </Link>
+
+                    <a>{t("Blog")}</a>
+
                     <ul className={isActive.key == 4 ? "dropdown" : "d-none"}>
                       <li>
                         <Link href="/blog-category-grid">
@@ -461,9 +336,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     >
                       <i className="fi-rs-angle-small-down"></i>
                     </span>
-                    <Link href="#">
-                      <a>{t("Pages")}</a>
-                    </Link>
+
+                    <a>{t("Pages")}</a>
+
                     <ul className={isActive.key == 5 ? "dropdown" : "d-none"}>
                       <li>
                         <Link href="/page-about">
@@ -475,16 +350,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           <a>{t("Contact")}</a>
                         </Link>
                       </li>
-                      <li>
-                        <Link href="/page-account">
-                          <a>{t("My Account")}</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/login">
-                          <a>{t("Log In / Sign Up")}</a>
-                        </Link>
-                      </li>
+
                       <li>
                         <Link href="/page-purchase-guide">
                           <a>{t("Purchase Guide")}</a>
@@ -520,50 +386,94 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     >
                       <i className="fi-rs-angle-small-down"></i>
                     </span>
-                    <Link href="#">
-                      <a>{t("Language")}</a>
-                    </Link>
+
+                    <a>{t("Language")}</a>
+
                     <ul className={isActive.key == 6 ? "dropdown" : "d-none"}>
                       <li>
                         <Link href="#">
-                          <a>English</a>
+                          <a
+                              onClick={() => {
+                                i18n.changeLanguage("en");
+                                setLang("English");
+                                sessionStorage.setItem("lang", "English");
+                              }}
+                          >English</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="#">
-                          <a>French</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="#">
-                          <a>German</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="#">
-                          <a>Spanish</a>
+                          <a
+                           onClick={() => {
+                            i18n.changeLanguage("hi");
+                            setLang("Hindi");
+                            sessionStorage.setItem("lang", "Hindi");
+                          }}
+                          >Hindi</a>
                         </Link>
                       </li>
                     </ul>
                   </li>
+
+                  {firstName && lastName && (
+                    <li
+                      className={
+                        isActive.key == 7
+                          ? "menu-item-has-children active"
+                          : "menu-item-has-children"
+                      }
+                    >
+                      <span
+                        className="menu-expand"
+                        onClick={() => handleToggle(7)}
+                      >
+                        <i className="fi-rs-angle-small-down"></i>
+                      </span>
+
+                      <a>{t("My Profile")}</a>
+
+                      <ul className={isActive.key == 7 ? "dropdown" : "d-none"}>
+                        <li>
+                          <Link href="/myprofile?index=5">
+                            <a>{t("My Profile")}</a>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/myprofile?index=4">
+                            <a>{t("My Address")}</a>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/myprofile?index=2">
+                            <a>{t("My Orders")}</a>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  )}
                 </ul>
               </nav>
             </div>
             <div className="mobile-header-info-wrap mobile-header-border">
-              <div className="single-mobile-header-info mt-30">
-                <Link href="/page-contact">
-                  <a> {t("Our location")} </a>
-                </Link>
-              </div>
               <div className="single-mobile-header-info">
                 {lastName && firstName ? (
                   <div>
-                    {firstName} {lastName}
+                    <b>
+                      {" "}
+                      {firstName} {lastName}
+                    </b>
                   </div>
                 ) : (
                   <Link href="/login">
                     <a>{t("Log In / Sign Up")}</a>
                   </Link>
+                )}
+                {lastName && firstName && (
+                  <>
+                    <a href="/" onClick={() => localStorage.clear()}>
+                      {t("Logout")}
+                    </a>
+                  </>
                 )}
               </div>
               <div className="single-mobile-header-info">

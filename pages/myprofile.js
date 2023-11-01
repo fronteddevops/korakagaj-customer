@@ -48,12 +48,13 @@ function Account() {
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
   const [isChecked, setIsChecked] = useState()
 
-  console.log("dfg",isChecked)
 
+
+ const [breadCrumb,setBreadCrumb]=useState("Dashboard")
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
-  // const token = JSON.parse(localStorage.getItem("access_token"))
+
 
   const toastSuccesschangepassword = () =>
     toast.success("Change password successfully");
@@ -244,7 +245,7 @@ function Account() {
 
   return (
     <div>
-      <Layout parent={t("Home")}  sub={<a  href="/myprofile?index=2"> <>{t("Pages")}</></a>} subChild={t("Account")}>
+      <Layout parent={t("Home")} sub={t("Pages")}    subsuB={<a  href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
         <section className="pt-150 pb-150">
           <div className="container">
             <div className="row">
@@ -280,7 +281,10 @@ function Account() {
                       <ul className="nav flex-column" role="tablist">
                         <li
                           className="nav-item"
-                          onClick={() => handleOnClick(1)}
+                          onClick={() =>{ 
+                            
+                            setBreadCrumb("Dashboard")
+                            handleOnClick(1)}}
                         >
                           <a
                             className={
@@ -293,7 +297,9 @@ function Account() {
                         </li>
                         <li
                           className="nav-item"
-                          onClick={() => handleOnClick(2)}
+                          onClick={() => {
+                            setBreadCrumb("Orders")
+                            handleOnClick(2)}}
                         >
                           <a
                             className={
@@ -319,7 +325,10 @@ function Account() {
                         </li> */}
                         <li
                           className="nav-item"
-                          onClick={() => handleOnClick(4)}
+                          onClick={() =>{
+                            
+                            setBreadCrumb("My Address")
+                            handleOnClick(4)}}
                         >
                           <a
                             className={
@@ -332,7 +341,9 @@ function Account() {
                         </li>
                         <li
                           className="nav-item"
-                          onClick={() => handleOnClick(5)}
+                          onClick={() =>{
+                            setBreadCrumb(" Account details")
+                            handleOnClick(5)}}
                         >
                           <a
                             className={
@@ -345,7 +356,9 @@ function Account() {
                         </li>
                         <li
                           className="nav-item"
-                          onClick={() => handleOnClick(6)}
+                          onClick={() =>{ 
+                            setBreadCrumb(" Change password")
+                            handleOnClick(6)}}
                         >
                           <a
                             className={

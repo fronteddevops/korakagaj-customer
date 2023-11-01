@@ -14,25 +14,11 @@ import i18next from "i18next";
 const Header = ({ toggleClick, headerStyle }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const languages = [
-    {
-      lang: "en",
-      name: "English",
-      // flag: toAbsoluteUrl("/media/flags/united-states.svg"),
-    },
-    {
-      lang: "hi",
-      name: "Hindi",
-      // flag: toAbsoluteUrl("/media/flags/china.svg"),
-    },
-  ];
+
   const { t, i18n } = useTranslation("common");
 
-  // console.log("5555555555",i18n)
-  const changeLanguage = (lng) => {};
-  // i18n.changeLanguage(lng);
-
-  const [selectedLang, setSelectedLang] = useState("");
+  
+ 
 
   const [lang, setLang] = useState("");
   const [isToggled, setToggled] = useState(false);
@@ -41,9 +27,8 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-  const [addCartLength, setAddCartLength] = useState();
-  const [userName, setUserName] = useState([]);
-  const [addWishlistLength, setAddWishlistLength] = useState();
+
+ 
 
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
@@ -428,160 +413,8 @@ const Header = ({ toggleClick, headerStyle }) => {
                           </ul>
                         </div>
                       </li>
-                      <li className="has-children">
-                        <Link href="/products/shop-grid-right">
-                          <a>
-                            <i className="korakagaj-font-tshirt"></i>
-                            Men's Clothing
-                          </a>
-                        </Link>
-                        <div className="dropdown-menu">
-                          <ul className="mega-menu d-lg-flex">
-                            <li className="mega-menu-col col-lg-7">
-                              <ul className="d-lg-flex">
-                                <li className="mega-menu-col col-lg-6">
-                                  <ul>
-                                    <li>
-                                      <span className="submenu-title">
-                                        Jackets & Coats
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Down Jackets
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Jackets
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Parkas
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Faux Leather Coats
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Trench
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Wool & Blends
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Vests & Waistcoats
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Leather Coats
-                                        </a>
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </li>
-                                <li className="mega-menu-col col-lg-6">
-                                  <ul>
-                                    <li>
-                                      <span className="submenu-title">
-                                        Suits & Blazers
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Blazers
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Suit Jackets
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Suit Pants
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Suits
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Vests
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Tailor-made Suits
-                                        </a>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link href="/#">
-                                        <a className="dropdown-item nav-link nav_item">
-                                          Cover-Ups
-                                        </a>
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li>
-                            <li className="mega-menu-col col-lg-5">
-                              <div className="header-banner2">
-                                <img
-                                  src="/assets/imgs/banner/menu-banner-4.jpg"
-                                  alt="menu_banner1"
-                                />
-                                <div className="banne_info">
-                                  <h6>10% Off</h6>
-                                  <h4>New Arrival</h4>
-                                  <Link href="/#">
-                                    <a>Shop now</a>
-                                  </Link>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
+                   
+
                     </ul>
                   </div>
                 </div>

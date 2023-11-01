@@ -617,7 +617,18 @@
               "Semi-transparent/sheer": "अर्ध-पारदर्शी/सरासर",
               "Shiny": "चमकदार",
               "Mat": "चटाई",
-              "No Products Found":"कोई उत्पाद नहीं मिला"
+              "No Products Found":"कोई उत्पाद नहीं मिला",
+
+              "Mega Menu": "मेगा मेनू",
+              "Language": "भाषा",
+              "Shop List": "दुकान सूची",
+              "Shop – Wishlist": "दुकान - इच्छा सूची",
+              "Shop – Cart": "दुकान - गाड़ी",
+              "Shop – Checkout": "दुकान - चेकआउट",
+              "Single Product Layout": "एकल उत्पाद लेआउट",
+              "Purchase Guide": "खरीद गाइड",
+              "Terms of Service": "सेवा की शर्तें",
+              "404 Page": "404 पेज"
             
           
         

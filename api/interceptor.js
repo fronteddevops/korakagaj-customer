@@ -28,7 +28,7 @@ const initialiseInterceptor = () => {
           localStorage?.removeItem("access_token")
       
           if (window.location.pathname !== "/login") {
-            console.log("======================")
+          
             // window.location.replace("/");
             // setTimeout(() => {
             
