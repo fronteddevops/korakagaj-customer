@@ -32,7 +32,7 @@ const Deals1 = () => {
   }, [width]);
 
   const deals1Style = {
-    display: width <= 450 ? "block" : "flex",  // Make the container a flex container
+    display: width <= 700 ? "block" : "flex",  // Make the container a flex container
     justifyContent: "center", // Center content horizontally
     alignItems: "center",
     margin: "auto", 
