@@ -21,7 +21,7 @@ function Contact() {
                                     <span className="text-style-1">{t("Idea")}</span>
                                 </h1>
                                 <p className="w-50 m-auto mb-50 wow fadeIn animated">
-                                   {t(" Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum quam eius placeat, a quidem mollitia at accusantium reprehenderit pariatur provident nam ratione incidun magnam sequi.")}
+                                   {t("Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum quam eius placeat, a quidem mollitia at accusantium reprehenderit pariatur provident nam ratione incidunt magnam sequi.")}
                                 </p>
                                 <p className="wow fadeIn animated">
                                     <Link href="/page-about">
@@ -49,7 +49,7 @@ function Contact() {
                                 <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                contact@korakagaj.com
+                                {t("contact")}@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
@@ -65,7 +65,7 @@ function Contact() {
                                 <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                contact@korakagaj.com
+                                {t("contact")}@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
@@ -81,7 +81,7 @@ function Contact() {
                                 <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                contact@korakagaj.com
+                                {t("contact")}@korakagaj.com
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     {" "}

@@ -223,7 +223,7 @@ const ProductDetails = ({
                                                         ></div>
                                                     </div>
                                                     <span className="font-small ml-5 text-muted">
-                                                        {t("25 reviews")}
+                                                        25{t("Reviews")}
                                                     </span>
                                                 </div>
                                             </div>
@@ -299,7 +299,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size">
                                                 <strong className="mr-10">
-                                                    {t("Size")}
+                                                    {t("size")}
                                                 </strong>
                                                 <ul className="list-filter size-filter font-small">
                                                     {size.map(

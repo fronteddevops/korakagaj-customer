@@ -473,7 +473,7 @@ export default function Editaddress(props) {
                     address)
                   }
                 >
-                  save
+                  {t("Save")}
                 </button>
               </div>
             </form>

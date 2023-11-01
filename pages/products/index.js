@@ -82,9 +82,9 @@ const Products = ({ products1, productFilters }) => {
   //get prodcut
 
   //color
-  const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
+  const color = [t("red"), t("Blue"), t("Green"), t("Yellow"), t("White"), t("Black"), t("Orange"), t("Purple")];
   //size
-  const sizes = ["", "s", "m", "xl", "xll"];
+  const sizes = ["", t("S"), t("M"), t("XL"), t("XXL")];
   //size function
 
   const handleClick = (i, target) => {
@@ -626,7 +626,7 @@ const Products = ({ products1, productFilters }) => {
                               onClick={() => handleClick(i, tag)}
                               key={i}
                             >
-                              <a>{i == 0 ? "All" : `${tag}`}</a>
+                              <a>{i == 0 ? t("ALL") : `${tag}`}</a>
                             </li>
                           ))}
                         </ul>
@@ -648,7 +648,7 @@ const Products = ({ products1, productFilters }) => {
                           <> {products?.length}</>
                         )}
                       </strong>
-                      items for you!
+                      {t("items for you!")}
                     </p>
                   </div>
                   <div className="sort-by-product-area justify-content-between align-items-center">
@@ -690,7 +690,7 @@ const Products = ({ products1, productFilters }) => {
                 </div>
                 <div className="row product-grid-3">
                   {getPaginatedProducts?.length === 0 && (
-                    <h3>No Products Found </h3>
+                    <h3>{t("No Products Found")} </h3>
                   )}
 
                   {fillter && fillter.length > 0 ? (

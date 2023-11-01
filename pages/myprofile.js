@@ -46,9 +46,8 @@ function Account() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
-  const [isChecked, setIsChecked] = useState(
-    
-  );
+  const [isChecked, setIsChecked] = useState()
+
   console.log("dfg",isChecked)
 
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
@@ -173,12 +172,13 @@ function Account() {
   const changepassword = async (event) => {
     event.preventDefault();
     setNewPasswordError("")
+    setConfirmPasswordError("")
     let isValid = true;
-    setIsDisabledChangep(false)
+   
     setConfirmPasswordError("");
     if (newpassword !== confirmPassword) {
       // Update the passwordConfirm variable with an error message
-      setConfirmPasswordError("password not match");
+      setConfirmPasswordError("Password does not match");
       isValid = false; // Set isValid to false
     }
     if (newpassword === "") {
@@ -386,11 +386,10 @@ function Account() {
                             </div>
                             <div className="card-body">
                               <p>
-                                From your account dashboard. you can easily
-                                check &amp; view your
-                                <a href="#">recent orders</a>, manage your
+                              {t("From your account dashboard. you can easily check")} &amp; {t("view your")}
+                                <a href="#">{t("recent orders")}</a>, {t("manage your")}
                                 <a href="#">{t("shipping and billing addresses")}</a>
-                                and
+                                {t("and")}
                                 <a href="#">
                                   {t("edit your password and account details.")}
                                 </a>
@@ -469,7 +468,7 @@ function Account() {
                                           </td> */}
 
                                           <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
-                                            <a> {t("View details")}</a>
+                                            <a> {t("View detail")}</a>
                                           </Link></td>
                                           <td>   <Link href={`/ReviewRetting?orderId=${item.id}`}>
                                             <a> {t("Review")}</a>
@@ -501,7 +500,7 @@ function Account() {
                             </div>
                             <div className="card-body contact-from-area">
                               <p>
-                               {t(" To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.")}
+                               {t("To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.")}
                               </p>
                               <div className="row">
                                 <div className="col-lg-8">
@@ -559,6 +558,8 @@ function Account() {
                             >{t("No Address Found")}</span>
                           ) : (
                             alladdress?.map((user, index) => {
+                             
+                           
                               return (
                                 <div className="col-lg-6">
                                   <div className="card mb-3 mb-lg-0">
@@ -571,8 +572,8 @@ function Account() {
                                         role="switch"
                                         id="flexSwitchCheckDefault"
                                         disabled="true"
-                                        // checked={isChecked}
-                                        onChange={()=>setIsChecked(index)}
+                                         checked={user.defaultAddress}
+                                      
                                       />
                                     </span>
                                     </div>

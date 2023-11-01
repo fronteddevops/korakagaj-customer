@@ -87,10 +87,10 @@ const BlogSidebar = () => {
                                 </h4>
                                 <div className="entry-meta meta-13 font-xxs color-grey">
                                     <span className="post-on mr-10">
-                                        {t("25 April")}
+                                        25{t("April")}
                                     </span>
                                     <span className="hit-count has-dot ">
-                                        {t("126k Views")}
+                                        126k{t("Views")}
                                     </span>
                                 </div>
                             </div>
@@ -112,10 +112,10 @@ const BlogSidebar = () => {
                                 </h6>
                                 <div className="entry-meta meta-13 font-xxs color-grey">
                                     <span className="post-on mr-10">
-                                        {t("25 April")}
+                                    25{t("April")}
                                     </span>
                                     <span className="hit-count has-dot ">
-                                        {t("126k Views")}
+                                    126k{t("Views")}
                                     </span>
                                 </div>
                             </div>
@@ -137,10 +137,10 @@ const BlogSidebar = () => {
                                 </h6>
                                 <div className="entry-meta meta-13 font-xxs color-grey">
                                     <span className="post-on mr-10">
-                                        {t("25 April")}
+                                    25{t("April")}
                                     </span>
                                     <span className="hit-count has-dot ">
-                                        {t("126k Views")}
+                                    126k{t("Views")}
                                     </span>
                                 </div>
                             </div>
@@ -162,10 +162,10 @@ const BlogSidebar = () => {
                                 </h6>
                                 <div className="entry-meta meta-13 font-xxs color-grey">
                                     <span className="post-on mr-10">
-                                        {t("25 April")}
+                                    25{t("April")}
                                     </span>
                                     <span className="hit-count has-dot ">
-                                        {t("126k Views")}
+                                    126k{t("Views")}
                                     </span>
                                 </div>
                             </div>
@@ -187,10 +187,10 @@ const BlogSidebar = () => {
                                 </h6>
                                 <div className="entry-meta meta-13 font-xxs color-grey">
                                     <span className="post-on mr-10">
-                                        {t("25 April")}
+                                    25{t("April")}
                                     </span>
                                     <span className="hit-count has-dot ">
-                                        {t("126k Views")}
+                                    126k{t("Views")}
                                     </span>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@ const BlogSidebar = () => {
 
                 <div className="sidebar-widget widget_tags mb-50">
                     <div className="widget-header position-relative mb-20 pb-10">
-                        <h5 className="widget-title">(t{"Popular tags"}) </h5>
+                        <h5 className="widget-title">{t("Popular tags")} </h5>
                     </div>
                     <div className="tagcloud">
                         <Link href="/blog-category-grid">

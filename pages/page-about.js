@@ -279,7 +279,7 @@ function About() {
                                     Jakarta, Indonesia
                                 </h4>
                                 <p className="text-grey-3 wow fadeIn animated">
-                                    2476 Raya Yogyakarta,
+                                    2476 {t("Raya Yogyakarta,")}
                                     <br />
                                     89090 Indonesia
                                 </p>

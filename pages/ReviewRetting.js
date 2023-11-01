@@ -4,12 +4,14 @@ import Layout from '../components/layout/Layout';
 import { useRouter } from 'next/router';
 import services from '../services';
 import nextConfig from '../next.config';
+import { useTranslation } from 'react-i18next';
 
 const propTypes = {};
 
 const defaultProps = {};
 
 const ReviewRetting = () => {
+  const { t } = useTranslation("common");
 
   const Router = useRouter()
   const [orderDetailsData, setOrderDetailsData] = useState();
@@ -64,7 +66,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
     }
    
   };
-  return <Layout parent="Home"  sub={<a  href="/myprofile?index=2"> <>pages</></a>} subChild="Review Reting" >
+  return <Layout parent={t("Home")}  sub={<a  href="/myprofile?index=2"> <>{t("Pages")}</></a>} subChild={t("Review Reting")} >
     <div className='d-flex-inline-block justify-content-center align-item-center '>
       <div className="container m-20 p-20 w-50 ">
 
@@ -95,8 +97,8 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
 
                     <div className='ms-3'>   <h5 className="card-title">{item?.Product?.productName}</h5>
                       <p className="card-text">{item?.Product?.additionalInformation}</p>
-                      <span className='fw-bold'>Total Quantity : {item?.totalQuantity}</span>&nbsp;  &nbsp; &nbsp;
-                      <span className='fw-bold'>Price : {item?.Product?.totalPrice}</span>  
+                      <span className='fw-bold'>{t("Total Quantity :")} {item?.totalQuantity}</span>&nbsp;  &nbsp; &nbsp;
+                      <span className='fw-bold'>{t("Price :")} {item?.Product?.totalPrice}</span>  
                       </div>
                   </div>
 
@@ -110,7 +112,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
           <div className='contanier d-flex-inline-block justify-content-center align-item-center  p-20'>
 
             <div className=''>
-              <h4>Rating star</h4>
+              <h4>{t("Rating star")}</h4>
               <div className='mt-10 p-10'>    
                <ReactStars
                 count={5}
@@ -122,7 +124,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
 
             </div>
             <div className='mt-10'>
-              <h4>Add a written review</h4>
+              <h4>{t("Add a written review")}</h4>
 
               <textarea
                 className="form-control mt-10"
@@ -138,7 +140,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
                   }
                   setdescription(e.target.value)
                 }}
-                placeholder='What did you like or dislike? What did you use this product for'
+                placeholder={t('What did you like or dislike? What did you use this product for')}
                 id="exampleFormControlTextarea1"
                 style={{ height: "100px" }} // Adjust the height as needed
                 rows="5"
@@ -149,7 +151,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
               )}
               <div className='mt-10'> <button className='btn btn-primary float-end'
               disabled={isDisable }
-              onClick={ReviewByUser}>Submit Review</button></div>
+              onClick={ReviewByUser}>{t("Submit Review")}</button></div>
 
             </div>
 

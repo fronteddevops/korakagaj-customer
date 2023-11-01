@@ -85,7 +85,7 @@ function Privacy() {
                                                         </ol>
                                                     </li>
                                                     <li>
-                                                        Where you give us consent:
+                                                        {t("Where you give us consent")}:
                                                         <ol>
                                                             <li>providing you with marketing information about products and services which we feel may interest you; and</li>
                                                             <li>customising our services and websites, like advertising that appear on the Site – where this involves the use of cookies or similar technologies – in order to provide a more personalised experience.</li>

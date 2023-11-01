@@ -392,7 +392,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         ></div>
                                                     </div>
                                                     <p>
-                                                        {t("Great low price and works well.")}
+                                                        {t("Great low price anD works well.")}
                                                     </p>
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
@@ -439,7 +439,7 @@ function parseAndFormatColors(colorsJSON) {
                                                         ></div>
                                                     </div>
                                                     <p>
-                                                      {t("  Authentic and Beautiful, Love these way more than ever expected They are Great earphones")}
+                                                      {t("Authentic and Beautiful,Love these way more than ever expected They are Great earphones")}
                                                     </p>
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
