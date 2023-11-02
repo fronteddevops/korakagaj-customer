@@ -485,11 +485,11 @@ setToggle(false)
                           onChange={(event) => handleChange(event.target.value)}
                         >
                           <option value="Default">{t("Default")}</option>
-                          <option value="newProduct">{t("New Product")}</option>
-                          <option value="hotDeals">{t("Hot Deals")}</option>
-                          <option value="bestSeller">{t("Best Seller")}</option>
-                          <option value="LowToHigh">{t("Low To High")}</option>
-                          <option value="HighToLow">{t("High To Low")}</option>
+                            <option value="0">{t("New Product")}</option>
+                            <option value="1">{t("Hot Deals")}</option>
+                            <option value="2">{t("Best Seller")}</option>
+                            <option value="LowToHigh">{t("Low To High")}</option>
+                            <option value="HighToLow">{t("High To Low")}</option>
                         </select>
                       </div>
                     </div>
