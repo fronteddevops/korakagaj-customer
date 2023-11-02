@@ -32,13 +32,48 @@ const Cart = ({
   const [quantity, setquantity] = useState(1)
   const [price , setprice ] = useState(1)
   const [updateCart, setUpdateCart] = useState([])
+  const [totalAmount, setTotalAmount] = useState(0);
+
+ //Calculate the total amount using the reduce method
+  const calculateTotalAmount = (cartDetails) => {
+   
+    return cartDetails.reduce((total, product) => total + product?.finalAmount * product?.quantity, 0);
+  };
   //set total price in add to card all prodcut 
+ useEffect(()=>{
 
+  cardData()
+ },[totalAmount,])
+//card data get function
+  const cardData=async()=>{
+    try {
+          const response=  await services.cart.GET_CART()
+         
+          if(response){
+            setUpdateCart(response?.data?.data)
 
+            const cartDetails = response?.data?.data?.flatMap((item) => item?.cartDetail?.cartDetails);
+          
+            const total = calculateTotalAmount(cartDetails);
+            setTotalAmount(total);
+          }
+    } catch (error) {
+       console.log(error)
+    }
+  }
 
-
-
-
+//color get function
+function parseAndFormatColors(colorsJSON) {
+  try {
+    const colorArray = JSON?.parse(colorsJSON);
+    if (Array.isArray(colorArray)) {
+      return colorArray.join(', ');
+    }
+  } catch (error) {
+    // Handle the JSON parsing error here, or you can ignore it
+  }
+  return "";
+}
 
   return (
     <>
@@ -67,78 +102,69 @@ const Cart = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {updateCart && updateCart?.map((item, i) => (
-                        <tr key={i}>
+                    {updateCart && updateCart.map((item, i) => (
+  item.cartDetail.cartDetails.map((product, j) => {
 
-                          <td className="image product-thumbnail">
-                            <img
-                              src={imageUrl + item?.featuredImage}
-                              alt=""
-                              crossOrigin="anomus"
-                            />
-                          </td>
+  
+    return (
+      <tr key={i * 1000 + j}>
+        <td className="image product-thumbnail">
+          <img
+            src={imageUrl + product.featuredImage}
+            alt=""
+            crossOrigin="anonymous"
+          />
+        </td>
 
-                          <td className="product-des product-name">
-                            <h5 className="product-name">
-                              <Link href="/products">
-                                <a>{item?.productName}</a>
-                              </Link>
-                            </h5>
-                            <p className="font-xs">
-                              {item?.description}
-                            </p>
+        <td className="product-des product-name">
+          <h5 className="product-name">
+            <Link href="/products">
+              <a>{product.productName}</a>
+            </Link>
+          </h5>
+          <p className="font-xs">
+            {parseAndFormatColors(product?.colour)}
+            {/* {product.description} */}
+          </p>
+        </td>
+        <td className="price" data-title="Price">
+          <span>${product.finalAmount}</span>
+        </td>
 
-                          </td>
-                          <td className="price" data-title="Price">
-                            <span>$ {calculateTotalPrice(item)}</span>
-                          </td>
-                          <td className="text-center" data-title="Stock">
-                            <div className="detail-qty border radius  m-auto">
-                              {cartItems.length > 0 && item?.quantity ? <> <a
-                                onClick={(e) => decreaseQuantity(item?.id)}
-                                className="qty-down"
-                              >
-                                <i className="fi-rs-angle-small-down"></i>
-                              </a></> : <> <a
-                                onClick={() => newDecreaseQuantity(item?.id)}
-                                className="qty-down"
-                              >
-                                <i className="fi-rs-angle-small-down"></i>
-                              </a></>}
+        <td className="text-center" data-title="Stock">
+          <div className="detail-qty border radius m-auto">
+            <a
+              // onClick={(e) => decreaseQuantity(item.id)}
+              className="qty-down"
+            >
+              <i className="fi-rs-angle-small-down"></i>
+            </a>
+            <span className="qty-val">{product.quantity}</span>
+            <a
+              // onClick={(e) => increaseQuantity(item.id)}
+              className="qty-up"
+            >
+              <i className="fi-rs-angle-small-up"></i>
+            </a>
+          </div>
+        </td>
 
-                              {item?.quantity ? <span className="qty-val">{item.quantity}</span> : <span className="qty-val">{quantity}</span>}
-
-                              {cartItems.length > 0 && item?.quantity ? <> <a
-                                onClick={(e) => increaseQuantity(item?.id)}
-                                className="qty-up"
-                              >
-                                <i className="fi-rs-angle-small-up"></i>
-                              </a></> : <>   <a
-                                onClick={(e) => { newIncreaseQuantity(item?.id, item?.quantity) }}
-                                className="qty-up"
-                              >
-                                <i className="fi-rs-angle-small-up"></i>
-                              </a></>}
-
-
-
-
-                            </div>
-                          </td>
-                          <td className="text-right" data-title="Cart">
-                            <span>{totalPrice * item?.quantity} </span>
-                          </td>
-                          <td className="action" data-title="Remove">
-                            <a
-                              onClick={(e) => deleteFromCart(item.id)}
-                              className="text-muted"
-                            >
-                              <i className="fi-rs-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                      ))}
-                      <tr>
+        <td className="text-right" data-title="Cart">
+          <span>${product.finalAmount * product.quantity}</span>
+        </td>
+        <td className="action" data-title="Remove">
+          <a
+            // onClick={(e) => deleteFromCart(product.id)}
+            className="text-muted"
+          >
+            <i className="fi-rs-trash"></i>
+          </a>
+        </td>
+      </tr>
+    );
+  })
+))}
+ <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
@@ -474,7 +500,8 @@ const Cart = ({
                         </div>
                       </div>
                     </form>
-                    <div className="mb-30 mt-50">
+                    {/* Apply Coupon Hide */}
+                    {/* <div className="mb-30 mt-50">
                       <div className="heading_s1 mb-3">
                         <h4>{t("Apply Coupon")}</h4>
                       </div>
@@ -501,7 +528,7 @@ const Cart = ({
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="col-lg-6 col-md-12">
                     <div className="border p-md-4 p-30 border-radius cart-totals">
@@ -517,7 +544,7 @@ const Cart = ({
                               </td>
                               <td className="cart_total_amount">
                                 <span className="font-lg fw-900 text-brand">
-                                  $ {300}
+                                  $ {totalAmount}
                                 </span>
                               </td>
                             </tr>
@@ -533,7 +560,7 @@ const Cart = ({
                               <td className="cart_total_amount">
                                 <strong>
                                   <span className="font-xl fw-900 text-brand">
-                                    ${300}
+                                    ${totalAmount}
                                   </span>
                                 </strong>
                               </td>
