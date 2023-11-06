@@ -160,7 +160,7 @@ function Register() {
         pauseOnHover
       />
       <Layout parent={t("Home")} sub={t("Register")}>
-        <section className="pt-100 pb-100 bg-image" style={{ backgroundImage: "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')" }}>
+        <section className="pt-100 pb-100 bg-image" >
 
           <div className="container">
             <div className="row">
