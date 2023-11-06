@@ -80,7 +80,7 @@ function Login() {
       }
     }
   };
-
+//handle cart data 
   const handleCart = async () => {
     if (localStorage.getItem("cartDetail")) {
 
@@ -92,7 +92,7 @@ function Login() {
       const cart = await services.cart.GET_CART()
       let cartDetails = []
       if (cart.data.data[0].cartDetail) {
-        cartDetails = cart.data.data[0].cartDetail.cartDetails
+        cartDetails = cart?.data?.data[0].cartDetail.cartDetails
       }
       cartDetails = [...cartDetails, ...cartDetailsLocal]
 
@@ -125,7 +125,7 @@ function Login() {
     setIsDisabledpassword(true)
     setShowForgetPasswordComponent(true)
   }
-
+//handle Forgot email
   const handleForgotEmail = async (event) => {
 setIsDisabledpassword(false)
     event.preventDefault();

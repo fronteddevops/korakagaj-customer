@@ -1,7 +1,7 @@
 import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import services from "../../services";
-import Link from "next/router";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import nextConfig from "../../next.config";
 
@@ -58,24 +58,29 @@ useEffect(()=>{
                 }}
                 className="custom-class"
             >
-                {category.map((item, i) => (
+                 {category.map((item, i) => (
                     <SwiperSlide key={i}>
                         <div className="card-1">
-                            <figure className=" img-hover-scale overflow-hidden">
-                               <Link as={`/products?categoryId=${item.id}&categoryName=${item.categoryName} `} href={`/products/categoryId=${item.id}`}  >
+                            <figure className="img-hover-scale overflow-hidden">
+                                <Link
+                                    as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
+                                    href={`/products/categoryId=${item.id}`}
+                                >
                                     <a>
                                         <img
-                                            src={ imageUrl+item.image}
+                                            src={imageUrl + item.image}
                                             alt=""
                                             crossOrigin="anonymous"
-                                               style={{ width: '200px', height: '150px', objectFit: 'cover' }}
+                                            style={{ width: '200px', height: '150px', objectFit: 'cover' }}
                                         />
                                     </a>
                                 </Link>
-                               
                             </figure>
                             <h5>
-                            <Link as={`/products?categoryId=${item.id}&categoryName=${item.categoryName} `} href={`/products/categoryId=${item.id}`}  >
+                                <Link
+                                    as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
+                                    href={`/products/categoryId=${item.id}`}
+                                >
                                     <a>{item.categoryName}</a>
                                 </Link>
                             </h5>

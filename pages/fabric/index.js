@@ -136,8 +136,8 @@ const Products = ({ products, productFilters }) => {
     "Velvet",
   ];
   
-  
-  const data1 = {
+  //filter fabric state send qu..
+  const filterFabricState = {
     // fabricName:selectedfabricName,
     fabricType: selectedfabricType,
     printType: selectedprintType,
@@ -210,21 +210,17 @@ const Products = ({ products, productFilters }) => {
  
   const getFilterFabric = async () => {
     try {
-      const response = await services.fabric.GET_FilTER_FABRIC(data1);
+      const response = await services.fabric.GET_FilTER_FABRIC(filterFabricState);
   const data =response?.data?.data?.rows
   if(data.length<=12){
     setFilterFabric(data)
-    // prev()
-    // console.log("++++++++++++++++++++++++++++++++>")
+   
     setCurrentPage(1)
   }
   else{
     setFilterFabric(data)
   }
-  
-        
-        
-      
+    
     } catch (error) {
       console.log(error);
     }

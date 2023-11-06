@@ -51,13 +51,14 @@ const SingleProduct = ({
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART()
+    
       let cartDetails = []
       if (cart.data.data[0].cartDetail) {
         cartDetails = cart.data.data[0].cartDetail.cartDetails
       }
-      cartDetails.push(product)
+      cartDetails?.push(product)
       const key = 'id';
-      const unique = [...new Map(cartDetails.map(item =>
+      const unique = [...new Map(cartDetails?.map(item =>
         [item[key], item])).values()];
       let data = {
         cartDetail: { cartDetails: unique }
@@ -77,6 +78,7 @@ const SingleProduct = ({
       const key = 'id';
       const unique = [...new Map(cartDetails.map(item =>
         [item[key], item])).values()];
+         
       let data = {
         cartDetail: { cartDetails: unique }
       }

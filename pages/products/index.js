@@ -24,11 +24,10 @@ import { useTranslation } from "react-i18next";
 const Products = ({ products1, productFilters }) => {
   const { t } = useTranslation("common");
   const [category, setCategory] = useState([]);
-  const [subSubcategory, setSubSubCategory] = useState([]);
-  const [loading, setLoading] = useState(false);
+ 
+
   const [fillter, setFilterProduct] = useState([]);
   const [products, setProdcut] = useState([]);
-  // const [prodcutAll,setprodcutAll]=useState([])
   const [selectedSubSubCategories, setSelectedSubSubCategories] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSizes] = useState([]);
@@ -155,7 +154,7 @@ const Products = ({ products1, productFilters }) => {
 
           if (data.length <= 12) {
             setProdcut(data)
-            setLoading(true)
+          
 
             setCurrentPage(1)
           }
@@ -652,11 +651,9 @@ setToggle(false)
                     <p>
                       {t("We found")}
                       <strong className="text-brand">
-                        {fillter.length > 0 ? (
-                          <>{fillter?.length}</>
-                        ) : (
-                          <> {products?.length}</>
-                        )}
+              
+                      {products?.length>0&&<> {products?.length}</>}
+                     
                       </strong>
                       {t("items for you!")}
                     </p>

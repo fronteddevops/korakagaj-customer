@@ -28,17 +28,16 @@ const Cart = ({
   const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
-  const [cartData, setCartData] = useState([])
-  const [quantity, setquantity] = useState(1)
-  const [price , setprice ] = useState(1)
+ 
   const [updateCart, setUpdateCart] = useState([])
-  const [totalAmount, setTotalAmount] = useState(0);
+  const[totalAmount,setTotalAmount]=useState(1)  
 
  //Calculate the total amount using the reduce method
-  const calculateTotalAmount = (cartDetails) => {
+  const calculateTotalAmount = (prodcutDat) => {
    
-    return cartDetails.reduce((total, product) => total + product?.finalAmount * product?.quantity, 0);
-  };
+const totalAmount=  prodcutDat[0]?.cartDetail?.cartDetails.reduce((total, product) => total + product?.finalAmount * product?.quantity, 0);
+setTotalAmount(totalAmount)
+};
   //set total price in add to card all prodcut 
  useEffect(()=>{
 
@@ -52,10 +51,9 @@ const Cart = ({
           if(response){
             setUpdateCart(response?.data?.data)
 
-            const cartDetails = response?.data?.data?.flatMap((item) => item?.cartDetail?.cartDetails);
+            const cartDetails = response?.data?.data
+          calculateTotalAmount(cartDetails);
           
-            const total = calculateTotalAmount(cartDetails);
-            setTotalAmount(total);
           }
     } catch (error) {
        console.log(error)

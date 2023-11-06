@@ -144,6 +144,19 @@ function Register() {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
+//hnadle copy paste
+const handlePaste = (e) => {
+  let isValid = true;
+  const pastedText = e.clipboardData.getData("Text");
+  const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+
+  if (!isValidNumber.test(pastedText)) {
+    e.preventDefault(); // Prevent pasting invalid input
+    setNumberError("Invalid phone number format");
+    isValid = false;
+  }
+};
+
 
 
   return (
@@ -260,6 +273,7 @@ function Register() {
                               name="phoneNumber"
                               placeholder={t("Phone Number")}
                               onChange={handleInputChange}
+                              onPaste={handlePaste}
                               min="0"
                               onKeyDown={(e) => {
                                 exceptThisSymbols.includes(e.key) &&

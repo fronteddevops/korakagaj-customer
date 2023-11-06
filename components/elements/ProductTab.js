@@ -13,7 +13,7 @@ const ProductTab = ({prodcut}) => {
  
 
 
-
+//prodcut addional information
 const htmlData =  prodcut?.additionalInformation
 
 // Create a temporary element to parse the HTML

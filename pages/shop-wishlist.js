@@ -56,19 +56,7 @@ const Wishlist = ({
     <Header lengthData={WishlistLength} />
   }, [wishlist]);
 
-  const handleCart = (product) => {
-    addToCart(product);
-    toast.success("Add to Cart !");
-  };
-  const calculateTotalPrice = (product) => {
-    let itemTotalPrice = 0; // Initialize totalPrice to 0
 
-    const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-    const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-    const discountAmount = (basePrice * discountPercentage) / 100;
-    itemTotalPrice = basePrice - discountAmount;
-    return itemTotalPrice; // Return the calculated total price
-  };
 
 
   return (

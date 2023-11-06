@@ -1,6 +1,7 @@
 import * as Types from '../constants/actionTypes'
 
 export default (state = null , action)=>{
+
     switch (action.type) {
         
         case Types.OPEN_QUICK_VIEW :

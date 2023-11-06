@@ -22,7 +22,7 @@ const NewArrival = () => {
                 if( !localStorage.getItem('access_token')){
                     const response = await services.product.GET_PRODUCT();
                     const newProudct = response?.data?.data?.filter(
-                        (product) => product.productType == 3
+                        (product) => product?.productType == 3
                       );
                       if (newProudct) {
                         setNewArrival(newProudct);

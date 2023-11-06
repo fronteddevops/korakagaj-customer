@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Addaddress from "./addaddress";
 import Editaddress from "./editaddress";
-
 import services from "../services";
 import Link from "next/link";
 import moment from "moment";
@@ -47,15 +46,10 @@ function Account() {
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
   const [isChecked, setIsChecked] = useState()
-
-
-
  const [breadCrumb,setBreadCrumb]=useState("Dashboard")
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
-
+  //image url
   const imageUrl = nextConfig.BASE_URL_UPLOADS
-
-
   const toastSuccesschangepassword = () =>
     toast.success("Change password successfully");
   const toastSuccessprofileupdate = () =>
@@ -84,6 +78,7 @@ function Account() {
     if (index === 5) {
 
       try {
+        //get my profile data
         const response = await services.myprofile.GET_MY_PROFILE();
         console.log(response.data.data)
         setFirstName(response?.data?.data?.firstName);
@@ -100,7 +95,7 @@ function Account() {
 
         const response = await services.orderDetails.GET_ORDER_DETAILS();
         setOrderDetailsData(response?.data?.data.rows)
-        // console.log("777777777777777777777",response.data)
+     
 
 
       } catch (error) {
@@ -111,20 +106,23 @@ function Account() {
     if (index === 4 ) {
       
       try {
+
+        //get my address
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
         setAllAddress(response?.data?.data);
         
           
-      } catch {
+      } catch(error) {
        
-
+ console.log(error)
       }
           
     } else {
       
     }
   };
+  //
   const handlesubmit = async (event) => {
     event.preventDefault();
 
@@ -239,9 +237,9 @@ function Account() {
       }
     }
   };
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-  };
+  // const handleToggle = () => {
+  //   setIsChecked(!isChecked);
+  // };
 
   return (
     <div>

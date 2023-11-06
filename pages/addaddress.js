@@ -29,8 +29,8 @@ export default function Addaddress() {
 
   const toastSuccesscreateaddress = () =>
     toast.success("Created Address successfully");
-
-  const handlesave = async (event) => {
+//save   use address
+  const handleUersAddress = async (event) => {
     
     event.preventDefault();
 
@@ -99,6 +99,8 @@ export default function Addaddress() {
       }
     }
   };
+
+  //pincode hanlde
   const handlePinCodeInputChange = (e) => {
     const enteredNumber = e.target.value;
 
@@ -115,7 +117,7 @@ export default function Addaddress() {
       }
     }
   };
-
+//hnadle copy paste
   const handlePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
@@ -163,7 +165,7 @@ export default function Addaddress() {
           </div>
 
           <div className="card-body">
-            <form method="post" onSubmit={handlesave}>
+            <form method="post" onSubmit={handleUersAddress}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>

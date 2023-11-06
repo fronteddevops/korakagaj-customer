@@ -29,15 +29,15 @@ export default function Editaddress(props) {
   const [addressError, setAddressError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isChecked, setIsChecked] = useState();
-  console.log(isChecked);
+ 
 
   const toastSuccessprofileupdate = () =>
     toast.success("Updated Address  successfully");
   const toastError = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };
-
-  const handleaddress = async () => {
+//get me address
+  const handleAddressMe = async () => {
     try {
       const response = await services.myprofile.GET_MY_ADDRESS_BY_ID(id);
       setFullName(response?.data?.data[0]?.address.fullName);
@@ -52,8 +52,8 @@ export default function Editaddress(props) {
       console.log(error);
     }
   };
-
-  const handlesubmit = async (event) => {
+//save address 
+  const handlesubmitAddress = async (event) => {
     event.preventDefault();
 
     let isValid = true;
@@ -129,7 +129,7 @@ export default function Editaddress(props) {
 
 
 
-
+//pincode handel
   const handlePinCodeInputChange = (e) => {
     const enteredNumber = e.target.value;
 
@@ -173,7 +173,7 @@ export default function Editaddress(props) {
   };
 
   useEffect(() => {
-    handleaddress();
+    handleAddressMe();
   }, []);
 
   return (
@@ -199,7 +199,7 @@ export default function Editaddress(props) {
             </span>
           </div>
           <div className="card-body">
-            <form method="post" onSubmit={handlesubmit}>
+            <form method="post" onSubmit={handlesubmitAddress}>
               <div className="row">
                 <div className="form-group col-md-6">
                   <label>

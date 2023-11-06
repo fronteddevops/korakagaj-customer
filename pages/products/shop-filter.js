@@ -13,7 +13,7 @@ import ShopFilter from "./../../components/ecommerce/Filter";
 const ProductsFullWidth = ({ products, productFilters }) => {
 
     let Router = useRouter(),
-        searchTerm = Router.query.search,
+     
         showLimit = 12,
         showPagination = 4;
 

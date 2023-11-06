@@ -1,11 +1,11 @@
 import Layout from "../components/layout/Layout";
 
 import "font-awesome/css/font-awesome.min.css";
-import { ToastContainer, toast } from "react-toastify";
+
 import React, { useEffect, useState } from "react";
 
 import services from "../services";
-import Link from "next/link";
+
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,7 @@ function OrderViewDetails({ data }) {
 const Router=useRouter()
   const [orderDetailsData, setOrderDetailsData] = useState();
  const ProductId=Router.query.orderId
-
+//order details function
   const orderDetials = async (id) => {
   
     try {
@@ -31,8 +31,6 @@ const Router=useRouter()
   useEffect(() => {
     orderDetials()
   }, []);
-
-
 
   return (
     <Layout parent={t("Home")} sub={t("Pages")} subChild={t("View Order Details")}>
@@ -58,9 +56,7 @@ const Router=useRouter()
                    // Handle the JSON parsing error here, or you can ignore it
                  }
                }
-               
-            
-             
+           
                 return (
                   <ul className="list-group" key={key}>
                     <li className="list-group-item">{t("Brand Name :")} {item?.Product?.brandName}</li>

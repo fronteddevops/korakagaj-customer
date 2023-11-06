@@ -7,15 +7,15 @@ import services from "../../services";
 import { Router, useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
-import Link from "next/link";
+
 import { useTranslation } from "react-i18next";
 
 const ProductId = ({ product }) => {
   const { t} = useTranslation("common");
   const [data, setData] = useState([]);
   const router = useRouter();
-  // const id = router.query.slug;
-
+  
+// set query data 
   const prodcutId = router.query.productId ? router.query.productId : router.query.slug;
   const newFabricPrice = router.query.fabricPrice ? router.query.fabricPrice : ""
 
@@ -44,6 +44,7 @@ const ProductId = ({ product }) => {
 
   };
   useEffect(() => {
+    //get prodcut function call
     getProdcut();
   }, [prodcutId, newFabricPrice]);
 

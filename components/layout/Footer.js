@@ -219,7 +219,7 @@ const { t} = useTranslation("common");
                     </Link>
                   </li>
                   <li>
-                    <a href="#">{t("Contact Us")}</a>
+                    <a href="/page-contact/">{t("Contact Us")}</a>
                   </li>
                   <li>
                     <a href="#">{t("Support Center")}</a>
@@ -230,13 +230,13 @@ const { t} = useTranslation("common");
                 <h5 className="widget-title wow fadeIn animated">{t("My Account")}</h5>
                 <ul className="footer-list wow fadeIn animated">
                   <li>
-                    <a href="#">{t("Sign In")}</a>
+                    <a href="/login">{t("Sign In")}</a>
                   </li>
                   <li>
-                    <a href="#">{t("View Cart")}</a>
+                    <a href="/shop-cart">{t("View Cart")}</a>
                   </li>
                   <li>
-                    <a href="#">{t("My Wishlist")}</a>
+                    <a href="/shop-wishlist/">{t("My Wishlist")}</a>
                   </li>
                   <li>
                     <a href="#">{t("Track My Order")}</a>

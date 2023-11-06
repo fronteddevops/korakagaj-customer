@@ -16,20 +16,11 @@ const Search = () => {
     useEffect( () => {
         // You can put your side effects logic here
         // For example, you can perform some action when searchTerm changes
-        {searchTerm.length>0   &&    searchProduct()}
+        {searchTerm.length>0   &&  searchProduct()}
         
      
     }, [searchTerm]);
-
-    
-
-    const handleInput = (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            handleSearch();
-        }
-    };
-
+    //serach product fucntion call
     const searchProduct = async () => {
     
   try {
