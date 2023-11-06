@@ -1,7 +1,6 @@
 import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import services from "../../services";
-
 import { useEffect, useState } from "react";
 import nextConfig from "../../next.config";
 import Link from "next/link";

@@ -483,7 +483,7 @@ function Account() {
                                           <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
                                             <a> {t("View detail")}</a>
                                           </Link></td>
-                                          <td>   <Link href={`/ReviewRetting?orderId=${item.id}`}>
+                                          <td>   <Link href={`/ReviewRetting?orderId=${item?.OrderDetails?.[0]?.Product?.id}`}>
                                             <a> {t("Review")}</a>
                                           </Link></td>
 
