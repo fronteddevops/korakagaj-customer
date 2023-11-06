@@ -1,4 +1,4 @@
 export default {
   
-    POST_REVIEW:()=> `/review`,
+    POST_REVIEW:()=> `/ratings/me`,
   };
