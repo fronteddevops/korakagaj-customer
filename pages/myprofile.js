@@ -50,7 +50,7 @@ function Account() {
 
 
 
- const [breadCrumb,setBreadCrumb]=useState("Dashboard")
+ const [breadCrumb,setBreadCrumb]=useState(t("Dashboard"))
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS

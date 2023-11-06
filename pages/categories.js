@@ -25,7 +25,7 @@ function Categories() {
    const imageUrl=nextConfig.BASE_URL_UPLOADS
     return (
         <>
-            <Layout parent="Home" sub={<a  href="/"> <>categories</></a>} subChild="List">
+            <Layout parent={t("Home")} sub={<a  href="/"> <>{t("Categories")}</></a>} subChild={t("List")}>
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">

@@ -14,7 +14,7 @@ import HomeBlog from "./../components/elements/HomeBlog";
 import IntroPopup from "./../components/elements/IntroPopup";
 import Layout from "./../components/layout/Layout";
 import BrandSlider from "./../components/sliders/Brand";
-import CategorySlider from "./../components/sliders/Category";
+import CategorySlider from "../components/sliders/Category";
 import Intro1 from "./../components/sliders/Intro1";
 import NewArrival from "./../components/sliders/NewArrival";
 import React from 'react';
@@ -52,7 +52,7 @@ export default function Home() {
                                 className="carausel-6-columns"
                                 id="carausel-6-columns"
                             >
-                                <CategorySlider />
+                                <CategorySlider/>
                             </div>
                         </div>
                     </div>
