@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import services from '../services';
 import nextConfig from '../next.config';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from "react-toastify";
 
 const propTypes = {};
 
@@ -22,6 +23,8 @@ const ReviewRetting = () => {
   const [isDisable, setIsDisable] = useState(true);
   const [orderId, setOrderId] = useState();
   const [productId, setProductId] = useState();
+  const [Rating, setRating] = useState();
+  const toastSuccessReviewRating = () => toast.success("Review rating has been submitted successfully");
   const ProductId = Router.query.orderId
 const imageUrl = nextConfig.BASE_URL_UPLOADS
   const orderDetials = async (id) => {
@@ -31,7 +34,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
       setOrderDetailsData(response?.data?.data)
       setOrderDetailsData1(response?.data?.data[0])
-      console.log("2222222222222222",response?.data?.data[0])
+      setRating(response?.data?.data[0].Product?.averageRating)
       setProductId(response?.data?.data[0]?.Product?.id)
       setOrderId(response?.data?.data[0]?.Order?.id)
     } catch (error) {
@@ -54,7 +57,13 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
       }
 
       const response = await services.review.POST_REVIEW_BY_USER(data);
-
+if(response){
+  toastSuccessReviewRating()
+  // setTimeout(() => {
+  // Router.push('/');
+  // }, 1000);
+}
+    
     } catch (error) {
       console.log(error);
 
@@ -107,6 +116,20 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
                       <p className="card-text">{orderDetailsData1?.Product?.description}</p>
                       <span className='fw-bold'>{t("Total Quantity :")} {orderDetailsData1?.totalQuantity}</span>&nbsp;  &nbsp; &nbsp;
                       <span className='fw-bold'>{t("Price :")} {orderDetailsData1?.Product?.totalPrice}</span>  
+                      <div className="d-flex ">
+                      <span className='fw-bold'>
+                          Rating Review  : 
+                         </span> &nbsp;
+                        <span className='fw-bold'>
+                           <ReactStars
+                            value={Rating}
+                            count={5}
+                            size={20}
+                            activeColor="#ffd700"
+                            isHalf={true} // Disable half ratings
+                            edit={false}   // Disable user rating changes
+                          /></span>
+                        </div>
                       </div>
                   </div>
 

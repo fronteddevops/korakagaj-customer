@@ -4,20 +4,24 @@ import "font-awesome/css/font-awesome.min.css";
 import { ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 
+import ReactStars from "react-rating-stars-component";
+
 import services from "../services";
 import Link from "next/link";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import nextConfig from "../next.config";
 
 function OrderViewDetails({ data }) {
   const { t } = useTranslation("common");
-const Router=useRouter()
+  const Router = useRouter()
   const [orderDetailsData, setOrderDetailsData] = useState();
- const ProductId=Router.query.orderId
+  const ProductId = Router.query.orderId
+  const imageUrl = nextConfig.BASE_URL_UPLOADS
 
   const orderDetials = async (id) => {
-  
+
     try {
 
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
@@ -46,23 +50,76 @@ const Router=useRouter()
             <div className="card-body">
 
               {orderDetailsData?.map((item, key) => {
-               let color = "";
+                let color = "";
 
-               if (item?.Product?.colour && item?.Product?.colour.length > 0) {
-                 try {
-                   const colorArray = JSON.parse(item.Product.colour);
-                   if (Array.isArray(colorArray)) {
-                     color = colorArray.join(', ');
-                   }
-                 } catch (error) {
-                   // Handle the JSON parsing error here, or you can ignore it
-                 }
-               }
-               
-            
-             
+                if (item?.Product?.colour && item?.Product?.colour.length > 0) {
+                  try {
+                    const colorArray = JSON.parse(item.Product.colour);
+                    if (Array.isArray(colorArray)) {
+                      color = colorArray.join(', ');
+                    }
+                  } catch (error) {
+                    // Handle the JSON parsing error here, or you can ignore it
+                  }
+                }
+
                 return (
-                  <ul className="list-group" key={key}>
+                  // <div className="card border border-dark">
+                  //   <div className="card-header" key={key}>
+                  //     <h3 className='fw-bold'> {item?.Product?.brandName}</h3>
+
+
+                  //   </div>
+                  //   <div className="card-body">
+
+                  //     <div className='d-flex justify-content-start align-item-center '>
+
+                  //       <div className=' '>  <img
+                  //         className='rounded'
+                  //         crossOrigin='anonymous'
+                  //         src={imageUrl + item?.Product?.image[0]}
+                  //         alt='Image'
+                  //         height={120}
+                  //         width={100}
+                  //       />
+                  //       </div>
+
+                  //       <div className='ms-3'>
+                  //         <h5 className="card-title">{item?.Product?.productName}</h5>
+                  //         <p className="card-text">{item?.Product?.description}</p>
+                  //         <span className='fw-bold'>{t("Total Quantity :")} {item?.totalQuantity}</span>&nbsp;  &nbsp; &nbsp;
+                  //         <span className='fw-bold'>{t("Price :")} {item?.Product?.totalPrice}</span>
+                  //         <div className="d-flex ">
+                  //         <span className='fw-bold'>
+                  //           Rating Review  : 
+                  //          </span> &nbsp;
+                  //         <span className='fw-bold'>
+                  //           <ReactStars
+                  //             value={item?.Product?.averageRating}
+                  //             count={5}
+                  //             size={20}
+                  //             activeColor="#ffd700"
+                  //             isHalf={true} // Disable half ratings
+                  //             edit={false}   // Disable user rating changes
+                  //           /></span>
+                  //         </div>
+                         
+                  //       </div>
+
+                  //     </div>
+
+                  //   </div>
+                  // </div>
+                  <ul className="list-group border border-black p-5 " key={key}>
+                    <h4 className="mb-3 ">Product Details</h4>
+                     <li className="list-group-item">{t("Brand Name :")}  <img
+                          className='rounded'
+                          crossOrigin='anonymous'
+                          src={imageUrl + item?.Product?.image[0]}
+                          alt='Image'
+                          height={120}
+                          width={100}
+                        /></li>
                     <li className="list-group-item">{t("Brand Name :")} {item?.Product?.brandName}</li>
                     <li className="list-group-item">Product Name : {item?.Product?.productName}</li>
                     <li className="list-group-item">{t("Designer Name :")} {item?.Product?.designerName}</li>
@@ -85,6 +142,17 @@ const Router=useRouter()
                     }</li>
                     <li className="list-group-item">{t("Total Quantity :")} {item?.Order?.totalQuantity
                     }</li>
+                       <li className="list-group-item d-flex">Rating  : &nbsp;<ReactStars
+                  value={item?.Product?.averageRating}
+                  count={5}
+                  size={20}
+                  activeColor="#ffd700"
+                  isHalf={true} // Disable half ratings
+                  edit={false}   // Disable user rating changes
+                /></li>
+                      <li className="list-group-item">Review : {item?.Order?.User?.Ratings[0]?.review
+                    }</li>
+               
                   </ul>
                 )
               })}
