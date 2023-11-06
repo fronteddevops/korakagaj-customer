@@ -16,7 +16,7 @@ function Privacy() {
                                         <h2>{t("Privacy Policy")}</h2>
                                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                                             <span className="post-by">
-                                                {t("By")} <a href="#">Jonh</a>
+                                                {t("By")} <a href="#">{t("Jonh")}</a>
                                             </span>
                                             <span className="post-on has-dot">9{t("April")}2020</span>
                                             <span className="time-reading has-dot">{t("8 mins read")}</span>

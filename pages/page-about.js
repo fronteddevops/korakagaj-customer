@@ -247,12 +247,12 @@ function About() {
                                     alt=""
                                 />
                                 <h4 className="mt-30 mb-15 wow fadeIn animated">
-                                    New York, USA
+                                    {t("New York, USA")}
                                 </h4>
                                 <p className="text-grey-3 wow fadeIn animated">
                                     {t("27 Division St, New York")}
                                     <br />
-                                    (t{"NY 10002, USA"})
+                                    {t("NY 10002, USA")}
                                 </p>
                             </div>
                             <div className="col-md-4 text-center mb-md-0 mb-4">
@@ -262,11 +262,11 @@ function About() {
                                     alt=""
                                 />
                                 <h4 className="mt-30 mb-15 wow fadeIn animated">
-                                    Paris, France
+                                    {t("Paris, France")}
                                 </h4>
                                 <p className="text-grey-3 wow fadeIn animated">
                                     {t("22 Rue des Carmes")}
-                                    <br /> 75005 Paris
+                                    <br /> {t("75005 Paris")}
                                 </p>
                             </div>
                             <div className="col-md-4 text-center">
@@ -276,12 +276,12 @@ function About() {
                                     alt=""
                                 />
                                 <h4 className="mt-30 mb-15 wow fadeIn animated">
-                                    Jakarta, Indonesia
+                                    {t("Jakarta, Indonesia")}
                                 </h4>
                                 <p className="text-grey-3 wow fadeIn animated">
                                     2476 {t("Raya Yogyakarta,")}
                                     <br />
-                                    89090 Indonesia
+                                    {t("89090 Indonesia")}
                                 </p>
                             </div>
                         </div>
@@ -314,7 +314,7 @@ function About() {
                                         />
                                     </div>
                                     <div className="pl-30">
-                                        <h5 className="mb-5 fw-500">J. Bezos</h5>
+                                        <h5 className="mb-5 fw-500">{t("J. Bezos")}</h5>
                                         <p className="font-sm text-grey-5">
                                             {t("Adobe Jsc")}
                                         </p>
@@ -334,7 +334,7 @@ function About() {
                                         />
                                     </div>
                                     <div className="pl-30">
-                                        <h5 className="mb-5 fw-500">B.Gates</h5>
+                                        <h5 className="mb-5 fw-500">{t("B.Gates")}</h5>
                                         <p className="font-sm text-grey-5">
                                             {t("Adobe Jsc")}
                                         </p>
@@ -354,9 +354,9 @@ function About() {
                                         />
                                     </div>
                                     <div className="pl-30">
-                                        <h5 className="mb-5 fw-500">B. Meyers</h5>
+                                        <h5 className="mb-5 fw-500">{t("B. Meyers")}</h5>
                                         <p className="font-sm text-grey-5">
-                                            Adobe Jsc
+                                            {t("Adobe Jsc")}
                                         </p>
                                         <p className="text-grey-3">
                                             {t("Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas.:")}
@@ -374,9 +374,9 @@ function About() {
                                         />
                                     </div>
                                     <div className="pl-30">
-                                        <h5 className="mb-5 fw-500">J. Bezos</h5>
+                                        <h5 className="mb-5 fw-500">{t("J. Bezos")}</h5>
                                         <p className="font-sm text-grey-5">
-                                            Adobe Jsc
+                                            {t("Adobe Jsc")}
                                         </p>
                                         <p className="text-grey-3">
                                         {t("Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas.:")}
@@ -395,9 +395,9 @@ function About() {
                                         />
                                     </div>
                                     <div className="pl-30">
-                                        <h5 className="mb-5 fw-500">B.Gates</h5>
+                                        <h5 className="mb-5 fw-500">{t("B.Gates")}</h5>
                                         <p className="font-sm text-grey-5">
-                                            Adobe Jsc
+                                            {t("Adobe Jsc")}
                                         </p>
                                         <p className="text-grey-3">
                                         {t("Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas.:")}
@@ -416,9 +416,9 @@ function About() {
                                         />
                                     </div>
                                     <div className="pl-30">
-                                        <h5 className="mb-5 fw-500">B. Meyers</h5>
+                                        <h5 className="mb-5 fw-500">{t("B. Meyers")}</h5>
                                         <p className="font-sm text-grey-5">
-                                            Adobe Jsc
+                                            {t("Adobe Jsc")}
                                         </p>
                                         <p className="text-grey-3">
                                         {t("Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas.:")}
