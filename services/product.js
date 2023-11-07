@@ -6,12 +6,12 @@ import api from "../api";
 export default {
 
 
- 
+
   GET_PRODUCT: () => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-            nextConfig.BASE_URL + api.product.GET_PRODUCT()
+          nextConfig.BASE_URL + api.product.GET_PRODUCT()
         );
         resolve(response);
       } catch (err) {
@@ -19,19 +19,8 @@ export default {
       }
     });
   },
-  GET_PRODUCT_AUTH: () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await Axios.get(
-            nextConfig.BASE_URL + api.product.GET_PRODUCT_AUTH()
-        );
-        resolve(response);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  },
-  
+
+
   GET_PRODUCT_BY_ID: (id) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -56,39 +45,27 @@ export default {
       }
     });
   },
-  GET_FILTER_PRODUCT: (data) => {
+  GET_FILTER_PRODUCT: (query) => {
+    console.log(query)
+    let response;
     return new Promise(async (resolve, reject) => {
       try {
-      
-        const response = await Axios.get(
-          nextConfig.BASE_URL + api.product.GET_FILTER_PRODUCT(data)
-        );
-        resolve(response);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  },
-  PRODCUT_GET_LowToHigh: () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-      
-        const response = await Axios.get(
-          nextConfig.BASE_URL + api.product.PRODCUT_GET_LowToHigh()
-        );
-        resolve(response);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  },
-  PRODCUT_GET_HighToLow: () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-      
-        const response = await Axios.get(
-          nextConfig.BASE_URL + api.product.PRODCUT_GET_HighToLow()
-        );
+        if (localStorage.getItem("access_token")) {
+           //auth product get
+          response = await Axios.get(
+            nextConfig.BASE_URL + api.product.GET_PRODUCT_AUTH(query)
+          );
+
+        }
+
+        else {
+
+          response = await Axios.get(
+            nextConfig.BASE_URL + api.product.GET_FILTER_PRODUCT(query)
+
+          );
+        }
+
         resolve(response);
       } catch (err) {
         reject(err);

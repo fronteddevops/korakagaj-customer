@@ -107,7 +107,7 @@ const { t} = useTranslation("common");
                     }}
                   />
                   <button
-                    className="btn bg-dark text-white"
+                    className="btn bg-dark text-white "
                     type="submit"
                     disabled={!(email && isValid)}
                   >
@@ -145,7 +145,7 @@ const { t} = useTranslation("common");
                     <strong>{t("Phone:")} </strong>(+91) 9791028374
                   </p>
                   <p className="wow fadeIn animated">
-                    <strong>{t("Hours:")} </strong>{t("10:00 - 18:00, Mon - Sat")}
+                    <strong>{t("Hours:")} </strong>10:00 - 18:00, {t("Mon - Sat")}
                   </p>
                   <h5 className="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">
                     {t("Follow Us")}

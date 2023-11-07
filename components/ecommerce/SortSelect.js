@@ -27,16 +27,16 @@ const SortSelect = ({ updateProductFilters }) => {
                 <div className="sort-by">
                     <span>
                         <i className="fi-rs-apps-sort"></i>
-                        Sort by:
+                        {t('Sort by:')}
                     </span>
                 </div>
                 <div className="sort-by-dropdown-wrap custom-select">
                     <select onChange={(e) => seleceOption(e)}>
-                        <option value="">Defaults</option>
-                        <option value="featured">Featured</option>
-                        <option value="trending">Trending</option>
-                        <option value="lowToHigh">Low To High</option>
-                        <option value="highToLow">High To Low</option>
+                        <option value="">{t("Default")}</option>
+                        <option value="featured">{t("Featured")}</option>
+                        <option value="trending">{t("Trending")}</option>
+                        <option value="lowToHigh">{t("Low To High")}</option>
+                        <option value="highToLow">{t("High To Low")}</option>
                     </select>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+ /*eslint-disable import/no-anonymous-default-export*/
 export default {
     GET_MY_PROFILE:()=>`/user/me`,
     UPDATE_MY_PROFILE:()=>`/user/me`,

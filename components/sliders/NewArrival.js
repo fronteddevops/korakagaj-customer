@@ -19,26 +19,44 @@ const NewArrival = () => {
         // With Category
       
             try {
-                if( !localStorage.getItem('access_token')){
-                    const response = await services.product.GET_PRODUCT();
-                    const newProudct = response?.data?.data?.filter(
-                        (product) => product?.productType == 3
-                      );
-                      if (newProudct) {
-                        setNewArrival(newProudct);
+                // if( !localStorage.getItem('access_token')){
+                //     const response = await services.product.GET_PRODUCT();
+                //     const newProudct = response?.data?.data?.filter(
+                //         (product) => product?.productType == 3
+                //       );
+                //       if (newProudct) {
+                //         setNewArrival(newProudct);
                      
-                      }
-                  }else if(localStorage.getItem('access_token')){
-                    const response = await services.product.GET_PRODUCT_AUTH();
-                    const newProudct = response?.data?.data?.filter(
-                        (product) => product.productType == 3
-                      );
-                      if (newProudct) {
-                        setNewArrival(newProudct);
+                //       }
+                //   }else if(localStorage.getItem('access_token')){
+                //     const response = await services.product.GET_FILTER_PRODUCT();
+                //     const newProudct = response?.data?.data?.filter(
+                //         (product) => product.productType == 3
+                //       );
+                //       if (newProudct) {
+                //         setNewArrival(newProudct);
                      
-                      }
-                  }
+                //       }
+                //   }
         
+
+    const data = {
+        subSubCategory: "",
+        categoryId: "",
+        productType:3,
+        order:"",
+        maxPrice: "10000",
+        minPrice:"0",
+        color: "",
+        size: "",
+  
+  }
+  const query = new URLSearchParams(data);
+     const response =await services.product.GET_FILTER_PRODUCT(query)
+     if(response){
+        setNewArrival(response?.data?.data);
+     }
+
             //   const newProudct = response?.data?.data?.filter(
             //     (product) => product.productType == 3
             //   );

@@ -12,97 +12,40 @@ function FeatchTab() {
     const [newProudct, setNewProduct] = useState([]);
     const [hotDeals, setHotDeals] = useState([]);
     const [newArrival, setNewArrival] = useState([]);
-  
-    const featuredProduct = async () => {
+    const [ productType,setProdcuType]=useState("0")
+    const data = {
+      subSubCategory: "",
+      categoryId: "",
+      productType:productType,
+      order:"",
+      maxPrice: "10000",
+      minPrice:"0",
+      color: "",
+      size: "",
+    };
+
+
+    const fillterProduct = async () => {
       try {
-        if(!localStorage.getItem('access_token')){
-          const response = await services.product.GET_PRODUCT();
-          const newProudct = response?.data?.data?.filter(
-            (product) => product.productType == 0
-          );
-          if (newProudct) {
-            setNewProduct(newProudct);
+   
+        const query = new URLSearchParams(data);
+           const response =await services.product.GET_FILTER_PRODUCT(query)
+           if(response){
+            console.log("+++++++++++++++++++++++++++++",response?.data?.data)
+            setNewProduct(response?.data?.data);
             setActive("0");
-          }
-        }else if(localStorage.getItem('access_token')){
-          const response = await services.product.GET_PRODUCT_AUTH();
-          const newProudct = response?.data?.data?.filter(
-            (product) => product.productType == 0
-          );
-          if (newProudct) {
-            setNewProduct(newProudct);
-            setActive("0");
-          } 
-        }
-      
-  
+           }
      
       } catch (error) {
         console.log(error);
       }
     };
   
-    const trendingProduct = async () => {
-      try {
-        if( !localStorage.getItem('access_token')){
-          const response = await services.product.GET_PRODUCT();
-          const hotDeals = response?.data?.data?.filter(
-            (product) => product.productType == 1
-          );
-          if (hotDeals) {
-            setHotDeals(hotDeals);
-            setActive("1");
-          }
-        }else if(localStorage.getItem('access_token')){
-          const response = await services.product.GET_PRODUCT_AUTH();
-          const hotDeals = response?.data?.data?.filter(
-            (product) => product.productType == 1
-          );
-          if (hotDeals) {
-            setHotDeals(hotDeals);
-            setActive("1");
-          }
-        }
-      
-  
-     
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const newArrivalProduct = async () => {
-      try {
-        if(!localStorage.getItem('access_token')){
-          const response = await services.product.GET_PRODUCT();
-
-        const NewArrival = response?.data?.data?.filter(
-          (product) => product.productType == 2
-        );
-        if (NewArrival) {
-          setNewArrival(NewArrival);
-          setActive("2");
-        }
-        }else if(localStorage.getItem('access_token')){
-          const response = await services.product.GET_PRODUCT_AUTH();
-
-        const NewArrival = response?.data?.data?.filter(
-          (product) => product.productType == 2
-        );
-        if (NewArrival) {
-          setNewArrival(NewArrival);
-          setActive("2");
-        }
-        }
-      
-  
-      } catch (error) {
-        console.log(error);
-      }
-    };
+   
   
     useEffect(() => {
-      featuredProduct();
-    }, []);
+      fillterProduct();
+    }, [productType]);
   
 
     return (
@@ -110,17 +53,17 @@ function FeatchTab() {
             <div className="tab-header">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className={active === "0" ? "nav-link active" : "nav-link"} onClick={featuredProduct}>
+                        <button className={active === "0" ? "nav-link active" : "nav-link"} onClick={()=>setProdcuType("0")}>
                         {t("New Product")}
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={trendingProduct}>
+                        <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={()=>setProdcuType("1")}>
                         {t("Hot Deals")}
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={newArrivalProduct}>
+                        <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={()=>setProdcuType("2")}>
                         {t("Best Seller")}
                         </button>
                     </li>

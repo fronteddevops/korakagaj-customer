@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import ReactStars from "react-rating-stars-component";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/action/cart";
@@ -189,8 +190,16 @@ const SingleProduct = ({
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>
               </h2>
-              <div className="rating-result" title="90%">
+              <div>
                 <span>
+                <ReactStars
+          value={product.averageRating} 
+      count={5}
+      size={20}
+      activeColor="#ffd700"
+      isHalf={true} // Disable half ratings
+      edit={false}   // Disable user rating changes
+    />
                   <span>{product?.ratingScore} </span>
                 </span>
               </div>

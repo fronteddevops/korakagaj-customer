@@ -482,7 +482,7 @@ const handlePaste = (e) => {
                                 )
                               }
                             >
-                              {t("Submit")} &amp; {t("Sing up")}
+                              {t("Submit")} &amp; {t("Sign up")}
                             </button>
                           </div>
                         </form>

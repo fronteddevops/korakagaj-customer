@@ -136,37 +136,39 @@ const Products = ({ products1, productFilters }) => {
       color: selectedColors,
       size: selectedSizes,
     };
+    const query = new URLSearchParams(data);
+  
     try {
       if (searchProduct) {
-
-
         const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct)
         if (response) {
           setProdcut(response?.data?.data?.rows)
         }
       }
-      else {
-
-        const response = await services.product.GET_FILTER_PRODUCT(data);
-        if (response && toggle) {
-          const data = response?.data?.data
-
-
-          if (data.length <= 12) {
-            setProdcut(data)
-          
-
-            setCurrentPage(1)
-          }
-          else {
-            setProdcut(data)
-          }
+  
+   
+    const response = await services.product.GET_FILTER_PRODUCT(query);
+    if (response && toggle) {
+      const data = response?.data?.data
 
 
-        } else {
-          console.log("error");
-        }
+      if (data.length <= 12) {
+        setProdcut(data)
+      
+
+        setCurrentPage(1)
       }
+      else {
+        setProdcut(data)
+      }
+
+
+    } else {
+      console.log("error");
+    }
+  
+   
+  
     } catch (error) {
       console.log(error);
     }
@@ -185,200 +187,7 @@ const Products = ({ products1, productFilters }) => {
   //SORTING BY 
 
 
-  const featuredProduct = async () => {
 
-    try {
-      if (!localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT();
-
-        const newProudct = response?.data?.data?.filter(
-          (product) => product.productType == 0
-        );
-        if (newProudct.length <= 12) {
-        
-       
-          setCurrentPage(1)
-          setProdcut(newProudct);
-          setToggle(false)
-        } else {
-          setProdcut(newProudct);
-          setToggle(false)
-        }
-
-      } else if (localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT_AUTH();
-        const newProudct = response?.data?.data?.filter(
-          (product) => product.productType == 0
-        );
-        if (newProudct.length <= 12) {
-        
-         
-           setCurrentPage(1)
-           setProdcut(newProudct);
-           setToggle(false)
-         } else {
-           setProdcut(newProudct);
-           setToggle(false)
-         }
-
-
-    }} catch (error) {
-      console.log(error);
-    }
-  };
-
-  const trendingProduct = async () => {
-    try {
-      if (!localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT();
-        const hotDeals = response?.data?.data?.filter(
-          (product) => product.productType == 1
-        );
-        if (hotDeals.length <= 12) {
-          setProdcut(hotDeals);
-          setCurrentPage(1)
-        setToggle(false)
-        }
-        else {
-          setProdcut(hotDeals);
-          setCurrentPage(1)
-        }
-
-
-
-      } else if (localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT_AUTH();
-        const hotDeals = response?.data?.data?.filter(
-          (product) => product.productType == 1
-        );
-        if (hotDeals.length <= 12) {
-          setProdcut(hotDeals);
-          setCurrentPage(1)
-        setToggle(false)
-        }
-        else {
-          setProdcut(hotDeals);
-          setCurrentPage(1)
-        }
-      }
-
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const newArrivalProduct = async () => {
-    try {
-      if (!localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT();
-        const NewArrival = response?.data?.data?.filter(
-          (product) => product.productType == 2
-        );
-        if (NewArrival.length <= 12) {
-          setProdcut(NewArrival);
-          setCurrentPage(1)
-         setToggle(false)
-        }
-        else {
-          setProdcut(NewArrival);
-        
-         setToggle(false)
-
-        }
-      } else if (localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT_AUTH();
-        const NewArrival = response?.data?.data?.filter(
-          (product) => product.productType == 2
-        );
-        if (NewArrival.length <= 12) {
-          setProdcut(NewArrival);
-          setCurrentPage(1)
-         setToggle(false)
-        }
-        else {
-          setProdcut(NewArrival);
-        
-         setToggle(false)
-
-        }
-      }
-
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const default1 = async () => {
-    try {
-      if (!localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT();
-        if (response?.data?.data?.length <= 12) {
-          setProdcut(response?.data?.data);
-          setToggle(true)
-          setCurrentPage(1)
-        }
-        else {
-          setProdcut(response?.data?.data);
-          setToggle(true)
-
-        }
-
-      } else if (localStorage.getItem('access_token')) {
-        const response = await services.product.GET_PRODUCT_AUTH();
-        if (response?.data?.data?.length <= 12) {
-          setProdcut(response?.data?.data);
-        setToggle(true)
-          setCurrentPage(1)
-        }
-        else {
-          setProdcut(response?.data?.data);
-       
-          setToggle(true)
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const LowToHigh = async () => {
-    try {
-      const response = await services.product.PRODCUT_GET_LowToHigh();
-      if (response?.data?.data?.length <= 12) {
-        setProdcut(response?.data?.data);
-
-     setToggle(false)
-        setCurrentPage(1)
-      }
-      else {
-        setProdcut(response?.data?.data);
-        setToggle(false)
-      }
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const HighToLow = async () => {
-    try {
-      const response = await services.product.PRODCUT_GET_HighToLow();
-      if (response?.data?.data?.length <= 12) {
-        setProdcut(response?.data?.data);
-setToggle(false)
-      
-        setCurrentPage(1)
-      }
-      else {
-        setProdcut(response?.data?.data);
-
-        setToggle(false)
-
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   //FILTER CASE
   const handleChange = (selectedValue) => {

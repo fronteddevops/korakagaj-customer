@@ -46,7 +46,9 @@ function Account() {
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
   const [isChecked, setIsChecked] = useState()
- const [breadCrumb,setBreadCrumb]=useState("Dashboard")
+
+
+ const [breadCrumb,setBreadCrumb]=useState(t("Dashboard"))
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   //image url
   const imageUrl = nextConfig.BASE_URL_UPLOADS
@@ -481,7 +483,7 @@ function Account() {
                                           <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
                                             <a> {t("View detail")}</a>
                                           </Link></td>
-                                          <td>   <Link href={`/ReviewRetting?orderId=${item.id}`}>
+                                          <td>   <Link href={`/ReviewRetting?orderId=${item?.OrderDetails?.[0]?.Product?.id}`}>
                                             <a> {t("Review")}</a>
                                           </Link></td>
 
