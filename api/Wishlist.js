@@ -4,6 +4,6 @@
     CREATE_WISHLIST_BY_ID:()=> `/wishList/me`,
     GET_WISHLIST_DATA: () => `/wishList/me`,
     UPDATE_WISHLIST:(userID)=>`/wishList/${userID}`,
-    DELETE_WISHLIST_BY_ID:(id)=>`/wishList/${id}`,
+    DELETE_WISHLIST_BY_ID:(id)=>`/wishList/me/${id}`,
     };
     // /wishList/me/
