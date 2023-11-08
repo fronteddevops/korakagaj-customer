@@ -66,6 +66,8 @@ console.log()
       const updateCart = await services.cart.UPDATE_CART(data)
       console.log(updateCart)
       toast.success("Add to Cart !");
+      window.location.reload()
+
 
     } else {
       const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
@@ -81,8 +83,10 @@ console.log()
       let data = {
         cartDetail: { cartDetails: unique }
       }
-      console.log(data)
+     
       localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      toast.success("Add to Cart !");
+      window.location.reload()
     }
   };
   const handleWishlist = async (product) => {
