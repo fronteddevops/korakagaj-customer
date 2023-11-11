@@ -40,6 +40,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
     getProfile();
   }, [lang]);
   const getProfile = async () => {
+    if (localStorage.getItem("access_token")) {
     try {
       const response = await services.myprofile.GET_MY_PROFILE();
       if (response) {
@@ -49,6 +50,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
     } catch (error) {
       console.log(error);
     }
+  }
   };
   const handleToggle = (key) => {
     if (isActive.key === key) {

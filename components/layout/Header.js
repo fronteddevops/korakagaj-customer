@@ -79,6 +79,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     getProfile();
   }, [lang]);
   const getProfile = async () => {
+    if (localStorage.getItem("access_token")) {
     try {
       const response = await service.myprofile.GET_MY_PROFILE();
       if (response) {
@@ -88,7 +89,7 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     } catch (error) {
       console.log(error);
-    }
+    }}
   };
 
   const handleToggle = () => {
