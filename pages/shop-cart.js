@@ -7,7 +7,7 @@ import { useEffect, useState, useCallback } from "react";
 import services from "../services";
 import { useTranslation } from "react-i18next";
 
-const Cart = ({}) => {
+const Cart = ({ }) => {
   const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
@@ -17,12 +17,12 @@ const Cart = ({}) => {
 
   //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
-    let totalAmountArr = prodcutData.map((item)=>{
+    let totalAmountArr = prodcutData.map((item) => {
       return item.finalAmount * item.selectedQuantity
 
     })
     const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
-    console.log(totalAmountArr,sum)
+    console.log(totalAmountArr, sum)
     setTotalAmount(sum)
   };
   //set total price in add to card all prodcut 
@@ -34,11 +34,11 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.cart.GET_CART()
-  
+
         if (response) {
           setUpdateCart(response?.data?.data[0].cartDetail.cartDetails)
           calculateTotalAmount(response?.data?.data[0].cartDetail.cartDetails);
-  
+
         }
       } catch (error) {
         console.log(error)
@@ -53,7 +53,7 @@ const Cart = ({}) => {
     }
   }
 
- 
+
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART()
@@ -90,43 +90,82 @@ const Cart = ({}) => {
       let data = {
         cartDetail: { cartDetails: unique }
       }
-     
+
       localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
       toast.success("Cart updated!");
       cardData()
     }
   };
-const increaseQuantity = (product) => {
-  product.selectedQuantity = product.selectedQuantity + 1; 
-  handleCart(product)
-}
-const decreaseQuantity = (product) => {
-  product.selectedQuantity = product.selectedQuantity - 1; 
-  handleCart(product)
-
-}
-const clearCart = async () =>{
-  if (localStorage.getItem("access_token")) {
-   
-    let data = {
-      cartDetail: { cartDetails: [] }
-    }
-    console.log(data)
-    const updateCart = await services.cart.UPDATE_CART(data)
-    console.log(updateCart)
-    toast.success("Cart updated!");
-    cardData()
-
-
-  } else {
-    let data = {
-      cartDetail: { cartDetails: [] }
-    }
-    localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
-    toast.success("Cart updated!");
-    cardData()
+  const increaseQuantity = (product) => {
+    product.selectedQuantity = product.selectedQuantity + 1;
+    handleCart(product)
   }
-}
+  const decreaseQuantity = (product) => {
+    product.selectedQuantity = product.selectedQuantity - 1;
+    handleCart(product)
+
+  }
+  const clearCart = async () => {
+    if (localStorage.getItem("access_token")) {
+
+      let data = {
+        cartDetail: { cartDetails: [] }
+      }
+      console.log(data)
+      const updateCart = await services.cart.UPDATE_CART(data)
+      console.log(updateCart)
+      toast.success("Cart updated!");
+      cardData()
+
+
+    } else {
+      let data = {
+        cartDetail: { cartDetails: [] }
+      }
+      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      toast.success("Cart updated!");
+      cardData()
+    }
+  }
+  const deleteFromCart = async(product) => {
+    if (localStorage.getItem("access_token")) {
+    let updatedCartData  = [...updateCart]
+    let index
+    updateCart.map((item, i)=>{
+      if(item.id == product.id) {
+        index = i
+      }
+    })
+    updatedCartData.splice(index, 1)
+    console.log(updateCart, updatedCartData)
+      let data = {
+        cartDetail: { cartDetails: updatedCartData }
+      }
+      console.log(data)
+      const updateCartData = await services.cart.UPDATE_CART(data)
+      console.log(updateCartData)
+      toast.success("Cart updated!");
+      cardData()
+
+
+    } else {
+      let updatedCartData  = [...updateCart]
+    let index
+    updateCart.map((item, i)=>{
+      if(item.id == product.id) {
+        index = i
+      }
+    })
+    updatedCartData.splice(index, 1)
+      let data = {
+        cartDetail: { cartDetails: updatedCartData }
+      }
+
+      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      toast.success("Cart updated!");
+      cardData()
+    }
+  }
   return (
     <>
       <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={t("Cart")}>
@@ -174,11 +213,11 @@ const clearCart = async () =>{
                                     <a>{product.productName}</a>
                                   </Link>
                                 </h5>
-                               {product?.selectedColor ||  product?.selectedSize ? <p className="font-xs">
-                                  {product?.selectedColor && <>Color : {product?.selectedColor} <br/></>} 
-                                  {product?.selectedSize && <>Size : {product?.selectedSize} <br/></>} 
-                                  
-                                  
+                                {product?.selectedColor || product?.selectedSize ? <p className="font-xs">
+                                  {product?.selectedColor && <>Color : {product?.selectedColor} <br /></>}
+                                  {product?.selectedSize && <>Size : {product?.selectedSize} <br /></>}
+
+
                                 </p> : null}
                               </td>
                               <td className="price" data-title="Price">
@@ -208,7 +247,7 @@ const clearCart = async () =>{
                               </td>
                               <td className="action" data-title="Remove">
                                 <a
-                                  // onClick={(e) => deleteFromCart(product.id)}
+                                  onClick={(e) => deleteFromCart(product)}
                                   className="text-muted"
                                 >
                                   <i className="fi-rs-trash"></i>
@@ -245,7 +284,7 @@ const clearCart = async () =>{
                     <div className="heading_s1 mb-3">
                       <h4>Select Address</h4>
                     </div>
-                   
+
                     <form className="field_form shipping_calculator">
                       <div className="form-row">
                         <div className="form-group col-lg-12">
@@ -253,12 +292,12 @@ const clearCart = async () =>{
                             <select className="form-control select-active">
                               <option value="">{t("Choose a option...")}</option>
                               <option value="AX">India</option>
-                              
+
                             </select>
                           </div>
                         </div>
                       </div>
-                  
+
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <button className="btn  btn-sm w-100">
