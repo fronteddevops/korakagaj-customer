@@ -16,10 +16,14 @@ const Cart = ({}) => {
   const [totalAmount, setTotalAmount] = useState(1)
 
   //Calculate the total amount using the reduce method
-  const calculateTotalAmount = (prodcutDat) => {
+  const calculateTotalAmount = (prodcutData) => {
+    let totalAmountArr = prodcutData.map((item)=>{
+      return item.finalAmount * item.selectedQuantity
 
-    const totalAmount = prodcutDat[0]?.cartDetail?.cartDetails.reduce((total, product) => total + product?.finalAmount * product?.quantity, 0);
-    setTotalAmount(totalAmount)
+    })
+    const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+    console.log(totalAmountArr,sum)
+    setTotalAmount(sum)
   };
   //set total price in add to card all prodcut 
   useEffect(() => {
@@ -33,9 +37,7 @@ const Cart = ({}) => {
   
         if (response) {
           setUpdateCart(response?.data?.data[0].cartDetail.cartDetails)
-  
-          const cartDetails = response?.data?.data
-          calculateTotalAmount(cartDetails);
+          calculateTotalAmount(response?.data?.data[0].cartDetail.cartDetails);
   
         }
       } catch (error) {
@@ -202,7 +204,7 @@ const clearCart = async () =>{
                               </td>
 
                               <td className="text-right" data-title="Cart">
-                                <span>${product.finalAmount * product.quantity}</span>
+                                <span>${product.finalAmount * product.selectedQuantity}</span>
                               </td>
                               <td className="action" data-title="Remove">
                                 <a
