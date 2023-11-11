@@ -48,6 +48,9 @@ console.log()
 
 
   const handleCart = async (product) => {
+    product.selectedColor = '';
+    product.selectedSize = '';
+    product.selectedQuantity = 1;
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART()
 

@@ -26,9 +26,13 @@ const ProductDetails = ({
     quickView,
     fabricPrice
 }) => {
-    const { t} = useTranslation("common");
+    const { t } = useTranslation("common");
     const [quantity, setQuantity] = useState(1);
     const [fabricType, setfabricType] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedQuantity, setSelectedQuantity] = useState(1);
+
     const calculateTotalPrice = (product) => {
         let itemTotalPrice = 0; // Initialize totalPrice to 0
 
@@ -59,46 +63,50 @@ const ProductDetails = ({
 
 
         if (localStorage.getItem("access_token")) {
-    
-    
-          try {
-    
-            const userID = localStorage.getItem("userId");
-    
-            const data = {
-              productId: product.id,
-              userId: userID
+
+
+            try {
+
+                const userID = localStorage.getItem("userId");
+
+                const data = {
+                    productId: product.id,
+                    userId: userID
+                }
+
+                if (!product.isWishlisted) {
+
+
+                    const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+                    productDataShow()
+                    toast.success("Added to Wishlist!");
+                    window.location.reload()
+                } else {
+                    const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+                    productDataShow()
+                    toast.success("Removed from Wishlist");
+                    window.location.reload()
+                }
+
+            } catch (error) {
+
+                console.error("An error occurred:", error);
             }
-    
-            if (!product.isWishlisted) {
-    
-    
-              const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-              productDataShow()
-              toast.success("Added to Wishlist!");
-              window.location.reload()
-            } else {
-              const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-              productDataShow()
-              toast.success("Removed from Wishlist");
-              window.location.reload()
-            }
-    
-          } catch (error) {
-    
-            console.error("An error occurred:", error);
-          }
-    
+
         } else {
-          
-          toast.error("Please Login!");
+
+            toast.error("Please Login!");
         }
-    
-      };
+
+    };
     const color = JSON?.parse(product?.colour)
     const size = JSON?.parse(product.size)
 
     const handleCart = async (product) => {
+        product.selectedColor = selectedColor;
+        product.selectedSize = selectedSize;
+        product.selectedQuantity = selectedQuantity;
+
         if (localStorage.getItem("access_token")) {
             const cart = await services.cart.GET_CART()
             let cartDetails = []
@@ -200,7 +208,7 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
                                             <h2 className="title-detail text-capitalize">
-                                                 {product.productName}
+                                                {product.productName}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
@@ -285,8 +293,8 @@ const ProductDetails = ({
                                                 <ul className="list-filter color-filter">
                                                     {color && color?.map((clr, i) =>
 
-                                                        <li key={i}>
-                                                            <a href="#">
+                                                        <li key={i} onClick={()=>setSelectedColor(clr)}>
+                                                            <a href="#" >
                                                                 <span
                                                                     className={`product-color-${clr}`}
                                                                 >
@@ -304,8 +312,8 @@ const ProductDetails = ({
                                                 <ul className="list-filter size-filter font-small">
                                                     {size.map(
                                                         (size, i) => (
-                                                            <li key={i}>
-                                                                <a href="#">
+                                                            <li className={size == selectedSize ? 'active' : ''} key={i}  onClick={()=>setSelectedSize(size)}>
+                                                                <a>
                                                                     {size}
                                                                 </a>
                                                             </li>
@@ -325,18 +333,18 @@ const ProductDetails = ({
                                                 <div className="detail-qty border radius">
                                                     <a
                                                         onClick={(e) =>
-                                                            setQuantity(1)
+                                                            setSelectedQuantity(selectedQuantity - 1)
                                                         }
                                                         className="qty-down"
                                                     >
                                                         <i className="fi-rs-angle-small-down"></i>
                                                     </a>
                                                     <span className="qty-val">
-                                                        {quantity}
+                                                        {selectedQuantity}
                                                     </span>
                                                     <a
                                                         onClick={() =>
-                                                            setQuantity(1)
+                                                            setSelectedQuantity(selectedQuantity + 1)
                                                         }
                                                         className="qty-up"
                                                     >
@@ -429,7 +437,7 @@ const ProductDetails = ({
 
                                 {quickView ? null : (
                                     <>
-                                        <ProductTab prodcut={product}  />
+                                        <ProductTab prodcut={product} />
                                         <div className="row mt-60">
                                             <div className="col-12">
                                                 <h3 className="section-title style-1 mb-30">
@@ -438,7 +446,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="col-12">
                                                 <div className="row related-products position-relative">
-                                                    <RelatedSlider/>
+                                                    <RelatedSlider />
                                                 </div>
                                             </div>
                                         </div>

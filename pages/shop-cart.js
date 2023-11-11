@@ -28,54 +28,54 @@ const Cart = ({
   const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
- 
+
   const [updateCart, setUpdateCart] = useState([])
-  const[totalAmount,setTotalAmount]=useState(1)  
+  const [totalAmount, setTotalAmount] = useState(1)
 
- //Calculate the total amount using the reduce method
+  //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutDat) => {
-   
-const totalAmount=  prodcutDat[0]?.cartDetail?.cartDetails.reduce((total, product) => total + product?.finalAmount * product?.quantity, 0);
-setTotalAmount(totalAmount)
-};
+
+    const totalAmount = prodcutDat[0]?.cartDetail?.cartDetails.reduce((total, product) => total + product?.finalAmount * product?.quantity, 0);
+    setTotalAmount(totalAmount)
+  };
   //set total price in add to card all prodcut 
- useEffect(()=>{
+  useEffect(() => {
 
-  cardData()
- },[totalAmount,])
-//card data get function
-  const cardData=async()=>{
+    cardData()
+  }, [totalAmount,])
+  //card data get function
+  const cardData = async () => {
     try {
-          const response=  await services.cart.GET_CART()
-         
-          if(response){
-            setUpdateCart(response?.data?.data)
+      const response = await services.cart.GET_CART()
 
-            const cartDetails = response?.data?.data
-          calculateTotalAmount(cartDetails);
-          
-          }
+      if (response) {
+        setUpdateCart(response?.data?.data)
+
+        const cartDetails = response?.data?.data
+        calculateTotalAmount(cartDetails);
+
+      }
     } catch (error) {
-       console.log(error)
+      console.log(error)
     }
   }
 
-//color get function
-function parseAndFormatColors(colorsJSON) {
-  try {
-    const colorArray = JSON?.parse(colorsJSON);
-    if (Array.isArray(colorArray)) {
-      return colorArray.join(', ');
+  //color get function
+  function parseAndFormatColors(colorsJSON) {
+    try {
+      const colorArray = JSON?.parse(colorsJSON);
+      if (Array.isArray(colorArray)) {
+        return colorArray.join(', ');
+      }
+    } catch (error) {
+      // Handle the JSON parsing error here, or you can ignore it
     }
-  } catch (error) {
-    // Handle the JSON parsing error here, or you can ignore it
+    return "";
   }
-  return "";
-}
 
   return (
     <>
-      <Layout parent={t("Home")}sub={<><a   href="/products"> {t("Product")}</a></>} subChild={t("Cart")}>
+      <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={t("Cart")}>
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -100,69 +100,69 @@ function parseAndFormatColors(colorsJSON) {
                       </tr>
                     </thead>
                     <tbody>
-                    {updateCart && updateCart.map((item, i) => (
-  item.cartDetail.cartDetails.map((product, j) => {
+                      {updateCart && updateCart.map((item, i) => (
+                        item.cartDetail?.cartDetails?.map((product, j) => {
 
-  
-    return (
-      <tr key={i * 1000 + j}>
-        <td className="image product-thumbnail">
-          <img
-            src={imageUrl + product.featuredImage}
-            alt=""
-            crossOrigin="anonymous"
-          />
-        </td>
 
-        <td className="product-des product-name">
-          <h5 className="product-name">
-            <Link href="/products">
-              <a>{product.productName}</a>
-            </Link>
-          </h5>
-          <p className="font-xs">
-            {parseAndFormatColors(product?.colour)}
-            {/* {product.description} */}
-          </p>
-        </td>
-        <td className="price" data-title="Price">
-          <span>${product.finalAmount}</span>
-        </td>
+                          return (
+                            <tr key={i * 1000 + j}>
+                              <td className="image product-thumbnail">
+                                <img
+                                  src={imageUrl + product.featuredImage}
+                                  alt=""
+                                  crossOrigin="anonymous"
+                                />
+                              </td>
 
-        <td className="text-center" data-title="Stock">
-          <div className="detail-qty border radius m-auto">
-            <a
-              // onClick={(e) => decreaseQuantity(item.id)}
-              className="qty-down"
-            >
-              <i className="fi-rs-angle-small-down"></i>
-            </a>
-            <span className="qty-val">{product.quantity}</span>
-            <a
-              // onClick={(e) => increaseQuantity(item.id)}
-              className="qty-up"
-            >
-              <i className="fi-rs-angle-small-up"></i>
-            </a>
-          </div>
-        </td>
+                              <td className="product-des product-name">
+                                <h5 className="product-name">
+                                  <Link href="/products">
+                                    <a>{product.productName}</a>
+                                  </Link>
+                                </h5>
+                                <p className="font-xs">
+                                  {parseAndFormatColors(product?.colour)}
+                                  {/* {product.description} */}
+                                </p>
+                              </td>
+                              <td className="price" data-title="Price">
+                                <span>${product.finalAmount}</span>
+                              </td>
 
-        <td className="text-right" data-title="Cart">
-          <span>${product.finalAmount * product.quantity}</span>
-        </td>
-        <td className="action" data-title="Remove">
-          <a
-            // onClick={(e) => deleteFromCart(product.id)}
-            className="text-muted"
-          >
-            <i className="fi-rs-trash"></i>
-          </a>
-        </td>
-      </tr>
-    );
-  })
-))}
- <tr>
+                              <td className="text-center" data-title="Stock">
+                                <div className="detail-qty border radius m-auto">
+                                  <a
+                                    // onClick={(e) => decreaseQuantity(item.id)}
+                                    className="qty-down"
+                                  >
+                                    <i className="fi-rs-angle-small-down"></i>
+                                  </a>
+                                  <span className="qty-val">{product.quantity}</span>
+                                  <a
+                                    // onClick={(e) => increaseQuantity(item.id)}
+                                    className="qty-up"
+                                  >
+                                    <i className="fi-rs-angle-small-up"></i>
+                                  </a>
+                                </div>
+                              </td>
+
+                              <td className="text-right" data-title="Cart">
+                                <span>${product.finalAmount * product.quantity}</span>
+                              </td>
+                              <td className="action" data-title="Remove">
+                                <a
+                                  // onClick={(e) => deleteFromCart(product.id)}
+                                  className="text-muted"
+                                >
+                                  <i className="fi-rs-trash"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ))}
+                      <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
