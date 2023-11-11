@@ -166,6 +166,11 @@ const Cart = ({ }) => {
       cardData()
     }
   }
+  const isLoggedIn = localStorage.getItem("access_token")
+  const checkoutHandler = async() => {
+    const updateCartData = await services.cart.CHECKOUT()   
+    console.log(updateCartData)
+  }
   return (
     <>
       <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={t("Cart")}>
@@ -271,10 +276,14 @@ const Cart = ({ }) => {
                   </table>
                 </div>
                 <div className="cart-action text-end">
-                  <a className="btn ">
+               
+                <Link className={'btn'} href="/products">
+                  <button className={'btn'}>
                     <i className="fi-rs-shopping-bag mr-10"></i>
                     {t("Continue Shopping")}
-                  </a>
+                    </button>
+                    </Link>
+                    
                 </div>
                 <div className="divider center_icon mt-50 mb-50">
                   <i className="fi-rs-fingerprint"></i>
@@ -375,10 +384,13 @@ const Cart = ({ }) => {
                           </tbody>
                         </table>
                       </div>
-                      <a href="#" className="btn ">
+                      {isLoggedIn ? <a onClick={()=> checkoutHandler()} href="#" className="btn ">
                         <i className="fi-rs-box-alt mr-10"></i>
                         {t("Proceed To CheckOut")}
-                      </a>
+                      </a> : <Link className={'btn'} href="/login"><a href="#" className="btn ">
+                        <i className="fi-rs-box-alt mr-10"></i>
+                        {t("Proceed to Login")}
+                      </a></Link>}
                     </div>
                   </div>
                 </div>

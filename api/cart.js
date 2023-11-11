@@ -3,5 +3,6 @@
   
     GET_CART:()=> `/cart/me`,
     UPDATE_CART:()=>`/cart/me`,
+    CHECKOUT:()=>`/cart/checkout`,
       
     };
