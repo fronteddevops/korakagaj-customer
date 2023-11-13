@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
 
 
 const Products = ({ products, productFilters }) => {
-  const { t} = useTranslation("common");
+  const { t } = useTranslation("common");
   const [fabricList, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
 
@@ -36,14 +36,14 @@ const Products = ({ products, productFilters }) => {
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
 
-//pagination
+  //pagination
 
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
-   
-    const { basePrice,discountPercentage, newlength,id,prodcutName } = Router.query;
+
+  const { basePrice, discountPercentage, newlength, id, prodcutName } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -52,8 +52,8 @@ const Products = ({ products, productFilters }) => {
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(
     Math.ceil(
-   
-         filterFabric?.length / limit    
+
+      filterFabric?.length / limit
     )
   );
   //fabric aaray
@@ -77,10 +77,10 @@ const Products = ({ products, productFilters }) => {
     "Viscose/Elastane",
     "Cotton/Elastane",
     "Polyester/Cotton",
-     
+
   ];
-  const weight = ["Light(20-100gsm)","Medium(101-249gsm)","Heavy(250-gsm)"];
-  const printType = ["Reactive","pigment","sublimation"];
+  const weight = ["Light(20-100gsm)", "Medium(101-249gsm)", "Heavy(250-gsm)"];
+  const printType = ["Reactive", "pigment", "sublimation"];
   const usage = [
     "Quilting",
     "Furnishing/Upholstery",
@@ -97,7 +97,7 @@ const Products = ({ products, productFilters }) => {
     "Trousers",
     "TechnicaL",
     "Cosplay",
-    
+
     "Sports",
     "Swimwear",
     "Tracksuits",
@@ -117,16 +117,16 @@ const Products = ({ products, productFilters }) => {
     "Wicking",
     "Recycled",
   ];
-  const handle = ["Soft","Stiff","Silky","Smooth","Fluffy","Coarse"];
+  const handle = ["Soft", "Stiff", "Silky", "Smooth", "Fluffy", "Coarse"];
   const transparency = [
     "Mesh/Net",
     "Opaque",
     "Blackout",
     "Semi-transparent/sheer",
   ];
-  const reflection = ["Shiny","Mat"];
+  const reflection = ["Shiny", "Mat"];
   const construction = [
-  "Woven/Stretchy",
+    "Woven/Stretchy",
     "Woven/Non-stretch",
     "Twill",
     "knitted",
@@ -135,7 +135,7 @@ const Products = ({ products, productFilters }) => {
     "Canvas",
     "Velvet",
   ];
-  
+
   //filter fabric state send qu..
   const filterFabricState = {
     // fabricName:selectedfabricName,
@@ -151,28 +151,28 @@ const Products = ({ products, productFilters }) => {
   };
   const cratePagination = () => {
     // Calculate the number of pages based on the list length and limit
-   
-      const totalItems =
-      filterFabric.length 
-     const totalPages = Math.ceil(totalItems / limit);
- 
-     // Create an array of page numbers
-     const pageNumbers = new Array(totalPages).fill().map((_, idx) => idx + 1);
- 
-     // Update the state variables
-     setPagination(pageNumbers);
-     setPages(totalPages);
-    
-   
+
+    const totalItems =
+      filterFabric.length
+    const totalPages = Math.ceil(totalItems / limit);
+
+    // Create an array of page numbers
+    const pageNumbers = new Array(totalPages).fill().map((_, idx) => idx + 1);
+
+    // Update the state variables
+    setPagination(pageNumbers);
+    setPages(totalPages);
+
+
   };
 
   useEffect(() => {
-  
+
     getFilterFabric();
     cratePagination();
   }, [
     selectedfabricType,
-    
+
     selectedprintType,
     selectedproperties,
     selectedtransparency,
@@ -188,7 +188,7 @@ const Products = ({ products, productFilters }) => {
   const startIndex = currentPage * limit - limit;
   const endIndex = startIndex + limit;
   const getPaginatedProducts = filterFabric.slice(startIndex, endIndex)
-      
+
   let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
   let end = start + showPagination;
   const getPaginationGroup = pagination?.slice(start, end);
@@ -207,20 +207,20 @@ const Products = ({ products, productFilters }) => {
   };
 
   //get fabric data
- 
+
   const getFilterFabric = async () => {
     try {
       const response = await services.fabric.GET_FilTER_FABRIC(filterFabricState);
-  const data =response?.data?.data?.rows
-  if(data.length<=12){
-    setFilterFabric(data)
-   
-    setCurrentPage(1)
-  }
-  else{
-    setFilterFabric(data)
-  }
-    
+      const data = response?.data?.data?.rows
+      if (data.length <= 12) {
+        setFilterFabric(data)
+
+        setCurrentPage(1)
+      }
+      else {
+        setFilterFabric(data)
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -228,23 +228,22 @@ const Products = ({ products, productFilters }) => {
 
   return (
     <>
-      <Layout parent={t("Home")} sub={<><a   href="/products"> {t("Product")}</a></>} subSub={<>
+      <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subSub={<>
         <Link href="/products/[slug]" as={`/products/${id}`}>
-<a>
-{prodcutName}
-</a>
+          <a>
+            {prodcutName}
+          </a>
 
-</Link>
-<span></span>    
-      </>} 
-      subChild={t("Select Fabric")}  >
+        </Link>
+        <span></span>
+      </>}
+        subChild={t("Select Fabric")}  >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
               <div
-                className={`${
-                  !isFilterVisible ? "hide-on-mobile" : ""
-                } col-lg-3 primary-sidebar sticky-sidebar`}
+                className={`${!isFilterVisible ? "hide-on-mobile" : ""
+                  } col-lg-3 primary-sidebar sticky-sidebar`}
               >
                 <div className="sidebar-widget price_range range mb-30">
                   <div className="widget-header position-relative mb-20 pb-10">
@@ -279,9 +278,9 @@ const Products = ({ products, productFilters }) => {
                                     weight
                                   )
                                     ? selectedweight.filter(
-                                        (selectedType) =>
-                                          selectedType !== weight
-                                      )
+                                      (selectedType) =>
+                                        selectedType !== weight
+                                    )
                                     : [...selectedweight, weight];
 
                                   setSelectedweight(updatedweight);
@@ -315,9 +314,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedFabricType =
                                     selectedfabricType.includes(fabricType)
                                       ? selectedfabricType.filter(
-                                          (selectedType) =>
-                                            selectedType !== fabricType
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== fabricType
+                                      )
                                       : [...selectedfabricType, fabricType];
 
                                   setSelectedfabricType(updatedFabricType);
@@ -328,7 +327,7 @@ const Products = ({ products, productFilters }) => {
                       </Accordion.Body>
                     </Accordion.Item>
 
-                  
+
 
                     <Accordion.Item
                       className="custom-filter mt-20"
@@ -355,9 +354,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedprintType =
                                     selectedprintType.includes(printType)
                                       ? selectedprintType.filter(
-                                          (selectedType) =>
-                                            selectedType !== printType
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== printType
+                                      )
                                       : [...selectedprintType, printType];
 
                                   setSelectedprintType(updatedprintType);
@@ -393,8 +392,8 @@ const Products = ({ products, productFilters }) => {
                                     usage
                                   )
                                     ? selectedusage.filter(
-                                        (selectedType) => selectedType !== usage
-                                      )
+                                      (selectedType) => selectedType !== usage
+                                    )
                                     : [...selectedusage, usage];
 
                                   setSelectedusage(updatedusage);
@@ -430,9 +429,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedproperties =
                                     selectedproperties.includes(properties)
                                       ? selectedproperties.filter(
-                                          (selectedType) =>
-                                            selectedType !== properties
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== properties
+                                      )
                                       : [...selectedproperties, properties];
 
                                   setSelectedproperties(updatedproperties);
@@ -454,7 +453,7 @@ const Products = ({ products, productFilters }) => {
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                      {handle.length > 0 &&
+                        {handle.length > 0 &&
                           handle
                             .filter((item, index) => item) // Filter out items with blank fabricType
                             .map((item, index) => (
@@ -468,9 +467,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedhandle =
                                     selectedhandle.includes(handle)
                                       ? selectedhandle.filter(
-                                          (selectedType) =>
-                                            selectedType !== handle
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== handle
+                                      )
                                       : [...selectedhandle, handle];
 
                                   setSelectedhandle(updatedhandle);
@@ -506,9 +505,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedconstruction =
                                     selectedconstruction.includes(construction)
                                       ? selectedconstruction.filter(
-                                          (selectedType) =>
-                                            selectedType !== construction
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== construction
+                                      )
                                       : [...selectedconstruction, construction];
 
                                   setSelectedconstruction(updatedconstruction);
@@ -544,9 +543,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedFabricType =
                                     selectedtransparency.includes(fabricType)
                                       ? selectedtransparency.filter(
-                                          (selectedType) =>
-                                            selectedType !== fabricType
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== fabricType
+                                      )
                                       : [...selectedtransparency, fabricType];
 
                                   setSelectedtransparency(updatedFabricType);
@@ -582,9 +581,9 @@ const Products = ({ products, productFilters }) => {
                                   const updatedhandle =
                                     selectedreflection.includes(reflection)
                                       ? selectedreflection.filter(
-                                          (selectedType) =>
-                                            selectedType !== reflection
-                                        )
+                                        (selectedType) =>
+                                          selectedType !== reflection
+                                      )
                                       : [...selectedreflection, reflection];
 
                                   setSelectedreflection(updatedhandle);
@@ -600,20 +599,20 @@ const Products = ({ products, productFilters }) => {
               <div className="col-lg-9">
                 <div className="shop-product-fillter">
                   <div className="totall-product">
-                  
-                     
-                        {t("We found")}
-                        <strong className="text-brand">
-                          {filterFabric.length}
-                        </strong>
-                        {t("items for you!")} &nbsp;&nbsp;
-            
-                 
+
+
+                    {t("We found")}
+                    <strong className="text-brand">
+                      {filterFabric.length}
+                    </strong>
+                    {t("items for you!")} &nbsp;&nbsp;
+
+
 
                     <a href="#"
                       className="text-brand fw-bold"
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
-                      style={{cursor:"pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
                       {t("Show Filters")}
                     </a>
@@ -625,33 +624,33 @@ const Products = ({ products, productFilters }) => {
                   </div> */}
                 </div>
                 <div className="row product-grid-3">
-                  {filterFabric.length === 0 && <h3 > <strong className="text-brand">  
-                       {t("No Fabric Found")}  </strong></h3>}
+                  {filterFabric.length === 0 && <h3 > <strong className="text-brand">
+                    {t("No Fabric Found")}  </strong></h3>}
 
-                      { getPaginatedProducts.length>0  && getPaginatedProducts?.map((item, i) => (
-                        <div
-                          className="col-lg-4 col-md-4 col-12 col-sm-6"
-                          key={i}
-                        >
-                          <SingleFabric product={item}  length={newlength} id={id} basePrice={basePrice} discountPercentage={discountPercentage} />
-                          {/* <SingleProductList product={item}/> */}
-                        </div>
-                      ))}
-                   
+                  {getPaginatedProducts.length > 0 && getPaginatedProducts?.map((item, i) => (
+                    <div
+                      className="col-lg-4 col-md-4 col-12 col-sm-6"
+                      key={i}
+                    >
+                      <SingleFabric product={item} length={newlength} id={id} basePrice={basePrice} discountPercentage={discountPercentage} />
+                      {/* <SingleProductList product={item}/> */}
+                    </div>
+                  ))}
+
                 </div>
-        
+
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                  <nav aria-label="Page navigation example">  
+                  <nav aria-label="Page navigation example">
 
 
                     <Pagination
-                      getPaginationGroup={ getPaginationGroup}
-                      currentPage={ currentPage}
+                      getPaginationGroup={getPaginationGroup}
+                      currentPage={currentPage}
                       pages={pages}
                       next={next}
                       prev={prev}
                       handleActive={handleActive}
-                      
+
                     />
                   </nav>
                 </div>

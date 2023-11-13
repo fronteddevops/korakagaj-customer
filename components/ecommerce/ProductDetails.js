@@ -24,7 +24,9 @@ const ProductDetails = ({
     increaseQuantity,
     decreaseQuantity,
     quickView,
-    fabricPrice
+    fabricPrice,
+    fabricName,
+    fabricId,
 }) => {
     const { t } = useTranslation("common");
     const [quantity, setQuantity] = useState(1);
@@ -57,6 +59,21 @@ const ProductDetails = ({
         }
     };
     useEffect(() => {
+        
+        if(fabricPrice){
+            let fabriccost = +fabricPrice * product?.length
+            let finalprice = fabriccost + product?.basePrice
+            let discount = (finalprice*product?.discountPercentage)/100
+            product.finalAmount = finalprice - discount;
+            product.totalPrice = finalprice
+
+        }
+        if(fabricName){
+            setfabricType(fabricName)
+        }
+        if(fabricId){
+            product.fabric = fabricId
+        }
         GET_Fabric_Data(product);
     }, [product]);
     const handleWishlist = async (product) => {
@@ -237,13 +254,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
-                                                    {fabricPrice ? (<>
-                                                        <ins>
-                                                            <span className="text-brand">
-                                                                {fabricPrice}
-                                                            </span>
-                                                        </ins>
-                                                    </>) : (<>
+                                                 
                                                         <ins>
                                                             <span className="text-brand">
                                                                 Rs.{product?.finalAmount}
@@ -260,10 +271,7 @@ const ProductDetails = ({
                                                             }
                                                             % Off
                                                         </span>
-                                                    </>)
-
-                                                    }
-
+                                                   
                                                 </div>
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -325,6 +333,7 @@ const ProductDetails = ({
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
                                                     <span className="text-brand">{t("Size Chart")} {'>'}</span>
                                                 </strong>
+                                                {console.log(product)}
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
@@ -355,7 +364,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10 text-capitalize ">
-                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
+                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricName ? fabricName : fabricType}</span>
                                                 </strong>
 
                                                 <Link href={`/fabric?&newlength=${product?.length}&id=${product.id}&basePrice=${product?.basePrice}&discountPercentage=${product?.discountPercentage}&prodcutName=${product?.productName}`}>

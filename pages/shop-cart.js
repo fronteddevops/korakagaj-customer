@@ -13,7 +13,10 @@ const Cart = ({ }) => {
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
   const [updateCart, setUpdateCart] = useState([])
+  const [addressList, setAddressList] = useState([])
   const [totalAmount, setTotalAmount] = useState(1)
+  const [totalQuantity, setTotalQuantity] = useState(1)
+  const [selectedAddress, setSelectedAddress] = useState(0)
 
   //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
@@ -21,13 +24,20 @@ const Cart = ({ }) => {
       return item.finalAmount * item.selectedQuantity
 
     })
+    let totalQtyArr = prodcutData.map((item) => {
+      return item.selectedQuantity
+
+    })
     const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+    const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
     console.log(totalAmountArr, sum)
     setTotalAmount(sum)
+    setTotalQuantity(qty)
   };
   //set total price in add to card all prodcut 
   useEffect(() => {
     cardData()
+    addressHandler()
   }, [])
   //card data get function
   const cardData = async () => {
@@ -53,7 +63,22 @@ const Cart = ({ }) => {
     }
   }
 
-
+const addressHandler = async() => {
+  try {
+    const response = await services.myprofile.GET_MY_ADDRESS();
+        console.log(response.data.data);
+        setAddressList(response.data.data)
+        if(response.data.data.length > 0){
+          response.data.data.map((item)=> {
+            if(item.defaultAddress){
+              setSelectedAddress(item.id)
+            }
+          })
+        }
+  } catch (error) {
+    console.log(error)
+  }
+}
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART()
@@ -66,8 +91,22 @@ const Cart = ({ }) => {
       const key = 'id';
       const unique = [...new Map(cartDetails?.map(item =>
         [item[key], item])).values()];
+        let totalAmountArr = unique.map((item) => {
+          return item.finalAmount * item.selectedQuantity
+    
+        })
+        let totalQtyArr = unique.map((item) => {
+          return item.selectedQuantity
+    
+        })
+        const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+        const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
-        cartDetail: { cartDetails: unique }
+        cartDetail: { cartDetails: unique },
+        totalAmount: sum,
+        totalItems: unique.length,
+        totalQuantity: qty,
+        addressId: selectedAddress,
       }
       console.log(data)
       const updateCart = await services.cart.UPDATE_CART(data)
@@ -109,7 +148,11 @@ const Cart = ({ }) => {
     if (localStorage.getItem("access_token")) {
 
       let data = {
-        cartDetail: { cartDetails: [] }
+        cartDetail: { cartDetails: [] },
+        totalAmount: 0,
+        totalItems: 0,
+        totalQuantity: 0,
+        addressId: selectedAddress,
       }
       console.log(data)
       const updateCart = await services.cart.UPDATE_CART(data)
@@ -139,7 +182,11 @@ const Cart = ({ }) => {
     updatedCartData.splice(index, 1)
     console.log(updateCart, updatedCartData)
       let data = {
-        cartDetail: { cartDetails: updatedCartData }
+        cartDetail: { cartDetails: updatedCartData },
+        totalAmount: totalAmount,
+        totalItems: updatedCartData.length,
+        totalQuantity: totalQuantity,
+        addressId: selectedAddress,
       }
       console.log(data)
       const updateCartData = await services.cart.UPDATE_CART(data)
@@ -168,8 +215,13 @@ const Cart = ({ }) => {
   }
   const isLoggedIn = localStorage.getItem("access_token")
   const checkoutHandler = async() => {
-    const updateCartData = await services.cart.CHECKOUT()   
-    console.log(updateCartData)
+    try {
+      await handleCart(updateCart[0])
+      const updateCartData = await services.cart.CHECKOUT()   
+      console.log(updateCartData)
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <>
@@ -298,9 +350,13 @@ const Cart = ({ }) => {
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <div className="custom_select">
-                            <select className="form-control select-active">
+                            <select className="form-control select-active" value={selectedAddress} onChange={(e)=> setSelectedAddress(e.target.value)}>
                               <option value="">{t("Choose a option...")}</option>
-                              <option value="AX">India</option>
+                              {addressList && addressList.length > 0 && addressList.map((item)=>{
+                                return (
+                                  <option value={item.id}>{item.address.address}</option>
+                                )
+                              })}
 
                             </select>
                           </div>
@@ -360,7 +416,7 @@ const Cart = ({ }) => {
                               </td>
                               <td className="cart_total_amount">
                                 <span className="font-lg fw-900 text-brand">
-                                  $ {totalAmount}
+                                  Rs. {totalAmount}
                                 </span>
                               </td>
                             </tr>
