@@ -140,7 +140,7 @@ const ProductDetails = ({
             console.log(data)
             const updateCart = await services.cart.UPDATE_CART(data)
             console.log(updateCart)
-            toast.success("Add to Cart !");
+            toast.success("Add to Cart!");
 
         } else {
             const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
@@ -157,6 +157,7 @@ const ProductDetails = ({
             }
             console.log(data)
             localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+            toast.success("Add to Cart!");
         }
     };
     return (

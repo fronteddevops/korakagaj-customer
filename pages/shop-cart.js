@@ -14,7 +14,7 @@ const Cart = ({ }) => {
 
   const [updateCart, setUpdateCart] = useState([])
   const [addressList, setAddressList] = useState([])
-  const [totalAmount, setTotalAmount] = useState(1)
+  const [totalAmount, setTotalAmount] = useState(0)
   const [totalQuantity, setTotalQuantity] = useState(1)
   const [selectedAddress, setSelectedAddress] = useState(0)
 
@@ -57,6 +57,7 @@ const Cart = ({ }) => {
       if (localStorage.getItem("cartDetail")) {
         const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
         setUpdateCart(cartLocal.cartDetails)
+        calculateTotalAmount(cartLocal.cartDetails);
 
       }
 
@@ -64,6 +65,7 @@ const Cart = ({ }) => {
   }
 
 const addressHandler = async() => {
+  if (localStorage.getItem("access_token")) {
   try {
     const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data.data);
@@ -77,7 +79,7 @@ const addressHandler = async() => {
         }
   } catch (error) {
     console.log(error)
-  }
+  }}
 }
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
@@ -278,7 +280,7 @@ const addressHandler = async() => {
                                 </p> : null}
                               </td>
                               <td className="price" data-title="Price">
-                                <span>${product.finalAmount}</span>
+                                <span>Rs. {product.finalAmount}</span>
                               </td>
 
                               <td className="text-center" data-title="Stock">
@@ -300,7 +302,7 @@ const addressHandler = async() => {
                               </td>
 
                               <td className="text-right" data-title="Cart">
-                                <span>${product.finalAmount * product.selectedQuantity}</span>
+                                <span>Rs. {product.finalAmount * product.selectedQuantity}</span>
                               </td>
                               <td className="action" data-title="Remove">
                                 <a
@@ -365,10 +367,12 @@ const addressHandler = async() => {
 
                       <div className="form-row">
                         <div className="form-group col-lg-12">
+                          <Link href={'/myprofile?index=4'}>
                           <button className="btn  btn-sm w-100">
                             <i className="fi-rs-shuffle mr-10"></i>
                             Add new address
                           </button>
+                          </Link>
                         </div>
                       </div>
                     </form>
@@ -432,7 +436,7 @@ const addressHandler = async() => {
                               <td className="cart_total_amount">
                                 <strong>
                                   <span className="font-xl fw-900 text-brand">
-                                    ${totalAmount}
+                                    Rs. {totalAmount}
                                   </span>
                                 </strong>
                               </td>

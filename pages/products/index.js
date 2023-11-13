@@ -404,8 +404,8 @@ const Products = ({ products1, productFilters }) => {
                           />
 
                           <div className="d-flex justify-content-between">
-                            <span>{price?.value?.min}</span>
-                            <span>{price?.value?.max}</span>
+                            <span>Rs. {price?.value?.min}</span>
+                            <span>Rs. {price?.value?.max}</span>
                           </div>
                         </div>
                         <br />

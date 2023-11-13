@@ -206,10 +206,10 @@ console.log()
                 </span>
               </div>
               <div className="product-price">
-                <span>${product.finalAmount}</span>
+                <span>Rs. {product.finalAmount}</span>
                 {discountPercentage > 0 && (
-                  <span className="old-price"> ${basePrice}</span>
-                )}
+                  <span className="old-price"> Rs. {basePrice}</span>
+                )} &nbsp;
                 <span>
                   {product?.discountPercentage > 0
                     ? `${product?.discountPercentage}%`
