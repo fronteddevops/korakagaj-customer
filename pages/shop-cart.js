@@ -6,7 +6,19 @@ import { toast } from "react-toastify";
 import { useEffect, useState, useCallback } from "react";
 import services from "../services";
 import { useTranslation } from "react-i18next";
-
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 const Cart = ({ }) => {
   const { t } = useTranslation("common");
   //image constant url
@@ -216,14 +228,48 @@ const addressHandler = async() => {
     }
   }
   const isLoggedIn = localStorage.getItem("access_token")
-  const checkoutHandler = async() => {
-    try {
-      await handleCart(updateCart[0])
-      const updateCartData = await services.cart.CHECKOUT()   
-      console.log(updateCartData)
-    } catch (error) {
-      console.log(error)
+  // const checkoutHandler = async() => {
+  //   try {
+  //     await handleCart(updateCart[0])
+  //     const updateCartData = await services.cart.CHECKOUT()   
+  //     console.log(updateCartData)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  async function checkoutHandler() {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
     }
+    await handleCart(updateCart[0])
+    const updateCartData = await services.cart.CHECKOUT()   
+    console.log(updateCartData)
+    const options = {
+      key: "rzp_test_ug6gBARp85Aq1j",    //id from key_id generation dashboard
+      currency: 'INR',
+      amount: updateCartData.data.totalAmount,
+      order_id: updateCartData.data.razorpayPaymentDetails.id,
+      name: "KoraKagaj",
+      description: "Thank you for ordering. Please initiate payment!",
+      image: "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
+      handler: function (response) {
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        alert("Transaction successful");
+      },
+      prefill: {
+        name: "Anjani Soni",
+        email: "anjani@gmail.com",
+        phone_number: "9899999999",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
   }
   return (
     <>
