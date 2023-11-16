@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 import Layout from "../components/layout/Layout";
 import nextConfig from "../next.config";
 import Link from "next/link";
@@ -19,219 +20,213 @@ function loadScript(src) {
     document.body.appendChild(script);
   });
 }
-const Cart = ({ }) => {
+const Cart = ({}) => {
   const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
-  const [updateCart, setUpdateCart] = useState([])
-  const [addressList, setAddressList] = useState([])
-  const [totalAmount, setTotalAmount] = useState(0)
-  const [totalQuantity, setTotalQuantity] = useState(1)
-  const [selectedAddress, setSelectedAddress] = useState(0)
+  const [updateCart, setUpdateCart] = useState([]);
+  const [addressList, setAddressList] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalQuantity, setTotalQuantity] = useState(1);
+  const [selectedAddress, setSelectedAddress] = useState(0);
+  const router = useRouter();
 
   //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData.map((item) => {
-      return item.finalAmount * item.selectedQuantity
-
-    })
+      return item.finalAmount * item.selectedQuantity;
+    });
     let totalQtyArr = prodcutData.map((item) => {
-      return item.selectedQuantity
-
-    })
+      return item.selectedQuantity;
+    });
     const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
     const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
-    console.log(totalAmountArr, sum)
-    setTotalAmount(sum)
-    setTotalQuantity(qty)
+    // console.log(totalAmountArr, sum);
+    setTotalAmount(sum);
+    setTotalQuantity(qty);
   };
-  //set total price in add to card all prodcut 
+  //set total price in add to card all prodcut
   useEffect(() => {
-    cardData()
-    addressHandler()
-  }, [])
+    cardData();
+    addressHandler();
+  }, []);
+
   //card data get function
   const cardData = async () => {
     if (localStorage.getItem("access_token")) {
       try {
-        const response = await services.cart.GET_CART()
+        const response = await services.cart.GET_CART();
 
         if (response) {
-          setUpdateCart(response?.data?.data[0].cartDetail.cartDetails)
+          setUpdateCart(response?.data?.data[0].cartDetail.cartDetails);
           calculateTotalAmount(response?.data?.data[0].cartDetail.cartDetails);
-
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
       if (localStorage.getItem("cartDetail")) {
-        const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-        setUpdateCart(cartLocal.cartDetails)
+        const cartLocal =
+          localStorage.getItem("cartDetail") &&
+          JSON.parse(localStorage.getItem("cartDetail"));
+        setUpdateCart(cartLocal.cartDetails);
         calculateTotalAmount(cartLocal.cartDetails);
-
       }
-
     }
-  }
+  };
 
-const addressHandler = async() => {
-  if (localStorage.getItem("access_token")) {
-  try {
-    const response = await services.myprofile.GET_MY_ADDRESS();
-        console.log(response.data.data);
-        setAddressList(response.data.data)
-        if(response.data.data.length > 0){
-          response.data.data.map((item)=> {
-            if(item.defaultAddress){
-              setSelectedAddress(item.id)
+  const addressHandler = async () => {
+    if (localStorage.getItem("access_token")) {
+      try {
+        const response = await services.myprofile.GET_MY_ADDRESS();
+        // console.log(response.data.data);
+        setAddressList(response.data.data);
+        if (response.data.data.length > 0) {
+          response.data.data.map((item) => {
+            if (item.defaultAddress) {
+              setSelectedAddress(item.id);
             }
-          })
+          });
         }
-  } catch (error) {
-    console.log(error)
-  }}
-}
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
-      const cart = await services.cart.GET_CART()
+      const cart = await services.cart.GET_CART();
 
-      let cartDetails = []
+      let cartDetails = [];
       if (cart.data.data[0].cartDetail) {
-        cartDetails = cart.data.data[0].cartDetail.cartDetails
+        cartDetails = cart.data.data[0].cartDetail.cartDetails;
       }
-      cartDetails?.push(product)
-      const key = 'id';
-      const unique = [...new Map(cartDetails?.map(item =>
-        [item[key], item])).values()];
-        let totalAmountArr = unique.map((item) => {
-          return item.finalAmount * item.selectedQuantity
-    
-        })
-        let totalQtyArr = unique.map((item) => {
-          return item.selectedQuantity
-    
-        })
-        const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
-        const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+      cartDetails?.push(product);
+      const key = "id";
+      const unique = [
+        ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
+      ];
+      let totalAmountArr = unique.map((item) => {
+        return item.finalAmount * item.selectedQuantity;
+      });
+      let totalQtyArr = unique.map((item) => {
+        return item.selectedQuantity;
+      });
+      const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+      const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
         addressId: selectedAddress,
-      }
-      console.log(data)
-      const updateCart = await services.cart.UPDATE_CART(data)
-      console.log(updateCart)
+      };
+      // console.log(data);
+      const updateCart = await services.cart.UPDATE_CART(data);
+      // console.log(updateCart);
       toast.success("Cart updated!");
-      cardData()
-
-
+      cardData();
     } else {
-      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-      let cartDetails = []
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      let cartDetails = [];
       if (cart) {
-        cartDetails = cart.cartDetails
+        cartDetails = cart.cartDetails;
       }
-      cartDetails.push(product)
-      const key = 'id';
-      const unique = [...new Map(cartDetails.map(item =>
-        [item[key], item])).values()];
+      cartDetails.push(product);
+      const key = "id";
+      const unique = [
+        ...new Map(cartDetails.map((item) => [item[key], item])).values(),
+      ];
 
       let data = {
-        cartDetail: { cartDetails: unique }
-      }
+        cartDetail: { cartDetails: unique },
+      };
 
-      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Cart updated!");
-      cardData()
+      cardData();
     }
   };
   const increaseQuantity = (product) => {
     product.selectedQuantity = product.selectedQuantity + 1;
-    handleCart(product)
-  }
+    handleCart(product);
+  };
   const decreaseQuantity = (product) => {
     product.selectedQuantity = product.selectedQuantity - 1;
-    handleCart(product)
-
-  }
+    handleCart(product);
+  };
   const clearCart = async () => {
     if (localStorage.getItem("access_token")) {
-
       let data = {
         cartDetail: { cartDetails: [] },
         totalAmount: 0,
         totalItems: 0,
         totalQuantity: 0,
         addressId: selectedAddress,
-      }
-      console.log(data)
-      const updateCart = await services.cart.UPDATE_CART(data)
-      console.log(updateCart)
+      };
+      // console.log(data);
+      const updateCart = await services.cart.UPDATE_CART(data);
+      // console.log(updateCart);
       toast.success("Cart updated!");
-      cardData()
-
-
+      cardData();
     } else {
       let data = {
-        cartDetail: { cartDetails: [] }
-      }
-      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+        cartDetail: { cartDetails: [] },
+      };
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Cart updated!");
-      cardData()
+      cardData();
     }
-  }
-  const deleteFromCart = async(product) => {
+  };
+  const deleteFromCart = async (product) => {
     if (localStorage.getItem("access_token")) {
-    let updatedCartData  = [...updateCart]
-    let index
-    updateCart.map((item, i)=>{
-      if(item.id == product.id) {
-        index = i
-      }
-    })
-    updatedCartData.splice(index, 1)
-    console.log(updateCart, updatedCartData)
+      let updatedCartData = [...updateCart];
+      let index;
+      updateCart.map((item, i) => {
+        if (item.id == product.id) {
+          index = i;
+        }
+      });
+      updatedCartData.splice(index, 1);
+      // console.log(updateCart, updatedCartData);
       let data = {
         cartDetail: { cartDetails: updatedCartData },
         totalAmount: totalAmount,
         totalItems: updatedCartData.length,
         totalQuantity: totalQuantity,
         addressId: selectedAddress,
-      }
-      console.log(data)
-      const updateCartData = await services.cart.UPDATE_CART(data)
-      console.log(updateCartData)
+      };
+      // console.log(data);
+      const updateCartData = await services.cart.UPDATE_CART(data);
+      // console.log(updateCartData);
       toast.success("Cart updated!");
-      cardData()
-
-
+      cardData();
     } else {
-      let updatedCartData  = [...updateCart]
-    let index
-    updateCart.map((item, i)=>{
-      if(item.id == product.id) {
-        index = i
-      }
-    })
-    updatedCartData.splice(index, 1)
+      let updatedCartData = [...updateCart];
+      let index;
+      updateCart.map((item, i) => {
+        if (item.id == product.id) {
+          index = i;
+        }
+      });
+      updatedCartData.splice(index, 1);
       let data = {
-        cartDetail: { cartDetails: updatedCartData }
-      }
+        cartDetail: { cartDetails: updatedCartData },
+      };
 
-      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Cart updated!");
-      cardData()
+      cardData();
     }
-  }
-  const isLoggedIn = localStorage.getItem("access_token")
+  };
+  const isLoggedIn = localStorage.getItem("access_token");
   // const checkoutHandler = async() => {
   //   try {
   //     await handleCart(updateCart[0])
-  //     const updateCartData = await services.cart.CHECKOUT()   
+  //     const updateCartData = await services.cart.CHECKOUT()
   //     console.log(updateCartData)
   //   } catch (error) {
   //     console.log(error)
@@ -245,22 +240,39 @@ const addressHandler = async() => {
       alert("Razorpay SDK failed to load. Are you online?");
       return;
     }
-    await handleCart(updateCart[0])
-    const updateCartData = await services.cart.CHECKOUT()   
-    console.log(updateCartData)
+    await handleCart(updateCart[0]);
+    const updateCartData = await services.cart.CHECKOUT();
+    // console.log(updateCartData);
     const options = {
-      key: "rzp_test_ug6gBARp85Aq1j",    //id from key_id generation dashboard
-      currency: 'INR',
+      key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
+      currency: "INR",
       amount: updateCartData.data.totalAmount,
       order_id: updateCartData.data.razorpayPaymentDetails.id,
       name: "KoraKagaj",
       description: "Thank you for ordering. Please initiate payment!",
-      image: "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
+      image:
+        "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
       handler: function (response) {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
-        alert("Transaction successful");
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+
+        (async () => {
+          const data = {
+            orderId: updateCartData.data?.orderDetails[0]?.id,
+            paymentResponse: {
+              id: updateCartData.data.razorpayPaymentDetails.id,
+              status: "paid",
+            },
+          };
+          try {
+            const response = await services.cart.PAYMENT_LOG(data);
+            alert(response?.data?.message);
+            router.push("/thankyou");
+          } catch (err) {
+            console.log(err);
+          }
+        })();
       },
       prefill: {
         name: "Anjani Soni",
@@ -273,7 +285,15 @@ const addressHandler = async() => {
   }
   return (
     <>
-      <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={t("Cart")}>
+      <Layout
+        parent={t("Home")}
+        sub={
+          <>
+            <a href="/products"> {t("Product")}</a>
+          </>
+        }
+        subChild={t("Cart")}
+      >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -298,10 +318,8 @@ const addressHandler = async() => {
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                        updateCart && updateCart.map((product, j) => {
-
-
+                      {updateCart &&
+                        updateCart.map((product, j) => {
                           return (
                             <tr key={j}>
                               <td className="image product-thumbnail">
@@ -314,16 +332,28 @@ const addressHandler = async() => {
 
                               <td className="product-des product-name">
                                 <h5 className="product-name">
-                                  <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+                                  <Link
+                                    href="/products/[slug]"
+                                    as={`/products/${product?.id}`}
+                                  >
                                     <a>{product.productName}</a>
                                   </Link>
                                 </h5>
-                                {product?.selectedColor || product?.selectedSize ? <p className="font-xs">
-                                  {product?.selectedColor && <>Color : {product?.selectedColor} <br /></>}
-                                  {product?.selectedSize && <>Size : {product?.selectedSize} <br /></>}
-
-
-                                </p> : null}
+                                {product?.selectedColor ||
+                                product?.selectedSize ? (
+                                  <p className="font-xs">
+                                    {product?.selectedColor && (
+                                      <>
+                                        Color : {product?.selectedColor} <br />
+                                      </>
+                                    )}
+                                    {product?.selectedSize && (
+                                      <>
+                                        Size : {product?.selectedSize} <br />
+                                      </>
+                                    )}
+                                  </p>
+                                ) : null}
                               </td>
                               <td className="price" data-title="Price">
                                 <span>Rs. {product.finalAmount}</span>
@@ -337,7 +367,9 @@ const addressHandler = async() => {
                                   >
                                     <i className="fi-rs-angle-small-down"></i>
                                   </a>
-                                  <span className="qty-val">{product.selectedQuantity}</span>
+                                  <span className="qty-val">
+                                    {product.selectedQuantity}
+                                  </span>
                                   <a
                                     onClick={(e) => increaseQuantity(product)}
                                     className="qty-up"
@@ -348,7 +380,11 @@ const addressHandler = async() => {
                               </td>
 
                               <td className="text-right" data-title="Cart">
-                                <span>Rs. {product.finalAmount * product.selectedQuantity}</span>
+                                <span>
+                                  Rs.{" "}
+                                  {product.finalAmount *
+                                    product.selectedQuantity}
+                                </span>
                               </td>
                               <td className="action" data-title="Remove">
                                 <a
@@ -360,8 +396,7 @@ const addressHandler = async() => {
                               </td>
                             </tr>
                           );
-                        })
-                      }
+                        })}
                       <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart.length > 0 && (
@@ -376,14 +411,12 @@ const addressHandler = async() => {
                   </table>
                 </div>
                 <div className="cart-action text-end">
-               
-                <Link className={'btn'} href="/products">
-                  <button className={'btn'}>
-                    <i className="fi-rs-shopping-bag mr-10"></i>
-                    {t("Continue Shopping")}
+                  <Link className={"btn"} href="/products">
+                    <button className={"btn"}>
+                      <i className="fi-rs-shopping-bag mr-10"></i>
+                      {t("Continue Shopping")}
                     </button>
-                    </Link>
-                    
+                  </Link>
                 </div>
                 <div className="divider center_icon mt-50 mb-50">
                   <i className="fi-rs-fingerprint"></i>
@@ -398,14 +431,25 @@ const addressHandler = async() => {
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <div className="custom_select">
-                            <select className="form-control select-active" value={selectedAddress} onChange={(e)=> setSelectedAddress(e.target.value)}>
-                              <option value="">{t("Choose a option...")}</option>
-                              {addressList && addressList.length > 0 && addressList.map((item)=>{
-                                return (
-                                  <option value={item.id}>{item.address.address}</option>
-                                )
-                              })}
-
+                            <select
+                              className="form-control select-active"
+                              value={selectedAddress}
+                              onChange={(e) =>
+                                setSelectedAddress(e.target.value)
+                              }
+                            >
+                              <option value="">
+                                {t("Choose a option...")}
+                              </option>
+                              {addressList &&
+                                addressList.length > 0 &&
+                                addressList.map((item) => {
+                                  return (
+                                    <option value={item.id}>
+                                      {item.address.address}
+                                    </option>
+                                  );
+                                })}
                             </select>
                           </div>
                         </div>
@@ -413,11 +457,11 @@ const addressHandler = async() => {
 
                       <div className="form-row">
                         <div className="form-group col-lg-12">
-                          <Link href={'/myprofile?index=4'}>
-                          <button className="btn  btn-sm w-100">
-                            <i className="fi-rs-shuffle mr-10"></i>
-                            Add new address
-                          </button>
+                          <Link href={"/myprofile?index=4"}>
+                            <button className="btn  btn-sm w-100">
+                              <i className="fi-rs-shuffle mr-10"></i>
+                              Add new address
+                            </button>
                           </Link>
                         </div>
                       </div>
@@ -471,7 +515,9 @@ const addressHandler = async() => {
                               </td>
                             </tr>
                             <tr>
-                              <td className="cart_total_label">{t("Shipping")}</td>
+                              <td className="cart_total_label">
+                                {t("Shipping")}
+                              </td>
                               <td className="cart_total_amount">
                                 <i className="ti-gift mr-5"></i>
                                 {t("Free Shipping")}
@@ -490,13 +536,23 @@ const addressHandler = async() => {
                           </tbody>
                         </table>
                       </div>
-                      {isLoggedIn ? <a onClick={()=> checkoutHandler()} href="#" className="btn ">
-                        <i className="fi-rs-box-alt mr-10"></i>
-                        {t("Proceed To CheckOut")}
-                      </a> : <Link className={'btn'} href="/login"><a href="#" className="btn ">
-                        <i className="fi-rs-box-alt mr-10"></i>
-                        {t("Proceed to Login")}
-                      </a></Link>}
+                      {isLoggedIn ? (
+                        <a
+                          onClick={() => checkoutHandler()}
+                          href="#"
+                          className="btn "
+                        >
+                          <i className="fi-rs-box-alt mr-10"></i>
+                          {t("Proceed To CheckOut")}
+                        </a>
+                      ) : (
+                        <Link className={"btn"} href="/login">
+                          <a href="#" className="btn ">
+                            <i className="fi-rs-box-alt mr-10"></i>
+                            {t("Proceed to Login")}
+                          </a>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -514,8 +570,6 @@ const mapStateToProps = (state) => ({
   activeCart: state.counter,
 });
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
