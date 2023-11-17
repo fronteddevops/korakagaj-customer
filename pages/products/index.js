@@ -140,38 +140,29 @@ const Products = ({ products1, productFilters }) => {
   
     try {
       if (searchProduct) {
-        const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct)
+        const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct);
         if (response) {
-          setProdcut(response?.data?.data?.rows)
+          setProdcut(response?.data?.data?.rows);
+        }
+      } else {
+        const response = await services.product.GET_FILTER_PRODUCT(query);
+        if (response && toggle) {
+          const data = response?.data?.data;
+    
+          if (data.length <= 12) {
+            setProdcut(data);
+            setCurrentPage(1);
+          } else {
+            setProdcut(data);
+          }
+        } else {
+          console.log("error");
         }
       }
-  
-   
-    const response = await services.product.GET_FILTER_PRODUCT(query);
-    if (response && toggle) {
-      const data = response?.data?.data
-
-
-      if (data.length <= 12) {
-        setProdcut(data)
-      
-
-        setCurrentPage(1)
-      }
-      else {
-        setProdcut(data)
-      }
-
-
-    } else {
-      console.log("error");
-    }
-  
-   
-  
     } catch (error) {
       console.log(error);
     }
+    
   };
   const getCategroy = async () => {
     try {
