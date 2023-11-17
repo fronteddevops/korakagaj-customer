@@ -4,12 +4,11 @@ import api from "../api";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
- 
   GET_CART: () => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(
-            nextConfig.BASE_URL + api.cart.GET_CART()
+          nextConfig.BASE_URL + api.cart.GET_CART()
         );
         resolve(response);
       } catch (err) {
@@ -17,12 +16,13 @@ export default {
       }
     });
   },
-  UPDATE_CART : (data,) => {
-   
+
+  UPDATE_CART: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.put(
-            nextConfig.BASE_URL + api.cart.UPDATE_CART(),data
+          nextConfig.BASE_URL + api.cart.UPDATE_CART(),
+          data
         );
         resolve(response);
       } catch (err) {
@@ -30,12 +30,13 @@ export default {
       }
     });
   },
-  CHECKOUT : () => {
-   
+
+  PAYMENT_LOG: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.post(
-            nextConfig.BASE_URL + api.cart.CHECKOUT()
+          nextConfig.BASE_URL + api.cart.PAYMENT_LOG(),
+          data
         );
         resolve(response);
       } catch (err) {
@@ -43,9 +44,17 @@ export default {
       }
     });
   },
- 
-  
- 
- 
- 
-}
+
+  CHECKOUT: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.post(
+          nextConfig.BASE_URL + api.cart.CHECKOUT()
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+};

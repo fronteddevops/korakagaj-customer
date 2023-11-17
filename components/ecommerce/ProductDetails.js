@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import ReactStars from "react-rating-stars-component";
 import {
     addToCart,
     decreaseQuantity,
@@ -59,19 +60,19 @@ const ProductDetails = ({
         }
     };
     useEffect(() => {
-        
-        if(fabricPrice){
+
+        if (fabricPrice) {
             let fabriccost = +fabricPrice * product?.length
             let finalprice = fabriccost + product?.basePrice
-            let discount = (finalprice*product?.discountPercentage)/100
+            let discount = (finalprice * product?.discountPercentage) / 100
             product.finalAmount = finalprice - discount;
             product.totalPrice = finalprice
 
         }
-        if(fabricName){
+        if (fabricName) {
             setfabricType(fabricName)
         }
-        if(fabricId){
+        if (fabricId) {
             product.fabric = fabricId
         }
         GET_Fabric_Data(product);
@@ -240,39 +241,41 @@ const ProductDetails = ({
                                                     </span>
                                                 </div>
                                                 <div className="product-rate-cover text-end">
-                                                    <div className="product-rate d-inline-block">
-                                                        <div
-                                                            className="product-rating"
-                                                            style={{
-                                                                width: "90%",
-                                                            }}
-                                                        ></div>
-                                                    </div>
+
                                                     <span className="font-small ml-5 text-muted">
-                                                        25{t("Reviews")}
+
+                                                        <ReactStars
+                                                            value={product.averageRating}
+                                                            count={5}
+                                                            size={20}
+                                                            activeColor="#ffd700"
+                                                            isHalf={true} // Disable half ratings
+                                                            edit={false}   // Disable user rating changes
+                                                        />
+                                                        <span>{product?.ratingScore} </span>{t("Reviews")}
                                                     </span>
                                                 </div>
                                             </div>
                                             <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
-                                                 
-                                                        <ins>
-                                                            <span className="text-brand">
-                                                                Rs.{product?.finalAmount}
-                                                            </span>
-                                                        </ins>
-                                                        <ins>
-                                                            <span className="old-price font-md ml-15">
-                                                                Rs.{product.totalPrice}
-                                                            </span>
-                                                        </ins>
-                                                        <span className="save-price  font-md color3 ml-15">
-                                                            {
-                                                                product.discountPercentage
-                                                            }
-                                                            % Off
+
+                                                    <ins>
+                                                        <span className="text-brand">
+                                                            Rs.{product?.finalAmount}
                                                         </span>
-                                                   
+                                                    </ins>
+                                                    <ins>
+                                                        <span className="old-price font-md ml-15">
+                                                            Rs.{product.totalPrice}
+                                                        </span>
+                                                    </ins>
+                                                    <span className="save-price  font-md color3 ml-15">
+                                                        {
+                                                            product.discountPercentage
+                                                        }
+                                                        % Off
+                                                    </span>
+
                                                 </div>
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -302,7 +305,7 @@ const ProductDetails = ({
                                                 <ul className="list-filter color-filter">
                                                     {color && color?.map((clr, i) =>
 
-                                                        <li key={i} onClick={()=>setSelectedColor(clr)}>
+                                                        <li key={i} onClick={() => setSelectedColor(clr)}>
                                                             <a href="#" >
                                                                 <span
                                                                     className={`product-color-${clr}`}
@@ -321,7 +324,7 @@ const ProductDetails = ({
                                                 <ul className="list-filter size-filter font-small">
                                                     {size.map(
                                                         (size, i) => (
-                                                            <li className={size == selectedSize ? 'active' : ''} key={i}  onClick={()=>setSelectedSize(size)}>
+                                                            <li className={size == selectedSize ? 'active' : ''} key={i} onClick={() => setSelectedSize(size)}>
                                                                 <a>
                                                                     {size}
                                                                 </a>

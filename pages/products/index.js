@@ -127,13 +127,13 @@ const Products = ({ products1, productFilters }) => {
   //filter prodcut
   const prodcutFilters = async () => {
     const data = {
-      subSubCategory: selectedSubSubCategories,
+      subSubCategoryId: selectedSubSubCategories,
       categoryId: categoryId,
       productType:productType,
       order:prodcutprice,
-      maxPrice: price.value.max,
-      minPrice: price.value.min,
-      color: selectedColors,
+      priceTo: price.value.max,
+      priceFrom: price.value.min,
+      colour: selectedColors,
       size: selectedSizes,
     };
     const query = new URLSearchParams(data);

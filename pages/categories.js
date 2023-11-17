@@ -3,11 +3,12 @@ import Link from 'next/link';
 import Layout from '../components/layout/Layout';
 import nextConfig  from '../next.config';
 import services from '../services';
-
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from 'react';
 
 function Categories() {
     const [categories,setCategories]=useState([])
+    const { t } = useTranslation("common");
     const getCategories= async()=>{
         try {
             const response =await services.category.GET_CATEGORY()

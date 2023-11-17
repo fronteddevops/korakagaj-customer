@@ -17,9 +17,6 @@ const Header = ({ toggleClick, headerStyle }) => {
 
   const { t, i18n } = useTranslation("common");
 
-  
- 
-
   const [lang, setLang] = useState("");
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
@@ -27,8 +24,6 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-
- 
 
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
@@ -46,16 +41,15 @@ const Header = ({ toggleClick, headerStyle }) => {
 
       return;
     }
-  };  
-  const hindi=""
-//language change function 
+  };
+  const hindi = "";
+  //language change function
   const handleLang = () => {
-
     if (sessionStorage.getItem("lang") === "Hindi") {
       i18n.changeLanguage("hi");
       const lng = sessionStorage.getItem("lang");
       setLang(lng);
-    } else if(sessionStorage.getItem("lang") === "English"){
+    } else if (sessionStorage.getItem("lang") === "English") {
       i18n.changeLanguage("en");
       const lng = sessionStorage.getItem("lang");
 
@@ -64,9 +58,9 @@ const Header = ({ toggleClick, headerStyle }) => {
   };
 
   useEffect(() => {
-   const langdata= sessionStorage.getItem("lang")
-  
-    setLang(langdata)
+    const langdata = sessionStorage.getItem("lang");
+
+    setLang(langdata);
     handleLang();
     GetWishlistdata();
     handleCart();
@@ -80,16 +74,16 @@ const Header = ({ toggleClick, headerStyle }) => {
   }, [lang]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
-    try {
-      const response = await service.myprofile.GET_MY_PROFILE();
-      if (response) {
-       
-        setFirstName(response?.data?.data?.firstName);
-        setLastName(response?.data?.data?.lastName);
+      try {
+        const response = await service.myprofile.GET_MY_PROFILE();
+        if (response) {
+          setFirstName(response?.data?.data?.firstName);
+          setLastName(response?.data?.data?.lastName);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }}
+    }
   };
 
   const handleToggle = () => {
@@ -101,7 +95,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     const response = await service.category.GET_CATEGORY();
 
     setCategoryList(response?.data?.data?.rows);
-  }
+  };
   // Get sub category list
   const subCategoryList = async (id) => {
     const response = await service.subCategory.GET_ALL_SUB_CATEGORY(id);
@@ -126,7 +120,6 @@ const Header = ({ toggleClick, headerStyle }) => {
     setSubSubCategory(subSubCategoriesArray);
   };
 
- 
   //user name
 
   const handleCart = async () => {
@@ -250,13 +243,13 @@ const Header = ({ toggleClick, headerStyle }) => {
                           className="profile-dropdown"
                         >
                           <NavDropdown.Item href="/myprofile?index=2">
-                          {t("My Orders")}
+                            {t("My Orders")}
                           </NavDropdown.Item>
                           <NavDropdown.Item href="/myprofile?index=4">
-                          {t("My Address")}
+                            {t("My Address")}
                           </NavDropdown.Item>
                           <NavDropdown.Item href="/myprofile?index=5">
-                          {t("My Profile")}
+                            {t("My Profile")}
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
                           <NavDropdown.Item
@@ -265,12 +258,14 @@ const Header = ({ toggleClick, headerStyle }) => {
                               localStorage.clear();
                             }}
                           >
-                          {t("Logout")}
+                            {t("Logout")}
                           </NavDropdown.Item>
                         </NavDropdown>
                       ) : (
                         <Link href="/login">
-                          <a>{t("Log In")}/{t("Sign Up")}</a>
+                          <a>
+                            {t("Log In")}/{t("Sign Up")}
+                          </a>
                         </Link>
                       )}
                     </li>
@@ -414,8 +409,6 @@ const Header = ({ toggleClick, headerStyle }) => {
                           </ul>
                         </div>
                       </li>
-                   
-
                     </ul>
                   </div>
                 </div>
@@ -441,7 +434,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                       <li>
                         <Link href="/blog-category-grid">
                           <a>
-                          {t("Blog")}
+                            {t("Blog")}
                             <i className="fi-rs-angle-down"></i>
                           </a>
                         </Link>

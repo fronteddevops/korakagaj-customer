@@ -5,8 +5,6 @@ import api from "../api";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
 
-
- 
     GET_ORDER_DETAILS: () => {
     return new Promise(async (resolve, reject) => {
       try {
