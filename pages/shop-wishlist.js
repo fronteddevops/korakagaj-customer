@@ -36,24 +36,26 @@ const Wishlist = ({
     if (localStorage.getItem("access_token")) {
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
-        setWishlistdata(WishlistResponse?.data?.data)
-        setWishlistLength(WishlistResponse?.data?.data?.length)
+        if(WishlistResponse?.data?.data && WishlistResponse?.data?.data.length > 0){
+          let data = WishlistResponse?.data?.data.map((item)=>{
+            item.Product.isWishlisted = true
+            return item
+          })
+          setWishlistdata(data)
+          setWishlistLength(WishlistResponse?.data?.data?.length)
+        }
 
       } catch (error) {
         console.error("An error occurred:", error);
       }
 
       return;
-    } else {
-   //  addToWishlist(product);
-     // toast.success("Add to Wishlist !");
-    }
+    } 
 
   }
 
   useEffect((wishlist) => {
     GetWishlistdata(wishlist);
-    <Header lengthData={WishlistLength} />
   }, [wishlist]);
 
 
@@ -74,7 +76,7 @@ const Wishlist = ({
 
                   <SingleProduct
                     data1={item}
-                    product={item?.Product}
+                    product={item?.Product} isWishlisted={item.isWishlisted} 
                   />
 
                 </div>

@@ -17,7 +17,10 @@ const ProductId = ({ product }) => {
   
 // set query data 
   const prodcutId = router.query.productId ? router.query.productId : router.query.slug;
-  const newFabricPrice = router.query.fabricPrice ? router.query.fabricPrice : ""
+  const totalPrice = router.query.totalPrice ? router.query.totalPrice : "";
+  const fabricPrice = router.query.fabricPrice ? router.query.fabricPrice : "";
+  const fabricId = router.query.fabricId ? router.query.fabricId : "";
+  const fabricName = router.query.fabricName ? router.query.fabricName : "";
 
   const getProdcut = async () => {
     // Fetch product data here and return it as props
@@ -46,14 +49,14 @@ const ProductId = ({ product }) => {
   useEffect(() => {
     //get prodcut function call
     getProdcut();
-  }, [prodcutId, newFabricPrice]);
+  }, [prodcutId, totalPrice, fabricPrice]);
 
   return (
     <>
       {data && data?.length > 0 && (
         <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={data?.productName}>
           <div className="container">
-            <ProductDetails product={data} fabricPrice={newFabricPrice} />
+            <ProductDetails product={data} fabricPrice={fabricPrice} fabricId={fabricId} totalPrice={totalPrice} fabricName={fabricName}  />
           </div>
         </Layout>
       )}

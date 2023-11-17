@@ -16,20 +16,16 @@ import { useTranslation } from "react-i18next";
 const SingleProduct = ({
   data1,
   product,
-  addToCart,
-  addToCompare,
-  addToWishlist,
   openQuickView,
-  fabricPrice
 }) => {
+console.log()
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
-  const [verifyStatus, setVerifyStatus] = useState();
+  const [isProductIsWishListed, setIsProductIsWishListed] = useState();
 
 
   const productDataShow = () => {
-    setVerifyStatus(product.isWishlisted)
     setProductId(data1?.productId)
     setUserId(data1?.User?.id)
   }
@@ -38,21 +34,26 @@ const SingleProduct = ({
 
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS
-   const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+  const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
+  const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   // const discountAmount = (basePrice * discountPercentage) / 100;
   // const totalPrice = basePrice - discountAmount;
 
   useEffect(() => {
     productDataShow()
-
+    
+    setIsProductIsWishListed(product.isWishlisted)
+    console.log(isProductIsWishListed, product, product.isWishlisted)
   }, []);
 
 
   const handleCart = async (product) => {
+    product.selectedColor = '';
+    product.selectedSize = '';
+    product.selectedQuantity = 1;
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART()
-    
+
       let cartDetails = []
       if (cart.data.data[0].cartDetail) {
         cartDetails = cart.data.data[0].cartDetail.cartDetails
@@ -68,6 +69,8 @@ const SingleProduct = ({
       const updateCart = await services.cart.UPDATE_CART(data)
       console.log(updateCart)
       toast.success("Add to Cart !");
+      window.location.reload()
+
 
     } else {
       const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
@@ -79,15 +82,16 @@ const SingleProduct = ({
       const key = 'id';
       const unique = [...new Map(cartDetails.map(item =>
         [item[key], item])).values()];
-         
+
       let data = {
         cartDetail: { cartDetails: unique }
       }
-      console.log(data)
+     
       localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      toast.success("Add to Cart !");
+      window.location.reload()
     }
   };
-
   const handleWishlist = async (product) => {
 
 
@@ -96,16 +100,14 @@ const SingleProduct = ({
 
       try {
 
-        const userID = localStorage.getItem("userId");
-
         const data = {
-          productId: product.id,
-          userId: userID
+          productId: product.id
         }
+       
+        
+        if (!isProductIsWishListed) {
 
-        if (!product.isWishlisted) {
-
-
+          console.log(isProductIsWishListed)
           const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
           productDataShow()
           toast.success("Added to Wishlist!");
@@ -142,7 +144,7 @@ const SingleProduct = ({
                       src={imageUrl + product?.featuredImage}
                       crossOrigin="anonymous"
                       alt=""
-                      
+
                     />
                   </a>
                 </Link>
@@ -192,22 +194,22 @@ const SingleProduct = ({
               </h2>
               <div>
                 <span>
-                <ReactStars
-          value={product.averageRating} 
-      count={5}
-      size={20}
-      activeColor="#ffd700"
-      isHalf={true} // Disable half ratings
-      edit={false}   // Disable user rating changes
-    />
+                  <ReactStars
+                    value={product.averageRating}
+                    count={5}
+                    size={20}
+                    activeColor="#ffd700"
+                    isHalf={true} // Disable half ratings
+                    edit={false}   // Disable user rating changes
+                  />
                   <span>{product?.ratingScore} </span>
                 </span>
               </div>
               <div className="product-price">
-                <span>${product.finalAmount}</span>
+                <span>Rs. {product.finalAmount}</span>
                 {discountPercentage > 0 && (
-                  <span className="old-price"> ${basePrice}</span>
-                )}
+                  <span className="old-price"> Rs. {basePrice}</span>
+                )} &nbsp;
                 <span>
                   {product?.discountPercentage > 0
                     ? `${product?.discountPercentage}%`

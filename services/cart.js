@@ -30,6 +30,19 @@ export default {
       }
     });
   },
+  CHECKOUT : () => {
+   
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.post(
+            nextConfig.BASE_URL + api.cart.CHECKOUT()
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
  
   
  

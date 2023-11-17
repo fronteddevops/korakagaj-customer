@@ -24,11 +24,17 @@ const ProductDetails = ({
     increaseQuantity,
     decreaseQuantity,
     quickView,
-    fabricPrice
+    fabricPrice,
+    fabricName,
+    fabricId,
 }) => {
-    const { t} = useTranslation("common");
+    const { t } = useTranslation("common");
     const [quantity, setQuantity] = useState(1);
     const [fabricType, setfabricType] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedQuantity, setSelectedQuantity] = useState(1);
+
     const calculateTotalPrice = (product) => {
         let itemTotalPrice = 0; // Initialize totalPrice to 0
 
@@ -53,52 +59,71 @@ const ProductDetails = ({
         }
     };
     useEffect(() => {
+        
+        if(fabricPrice){
+            let fabriccost = +fabricPrice * product?.length
+            let finalprice = fabriccost + product?.basePrice
+            let discount = (finalprice*product?.discountPercentage)/100
+            product.finalAmount = finalprice - discount;
+            product.totalPrice = finalprice
+
+        }
+        if(fabricName){
+            setfabricType(fabricName)
+        }
+        if(fabricId){
+            product.fabric = fabricId
+        }
         GET_Fabric_Data(product);
     }, [product]);
     const handleWishlist = async (product) => {
 
 
         if (localStorage.getItem("access_token")) {
-    
-    
-          try {
-    
-            const userID = localStorage.getItem("userId");
-    
-            const data = {
-              productId: product.id,
-              userId: userID
+
+
+            try {
+
+                const userID = localStorage.getItem("userId");
+
+                const data = {
+                    productId: product.id,
+                    userId: userID
+                }
+
+                if (!product.isWishlisted) {
+
+
+                    const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+                    productDataShow()
+                    toast.success("Added to Wishlist!");
+                    window.location.reload()
+                } else {
+                    const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+                    productDataShow()
+                    toast.success("Removed from Wishlist");
+                    window.location.reload()
+                }
+
+            } catch (error) {
+
+                console.error("An error occurred:", error);
             }
-    
-            if (!product.isWishlisted) {
-    
-    
-              const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-              productDataShow()
-              toast.success("Added to Wishlist!");
-              window.location.reload()
-            } else {
-              const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-              productDataShow()
-              toast.success("Removed from Wishlist");
-              window.location.reload()
-            }
-    
-          } catch (error) {
-    
-            console.error("An error occurred:", error);
-          }
-    
+
         } else {
-          
-          toast.error("Please Login!");
+
+            toast.error("Please Login!");
         }
-    
-      };
+
+    };
     const color = JSON?.parse(product?.colour)
     const size = JSON?.parse(product.size)
 
     const handleCart = async (product) => {
+        product.selectedColor = selectedColor;
+        product.selectedSize = selectedSize;
+        product.selectedQuantity = selectedQuantity;
+
         if (localStorage.getItem("access_token")) {
             const cart = await services.cart.GET_CART()
             let cartDetails = []
@@ -115,7 +140,7 @@ const ProductDetails = ({
             console.log(data)
             const updateCart = await services.cart.UPDATE_CART(data)
             console.log(updateCart)
-            toast.success("Add to Cart !");
+            toast.success("Add to Cart!");
 
         } else {
             const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
@@ -132,6 +157,7 @@ const ProductDetails = ({
             }
             console.log(data)
             localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+            toast.success("Add to Cart!");
         }
     };
     return (
@@ -200,7 +226,7 @@ const ProductDetails = ({
                                     <div className="col-md-6 col-sm-12 col-xs-12">
                                         <div className="detail-info">
                                             <h2 className="title-detail text-capitalize">
-                                                 {product.productName}
+                                                {product.productName}
                                             </h2>
                                             <div className="product-detail-rating">
                                                 <div className="pro-details-brand">
@@ -229,13 +255,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
-                                                    {fabricPrice ? (<>
-                                                        <ins>
-                                                            <span className="text-brand">
-                                                                {fabricPrice}
-                                                            </span>
-                                                        </ins>
-                                                    </>) : (<>
+                                                 
                                                         <ins>
                                                             <span className="text-brand">
                                                                 Rs.{product?.finalAmount}
@@ -252,10 +272,7 @@ const ProductDetails = ({
                                                             }
                                                             % Off
                                                         </span>
-                                                    </>)
-
-                                                    }
-
+                                                   
                                                 </div>
                                             </div>
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -285,8 +302,8 @@ const ProductDetails = ({
                                                 <ul className="list-filter color-filter">
                                                     {color && color?.map((clr, i) =>
 
-                                                        <li key={i}>
-                                                            <a href="#">
+                                                        <li key={i} onClick={()=>setSelectedColor(clr)}>
+                                                            <a href="#" >
                                                                 <span
                                                                     className={`product-color-${clr}`}
                                                                 >
@@ -304,8 +321,8 @@ const ProductDetails = ({
                                                 <ul className="list-filter size-filter font-small">
                                                     {size.map(
                                                         (size, i) => (
-                                                            <li key={i}>
-                                                                <a href="#">
+                                                            <li className={size == selectedSize ? 'active' : ''} key={i}  onClick={()=>setSelectedSize(size)}>
+                                                                <a>
                                                                     {size}
                                                                 </a>
                                                             </li>
@@ -317,6 +334,7 @@ const ProductDetails = ({
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
                                                     <span className="text-brand">{t("Size Chart")} {'>'}</span>
                                                 </strong>
+                                                {console.log(product)}
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
@@ -325,18 +343,18 @@ const ProductDetails = ({
                                                 <div className="detail-qty border radius">
                                                     <a
                                                         onClick={(e) =>
-                                                            setQuantity(1)
+                                                            setSelectedQuantity(selectedQuantity - 1)
                                                         }
                                                         className="qty-down"
                                                     >
                                                         <i className="fi-rs-angle-small-down"></i>
                                                     </a>
                                                     <span className="qty-val">
-                                                        {quantity}
+                                                        {selectedQuantity}
                                                     </span>
                                                     <a
                                                         onClick={() =>
-                                                            setQuantity(1)
+                                                            setSelectedQuantity(selectedQuantity + 1)
                                                         }
                                                         className="qty-up"
                                                     >
@@ -347,7 +365,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10 text-capitalize ">
-                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricType}</span>
+                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricName ? fabricName : fabricType}</span>
                                                 </strong>
 
                                                 <Link href={`/fabric?&newlength=${product?.length}&id=${product.id}&basePrice=${product?.basePrice}&discountPercentage=${product?.discountPercentage}&prodcutName=${product?.productName}`}>
@@ -429,7 +447,7 @@ const ProductDetails = ({
 
                                 {quickView ? null : (
                                     <>
-                                        <ProductTab prodcut={product}  />
+                                        <ProductTab prodcut={product} />
                                         <div className="row mt-60">
                                             <div className="col-12">
                                                 <h3 className="section-title style-1 mb-30">
@@ -438,7 +456,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="col-12">
                                                 <div className="row related-products position-relative">
-                                                    <RelatedSlider/>
+                                                    <RelatedSlider />
                                                 </div>
                                             </div>
                                         </div>

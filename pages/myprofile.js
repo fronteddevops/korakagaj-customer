@@ -16,7 +16,6 @@ import { useTranslation } from "react-i18next";
 
 function Account() {
   const { t } = useTranslation("common");
-  const route = useRouter();
   const [selectedid, setSelectedId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(1);
   const [firstName, setFirstName] = useState("");
@@ -29,7 +28,7 @@ function Account() {
   const [password, setPassword] = useState("");
 
   const [newpassword, setNewPassword] = useState("");
- 
+
   const [newpasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -37,7 +36,7 @@ function Account() {
   const [passwordError, setPasswordError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDisabledAcount, setIsDisabledAcount] = useState(true);
-  const [isDisabledChangeP,setIsDisabledChangep]=useState(true)
+  const [isDisabledChangeP, setIsDisabledChangep] = useState(true)
   const [alladdress, setAllAddress] = useState([]);
   const [orderDetailsData, setOrderDetailsData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +47,7 @@ function Account() {
   const [isChecked, setIsChecked] = useState()
 
 
- const [breadCrumb,setBreadCrumb]=useState(t("Dashboard"))
+  const [breadCrumb, setBreadCrumb] = useState(t("Dashboard"))
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   //image url
   const imageUrl = nextConfig.BASE_URL_UPLOADS
@@ -59,7 +58,14 @@ function Account() {
   const toastError = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };
-
+  
+  let route = useRouter()
+  const { index } = route.query;
+  useEffect(()=>{
+    if(index){
+      handleOnClick(+index)
+    }
+  },[index])
   const handleOnClick = async (index) => {
 
     setActiveIndex(index);
@@ -87,7 +93,7 @@ function Account() {
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
         setPhoneNumber(response?.data?.data?.phoneNumber);
-        localStorage.setItem("user",JSON.stringify())
+        localStorage.setItem("user", JSON.stringify())
       } catch (error) {
         console.log(error);
       }
@@ -97,7 +103,7 @@ function Account() {
 
         const response = await services.orderDetails.GET_ORDER_DETAILS();
         setOrderDetailsData(response?.data?.data.rows)
-     
+
 
 
       } catch (error) {
@@ -105,23 +111,23 @@ function Account() {
         toastError(error);
       }
     }
-    if (index === 4 ) {
-      
+    if (index === 4) {
+
       try {
 
         //get my address
         const response = await services.myprofile.GET_MY_ADDRESS();
         console.log(response.data);
         setAllAddress(response?.data?.data);
-        
-          
-      } catch(error) {
-       
- console.log(error)
+
+
+      } catch (error) {
+
+        console.log(error)
       }
-          
+
     } else {
-      
+
     }
   };
   //
@@ -135,34 +141,35 @@ function Account() {
     }
     if (isValid) {
       setPhoneNumberError("")
-    try {
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        email: email,
-      };
-      const response = await services.myprofile.UPDATE_MY_PROFILE(data);
-      if (response) {
-        setIsDisabledAcount(false)
-      toastSuccessprofileupdate();
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000);
-     
-      } else {
+      try {
+        const data = {
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          email: email,
+        };
+        const response = await services.myprofile.UPDATE_MY_PROFILE(data);
+        if (response) {
+          setIsDisabledAcount(false)
+          toastSuccessprofileupdate();
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000);
+
+        } else {
+        }
+      } catch (e) {
+        setIsDisabledAcount(true)
+        console.log(e)
       }
-    }catch(e){
-      setIsDisabledAcount(true)
-      console.log(e)
     }
-  }}
+  }
 
   const handlePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
     const isValidNumber = /^\d{10}$/; // Validate 10-digit number
-  
+
     if (!isValidNumber.test(pastedText)) {
       e.preventDefault(); // Prevent pasting invalid input
       setPhoneNumberError("Invalid phone number format");
@@ -175,7 +182,7 @@ function Account() {
     setNewPasswordError("")
     setConfirmPasswordError("")
     let isValid = true;
-   
+
     setConfirmPasswordError("");
     if (newpassword !== confirmPassword) {
       // Update the passwordConfirm variable with an error message
@@ -188,27 +195,27 @@ function Account() {
     }
     if (isValid) {
       try {
-          const data = {
-            newPassword: newpassword,
-            oldPassword: password,
-          };
-          const response = await services.myprofile.CHANGE_PASSWORD(data);
-          if (response) {
-            setIsDisabledChangep(false)
-            toastSuccesschangepassword();
-            route.push("/login")
-          }else {
-            alert(response.data.guide);
-          }
-        } catch (error) {
-          toastError(error);
-          setIsDisabledChangep(true)
-          console.log(error);
+        const data = {
+          newPassword: newpassword,
+          oldPassword: password,
+        };
+        const response = await services.myprofile.CHANGE_PASSWORD(data);
+        if (response) {
+          setIsDisabledChangep(false)
+          toastSuccesschangepassword();
+          route.push("/login")
+        } else {
+          alert(response.data.guide);
         }
+      } catch (error) {
+        toastError(error);
+        setIsDisabledChangep(true)
+        console.log(error);
       }
-   
     }
-  
+
+  }
+
 
   const handleaddaddress = () => {
     setShowEditAddressComponent(false)
@@ -245,7 +252,7 @@ function Account() {
 
   return (
     <div>
-      <Layout parent={t("Home")} sub={t("Pages")}    subsuB={<a  href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
+      <Layout parent={t("Home")} sub={t("Pages")} subsuB={<a href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
         <section className="pt-150 pb-150">
           <div className="container">
             <div className="row">
@@ -281,10 +288,11 @@ function Account() {
                       <ul className="nav flex-column" role="tablist">
                         <li
                           className="nav-item"
-                          onClick={() =>{ 
-                            
+                          onClick={() => {
+
                             setBreadCrumb("Dashboard")
-                            handleOnClick(1)}}
+                            handleOnClick(1)
+                          }}
                         >
                           <a
                             className={
@@ -299,7 +307,8 @@ function Account() {
                           className="nav-item"
                           onClick={() => {
                             setBreadCrumb("Orders")
-                            handleOnClick(2)}}
+                            handleOnClick(2)
+                          }}
                         >
                           <a
                             className={
@@ -325,10 +334,11 @@ function Account() {
                         </li> */}
                         <li
                           className="nav-item"
-                          onClick={() =>{
-                            
+                          onClick={() => {
+
                             setBreadCrumb("My Address")
-                            handleOnClick(4)}}
+                            handleOnClick(4)
+                          }}
                         >
                           <a
                             className={
@@ -341,9 +351,10 @@ function Account() {
                         </li>
                         <li
                           className="nav-item"
-                          onClick={() =>{
+                          onClick={() => {
                             setBreadCrumb(" Account details")
-                            handleOnClick(5)}}
+                            handleOnClick(5)
+                          }}
                         >
                           <a
                             className={
@@ -356,9 +367,10 @@ function Account() {
                         </li>
                         <li
                           className="nav-item"
-                          onClick={() =>{ 
+                          onClick={() => {
                             setBreadCrumb(" Change password")
-                            handleOnClick(6)}}
+                            handleOnClick(6)
+                          }}
                         >
                           <a
                             className={
@@ -395,11 +407,11 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5 className="mb-0">{t("Hello Rosie!")}</h5>
+                              <h5 className="mb-0">{t("Welcome to KoraKagaj!")}</h5>
                             </div>
                             <div className="card-body">
                               <p>
-                              {t("From your account dashboard. you can easily check")} &amp; {t("view your")}
+                                {t("From your account dashboard. you can easily check")} &amp; {t("view your")}
                                 <a href="#">{t("recent orders")}</a>, {t("manage your")}
                                 <a href="#">{t("shipping and billing addresses")}</a>
                                 {t("and")}
@@ -447,7 +459,7 @@ function Account() {
                                           <td> <img
                                             className='rounded'
                                             crossOrigin='anonymous'
-                                            src={imageUrl+ item?.OrderDetails?.[0]?.Product?.image?.[0]
+                                            src={imageUrl + item?.OrderDetails?.[0]?.Product?.image?.[0]
                                             }
                                             alt='Image'
                                             height={50}
@@ -513,7 +525,7 @@ function Account() {
                             </div>
                             <div className="card-body contact-from-area">
                               <p>
-                               {t("To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.")}
+                                {t("To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.")}
                               </p>
                               <div className="row">
                                 <div className="col-lg-8">
@@ -564,135 +576,137 @@ function Account() {
                         >
 
                           <div className="row">
-                          {alladdress?.length === 0 ? (
-                            <span className="text-danger m-10" 
-                            style={{    textAlign: "center",
-                              padding: "173px"}}
-                            >{t("No Address Found")}</span>
-                          ) : (
-                            alladdress?.map((user, index) => {
-                             
-                           
-                              return (
-                                <div className="col-lg-6">
-                                  <div className="card mb-3 mb-lg-0">
-                                    <div className="card-header d-flex justify-content-between">
-                                      <h5 className="mb-0">{t("Billing Address")}</h5>
-                                      <span>
-                                      <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        role="switch"
-                                        id="flexSwitchCheckDefault"
-                                        disabled="true"
-                                         checked={user.defaultAddress}
-                                      
-                                      />
-                                    </span>
-                                    </div>
-
-                                    <div
-                                      className="card-body"
-                                      onChange={(e) => setAllAddress()}
-                                      key={index}
-                                    >
-                                      <address>
-                                        {" "}
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.fullName}
-                                        </span>
-                                        <br />
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.phoneNumber}
-                                        </span>
-                                        <br />
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.houseNo}
-                                        </span>
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.address}
-                                        </span>
-                                        <br />
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.city}
-                                        </span>
-                                        <br />
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.pinCode}
-                                        </span>
-                                        <br />
-                                        <span
-                                          style={{
-                                            whiteSpace: "pre-wrap", // This property allows for line breaks
-                                            wordWrap: "break-word", // This property allows for breaking words when needed
-                                            overflowWrap: "break-word", // An alternative way to allow word breaking
-                                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                          }}
-                                        >
-                                          {user.address.state}
-                                        </span>
-                                      </address>
+                            {alladdress?.length === 0 ? (
+                              <span className="text-danger m-10"
+                                style={{
+                                  textAlign: "center",
+                                  padding: "173px"
+                                }}
+                              >{t("No Address Found")}</span>
+                            ) : (
+                              alladdress?.map((user, index) => {
 
 
+                                return (
+                                  <div className="col-lg-6">
+                                    <div className="card mb-3 mb-lg-0">
+                                      <div className="card-header d-flex justify-content-between">
+                                        <h5 className="mb-0">{t("Billing Address")}</h5>
+                                        <span>
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="flexSwitchCheckDefault"
+                                            disabled="true"
+                                            checked={user.defaultAddress}
 
-                                      <div className="col-lg-12 text-end ">
-                                        <span
-
-                                          style={{ width: "150px", padding: "1rem", color: "red", cursor: 'pointer' }}
-
-                                          onClick={() => handleeditaddress(user.id)}
-                                        >
-
-                                          {t("Edit")}
+                                          />
                                         </span>
+                                      </div>
+
+                                      <div
+                                        className="card-body"
+                                        onChange={(e) => setAllAddress()}
+                                        key={index}
+                                      >
+                                        <address>
+                                          {" "}
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.fullName}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.phoneNumber}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.houseNo}
+                                          </span>
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.address}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.city}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.pinCode}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {user.address.state}
+                                          </span>
+                                        </address>
+
+
+
+                                        <div className="col-lg-12 text-end ">
+                                          <span
+
+                                            style={{ width: "150px", padding: "1rem", color: "red", cursor: 'pointer' }}
+
+                                            onClick={() => handleeditaddress(user.id)}
+                                          >
+
+                                            {t("Edit")}
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              );
-  }))}
+                                );
+                              }))}
                           </div>
                         </div>
                         {showAddAddressComponent && <Addaddress />}
@@ -737,20 +751,20 @@ function Account() {
                                           setFirstName(e.target.value);
                                           setFirstNameError("");
                                         }
-                                       
+
                                       }}
                                       onKeyDown={(e) => {
                                         const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                                      
+
                                         const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                                        
+
                                         if (
                                           e.key === " " &&                 // If the pressed key is space
                                           value.length === 0               // And there are no characters yet
                                         ) {
                                           e.preventDefault();              // Prevent entering space at the beginning
                                         }
-                                      
+
                                         if (
                                           exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                                           e.key !== "Backspace" &&
@@ -758,9 +772,9 @@ function Account() {
                                         ) {
                                           e.preventDefault(); // Prevent input of restricted characters
                                         }
-                                      
+
                                         // If the length is 0 and the key pressed is not Backspace or Delete
-                                        
+
                                       }}
                                     />
                                     <div>
@@ -787,7 +801,7 @@ function Account() {
                                       className="form-control square"
                                       name="name"
                                       value={lastName}
-                                      placeholder={t("Enter Last Name")  + lastName}
+                                      placeholder={t("Enter Last Name") + lastName}
                                       onChange={(e) => {
                                         setLastName(e.target.value);
                                         if (!e.target.value.trim()) {
@@ -798,20 +812,20 @@ function Account() {
                                           setLastName(e.target.value);
                                           setLastNameError("");
                                         }
-                                       
+
                                       }}
                                       onKeyDown={(e) => {
                                         const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                                      
+
                                         const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                                        
+
                                         if (
                                           e.key === " " &&                 // If the pressed key is space
                                           value.length === 0               // And there are no characters yet
                                         ) {
                                           e.preventDefault();              // Prevent entering space at the beginning
                                         }
-                                      
+
                                         if (
                                           exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                                           e.key !== "Backspace" &&
@@ -819,9 +833,9 @@ function Account() {
                                         ) {
                                           e.preventDefault(); // Prevent input of restricted characters
                                         }
-                                      
+
                                         // If the length is 0 and the key pressed is not Backspace or Delete
-                                        
+
                                       }}
                                     />
                                     <div>
@@ -901,9 +915,9 @@ function Account() {
                                     <button
                                       className="btn btn-fill-out "
                                       disabled={
-                                       !( isDisabledAcount &&
-                                        firstName &&
-                                        lastName && phoneNumber)
+                                        !(isDisabledAcount &&
+                                          firstName &&
+                                          lastName && phoneNumber)
 
                                       }
                                     // onClick={handlesubmit}
@@ -1147,13 +1161,13 @@ function Account() {
                                       className="btn btn-fill-out  "
                                       // name="submit"
                                       // value="Submit"
-                                      disabled={ !(
+                                      disabled={!(
                                         isDisabledChangeP &&
-                                       
-                                          password &&
-                                          newpassword &&
-                                          confirmPassword
-                                        )
+
+                                        password &&
+                                        newpassword &&
+                                        confirmPassword
+                                      )
                                       }
                                     // onClick={changepassword}
                                     >
