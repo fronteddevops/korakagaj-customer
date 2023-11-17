@@ -30,10 +30,10 @@ const ThankYou = () => {
   return (
     <div style={containerStyle}>
       <div style={contentStyle}>
-        <h1>Thank You</h1>
-        <p style={{color:'red'}}>Your order has been successfully placed!</p>
-        <Link href="/orderDetails">
-          <a style={linkStyle}>View Order Details</a>
+        <h1 className="text-white">Thank You</h1>
+        <p style={{color:'white'}}>Your order has been successfully placed!</p>
+        <Link href="/myprofile">
+          <a style={linkStyle}>View Orders</a>
         </Link>
       </div>
     </div>
