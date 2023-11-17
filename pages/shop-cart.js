@@ -299,7 +299,8 @@ const Cart = ({}) => {
             <div className="row">
               <div className="col-12">
                 <div className="table-responsive">
-                  {updateCart.length <= 0 && t("No Products")}
+                  {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
+                  {updateCart?.length<=0 ?(""):(t("No Products"))}
                   <table
                     className={
                       updateCart?.length > 0
@@ -398,14 +399,14 @@ const Cart = ({}) => {
                           );
                         })}
                       <tr>
-                        <td colSpan="6" className="text-end">
-                          {updateCart.length > 0 && (
-                            <a onClick={clearCart} className="text-muted">
-                              <i className="fi-rs-cross-small"></i>
-                              Clear Cart
-                            </a>
-                          )}
-                        </td>
+                      <td colSpan="6" className="text-end">
+  {updateCart && updateCart.length > 0 && (
+    <a href="#" onClick={clearCart} className="text-muted">
+      <i className="fi-rs-cross-small"></i>
+      Clear Cart
+    </a>
+  )}
+</td>
                       </tr>
                     </tbody>
                   </table>

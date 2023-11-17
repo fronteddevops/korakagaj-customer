@@ -18,20 +18,21 @@ const ReviewRetting = () => {
   const [orderDetailsData, setOrderDetailsData] = useState();
   const [orderDetailsData1, setOrderDetailsData1] = useState();
   const [reviewRating, setReviewRating] = useState();
-  const [description, setdescription] = useState("");
+  const [description, setdescription] = useState("good");
   const [descriptionError, setdescriptionError] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const [orderId, setOrderId] = useState();
   const [productId, setProductId] = useState();
   const [Rating, setRating] = useState();
   const toastSuccessReviewRating = () => toast.success("Review rating has been submitted successfully");
-  const ProductId = Router.query.orderId
+  const ProductId = Router?.query?.orderId
 const imageUrl = nextConfig.BASE_URL_UPLOADS
-  const orderDetials = async (id) => {
+  const orderDetials = async () => {
 
     try {
 
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
+      console.log("================",response.data)
       setOrderDetailsData(response?.data?.data)
       setOrderDetailsData1(response?.data?.data[0])
       setRating(response?.data?.data[0].Product?.averageRating)
@@ -49,7 +50,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
  
     try {
       const data={
-        orderId: orderId,
+        orderId: ProductId,
         productId:productId,
         review: description,
         ratings: reviewRating,
@@ -71,8 +72,8 @@ if(response){
   }
   useEffect(() => {
     orderDetials()
-  }, []);
-
+  }, [ProductId]);
+console.log("order ",orderId)
 
   const ratingChanged = (newRating) => {
     if(newRating<1){

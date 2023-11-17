@@ -40,17 +40,27 @@ const NewArrival = () => {
                 //   }
         
 
-    const data = {
-        subSubCategory: "",
-        categoryId: "",
-        productType:3,
-        order:"",
-        maxPrice: "10000",
-        minPrice:"0",
-        color: "",
-        size: "",
+//     const data = {
+//         subSubCategory: "",
+//         categoryId: "",
+//         productType:3,
+//         order:"",
+//         maxPrice: "10000",
+//         minPrice:"0",
+//         color: "",
+//         size: "",
   
-  }
+//   }
+const data = {
+    subSubCategoryId:"",
+    categoryId: "",
+    productType:3,
+    order:"",
+    priceTo: "10000",
+    priceFrom: "0",
+    colour: "",
+    size: "",
+  };
   const query = new URLSearchParams(data);
      const response =await services.product.GET_FILTER_PRODUCT(query)
      if(response){

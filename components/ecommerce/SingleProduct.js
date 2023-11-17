@@ -18,7 +18,7 @@ const SingleProduct = ({
   product,
   openQuickView,
 }) => {
-console.log()
+
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
@@ -41,9 +41,9 @@ console.log()
 
   useEffect(() => {
     productDataShow()
-    
+
     setIsProductIsWishListed(product.isWishlisted)
-    console.log(isProductIsWishListed, product, product.isWishlisted)
+
   }, []);
 
 
@@ -86,7 +86,7 @@ console.log()
       let data = {
         cartDetail: { cartDetails: unique }
       }
-     
+
       localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
       toast.success("Add to Cart !");
       window.location.reload()
@@ -103,8 +103,8 @@ console.log()
         const data = {
           productId: product.id
         }
-       
-        
+
+
         if (!isProductIsWishListed) {
 
           console.log(isProductIsWishListed)

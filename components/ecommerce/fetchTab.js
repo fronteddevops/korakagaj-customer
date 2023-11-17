@@ -13,17 +13,26 @@ function FeatchTab() {
     const [hotDeals, setHotDeals] = useState([]);
     const [newArrival, setNewArrival] = useState([]);
     const [ productType,setProdcuType]=useState("0")
+    // const data = {
+    //   subSubCategory: "",
+    //   categoryId: "",
+    //   productType:productType,
+    //   order:"",
+    //   maxPrice: "10000",
+    //   minPrice:"0",
+    //   color: "",
+    //   size: "",
+    // };
     const data = {
-      subSubCategory: "",
-      categoryId: "",
-      productType:productType,
-      order:"",
-      maxPrice: "10000",
-      minPrice:"0",
-      color: "",
-      size: "",
-    };
-
+        subSubCategoryId: "",
+        categoryId:"",
+        productType:productType,
+        order:"",
+        priceTo:"10000",
+        priceFrom:"0",
+        colour: "",
+        size:"",
+      };
 
     const fillterProduct = async () => {
       try {
@@ -31,7 +40,7 @@ function FeatchTab() {
         const query = new URLSearchParams(data);
            const response =await services.product.GET_FILTER_PRODUCT(query)
            if(response){
-            console.log("+++++++++++++++++++++++++++++",response?.data?.data)
+          
             setNewProduct(response?.data?.data);
             setActive("0");
            }
