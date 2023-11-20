@@ -26,8 +26,7 @@ const QuickView = ({ quickView, closeQuickView }) => {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-console.log("++++++++++++++++++",)
-console.log("++++++++++++++++++",quickView)
+
     return (
         <>
             <Modal open={quickView ? true : false} onClose={closeQuickView}>

@@ -37,7 +37,7 @@ function parseAndFormatColors(colorsJSON) {
     }
     return "";
   }
-    console.log("+===============++++++++++++++",prodcut.Ratings)
+  
     return (
         <>
             <div className="tab-style3">

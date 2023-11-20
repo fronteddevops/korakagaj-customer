@@ -167,7 +167,7 @@ const Products = ({ products1, productFilters }) => {
   const getCategroy = async () => {
     try {
       const response = await services.category.GET_CATEGORY_ALL();
-      console.log("=====================>>>>>>>>>>>>>>>>",response.data.data)
+    
       if (response) {
         setCategory(response?.data?.data);
       }
