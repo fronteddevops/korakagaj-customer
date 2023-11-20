@@ -41,11 +41,11 @@ function OrderViewDetails({ data }) {
       <div className="container">
 
 
-        <div className="container mt-5">
-          <h1 className="text-center">{t("Order Details")}</h1>
-          <div className="card">
+        <div >
+          <div >
 
-            <div className="card-body">
+            <div >
+         
 
               {orderDetailsData?.map((item, key) => {
                 let color = "";
@@ -108,7 +108,7 @@ function OrderViewDetails({ data }) {
 
                   //   </div>
                   // </div>
-                  <ul className="list-group border border-black p-5 " key={key}>
+                  <ul className="list-group  p-5 " key={key}>
                     <h4 className="mb-3 ">Product Details</h4>
                      <li className="list-group-item">{t("Brand Name :")}  <img
                           className='rounded'
@@ -129,8 +129,9 @@ function OrderViewDetails({ data }) {
                     <li className="list-group-item">Tag :{item?.Product?.tags}</li>
                     <li className="list-group-item">{t("Sku Number :")} {item?.Product?.sku}</li>
                     <li className="list-group-item">Fabric Name : {item?.Product?.fabric}</li>
-                    <li className="list-group-item">{t("Colour :")} {color}</li>
-                    <li className="list-group-item">{t("Quantity :")} {item?.Product?.quantity}</li>
+                    <li className="list-group-item">{t("Colour :")} {item?.Product?.selectedColor}</li>
+                    <li className="list-group-item">Size: {item?.Product?.selectedSize}</li>
+                    <li className="list-group-item">{t("Quantity :")} {item?.Product?.selectedQuantity}</li>
                     <li className="list-group-item">Price : {item?.amount}</li>
                     <li className="list-group-item">{t("Total Price :")} {item?.Product?.totalPrice}</li>
                     <li className="list-group-item">Current Stock : {item?.Product?.currentStock}</li>
