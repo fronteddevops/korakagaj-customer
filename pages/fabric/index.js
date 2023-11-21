@@ -35,6 +35,7 @@ const Products = ({ products, productFilters }) => {
   const [selectedhandle, setSelectedhandle] = useState([]);
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
+  const [fabric,setFabric]=useState("")
 
   //pagination
 
@@ -165,9 +166,17 @@ const Products = ({ products, productFilters }) => {
 
 
   };
-
+const getFabric=async()=>{
+  try {
+   const response= await services.fabric.GET_FABRIC() 
+   console.log("++++++++++++++++++++++++++++++++",)
+   setFabric(response?.data?.data)
+  } catch (error) {
+    
+  }
+}
   useEffect(() => {
-
+getFabric()
     getFilterFabric();
     cratePagination();
   }, [
