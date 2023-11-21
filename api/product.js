@@ -5,3 +5,6 @@ export default {
   UP_COMING_PRODUCT: () => `/product/isUpcoming`,
   GET_FILTER_PRODUCT: (query) => `/product?${query}`
 };
+
+
+

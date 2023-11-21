@@ -300,7 +300,7 @@ const Cart = ({}) => {
               <div className="col-12">
                 <div className="table-responsive">
                   {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
-                  {updateCart?.length<=0 ?(""):(t("No Products"))}
+                  {updateCart?.length>0 ?(""):(t("No Products"))}
                   <table
                     className={
                       updateCart?.length > 0

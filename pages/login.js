@@ -74,6 +74,7 @@ function Login() {
         } 
       
       } catch (error) {
+        console.log(error)
         setIsDisabled(true)
         toastErrorLogin(error);
         

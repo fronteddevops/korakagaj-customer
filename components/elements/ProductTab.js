@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import ReactStars from "react-rating-stars-component";
 const ProductTab = ({prodcut}) => {
     const { t} = useTranslation("common");
     const [activeIndex, setActiveIndex] = useState(1);
@@ -312,75 +312,92 @@ function parseAndFormatColors(colorsJSON) {
                         }
                         id="Reviews"
                     >
+{/* 
+<h4 className="mb-30">{t("Customer reviews")}</h4> */}
+
+{/* <span>
+                  <ReactStars
+                    value={prodcut.averageRating}
+                    count={5}
+                    size={20}
+                    activeColor="#ffd700"
+                    isHalf={true} // Disable half ratings
+                    edit={false}   // Disable user rating changes
+                  />
+                  <span>{prodcut?.ratingScore} </span>
+                </span> */}
+
+
+
                         <div className="comments-area">
                             <div className="row">
                                 <div className="col-lg-8">
                                     <h4 className="mb-30">
                                         {t("Customer questions & answers")}
                                     </h4>
+                                    {prodcut?.Ratings?.map((item)=>(
+                                        <>
                                     <div className="comment-list">
                                         <div className="single-comment justify-content-between d-flex">
                                             <div className="user justify-content-between d-flex">
-                                                <div className="thumb text-center">
-                                                    <img
-                                                        src="/assets/imgs/page/avatar-6.jpg"
-                                                        alt=""
-                                                    />
-                                                    <h6>
-                                                        <a href="#">
-                                                            Jacky Chan
-                                                        </a>
-                                                    </h6>
-                                                    <p className="font-xxs">
-                                                        {t("Since")} 2012
-                                                    </p>
-                                                </div>
+                                               
+                                         
+   
+                                               
                                                 <div className="desc">
-                                                    <div className="product-rate d-inline-block">
+                                                    {/* <div className="product-rate d-inline-block">
                                                         <div
                                                             className="product-rating"
                                                             style={{
                                                                 width: "90%",
                                                             }}
                                                         ></div>
-                                                    </div>
+                                                    </div> */}
+                                                     <span>
+                  <ReactStars
+                    value={item?.ratings}
+                    count={5}
+                    size={20}
+                    activeColor="#ffd700"
+                    isHalf={true} // Disable half ratings
+                    edit={false}   // Disable user rating changes
+                  />
+                  {/* <span>{prodcut?.ratingScore} </span> */}
+                </span> 
                                                     <p>
-                                                        {t("Thank you very fast shipping from Poland only 3days.")}
+                                                    
+                                                    {item?.review}
+                                                    
+                                                        {/* {t("Thank you very fast shipping from Poland only 3days.")} */}
                                                     </p>
+                                                   
                                                     <div className="d-flex justify-content-between">
                                                         <div className="d-flex align-items-center">
-                                                            <p className="font-xs mr-30">
+                                                            {/* <p className="font-xs mr-30">
                                                                 December 4, 2020
                                                                 at 3:12 pm
-                                                            </p>
-                                                            <a
-                                                                href="#"
-                                                                className="text-brand btn-reply"
-                                                            >
-                                                                {t("Reply")}
-                                                                <i className="fi-rs-arrow-right"></i>
-                                                            </a>
+
+                                                            </p> */}
+                                                           
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="single-comment justify-content-between d-flex">
-                                            <div className="user justify-content-between d-flex">
-                                                <div className="thumb text-center">
-                                                    <img
-                                                        src="/assets/imgs/page/avatar-7.jpg"
-                                                        alt=""
-                                                    />
                                                     <h6>
                                                         <a href="#">
-                                                            Ana Rosie
+{item?.User?.firstName   } &nbsp;&nbsp;{item?.User?.lastName}
                                                         </a>
                                                     </h6>
-                                                    <p className="font-xxs">
-                                                        {t("Since")} 2008
-                                                    </p>
+                                                </div>
+                                              
+                                            </div>
+                                            
+                                        </div>
+                                    
+                                        {/* <div className="single-comment justify-content-between d-flex">
+                                            <div className="user justify-content-between d-flex">
+                                                <div className="thumb text-center">
+                                                    
+                                                   
+                                                    
                                                 </div>
                                                 <div className="desc">
                                                     <div className="product-rate d-inline-block">
@@ -400,15 +417,14 @@ function parseAndFormatColors(colorsJSON) {
                                                                 December 4, 2020
                                                                 at 3:12 pm
                                                             </p>
-                                                            <a
-                                                                href="#"
-                                                                className="text-brand btn-reply"
-                                                            >
-                                                                {t("Reply")}
-                                                                <i className="fi-rs-arrow-right"></i>
-                                                            </a>
+                                                            
                                                         </div>
                                                     </div>
+                                                    <h6>
+                                                        <a href="#">
+                                                            Ana Rosie
+                                                        </a>
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -416,18 +432,9 @@ function parseAndFormatColors(colorsJSON) {
                                         <div className="single-comment justify-content-between d-flex">
                                             <div className="user justify-content-between d-flex">
                                                 <div className="thumb text-center">
-                                                    <img
-                                                        src="/assets/imgs/page/avatar-8.jpg"
-                                                        alt=""
-                                                    />
-                                                    <h6>
-                                                        <a href="#">
-                                                            Steven Keny
-                                                        </a>
-                                                    </h6>
-                                                    <p className="font-xxs">
-                                                        {t("Since")} 2010
-                                                    </p>
+                                                   
+                                                   
+                                                   
                                                 </div>
                                                 <div className="desc">
                                                     <div className="product-rate d-inline-block">
@@ -447,184 +454,28 @@ function parseAndFormatColors(colorsJSON) {
                                                                 December 4, 2020
                                                                 at 3:12 pm
                                                             </p>
-                                                            <a
-                                                                href="#"
-                                                                className="text-brand btn-reply"
-                                                            >
-                                                                {t("Reply")}
-                                                                <i className="fi-rs-arrow-right"></i>
-                                                            </a>
+                                                           
                                                         </div>
                                                     </div>
+                                                    <h6>
+                                                        <a href="#">
+                                                            Ana Rosie
+                                                        </a>
+                                                    </h6>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
+                                     < hr/>
                                     </div>
+                                 
+                                    </>
+                                       ))}
                                 </div>
-                                <div className="col-lg-4">
-                                    <h4 className="mb-30">{t("Customer reviews")}</h4>
-                                    <div className="d-flex mb-30">
-                                        <div className="product-rate d-inline-block mr-15">
-                                            <div
-                                                className="product-rating"
-                                                style={{
-                                                    width: "90%",
-                                                }}
-                                            ></div>
-                                        </div>
-                                        <h6>4.8 out of 5</h6>
-                                    </div>
-                                    <div className="progress">
-                                        <span>5 {t("star")}</span>
-                                        <div
-                                            className="progress-bar"
-                                            role="progressbar"
-                                            style={{
-                                                width: " 50%",
-                                            }}
-                                            aria-valuenow="50"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        >
-                                            50%
-                                        </div>
-                                    </div>
-                                    <div className="progress">
-                                        <span>4 {t("star")}</span>
-                                        <div
-                                            className="progress-bar"
-                                            role="progressbar"
-                                            style={{
-                                                width: " 25%",
-                                            }}
-                                            aria-valuenow="25"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        >
-                                            25%
-                                        </div>
-                                    </div>
-                                    <div className="progress">
-                                        <span>3 {t("star")}</span>
-                                        <div
-                                            className="progress-bar"
-                                            role="progressbar"
-                                            style={{
-                                                width: " 45%",
-                                            }}
-                                            aria-valuenow="45"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        >
-                                            45%
-                                        </div>
-                                    </div>
-                                    <div className="progress">
-                                        <span>2 {t("star")}</span>
-                                        <div
-                                            className="progress-bar"
-                                            role="progressbar"
-                                            style={{
-                                                width: " 65%",
-                                            }}
-                                            aria-valuenow="65"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        >
-                                            65%
-                                        </div>
-                                    </div>
-                                    <div className="progress mb-30">
-                                        <span>1 {t("star")}</span>
-                                        <div
-                                            className="progress-bar"
-                                            role="progressbar"
-                                            style={{
-                                                width: " 85%",
-                                            }}
-                                            aria-valuenow="85"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        >
-                                            85%
-                                        </div>
-                                    </div>
-                                    <a href="#" className="font-xs text-muted">
-                                        {t("How are ratings calculated?")}
-                                    </a>
-                                </div>
+                         
                             </div>
                         </div>
 
-                        <div className="comment-form">
-                            <h4 className="mb-15">{t("Add a review")}</h4>
-                            <div className="product-rate d-inline-block mb-30"></div>
-                            <div className="row">
-                                <div className="col-lg-8 col-md-12">
-                                    <form
-                                        className="form-contact comment_form"
-                                        action="#"
-                                        id="commentForm"
-                                    >
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <div className="form-group">
-                                                    <textarea
-                                                        className="form-control w-100"
-                                                        name="comment"
-                                                        id="comment"
-                                                        cols="30"
-                                                        rows="9"
-                                                        placeholder={t("Write Comment")}
-                                                    ></textarea>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div className="form-group">
-                                                    <input
-                                                        className="form-control"
-                                                        name="name"
-                                                        id="name"
-                                                        type="text"
-                                                        placeholder={t("Name")}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div className="form-group">
-                                                    <input
-                                                        className="form-control"
-                                                        name="email"
-                                                        id="email"
-                                                        type="email"
-                                                        placeholder={t("Email")}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-12">
-                                                <div className="form-group">
-                                                    <input
-                                                        className="form-control"
-                                                        name="website"
-                                                        id="website"
-                                                        type="text"
-                                                        placeholder={t("Website")}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <button
-                                                type="submit"
-                                                className="button button-contactForm"
-                                            >
-                                                {t("Submit Review")}
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                  
                     </div>
                 </div>
             </div>

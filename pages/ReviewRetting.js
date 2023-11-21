@@ -32,7 +32,7 @@ const imageUrl = nextConfig.BASE_URL_UPLOADS
     try {
 
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
-      console.log("================",response.data)
+    
       setOrderDetailsData(response?.data?.data)
       setOrderDetailsData1(response?.data?.data[0])
       setRating(response?.data?.data[0].Product?.averageRating)

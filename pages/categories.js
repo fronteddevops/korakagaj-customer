@@ -11,9 +11,9 @@ function Categories() {
     const { t } = useTranslation("common");
     const getCategories= async()=>{
         try {
-            const response =await services.category.GET_CATEGORY()
+            const response =await services.category.GET_CATEGORY_ALL()
             if(response){
-         setCategories(response?.data?.data?.rows)
+         setCategories(response?.data?.data)
             }
         } catch (error) {
            console.log(error)

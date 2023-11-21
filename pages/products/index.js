@@ -167,6 +167,7 @@ const Products = ({ products1, productFilters }) => {
   const getCategroy = async () => {
     try {
       const response = await services.category.GET_CATEGORY_ALL();
+    
       if (response) {
         setCategory(response?.data?.data);
       }
@@ -301,7 +302,7 @@ const Products = ({ products1, productFilters }) => {
                     } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
                   <div className="widget-category p-3 mb-30">
-                    {category?.map((Item, index) => (
+                    {  category.length>0 &&category?.map((Item, index) => (
                       <Accordion key={index} activeKey={activeCategory}>
                         <Accordion.Item className="custom-filter" eventKey={index} key={index}>
                           <Accordion.Header onClick={() => toggleCategory(index)}>
