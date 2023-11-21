@@ -20,11 +20,19 @@ import services from "../../services";
 import { useTranslation } from "react-i18next";
 
 
+
 const Products = ({ products, productFilters }) => {
   const { t } = useTranslation("common");
-  const [fabricList, setFabricList] = useState([]);
+  const [fabricType, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
-
+  const [printType, setPrintType] = useState([])
+  const [usage, setUsage] = useState([])
+  const [handle, setHandle] = useState([])
+  const [construction, setConstruction] = useState([])
+  const [properties, setProperties] = useState([])
+  const [reflection, setReflection] = useState([])
+  const [transparency, setTransparency] = useState([])
+  const [weight, setWeight] = useState([])
   const [selectedfabricType, setSelectedfabricType] = useState([]);
   const [selectedprintType, setSelectedprintType] = useState([]);
 
@@ -35,7 +43,7 @@ const Products = ({ products, productFilters }) => {
   const [selectedhandle, setSelectedhandle] = useState([]);
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
-  const [fabric,setFabric]=useState("")
+  const [fabric, setFabric] = useState("")
 
   //pagination
 
@@ -57,85 +65,7 @@ const Products = ({ products, productFilters }) => {
       filterFabric?.length / limit
     )
   );
-  //fabric aaray
-  const fabricType = [
-    "Cotton",
-    "Silk",
-    "Linen",
-    "Silk/Cotton",
-    "Wool",
-    "Viscose",
-    "Tencel",
-    "Modal",
-    "Bemberg",
-    "Cashmere",
-    "Nylon",
-    "Neoprene",
-    "Tencel/Cotton/Elastane",
-    "Polyester/Elastane",
-    "Polyester/Lycra",
-    "Cotton/Linen",
-    "Viscose/Elastane",
-    "Cotton/Elastane",
-    "Polyester/Cotton",
 
-  ];
-  const weight = ["Light(20-100gsm)", "Medium(101-249gsm)", "Heavy(250-gsm)"];
-  const printType = ["Reactive", "pigment", "sublimation"];
-  const usage = [
-    "Quilting",
-    "Furnishing/Upholstery",
-    "Cushions/Bedding",
-    "Clothing/Dressmaking",
-    "Home/decor/interiors",
-    "Crafting",
-    "Lining",
-    "Scarves",
-    "Bridal/Wedding",
-    "Cashmere",
-    "Cushions",
-    "Suit",
-    "Trousers",
-    "TechnicaL",
-    "Cosplay",
-
-    "Sports",
-    "Swimwear",
-    "Tracksuits",
-    "Accessories/Bags",
-    "Shirting",
-    "Outdoor",
-  ];
-  const properties = [
-    "Waterproof",
-    "Fire/retardant",
-    "Non-Fray",
-    "Water/Resistant",
-    "Durable",
-    "Certified/Organic",
-    "Vegan",
-    "Stretch",
-    "Wicking",
-    "Recycled",
-  ];
-  const handle = ["Soft", "Stiff", "Silky", "Smooth", "Fluffy", "Coarse"];
-  const transparency = [
-    "Mesh/Net",
-    "Opaque",
-    "Blackout",
-    "Semi-transparent/sheer",
-  ];
-  const reflection = ["Shiny", "Mat"];
-  const construction = [
-    "Woven/Stretchy",
-    "Woven/Non-stretch",
-    "Twill",
-    "knitted",
-    "Satin",
-    "Crepe",
-    "Canvas",
-    "Velvet",
-  ];
 
   //filter fabric state send qu..
   const filterFabricState = {
@@ -165,18 +95,64 @@ const Products = ({ products, productFilters }) => {
     setPages(totalPages);
 
 
+
   };
-const getFabric=async()=>{
-  try {
-   const response= await services.fabric.GET_FABRIC() 
-   console.log("++++++++++++++++++++++++++++++++",)
-   setFabric(response?.data?.data)
-  } catch (error) {
-    
-  }
-}
+  //fabric data
+
+  const getFabric = async () => {
+    try {
+      const response = await services.fabric.GET_FABRIC();
+      if (response) {
+        const uniqueData = {
+          fabricType: new Set(),
+          printType: new Set(),
+          usage: new Set(),
+          construction: new Set(),
+          handle: new Set(),
+          properties: new Set(),
+          reflection: new Set(),
+          transparency: new Set(),
+          weight: new Set(),
+        };
+
+        response?.data?.data?.rows?.forEach((item) => {
+          const key = `${item.fabricType}-${item.printType}-${item.usage}-${item.construction}-${item.handle}-${item.properties}-${item.reflection}-${item.transparency}-${item.weight}`;
+
+          // Check if the key already exists in the set and add it if not
+          if (!uniqueData.properties.has(key)) {
+            uniqueData.fabricType.add(item.fabricType);
+            uniqueData.printType.add(item.printType);
+            uniqueData.usage.add(item.usage);
+            uniqueData.construction.add(item.construction);
+            uniqueData.handle.add(item.handle);
+            uniqueData.properties.add(key); // Use the key for uniqueness
+            uniqueData.reflection.add(item.reflection);
+            uniqueData.transparency.add(item.transparency);
+            uniqueData.weight.add(item.weight);
+          }
+        });
+
+        // Convert sets to arrays and set state variables
+        setFabricList(Array.from(uniqueData.fabricType));
+        setPrintType(Array.from(uniqueData.printType));
+        setUsage(Array.from(uniqueData.usage));
+        setConstruction(Array.from(uniqueData.construction));
+        setHandle(Array.from(uniqueData.handle));
+        setProperties(Array.from(uniqueData.properties));
+        setReflection(Array.from(uniqueData.reflection));
+        setTransparency(Array.from(uniqueData.transparency));
+        setWeight(Array.from(uniqueData.weight));
+      }
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
+    }
+  };
+
+
+
   useEffect(() => {
-getFabric()
+    getFabric()
     getFilterFabric();
     cratePagination();
   }, [
@@ -192,6 +168,8 @@ getFabric()
     selectedweight,
     limit,
     filterFabric.length,
+
+
   ]);
 
   const startIndex = currentPage * limit - limit;

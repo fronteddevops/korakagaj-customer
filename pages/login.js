@@ -59,7 +59,7 @@ function Login() {
           password: password,
           role: "Customer",
         };
-        console.log(payLoad);
+
         const response = await services.auth.LOGIN_USER(payLoad);
         await handleCart();
     

@@ -73,7 +73,7 @@ if(response){
   useEffect(() => {
     orderDetials()
   }, [ProductId]);
-console.log("order ",orderId)
+
 
   const ratingChanged = (newRating) => {
     if(newRating<1){
@@ -82,7 +82,7 @@ console.log("order ",orderId)
     }else{
       setReviewRating(newRating)
       setIsDisable(false)
-      console.log(newRating);
+     
     }
    
   };

@@ -21,7 +21,7 @@ export default function Forgetpassword() {
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.search).get("token")
       : null;
-  console.log("search", search);
+
 
   const toastSuccessResetPassword = () =>
     toast.success("Reset Password successfully");

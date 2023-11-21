@@ -21,7 +21,7 @@ export default {
   },
   GET_FilTER_FABRIC: (
     data) => {
-      console.log("fabricType",data.transparency)
+     
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.get(

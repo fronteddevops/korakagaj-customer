@@ -84,7 +84,7 @@ function Register() {
           lastName: lastName,
           phoneNumber: number,
         };
-        console.log(payLoad);
+   
         const response = await services.auth.REGISTER_USER(payLoad);
 
       
