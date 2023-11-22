@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import services from "../services";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 export default function Forgetpassword() {
   const route = useRouter();
- 
+  const { t, i18n } = useTranslation("common");
   const [newpassword, setNewPassword] = useState("");
 
   const [newpasswordError, setNewPasswordError] = useState("");
@@ -76,10 +77,7 @@ export default function Forgetpassword() {
       <Layout parent={t("Home")} sub={t("Login")}>
         <section
           className="pt-100 pb-100 bg-image"
-          style={{
-            backgroundImage:
-              "linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/imgs/login-bg-2.jpg')",
-          }}
+         
         >
           <div className="container">
             <div className="row">

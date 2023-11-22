@@ -349,7 +349,7 @@ const handlePaste = (e) => {
                               onChange={(e) => {
                                 setPasswordConfirmError("")
                                 const passwordValue = e.target.value;
-                                setPasswordRegister(passwordValue);
+                                setPasswordRegister(passwordValue.trimStart().trimEnd());
                                 if (passwordValue.trim()) {
                                   setPasswordErrorRegister("");
                                 } else {
@@ -398,7 +398,7 @@ const handlePaste = (e) => {
                               value={passwordConfirm}
                               onChange={(e) => {
                                 const passwordValue = e.target.value;
-                                setPasswordConfirm(passwordValue);
+                                setPasswordConfirm(passwordValue.trimStart().trimEnd());
                                 if (passwordValue.trim()) {
                                   setPasswordConfirmError("");
                                 } else {

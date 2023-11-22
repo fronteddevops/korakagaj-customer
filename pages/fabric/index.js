@@ -113,19 +113,20 @@ const Products = ({ products, productFilters }) => {
           reflection: new Set(),
           transparency: new Set(),
           weight: new Set(),
+          DuplicateKeyFound: new Set()
         };
 
         response?.data?.data?.rows?.forEach((item) => {
           const key = `${item.fabricType}-${item.printType}-${item.usage}-${item.construction}-${item.handle}-${item.properties}-${item.reflection}-${item.transparency}-${item.weight}`;
 
           // Check if the key already exists in the set and add it if not
-          if (!uniqueData.properties.has(key)) {
+          if (!uniqueData.DuplicateKeyFound.has(key)) {
             uniqueData.fabricType.add(item.fabricType);
             uniqueData.printType.add(item.printType);
             uniqueData.usage.add(item.usage);
             uniqueData.construction.add(item.construction);
             uniqueData.handle.add(item.handle);
-            uniqueData.properties.add(key); // Use the key for uniqueness
+            uniqueData.properties.add(item.properties); // Use the key for uniqueness
             uniqueData.reflection.add(item.reflection);
             uniqueData.transparency.add(item.transparency);
             uniqueData.weight.add(item.weight);
@@ -296,6 +297,8 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                               
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const fabricType = item;
                                   const updatedFabricType =
@@ -336,6 +339,7 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const printType = item;
                                   const updatedprintType =
@@ -373,6 +377,7 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const usage = item;
                                   const updatedusage = selectedusage.includes(
@@ -411,6 +416,7 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const properties = item;
                                   const updatedproperties =
@@ -449,6 +455,7 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const handle = item;
                                   const updatedhandle =
@@ -487,6 +494,7 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const construction = item;
                                   const updatedconstruction =
@@ -522,9 +530,11 @@ const Products = ({ products, productFilters }) => {
                             .map((item, index) => (
                               <Form.Check
                                 key={index}
+
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const fabricType = item;
                                   const updatedFabricType =
@@ -563,6 +573,7 @@ const Products = ({ products, productFilters }) => {
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
+                                style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const reflection = item;
                                   const updatedhandle =

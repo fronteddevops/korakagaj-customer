@@ -12,6 +12,7 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import nextConfig from "../next.config";
+import Link from "next/link";
 
 function OrderViewDetails({ data }) {
   const { t } = useTranslation("common");
@@ -26,7 +27,7 @@ function OrderViewDetails({ data }) {
 
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
 
-
+  console.log("==================================",response.data.data)
       setOrderDetailsData(response?.data?.data)
       // localStorage.removeItem("ProductID")
     } catch (error) {
@@ -39,97 +40,182 @@ function OrderViewDetails({ data }) {
   }, []);
 
   return (
-    <Layout parent={t("Home")} sub={t("Pages")} subChild={t("View Order Details")}>
+    <Layout parent={t("Home")} sub={ <Link href='/myprofile/?index=2'>{t("Pages")}</Link> } subChild={t("View Order Details")}>
+       <section className="mt-50 mb-50">
       <div className="container">
 
 
-        <div >
-          <div >
 
-            <div >
+<div className="row">
+              <div className="col-12">
+                <div className="table-responsive">
+                  {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
+                  {/* {updateCart?.length>0 ?(""):(t("No Products"))} */}
+                  <table
+                    className={
+                      orderDetailsData?.length > 0
+                        ? "table shopping-summery text-center clean"
+                        : "d-none"
+                    }
+                  >
+                    <thead>
+                      <tr className="main-heading">
+                        <th scope="col">{t("Image")}</th>
+                        <th scope="col">{t("Product Name")}</th>
+                        <th scope="col">{t("Brand Name")}</th>
+                        <th scope="col">{t("Designer Name")}</th>
+                       
+                        <th scope="col">{t("Total Price")}</th>
+                        <th scope="col">{t("Discount Percentage")}</th>
+                        <th scope="col">{t("Final Amount")}</th>
+                        <th scope="col">{t("Product Type")}</th>
+                        <th scope="col">{t("Tags")}</th>
+                       
+                        <th scope="col">{t("TrackingId")}</th>
+                        <th scope="col">{t("TrackingLink")}</th>
+                       
+                        <th scope="col">{t("Order Date")}</th>
+                        <th scope="col">{t("Selected Color")}</th>
+                        <th scope="col">{t("Selected Size")}</th>
+                        <th scope="col">{t("Selected Quantity")}</th>
 
-              {orderDetailsData?.map((itemArray, outerKey) => (
-
-
-                <ul className="list-group  p-5 " >
-
-                  {itemArray?.Order?.orderDetails?.map((item, index) => {
-                   
-                    return (
-                      <>
-                        <div key={index}>
-                          <h4 className="mb-3 ">Product Details</h4>
-                          <li className="list-group-item "><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Product Image :")} </b> <img
-                            className='rounded'
-                            crossOrigin='anonymous'
-                            src={imageUrl + item?.featuredImage}
-                            alt='Image'
-                            height={120}
-                            width={100}
-                          /></li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Brand Name :")}</b> {item?.brandName}</li>
-                          <li className="list-group-item">
-                            <b style={{ fontSize: '15px', fontWeight: 'bold' }}>Product Name :</b>{item?.productName}</li>
-                          <li className="list-group-item">  <b style={{ fontSize: '15px', fontWeight: 'bold' }} >{t("Designer Name :")}</b> {item?.designerName}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Description :</b> {item?.description}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Tracking Id :")}</b> {item?.trackingId}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Tracking Link :</b> {item?.trackingLink}</li>
-                          {/* <li className="list-group-item"><b  style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Order Date :")}</b> {moment(item?.createdAt).format("DD MMM YYYY hh:mm A")
-                    }</li> */}
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Tag :</b>{item?.tags}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Sku Number :")}</b> {item?.sku}</li>
-                          {/* <li className="list-group-item">Fabric Name : {item?.fabric}</li> */}
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Colour :")}</b> {item?.selectedColor}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Base Price :")}</b> {item?.basePrice}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Size:</b> {item?.selectedSize}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Quantity :")}</b> {item?.selectedQuantity}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Final Amount :</b> {item?.finalAmount}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Category Name :</b> {item?.Category?.categoryName}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Sub Category Name :</b> {item?.SubCategory?.subCategoryName}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Sub Sub Category Name :</b> {item?.SubSubCategory?.subSubCategoryName}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Discount Percentage : </b>{item?.discountPercentage}%</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>{t("Total Price :")}</b> {item?.totalPrice}</li>
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Current Stock :</b> {item?.currentStock}</li>
-                          {/* <li className="list-group-item">{t("Additional Information :")} {item?.additionalInformation}</li> */}
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Product Type : </b>
-                            {item?.productType == 1 ? "Hot Deals" : null}
-                            {item?.productType == 0 ? "New Product" : null}
-                            {item?.productType == 3 ? "UP  Coming" : null}
-                            {item?.productType == 2 ? "Best Seller" : null}
-                          </li>
-
-                          <li className="list-group-item"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Length :</b> {item?.length}</li>
-
-                          <li className="list-group-item d-flex"><b style={{ fontSize: '15px', fontWeight: 'bold' }}>Rating  : </b>&nbsp;<ReactStars
-                            value={item?.averageRating}
-                            count={5}
-                            size={20}
-                            activeColor="#ffd700"
-                            isHalf={true} // Disable half ratings
-                            edit={false}   // Disable user rating changes
-                          /></li>
-                        </div>
-                      </>
-                    )
-                  })}
-                </ul>
-                // ))
-
-              ))}
+                      
+                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                    
 
 
+
+
+{orderDetailsData?.length >0 &&    orderDetailsData &&
+  orderDetailsData.map((product, j) => {
+    const outerId = product?.Product?.id;
+    console.log(outerId);
+
+    const matchingProducts = product?.Order?.orderDetails?.filter(
+      (innerProduct) => {
+        const innerID = innerProduct?.id;
+        return innerID === outerId;
+      }
+    );
+
+    return matchingProducts.map((product, i) => (
+      <tr key={i}   >
+        <td className="image product-thumbnail">
+        <img
+            src={imageUrl + product?.featuredImage}
+            alt=""
+            crossOrigin="anonymous"
+          />
+   
+        </td>
+          
+        <td className="product-des product-name">
+        <span>
+{product?.productName}
+        </span>
+        </td>
+        <td className="price" data-title="Price">
+          <span>{product?.brandName}</span>
+        </td>
+
+        <td className="text-center" data-title="Stock">
+       {product?.designerName}
+        </td>
+
+        <td className="text-right" data-title="Cart">
+          <span>
+       {product?.totalPrice}
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+       {product?.discountPercentage}%
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+       {product?.finalAmount}
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+          {product?.productType == 1 ? "Hot Deals" : null}
+      {product?.productType == 0 ? "New Product" : null}
+      {product?.productType == 3 ? "UP  Coming" : null}
+      {product?.productType == 2 ? "Best Seller" : null}
+          </span>
+
+        </td>
+       
+        <td className="text-right" data-title="Cart">
+          <span>
+       {product?.tags}
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+       {product?.trackingId}
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+       {product?.trackingLink}
+          </span>
+        </td>
+      
+        <td className="text-right" data-title="Cart">
+          <span>
+          {moment(product?.createdAt).format("DD MMM YYYY")}
+     
+          </span>
+        </td>
+
+        <td className="text-right" data-title="Cart">
+          <span>
+         {product?.selectedColor}
+     
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+          {product?.selectedSize}
+     
+          </span>
+        </td>
+        <td className="text-right" data-title="Cart">
+          <span>
+     {product?.selectedQuantity}
+     
+          </span>
+        </td>
+      </tr>
+    ));
+  })}
+
+                      <tr>
+                     
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              
+             
+              </div>
+            </div>
 
 
 
             </div>
-          </div>
-        </div>
+        
+    
 
 
+            </section>
 
 
-
-      </div>
     </Layout>
   );
 }

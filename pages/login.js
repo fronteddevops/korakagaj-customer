@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import services from "../services/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const route = useRouter()
+  const [rememberMe, setRememberMe] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
@@ -33,12 +34,25 @@ function Login() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailForget);
   };
   //handle login  email
-  const  handleLogin = async (event) => {
-    
+  const handleLogin = async (event) => {
     event?.preventDefault(); // This prevents the default form submission behavior
     let isValid = true;
     setEmailError("");
     setPasswordError("");
+  
+    // Assuming you have a state variable for rememberMe
+    if (rememberMe) {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
+      localStorage.setItem('rememberedUsername', email);
+      localStorage.setItem('rememberedPassword', password);
+      localStorage.setItem('rememberMe', true);
+    } else {
+      // Clear saved credentials if "Remember Me" is unchecked
+      localStorage.removeItem('rememberedUsername');
+      localStorage.removeItem('rememberedPassword');
+      localStorage.removeItem('rememberMe');
+    }
+  
     if (email === "") {
       setEmailError("Enter a valid email address");
       isValid = false;
@@ -50,37 +64,53 @@ function Login() {
       setPasswordError("Please enter the password");
       isValid = false;
     }
-
+  
     if (isValid) {
       try {
-      
         let payLoad = {
           email: email,
           password: password,
           role: "Customer",
         };
-
+  
         const response = await services.auth.LOGIN_USER(payLoad);
         await handleCart();
-    
+  
         if (response) {
-         
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccessLogin();
-          setIsDisabled(false)
+          setIsDisabled(false);
           setTimeout(() => {
             route.push('/');
           }, 1000);
-        } 
-      
+        }
       } catch (error) {
-        console.log(error)
-        setIsDisabled(true)
+        console.log(error);
+        setIsDisabled(true);
         toastErrorLogin(error);
-        
       }
     }
   };
+const rememberMe1=()=>{
+ 
+ setRememberMe(true)
+}
+  
+
+
+    console.log(rememberMe)
+useEffect(()=>{ 
+  const storedUsername = localStorage.getItem('rememberedUsername');
+  const storedPassword = localStorage.getItem('rememberedPassword');
+  const storedRememberMe = localStorage.getItem('rememberMe');
+
+  if (storedRememberMe) {
+    setEmail(storedUsername || '');
+    setPassword(storedPassword || '');
+    setRememberMe(true);
+  }
+},[])
+
 //handle cart data 
   const handleCart = async () => {
     if (localStorage.getItem("cartDetail")) {
@@ -296,23 +326,27 @@ setIsDisabledpassword(false)
                             </div>
                             &nbsp; &nbsp; &nbsp;
                             <div className="login_footer form-group">
-                              <div className="chek-form">
-                                <div className="custome-checkbox">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    name="checkbox"
-                                    id="exampleCheckbox1"
-                                    value=""
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="exampleCheckbox1"
-                                  >
-                                    <span>{t("Remember me")}</span>
-                                  </label>
-                                </div>
-                              </div>
+                            <div className="chek-form">
+  <div className="custome-checkbox">
+    <input
+      className="form-check-input"
+      type="checkbox"
+      name="checkbox"
+      id="exampleCheckbox1"
+      checked={rememberMe}
+      value=""
+    />
+    <label
+      className="form-check-label"
+      htmlFor="exampleCheckbox1"
+      
+      onClick={rememberMe1}
+    >
+      <span>{t("Remember me")}</span>
+    </label>
+  </div>
+</div>
+
                               <span
                                 onClick={handleForgetPassword}
                                 style={{ cursor: 'pointer' }}
