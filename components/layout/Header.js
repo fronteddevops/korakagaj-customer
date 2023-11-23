@@ -254,9 +254,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                           <NavDropdown.Divider />
                           <NavDropdown.Item
                             href="/"
-                            onClick={() => {
-                              localStorage.clear();
-                            }}
+                            onClick={() => {localStorage.removeItem("access_token"),localStorage.removeItem("userId")}}
                           >
                             {t("Logout")}
                           </NavDropdown.Item>

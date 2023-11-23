@@ -1043,7 +1043,7 @@ function Account() {
                                           }
 
                                           setNewPassword(
-                                            e.target.value.trimStart()
+                                            e.target.value.trimStart().trimEnd()
                                           );
                                         }}
                                         value={newpassword}
@@ -1119,7 +1119,7 @@ function Account() {
                                           }
 
                                           setConfirmPassword(
-                                            e.target.value.trimStart()
+                                            e.target.value.trimStart().trimEnd()
                                           );
                                         }}
                                         value={confirmPassword}
