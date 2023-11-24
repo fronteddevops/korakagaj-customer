@@ -9,6 +9,7 @@ import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
 import ShopFilter from "./../../components/ecommerce/Filter";
+import { useTranslation } from "react-i18next";
 
 const ProductsFullWidth = ({ products, productFilters }) => {
 
@@ -21,7 +22,8 @@ const ProductsFullWidth = ({ products, productFilters }) => {
     let [limit, setLimit] = useState(showLimit);
     let [pages, setPages] = useState(Math.ceil(products.items.length / limit));
     let [currentPage, setCurrentPage] = useState(1);
-
+    const { t, i18n } = useTranslation("common");
+    
     useEffect(() => {
         cratePagination();
     }, [productFilters, limit, pages, products.items.length]);

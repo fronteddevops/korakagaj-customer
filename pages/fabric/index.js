@@ -80,6 +80,7 @@ const Products = ({ products, productFilters }) => {
     reflection: selectedreflection,
     weight: selectedweight,
   };
+  const query = new URLSearchParams(filterFabricState);
   const cratePagination = () => {
     // Calculate the number of pages based on the list length and limit
 
@@ -198,7 +199,7 @@ const Products = ({ products, productFilters }) => {
 
   const getFilterFabric = async () => {
     try {
-      const response = await services.fabric.GET_FilTER_FABRIC(filterFabricState);
+      const response = await services.fabric.GET_FilTER_FABRIC(query);
       const data = response?.data?.data?.rows
       if (data.length <= 12) {
         setFilterFabric(data)
