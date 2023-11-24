@@ -34,6 +34,7 @@ const Products = ({ products1, productFilters }) => {
   const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
   const [toggle,setToggle]=useState(true)
+  const [searchToggle,setSeachToggle]=useState(true)
   const [productType,setProdcutType]=useState("")
   const [prodcutprice,setProdcutPrice]=useState("")
 
@@ -139,7 +140,7 @@ const Products = ({ products1, productFilters }) => {
     const query = new URLSearchParams(data);
   
     try {
-      if (searchProduct) {
+      if (searchProduct && searchToggle) {
         const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct);
         if (response) {
           setProdcut(response?.data?.data?.rows);
@@ -184,6 +185,7 @@ const Products = ({ products1, productFilters }) => {
   //FILTER CASE
   const handleChange = (selectedValue) => {
     // Call the appropriate function based on the selected value
+    setSeachToggle(false)
     switch (selectedValue) {
       case "0":
        setProdcutType("0")
@@ -334,6 +336,7 @@ const Products = ({ products1, productFilters }) => {
                                           onChange={() => {
                                             const subSubCategoryId = item.id;
                                           setToggle(true)
+                                          setSeachToggle(false)
                                             if (
                                               selectedSubSubCategories?.includes(subSubCategoryId)
                                             ) {
@@ -388,6 +391,7 @@ const Products = ({ products1, productFilters }) => {
                             onChange={(value) => {
                               //  PriceRange({ value: { min: value[0], max: value[1] } })
                               setToggle(true)
+                              setSeachToggle(false)
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
@@ -418,6 +422,7 @@ const Products = ({ products1, productFilters }) => {
                                   label={item}
                                   onChange={() =>{
                                     setToggle(true)
+                                    setSeachToggle(false)
                                     handleCheckboxChange(item)}}
                                   checked={selectedColors?.includes(item)}
                                   style={{ textTransform: "capitalize" }}
@@ -433,6 +438,7 @@ const Products = ({ products1, productFilters }) => {
                               className={active == i ? "active" : ""}
                               onClick={() =>{
                                 setToggle(true)
+                                setSeachToggle(false)
                                 handleClick(i, tag)}}
                               key={i}
                             >
