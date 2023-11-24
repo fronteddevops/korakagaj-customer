@@ -126,7 +126,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     if (localStorage.getItem("access_token")) {
       try {
         const cart = await service.cart.GET_CART();
-        setTotalCartItems(cart.data.data[0]?.cartDetail?.cartDetails?.length);
+        setTotalCartItems(cart?.data?.data?.cartDetail?.cartDetails?.length);
       } catch (error) {
         console.log(error);
       }

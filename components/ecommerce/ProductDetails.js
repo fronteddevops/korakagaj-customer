@@ -128,8 +128,8 @@ const ProductDetails = ({
         if (localStorage.getItem("access_token")) {
             const cart = await services.cart.GET_CART()
             let cartDetails = []
-            if (cart.data.data[0].cartDetail) {
-                cartDetails = cart.data.data[0].cartDetail.cartDetails
+            if (cart?.data?.data?.cartDetail) {
+                cartDetails = cart?.data?.data?.cartDetail?.cartDetails
             }
             cartDetails?.push(product)
             const key = 'id';

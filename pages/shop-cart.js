@@ -58,9 +58,11 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
 
+       
         if (response) {
-          setUpdateCart(response?.data?.data[0].cartDetail.cartDetails);
-          calculateTotalAmount(response?.data?.data[0].cartDetail.cartDetails);
+         
+          setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
+          calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
         }
       } catch (error) {
         console.log(error);
@@ -70,6 +72,7 @@ const Cart = ({}) => {
         const cartLocal =
           localStorage.getItem("cartDetail") &&
           JSON.parse(localStorage.getItem("cartDetail"));
+        
         setUpdateCart(cartLocal.cartDetails);
         calculateTotalAmount(cartLocal.cartDetails);
       }
@@ -81,9 +84,9 @@ const Cart = ({}) => {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         // console.log(response.data.data);
-        setAddressList(response.data.data);
-        if (response.data.data.length > 0) {
-          response.data.data.map((item) => {
+        setAddressList(response?.data?.data);
+        if (response?.data?.data?.length > 0) {
+          response?.data?.data?.map((item) => {
             if (item.defaultAddress) {
               setSelectedAddress(item.id);
             }
@@ -97,10 +100,10 @@ const Cart = ({}) => {
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-
+       
       let cartDetails = [];
-      if (cart.data.data[0].cartDetail) {
-        cartDetails = cart.data.data[0].cartDetail.cartDetails;
+      if (cart?.data?.data?.cartDetail) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
       const key = "id";
@@ -181,7 +184,7 @@ const Cart = ({}) => {
       cardData();
     }
   };
-  const deleteFromCart = async (product) => {
+  const deleteFromCart = async (product) => { 
     if (localStorage.getItem("access_token")) {
       let updatedCartData = [...updateCart];
       let index;
@@ -283,6 +286,7 @@ const Cart = ({}) => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
+
   return (
     <>
       <Layout
