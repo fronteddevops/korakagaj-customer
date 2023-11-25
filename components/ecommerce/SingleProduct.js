@@ -69,7 +69,10 @@ const SingleProduct = ({
       const updateCart = await services.cart.UPDATE_CART(data)
       console.log(updateCart)
       toast.success("Add to Cart !");
-      window.location.reload()
+      setTimeout(()=>{
+        window.location.reload()
+      },1000)
+    
 
 
     } else {

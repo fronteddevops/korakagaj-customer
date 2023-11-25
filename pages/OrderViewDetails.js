@@ -3,9 +3,9 @@ import Layout from "../components/layout/Layout";
 import "font-awesome/css/font-awesome.min.css";
 
 import React, { useEffect, useState } from "react";
+import {  toast } from "react-toastify";
 
 import ReactStars from "react-rating-stars-component";
-
 import services from "../services";
 
 import moment from "moment";
@@ -18,16 +18,20 @@ function OrderViewDetails({ data }) {
   const { t } = useTranslation("common");
   const Router = useRouter()
   const [orderDetailsData, setOrderDetailsData] = useState([]);
-  const ProductId = Router.query.orderId
+  const orderId = Router.query.orderId
   const imageUrl = nextConfig.BASE_URL_UPLOADS
+  const [reviewRating, setReviewRating] = useState();
+  const [isDisable, setIsDisable] = useState(true);
+  const [description, setdescription] = useState("");
+  const [descriptionError, setdescriptionError] = useState("");
 
   const orderDetials = async (id) => {
 
     try {
 
-      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
+      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(orderId);
 
-      console.log("==================================", response.data.data)
+    
       setOrderDetailsData(response?.data?.data)
       // localStorage.removeItem("ProductID")
     } catch (error) {
@@ -38,14 +42,64 @@ function OrderViewDetails({ data }) {
   useEffect(() => {
     orderDetials()
   }, []);
+  const toastSuccessReviewRating = () => toast.success("Review rating has been submitted successfully");
+//send revting
+const ReviewByUser = async (productId) => {
 
+  setIsDisable(true)
+
+  try {
+    const data={
+      orderId: orderId,
+      productId:productId,
+      review: description,
+      ratings: reviewRating,
+      status: true
+    }
+
+    const response = await services.review.POST_REVIEW_BY_USER(data);
+if(response){
+  setReviewRating("")
+  setdescription("")
+toastSuccessReviewRating()
+// setTimeout(() => {
+// Router.push('/');
+// }, 1000);
+}
+  
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+
+
+  //reting change function 
+  const ratingChanged = (newRating) => {
+    if(newRating<1){
+      setIsDisable(true)
+      setReviewRating("")
+    }else{
+      setReviewRating(newRating)
+      setIsDisable(false)
+     
+    }
+   
+
+  };
+
+  const inlineStyles = {
+    textAlign: 'right',
+    display: 'flex',
+    // Add any other styles as needed
+  };
   return (
     <Layout parent={t("Home")} sub={<Link href='/myprofile/?index=2'>{t("Pages")}</Link>} subChild={t("View Order Details")}>
       <section className="mt-50 mb-50">
-        <div className="container">
+        <div className="container ">
           <div className="row">
-            <div className="col-12">
-              <div className="table-responsive">
+            <div className="col-15 ">
+              <div className="table-responsive ">
                 <table
                   className={
                     orderDetailsData?.length > 0
@@ -54,7 +108,7 @@ function OrderViewDetails({ data }) {
                   }
                 >
                   <thead>
-                    <tr className="main-heading">
+                    <tr className="main-heading ">
                       <th scope="col">{t("Image")}</th>
                       <th scope="col">{("Product Name")}</th>
                       <th scope="col">{t("Brand Name")}</th>
@@ -63,21 +117,23 @@ function OrderViewDetails({ data }) {
                       <th scope="col">{t("Discount Percentage")}</th>
                       <th scope="col">{t("Final Amount")}</th>
                       <th scope="col">{t("Product Type")}</th>
-                      <th scope="col">{("Tags")}</th>
+                      {/* <th scope="col">{("Tags")}</th> */}
                       <th scope="col">{t("TrackingId")}</th>
                       <th scope="col">{t("TrackingLink")}</th>
                       <th scope="col">{t("Order Date")}</th>
                       <th scope="col">{t("Selected Color")}</th>
                       <th scope="col">{t("Selected Size")}</th>
                       <th scope="col">{t("Selected Quantity")}</th>
+                      <th scope="col">{t("  Add Review")}</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
                     {orderDetailsData?.length > 0 && orderDetailsData &&
                       orderDetailsData.map((product, j) => {
                         const outerId = product?.Product?.id;
-
-
+                      
+console.log("==============",product)
                         const matchingProducts = product?.Order?.orderDetails?.filter(
                           (innerProduct) => {
                             const innerID = innerProduct?.id;
@@ -134,11 +190,11 @@ function OrderViewDetails({ data }) {
 
                             </td>
 
-                            <td className="text-right" data-title="Cart">
+                            {/* <td className="text-right" data-title="Cart">
                               <span>
                                 {product?.tags}
                               </span>
-                            </td>
+                            </td> */}
                             <td className="text-right" data-title="Cart">
                               <span>
                                 {product?.trackingId}
@@ -175,6 +231,36 @@ function OrderViewDetails({ data }) {
 
                               </span>
                             </td>
+
+
+                              
+              {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
+                                            <a> {t("Review")}</a>
+                                          </Link></td> */}
+
+   <td className="text-right" data-title="Cart">
+                              <span>
+                               
+                              <Link href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}>
+  <a>{t("Review")}</a>
+</Link>
+
+                              </span>
+                            </td>
+
+
+
+            
+
+
+
+                          
+            
+ 
+
+
+
+
                           </tr>
                         ));
                       })}

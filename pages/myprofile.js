@@ -449,7 +449,8 @@ function Account() {
                                       <th>{t("Total Amount")}</th>
                                       <th>{t("Order Status")}</th>
                                       <th>{t("Actions")}</th>
-                                      <th>{t("Review")}</th>
+                                      {/* <th>review</th> */}
+                                     
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -495,9 +496,9 @@ function Account() {
                                           <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
                                             <a> {t("View detail")}</a>
                                           </Link></td>
-                                          <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
+                                          {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
                                             <a> {t("Review")}</a>
-                                          </Link></td>
+                                          </Link></td> */}
 
                                         </tr>
                                       )
