@@ -168,13 +168,16 @@ function Account() {
   const handlePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
-    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+    if(pastedText.length>=10){
+      const isValidNumber = /^\d{10}$/; // Validate 10-digit number
 
-    if (!isValidNumber.test(pastedText)) {
-      e.preventDefault(); // Prevent pasting invalid input
-      setPhoneNumberError("Invalid phone number format");
-      isValid = false;
+      if (!isValidNumber.test(pastedText)) {
+        e.preventDefault(); // Prevent pasting invalid input
+        setPhoneNumberError( "Number should be  10  digits.");
+        isValid = false;
+      }
     }
+ 
   };
 
   const changepassword = async (event) => {
