@@ -34,14 +34,14 @@ const Cart = ({}) => {
 
   //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
-    let totalAmountArr = prodcutData.map((item) => {
+    let totalAmountArr = prodcutData?.map((item) => {
       return item.finalAmount * item.selectedQuantity;
     });
-    let totalQtyArr = prodcutData.map((item) => {
+    let totalQtyArr = prodcutData?.map((item) => {
       return item.selectedQuantity;
     });
-    const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
-    const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+    const sum = totalAmountArr?.reduce((partialSum, a) => partialSum + a, 0);
+    const qty = totalQtyArr?.reduce((partialSum, a) => partialSum + a, 0);
     // console.log(totalAmountArr, sum);
     setTotalAmount(sum);
     setTotalQuantity(qty);
@@ -245,8 +245,8 @@ const Cart = ({}) => {
     }
     await handleCart(updateCart[0]);
     const updateCartData = await services.cart.CHECKOUT();
-    // console.log(updateCartData);
-    const options = {
+
+     console.log(updateCartData);const options = {
       key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
       currency: "INR",
       amount: updateCartData.data.totalAmount,

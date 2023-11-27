@@ -20,10 +20,7 @@ function OrderViewDetails({ data }) {
   const [orderDetailsData, setOrderDetailsData] = useState([]);
   const orderId = Router.query.orderId
   const imageUrl = nextConfig.BASE_URL_UPLOADS
-  const [reviewRating, setReviewRating] = useState();
-  const [isDisable, setIsDisable] = useState(true);
-  const [description, setdescription] = useState("");
-  const [descriptionError, setdescriptionError] = useState("");
+
 
   const orderDetials = async (id) => {
 
@@ -42,57 +39,15 @@ function OrderViewDetails({ data }) {
   useEffect(() => {
     orderDetials()
   }, []);
-  const toastSuccessReviewRating = () => toast.success("Review rating has been submitted successfully");
+ 
 //send revting
-const ReviewByUser = async (productId) => {
 
-  setIsDisable(true)
-
-  try {
-    const data={
-      orderId: orderId,
-      productId:productId,
-      review: description,
-      ratings: reviewRating,
-      status: true
-    }
-
-    const response = await services.review.POST_REVIEW_BY_USER(data);
-if(response){
-  setReviewRating("")
-  setdescription("")
-toastSuccessReviewRating()
-// setTimeout(() => {
-// Router.push('/');
-// }, 1000);
-}
-  
-  } catch (error) {
-    console.log(error);
-
-  }
-}
 
 
   //reting change function 
-  const ratingChanged = (newRating) => {
-    if(newRating<1){
-      setIsDisable(true)
-      setReviewRating("")
-    }else{
-      setReviewRating(newRating)
-      setIsDisable(false)
-     
-    }
-   
+ 
 
-  };
 
-  const inlineStyles = {
-    textAlign: 'right',
-    display: 'flex',
-    // Add any other styles as needed
-  };
   return (
     <Layout parent={t("Home")} sub={<Link href='/myprofile/?index=2'>{t("Pages")}</Link>} subChild={t("View Order Details")}>
       <section className="mt-50 mb-50">
@@ -133,7 +88,7 @@ toastSuccessReviewRating()
                       orderDetailsData.map((product, j) => {
                         const outerId = product?.Product?.id;
                       
-console.log("==============",product)
+                        
                         const matchingProducts = product?.Order?.orderDetails?.filter(
                           (innerProduct) => {
                             const innerID = innerProduct?.id;

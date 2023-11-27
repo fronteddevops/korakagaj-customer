@@ -42,7 +42,7 @@ function Register() {
   };
 
   //handle login  email
-
+  const exceptThisSymbolspassword = [ "+", "-"];
 
   // user Register api call
   const handleRegister = async (event) => {
@@ -147,14 +147,18 @@ function Register() {
 //hnadle copy paste
 const handlePaste = (e) => {
   let isValid = true;
+  
   const pastedText = e.clipboardData.getData("Text");
-  const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+  if(pastedText.length>10){
+    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
 
-  if (!isValidNumber.test(pastedText)) {
-    e.preventDefault(); // Prevent pasting invalid input
-    setNumberError("Invalid phone number format");
-    isValid = false;
+    if (!isValidNumber.test(pastedText)) {
+      e.preventDefault(); // Prevent pasting invalid input
+      setNumberError( "Number should be  10  digits.");
+      isValid = false;
+    }
   }
+ 
 };
 
 
@@ -356,7 +360,34 @@ const handlePaste = (e) => {
                                   setPasswordErrorRegister("Required");
                                 }
                               }}
+                              onKeyDown={(e) => {
+                                exceptThisSymbolspassword.includes(e.key) &&
+                                  e.preventDefault();
+
+                                if (
+                                  e.target.value.length >= 8 &&
+                                  e.key !== "Backspace" &&
+                                  e.key !== "Delete"
+                                ) {
+                                  e.preventDefault();
+                                  setPasswordErrorRegister(
+                                    "Number should be 8 digits."
+                                  );
+                                }
+                              }}
+                              onPaste={(e)=>{
+                                const pastedText = e.clipboardData.getData("Text");
+                                if(pastedText.length>=8){
+                                  const isValidNumber = /^\d{8}$/; // Validate 5-digit number
+                              
+                                  if (!isValidNumber.test(pastedText) || pastedText.length < 8) {
+                                    e.preventDefault(); // Prevent pasting invalid input
+                                    setPasswordErrorRegister("Number should be  8 digits");
+                                  }
+                                }
+                              }}
                               aria-describedby="password"
+                              
                             />
                             <FontAwesomeIcon
                               icon={passwordVisible ? faEyeSlash : faEye}
@@ -406,6 +437,32 @@ const handlePaste = (e) => {
                                 }
                               }}
                               aria-describedby="password"
+                              onKeyDown={(e) => {
+                                exceptThisSymbolspassword.includes(e.key) &&
+                                  e.preventDefault();
+
+                                if (
+                                  e.target.value.length >= 8 &&
+                                  e.key !== "Backspace" &&
+                                  e.key !== "Delete"
+                                ) {
+                                  e.preventDefault();
+                                  setPasswordConfirmError(
+                                    "Number should be 8 digits."
+                                  );
+                                }
+                              }}
+                              onPaste={(e)=>{
+                                const pastedText = e.clipboardData.getData("Text");
+                                if(pastedText.length>=8){
+                                  const isValidNumber = /^\d{8}$/; // Validate 5-digit number
+                              
+                                  if (!isValidNumber.test(pastedText) || pastedText.length < 8) {
+                                    e.preventDefault(); // Prevent pasting invalid input
+                                    setPasswordConfirmError("Number should be  8 digits");
+                                  }
+                                }
+                              }}
                             />
 
                             <FontAwesomeIcon
