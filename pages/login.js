@@ -43,7 +43,7 @@ function Login() {
   
     // Assuming you have a state variable for rememberMe
     if (rememberMe) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    
       localStorage.setItem('rememberedUsername', email);
       localStorage.setItem('rememberedPassword', password);
       localStorage.setItem('rememberMe', true);

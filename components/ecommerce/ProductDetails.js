@@ -36,16 +36,14 @@ const ProductDetails = ({
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
-    const calculateTotalPrice = (product) => {
-        let itemTotalPrice = 0; // Initialize totalPrice to 0
-
-        const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-        const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-        const discountAmount = (basePrice * discountPercentage) / 100;
-        itemTotalPrice = basePrice - discountAmount;
-        return itemTotalPrice; // Return the calculated total price
-    };
-
+   
+    const [fabricInfo, setFabricInfo] = useState({
+        newlength: product?.length || '',
+        id: product?.id || '',
+        basePrice: product?.basePrice || '',
+        discountPercentage: product?.discountPercentage || '',
+        prodcutName: product?.productName || '',
+      });
     //fabric apt call
     const GET_Fabric_Data = async (prodcut) => {
         const response = await services.fabric.GET_FABRIC();
@@ -371,7 +369,7 @@ const ProductDetails = ({
                                                     {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricName ? fabricName : fabricType}</span>
                                                 </strong>
 
-                                                <Link href={`/fabric?&newlength=${product?.length}&id=${product.id}&basePrice=${product?.basePrice}&discountPercentage=${product?.discountPercentage}&prodcutName=${product?.productName}`}>
+                                                <Link href={`/fabric?id=${product.id}`}>
                                                     <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
                                                     >
                                                         {t("Choose Fabric")}

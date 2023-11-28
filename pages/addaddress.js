@@ -121,25 +121,31 @@ export default function Addaddress() {
   const handlePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
-    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
-  
-    if (!isValidNumber.test(pastedText)) {
-      e.preventDefault(); // Prevent pasting invalid input
-      setPhoneNumberError("Invalid phone number format");
-      isValid = false;
+    if(pastedText.length>10){
+      const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+
+      if (!isValidNumber.test(pastedText)) {
+        e.preventDefault(); // Prevent pasting invalid input
+        setPhoneNumberError("Number should be 10 digits");
+        isValid = false;
+      }
     }
+  
   };
 
   const handlePinCodePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
-    const isValidPinCode = /^\d{6}$/; // Validate 6-digit pin code
+    if(pastedText.length>6){
+      const isValidPinCode = /^\d{6}$/; // Validate 6-digit pin code
   
-    if (!isValidPinCode.test(pastedText)) {
-      e.preventDefault(); // Prevent pasting invalid input
-      setPinCodeError("Invalid pin code format");
-      isValid = false;
+      if (!isValidPinCode.test(pastedText)) {
+        e.preventDefault(); // Prevent pasting invalid input
+        setPinCodeError(" Pin Code should be 6 digits");
+        isValid = false;
+      }
     }
+  
   };
   return (
     <div className=" ">

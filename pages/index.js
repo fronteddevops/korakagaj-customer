@@ -19,9 +19,29 @@ import Intro1 from "./../components/sliders/Intro1";
 import NewArrival from "./../components/sliders/NewArrival";
 import React from 'react';
 import { useTranslation } from "react-i18next";
-
+import { useEffect } from "react";
+import { useState } from "react";
+import services from "../services";
 export default function Home() {
     const { t } = useTranslation("common");
+    const [category,setcategory]=useState([])
+ 
+       
+       
+        const getCategoryListHandler = async () => {
+            try {
+                const response = await services.category.GET_CATEGORY()
+       
+              //  setRowData(response.data)
+              setcategory(response.data.data.rows)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    useEffect(()=>{
+        getCategoryListHandler()
+    },[])
+  
     return (
         <>
             {/* <IntroPopup /> */}
@@ -31,8 +51,7 @@ export default function Home() {
                     <Intro1 />
                 </section>
 
-
-                <section className="popular-categories section-padding mt-15 mb-25">
+{category && category.length>0 ?(  <section className="popular-categories section-padding mt-15 mb-25">
                     <div className="container wow fadeIn animated">
                         <div className="tab-header">
                             <h3 className="section-title mb-20">
@@ -56,7 +75,8 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section>):''}
+              
 
                 <section className="product-tabs section-padding position-relative wow fadeIn animated">
                     <div className="container">

@@ -75,6 +75,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
       try {
+        console.log("==========================")
         const response = await service.myprofile.GET_MY_PROFILE();
         if (response) {
           setFirstName(response?.data?.data?.firstName);

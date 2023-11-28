@@ -44,15 +44,21 @@ const Products = ({ products, productFilters }) => {
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
   const [fabric, setFabric] = useState("")
-
+const [prodcutData,setprodcutData]=useState({
+  newlength:'',
+  discountPercentage:'',
+  productName:'',
+  productId:'',
+  marginAmount:''
+})
   //pagination
-
+ 
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
 
-  const { basePrice, discountPercentage, newlength, id, prodcutName } = Router.query;
+  const {  id  } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -151,11 +157,30 @@ const Products = ({ products, productFilters }) => {
     }
   };
 
-
-
+const getProdcut=async()=>{
+  try {
+     const response =await services.product.GET_PRODUCT_BY_ID(id)
+     if(response){
+    
+      setprodcutData({
+        newlength: response?.data?.data[0]?.length,
+        discountPercentage: response?.data?.data[0]?.discountPercentage,
+        productName: response?.data?.data[0]?.productName,
+        productId: response?.data?.data[0]?.id,
+        marginAmount:response?.data?.data[0]?.marginAmount
+      });
+      
+      
+     }
+  } catch (error) {
+      console.log(error)
+  }
+}
+console.log(prodcutData)
   useEffect(() => {
     getFabric()
     getFilterFabric();
+    getProdcut()
     cratePagination();
   }, [
     selectedfabricType,
@@ -214,13 +239,13 @@ const Products = ({ products, productFilters }) => {
       console.log(error);
     }
   };
-
+console.log(prodcutData.marginAmount)
   return (
     <>
       <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subSub={<>
         <Link href="/products/[slug]" as={`/products/${id}`}>
           <a>
-            {prodcutName}
+            {prodcutData?.productName}
           </a>
 
         </Link>
@@ -631,8 +656,8 @@ const Products = ({ products, productFilters }) => {
                       className="col-lg-4 col-md-4 col-12 col-sm-6"
                       key={i}
                     >
-                      <SingleFabric product={item} length={newlength} id={id} basePrice={basePrice} discountPercentage={discountPercentage} />
-                      {/* <SingleProductList product={item}/> */}
+                      <SingleFabric product={item} length={prodcutData?.newlength} id={prodcutData?.id}  discountPercentage={prodcutData?.discountPercentage}  marginAmount={prodcutData?.marginAmount}/>
+                   
                     </div>
                   ))}
 

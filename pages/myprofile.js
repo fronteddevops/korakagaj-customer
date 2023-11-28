@@ -44,8 +44,9 @@ function Account() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
-  const [isChecked, setIsChecked] = useState()
-
+  
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [dobError, setDobError] = useState('');
 
   const [breadCrumb, setBreadCrumb] = useState(t("Dashboard"))
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
@@ -117,7 +118,7 @@ function Account() {
 
         //get my address
         const response = await services.myprofile.GET_MY_ADDRESS();
-        console.log(response.data);
+     
         setAllAddress(response?.data?.data);
 
 
@@ -146,6 +147,8 @@ function Account() {
           firstName: firstName,
           lastName: lastName,
           phoneNumber: phoneNumber,
+          dob:dateOfBirth,
+          
           email: email,
         };
         const response = await services.myprofile.UPDATE_MY_PROFILE(data);
@@ -253,6 +256,22 @@ function Account() {
   //   setIsChecked(!isChecked);
   // };
 
+  const handleInputChangeDateOfBirth = (e) => {
+    const enteredDate = e.target.value;
+
+    // Use a regular expression to validate the date format (YYYY-MM-DD)
+    const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (!enteredDate.match(dateFormat)) {
+      setDobError('Please enter a valid date in the format YYYY-MM-DD');
+    } else {
+      setDobError('');
+    }
+
+    setDateOfBirth(enteredDate);
+  };
+
+  
   return (
     <div>
       <Layout parent={t("Home")} sub={t("Pages")} subsuB={<a href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
@@ -914,6 +933,27 @@ function Account() {
                                       type="email"
                                       value={email}
                                     />
+  <div className="form-group col-md-12">
+      <label>
+        Date of Birth
+        <span className="required">*</span>
+      </label>
+      <input
+        required=""
+        className="form-control square"
+       
+        name="dob"
+        type="date"
+        value={dateOfBirth}
+        onChange={handleInputChangeDateOfBirth}
+      />
+      {dobError && <span  style={{
+                                            color: "red",
+                                            position: "absolute",
+                                            fontSize: "12px"
+                                          }}>{dobError}</span>}
+    </div>
+
                                   </div>
                                   <div className="col-md-12 mt-5">
                                     <button
@@ -921,6 +961,7 @@ function Account() {
                                       disabled={
                                         !(isDisabledAcount &&
                                           firstName &&
+                                          dateOfBirth&&
                                           lastName && phoneNumber)
 
                                       }
@@ -974,7 +1015,7 @@ function Account() {
                                             setPasswordError("Old Password is required");
                                           }
                                         }}
-
+                                                
 
                                       />
                                       <span className="">
@@ -1050,7 +1091,7 @@ function Account() {
                                             e.target.value.trimStart().trimEnd()
                                           );
                                         }}
-                                        value={newpassword}
+                                                                                value={newpassword}
                                       />
                                       <span className="">
                                         <i
@@ -1100,7 +1141,7 @@ function Account() {
                                         name="cpassword"
                                         placeholder={t("confirm password")}
                                         autoComplete="off"
-                                        onChange={(e) => {
+                                                                                onChange={(e) => {
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 

@@ -266,6 +266,7 @@ const Cart = ({}) => {
             paymentResponse: {
               id: updateCartData.data.razorpayPaymentDetails.id,
               status: "paid",
+              amount:updateCartData.data.totalAmount,
             },
           };
           try {

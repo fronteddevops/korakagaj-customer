@@ -360,32 +360,8 @@ const handlePaste = (e) => {
                                   setPasswordErrorRegister("Required");
                                 }
                               }}
-                              onKeyDown={(e) => {
-                                exceptThisSymbolspassword.includes(e.key) &&
-                                  e.preventDefault();
-
-                                if (
-                                  e.target.value.length >= 8 &&
-                                  e.key !== "Backspace" &&
-                                  e.key !== "Delete"
-                                ) {
-                                  e.preventDefault();
-                                  setPasswordErrorRegister(
-                                    "Number should be 8 digits."
-                                  );
-                                }
-                              }}
-                              onPaste={(e)=>{
-                                const pastedText = e.clipboardData.getData("Text");
-                                if(pastedText.length>=8){
-                                  const isValidNumber = /^\d{8}$/; // Validate 5-digit number
-                              
-                                  if (!isValidNumber.test(pastedText) || pastedText.length < 8) {
-                                    e.preventDefault(); // Prevent pasting invalid input
-                                    setPasswordErrorRegister("Number should be  8 digits");
-                                  }
-                                }
-                              }}
+                             
+                             
                               aria-describedby="password"
                               
                             />
@@ -437,32 +413,7 @@ const handlePaste = (e) => {
                                 }
                               }}
                               aria-describedby="password"
-                              onKeyDown={(e) => {
-                                exceptThisSymbolspassword.includes(e.key) &&
-                                  e.preventDefault();
-
-                                if (
-                                  e.target.value.length >= 8 &&
-                                  e.key !== "Backspace" &&
-                                  e.key !== "Delete"
-                                ) {
-                                  e.preventDefault();
-                                  setPasswordConfirmError(
-                                    "Number should be 8 digits."
-                                  );
-                                }
-                              }}
-                              onPaste={(e)=>{
-                                const pastedText = e.clipboardData.getData("Text");
-                                if(pastedText.length>=8){
-                                  const isValidNumber = /^\d{8}$/; // Validate 5-digit number
                               
-                                  if (!isValidNumber.test(pastedText) || pastedText.length < 8) {
-                                    e.preventDefault(); // Prevent pasting invalid input
-                                    setPasswordConfirmError("Number should be  8 digits");
-                                  }
-                                }
-                              }}
                             />
 
                             <FontAwesomeIcon
