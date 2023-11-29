@@ -275,6 +275,9 @@ function Account() {
       setDobError('');
       setDateOfBirth(enteredDate);
     }
+
+
+    
   };
   
   
