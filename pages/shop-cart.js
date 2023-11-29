@@ -245,7 +245,8 @@ const Cart = ({}) => {
     }
     await handleCart(updateCart[0]);
     const updateCartData = await services.cart.CHECKOUT();
-
+  
+  
      console.log(updateCartData);const options = {
       key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
       currency: "INR",
@@ -262,7 +263,7 @@ const Cart = ({}) => {
 
         (async () => {
           const data = {
-            orderId: updateCartData.data?.orderDetails[0]?.id,
+            orderId: updateCartData.data.order.id,
             paymentResponse: {
               id: updateCartData.data.razorpayPaymentDetails.id,
               status: "paid",

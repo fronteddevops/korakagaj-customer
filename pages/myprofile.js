@@ -94,6 +94,11 @@ function Account() {
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
         setPhoneNumber(response?.data?.data?.phoneNumber);
+        const  date=response?.data?.data?.dob
+     
+        //  setDateOfBirth(update)
+          const formattedDate = moment(date).format("YYYY-MM-DD");
+          setDateOfBirth(formattedDate);
         localStorage.setItem("user", JSON.stringify())
       } catch (error) {
         console.log(error);
@@ -149,7 +154,7 @@ function Account() {
           phoneNumber: phoneNumber,
           dob:dateOfBirth,
           
-          
+          email: email,
         };
         const response = await services.myprofile.UPDATE_MY_PROFILE(data);
         if (response) {
@@ -258,18 +263,21 @@ function Account() {
 
   const handleInputChangeDateOfBirth = (e) => {
     const enteredDate = e.target.value;
-
-    // Use a regular expression to validate the date format (YYYY-MM-DD)
     const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
-
-    if (!enteredDate.match(dateFormat)) {
-      setDobError('Please enter a valid date in the format YYYY-MM-DD');
+  
+    // Check if the entered date is in the future
+    const isFutureDate = moment(enteredDate).isAfter(moment());
+  
+    if (!enteredDate.match(dateFormat) || isFutureDate) {
+      setDobError('Please enter a valid past date in the format MM-DD-YYY  ');
+      setDateOfBirth("")
     } else {
       setDobError('');
+      setDateOfBirth(enteredDate);
     }
-
-    setDateOfBirth(enteredDate);
   };
+  
+  
 
   
   return (
@@ -942,10 +950,11 @@ function Account() {
         required=""
         className="form-control square"
        
-        name="dob"
+    //    name="dob"
         type="date"
         value={dateOfBirth}
         onChange={handleInputChangeDateOfBirth}
+        max={moment().format('YYYY-MM-DD')} 
       />
       {dobError && <span  style={{
                                             color: "red",
