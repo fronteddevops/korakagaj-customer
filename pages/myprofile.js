@@ -149,7 +149,7 @@ function Account() {
           phoneNumber: phoneNumber,
           dob:dateOfBirth,
           
-          email: email,
+          
         };
         const response = await services.myprofile.UPDATE_MY_PROFILE(data);
         if (response) {

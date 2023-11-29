@@ -8,21 +8,12 @@ import services from "../../services";
 import { useTranslation } from "react-i18next";
 function FeatchTab() {
   const { t } = useTranslation("common");
-    const [active, setActive] = useState("1");
+    const [active, setActive] = useState("0");
     const [newProudct, setNewProduct] = useState([]);
     const [hotDeals, setHotDeals] = useState([]);
     const [newArrival, setNewArrival] = useState([]);
     const [ productType,setProdcuType]=useState("0")
-    // const data = {
-    //   subSubCategory: "",
-    //   categoryId: "",
-    //   productType:productType,
-    //   order:"",
-    //   maxPrice: "10000",
-    //   minPrice:"0",
-    //   color: "",
-    //   size: "",
-    // };
+   
     const data = {
         subSubCategoryId: "",
         categoryId:"",
@@ -62,17 +53,17 @@ function FeatchTab() {
             <div className="tab-header">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className={active === "0" ? "nav-link active" : "nav-link"} onClick={()=>setProdcuType("0")}>
+                        <button className={active === "0" ? "nav-link active" : "nav-link"} onClick={()=>{setProdcuType("0"),setActive("0")}}>
                         {t("New Product")}
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={()=>setProdcuType("1")}>
+                        <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={()=>{setProdcuType("1"),setActive("1")}}>
                         {t("Hot Deals")}
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={()=>setProdcuType("2")}>
+                        <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={()=>{setProdcuType("2"),setActive("2")}}>
                         {t("Best Seller")}
                         </button>
                     </li>
@@ -87,7 +78,7 @@ function FeatchTab() {
             </div>
 
             <div className="tab-content wow fadeIn animated">
-                <div className={active === "0" ? "tab-pane fade show active" : "tab-pane fade"}>
+                <div className={active === "1" ? "tab-pane fade show active" : "tab-pane fade"}>
                     <div className="product-grid-4 row">
                     <FeaturedTab products={newProudct} />
                     </div>

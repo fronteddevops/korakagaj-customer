@@ -176,7 +176,7 @@ const getProdcut=async()=>{
       console.log(error)
   }
 }
-console.log(prodcutData)
+
   useEffect(() => {
     getFabric()
     getFilterFabric();
@@ -239,7 +239,7 @@ console.log(prodcutData)
       console.log(error);
     }
   };
-console.log(prodcutData.marginAmount)
+
   return (
     <>
       <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subSub={<>
@@ -656,7 +656,7 @@ console.log(prodcutData.marginAmount)
                       className="col-lg-4 col-md-4 col-12 col-sm-6"
                       key={i}
                     >
-                      <SingleFabric product={item} length={prodcutData?.newlength} id={prodcutData?.id}  discountPercentage={prodcutData?.discountPercentage}  marginAmount={prodcutData?.marginAmount}/>
+                      <SingleFabric product={item} length={prodcutData?.newlength} id={id}  discountPercentage={prodcutData?.discountPercentage}  marginAmount={prodcutData?.marginAmount}/>
                    
                     </div>
                   ))}

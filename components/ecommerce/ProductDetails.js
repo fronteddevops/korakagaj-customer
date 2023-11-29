@@ -28,6 +28,8 @@ const ProductDetails = ({
     fabricPrice,
     fabricName,
     fabricId,
+    totalPrice
+
 }) => {
     const { t } = useTranslation("common");
     const [quantity, setQuantity] = useState(1);
@@ -37,43 +39,29 @@ const ProductDetails = ({
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
    
-    const [fabricInfo, setFabricInfo] = useState({
-        newlength: product?.length || '',
-        id: product?.id || '',
-        basePrice: product?.basePrice || '',
-        discountPercentage: product?.discountPercentage || '',
-        prodcutName: product?.productName || '',
-      });
-    //fabric apt call
-    const GET_Fabric_Data = async (prodcut) => {
-        const response = await services.fabric.GET_FABRIC();
-        const selectedFabric = response.data.data.rows.find(
-            (fabric) => fabric?.id == prodcut.fabric
-        );
-        //     <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#E74C26"><path d="M440-181 240-296q-19-11-29.5-29T200-365v-230q0-22 10.5-40t29.5-29l200-115q19-11 40-11t40 11l200 115q19 11 29.5 29t10.5 40v230q0 22-10.5 40T720-296L520-181q-19 11-40 11t-40-11Zm0-92v-184l-160-93v185l160 92Zm80 0 160-92v-185l-160 93v184ZM80-680v-120q0-33 23.5-56.5T160-880h120v80H160v120H80ZM280-80H160q-33 0-56.5-23.5T80-160v-120h80v120h120v80Zm400 0v-80h120v-120h80v120q0 33-23.5 56.5T800-80H680Zm120-600v-120H680v-80h120q33 0 56.5 23.5T880-800v120h-80ZM480-526l158-93-158-91-158 91 158 93Zm0 45Zm0-45Zm40 69Zm-80 0Z" /></svg>
-        // </span>
-
-        if (selectedFabric) {
-            setfabricType(selectedFabric.fabricType);
-        }
-    };
+  ;
+   
     useEffect(() => {
 
-        if (fabricPrice) {
-            let fabriccost = +fabricPrice * product?.length
-            let finalprice = fabriccost + product?.basePrice
-            let discount = (finalprice * product?.discountPercentage) / 100
-            product.finalAmount = finalprice - discount;
-            product.totalPrice = finalprice
+        if (totalPrice) {
+             let fabriccost = +fabricPrice * product?.length
+          
+         
+            let finalprice = fabriccost + product?.marginAmount
+          
+             //let discount = (finalprice * product?.discountPercentage) / 100
+          //   product.finalAmount =finalprice;
+          //  product.finalAmount=totalPrice
+            product.finalAmount = finalprice
 
         }
         if (fabricName) {
             setfabricType(fabricName)
         }
-        if (fabricId) {
-            product.fabric = fabricId
+        if (fabricName) {
+            product.fabric = fabricName
         }
-        GET_Fabric_Data(product);
+      
     }, [product]);
     const handleWishlist = async (product) => {
 
@@ -254,7 +242,21 @@ const ProductDetails = ({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="clearfix product-price-cover">
+                                            {totalPrice &&totalPrice?(<>
+                                                <div className="clearfix product-price-cover">
+                                                <div className="product-price primary-color float-left">
+
+                                                    <ins>
+                                                        <span className="text-brand">
+                                                            Rs.{product?.finalAmount}
+                                                        </span>
+                                                    </ins>
+                                                   
+
+                                                </div>
+                                            </div>
+                                            </>):(<>
+                                                <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
 
                                                     <ins>
@@ -276,6 +278,29 @@ const ProductDetails = ({
 
                                                 </div>
                                             </div>
+                                            </>)}
+                                            {/* <div className="clearfix product-price-cover">
+                                                <div className="product-price primary-color float-left">
+
+                                                    <ins>
+                                                        <span className="text-brand">
+                                                            Rs.{product?.finalAmount}
+                                                        </span>
+                                                    </ins>
+                                                    <ins>
+                                                        <span className="old-price font-md ml-15">
+                                                            Rs.{product.totalPrice}
+                                                        </span>
+                                                    </ins>
+                                                    <span className="save-price  font-md color3 ml-15">
+                                                        {
+                                                            product.discountPercentage
+                                                        }
+                                                        % Off
+                                                    </span>
+
+                                                </div>
+                                            </div> */}
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
                                             <div className="short-desc mb-30">
                                                 <p className="text-capitalize">{product.description}</p>
@@ -366,7 +391,7 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10 text-capitalize ">
-                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricName ? fabricName : fabricType}</span>
+                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{product?.fabric}</span>
                                                 </strong>
 
                                                 <Link href={`/fabric?id=${product.id}`}>

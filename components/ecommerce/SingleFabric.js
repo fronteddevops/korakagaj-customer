@@ -35,7 +35,7 @@ const SingleProduct = ({
         setTimeout(() => {
             setLoading(false);
         }, 2000);
-    }, []);
+    }, [id]);
     const { t } = useTranslation("common");
     const fabricPrice = length * (parseFloat(product?.price) || 0);
 
@@ -51,7 +51,6 @@ const SingleProduct = ({
             </Popover.Body>
         </Popover>
     );
-
 
 
 
