@@ -25,7 +25,7 @@ import services from "../services";
 export default function Home() {
     const { t } = useTranslation("common");
     const [category,setcategory]=useState([])
- 
+    const [data, setData] = useState([]);
        
        
         const getCategoryListHandler = async () => {
@@ -38,8 +38,29 @@ export default function Home() {
                 console.log(error)
             }
         }
+
+
+        const fetchProducts = async () => {
+            try {
+      
+              // Without access_token, get up_coming products
+              const response = await services.product.UP_COMING_PRODUCT();
+              if (response) {
+                setData(response?.data?.data?.rows);
+              }
+      
+      
+            } catch (error) {
+              console.error(error);
+              // Handle the error, e.g., show an error message to the user
+            }
+          };
+
+        
+
     useEffect(()=>{
         getCategoryListHandler()
+        fetchProducts();
     },[])
   
     return (
@@ -96,7 +117,7 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
+{data && data.length>0 &&
                 <section className="section-padding">
                     <div className="container wow fadeIn animated">
                         <h3 className="section-title mb-20">
@@ -107,7 +128,7 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
+}
                 <section className="deals section-padding">
                     <div className="container">
                         <div className="row ">

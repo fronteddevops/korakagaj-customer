@@ -40,7 +40,7 @@ const ProductDetails = ({
 
    
   ;
-   
+    console.log(selectedColor,"selectedColor")
     useEffect(() => {
 
         if (totalPrice) {
@@ -61,6 +61,8 @@ const ProductDetails = ({
         if (fabricName) {
             product.fabric = fabricName
         }
+        setSelectedColor(color[0])
+        setSelectedSize(size[0])
       
     }, [product]);
     const handleWishlist = async (product) => {
@@ -124,9 +126,9 @@ const ProductDetails = ({
             let data = {
                 cartDetail: { cartDetails: unique }
             }
-            console.log(data)
+            
             const updateCart = await services.cart.UPDATE_CART(data)
-            console.log(updateCart)
+          
             toast.success("Add to Cart!");
 
         } else {
@@ -147,6 +149,29 @@ const ProductDetails = ({
             toast.success("Add to Cart!");
         }
     };
+
+    const hexToRgb = (hex) => {
+        // Remove the hash (#) if it's present
+        hex = hex.replace(/^#/, '');
+    
+        // Parse the hex values to get the individual RGB values
+        const bigint = parseInt(hex, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+    
+        // Return an object with the RGB values
+        return { r, g, b };
+      };
+      const rgbValues = hexToRgb('#6f4d4d');
+
+    console.log(rgbValues)
+
+    const colorStyle = {
+        backgroundColor: `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`,
+        width: '100px',
+        height: '100px',
+      };
     return (
         <>
             <section className="mt-50 mb-50">
@@ -328,11 +353,12 @@ const ProductDetails = ({
                                                 <ul className="list-filter color-filter">
                                                     {color && color?.map((clr, i) =>
 
-                                                        <li key={i} onClick={() => setSelectedColor(clr)}>
+                                                        <li key={i} onClick={() => setSelectedColor(clr)} className={clr == selectedColor && 'active'}>
                                                             <a href="#" >
                                                                 <span
-                                                                    className={`product-color-${clr}`}
-                                                                >
+                                                                style={{backgroundColor: clr}}
+                                                                
+                                                                >  
                                                                 </span>
                                                             </a>
                                                         </li>
@@ -360,7 +386,7 @@ const ProductDetails = ({
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
                                                     <span className="text-brand">{t("Size Chart")} {'>'}</span>
                                                 </strong>
-                                                {console.log(product)}
+                                             
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">

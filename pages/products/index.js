@@ -37,7 +37,7 @@ const Products = ({ products1, productFilters }) => {
   const [searchToggle,setSeachToggle]=useState(true)
   const [productType,setProdcutType]=useState("")
   const [prodcutprice,setProdcutPrice]=useState("")
-
+  const [color,setcolor]=useState([])
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
@@ -59,7 +59,7 @@ const Products = ({ products1, productFilters }) => {
 
     cratePagination();
     prodcutFilters();
-
+getallProdcut()
     getCategroy();
   }, [
     categoryId,
@@ -86,7 +86,7 @@ const Products = ({ products1, productFilters }) => {
   //get prodcut
 
   //color
-  const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
+ // const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
   //size
   const sizes = ["", "s", "m", "xl", "xxl"];
   //size function
@@ -237,6 +237,40 @@ const Products = ({ products1, productFilters }) => {
   const toggleCategory = (categoryIndex) => {
     setActiveCategory(activeCategory === categoryIndex ? null : categoryIndex);
   };
+
+//filter color
+
+const getallProdcut = async () => {
+  try {
+    const response = await services.product.GET_PRODUCT();
+    if (response) {
+      const uniqueData = {
+        color: new Set(),
+        DuplicateKeyFound: new Set()
+      };
+      console.log("===========================",uniqueData)
+
+      response?.data?.data?.forEach((item) => {
+        const key = `${item.colour}`
+        // Check if the key already exists in the set and add it if not
+        if (!uniqueData.DuplicateKeyFound.has(key)) {
+          uniqueData.color.add(item.colour);
+         
+        }
+      });
+
+      // Convert sets to arrays and set state variables
+      setcolor(Array.from( uniqueData.color));
+    
+     
+    }
+  } catch (error) {
+    // Handle the error here
+    console.log(error);
+  }
+};
+const colorArrays = color.map((color) => JSON.parse(color));
+
 
 
   return (
@@ -414,21 +448,26 @@ const Products = ({ products1, productFilters }) => {
                         {/* <BrandFilter /> */}
                         <>
                           <ul className="categories">
-                            {color?.map((item) => (
-                              <li key={item}>
-                                <Form.Check
-                                  type="checkbox"
-                                  id={`checkbox-${item}`}
-                                  label={item}
-                                  onChange={() =>{
-                                    setToggle(true)
-                                    setSeachToggle(false)
-                                    handleCheckboxChange(item)}}
-                                  checked={selectedColors?.includes(item)}
-                                  style={{ textTransform: "capitalize" }}
-                                />
-                              </li>
-                            ))}
+                          {colorArrays?.map((colorArray, index) => (
+  <li key={index}>
+    {colorArray.map((color) => (
+      <Form.Check
+        key={color}
+        type="checkbox"
+        id={`checkbox-${color}`}
+        label={color}
+        onChange={() => {
+          setToggle(true);
+          setSeachToggle(false);
+          handleCheckboxChange(color);
+        }}
+        checked={selectedColors?.includes(color)}
+        style={{ textTransform: "capitalize" }}
+      />
+    ))}
+  </li>
+))}
+
                           </ul>
                         </>
                         <label className="fw-900 mt-15">{t("Item Size")}</label>

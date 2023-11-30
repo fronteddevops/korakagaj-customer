@@ -10,11 +10,11 @@ function FeatchTab() {
   const { t } = useTranslation("common");
     const [active, setActive] = useState("1");
     const [newProudct, setNewProduct] = useState([]);
-    const [hotDeals, setHotDeals] = useState([]);
+    const [getAllprodcut, setGETallProdcut] = useState([]);
     const [newArrival, setNewArrival] = useState([]);
-    const [hover,setHover]=useState("0")
-    const [ productType,setProdcuType]=useState("0")
-
+    const [hover,setHover]=useState("")
+    const [ productType,setProdcuType]=useState('')
+const [hotDeals]=useState([])
     // const data = {
     //   subSubCategory: "",
     //   categoryId: "",
@@ -35,6 +35,17 @@ function FeatchTab() {
         colour: "",
         size:"",
       };
+      let productData = {
+        newProduct: [],
+        hotDeals: [],
+        bestSell: []
+      };
+      var condition1 = productData?.newProduct?.length >0&&true
+      var condition2 = productData?.hotDeals?.length > 0&&true
+      
+      // Use ternary operator to set productType based on conditions
+     
+      
 
     const fillterProduct = async () => {
       try {
@@ -52,32 +63,79 @@ function FeatchTab() {
       }
     };
   
+   const getallProdcut=async()=>{
+ try {
+    
+    
+    const response =await services.product.GET_PRODUCT()
+    if(response){
    
+        setGETallProdcut(response?.data?.data);
+    
+    }
+
+ } catch (error) {
+    console.log(error)
+ }
+   }
   
+
     useEffect(() => {
+     
+     
+       
+       
       fillterProduct();
+      getallProdcut()
     }, [productType]);
+
+
+
+     getAllprodcut.forEach((product) => {
+    if (product.productType === 0) {
+      productData.newProduct.push(product);
+                     
+
+     } else if (product.productType === 1) {
+      productData.hotDeals.push(product);
+  
+     } else if (product.productType === 2) {
+      productData.bestSell.push(product);
+   
+    }
+  });
+  
+  // Now, productData object will have products categorized into newProduct, hotDeals, and bestSell
   
 
     return (
         <>
+
             <div className="tab-header">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
+        {productData &&productData?.newProduct.length>0 &&
                     <li className="nav-item" role="presentation">
                         <button className={hover === "0" ? "nav-link active" : "nav-link"} onClick={()=>{setProdcuType("0"),setHover("0")}}>
                         {t("New Product")}
                         </button>
                     </li>
+}
+{productData &&productData?.hotDeals.length>0 &&
                     <li className="nav-item" role="presentation">
                         <button className={hover === "1" ? "nav-link active" : "nav-link"} onClick={()=>{setProdcuType("1"),setHover("1")}}>
                         {t("Hot Deals")}
                         </button>
                     </li>
+}
+{productData &&productData?.bestSell.length>0 &&
+
+
                     <li className="nav-item" role="presentation">
                         <button className={hover === "2" ? "nav-link active" : "nav-link"} onClick={()=>{setProdcuType("2"),setHover("2")}}>
                         {t("Best Seller")}
                         </button>
                     </li>
+}
                 </ul>
                 <h6>
                     <Link href="/products">

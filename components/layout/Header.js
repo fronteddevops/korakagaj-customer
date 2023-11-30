@@ -10,7 +10,7 @@ import ShopWishlist from "../../pages/shop-wishlist";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-
+import { toast } from "react-toastify";
 const Header = ({ toggleClick, headerStyle }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,12 +24,13 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-
+const [url,seturl]=useState(false)
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
-
+ 
   const GetWishlistdata = async () => {
     if (localStorage.getItem("access_token")) {
+      
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
 
@@ -138,6 +139,15 @@ const Header = ({ toggleClick, headerStyle }) => {
       setTotalCartItems(cart?.cartDetails?.length);
     }
   };
+ const cheklogin=()=>{
+  if (localStorage.getItem("access_token")) {
+    seturl(true)
+ }
+else{
+  toast.error("Please Login!");
+ 
+}
+ }
 
   return (
     <>
@@ -295,14 +305,15 @@ const Header = ({ toggleClick, headerStyle }) => {
                 <div className="header-action-right">
                   <div className="header-action-2">
                     <div className="header-action-icon-2">
-                      <Link href="/shop-wishlist">
+                      <Link href={url?"/shop-wishlist" :"/"}>
                         <a>
                           <img
                             className="svgInject"
                             alt="korakagaj"
                             src="/assets/imgs/theme/icons/icon-heart.svg"
-                          />
-                          <span className="pro-count blue">
+                            onClick={cheklogin}
+                            />
+                          <span className="pro-count blue" >
                             {totalWishlistItems > 0 ? totalWishlistItems : 0}
                           </span>
                         </a>
@@ -515,17 +526,18 @@ const Header = ({ toggleClick, headerStyle }) => {
               <div className="header-action-right d-block d-lg-none">
                 <div className="header-action-2">
                   <div className="header-action-icon-2">
-                    <Link href="/shop-wishlist">
-                      <a>
-                        <img
-                          alt="korakagaj"
-                          src="/assets/imgs/theme/icons/icon-heart.svg"
-                        />
-                        <span className="pro-count white">
-                          {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                        </span>
-                      </a>
-                    </Link>
+                  <Link href={url?"/shop-wishlist" :"/"}>
+                        <a>
+                          <img
+                            className="svgInject"
+                            alt="korakagaj"
+                            src="/assets/imgs/theme/icons/icon-heart.svg"
+                            />
+                          <span className="pro-count blue" onClick={()=>cheklogin()}>
+                            {totalWishlistItems > 0 ? totalWishlistItems : 0}
+                          </span>
+                        </a>
+                      </Link>
                   </div>
                   <div className="header-action-icon-2">
                     <Link href="/shop-cart">
