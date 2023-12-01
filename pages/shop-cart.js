@@ -20,7 +20,7 @@ function loadScript(src) {
     document.body.appendChild(script);
   });
 }
-const Cart = ({}) => {
+const Cart = ({ }) => {
   const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
@@ -58,9 +58,9 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
 
-       
+
         if (response) {
-         
+
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
         }
@@ -72,7 +72,7 @@ const Cart = ({}) => {
         const cartLocal =
           localStorage.getItem("cartDetail") &&
           JSON.parse(localStorage.getItem("cartDetail"));
-        
+
         setUpdateCart(cartLocal.cartDetails);
         calculateTotalAmount(cartLocal.cartDetails);
       }
@@ -100,7 +100,7 @@ const Cart = ({}) => {
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-       
+
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -184,7 +184,7 @@ const Cart = ({}) => {
       cardData();
     }
   };
-  const deleteFromCart = async (product) => { 
+  const deleteFromCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       let updatedCartData = [...updateCart];
       let index;
@@ -245,9 +245,9 @@ const Cart = ({}) => {
     }
     await handleCart(updateCart[0]);
     const updateCartData = await services.cart.CHECKOUT();
-  
-  
-     console.log(updateCartData);const options = {
+
+
+    console.log(updateCartData); const options = {
       key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
       currency: "INR",
       amount: updateCartData.data.totalAmount,
@@ -267,7 +267,7 @@ const Cart = ({}) => {
             paymentResponse: {
               id: updateCartData.data.razorpayPaymentDetails.id,
               status: "paid",
-              amount:updateCartData.data.totalAmount,
+              amount: updateCartData.data.totalAmount,
             },
           };
           try {
@@ -306,7 +306,7 @@ const Cart = ({}) => {
               <div className="col-12">
                 <div className="table-responsive">
                   {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
-                  {updateCart?.length>0 ?(""):(t("No Products"))}
+                  {updateCart?.length > 0 ? ("") : (t("No Products"))}
                   <table
                     className={
                       updateCart?.length > 0
@@ -346,21 +346,37 @@ const Cart = ({}) => {
                                     <a>{product.productName}</a>
                                   </Link>
                                 </h5>
-                                {product?.selectedColor ||
-                                product?.selectedSize ? (
-                                  <p className="font-xs">
+                                {product?.selectedColor || product?.selectedSize ? (
+                                  <div className="font-xs">
                                     {product?.selectedColor && (
                                       <>
-                                        Color : {product?.selectedColor} <br />
+                                        <div className="align-items-center row pe-0 ps-0 m-0">
+                                        <div className="col text-end pe-0 ps-0 m-0 p-0">
+                                        <p className="mb-0 m-0">Color :</p>    </div>
+                                        <div class="col text-start pe-0 ps-0 m-0">  <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                            style={{
+                                              border:"1px solid black",
+                                              width: '22px',
+                                              height: '22px',
+                                              backgroundColor: product?.selectedColor,
+                                            }}
+                                          ></span></div>
+                                        
+                                       
+                                        </div>
+
+
+
+
                                       </>
-                                    )}
+                                    )}<br />
                                     {product?.selectedSize && (
-                                      <>
-                                        Size : {product?.selectedSize} <br />
-                                      </>
+                                      <p className="ml-md-2">Size: {product?.selectedSize}</p>
                                     )}
-                                  </p>
+                                  </div>
+
                                 ) : null}
+
                               </td>
                               <td className="price" data-title="Price">
                                 <span>Rs. {product.finalAmount}</span>
@@ -405,14 +421,14 @@ const Cart = ({}) => {
                           );
                         })}
                       <tr>
-                      <td colSpan="6" className="text-end">
-  {updateCart && updateCart.length > 0 && (
-    <a href="#" onClick={clearCart} className="text-muted">
-      <i className="fi-rs-cross-small"></i>
-      Clear Cart
-    </a>
-  )}
-</td>
+                        <td colSpan="6" className="text-end">
+                          {updateCart && updateCart.length > 0 && (
+                            <a href="#" onClick={clearCart} className="text-muted">
+                              <i className="fi-rs-cross-small"></i>
+                              Clear Cart
+                            </a>
+                          )}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -461,7 +477,6 @@ const Cart = ({}) => {
                           </div>
                         </div>
                       </div>
-
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <Link href={"/myprofile?index=4"}>
@@ -473,35 +488,7 @@ const Cart = ({}) => {
                         </div>
                       </div>
                     </form>
-                    {/* Apply Coupon Hide */}
-                    {/* <div className="mb-30 mt-50">
-                      <div className="heading_s1 mb-3">
-                        <h4>{t("Apply Coupon")}</h4>
-                      </div>
-                      <div className="total-amount">
-                        <div className="left">
-                          <div className="coupon">
-                            <form action="#" target="_blank">
-                              <div className="form-row row justify-content-center">
-                                <div className="form-group col-lg-6">
-                                  <input
-                                    className="font-medium"
-                                    name="Coupon"
-                                    placeholder={t("Enter your Coupon")}
-                                  />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                  <span className="btn  btn-sm">
-                                    <i className="fi-rs-label mr-10"></i>
-                                    {t("Apply")}
-                                  </span>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
+                   
                   </div>
                   <div className="col-lg-6 col-md-12">
                     <div className="border p-md-4 p-30 border-radius cart-totals">

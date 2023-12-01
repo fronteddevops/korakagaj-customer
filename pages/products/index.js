@@ -24,20 +24,20 @@ import { useTranslation } from "react-i18next";
 const Products = ({ products1, productFilters }) => {
   const { t } = useTranslation("common");
   const [category, setCategory] = useState([]);
- 
 
-  const [fillter, setFilterProduct] = useState([]);
+  const [displayedColors, setDisplayedColors] = useState(2);
+  const [showMore, setShowMore] = useState(false);
   const [products, setProdcut] = useState([]);
   const [selectedSubSubCategories, setSelectedSubSubCategories] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSizes] = useState([]);
   const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
-  const [toggle,setToggle]=useState(true)
-  const [searchToggle,setSeachToggle]=useState(true)
-  const [productType,setProdcutType]=useState("")
-  const [prodcutprice,setProdcutPrice]=useState("")
-  const [color,setcolor]=useState([])
+  const [toggle, setToggle] = useState(true)
+  const [searchToggle, setSeachToggle] = useState(true)
+  const [productType, setProdcutType] = useState("")
+  const [prodcutprice, setProdcutPrice] = useState("")
+  const [color, setcolor] = useState([])
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
@@ -55,24 +55,7 @@ const Products = ({ products1, productFilters }) => {
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
-  useEffect(() => {
-
-    cratePagination();
-    prodcutFilters();
-getallProdcut()
-    getCategroy();
-  }, [
-    categoryId,
-    selectedSubSubCategories,
-  productType,
-    prodcutprice,
-    selectedColors,
-    selectedSizes,
-    price,
-    limit,
-    pages,
-    products?.length,
-  ]);
+ 
 
   const clearAllFilter = () => {
     window.location.href = '/products'
@@ -85,8 +68,7 @@ getallProdcut()
 
   //get prodcut
 
-  //color
- // const color = ["red", "blue", "green", "yellow", "white", "black", "orange", "purple"];
+  
   //size
   const sizes = ["", "s", "m", "xl", "xxl"];
   //size function
@@ -130,15 +112,15 @@ getallProdcut()
     const data = {
       subSubCategoryId: selectedSubSubCategories,
       categoryId: categoryId,
-      productType:productType,
-      order:prodcutprice,
+      productType: productType,
+      order: prodcutprice,
       priceTo: price.value.max,
       priceFrom: price.value.min,
       colour: selectedColors,
       size: selectedSizes,
     };
     const query = new URLSearchParams(data);
-  
+
     try {
       if (searchProduct && searchToggle) {
         const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct);
@@ -149,7 +131,7 @@ getallProdcut()
         const response = await services.product.GET_FILTER_PRODUCT(query);
         if (response && toggle) {
           const data = response?.data?.data;
-    
+
           if (data.length <= 12) {
             setProdcut(data);
             setCurrentPage(1);
@@ -163,12 +145,12 @@ getallProdcut()
     } catch (error) {
       console.log(error);
     }
-    
+
   };
   const getCategroy = async () => {
     try {
       const response = await services.category.GET_CATEGORY_ALL();
-    
+
       if (response) {
         setCategory(response?.data?.data);
       }
@@ -188,7 +170,7 @@ getallProdcut()
     setSeachToggle(false)
     switch (selectedValue) {
       case "0":
-       setProdcutType("0")
+        setProdcutType("0")
         break;
       case "1":
         setProdcutType("1")
@@ -238,41 +220,84 @@ getallProdcut()
     setActiveCategory(activeCategory === categoryIndex ? null : categoryIndex);
   };
 
-//filter color
+  //filter color
 
-const getallProdcut = async () => {
-  try {
-    const response = await services.product.GET_PRODUCT();
-    if (response) {
-      const uniqueData = {
-        color: new Set(),
-        DuplicateKeyFound: new Set()
-      };
-      console.log("===========================",uniqueData)
+  const getallProdcut = async () => {
+    try {
+      const response = await services.product.GET_PRODUCT();
+      if (response) {
+        const uniqueData = {
+          color: new Set(),
+          DuplicateKeyFound: new Set()
+        };
+   
 
-      response?.data?.data?.forEach((item) => {
-        const key = `${item.colour}`
-        // Check if the key already exists in the set and add it if not
-        if (!uniqueData.DuplicateKeyFound.has(key)) {
-          uniqueData.color.add(item.colour);
-         
-        }
-      });
+        response?.data?.data?.forEach((item) => {
+          const key = `${item.colour}`
+          // Check if the key already exists in the set and add it if not
+          if (!uniqueData.DuplicateKeyFound.has(key)) {
+            uniqueData.color.add(item.colour);
 
-      // Convert sets to arrays and set state variables
-      setcolor(Array.from( uniqueData.color));
-    
-     
+          }
+        });
+
+        // Convert sets to arrays and set state variables
+        setcolor(Array.from(uniqueData.color));
+
+
+      }
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
     }
-  } catch (error) {
-    // Handle the error here
-    console.log(error);
-  }
-};
-const colorArrays = color.map((color) => JSON.parse(color));
+  };
+  const colorArrays = color.map((color) => JSON.parse(color));
 
 
+  
 
+  // const handleShowMore = () => {
+  //   // Set the number of colors to display to the total number of colors
+  //   setDisplayedColors(colorArrays.length);
+  // };
+
+ 
+
+  const handleShowToggle = () => {
+    console.log("Before Toggle - showMore:", showMore, "displayedColors:", displayedColors);
+  
+    // Toggle the showMore state
+    setShowMore(!showMore);
+  
+    // Set the displayed colors based on the showMore state
+    setDisplayedColors(showMore ? 2 : colorArrays.length);
+  
+    console.log("After Toggle - showMore:", !showMore, "displayedColors:", showMore ? 1 : colorArrays.length);
+  };
+  
+  
+  console.log("==================",showMore)
+  useEffect(() => {
+   
+    cratePagination();
+    prodcutFilters();
+    getallProdcut()
+    getCategroy();
+  }, [
+    categoryId,
+    selectedSubSubCategories,
+    productType,
+    prodcutprice,
+    selectedColors,
+    selectedSizes,
+    price,
+    limit,
+    pages,
+    products?.length,
+  ]);
+
+
+  
   return (
     <>
       <Layout parent={t("Home")} sub={categoryId ? (<><a href="/categories"> {t("Category")}</a></>) :
@@ -321,11 +346,11 @@ const colorArrays = color.map((color) => JSON.parse(color));
                           onChange={(event) => handleChange(event.target.value)}
                         >
                           <option value="Default">{t("Default")}</option>
-                            <option value="0">{t("New Product")}</option>
-                            <option value="1">{t("Hot Deals")}</option>
-                            <option value="2">{t("Best Seller")}</option>
-                            <option value="LowToHigh">{t("Low To High")}</option>
-                            <option value="HighToLow">{t("High To Low")}</option>
+                          <option value="0">{t("New Product")}</option>
+                          <option value="1">{t("Hot Deals")}</option>
+                          <option value="2">{t("Best Seller")}</option>
+                          <option value="LowToHigh">{t("Low To High")}</option>
+                          <option value="HighToLow">{t("High To Low")}</option>
                         </select>
                       </div>
                     </div>
@@ -338,7 +363,7 @@ const colorArrays = color.map((color) => JSON.parse(color));
                     } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
                   <div className="widget-category p-3 mb-30">
-                    {  category.length>0 &&category?.map((Item, index) => (
+                    {category.length > 0 && category?.map((Item, index) => (
                       <Accordion key={index} activeKey={activeCategory}>
                         <Accordion.Item className="custom-filter" eventKey={index} key={index}>
                           <Accordion.Header onClick={() => toggleCategory(index)}>
@@ -369,8 +394,8 @@ const colorArrays = color.map((color) => JSON.parse(color));
                                           label={item?.subSubCategoryName}
                                           onChange={() => {
                                             const subSubCategoryId = item.id;
-                                          setToggle(true)
-                                          setSeachToggle(false)
+                                            setToggle(true)
+                                            setSeachToggle(false)
                                             if (
                                               selectedSubSubCategories?.includes(subSubCategoryId)
                                             ) {
@@ -447,27 +472,64 @@ const colorArrays = color.map((color) => JSON.parse(color));
                         <label className="fw-900">{t("Color")}</label>
                         {/* <BrandFilter /> */}
                         <>
-                          <ul className="categories">
-                          {colorArrays?.map((colorArray, index) => (
-  <li key={index}>
-    {colorArray.map((color) => (
-      <Form.Check
-        key={color}
-        type="checkbox"
-        id={`checkbox-${color}`}
-        label={color}
-        onChange={() => {
-          setToggle(true);
-          setSeachToggle(false);
-          handleCheckboxChange(color);
-        }}
-        checked={selectedColors?.includes(color)}
-        style={{ textTransform: "capitalize" }}
-      />
-    ))}
-  </li>
-))}
+                          <ul className="categories m-0 p-0" >
+                            {colorArrays?.map((colorArray, index) => (
 
+                              <li key={index} className="m-0 p-0">
+                                {colorArray?.slice(0, displayedColors).map((color) => (
+                                  <
+                                    div
+                                    className="d-flex p-1"
+                                  > <Form.Check
+                                      className={color == selectedColors && 'active d-flex '}
+                                      key={color}
+                                      type="checkbox"
+                                      id={`checkbox-${color}`}
+
+                                      onChange={() => {
+                                        setToggle(true);
+                                        setSeachToggle(false);
+                                        handleCheckboxChange(color);
+                                      }}
+                                      checked={selectedColors?.includes(color)}
+
+
+                                    />
+                                    <div
+                                      className="ms-2"
+                                      style={{
+
+                                        display: "flex",
+                                        width: "26px",
+                                        height: "26px",
+                                        borderRadius: "40px",
+                                        border:"1px solid black",
+                                        backgroundColor: color
+                                      }}
+                                    >
+
+                                    </div>
+                                  </div>
+
+                                ))}
+                              </li>
+                            ))}
+                            {displayedColors < colorArrays.length && (
+                              <li>
+                                {/* <button type="button" class="btn btn-danger " style={{fontSize:"5px"}}> */}
+                                {/* <span className="text-danger" style={{ cursor: "pointer" }} onClick={handleShowMore}> Show More</span> */}
+
+                                <span
+  className="text-danger"
+  style={{ cursor: "pointer" }}
+  onClick={handleShowToggle}
+>
+  {showMore ? "Show Less" : "Show More"}
+</span>
+
+                                {/* </button> */}
+                              </li>
+                            )}
                           </ul>
                         </>
                         <label className="fw-900 mt-15">{t("Item Size")}</label>
@@ -475,10 +537,11 @@ const colorArrays = color.map((color) => JSON.parse(color));
                           {sizes.map((tag, i) => (
                             <li
                               className={active == i ? "active" : ""}
-                              onClick={() =>{
+                              onClick={() => {
                                 setToggle(true)
                                 setSeachToggle(false)
-                                handleClick(i, tag)}}
+                                handleClick(i, tag)
+                              }}
                               key={i}
                             >
                               <a>{i == 0 ? "all" : `${tag}`}</a>
@@ -497,9 +560,9 @@ const colorArrays = color.map((color) => JSON.parse(color));
                     <p>
                       {t("We found")}
                       <strong className="text-brand">
-              
-                      {products?.length>0&&<> {products?.length}</>}
-                     
+
+                        {products?.length > 0 && <> {products?.length}</>}
+
                       </strong>
                       {t("items for you!")}
                     </p>
@@ -546,21 +609,21 @@ const colorArrays = color.map((color) => JSON.parse(color));
                     <h3>{t("No Products Found")} </h3>
                   )}
 
-                 
-                      {getPaginatedProducts?.map((item, i) => (
-                        <div
-                          className="col-lg-4 col-md-4 col-12 col-sm-6"
-                          key={i}
-                        >
-                          <SingleProduct
-                            product={item}
-                            fabricPrice={fabricPrice}
-                          />
 
-                          {/* <SingleProductList product={item}/> */}
-                        </div>
-                      ))}
-              
+                  {getPaginatedProducts?.map((item, i) => (
+                    <div
+                      className="col-lg-4 col-md-4 col-12 col-sm-6"
+                      key={i}
+                    >
+                      <SingleProduct
+                        product={item}
+                        fabricPrice={fabricPrice}
+                      />
+
+                      {/* <SingleProductList product={item}/> */}
+                    </div>
+                  ))}
+
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">

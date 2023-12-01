@@ -40,8 +40,7 @@ const [hotDeals]=useState([])
         hotDeals: [],
         bestSell: []
       };
-      var condition1 = productData?.newProduct?.length >0&&true
-      var condition2 = productData?.hotDeals?.length > 0&&true
+    
       
       // Use ternary operator to set productType based on conditions
      
@@ -91,7 +90,7 @@ const [hotDeals]=useState([])
 
 
 
-     getAllprodcut.forEach((product) => {
+   getAllprodcut.length>0 &&   getAllprodcut?.forEach((product) => {
     if (product.productType === 0) {
       productData.newProduct.push(product);
                      

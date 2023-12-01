@@ -95,7 +95,7 @@ function OrderViewDetails({ data }) {
                             return innerID === outerId;
                           }
                         );
-
+                     
                         return matchingProducts?.map((product, i) => (
                           <tr key={i}   >
                             <td className="image product-thumbnail">
@@ -103,7 +103,7 @@ function OrderViewDetails({ data }) {
                                 src={imageUrl + product?.featuredImage}
                                 alt=""
                                 crossOrigin="anonymous"
-                              />
+                                />
 
                             </td>
 
@@ -116,17 +116,18 @@ function OrderViewDetails({ data }) {
                               <span>{product?.brandName}</span>
                             </td>
 
-                            <td className="text-center" data-title="Stock">
+                            <td className="text-center " data-title="Stock">
                               {product?.designerName}
                             </td>
 
                             <td className="text-right" data-title="Cart">
-                              <span>
+                              <span  >
                                 {product?.totalPrice}
+                               
                               </span>
                             </td>
                             <td className="text-right" data-title="Cart">
-                              <span>
+                              <span >
                                 {product?.discountPercentage}%
                               </span>
                             </td>
@@ -135,7 +136,8 @@ function OrderViewDetails({ data }) {
                                 {product?.finalAmount}
                               </span>
                             </td>
-                            <td className="text-right" data-title="Cart">
+                            <td className="text-right d-none d-sm-table-cell" data-title="Cart">
+                            {/* <td className="text-right" data-title="Cart"> */}
                               <span>
                                 {product?.productType == 1 ? "Hot Deals" : null}
                                 {product?.productType == 0 ? "New Product" : null}
@@ -169,10 +171,14 @@ function OrderViewDetails({ data }) {
                             </td>
 
                             <td className="text-right" data-title="Cart">
-                              <span>
-                                {product?.selectedColor}
-
-                              </span>
+                            <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                            style={{
+                                              border:"1px solid black",
+                                              width: '22px',
+                                              height: '22px',
+                                              backgroundColor: product?.selectedColor,
+                                            }}
+                                          ></span>
                             </td>
                             <td className="text-right" data-title="Cart">
                               <span>

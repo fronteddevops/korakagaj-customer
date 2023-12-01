@@ -150,28 +150,7 @@ const ProductDetails = ({
         }
     };
 
-    const hexToRgb = (hex) => {
-        // Remove the hash (#) if it's present
-        hex = hex.replace(/^#/, '');
-    
-        // Parse the hex values to get the individual RGB values
-        const bigint = parseInt(hex, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-    
-        // Return an object with the RGB values
-        return { r, g, b };
-      };
-      const rgbValues = hexToRgb('#6f4d4d');
-
-    console.log(rgbValues)
-
-    const colorStyle = {
-        backgroundColor: `rgb(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b})`,
-        width: '100px',
-        height: '100px',
-      };
+ 
     return (
         <>
             <section className="mt-50 mb-50">
@@ -356,7 +335,9 @@ const ProductDetails = ({
                                                         <li key={i} onClick={() => setSelectedColor(clr)} className={clr == selectedColor && 'active'}>
                                                             <a href="#" >
                                                                 <span
-                                                                style={{backgroundColor: clr}}
+                                                                style={{
+                                                                    border:"1px solid black",
+                                                                    backgroundColor: clr}}
                                                                 
                                                                 >  
                                                                 </span>

@@ -44,7 +44,7 @@ function Account() {
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
   const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
-  
+
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [dobError, setDobError] = useState('');
 
@@ -59,14 +59,14 @@ function Account() {
   const toastError = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };
-  
+
   let route = useRouter()
   const { index } = route.query;
-  useEffect(()=>{
-    if(index){
+  useEffect(() => {
+    if (index) {
       handleOnClick(+index)
     }
-  },[index])
+  }, [index])
   const handleOnClick = async (index) => {
 
     setActiveIndex(index);
@@ -94,11 +94,11 @@ function Account() {
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
         setPhoneNumber(response?.data?.data?.phoneNumber);
-        const  date=response?.data?.data?.dob
-     
+        const date = response?.data?.data?.dob
+
         //  setDateOfBirth(update)
-          const formattedDate = moment(date).format("YYYY-MM-DD");
-          setDateOfBirth(formattedDate);
+        const formattedDate = moment(date).format("YYYY-MM-DD");
+        setDateOfBirth(formattedDate);
         localStorage.setItem("user", JSON.stringify())
       } catch (error) {
         console.log(error);
@@ -123,7 +123,7 @@ function Account() {
 
         //get my address
         const response = await services.myprofile.GET_MY_ADDRESS();
-     
+
         setAllAddress(response?.data?.data);
 
 
@@ -152,9 +152,9 @@ function Account() {
           firstName: firstName,
           lastName: lastName,
           phoneNumber: phoneNumber,
-          dob:dateOfBirth,
-          
-          email: email,
+          dob: dateOfBirth,
+
+
         };
         const response = await services.myprofile.UPDATE_MY_PROFILE(data);
         if (response) {
@@ -176,16 +176,16 @@ function Account() {
   const handlePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
-    if(pastedText.length>=10){
+    if (pastedText.length >= 10) {
       const isValidNumber = /^\d{10}$/; // Validate 10-digit number
 
       if (!isValidNumber.test(pastedText)) {
         e.preventDefault(); // Prevent pasting invalid input
-        setPhoneNumberError( "Number should be  10  digits.");
+        setPhoneNumberError("Number should be  10  digits.");
         isValid = false;
       }
     }
- 
+
   };
 
   const changepassword = async (event) => {
@@ -264,10 +264,10 @@ function Account() {
   const handleInputChangeDateOfBirth = (e) => {
     const enteredDate = e.target.value;
     const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
-  
+
     // Check if the entered date is in the future
     const isFutureDate = moment(enteredDate).isAfter(moment());
-  
+
     if (!enteredDate.match(dateFormat) || isFutureDate) {
       setDobError('Please enter a valid past date in the format MM-DD-YYY  ');
       setDateOfBirth("")
@@ -277,12 +277,12 @@ function Account() {
     }
 
 
-    
-  };
-  
-  
 
-  
+  };
+
+
+
+
   return (
     <div>
       <Layout parent={t("Home")} sub={t("Pages")} subsuB={<a href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
@@ -482,66 +482,44 @@ function Account() {
                                       <th>{t("Total Amount")}</th>
                                       <th>{t("Order Status")}</th>
                                       <th>{t("Actions")}</th>
-                                      {/* <th>review</th> */}
-                                     
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {orderDetailsData?.map((item, key) => {
-                                      return (
-                                        <tr key={key}>
-                                          <td> <img
-                                            className='rounded'
+                                    {orderDetailsData?.map((item, key) => (
+                                      <tr key={key}>
+                                        <td>
+                                          <img
+                                            className='img-fluid rounded' // Make the image responsive
                                             crossOrigin='anonymous'
-                                            src={imageUrl + item?.OrderDetails?.[0]?.Product?.image?.[0]
-                                            }
+                                            src={imageUrl + item?.OrderDetails?.[0]?.Product?.image?.[0]}
                                             alt='Image'
                                             height={50}
                                             width={50}
-                                          /></td>
-                                          <td>{item?.id}</td>
-                                          <td>{moment(item?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
-                                          <td>{item?.totalItems}</td>
-                                          <td>{item?.totalQuantity}</td>
-                                          <td>{item?.totalAmount}</td>
-                                          <td>{item?.OrderDetails?.map((item, index) => {
-                                            if (index === 0) {
-                                              return item.type
-                                            }
-
-                                          }, [])}
-
-                                          </td>
-                                          {/* <td>{item?.OrderDetails?.map((item, index) => {
-                                            if (index === 0) {
-                                              item?.image?.map((item, index) => {
-                                                if (index === 0) {
-                                                  return item
-                                                }
-
-                                              })
-                                            }
-
-                                          }, [])}
-
-                                          </td> */}
-
-                                          <td>   <Link href={`/OrderViewDetails?orderId=${item.id}`}>
-                                            <a> {t("View detail")}</a>
-                                          </Link></td>
-                                          {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
-                                            <a> {t("Review")}</a>
-                                          </Link></td> */}
-
-                                        </tr>
-                                      )
-                                    })}
-
+                                          />
+                                        </td>
+                                        <td>{item?.id}</td>
+                                        <td>{moment(item?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
+                                        <td>{item?.totalItems}</td>
+                                        <td>{item?.totalQuantity}</td>
+                                        <td>{item?.totalAmount}</td>
+                                        <td>
+                                          {item?.OrderDetails?.map((orderDetail, index) => (
+                                            index === 0 ? orderDetail.type : null
+                                          ))}
+                                        </td>
+                                        <td>
+                                          <Link href={`/OrderViewDetails?orderId=${item.id}`}>
+                                            <a>{t("View detail")}</a>
+                                          </Link>
+                                        </td>
+                                      </tr>
+                                    ))}
                                   </tbody>
                                 </table>
                               </div>
                             </div>
                           </div>
+
                         </div>
                         <div
                           className={
@@ -944,27 +922,27 @@ function Account() {
                                       type="email"
                                       value={email}
                                     />
-  <div className="form-group col-md-12">
-      <label>
-        Date of Birth
-        <span className="required">*</span>
-      </label>
-      <input
-        required=""
-        className="form-control square"
-       
-    //    name="dob"
-        type="date"
-        value={dateOfBirth}
-        onChange={handleInputChangeDateOfBirth}
-        max={moment().format('YYYY-MM-DD')} 
-      />
-      {dobError && <span  style={{
-                                            color: "red",
-                                            position: "absolute",
-                                            fontSize: "12px"
-                                          }}>{dobError}</span>}
-    </div>
+                                    <div className="form-group col-md-12">
+                                      <label>
+                                        Date of Birth
+                                        <span className="required">*</span>
+                                      </label>
+                                      <input
+                                        required=""
+                                        className="form-control square"
+
+                                        //    name="dob"
+                                        type="date"
+                                        value={dateOfBirth}
+                                        onChange={handleInputChangeDateOfBirth}
+                                        max={moment().format('YYYY-MM-DD')}
+                                      />
+                                      {dobError && <span style={{
+                                        color: "red",
+                                        position: "absolute",
+                                        fontSize: "12px"
+                                      }}>{dobError}</span>}
+                                    </div>
 
                                   </div>
                                   <div className="col-md-12 mt-5">
@@ -973,7 +951,7 @@ function Account() {
                                       disabled={
                                         !(isDisabledAcount &&
                                           firstName &&
-                                          dateOfBirth&&
+                                          dateOfBirth &&
                                           lastName && phoneNumber)
 
                                       }
@@ -1027,7 +1005,7 @@ function Account() {
                                             setPasswordError("Old Password is required");
                                           }
                                         }}
-                                                
+
 
                                       />
                                       <span className="">
@@ -1103,7 +1081,7 @@ function Account() {
                                             e.target.value.trimStart().trimEnd()
                                           );
                                         }}
-                                                                                value={newpassword}
+                                        value={newpassword}
                                       />
                                       <span className="">
                                         <i
@@ -1153,7 +1131,7 @@ function Account() {
                                         name="cpassword"
                                         placeholder={t("confirm password")}
                                         autoComplete="off"
-                                                                                onChange={(e) => {
+                                        onChange={(e) => {
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
