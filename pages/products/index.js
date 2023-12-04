@@ -274,9 +274,9 @@ const Products = ({ products1, productFilters }) => {
 
     console.log("After Toggle - showMore:", !showMore, "displayedColors:", showMore ? 1 : colorArrays.length);
   };
-
-
-  console.log("==================", showMore)
+  
+  
+ 
   useEffect(() => {
 
     cratePagination();
@@ -325,13 +325,21 @@ const Products = ({ products1, productFilters }) => {
                   >
                     {t("Show Filters")}
                   </span>
-                  <span
-                    className="text-brand fw-bold"
-                    onClick={() => clearAllFilter()}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {t("Clear All Filter")}
-                  </span>
+                  {
+        (selectedSubSubCategories.length > 0 ||
+          productType ||
+          selectedColors.length > 0 ||
+          selectedSizes.length > 0 ||
+          price.value.min > 0 || price.value.max<10000) && (
+          <span
+            className="text-brand fw-bold"
+            onClick={() => clearAllFilter()}
+            style={{ cursor: "pointer" }}
+          >
+            {t("Clear All Filter")}
+          </span>
+        )
+      }
 
                   <div className="sort-by-cover">
                     <div className="sort-by-product-wrap">
@@ -469,7 +477,7 @@ const Products = ({ products1, productFilters }) => {
 
                     <div className="list-group">
                       <div className="list-group-item mb-10 mt-10">
-                        {/* <label className="fw-900">{t("Color")}</label>
+                         {/* <label className="fw-900">{t("Color")}</label>
 
                         <>
                           <ul className="categories m-0 p-0" >
@@ -529,7 +537,7 @@ const Products = ({ products1, productFilters }) => {
                               </li>
                             )}
                           </ul>
-                        </> */}
+                        </>  */}
                         <label className="fw-900 mt-15">{t("Item Size")}</label>
                         <ul className="list-filter size-filter font-small">
                           {sizes.map((tag, i) => (
@@ -566,13 +574,25 @@ const Products = ({ products1, productFilters }) => {
                     </p>
                   </div>
                   <div className="sort-by-product-area justify-content-between align-items-center">
-                    <span
-                      className="text-brand fw-bold"
-                      onClick={() => clearAllFilter()}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {t("Clear All Filter")}
-                    </span>
+                    <div>
+                    {
+        (selectedSubSubCategories.length > 0 ||
+          productType ||
+          selectedColors.length > 0 ||
+          selectedSizes.length > 0 ||
+          price.value.min > 0 || price.value.max<10000) ? (
+          <span
+            className="text-brand fw-bold"
+            onClick={() => clearAllFilter()}
+            style={{ cursor: "pointer" }}
+          >
+            {t("Clear All Filter")}
+          </span>
+        ):""
+
+      }
+                    </div>
+     
 
                     <div className="sort-by-cover">
                       <div className="sort-by-product-wrap">

@@ -125,11 +125,11 @@ export default function Forgetpassword() {
                                     setConfirmPasswordError("");
                                   } else {
                                     setIsDisabled(true);
-                                    setNewPassword(e.target.value.trimStart());
+                                    setNewPassword(e.target.value.trimStart().trimEnd());
                                     setNewPasswordError("");
                                   }
 
-                                  setNewPassword(e.target.value.trimStart());
+                                  setNewPassword(e.target.value.trimStart().trimEnd());
                                 }}
                                 value={newpassword}
                               />

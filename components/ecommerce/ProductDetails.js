@@ -70,33 +70,38 @@ const ProductDetails = ({
 
         if (localStorage.getItem("access_token")) {
 
-
+ 
             try {
 
-                const userID = localStorage.getItem("userId");
+               // const userID = localStorage.getItem("userId");
 
                 const data = {
                     productId: product.id,
-                    userId: userID
+                   // userId: userID
                 }
 
                 if (!product.isWishlisted) {
-
+                  
 
                     const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-                    productDataShow()
+                  //  productDataShow()
+                   if(WishlistResponse){
                     toast.success("Added to Wishlist!");
+                   }
+                   
+                  
                     window.location.reload()
                 } else {
                     const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-                    productDataShow()
+                  //  productDataShow()
                     toast.success("Removed from Wishlist");
                     window.location.reload()
                 }
 
             } catch (error) {
-
-                console.error("An error occurred:", error);
+                
+                   toast.error(error?.response?.data?.message)
+              
             }
 
         } else {
@@ -121,7 +126,7 @@ const ProductDetails = ({
             }
             cartDetails?.push(product)
             const key = 'id';
-            const unique = [...new Map(cartDetails.map(item =>
+            const unique = [...new Map( cartDetails.length>0 &&  cartDetails?.map(item =>
                 [item[key], item])).values()];
             let data = {
                 cartDetail: { cartDetails: unique }
