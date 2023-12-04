@@ -3,6 +3,7 @@ import Timer from "./Timer";
 import Link from "next/link";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
+import moment from "moment";
 
 const Deals1 = () => {
   const { t } = useTranslation("common");
@@ -27,30 +28,31 @@ const Deals1 = () => {
 
       } catch (error) {
         console.error(error);
-        // Handle the error, e.g., show an error message to the user
-      }
+        }
     };
     fetchProducts();
   }, [width]);
 
   const deals1Style = {
-    display: width <= 700 ? "block" : "flex",  // Make the container a flex container
-    justifyContent: "center", // Center content horizontally
+    display: width <= 700 ? "block" : "flex",  
+    justifyContent: "center", 
     alignItems: "center",
     margin: "auto", 
-      // Center content vertically
-    // Add any other CSS properties as needed
-  };
+    };
 
+
+  
   return (
     <div style={deals1Style}>
 
       {data && data?.map((product, index) => {
-        const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-        const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
+        const basePrice = product?.totalPrice || 0; 
+        const discountPercentage = product?.discountPercentage || 0; 
         const discountAmount = (basePrice * discountPercentage) / 100;
         const totalPrice = basePrice - discountAmount;
-        const endDateTime = new Date(product.upComingDate);
+       const endDateTime = new Date(product.upComingDate);
+       
+        //  const endDateTime = moment().add(0, 'days').add(0, 'hours').add(0, 'minutes').add(10, 'seconds')
         return (
           <div
 
@@ -72,8 +74,8 @@ const Deals1 = () => {
                 </Link>
               </h6>
               <div className="product-price">
-                <span className="new-price">${totalPrice}</span>
-                <span className="old-price">${product.totalPrice}</span>
+                <span className="new-price">Rs.{totalPrice}</span>
+                <span className="old-price">Rs.{product.totalPrice}</span>
               </div>
             </div>
             <div className="deal-bottom">
@@ -98,3 +100,10 @@ const Deals1 = () => {
 };
 
 export default Deals1;
+
+
+
+
+
+
+
