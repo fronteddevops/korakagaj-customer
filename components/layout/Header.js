@@ -73,11 +73,11 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-  }, [lang]);
+  }, [lang,totalWishlistItems]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
       try {
-        console.log("==========================")
+       
         const response = await service.myprofile.GET_MY_PROFILE();
         localStorage.setItem('profile', JSON.stringify(response?.data?.data))
         if (response) {

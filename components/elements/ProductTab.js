@@ -81,7 +81,7 @@ function parseAndFormatColors(colorsJSON) {
                             data-bs-toggle="tab"
                             onClick={() => handleOnClick(3)}
                         >
-                            {t("Reviews (3)")}
+                            {t("Reviews ")}
                         </a>
                     </li>
                 </ul>
