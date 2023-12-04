@@ -17,11 +17,12 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 import services from "../../services";
+import { closeQuickView } from "../../redux/action/quickViewAction";
 import { useTranslation } from "react-i18next";
 
 
 
-const Products = ({ products, productFilters }) => {
+const Products = ({ products, productFilters, closeQuickView }) => {
   const { t } = useTranslation("common");
   const [fabricType, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
@@ -178,6 +179,7 @@ const getProdcut=async()=>{
 }
 
   useEffect(() => {
+    closeQuickView()
     getFabric()
     getFilterFabric();
     getProdcut()
@@ -691,13 +693,14 @@ const getProdcut=async()=>{
   );
 };
 
+
+
+
+
+
 const mapStateToProps = (state) => ({
-  products: state.products,
-  productFilters: state.productFilters,
+  quickView: state.quickView,
 });
 
-const mapDidpatchToProps = {
-
-};
-
-export default connect(mapStateToProps, mapDidpatchToProps)(Products);
+export default connect(mapStateToProps, { closeQuickView })(Products);
+//export default connect(mapStateToProps, mapDidpatchToProps)(Products);

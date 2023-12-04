@@ -26,7 +26,7 @@ export default function Home() {
     const { t } = useTranslation("common");
     const [category,setcategory]=useState([])
     const [data, setData] = useState([]);
-       
+     const [productType,setProdcuType]=useState([])  
        
         const getCategoryListHandler = async () => {
             try {
@@ -40,27 +40,36 @@ export default function Home() {
         }
 
 
-        const fetchProducts = async () => {
-            try {
-      
-              // Without access_token, get up_coming products
-              const response = await services.product.UP_COMING_PRODUCT();
-              if (response) {
-                setData(response?.data?.data?.rows);
-              }
-      
-      
-            } catch (error) {
-              console.error(error);
-              // Handle the error, e.g., show an error message to the user
-            }
-          };
-
+     
         
+
+
+
+          const getUpcoming=async()=>{
+       
+                const data = {
+                 
+                  productType:3,
+                 
+                };
+                const query = new URLSearchParams(data);
+            
+                try {
+             
+                    const response = await services.product.GET_FILTER_PRODUCT(query);
+                    if (response) {
+                      setProdcuType(response?.data?.data);
+                    }
+          }
+          catch(error){
+
+          }
+        }
 
     useEffect(()=>{
         getCategoryListHandler()
-        fetchProducts();
+        
+        getUpcoming()
     },[])
   
     return (
@@ -117,7 +126,7 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-{data && data.length>0 &&
+{productType &&  productType?.length>0 &&
                 <section className="section-padding">
                     <div className="container wow fadeIn animated">
                         <h3 className="section-title mb-20">
@@ -129,6 +138,7 @@ export default function Home() {
                     </div>
                 </section>
 }
+{productType&& productType?.length>0 &&
                 <section className="deals section-padding">
                     <div className="container">
                         <div className="row ">
@@ -141,6 +151,7 @@ export default function Home() {
                 </section>
 
 
+}
                 <section className="section-padding">
                     <div className="container pt-25 pb-20">
                         <div className="row">
