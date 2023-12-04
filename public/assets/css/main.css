@@ -2344,7 +2344,7 @@ label {
 .dashboard-menu ul li a {
   font-size: 14px;
   color: #242424;
-  padding: 15px 30px;
+  padding: 15px 15px;
 }
 
 .dashboard-menu ul li a i {

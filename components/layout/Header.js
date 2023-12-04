@@ -24,13 +24,13 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-const [url,seturl]=useState(false)
+  const [url, seturl] = useState(false)
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
- 
+
   const GetWishlistdata = async () => {
     if (localStorage.getItem("access_token")) {
-      
+
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
 
@@ -64,6 +64,7 @@ const [url,seturl]=useState(false)
     setLang(langdata);
     handleLang();
     GetWishlistdata();
+    cheklogin();
     handleCart();
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
@@ -78,6 +79,7 @@ const [url,seturl]=useState(false)
       try {
         console.log("==========================")
         const response = await service.myprofile.GET_MY_PROFILE();
+        localStorage.setItem('profile', JSON.stringify(response?.data?.data))
         if (response) {
           setFirstName(response?.data?.data?.firstName);
           setLastName(response?.data?.data?.lastName);
@@ -139,15 +141,13 @@ const [url,seturl]=useState(false)
       setTotalCartItems(cart?.cartDetails?.length);
     }
   };
- const cheklogin=()=>{
-  if (localStorage.getItem("access_token")) {
-    seturl(true)
- }
-else{
-  toast.error("Please Login!");
- 
-}
- }
+  const cheklogin = () => {
+    if (localStorage.getItem("access_token")) {
+      seturl(true)
+    }
+
+
+  }
 
   return (
     <>
@@ -241,15 +241,13 @@ else{
                       {lastName && firstName ? (
                         <NavDropdown
                           id="nav-dropdown-light-example"
-                          title={`${
-                            firstName?.length > 15
-                              ? firstName?.substring(0, 15) + ".."
-                              : firstName
-                          } ${
-                            lastName?.length > 15
+                          title={`${firstName?.length > 15
+                            ? firstName?.substring(0, 15) + ".."
+                            : firstName
+                            } ${lastName?.length > 15
                               ? lastName?.substring(0, 15) + ".."
                               : lastName
-                          }`}
+                            }`}
                           menuVariant="light"
                           className="profile-dropdown"
                         >
@@ -265,7 +263,7 @@ else{
                           <NavDropdown.Divider />
                           <NavDropdown.Item
                             href="/"
-                            onClick={() => {localStorage.removeItem("access_token"),localStorage.removeItem("userId")}}
+                            onClick={() => { localStorage.removeItem("access_token"), localStorage.removeItem("userId") }}
                           >
                             {t("Logout")}
                           </NavDropdown.Item>
@@ -304,21 +302,20 @@ else{
                 </div>
                 <div className="header-action-right">
                   <div className="header-action-2">
-                    <div className="header-action-icon-2">
-                      <Link href={url?"/shop-wishlist" :"/"}>
+                    {url && <div className="header-action-icon-2">
+                      <Link href={"/shop-wishlist"}>
                         <a>
                           <img
                             className="svgInject"
                             alt="korakagaj"
                             src="/assets/imgs/theme/icons/icon-heart.svg"
-                            onClick={cheklogin}
-                            />
+                          />
                           <span className="pro-count blue" >
                             {totalWishlistItems > 0 ? totalWishlistItems : 0}
                           </span>
                         </a>
                       </Link>
-                    </div>
+                    </div>}
                     <div className="header-action-icon-2">
                       <Link href="/shop-cart">
                         <a className="mini-cart-icon">
@@ -526,18 +523,18 @@ else{
               <div className="header-action-right d-block d-lg-none">
                 <div className="header-action-2">
                   <div className="header-action-icon-2">
-                  <Link href={url?"/shop-wishlist" :"/"}>
-                        <a>
-                          <img
-                            className="svgInject"
-                            alt="korakagaj"
-                            src="/assets/imgs/theme/icons/icon-heart.svg"
-                            />
-                          <span className="pro-count blue" onClick={()=>cheklogin()}>
-                            {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                          </span>
-                        </a>
-                      </Link>
+                    <Link href={"/shop-wishlist"}>
+                      <a>
+                        <img
+                          className="svgInject"
+                          alt="korakagaj"
+                          src="/assets/imgs/theme/icons/icon-heart.svg"
+                        />
+                        <span className="pro-count blue" >
+                          {totalWishlistItems > 0 ? totalWishlistItems : 0}
+                        </span>
+                      </a>
+                    </Link>
                   </div>
                   <div className="header-action-icon-2">
                     <Link href="/shop-cart">

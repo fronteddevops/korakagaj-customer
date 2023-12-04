@@ -286,7 +286,7 @@ function Account() {
   return (
     <div>
       <Layout parent={t("Home")} sub={t("Pages")} subsuB={<a href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
-        <section className="pt-150 pb-150">
+        <section className="pt-50 pb-150">
           <div className="container">
             <div className="row">
               <div
@@ -299,7 +299,7 @@ function Account() {
                 role="tabpanel"
                 aria-labelledby="address-tab"
               >
-                <div className="col-lg-11 text-end mb-2">
+                <div className="col-lg-12 text-end mb-2">
 
                   <button
                     className="btn btn-fill-out"
@@ -314,9 +314,9 @@ function Account() {
                 </div>
               </div>
 
-              <div className="col-lg-10 m-auto">
+              <div className="col-lg-12 m-auto">
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-2">
                     <div className="dashboard-menu">
                       <ul className="nav flex-column" role="tablist">
                         <li
@@ -425,7 +425,7 @@ function Account() {
                       </ul>
                     </div>
                   </div>
-                  <div className="col-md-8">
+                  <div className="col-md-10">
                     <div>
                       <div className="tab-content dashboard-content">
                         <div

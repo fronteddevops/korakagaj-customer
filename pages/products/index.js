@@ -55,7 +55,7 @@ const Products = ({ products1, productFilters }) => {
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
- 
+
 
   const clearAllFilter = () => {
     window.location.href = '/products'
@@ -68,7 +68,7 @@ const Products = ({ products1, productFilters }) => {
 
   //get prodcut
 
-  
+
   //size
   const sizes = ["", "s", "m", "xl", "xxl"];
   //size function
@@ -230,7 +230,7 @@ const Products = ({ products1, productFilters }) => {
           color: new Set(),
           DuplicateKeyFound: new Set()
         };
-   
+
 
         response?.data?.data?.forEach((item) => {
           const key = `${item.colour}`
@@ -254,31 +254,31 @@ const Products = ({ products1, productFilters }) => {
   const colorArrays = color.map((color) => JSON.parse(color));
 
 
-  
+
 
   // const handleShowMore = () => {
   //   // Set the number of colors to display to the total number of colors
   //   setDisplayedColors(colorArrays.length);
   // };
 
- 
+
 
   const handleShowToggle = () => {
     console.log("Before Toggle - showMore:", showMore, "displayedColors:", displayedColors);
-  
+
     // Toggle the showMore state
     setShowMore(!showMore);
-  
+
     // Set the displayed colors based on the showMore state
     setDisplayedColors(showMore ? 2 : colorArrays.length);
-  
+
     console.log("After Toggle - showMore:", !showMore, "displayedColors:", showMore ? 1 : colorArrays.length);
   };
-  
-  
-  console.log("==================",showMore)
+
+
+  console.log("==================", showMore)
   useEffect(() => {
-   
+
     cratePagination();
     prodcutFilters();
     getallProdcut()
@@ -297,7 +297,7 @@ const Products = ({ products1, productFilters }) => {
   ]);
 
 
-  
+
   return (
     <>
       <Layout parent={t("Home")} sub={categoryId ? (<><a href="/categories"> {t("Category")}</a></>) :
@@ -469,8 +469,8 @@ const Products = ({ products1, productFilters }) => {
 
                     <div className="list-group">
                       <div className="list-group-item mb-10 mt-10">
-                        <label className="fw-900">{t("Color")}</label>
-                        {/* <BrandFilter /> */}
+                        {/* <label className="fw-900">{t("Color")}</label>
+
                         <>
                           <ul className="categories m-0 p-0" >
                             {colorArrays?.map((colorArray, index) => (
@@ -503,7 +503,7 @@ const Products = ({ products1, productFilters }) => {
                                         width: "26px",
                                         height: "26px",
                                         borderRadius: "40px",
-                                        border:"1px solid black",
+                                        border: "1px solid black",
                                         backgroundColor: color
                                       }}
                                     >
@@ -516,22 +516,20 @@ const Products = ({ products1, productFilters }) => {
                             ))}
                             {displayedColors < colorArrays.length && (
                               <li>
-                                {/* <button type="button" class="btn btn-danger " style={{fontSize:"5px"}}> */}
-                                {/* <span className="text-danger" style={{ cursor: "pointer" }} onClick={handleShowMore}> Show More</span> */}
-
+                                
                                 <span
-  className="text-danger"
-  style={{ cursor: "pointer" }}
-  onClick={handleShowToggle}
->
-  {showMore ? "Show Less" : "Show More"}
-</span>
+                                  className="text-danger"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={handleShowToggle}
+                                >
+                                  {showMore ? "Show Less" : "Show More"}
+                                </span>
 
-                                {/* </button> */}
+                               
                               </li>
                             )}
                           </ul>
-                        </>
+                        </> */}
                         <label className="fw-900 mt-15">{t("Item Size")}</label>
                         <ul className="list-filter size-filter font-small">
                           {sizes.map((tag, i) => (

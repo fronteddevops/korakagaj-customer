@@ -66,20 +66,18 @@ function OrderViewDetails({ data }) {
                     <tr className="main-heading ">
                       <th scope="col">{t("Image")}</th>
                       <th scope="col">{("Product Name")}</th>
-                      <th scope="col">{t("Brand Name")}</th>
-                      <th scope="col">{t("Designer Name")}</th>
                       <th scope="col">{t("Total Price")}</th>
                       <th scope="col">{t("Discount Percentage")}</th>
                       <th scope="col">{t("Final Amount")}</th>
                       <th scope="col">{t("Product Type")}</th>
                       {/* <th scope="col">{("Tags")}</th> */}
-                      <th scope="col">{t("TrackingId")}</th>
-                      <th scope="col">{t("TrackingLink")}</th>
+                    
+                      <th scope="col">{t("Tracking Id & Link")}</th>
                       <th scope="col">{t("Order Date")}</th>
                       <th scope="col">{t("Selected Color")}</th>
                       <th scope="col">{t("Selected Size")}</th>
                       <th scope="col">{t("Selected Quantity")}</th>
-                      <th scope="col">{t("  Add Review")}</th>
+                      <th scope="col">{t("Add Review")}</th>
                       
                     </tr>
                   </thead>
@@ -112,13 +110,9 @@ function OrderViewDetails({ data }) {
                                 {product?.productName}
                               </span>
                             </td>
-                            <td className="price" data-title="Price">
-                              <span>{product?.brandName}</span>
-                            </td>
+                         
 
-                            <td className="text-center " data-title="Stock">
-                              {product?.designerName}
-                            </td>
+                          
 
                             <td className="text-right" data-title="Cart">
                               <span  >
@@ -152,13 +146,10 @@ function OrderViewDetails({ data }) {
                                 {product?.tags}
                               </span>
                             </td> */}
+                          
                             <td className="text-right" data-title="Cart">
                               <span>
-                                {product?.trackingId}
-                              </span>
-                            </td>
-                            <td className="text-right" data-title="Cart">
-                              <span>
+                              {product?.trackingId} <br/>
                                 {product?.trackingLink}
                               </span>
                             </td>

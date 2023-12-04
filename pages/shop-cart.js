@@ -226,15 +226,7 @@ const Cart = ({ }) => {
     }
   };
   const isLoggedIn = localStorage.getItem("access_token");
-  // const checkoutHandler = async() => {
-  //   try {
-  //     await handleCart(updateCart[0])
-  //     const updateCartData = await services.cart.CHECKOUT()
-  //     console.log(updateCartData)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+
   async function checkoutHandler() {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -245,9 +237,9 @@ const Cart = ({ }) => {
     }
     await handleCart(updateCart[0]);
     const updateCartData = await services.cart.CHECKOUT();
+const userDetails = JSON.parse(localStorage.getItem('profile'))
 
-
-    console.log(updateCartData); const options = {
+    const options = {
       key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
       currency: "INR",
       amount: updateCartData.data.totalAmount,
@@ -272,7 +264,7 @@ const Cart = ({ }) => {
           };
           try {
             const response = await services.cart.PAYMENT_LOG(data);
-            alert(response?.data?.message);
+            
             router.push("/thankyou");
           } catch (err) {
             console.log(err);
@@ -280,9 +272,9 @@ const Cart = ({ }) => {
         })();
       },
       prefill: {
-        name: "Anjani Soni",
-        email: "anjani@gmail.com",
-        phone_number: "9899999999",
+        name: userDetails.firstName,
+        email: userDetails.email,
+        phone_number: userDetails.phoneNumber,
       },
     };
     const paymentObject = new window.Razorpay(options);
@@ -351,16 +343,16 @@ const Cart = ({ }) => {
                                     {product?.selectedColor && (
                                       <>
                                         <div className="align-items-center row pe-0 ps-0 m-0">
-                                        <div className="col text-end pe-0 ps-0 m-0 p-0">
-                                        <p className="mb-0 m-0">Color :</p>    </div>
-                                        <div class="col text-start pe-0 ps-0 m-0">  <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                        <div className="col pe-0 ps-0 m-0 p-0">
+                                        <small className="mb-0 m-0">Color :</small> &nbsp; <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                             style={{
                                               border:"1px solid black",
-                                              width: '22px',
-                                              height: '22px',
+                                              width: '12px',
+                                              height: '12px',
                                               backgroundColor: product?.selectedColor,
                                             }}
-                                          ></span></div>
+                                          ></span>  </div>
+                                          
                                         
                                        
                                         </div>
@@ -369,9 +361,9 @@ const Cart = ({ }) => {
 
 
                                       </>
-                                    )}<br />
+                                    )}
                                     {product?.selectedSize && (
-                                      <p className="ml-md-2">Size: {product?.selectedSize}</p>
+                                      <small className="ml-md-2">Size: {product?.selectedSize}</small>
                                     )}
                                   </div>
 
