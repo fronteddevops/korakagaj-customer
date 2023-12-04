@@ -357,9 +357,6 @@ const userDetails = JSON.parse(localStorage.getItem('profile'))
                                        
                                         </div>
 
-
-
-
                                       </>
                                     )}
                                     {product?.selectedSize && (
