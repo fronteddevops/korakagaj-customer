@@ -157,7 +157,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <li>
                       <i className="fi-rs-smartphone"></i>
                       <Link href="/#">
-                        <a>(+01) - 2345 - 6789</a>
+                        <a>+91-9791028374</a>
                       </Link>
                     </li>
                     <li>

@@ -185,7 +185,7 @@ export default function Forgetpassword() {
                                 placeholder={t("Enter Confirm password")}
                                 autoComplete="off"
                                 onChange={(e) => {
-                                  const value=e.target.value.trim().trimEnd()
+                                  const value=e.target.value.trimStart().trimEnd()
                                   if (value === "") {
                                     setIsDisabled(false);
 
@@ -209,7 +209,7 @@ export default function Forgetpassword() {
                                   }
 
                                   setConfirmPassword(
-                                    value
+                                    value.trimEnd()
                                   );
                                 }}
 

@@ -372,7 +372,8 @@ const ProductDetails = ({
 
                                                 </ul>
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
-                                                    <span className="text-brand" onClick={() => setShowSizeChart(!showSizeChart)} variant="primary">{t("Size Chart")} {'>'}</span>
+                                                    <span className="text-brand" 
+                                                    style={{cursor:" pointer"}} onClick={() => setShowSizeChart(!showSizeChart)} variant="primary">{t("Size Chart")} {'>'}</span>
                                                 </strong>
                                                 {showSizeChart && <SizeChart showSizeChart={showSizeChart}  setShowSizeChart={setShowSizeChart}/>}
                                             </div>
