@@ -56,7 +56,7 @@ function parseAndFormatColors(colorsJSON) {
                             {t("Description")}
                         </a>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a
                             className={
                                 activeIndex === 2
@@ -69,7 +69,7 @@ function parseAndFormatColors(colorsJSON) {
                         >
                             {t("Additional info")}
                         </a>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <a
                             className={

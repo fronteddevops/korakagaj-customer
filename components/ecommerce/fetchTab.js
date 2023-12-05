@@ -51,8 +51,22 @@ const [hotDeals]=useState([])
    
         const query = new URLSearchParams(data);
            const response =await services.product.GET_FILTER_PRODUCT(query)
-           if(response){
+           if(response &&productType===''){
           
+            const firstThreeItems = response?.data?.data?.slice(0, 4);
+            
+            setNewProduct(firstThreeItems);
+            setActive("0");
+           }
+           if(response &&productType==='0'){
+            setNewProduct(response?.data?.data);
+            setActive("0");
+           }
+           if(response &&productType==='1'){
+            setNewProduct(response?.data?.data);
+            setActive("0");
+           }
+           if(response &&productType==='2'){
             setNewProduct(response?.data?.data);
             setActive("0");
            }

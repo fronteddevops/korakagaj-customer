@@ -374,7 +374,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                           categoryList.map((item) => (
                             // Remove curly braces around item.categoryName
 
-                            <Link href="/products/shop-grid-right">
+                            <Link href="/products">
                               <a
                                 key={item.id}
                                 onMouseEnter={() => subCategoryList(item.id)}

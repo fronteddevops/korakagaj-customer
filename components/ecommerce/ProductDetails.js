@@ -128,7 +128,7 @@ const ProductDetails = ({
             }
             cartDetails?.push(product)
             const key = 'id';
-            const unique = [...new Map( cartDetails.length>0 &&  cartDetails?.map(item =>
+            const unique = [...new Map( cartDetails&&  cartDetails?.length>0 &&  cartDetails?.map(item =>
                 [item[key], item])).values()];
             let data = {
                 cartDetail: { cartDetails: unique }

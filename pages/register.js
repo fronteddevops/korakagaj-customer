@@ -28,6 +28,7 @@ function Register() {
     useState(false);
 
   //Register user State
+  const [isChecked, setIsChecked] = useState(false); 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [number, setNumber] = useState("");
@@ -40,7 +41,42 @@ function Register() {
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
+//handle cart data 
+const handleCart = async () => {
+  try {
+    if (localStorage.getItem("cartDetail")) {
+      const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
+      let cartDetailsLocal = []
+      if (cartLocal && cartLocal?.cartDetails?.length > 0) {
+        cartDetailsLocal = cartLocal.cartDetails
+      }
+      const cart = await services.cart.GET_CART()
+   
+      
+      let cartDetails = []
+      if (cart?.data?.data?.cartDetail.cartDetails) {
+      
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails
+      }
+      cartDetails = [...cartDetails, ...cartDetailsLocal]
+      const key = 'id';
+      const unique = [...new Map(cartDetails.map(item =>
+        [item[key], item])).values()];
+        let data = {
+          cartDetail: { cartDetails: unique }
+        }
+     
+      console.log(data)
+      const updateCart = await services.cart.UPDATE_CART(data)
+      console.log(updateCart)
+      localStorage.removeItem('cartDetail')
 
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+};
   //handle login  email
   const exceptThisSymbolspassword = [ "+", "-"];
 
@@ -93,6 +129,7 @@ function Register() {
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccess();
           setIsValid(false)
+          await handleCart()
           route.push('/')
         } else {
           alert(response.data.guide);
@@ -161,7 +198,9 @@ const handlePaste = (e) => {
  
 };
 
-
+ const handleCheckboxChange = () => {
+    setIsChecked(!isChecked); // Toggle the checkbox value
+  };
 
   return (
     <>
@@ -450,13 +489,14 @@ const handlePaste = (e) => {
                           <div className="login_footer form-group">
                             <div className="chek-form">
                               <div className="custome-checkbox">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  name="checkbox"
-                                  id="exampleCheckbox12"
-                                  value=""
-                                />
+                              <input
+        className="form-check-input"
+        type="checkbox"
+        name="checkbox"
+        id="exampleCheckbox12"
+        checked={isChecked}
+        onChange={handleCheckboxChange}
+      />
                                 <label
                                   className="form-check-label"
                                   htmlFor="exampleCheckbox12"
@@ -482,6 +522,7 @@ const handlePaste = (e) => {
                                 !(
                                   lastName &&
                                   firstName &&
+                                  isChecked&&
                                   number &&
                                   emailRegister &&
                                   passwordRegister &&

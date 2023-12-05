@@ -30,6 +30,7 @@ const Cart = ({ }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(1);
   const [selectedAddress, setSelectedAddress] = useState(0);
+  const [getadressUers,setGetaddress]=useState([])
   const router = useRouter();
 
   //Calculate the total amount using the reduce method
@@ -47,9 +48,22 @@ const Cart = ({ }) => {
     setTotalQuantity(qty);
   };
   //set total price in add to card all prodcut
+ const getadress=async()=>{
+  try {
+     const response=  await services.myprofile.GET_MY_ADDRESS()
+     if(response){
+      setGetaddress(response?.data?.data)
+     }
+   } catch (error) {
+     console.error(error)
+  }
+ }
+
+
   useEffect(() => {
     cardData();
     addressHandler();
+    getadress()
   }, []);
 
   //card data get function
@@ -141,14 +155,14 @@ const Cart = ({ }) => {
       cartDetails.push(product);
       const key = "id";
       const unique = [
-        ...new Map(cartDetails.map((item) => [item[key], item])).values(),
+        ...new Map( cartDetails && cartDetails?.map((item) => [item[key], item])).values(),
       ];
 
       let data = {
         cartDetail: { cartDetails: unique },
       };
 
-      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
       cardData();
     }
@@ -228,6 +242,7 @@ const Cart = ({ }) => {
   const isLoggedIn = localStorage.getItem("access_token");
 
   async function checkoutHandler() {
+  
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -242,8 +257,8 @@ const userDetails = JSON.parse(localStorage.getItem('profile'))
     const options = {
       key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
       currency: "INR",
-      amount: updateCartData.data.totalAmount,
-      order_id: updateCartData.data.razorpayPaymentDetails.id,
+      amount: updateCartData?.data?.totalAmount,
+      order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
       name: "KoraKagaj",
       description: "Thank you for ordering. Please initiate payment!",
       image:
@@ -255,11 +270,11 @@ const userDetails = JSON.parse(localStorage.getItem('profile'))
 
         (async () => {
           const data = {
-            orderId: updateCartData.data.order.id,
+            orderId: updateCartData?.data?.order?.id,
             paymentResponse: {
-              id: updateCartData.data.razorpayPaymentDetails.id,
+              id: updateCartData?.data?.razorpayPaymentDetails.id,
               status: "paid",
-              amount: updateCartData.data.totalAmount,
+              amount: updateCartData?.data?.totalAmount,
             },
           };
           try {
@@ -521,7 +536,16 @@ const userDetails = JSON.parse(localStorage.getItem('profile'))
                       </div>
                       {isLoggedIn ? (
                         <a
-                          onClick={() => checkoutHandler()}
+                          onClick={() => {
+                            
+                            if(selectedAddress){
+                              checkoutHandler()
+                             
+                            }
+                            else{
+                              toast.error("Please add address")
+                              }}
+                            }
                           href="#"
                           className="btn "
                         >

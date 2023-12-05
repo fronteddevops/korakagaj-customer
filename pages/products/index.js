@@ -591,6 +591,20 @@ const Products = ({ products1, productFilters }) => {
         ):""
 
       }
+       {
+        (categoryId.length > 0 ||
+          categoryName 
+        ) ? (
+          <span
+            className="text-brand fw-bold"
+            onClick={() => clearAllFilter()}
+            style={{ cursor: "pointer" }}
+          >
+            {t("Clear All Filter")}
+          </span>
+        ):""
+
+      }
                     </div>
      
 

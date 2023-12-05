@@ -108,34 +108,39 @@ useEffect(()=>{
 
 //handle cart data 
   const handleCart = async () => {
-    if (localStorage.getItem("cartDetail")) {
-      const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-      let cartDetailsLocal = []
-      if (cartLocal && cartLocal?.cartDetails?.length > 0) {
-        cartDetailsLocal = cartLocal.cartDetails
-      }
-      const cart = await services.cart.GET_CART()
-   
-      
-      let cartDetails = []
-      if (cart?.data?.data?.cartDetail) {
-      
-        cartDetails = cart?.data?.data?.cartDetail?.cartDetails
-      }
-      cartDetails = [...cartDetails, ...cartDetailsLocal]
-      const key = 'id';
-      const unique = [...new Map(cartDetails.map(item =>
-        [item[key], item])).values()];
-        let data = {
-          cartDetail: { cartDetails: unique }
+    try {
+      if (localStorage.getItem("cartDetail")) {
+        const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
+        let cartDetailsLocal = []
+        if (cartLocal && cartLocal?.cartDetails?.length > 0) {
+          cartDetailsLocal = cartLocal.cartDetails
         }
+        const cart = await services.cart.GET_CART()
      
-      console.log(data)
-      const updateCart = await services.cart.UPDATE_CART(data)
-      console.log(updateCart)
-      localStorage.removeItem('cartDetail')
-
+        
+        let cartDetails = []
+        if (cart?.data?.data?.cartDetail.cartDetails) {
+        
+          cartDetails = cart?.data?.data?.cartDetail?.cartDetails
+        }
+        cartDetails = [...cartDetails, ...cartDetailsLocal]
+        const key = 'id';
+        const unique = [...new Map(cartDetails.map(item =>
+          [item[key], item])).values()];
+          let data = {
+            cartDetail: { cartDetails: unique }
+          }
+       
+        console.log(data)
+        const updateCart = await services.cart.UPDATE_CART(data)
+        console.log(updateCart)
+        localStorage.removeItem('cartDetail')
+  
+      }
+    } catch (error) {
+      console.log(error)
     }
+
   };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
