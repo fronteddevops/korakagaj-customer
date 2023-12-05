@@ -56,7 +56,7 @@ const data = {
     categoryId: "",
     productType:3,
     order:"",
-    priceTo: "10000",
+    priceTo: "1000000",
     priceFrom: "0",
     colour: "",
     size: "",

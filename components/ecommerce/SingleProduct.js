@@ -38,11 +38,12 @@ const SingleProduct = ({
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   // const discountAmount = (basePrice * discountPercentage) / 100;
   // const totalPrice = basePrice - discountAmount;
-
+let image=[]
   useEffect(() => {
     productDataShow()
 
     setIsProductIsWishListed(product.isWishlisted)
+  
 
   }, []);
 

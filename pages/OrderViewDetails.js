@@ -3,7 +3,7 @@ import Layout from "../components/layout/Layout";
 import "font-awesome/css/font-awesome.min.css";
 
 import React, { useEffect, useState } from "react";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import ReactStars from "react-rating-stars-component";
 import services from "../services";
@@ -20,16 +20,18 @@ function OrderViewDetails({ data }) {
   const [orderDetailsData, setOrderDetailsData] = useState([]);
   const orderId = Router.query.orderId
   const imageUrl = nextConfig.BASE_URL_UPLOADS
-
+  const [address, setaddress] = useState([])
 
   const orderDetials = async (id) => {
 
     try {
 
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(orderId);
-
-    
+      setaddress(
+        response?.data?.data[0].Order.User.Addresses[0]
+      )
       setOrderDetailsData(response?.data?.data)
+
       // localStorage.removeItem("ProductID")
     } catch (error) {
       console.log(error);
@@ -39,19 +41,130 @@ function OrderViewDetails({ data }) {
   useEffect(() => {
     orderDetials()
   }, []);
- 
-//send revting
+
+  //send revting
 
 
 
   //reting change function 
- 
 
+console.log("+++++++++++++++++",address)
 
   return (
     <Layout parent={t("Home")} sub={<Link href='/myprofile/?index=2'>{t("Pages")}</Link>} subChild={t("View Order Details")}>
+    <div className="mt-3 ">
+
+    <div className="card mb-3 mb-lg-0">
+                                      <div className="card-header d-flex justify-content-between">
+                                        <h5 className="mb-0 ml-20 mr-20">{t("Billing Address")}</h5>
+                                       
+                                      </div>
+                                      <address className="ml-40 mb-0">
+                                        <b>Address</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                             {address?.address?.address}
+                                          </span>
+                                          <br />
+                                          <b>City</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {address?.address?.city}
+                                          </span>
+                                          <br />
+                                          <b>House No</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {address?.address?.houseNo}
+                                          </span><br/>
+                                          <b>Phone Number</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                           
+                                            {address?.address?.phoneNumber}
+                                          </span>
+                                          <br />
+                                          <b>Pin Code</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {address?.address?.pinCode}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            <b>State</b>&nbsp;:&nbsp;
+                                            {address?.address?.state}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {}
+                                          </span>
+                                        </address>
+
+                                      <div
+                                        className="card-body"
+
+                                      >
+                                      
+
+
+
+                                      
+                                      </div>
+                                    </div>
+
+
+    </div>
+      
       <section className="mt-50 mb-50">
+      <div className="col-lg-6">
+                                 
+                                  </div>
         <div className="container ">
+      
           <div className="row">
             <div className="col-15 ">
               <div className="table-responsive ">
@@ -71,29 +184,29 @@ function OrderViewDetails({ data }) {
                       <th scope="col">{t("Final Amount")}</th>
                       <th scope="col">{t("Product Type")}</th>
                       {/* <th scope="col">{("Tags")}</th> */}
-                    
+
                       <th scope="col">{t("Tracking Id & Link")}</th>
                       <th scope="col">{t("Order Date")}</th>
                       <th scope="col">{t("Selected Color")}</th>
                       <th scope="col">{t("Selected Size")}</th>
                       <th scope="col">{t("Selected Quantity")}</th>
                       <th scope="col">{t("Add Review")}</th>
-                      
+
                     </tr>
                   </thead>
                   <tbody>
                     {orderDetailsData?.length > 0 && orderDetailsData &&
                       orderDetailsData.map((product, j) => {
                         const outerId = product?.Product?.id;
-                      
-                        
+
+
                         const matchingProducts = product?.Order?.orderDetails?.filter(
                           (innerProduct) => {
                             const innerID = innerProduct?.id;
                             return innerID === outerId;
                           }
                         );
-                     
+
                         return matchingProducts?.map((product, i) => (
                           <tr key={i}   >
                             <td className="image product-thumbnail">
@@ -101,7 +214,7 @@ function OrderViewDetails({ data }) {
                                 src={imageUrl + product?.featuredImage}
                                 alt=""
                                 crossOrigin="anonymous"
-                                />
+                              />
 
                             </td>
 
@@ -110,14 +223,14 @@ function OrderViewDetails({ data }) {
                                 {product?.productName}
                               </span>
                             </td>
-                         
 
-                          
+
+
 
                             <td className="text-right" data-title="Cart">
                               <span  >
                                 {product?.totalPrice}
-                               
+
                               </span>
                             </td>
                             <td className="text-right" data-title="Cart">
@@ -131,7 +244,7 @@ function OrderViewDetails({ data }) {
                               </span>
                             </td>
                             <td className="text-right d-none d-sm-table-cell" data-title="Cart">
-                            {/* <td className="text-right" data-title="Cart"> */}
+                              {/* <td className="text-right" data-title="Cart"> */}
                               <span>
                                 {product?.productType == 1 ? "Hot Deals" : null}
                                 {product?.productType == 0 ? "New Product" : null}
@@ -146,10 +259,10 @@ function OrderViewDetails({ data }) {
                                 {product?.tags}
                               </span>
                             </td> */}
-                          
+
                             <td className="text-right" data-title="Cart">
                               <span>
-                              {product?.trackingId} <br/>
+                                {product?.trackingId} <br />
                                 {product?.trackingLink}
                               </span>
                             </td>
@@ -162,14 +275,14 @@ function OrderViewDetails({ data }) {
                             </td>
 
                             <td className="text-right" data-title="Cart">
-                            <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
-                                            style={{
-                                              border:"1px solid black",
-                                              width: '22px',
-                                              height: '22px',
-                                              backgroundColor: product?.selectedColor,
-                                            }}
-                                          ></span>
+                              <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                style={{
+                                  border: "1px solid black",
+                                  width: '22px',
+                                  height: '22px',
+                                  backgroundColor: product?.selectedColor,
+                                }}
+                              ></span>
                             </td>
                             <td className="text-right" data-title="Cart">
                               <span>
@@ -185,30 +298,30 @@ function OrderViewDetails({ data }) {
                             </td>
 
 
-                              
-              {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
+
+                            {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
                                             <a> {t("Review")}</a>
                                           </Link></td> */}
 
-   <td className="text-right" data-title="Cart">
+                            <td className="text-right" data-title="Cart">
                               <span>
-                               
-                              <Link href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}>
-  <a>{t("Review")}</a>
-</Link>
+
+                                <Link href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}>
+                                  <a>{t("Review")}</a>
+                                </Link>
 
                               </span>
                             </td>
 
 
 
-            
 
 
 
-                          
-            
- 
+
+
+
+
 
 
 

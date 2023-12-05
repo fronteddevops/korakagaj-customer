@@ -30,7 +30,7 @@ const [hotDeals]=useState([])
         categoryId:"",
         productType:productType,
         order:"",
-        priceTo:"10000",
+        priceTo:"1000000",
         priceFrom:"0",
         colour: "",
         size:"",

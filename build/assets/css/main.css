@@ -10177,3 +10177,15 @@ background-color: #fff;
     background-size: cover;
 }
 /*# sourceMappingURL=main.css.map */
+
+
+
+/* Custom CSS */
+.size-chart-modal-custom .modal-content {
+  width: 100%;
+  max-width: 1200px; /* Adjust the maximum width as needed */
+}
+
+.size-chart-modal-custom .modal-dialog {
+  max-width: none;
+}

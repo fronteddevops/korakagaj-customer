@@ -542,9 +542,16 @@ const userDetails = JSON.parse(localStorage.getItem('profile'))
                               checkoutHandler()
                              
                             }
+                           
                             else{
-                              toast.error("Please add address")
+                              if(addressList.length>0){
+                                toast.error("Choose your address")
+                              }
+                             else{
+                              toast.error("Add your address")
+                             }
                               }}
+                           
                             }
                           href="#"
                           className="btn "

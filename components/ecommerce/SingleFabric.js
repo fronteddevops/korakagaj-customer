@@ -47,7 +47,7 @@ const SingleProduct = ({
         <Popover id="popover-basic">
             <Popover.Header as="h3">{t("Estimated Price")}</Popover.Header>
             <Popover.Body>
-                {t("Your product's estimated final price will be")} <strong className="text-brand">Rs :{newTotalPrice}</strong>.
+                {t("Your product's estimated final price will be")} <strong className="text-brand">Rs :&nbsp;{newTotalPrice}</strong>
             </Popover.Body>
         </Popover>
     );

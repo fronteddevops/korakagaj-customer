@@ -31,7 +31,7 @@ const Products = ({ products1, productFilters }) => {
   const [selectedSubSubCategories, setSelectedSubSubCategories] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSizes] = useState([]);
-  const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
+  const [price, setPrice] = useState({ value: { min: 0, max: 1000000 } });
   const [active, setActive] = useState(0);
   const [toggle, setToggle] = useState(true)
   const [searchToggle, setSeachToggle] = useState(true)
@@ -330,7 +330,7 @@ const Products = ({ products1, productFilters }) => {
           productType ||
           selectedColors.length > 0 ||
           selectedSizes.length > 0 ||
-          price.value.min > 0 || price.value.max<10000) && (
+          price.value.min > 0 || price.value.max<1000000) && (
           <span
             className="text-brand fw-bold"
             onClick={() => clearAllFilter()}
@@ -580,7 +580,7 @@ const Products = ({ products1, productFilters }) => {
           productType ||
           selectedColors.length > 0 ||
           selectedSizes.length > 0 ||
-          price.value.min > 0 || price.value.max<10000) ? (
+          price.value.min > 0 || price.value.max<1000000) ? (
           <span
             className="text-brand fw-bold"
             onClick={() => clearAllFilter()}

@@ -11,12 +11,14 @@ import services from "../../services";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 const Header = ({ toggleClick, headerStyle }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
   const { t, i18n } = useTranslation("common");
 
+  const router = useRouter();
   const [lang, setLang] = useState("");
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
@@ -145,6 +147,23 @@ const Header = ({ toggleClick, headerStyle }) => {
     }
   };
 
+
+  const navigateOrders = async (productId) => {
+    // Example: Navigate to the /products/[slug] page with a specific product ID
+    
+    await router.push('/myprofile?index=5');
+  };
+  const navigateAddress = async (productId) => {
+    // Example: Navigate to the /products/[slug] page with a specific product ID
+    
+    await router.push('/myprofile?index=4');
+  };
+  const navigateProfile = async (productId) => {
+    // Example: Navigate to the /products/[slug] page with a specific product ID
+    
+    await router.push('/myprofile?index=2');
+  };
+
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -249,13 +268,13 @@ const Header = ({ toggleClick, headerStyle }) => {
                           menuVariant="light"
                           className="profile-dropdown"
                         >
-                          <NavDropdown.Item href="/myprofile?index=2">
+                          <NavDropdown.Item    onClick={navigateProfile}>
                             {t("My Orders")}
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="/myprofile?index=4">
+                          <NavDropdown.Item   onClick={navigateAddress}>
                             {t("My Address")}
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="/myprofile?index=5">
+                          <NavDropdown.Item    onClick={navigateOrders}>
                             {t("My Profile")}
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
@@ -487,23 +506,37 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li>
                         <Link href="/">
-                          <a className="active">{t("Home")}</a>
+                          <a className={
+                              router.pathname === "/" ? "active" : ""
+                            }>{t("Home")}</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/page-about">
-                          <a>{t("About")}</a>
+
+                          <a  className={
+                              router.pathname === "/page-about" ? "active" : ""
+                            }>
+                            
+                            {t("About")}</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/products">
-                          <a>{t("Shop")}</a>
+                          <a   className={
+                              router.pathname === "/products" ? "active" : ""
+                            }
+
+                           >{t("Shop")}</a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/blog-category-grid">
-                          <a>
+                          <a 
+                           className={
+                            router.pathname === "/blog-category-grid" ? "active" : ""
+                          } >
                             {t("Blog")}
                             <i className="fi-rs-angle-down"></i>
                           </a>
@@ -511,27 +544,48 @@ const Header = ({ toggleClick, headerStyle }) => {
                         <ul className="sub-menu">
                           <li>
                             <Link href="/blog-category-grid">
-                              <a>{t("Blog Category Grid")}</a>
+                              <a  className={
+                              router.pathname === "/blog-category-grid" ? "active" : ""
+                            }
+                              
+                              >{t("Blog Category Grid")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-list">
-                              <a>{t("Blog Category List")}</a>
+                              <a
+                               className={
+                                router.pathname === "/blog-category-list" ? "active" : ""
+                              }
+                              >{t("Blog Category List")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-big">
-                              <a>{t("Blog Category Big")}</a>
+                              <a
+                               className={
+                                router.pathname === "/blog-category-big" ? "active" : ""
+                              }
+                              
+                              >{t("Blog Category Big")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-fullwidth">
-                              <a>{t("Blog Category Wide")}</a>
+                              <a
+                               className={
+                                router.pathname === "/blog-category-fullwidth" ? "active" : ""
+                              }
+                              >{t("Blog Category Wide")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/#">
-                              <a>
+                              <a
+                               className={
+                                router.pathname === "/#" ? "active" : ""
+                              }
+                              >
                                 {t("Single Post")}
                                 <i className="fi-rs-angle-right"></i>
                               </a>
@@ -539,17 +593,29 @@ const Header = ({ toggleClick, headerStyle }) => {
                             <ul className="level-menu level-menu-modify">
                               <li>
                                 <Link href="/blog-post-left">
-                                  <a>{t("Left Sidebar")}</a>
+                                  <a
+                                   className={
+                                    router.pathname === "/blog-post-left" ? "active" : ""
+                                  }
+                                  >{t("Left Sidebar")}</a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-right">
-                                  <a>{t("Right Sidebar")}</a>
+                                  <a
+                                   className={
+                                    router.pathname === "/blog-post-right" ? "active" : ""
+                                  }
+                                  >{t("Right Sidebar")}</a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-fullwidth">
-                                  <a>{t("No Sidebar")}</a>
+                                  <a
+                                   className={
+                                    router.pathname === "/blog-post-fullwidth" ? "active" : ""
+                                  }
+                                  >{t("No Sidebar")}</a>
                                 </Link>
                               </li>
                             </ul>
@@ -559,13 +625,21 @@ const Header = ({ toggleClick, headerStyle }) => {
 
                       <li>
                         <Link href="/page-contact">
-                          <a>{t("Our Team")}</a>
+                          <a
+                           className={
+                            router.pathname === "/page-contact" ? "active" : ""
+                          }
+                          >{t("Our Team")}</a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/page-contact">
-                          <a>{t("Contact")}</a>
+                          <a className={
+                              router.pathname === "/page-contact" ? "active" : ""
+                            }
+                          
+                          >{t("Contact")}</a>
                         </Link>
                       </li>
                     </ul>

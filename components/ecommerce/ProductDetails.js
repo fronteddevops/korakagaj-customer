@@ -42,7 +42,7 @@ const ProductDetails = ({
 
    
 
-    console.log(selectedColor,"selectedColor")
+    
     useEffect(() => {
 
         if (totalPrice) {
@@ -66,7 +66,9 @@ const ProductDetails = ({
         setSelectedColor(color[0])
         setSelectedSize(size[0])
       
+      
     }, [product]);
+   
     const handleWishlist = async (product) => {
 
 
