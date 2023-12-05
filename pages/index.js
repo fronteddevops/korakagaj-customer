@@ -155,10 +155,13 @@ export default function Home() {
                 <section className="section-padding">
                     <div className="container pt-25 pb-20">
                         <div className="row">
-                            <div className="col-lg-6">
-                                <h3 className="section-title mb-20">
+                        <h3 className="section-title mb-20">
                                     <span>{t("From")}</span> {t("blog")}
                                 </h3>
+                            <div className="col-lg-6">
+                                {/* <h3 className="section-title mb-20">
+                                    <span>{t("From")}</span> {t("blog")}
+                                </h3> */}
                                 <HomeBlog />
                             </div>
                             <div className="col-lg-6">

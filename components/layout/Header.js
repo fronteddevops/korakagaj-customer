@@ -24,13 +24,12 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-  const [url, seturl] = useState(false)
+  const [url, seturl] = useState(false);
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
 
   const GetWishlistdata = async () => {
     if (localStorage.getItem("access_token")) {
-
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
 
@@ -73,13 +72,12 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-  }, [lang,totalWishlistItems]);
+  }, [lang, totalWishlistItems]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
       try {
-       
         const response = await service.myprofile.GET_MY_PROFILE();
-        localStorage.setItem('profile', JSON.stringify(response?.data?.data))
+        localStorage.setItem("profile", JSON.stringify(response?.data?.data));
         if (response) {
           setFirstName(response?.data?.data?.firstName);
           setLastName(response?.data?.data?.lastName);
@@ -143,11 +141,9 @@ const Header = ({ toggleClick, headerStyle }) => {
   };
   const cheklogin = () => {
     if (localStorage.getItem("access_token")) {
-      seturl(true)
+      seturl(true);
     }
-
-
-  }
+  };
 
   return (
     <>
@@ -241,13 +237,15 @@ const Header = ({ toggleClick, headerStyle }) => {
                       {lastName && firstName ? (
                         <NavDropdown
                           id="nav-dropdown-light-example"
-                          title={`${firstName?.length > 15
-                            ? firstName?.substring(0, 15) + ".."
-                            : firstName
-                            } ${lastName?.length > 15
+                          title={`${
+                            firstName?.length > 15
+                              ? firstName?.substring(0, 15) + ".."
+                              : firstName
+                          } ${
+                            lastName?.length > 15
                               ? lastName?.substring(0, 15) + ".."
                               : lastName
-                            }`}
+                          }`}
                           menuVariant="light"
                           className="profile-dropdown"
                         >
@@ -263,7 +261,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                           <NavDropdown.Divider />
                           <NavDropdown.Item
                             href="/"
-                            onClick={() => { localStorage.removeItem("access_token"), localStorage.removeItem("userId") }}
+                            onClick={() => {
+                              localStorage.removeItem("access_token"),
+                                localStorage.removeItem("userId");
+                            }}
                           >
                             {t("Logout")}
                           </NavDropdown.Item>
@@ -302,20 +303,22 @@ const Header = ({ toggleClick, headerStyle }) => {
                 </div>
                 <div className="header-action-right">
                   <div className="header-action-2">
-                    {url && <div className="header-action-icon-2">
-                      <Link href={"/shop-wishlist"}>
-                        <a>
-                          <img
-                            className="svgInject"
-                            alt="korakagaj"
-                            src="/assets/imgs/theme/icons/icon-heart.svg"
-                          />
-                          <span className="pro-count blue" >
-                            {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                          </span>
-                        </a>
-                      </Link>
-                    </div>}
+                    {url && (
+                      <div className="header-action-icon-2">
+                        <Link href={"/shop-wishlist"}>
+                          <a>
+                            <img
+                              className="svgInject"
+                              alt="korakagaj"
+                              src="/assets/imgs/theme/icons/icon-heart.svg"
+                            />
+                            <span className="pro-count blue">
+                              {totalWishlistItems > 0 ? totalWishlistItems : 0}
+                            </span>
+                          </a>
+                        </Link>
+                      </div>
+                    )}
                     <div className="header-action-icon-2">
                       <Link href="/shop-cart">
                         <a className="mini-cart-icon">
@@ -360,8 +363,69 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <span className="fi-rs-apps"></span>
                     {t("Browse Categories")}
                   </a>
-
                   <div
+                    className={
+                      isToggled
+                        ? "categori-dropdown-wrap categori-dropdown-active-large open"
+                        : "categori-dropdown-wrap categori-dropdown-active-large"
+                    }
+                  >
+                    <ul>
+                      {categoryList &&
+                        categoryList.map((item) => (
+                          <li className="has-children" key={item.id}>
+                            <Link href="/products">
+                              <a
+                                onMouseEnter={() => subCategoryList(item.id)}
+                                onMouseLeave={() => setHoveredCategoryId(null)}
+                              >
+                                <i className="korakagaj-font-dress"></i>
+                                {item.categoryName}
+                              </a>
+                            </Link>
+                            <div className="dropdown-menu">
+                              <ul className="mega-menu d-lg-flex">
+                                <li className="mega-menu-col col-lg-7">
+                                  <ul className="d-lg-flex">
+                                    {subCategory &&
+                                      subCategory.map((subItem) => (
+                                        <li
+                                          className="mega-menu-col col-lg-6"
+                                          key={subItem.id}
+                                        >
+                                          <ul>
+                                            <li>
+                                              <span className="submenu-title">
+                                                {subItem.subCategoryName}
+                                              </span>
+                                            </li>
+
+                                            {subSubCategory.map(
+                                              (subSubItem) => (
+                                                <li key={subSubItem.id}>
+                                                  <Link href="/#">
+                                                    <a className="dropdown-item nav-link nav_item">
+                                                      {
+                                                        subSubItem.subSubCategoryName
+                                                      }
+                                                    </a>
+                                                  </Link>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        </li>
+                                      ))}
+                                  </ul>
+                                </li>
+                              </ul>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+
+                  {/* <div
                     className={
                       isToggled
                         ? "categori-dropdown-wrap categori-dropdown-active-large open"
@@ -371,9 +435,8 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li className="has-children">
                         {categoryList &&
+                        
                           categoryList.map((item) => (
-                            // Remove curly braces around item.categoryName
-
                             <Link href="/products">
                               <a
                                 key={item.id}
@@ -417,7 +480,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                         </div>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                   <nav>
@@ -530,7 +593,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                           alt="korakagaj"
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
-                        <span className="pro-count blue" >
+                        <span className="pro-count blue">
                           {totalWishlistItems > 0 ? totalWishlistItems : 0}
                         </span>
                       </a>
