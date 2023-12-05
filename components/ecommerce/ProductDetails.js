@@ -16,6 +16,7 @@ import ThumbSlider from "../sliders/Thumb";
 import services from "../../services";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import SizeChart from "../elements/SizeChart";
 const ProductDetails = ({
     product,
     cartItems,
@@ -37,9 +38,10 @@ const ProductDetails = ({
     const [selectedColor, setSelectedColor] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [showSizeChart, setShowSizeChart] = useState(false);
 
    
-  ;
+
     console.log(selectedColor,"selectedColor")
     useEffect(() => {
 
@@ -370,9 +372,9 @@ const ProductDetails = ({
 
                                                 </ul>
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
-                                                    <span className="text-brand">{t("Size Chart")} {'>'}</span>
+                                                    <span className="text-brand" onClick={() => setShowSizeChart(!showSizeChart)} variant="primary">{t("Size Chart")} {'>'}</span>
                                                 </strong>
-                                             
+                                                {showSizeChart && <SizeChart showSizeChart={showSizeChart}  setShowSizeChart={setShowSizeChart}/>}
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
