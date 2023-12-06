@@ -20,7 +20,7 @@ function loadScript(src) {
     document.body.appendChild(script);
   });
 }
-const Cart = ({}) => {
+const Cart = ({ }) => {
   const { t } = useTranslation("common");
   //image constant url
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
@@ -30,26 +30,40 @@ const Cart = ({}) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(1);
   const [selectedAddress, setSelectedAddress] = useState(0);
+  const [getadressUers,setGetaddress]=useState([])
   const router = useRouter();
 
   //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
-    let totalAmountArr = prodcutData.map((item) => {
+    let totalAmountArr = prodcutData?.map((item) => {
       return item.finalAmount * item.selectedQuantity;
     });
-    let totalQtyArr = prodcutData.map((item) => {
+    let totalQtyArr = prodcutData?.map((item) => {
       return item.selectedQuantity;
     });
-    const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
-    const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+    const sum = totalAmountArr?.reduce((partialSum, a) => partialSum + a, 0);
+    const qty = totalQtyArr?.reduce((partialSum, a) => partialSum + a, 0);
     // console.log(totalAmountArr, sum);
     setTotalAmount(sum);
     setTotalQuantity(qty);
   };
   //set total price in add to card all prodcut
+ const getadress=async()=>{
+  try {
+     const response=  await services.myprofile.GET_MY_ADDRESS()
+     if(response){
+      setGetaddress(response?.data?.data)
+     }
+   } catch (error) {
+     console.error(error)
+  }
+ }
+
+
   useEffect(() => {
     cardData();
     addressHandler();
+    getadress()
   }, []);
 
   //card data get function
@@ -58,9 +72,11 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
 
+
         if (response) {
-          setUpdateCart(response?.data?.data[0].cartDetail.cartDetails);
-          calculateTotalAmount(response?.data?.data[0].cartDetail.cartDetails);
+
+          setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
+          calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
         }
       } catch (error) {
         console.log(error);
@@ -70,6 +86,7 @@ const Cart = ({}) => {
         const cartLocal =
           localStorage.getItem("cartDetail") &&
           JSON.parse(localStorage.getItem("cartDetail"));
+
         setUpdateCart(cartLocal.cartDetails);
         calculateTotalAmount(cartLocal.cartDetails);
       }
@@ -81,9 +98,9 @@ const Cart = ({}) => {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         // console.log(response.data.data);
-        setAddressList(response.data.data);
-        if (response.data.data.length > 0) {
-          response.data.data.map((item) => {
+        setAddressList(response?.data?.data);
+        if (response?.data?.data?.length > 0) {
+          response?.data?.data?.map((item) => {
             if (item.defaultAddress) {
               setSelectedAddress(item.id);
             }
@@ -99,8 +116,8 @@ const Cart = ({}) => {
       const cart = await services.cart.GET_CART();
 
       let cartDetails = [];
-      if (cart.data.data[0].cartDetail) {
-        cartDetails = cart.data.data[0].cartDetail.cartDetails;
+      if (cart?.data?.data?.cartDetail) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
       const key = "id";
@@ -138,14 +155,14 @@ const Cart = ({}) => {
       cartDetails.push(product);
       const key = "id";
       const unique = [
-        ...new Map(cartDetails.map((item) => [item[key], item])).values(),
+        ...new Map( cartDetails && cartDetails?.map((item) => [item[key], item])).values(),
       ];
 
       let data = {
         cartDetail: { cartDetails: unique },
       };
 
-      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
       cardData();
     }
@@ -223,16 +240,9 @@ const Cart = ({}) => {
     }
   };
   const isLoggedIn = localStorage.getItem("access_token");
-  // const checkoutHandler = async() => {
-  //   try {
-  //     await handleCart(updateCart[0])
-  //     const updateCartData = await services.cart.CHECKOUT()
-  //     console.log(updateCartData)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+
   async function checkoutHandler() {
+  
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -242,12 +252,13 @@ const Cart = ({}) => {
     }
     await handleCart(updateCart[0]);
     const updateCartData = await services.cart.CHECKOUT();
-    // console.log(updateCartData);
+const userDetails = JSON.parse(localStorage.getItem('profile'))
+
     const options = {
       key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
       currency: "INR",
-      amount: updateCartData.data.totalAmount,
-      order_id: updateCartData.data.razorpayPaymentDetails.id,
+      amount: updateCartData?.data?.totalAmount,
+      order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
       name: "KoraKagaj",
       description: "Thank you for ordering. Please initiate payment!",
       image:
@@ -259,15 +270,16 @@ const Cart = ({}) => {
 
         (async () => {
           const data = {
-            orderId: updateCartData.data?.orderDetails[0]?.id,
+            orderId: updateCartData?.data?.order?.id,
             paymentResponse: {
-              id: updateCartData.data.razorpayPaymentDetails.id,
+              id: updateCartData?.data?.razorpayPaymentDetails.id,
               status: "paid",
+              amount: updateCartData?.data?.totalAmount,
             },
           };
           try {
             const response = await services.cart.PAYMENT_LOG(data);
-            alert(response?.data?.message);
+            
             router.push("/thankyou");
           } catch (err) {
             console.log(err);
@@ -275,14 +287,15 @@ const Cart = ({}) => {
         })();
       },
       prefill: {
-        name: "Anjani Soni",
-        email: "anjani@gmail.com",
-        phone_number: "9899999999",
+        name: userDetails.firstName,
+        email: userDetails.email,
+        phone_number: userDetails.phoneNumber,
       },
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
+
   return (
     <>
       <Layout
@@ -300,7 +313,7 @@ const Cart = ({}) => {
               <div className="col-12">
                 <div className="table-responsive">
                   {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
-                  {updateCart?.length>0 ?(""):(t("No Products"))}
+                  {updateCart?.length > 0 ? ("") : (t("No Products"))}
                   <table
                     className={
                       updateCart?.length > 0
@@ -340,21 +353,34 @@ const Cart = ({}) => {
                                     <a>{product.productName}</a>
                                   </Link>
                                 </h5>
-                                {product?.selectedColor ||
-                                product?.selectedSize ? (
-                                  <p className="font-xs">
+                                {product?.selectedColor || product?.selectedSize ? (
+                                  <div className="font-xs">
                                     {product?.selectedColor && (
                                       <>
-                                        Color : {product?.selectedColor} <br />
+                                        <div className="align-items-center row pe-0 ps-0 m-0">
+                                        <div className="col pe-0 ps-0 m-0 p-0">
+                                        <small className="mb-0 m-0">Color :</small> &nbsp; <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                            style={{
+                                              border:"1px solid black",
+                                              width: '12px',
+                                              height: '12px',
+                                              backgroundColor: product?.selectedColor,
+                                            }}
+                                          ></span>  </div>
+                                          
+                                        
+                                       
+                                        </div>
+
                                       </>
                                     )}
                                     {product?.selectedSize && (
-                                      <>
-                                        Size : {product?.selectedSize} <br />
-                                      </>
+                                      <small className="ml-md-2">Size: {product?.selectedSize}</small>
                                     )}
-                                  </p>
+                                  </div>
+
                                 ) : null}
+
                               </td>
                               <td className="price" data-title="Price">
                                 <span>Rs. {product.finalAmount}</span>
@@ -399,14 +425,14 @@ const Cart = ({}) => {
                           );
                         })}
                       <tr>
-                      <td colSpan="6" className="text-end">
-  {updateCart && updateCart.length > 0 && (
-    <a href="#" onClick={clearCart} className="text-muted">
-      <i className="fi-rs-cross-small"></i>
-      Clear Cart
-    </a>
-  )}
-</td>
+                        <td colSpan="6" className="text-end">
+                          {updateCart && updateCart.length > 0 && (
+                            <a href="#" onClick={clearCart} className="text-muted">
+                              <i className="fi-rs-cross-small"></i>
+                              Clear Cart
+                            </a>
+                          )}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -455,7 +481,6 @@ const Cart = ({}) => {
                           </div>
                         </div>
                       </div>
-
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <Link href={"/myprofile?index=4"}>
@@ -467,35 +492,7 @@ const Cart = ({}) => {
                         </div>
                       </div>
                     </form>
-                    {/* Apply Coupon Hide */}
-                    {/* <div className="mb-30 mt-50">
-                      <div className="heading_s1 mb-3">
-                        <h4>{t("Apply Coupon")}</h4>
-                      </div>
-                      <div className="total-amount">
-                        <div className="left">
-                          <div className="coupon">
-                            <form action="#" target="_blank">
-                              <div className="form-row row justify-content-center">
-                                <div className="form-group col-lg-6">
-                                  <input
-                                    className="font-medium"
-                                    name="Coupon"
-                                    placeholder={t("Enter your Coupon")}
-                                  />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                  <span className="btn  btn-sm">
-                                    <i className="fi-rs-label mr-10"></i>
-                                    {t("Apply")}
-                                  </span>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
+                   
                   </div>
                   <div className="col-lg-6 col-md-12">
                     <div className="border p-md-4 p-30 border-radius cart-totals">
@@ -539,7 +536,23 @@ const Cart = ({}) => {
                       </div>
                       {isLoggedIn ? (
                         <a
-                          onClick={() => checkoutHandler()}
+                          onClick={() => {
+                            
+                            if(selectedAddress){
+                              checkoutHandler()
+                             
+                            }
+                           
+                            else{
+                              if(addressList.length>0){
+                                toast.error("Choose your address")
+                              }
+                             else{
+                              toast.error("Add your address")
+                             }
+                              }}
+                           
+                            }
                           href="#"
                           className="btn "
                         >

@@ -16,6 +16,7 @@ import ThumbSlider from "../sliders/Thumb";
 import services from "../../services";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import SizeChart from "../elements/SizeChart";
 const ProductDetails = ({
     product,
     cartItems,
@@ -28,6 +29,8 @@ const ProductDetails = ({
     fabricPrice,
     fabricName,
     fabricId,
+    totalPrice
+
 }) => {
     const { t } = useTranslation("common");
     const [quantity, setQuantity] = useState(1);
@@ -35,80 +38,74 @@ const ProductDetails = ({
     const [selectedColor, setSelectedColor] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [showSizeChart, setShowSizeChart] = useState(false);
 
-    const calculateTotalPrice = (product) => {
-        let itemTotalPrice = 0; // Initialize totalPrice to 0
+   
 
-        const basePrice = product.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-        const discountPercentage = product.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-        const discountAmount = (basePrice * discountPercentage) / 100;
-        itemTotalPrice = basePrice - discountAmount;
-        return itemTotalPrice; // Return the calculated total price
-    };
-
-    //fabric apt call
-    const GET_Fabric_Data = async (prodcut) => {
-        const response = await services.fabric.GET_FABRIC();
-        const selectedFabric = response.data.data.rows.find(
-            (fabric) => fabric?.id == prodcut.fabric
-        );
-        //     <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#E74C26"><path d="M440-181 240-296q-19-11-29.5-29T200-365v-230q0-22 10.5-40t29.5-29l200-115q19-11 40-11t40 11l200 115q19 11 29.5 29t10.5 40v230q0 22-10.5 40T720-296L520-181q-19 11-40 11t-40-11Zm0-92v-184l-160-93v185l160 92Zm80 0 160-92v-185l-160 93v184ZM80-680v-120q0-33 23.5-56.5T160-880h120v80H160v120H80ZM280-80H160q-33 0-56.5-23.5T80-160v-120h80v120h120v80Zm400 0v-80h120v-120h80v120q0 33-23.5 56.5T800-80H680Zm120-600v-120H680v-80h120q33 0 56.5 23.5T880-800v120h-80ZM480-526l158-93-158-91-158 91 158 93Zm0 45Zm0-45Zm40 69Zm-80 0Z" /></svg>
-        // </span>
-
-        if (selectedFabric) {
-            setfabricType(selectedFabric.fabricType);
-        }
-    };
+    
     useEffect(() => {
 
-        if (fabricPrice) {
-            let fabriccost = +fabricPrice * product?.length
-            let finalprice = fabriccost + product?.basePrice
-            let discount = (finalprice * product?.discountPercentage) / 100
-            product.finalAmount = finalprice - discount;
-            product.totalPrice = finalprice
+        if (totalPrice) {
+             let fabriccost = +fabricPrice * product?.length
+          
+         
+            let finalprice = fabriccost + product?.marginAmount
+          
+             //let discount = (finalprice * product?.discountPercentage) / 100
+          //   product.finalAmount =finalprice;
+          //  product.finalAmount=totalPrice
+            product.finalAmount = finalprice
 
         }
         if (fabricName) {
             setfabricType(fabricName)
         }
-        if (fabricId) {
-            product.fabric = fabricId
+        if (fabricName) {
+            product.fabric = fabricName
         }
-        GET_Fabric_Data(product);
+        setSelectedColor(color[0])
+        setSelectedSize(size[0])
+      
+      
     }, [product]);
+   
     const handleWishlist = async (product) => {
 
 
         if (localStorage.getItem("access_token")) {
 
-
+ 
             try {
 
-                const userID = localStorage.getItem("userId");
+               // const userID = localStorage.getItem("userId");
 
                 const data = {
                     productId: product.id,
-                    userId: userID
+                   // userId: userID
                 }
 
                 if (!product.isWishlisted) {
-
+                  
 
                     const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-                    productDataShow()
+                  //  productDataShow()
+                   if(WishlistResponse){
                     toast.success("Added to Wishlist!");
+                   }
+                   
+                  
                     window.location.reload()
                 } else {
                     const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-                    productDataShow()
+                  //  productDataShow()
                     toast.success("Removed from Wishlist");
                     window.location.reload()
                 }
 
             } catch (error) {
-
-                console.error("An error occurred:", error);
+                
+                   toast.error(error?.response?.data?.message)
+              
             }
 
         } else {
@@ -128,19 +125,19 @@ const ProductDetails = ({
         if (localStorage.getItem("access_token")) {
             const cart = await services.cart.GET_CART()
             let cartDetails = []
-            if (cart.data.data[0].cartDetail) {
-                cartDetails = cart.data.data[0].cartDetail.cartDetails
+            if (cart?.data?.data?.cartDetail) {
+                cartDetails = cart?.data?.data?.cartDetail?.cartDetails
             }
             cartDetails?.push(product)
             const key = 'id';
-            const unique = [...new Map(cartDetails.map(item =>
+            const unique = [...new Map( cartDetails&&  cartDetails?.length>0 &&  cartDetails?.map(item =>
                 [item[key], item])).values()];
             let data = {
                 cartDetail: { cartDetails: unique }
             }
-            console.log(data)
+            
             const updateCart = await services.cart.UPDATE_CART(data)
-            console.log(updateCart)
+          
             toast.success("Add to Cart!");
 
         } else {
@@ -161,6 +158,8 @@ const ProductDetails = ({
             toast.success("Add to Cart!");
         }
     };
+
+ 
     return (
         <>
             <section className="mt-50 mb-50">
@@ -256,7 +255,21 @@ const ProductDetails = ({
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="clearfix product-price-cover">
+                                            {totalPrice &&totalPrice?(<>
+                                                <div className="clearfix product-price-cover">
+                                                <div className="product-price primary-color float-left">
+
+                                                    <ins>
+                                                        <span className="text-brand">
+                                                            Rs.{product?.finalAmount}
+                                                        </span>
+                                                    </ins>
+                                                   
+
+                                                </div>
+                                            </div>
+                                            </>):(<>
+                                                <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
 
                                                     <ins>
@@ -278,6 +291,29 @@ const ProductDetails = ({
 
                                                 </div>
                                             </div>
+                                            </>)}
+                                            {/* <div className="clearfix product-price-cover">
+                                                <div className="product-price primary-color float-left">
+
+                                                    <ins>
+                                                        <span className="text-brand">
+                                                            Rs.{product?.finalAmount}
+                                                        </span>
+                                                    </ins>
+                                                    <ins>
+                                                        <span className="old-price font-md ml-15">
+                                                            Rs.{product.totalPrice}
+                                                        </span>
+                                                    </ins>
+                                                    <span className="save-price  font-md color3 ml-15">
+                                                        {
+                                                            product.discountPercentage
+                                                        }
+                                                        % Off
+                                                    </span>
+
+                                                </div>
+                                            </div> */}
                                             <div className="bt-1 border-color-1 mt-15 mb-15"></div>
                                             <div className="short-desc mb-30">
                                                 <p className="text-capitalize">{product.description}</p>
@@ -305,11 +341,14 @@ const ProductDetails = ({
                                                 <ul className="list-filter color-filter">
                                                     {color && color?.map((clr, i) =>
 
-                                                        <li key={i} onClick={() => setSelectedColor(clr)}>
+                                                        <li key={i} onClick={() => setSelectedColor(clr)} className={clr == selectedColor && 'active'}>
                                                             <a href="#" >
                                                                 <span
-                                                                    className={`product-color-${clr}`}
-                                                                >
+                                                                style={{
+                                                                    border:"1px solid black",
+                                                                    backgroundColor: clr}}
+                                                                
+                                                                >  
                                                                 </span>
                                                             </a>
                                                         </li>
@@ -335,9 +374,10 @@ const ProductDetails = ({
 
                                                 </ul>
                                                 <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
-                                                    <span className="text-brand">{t("Size Chart")} {'>'}</span>
+                                                    <span className="text-brand" 
+                                                    style={{cursor:" pointer"}} onClick={() => setShowSizeChart(!showSizeChart)} variant="primary">{t("Size Chart")} {'>'}</span>
                                                 </strong>
-                                                {console.log(product)}
+                                                {showSizeChart && <SizeChart showSizeChart={showSizeChart}  setShowSizeChart={setShowSizeChart}/>}
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10">
@@ -368,10 +408,10 @@ const ProductDetails = ({
                                             </div>
                                             <div className="attr-detail attr-size mt-20">
                                                 <strong className="mr-10 text-capitalize ">
-                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{fabricName ? fabricName : fabricType}</span>
+                                                    {t("Fabric")}&nbsp;:&nbsp; <span className="text-brand">{product?.fabric}</span>
                                                 </strong>
 
-                                                <Link href={`/fabric?&newlength=${product?.length}&id=${product.id}&basePrice=${product?.basePrice}&discountPercentage=${product?.discountPercentage}&prodcutName=${product?.productName}`}>
+                                                <Link href={`/fabric?id=${product.id}`}>
                                                     <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
                                                     >
                                                         {t("Choose Fabric")}

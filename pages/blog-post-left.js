@@ -1,8 +1,7 @@
-import { useTranslation } from 'react-i18next';
 import BlogSidebar from '../components/elements/BlogSidebar';
 import BlogSingle from '../components/elements/BlogSingle';
 import Layout from "../components/layout/Layout";
-
+import { useTranslation } from "react-i18next";
 function PageBlogSingle() {
     const { t } = useTranslation("common");
     return (

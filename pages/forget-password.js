@@ -111,25 +111,26 @@ export default function Forgetpassword() {
                                 autoComplete="off"
                                 type={showPassword1 ? "text" : "password"}
                                 onChange={(e) => {
-                                  if (e.target.value.trim() === "") {
+                                  const value=e.target.value.trim().trimEnd()
+                                  if (value === "") {
                                     setIsDisabled(false);
 
                                     setNewPasswordError(
                                       "Requierd New Password"
                                     );
                                   } else if (
-                                    e.target.value.trim() === confirmPassword
+                                    value === confirmPassword
                                   ) {
                                     setIsDisabled(true);
                                     setNewPasswordError("");
                                     setConfirmPasswordError("");
                                   } else {
                                     setIsDisabled(true);
-                                    setNewPassword(e.target.value.trimStart());
+                                    setNewPassword(value);
                                     setNewPasswordError("");
                                   }
 
-                                  setNewPassword(e.target.value.trimStart());
+                                  setNewPassword(value);
                                 }}
                                 value={newpassword}
                               />
@@ -184,14 +185,15 @@ export default function Forgetpassword() {
                                 placeholder={t("Enter Confirm password")}
                                 autoComplete="off"
                                 onChange={(e) => {
-                                  if (e.target.value.trim() === "") {
+                                  const value=e.target.value.trimStart().trimEnd()
+                                  if (value === "") {
                                     setIsDisabled(false);
 
                                     setConfirmPasswordError(
                                       "Requierd Confirm Password"
                                     );
                                   } else if (
-                                    e.target.value.trim() !== newpassword
+                                    value !== newpassword
                                   ) {
                                     setIsDisabled(false);
 
@@ -201,15 +203,19 @@ export default function Forgetpassword() {
                                   } else {
                                     setIsDisabled(true);
                                     setConfirmPassword(
-                                      e.target.value.trimStart()
+                                      value
                                     );
                                     setConfirmPasswordError("");
                                   }
 
                                   setConfirmPassword(
-                                    e.target.value.trimStart()
+                                    value.trimEnd()
                                   );
                                 }}
+
+                              
+
+
                                 value={confirmPassword}
                               />
                               <span className="">

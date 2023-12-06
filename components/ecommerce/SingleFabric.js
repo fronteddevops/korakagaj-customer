@@ -24,7 +24,8 @@ const SingleProduct = ({
     length,
     id,
     discountPercentage,
-    basePrice
+    marginAmount
+    
 
 }) => {
     const [loading, setLoading] = useState(false);
@@ -34,23 +35,22 @@ const SingleProduct = ({
         setTimeout(() => {
             setLoading(false);
         }, 2000);
-    }, []);
+    }, [id]);
     const { t } = useTranslation("common");
     const fabricPrice = length * (parseFloat(product?.price) || 0);
-    const newbasePrice = fabricPrice + +basePrice;
-    const discountAmount = discountPercentage !== null || discountPercentage !== 0 ? discountPercentage : 0;
-    const newTotalPrice = parseFloat(newbasePrice - ((newbasePrice * discountAmount) / 100));
+
+    const newTotalPrice = fabricPrice+ marginAmount;
+  
 
     // Check if newTotalPrice is NaN and set a default value if it is
     const popover = (
         <Popover id="popover-basic">
             <Popover.Header as="h3">{t("Estimated Price")}</Popover.Header>
             <Popover.Body>
-                {t("Your product's estimated final price will be")} <strong className="text-brand">Rs :{newTotalPrice}</strong>.
+                {t("Your product's estimated final price will be")} <strong className="text-brand">Rs :&nbsp;{newTotalPrice}</strong>
             </Popover.Body>
         </Popover>
     );
-
 
 
 

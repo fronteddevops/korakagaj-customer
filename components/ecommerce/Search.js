@@ -17,9 +17,17 @@ const Search = () => {
         // You can put your side effects logic here
         // For example, you can perform some action when searchTerm changes
         {searchTerm.length>0   &&  searchProduct()}
-        
+       
+
+
      
     }, [searchTerm]);
+
+    const navigate = async (productId) => {
+      // Example: Navigate to the /products/[slug] page with a specific product ID
+      
+      await router.push('/products/[slug]', `/products/${productId}`);
+    };
     //serach product fucntion call
     const searchProduct = async () => {
     
@@ -53,7 +61,7 @@ const Search = () => {
         onChange={handleSearch}
         onKeyDown={(e)=>{
           if(e.key==="Enter"){
-            Router.push(`/products?searchProdcut=${e.target.value}`)
+            router.push(`/products?searchProdcut=${e.target.value}`)
           }
         }}
         type="text"
@@ -67,8 +75,8 @@ const Search = () => {
     <ul className="list-group list-group-flush">
   {prodcut?.map((product, index) => (
     <li className="list-group-item bg-white" key={index}>
-      <Link href="/products[slug]" as={`/products/${product?.id}`}>
-        <a>
+   
+        <a onClick={()=>navigate(product?.id)}  >
           <div style={{ display: 'flex' }}>
             <img
               className="default-img"
@@ -83,7 +91,7 @@ const Search = () => {
             </h4>
           </div>
         </a>
-      </Link>
+     
     </li>
   ))}
 </ul>

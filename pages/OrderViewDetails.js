@@ -3,9 +3,9 @@ import Layout from "../components/layout/Layout";
 import "font-awesome/css/font-awesome.min.css";
 
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import ReactStars from "react-rating-stars-component";
-
 import services from "../services";
 
 import moment from "moment";
@@ -18,17 +18,20 @@ function OrderViewDetails({ data }) {
   const { t } = useTranslation("common");
   const Router = useRouter()
   const [orderDetailsData, setOrderDetailsData] = useState([]);
-  const ProductId = Router.query.orderId
+  const orderId = Router.query.orderId
   const imageUrl = nextConfig.BASE_URL_UPLOADS
+  const [address, setaddress] = useState([])
 
   const orderDetials = async (id) => {
 
     try {
 
-      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(ProductId);
-
-  console.log("==================================",response.data.data)
+      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(orderId);
+      setaddress(
+        response?.data?.data[0].Order.User.Addresses[0]
+      )
       setOrderDetailsData(response?.data?.data)
+
       // localStorage.removeItem("ProductID")
     } catch (error) {
       console.log(error);
@@ -39,181 +42,303 @@ function OrderViewDetails({ data }) {
     orderDetials()
   }, []);
 
+  //send revting
+
+
+
+  //reting change function 
+
+console.log("+++++++++++++++++",address)
+
   return (
-    <Layout parent={t("Home")} sub={ <Link href='/myprofile/?index=2'>{t("Pages")}</Link> } subChild={t("View Order Details")}>
-       <section className="mt-50 mb-50">
-      <div className="container">
+    <Layout parent={t("Home")} sub={<Link href='/myprofile/?index=2'>{t("Pages")}</Link>} subChild={t("View Order Details")}>
+    <div className="mt-3 ">
+
+    <div className="card mb-3 mb-lg-0">
+                                      <div className="card-header d-flex justify-content-between">
+                                        <h5 className="mb-0 ml-20 mr-20">{t("Billing Address")}</h5>
+                                       
+                                      </div>
+                                      <address className="ml-40 mb-0">
+                                        <b>Address</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                             {address?.address?.address}
+                                          </span>
+                                          <br />
+                                          <b>City</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {address?.address?.city}
+                                          </span>
+                                          <br />
+                                          <b>House No</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {address?.address?.houseNo}
+                                          </span><br/>
+                                          <b>Phone Number</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                           
+                                            {address?.address?.phoneNumber}
+                                          </span>
+                                          <br />
+                                          <b>Pin Code</b>&nbsp;:&nbsp;
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {address?.address?.pinCode}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            <b>State</b>&nbsp;:&nbsp;
+                                            {address?.address?.state}
+                                          </span>
+                                          <br />
+                                          <span
+                                            style={{
+                                              whiteSpace: "pre-wrap", // This property allows for line breaks
+                                              wordWrap: "break-word", // This property allows for breaking words when needed
+                                              overflowWrap: "break-word", // An alternative way to allow word breaking
+                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                            }}
+                                          >
+                                            {}
+                                          </span>
+                                        </address>
+
+                                      <div
+                                        className="card-body"
+
+                                      >
+                                      
 
 
 
-<div className="row">
-              <div className="col-12">
-                <div className="table-responsive">
-                  {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
-                  {/* {updateCart?.length>0 ?(""):(t("No Products"))} */}
-                  <table
-                    className={
-                      orderDetailsData?.length > 0
-                        ? "table shopping-summery text-center clean"
-                        : "d-none"
-                    }
-                  >
-                    <thead>
-                      <tr className="main-heading">
-                        <th scope="col">{t("Image")}</th>
-                        <th scope="col">{t("Product Name")}</th>
-                        <th scope="col">{t("Brand Name")}</th>
-                        <th scope="col">{t("Designer Name")}</th>
-                       
-                        <th scope="col">{t("Total Price")}</th>
-                        <th scope="col">{t("Discount Percentage")}</th>
-                        <th scope="col">{t("Final Amount")}</th>
-                        <th scope="col">{t("Product Type")}</th>
-                        <th scope="col">{t("Tags")}</th>
-                       
-                        <th scope="col">{t("TrackingId")}</th>
-                        <th scope="col">{t("TrackingLink")}</th>
-                       
-                        <th scope="col">{t("Order Date")}</th>
-                        <th scope="col">{t("Selected Color")}</th>
-                        <th scope="col">{t("Selected Size")}</th>
-                        <th scope="col">{t("Selected Quantity")}</th>
-
-                      
-                      
-                      </tr>
-                    </thead>
-                    <tbody>
-                    
+                                      
+                                      </div>
+                                    </div>
 
 
-
-
-{orderDetailsData?.length >0 &&    orderDetailsData &&
-  orderDetailsData.map((product, j) => {
-    const outerId = product?.Product?.id;
-    console.log(outerId);
-
-    const matchingProducts = product?.Order?.orderDetails?.filter(
-      (innerProduct) => {
-        const innerID = innerProduct?.id;
-        return innerID === outerId;
-      }
-    );
-
-    return matchingProducts.map((product, i) => (
-      <tr key={i}   >
-        <td className="image product-thumbnail">
-        <img
-            src={imageUrl + product?.featuredImage}
-            alt=""
-            crossOrigin="anonymous"
-          />
-   
-        </td>
-          
-        <td className="product-des product-name">
-        <span>
-{product?.productName}
-        </span>
-        </td>
-        <td className="price" data-title="Price">
-          <span>{product?.brandName}</span>
-        </td>
-
-        <td className="text-center" data-title="Stock">
-       {product?.designerName}
-        </td>
-
-        <td className="text-right" data-title="Cart">
-          <span>
-       {product?.totalPrice}
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-       {product?.discountPercentage}%
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-       {product?.finalAmount}
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-          {product?.productType == 1 ? "Hot Deals" : null}
-      {product?.productType == 0 ? "New Product" : null}
-      {product?.productType == 3 ? "UP  Coming" : null}
-      {product?.productType == 2 ? "Best Seller" : null}
-          </span>
-
-        </td>
-       
-        <td className="text-right" data-title="Cart">
-          <span>
-       {product?.tags}
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-       {product?.trackingId}
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-       {product?.trackingLink}
-          </span>
-        </td>
+    </div>
       
-        <td className="text-right" data-title="Cart">
-          <span>
-          {moment(product?.createdAt).format("DD MMM YYYY")}
-     
-          </span>
-        </td>
+      <section className="mt-50 mb-50">
+      <div className="col-lg-6">
+                                 
+                                  </div>
+        <div className="container ">
+      
+          <div className="row">
+            <div className="col-15 ">
+              <div className="table-responsive ">
+                <table
+                  className={
+                    orderDetailsData?.length > 0
+                      ? "table shopping-summery text-center clean"
+                      : "d-none"
+                  }
+                >
+                  <thead>
+                    <tr className="main-heading ">
+                      <th scope="col">{t("Image")}</th>
+                      <th scope="col">{("Product Name")}</th>
+                      <th scope="col">{t("Total Price")}</th>
+                      <th scope="col">{t("Discount Percentage")}</th>
+                      <th scope="col">{t("Final Amount")}</th>
+                      <th scope="col">{t("Product Type")}</th>
+                      {/* <th scope="col">{("Tags")}</th> */}
 
-        <td className="text-right" data-title="Cart">
-          <span>
-         {product?.selectedColor}
-     
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-          {product?.selectedSize}
-     
-          </span>
-        </td>
-        <td className="text-right" data-title="Cart">
-          <span>
-     {product?.selectedQuantity}
-     
-          </span>
-        </td>
-      </tr>
-    ));
-  })}
+                      <th scope="col">{t("Tracking Id & Link")}</th>
+                      <th scope="col">{t("Order Date")}</th>
+                      <th scope="col">{t("Selected Color")}</th>
+                      <th scope="col">{t("Selected Size")}</th>
+                      <th scope="col">{t("Selected Quantity")}</th>
+                      <th scope="col">{t("Add Review")}</th>
 
-                      <tr>
-                     
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              
-             
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderDetailsData?.length > 0 && orderDetailsData &&
+                      orderDetailsData.map((product, j) => {
+                        const outerId = product?.Product?.id;
+
+
+                        const matchingProducts = product?.Order?.orderDetails?.filter(
+                          (innerProduct) => {
+                            const innerID = innerProduct?.id;
+                            return innerID === outerId;
+                          }
+                        );
+
+                        return matchingProducts?.map((product, i) => (
+                          <tr key={i}   >
+                            <td className="image product-thumbnail">
+                              <img
+                                src={imageUrl + product?.featuredImage}
+                                alt=""
+                                crossOrigin="anonymous"
+                              />
+
+                            </td>
+
+                            <td className="product-des product-name">
+                              <span>
+                                {product?.productName}
+                              </span>
+                            </td>
+
+
+
+
+                            <td className="text-right" data-title="Cart">
+                              <span  >
+                                {product?.totalPrice}
+
+                              </span>
+                            </td>
+                            <td className="text-right" data-title="Cart">
+                              <span >
+                                {product?.discountPercentage}%
+                              </span>
+                            </td>
+                            <td className="text-right" data-title="Cart">
+                              <span>
+                                {product?.finalAmount}
+                              </span>
+                            </td>
+                            <td className="text-right d-none d-sm-table-cell" data-title="Cart">
+                              {/* <td className="text-right" data-title="Cart"> */}
+                              <span>
+                                {product?.productType == 1 ? "Hot Deals" : null}
+                                {product?.productType == 0 ? "New Product" : null}
+                                {product?.productType == 3 ? "UP  Coming" : null}
+                                {product?.productType == 2 ? "Best Seller" : null}
+                              </span>
+
+                            </td>
+
+                            {/* <td className="text-right" data-title="Cart">
+                              <span>
+                                {product?.tags}
+                              </span>
+                            </td> */}
+
+                            <td className="text-right" data-title="Cart">
+                              <span>
+                                {product?.trackingId} <br />
+                                {product?.trackingLink}
+                              </span>
+                            </td>
+
+                            <td className="text-right" data-title="Cart">
+                              <span>
+                                {moment(product?.createdAt).format("DD MMM YYYY")}
+
+                              </span>
+                            </td>
+
+                            <td className="text-right" data-title="Cart">
+                              <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                style={{
+                                  border: "1px solid black",
+                                  width: '22px',
+                                  height: '22px',
+                                  backgroundColor: product?.selectedColor,
+                                }}
+                              ></span>
+                            </td>
+                            <td className="text-right" data-title="Cart">
+                              <span>
+                                {product?.selectedSize}
+
+                              </span>
+                            </td>
+                            <td className="text-right" data-title="Cart">
+                              <span>
+                                {product?.selectedQuantity}
+
+                              </span>
+                            </td>
+
+
+
+                            {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
+                                            <a> {t("Review")}</a>
+                                          </Link></td> */}
+
+                            <td className="text-right" data-title="Cart">
+                              <span>
+
+                                <Link href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}>
+                                  <a>{t("Review")}</a>
+                                </Link>
+
+                              </span>
+                            </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          </tr>
+                        ));
+                      })}
+
+                    <tr>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-
-
-
-            </div>
-        
-    
-
-
-            </section>
+          </div>
+        </div>
+      </section>
 
 
     </Layout>

@@ -38,25 +38,29 @@ const SingleProduct = ({
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   // const discountAmount = (basePrice * discountPercentage) / 100;
   // const totalPrice = basePrice - discountAmount;
-
+let image=[]
   useEffect(() => {
     productDataShow()
 
     setIsProductIsWishListed(product.isWishlisted)
+  
 
   }, []);
 
 
   const handleCart = async (product) => {
-    product.selectedColor = '';
-    product.selectedSize = '';
+    const color = JSON?.parse(product?.colour)
+    const size = JSON?.parse(product.size)
+   
+    product.selectedColor = color[0];
+    product.selectedSize = size[0];
     product.selectedQuantity = 1;
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART()
-
+ 
       let cartDetails = []
-      if (cart.data.data[0].cartDetail) {
-        cartDetails = cart.data.data[0].cartDetail.cartDetails
+      if (cart?.data?.data?.cartDetail) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails
       }
       cartDetails?.push(product)
       const key = 'id';
@@ -69,7 +73,10 @@ const SingleProduct = ({
       const updateCart = await services.cart.UPDATE_CART(data)
       console.log(updateCart)
       toast.success("Add to Cart !");
-      window.location.reload()
+      setTimeout(()=>{
+        window.location.reload()
+      },1000)
+    
 
 
     } else {

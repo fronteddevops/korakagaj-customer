@@ -21,6 +21,8 @@ const ProductId = ({ product }) => {
   const fabricPrice = router.query.fabricPrice ? router.query.fabricPrice : "";
   const fabricId = router.query.fabricId ? router.query.fabricId : "";
   const fabricName = router.query.fabricName ? router.query.fabricName : "";
+  
+
 
   const getProdcut = async () => {
     // Fetch product data here and return it as props

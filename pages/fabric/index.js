@@ -17,11 +17,12 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import SingleFabric from "../../components/ecommerce/SingleFabric";
 import services from "../../services";
+import { closeQuickView } from "../../redux/action/quickViewAction";
 import { useTranslation } from "react-i18next";
 
 
 
-const Products = ({ products, productFilters }) => {
+const Products = ({ products, productFilters, closeQuickView }) => {
   const { t } = useTranslation("common");
   const [fabricType, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
@@ -44,15 +45,21 @@ const Products = ({ products, productFilters }) => {
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
   const [fabric, setFabric] = useState("")
-
+const [prodcutData,setprodcutData]=useState({
+  newlength:'',
+  discountPercentage:'',
+  productName:'',
+  productId:'',
+  marginAmount:''
+})
   //pagination
-
+ 
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
 
-  const { basePrice, discountPercentage, newlength, id, prodcutName } = Router.query;
+  const {  id  } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -80,6 +87,7 @@ const Products = ({ products, productFilters }) => {
     reflection: selectedreflection,
     weight: selectedweight,
   };
+  const query = new URLSearchParams(filterFabricState);
   const cratePagination = () => {
     // Calculate the number of pages based on the list length and limit
 
@@ -150,11 +158,31 @@ const Products = ({ products, productFilters }) => {
     }
   };
 
-
+const getProdcut=async()=>{
+  try {
+     const response =await services.product.GET_PRODUCT_BY_ID(id)
+     if(response){
+    
+      setprodcutData({
+        newlength: response?.data?.data[0]?.length,
+        discountPercentage: response?.data?.data[0]?.discountPercentage,
+        productName: response?.data?.data[0]?.productName,
+        productId: response?.data?.data[0]?.id,
+        marginAmount:response?.data?.data[0]?.marginAmount
+      });
+      
+      
+     }
+  } catch (error) {
+      console.log(error)
+  }
+}
 
   useEffect(() => {
+    closeQuickView()
     getFabric()
     getFilterFabric();
+    getProdcut()
     cratePagination();
   }, [
     selectedfabricType,
@@ -198,7 +226,7 @@ const Products = ({ products, productFilters }) => {
 
   const getFilterFabric = async () => {
     try {
-      const response = await services.fabric.GET_FilTER_FABRIC(filterFabricState);
+      const response = await services.fabric.GET_FilTER_FABRIC(query);
       const data = response?.data?.data?.rows
       if (data.length <= 12) {
         setFilterFabric(data)
@@ -219,7 +247,7 @@ const Products = ({ products, productFilters }) => {
       <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subSub={<>
         <Link href="/products/[slug]" as={`/products/${id}`}>
           <a>
-            {prodcutName}
+            {prodcutData?.productName}
           </a>
 
         </Link>
@@ -630,8 +658,8 @@ const Products = ({ products, productFilters }) => {
                       className="col-lg-4 col-md-4 col-12 col-sm-6"
                       key={i}
                     >
-                      <SingleFabric product={item} length={newlength} id={id} basePrice={basePrice} discountPercentage={discountPercentage} />
-                      {/* <SingleProductList product={item}/> */}
+                      <SingleFabric product={item} length={prodcutData?.newlength} id={id}  discountPercentage={prodcutData?.discountPercentage}  marginAmount={prodcutData?.marginAmount}/>
+                   
                     </div>
                   ))}
 
@@ -665,13 +693,14 @@ const Products = ({ products, productFilters }) => {
   );
 };
 
+
+
+
+
+
 const mapStateToProps = (state) => ({
-  products: state.products,
-  productFilters: state.productFilters,
+  quickView: state.quickView,
 });
 
-const mapDidpatchToProps = {
-
-};
-
-export default connect(mapStateToProps, mapDidpatchToProps)(Products);
+export default connect(mapStateToProps, { closeQuickView })(Products);
+//export default connect(mapStateToProps, mapDidpatchToProps)(Products);

@@ -22,6 +22,7 @@ function Login() {
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
   const [showForgetPasswordComponent, setShowForgetPasswordComponent] = useState(false);
   const [emailForgot, setEmailForgot] = useState("");
+ 
   const [emailErrorForgot, setEmailErrorForgot] = useState("");
   const toastErrorForgot = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
@@ -42,7 +43,7 @@ function Login() {
   
     // Assuming you have a state variable for rememberMe
     if (rememberMe) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    
       localStorage.setItem('rememberedUsername', email);
       localStorage.setItem('rememberedPassword', password);
       localStorage.setItem('rememberMe', true);
@@ -74,8 +75,8 @@ function Login() {
         };
   
         const response = await services.auth.LOGIN_USER(payLoad);
+    
         await handleCart();
-  
         if (response) {
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccessLogin();
@@ -91,14 +92,8 @@ function Login() {
       }
     }
   };
-const rememberMe1=()=>{
- 
- setRememberMe(true)
-}
+
   
-
-
-    console.log(rememberMe)
 useEffect(()=>{ 
   const storedUsername = localStorage.getItem('rememberedUsername');
   const storedPassword = localStorage.getItem('rememberedPassword');
@@ -113,37 +108,44 @@ useEffect(()=>{
 
 //handle cart data 
   const handleCart = async () => {
-    if (localStorage.getItem("cartDetail")) {
-
-      const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-      let cartDetailsLocal = []
-      if (cartLocal && cartLocal.cartDetails.length > 0) {
-        cartDetailsLocal = cartLocal.cartDetails
+    try {
+      if (localStorage.getItem("cartDetail")) {
+        const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
+        let cartDetailsLocal = []
+        if (cartLocal && cartLocal?.cartDetails?.length > 0) {
+          cartDetailsLocal = cartLocal.cartDetails
+        }
+        const cart = await services.cart.GET_CART()
+     
+        
+        let cartDetails = []
+        if (cart?.data?.data?.cartDetail.cartDetails) {
+        
+          cartDetails = cart?.data?.data?.cartDetail?.cartDetails
+        }
+        cartDetails = [...cartDetails, ...cartDetailsLocal]
+        const key = 'id';
+        const unique = [...new Map(cartDetails.map(item =>
+          [item[key], item])).values()];
+          let data = {
+            cartDetail: { cartDetails: unique }
+          }
+       
+        console.log(data)
+        const updateCart = await services.cart.UPDATE_CART(data)
+        console.log(updateCart)
+        localStorage.removeItem('cartDetail')
+  
       }
-      const cart = await services.cart.GET_CART()
-      let cartDetails = []
-      if (cart.data.data[0].cartDetail) {
-        cartDetails = cart?.data?.data[0].cartDetail.cartDetails
-      }
-      cartDetails = [...cartDetails, ...cartDetailsLocal]
-
-      const key = 'id';
-      const unique = [...new Map(cartDetails.map(item =>
-        [item[key], item])).values()];
-      let data = {
-        cartDetail: { cartDetails: unique }
-      }
-      console.log(data)
-      const updateCart = await services.cart.UPDATE_CART(data)
-      console.log(updateCart)
-      localStorage.removeItem('cartDetail')
-
+    } catch (error) {
+      console.log(error)
     }
+
   };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
   const toastErrorLogin = (error) => {
-    toast.error(error.response?.data?.message || "An error occurred");
+    toast.error(error?.response?.data?.message || "An error occurred");
   };
 
   const togglePasswordVisibilityLogin = () => {
@@ -333,14 +335,15 @@ setIsDisabledpassword(false)
       type="checkbox"
       name="checkbox"
       id="exampleCheckbox1"
+     
       checked={rememberMe}
-      value=""
+     onChange={()=> setRememberMe(!rememberMe)}
     />
     <label
       className="form-check-label"
       htmlFor="exampleCheckbox1"
       
-      onClick={rememberMe1}
+     // onClick={rememberMe1}
     >
       <span>{t("Remember me")}</span>
     </label>
@@ -388,7 +391,7 @@ setIsDisabledpassword(false)
                               </a>
                             </li>
                           </ul>
-                          <div class="text-muted text-center"> {t("Don't have an account ?")}  <a href="/register">{t("Sign up now")}</a></div>
+                          <div className="text-muted text-center"> {t("Don't have an account ?")}  <a href="/register">{t("Sign up now")}</a></div>
                         </div>
                       </div>
                     </div>

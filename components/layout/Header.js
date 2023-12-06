@@ -10,13 +10,15 @@ import ShopWishlist from "../../pages/shop-wishlist";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 const Header = ({ toggleClick, headerStyle }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
   const { t, i18n } = useTranslation("common");
 
+  const router = useRouter();
   const [lang, setLang] = useState("");
   const [isToggled, setToggled] = useState(false);
   const [scroll, setScroll] = useState(0);
@@ -24,7 +26,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
-
+  const [url, seturl] = useState(false);
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
 
@@ -63,6 +65,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     setLang(langdata);
     handleLang();
     GetWishlistdata();
+    cheklogin();
     handleCart();
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
@@ -71,11 +74,12 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-  }, [lang]);
+  }, [lang, totalWishlistItems]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await service.myprofile.GET_MY_PROFILE();
+        localStorage.setItem("profile", JSON.stringify(response?.data?.data));
         if (response) {
           setFirstName(response?.data?.data?.firstName);
           setLastName(response?.data?.data?.lastName);
@@ -126,7 +130,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     if (localStorage.getItem("access_token")) {
       try {
         const cart = await service.cart.GET_CART();
-        setTotalCartItems(cart.data.data[0]?.cartDetail?.cartDetails?.length);
+        setTotalCartItems(cart?.data?.data?.cartDetail?.cartDetails?.length);
       } catch (error) {
         console.log(error);
       }
@@ -136,6 +140,28 @@ const Header = ({ toggleClick, headerStyle }) => {
         JSON.parse(localStorage.getItem("cartDetail"));
       setTotalCartItems(cart?.cartDetails?.length);
     }
+  };
+  const cheklogin = () => {
+    if (localStorage.getItem("access_token")) {
+      seturl(true);
+    }
+  };
+
+
+  const navigateOrders = async (productId) => {
+    // Example: Navigate to the /products/[slug] page with a specific product ID
+    
+    await router.push('/myprofile?index=5');
+  };
+  const navigateAddress = async (productId) => {
+    // Example: Navigate to the /products/[slug] page with a specific product ID
+    
+    await router.push('/myprofile?index=4');
+  };
+  const navigateProfile = async (productId) => {
+    // Example: Navigate to the /products/[slug] page with a specific product ID
+    
+    await router.push('/myprofile?index=2');
   };
 
   return (
@@ -150,7 +176,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <li>
                       <i className="fi-rs-smartphone"></i>
                       <Link href="/#">
-                        <a>(+01) - 2345 - 6789</a>
+                        <a>+91-9791028374</a>
                       </Link>
                     </li>
                     <li>
@@ -242,19 +268,22 @@ const Header = ({ toggleClick, headerStyle }) => {
                           menuVariant="light"
                           className="profile-dropdown"
                         >
-                          <NavDropdown.Item href="/myprofile?index=2">
+                          <NavDropdown.Item    onClick={navigateProfile}>
                             {t("My Orders")}
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="/myprofile?index=4">
+                          <NavDropdown.Item   onClick={navigateAddress}>
                             {t("My Address")}
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="/myprofile?index=5">
+                          <NavDropdown.Item    onClick={navigateOrders}>
                             {t("My Profile")}
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
                           <NavDropdown.Item
                             href="/"
-                            onClick={() => {localStorage.removeItem("access_token"),localStorage.removeItem("userId")}}
+                            onClick={() => {
+                              localStorage.removeItem("access_token"),
+                                localStorage.removeItem("userId");
+                            }}
                           >
                             {t("Logout")}
                           </NavDropdown.Item>
@@ -293,20 +322,22 @@ const Header = ({ toggleClick, headerStyle }) => {
                 </div>
                 <div className="header-action-right">
                   <div className="header-action-2">
-                    <div className="header-action-icon-2">
-                      <Link href="/shop-wishlist">
-                        <a>
-                          <img
-                            className="svgInject"
-                            alt="korakagaj"
-                            src="/assets/imgs/theme/icons/icon-heart.svg"
-                          />
-                          <span className="pro-count blue">
-                            {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                          </span>
-                        </a>
-                      </Link>
-                    </div>
+                    {url && (
+                      <div className="header-action-icon-2">
+                        <Link href={"/shop-wishlist"}>
+                          <a>
+                            <img
+                              className="svgInject"
+                              alt="korakagaj"
+                              src="/assets/imgs/theme/icons/icon-heart.svg"
+                            />
+                            <span className="pro-count blue">
+                              {totalWishlistItems > 0 ? totalWishlistItems : 0}
+                            </span>
+                          </a>
+                        </Link>
+                      </div>
+                    )}
                     <div className="header-action-icon-2">
                       <Link href="/shop-cart">
                         <a className="mini-cart-icon">
@@ -351,8 +382,69 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <span className="fi-rs-apps"></span>
                     {t("Browse Categories")}
                   </a>
-
                   <div
+                    className={
+                      isToggled
+                        ? "categori-dropdown-wrap categori-dropdown-active-large open"
+                        : "categori-dropdown-wrap categori-dropdown-active-large"
+                    }
+                  >
+                    <ul>
+                      {categoryList &&
+                        categoryList.map((item) => (
+                          <li className="has-children" key={item.id}>
+                            <Link href="/products">
+                              <a
+                                onMouseEnter={() => subCategoryList(item.id)}
+                                onMouseLeave={() => setHoveredCategoryId(null)}
+                              >
+                                <i className="korakagaj-font-dress"></i>
+                                {item.categoryName}
+                              </a>
+                            </Link>
+                            <div className="dropdown-menu">
+                              <ul className="mega-menu d-lg-flex">
+                                <li className="mega-menu-col col-lg-7">
+                                  <ul className="d-lg-flex">
+                                    {subCategory &&
+                                      subCategory.map((subItem) => (
+                                        <li
+                                          className="mega-menu-col col-lg-6"
+                                          key={subItem.id}
+                                        >
+                                          <ul>
+                                            <li>
+                                              <span className="submenu-title">
+                                                {subItem.subCategoryName}
+                                              </span>
+                                            </li>
+
+                                            {subSubCategory.map(
+                                              (subSubItem) => (
+                                                <li key={subSubItem.id}>
+                                                  <Link href="/#">
+                                                    <a className="dropdown-item nav-link nav_item">
+                                                      {
+                                                        subSubItem.subSubCategoryName
+                                                      }
+                                                    </a>
+                                                  </Link>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        </li>
+                                      ))}
+                                  </ul>
+                                </li>
+                              </ul>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+
+                  {/* <div
                     className={
                       isToggled
                         ? "categori-dropdown-wrap categori-dropdown-active-large open"
@@ -362,10 +454,9 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li className="has-children">
                         {categoryList &&
+                        
                           categoryList.map((item) => (
-                            // Remove curly braces around item.categoryName
-
-                            <Link href="/products/shop-grid-right">
+                            <Link href="/products">
                               <a
                                 key={item.id}
                                 onMouseEnter={() => subCategoryList(item.id)}
@@ -408,30 +499,44 @@ const Header = ({ toggleClick, headerStyle }) => {
                         </div>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                   <nav>
                     <ul>
                       <li>
                         <Link href="/">
-                          <a className="active">{t("Home")}</a>
+                          <a className={
+                              router.pathname === "/" ? "active" : ""
+                            }>{t("Home")}</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/page-about">
-                          <a>{t("About")}</a>
+
+                          <a  className={
+                              router.pathname === "/page-about" ? "active" : ""
+                            }>
+                            
+                            {t("About")}</a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/products">
-                          <a>{t("Shop")}</a>
+                          <a   className={
+                              router.pathname === "/products" ? "active" : ""
+                            }
+
+                           >{t("Shop")}</a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/blog-category-grid">
-                          <a>
+                          <a 
+                           className={
+                            router.pathname === "/blog-category-grid" ? "active" : ""
+                          } >
                             {t("Blog")}
                             <i className="fi-rs-angle-down"></i>
                           </a>
@@ -439,27 +544,48 @@ const Header = ({ toggleClick, headerStyle }) => {
                         <ul className="sub-menu">
                           <li>
                             <Link href="/blog-category-grid">
-                              <a>{t("Blog Category Grid")}</a>
+                              <a  className={
+                              router.pathname === "/blog-category-grid" ? "active" : ""
+                            }
+                              
+                              >{t("Blog Category Grid")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-list">
-                              <a>{t("Blog Category List")}</a>
+                              <a
+                               className={
+                                router.pathname === "/blog-category-list" ? "active" : ""
+                              }
+                              >{t("Blog Category List")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-big">
-                              <a>{t("Blog Category Big")}</a>
+                              <a
+                               className={
+                                router.pathname === "/blog-category-big" ? "active" : ""
+                              }
+                              
+                              >{t("Blog Category Big")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-fullwidth">
-                              <a>{t("Blog Category Wide")}</a>
+                              <a
+                               className={
+                                router.pathname === "/blog-category-fullwidth" ? "active" : ""
+                              }
+                              >{t("Blog Category Wide")}</a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/#">
-                              <a>
+                              <a
+                               className={
+                                router.pathname === "/#" ? "active" : ""
+                              }
+                              >
                                 {t("Single Post")}
                                 <i className="fi-rs-angle-right"></i>
                               </a>
@@ -467,17 +593,29 @@ const Header = ({ toggleClick, headerStyle }) => {
                             <ul className="level-menu level-menu-modify">
                               <li>
                                 <Link href="/blog-post-left">
-                                  <a>{t("Left Sidebar")}</a>
+                                  <a
+                                   className={
+                                    router.pathname === "/blog-post-left" ? "active" : ""
+                                  }
+                                  >{t("Left Sidebar")}</a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-right">
-                                  <a>{t("Right Sidebar")}</a>
+                                  <a
+                                   className={
+                                    router.pathname === "/blog-post-right" ? "active" : ""
+                                  }
+                                  >{t("Right Sidebar")}</a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-fullwidth">
-                                  <a>{t("No Sidebar")}</a>
+                                  <a
+                                   className={
+                                    router.pathname === "/blog-post-fullwidth" ? "active" : ""
+                                  }
+                                  >{t("No Sidebar")}</a>
                                 </Link>
                               </li>
                             </ul>
@@ -487,13 +625,21 @@ const Header = ({ toggleClick, headerStyle }) => {
 
                       <li>
                         <Link href="/page-contact">
-                          <a>{t("Our Team")}</a>
+                          <a
+                           className={
+                            router.pathname === "/page-contact" ? "active" : ""
+                          }
+                          >{t("Our Team")}</a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/page-contact">
-                          <a>{t("Contact")}</a>
+                          <a className={
+                              router.pathname === "/page-contact" ? "active" : ""
+                            }
+                          
+                          >{t("Contact")}</a>
                         </Link>
                       </li>
                     </ul>
@@ -514,13 +660,14 @@ const Header = ({ toggleClick, headerStyle }) => {
               <div className="header-action-right d-block d-lg-none">
                 <div className="header-action-2">
                   <div className="header-action-icon-2">
-                    <Link href="/shop-wishlist">
+                    <Link href={"/shop-wishlist"}>
                       <a>
                         <img
+                          className="svgInject"
                           alt="korakagaj"
                           src="/assets/imgs/theme/icons/icon-heart.svg"
                         />
-                        <span className="pro-count white">
+                        <span className="pro-count blue">
                           {totalWishlistItems > 0 ? totalWishlistItems : 0}
                         </span>
                       </a>

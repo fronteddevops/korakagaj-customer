@@ -41,6 +41,7 @@ const Wishlist = ({
             item.Product.isWishlisted = true
             return item
           })
+      
           setWishlistdata(data)
           setWishlistLength(WishlistResponse?.data?.data?.length)
         }
