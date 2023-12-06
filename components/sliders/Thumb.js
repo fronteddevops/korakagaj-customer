@@ -15,13 +15,13 @@ const ThumbSlider = ({ product }) => {
 useEffect(()=>{
     if (product) {
         const images =[]
-        if (product.featuredImage) {
+        if (product?.featuredImage) {
             images .push(product.featuredImage);
         }
       
-        if (product.image && Array.isArray(product.image)) {
+        if (product.image && Array.isArray(product?.image)) {
           // Assuming product.image is an array
-          images .push(...product.image);
+          images .push(...product?.image);
         }
         setImage(images)
       }
