@@ -29,7 +29,6 @@ const Cart = ({}) => {
   const [addressList, setAddressList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(1);
-  const [selectedAddress, setSelectedAddress] = useState(0);
   const [getadressUers, setGetaddress] = useState([]);
   const [Data, setData] = useState([]);
   const router = useRouter();
@@ -90,12 +89,12 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
+        
         setAddressList(response?.data?.data);
         if (response?.data?.data?.length > 0) {
           response?.data?.data?.map((item) => {
-            if (item.defaultAddress) {
-              setSelectedAddress(item.id);
-            }
+            console.log(item)
+           
           });
         }
       } catch (error) {
@@ -108,7 +107,7 @@ const Cart = ({}) => {
       const cart = await services.cart.GET_CART();
 
       let cartDetails = [];
-      if (cart?.data?.data?.cartDetail) {
+      if (cart?.data?.data?.cartDetail.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
@@ -128,8 +127,7 @@ const Cart = ({}) => {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,
         totalItems: unique.length,
-        totalQuantity: qty,
-        addressId: selectedAddress,
+        totalQuantity: qty
       };
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
@@ -436,20 +434,14 @@ const Cart = ({}) => {
                       )}
                     </div>
                   </div>
-                  <div className="col-lg-4 col-md-8">
-                    {/* {console.log(selectedAddress)} */}
+                  <div className="col-lg-4 col-md-8 text-end">
+                   
                     {isLoggedIn ? (
                       <a
                         onClick={() => {
-                          // if (selectedAddress) {
+                        
                           debouncedFunction();
-                          // } else {
-                          //   if (addressList.length > 0) {
-                          //     toast.error("Choose your address");
-                          //   } else {
-                          //     toast.error("Add your address");
-                          //   }
-                          // }
+           
                         }}
                         href="#"
                         className="btn "

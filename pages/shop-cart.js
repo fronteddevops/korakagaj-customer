@@ -50,6 +50,7 @@ const Cart = ({}) => {
   };
   //set total price in add to card all prodcut
   const getadress = async () => {
+    if (localStorage.getItem("access_token")) {
     try {
       const response = await services.myprofile.GET_MY_ADDRESS();
       if (response) {
@@ -58,6 +59,7 @@ const Cart = ({}) => {
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   useEffect(() => {
@@ -65,6 +67,11 @@ const Cart = ({}) => {
     addressHandler();
     getadress();
   }, []);
+  useEffect(() => {
+if(selectedAddress && updateCart.length > 0){
+  handleCart(updateCart[0])
+}
+  }, [selectedAddress]);
 
   //card data get function
   const cardData = async () => {
@@ -108,13 +115,12 @@ const Cart = ({}) => {
       }
     }
   };
-  // console.log(selectedAddress);
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
 
       let cartDetails = [];
-      if (cart?.data?.data?.cartDetail) {
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
@@ -166,12 +172,17 @@ const Cart = ({}) => {
     }
   };
   const increaseQuantity = (product) => {
+    console.log("product", product);
     product.selectedQuantity = product.selectedQuantity + 1;
     handleCart(product);
   };
   const decreaseQuantity = (product) => {
-    product.selectedQuantity = product.selectedQuantity - 1;
-    handleCart(product);
+    if (product.selectedQuantity == 1) {
+      return;
+    } else {
+      product.selectedQuantity = product.selectedQuantity - 1;
+      handleCart(product);
+    }
   };
   const clearCart = async () => {
     if (localStorage.getItem("access_token")) {
@@ -288,7 +299,6 @@ const Cart = ({}) => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
-  console.log("updateCart", updateCart);
   return (
     <>
       <Layout
@@ -451,37 +461,41 @@ const Cart = ({}) => {
                 </div>
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-12">
-                    {updateCart && updateCart.length > 0 && addressList.length > 0 && (
-                      <div className="heading_s1 mb-3">
-                        <h4>Select Address</h4>
-                      </div>
-                    )}
+                    {updateCart &&
+                      updateCart.length > 0 &&
+                      addressList.length > 0 && (
+                        <div className="heading_s1 mb-3">
+                          <h4>Select Address</h4>
+                        </div>
+                      )}
                     <form className="field_form shipping_calculator">
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <div className="custom_select">
-                            {updateCart && updateCart.length > 0 && addressList.length > 0 && (
-                              <select
-                                className="form-control select-active"
-                                value={selectedAddress}
-                                onChange={(e) => {
-                                  setSelectedAddress(e.target.value);
-                                }}
-                              >
-                                <option value="">
-                                  {t("Choose a option...")}
-                                </option>
-                                {addressList &&
-                                  addressList.length > 0 &&
-                                  addressList.map((item) => {
-                                    return (
-                                      <option value={item.id}>
-                                        {item.address.address}
-                                      </option>
-                                    );
-                                  })}
-                              </select>
-                            )}
+                            {updateCart &&
+                              updateCart.length > 0 &&
+                              addressList.length > 0 && (
+                                <select
+                                  className="form-control select-active"
+                                  value={selectedAddress}
+                                  onChange={(e) => {
+                                    setSelectedAddress(e.target.value);
+                                  }}
+                                >
+                                  <option value="">
+                                    {t("Choose a option...")}
+                                  </option>
+                                  {addressList &&
+                                    addressList.length > 0 &&
+                                    addressList.map((item) => {
+                                      return (
+                                        <option value={item.id}>
+                                          {item.address.address}
+                                        </option>
+                                      );
+                                    })}
+                                </select>
+                              )}
                           </div>
                         </div>
                       </div>
@@ -584,7 +598,7 @@ const Cart = ({}) => {
                               }
                             }}
                             href="#"
-                            className="btn "
+                            className="btn d-block"
                           >
                             Continue Order
                           </a>

@@ -54,7 +54,7 @@ const handleCart = async () => {
    
       
       let cartDetails = []
-      if (cart?.data?.data?.cartDetail.cartDetails) {
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
       
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails
       }

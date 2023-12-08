@@ -7,136 +7,116 @@ import { addToCart } from "../../redux/action/cart";
 import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
-import Loader from './../elements/Loader';
+import Loader from "./../elements/Loader";
 import nextConfig from "../../next.config";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 
-
-const SingleProduct = ({
-  data1,
-  product,
-  openQuickView,
-}) => {
-
+const SingleProduct = ({ data1, product, openQuickView }) => {
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
   const [isProductIsWishListed, setIsProductIsWishListed] = useState();
 
-
   const productDataShow = () => {
-    setProductId(data1?.productId)
-    setUserId(data1?.User?.id)
-  }
+    setProductId(data1?.productId);
+    setUserId(data1?.User?.id);
+  };
 
   const { t, i18n } = useTranslation("common");
 
-
-  const imageUrl = nextConfig.BASE_URL_UPLOADS
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   // const discountAmount = (basePrice * discountPercentage) / 100;
   // const totalPrice = basePrice - discountAmount;
-let image=[]
+  let image = [];
   useEffect(() => {
-    productDataShow()
+    productDataShow();
 
-    setIsProductIsWishListed(product.isWishlisted)
-  
-
+    setIsProductIsWishListed(product.isWishlisted);
   }, []);
 
-
   const handleCart = async (product) => {
-    const color = JSON?.parse(product?.colour)
-    const size = JSON?.parse(product.size)
+    const color = JSON?.parse(product?.colour);
+    const size = JSON?.parse(product.size);
 
     product.selectedColor = color[0];
     product.selectedSize = size[0];
     product.selectedQuantity = 1;
     if (localStorage.getItem("access_token")) {
-      const cart = await services.cart.GET_CART()
- 
-      let cartDetails = []
-      if (cart?.data?.data?.cartDetail.cartDetails) {
-        cartDetails = cart?.data?.data?.cartDetail?.cartDetails
+      const cart = await services.cart.GET_CART();
+      console.log("cart", cart?.data?.data?.cartDetail);
+      let cartDetails = [];
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
-      console.log(product,cartDetails)
-      cartDetails?.push(product)
-      const key = 'id';
-      const unique = [...new Map(cartDetails?.map(item =>
-        [item[key], item])).values()];
+      console.log(product, cartDetails);
+      cartDetails?.push(product);
+      const key = "id";
+      const unique = [
+        ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
+      ];
       let data = {
-        cartDetail: { cartDetails: unique }
-      }
-      console.log(data)
-      const updateCart = await services.cart.UPDATE_CART(data)
-      console.log(updateCart)
+        cartDetail: { cartDetails: unique },
+      };
+      // console.log(data);
+      const updateCart = await services.cart.UPDATE_CART(data);
+      console.log(updateCart);
       toast.success("Add to Cart !");
-      setTimeout(()=>{
+      setTimeout(() => {
         // window.location.reload()
-      },1000)
-    
-
-
+      }, 1000);
     } else {
-      const cart = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-      let cartDetails = []
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      let cartDetails = [];
       if (cart) {
-        cartDetails = cart.cartDetails
+        cartDetails = cart.cartDetails;
       }
-      cartDetails.push(product)
-      const key = 'id';
-      const unique = [...new Map(cartDetails.map(item =>
-        [item[key], item])).values()];
+      cartDetails.push(product);
+      const key = "id";
+      const unique = [
+        ...new Map(cartDetails.map((item) => [item[key], item])).values(),
+      ];
 
       let data = {
-        cartDetail: { cartDetails: unique }
-      }
+        cartDetail: { cartDetails: unique },
+      };
 
-      localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Add to Cart !");
-      window.location.reload()
+      // window.location.reload();
     }
   };
   const handleWishlist = async (product) => {
-
-
     if (localStorage.getItem("access_token")) {
-
-
       try {
-
         const data = {
-          productId: product.id
-        }
-
+          productId: product.id,
+        };
 
         if (!isProductIsWishListed) {
-
-          console.log(isProductIsWishListed)
-          const WishlistResponse = await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-          productDataShow()
+          console.log(isProductIsWishListed);
+          const WishlistResponse =
+            await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+          productDataShow();
           toast.success("Added to Wishlist!");
-          window.location.reload()
+          window.location.reload();
         } else {
-          const WishlistResponse = await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-          productDataShow()
+          const WishlistResponse =
+            await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+          productDataShow();
           toast.success("Removed from Wishlist");
-          window.location.reload()
+          window.location.reload();
         }
-
       } catch (error) {
-
         console.error("An error occurred:", error);
       }
-
     } else {
-
       toast.error("Please Login!");
     }
-
   };
   return (
     <>
@@ -144,7 +124,10 @@ let image=[]
         <>
           <div className="product-cart-wrap mb-30">
             <div className="product-img-action-wrap">
-              <div className="product-img product-img-zoom" style={{ height: '250 px' }}>
+              <div
+                className="product-img product-img-zoom"
+                style={{ height: "250 px" }}
+              >
                 <Link href="/products/[slug]" as={`/products/${product?.id}`}>
                   <a>
                     <img
@@ -152,7 +135,6 @@ let image=[]
                       src={imageUrl + product?.featuredImage}
                       crossOrigin="anonymous"
                       alt=""
-
                     />
                   </a>
                 </Link>
@@ -174,25 +156,31 @@ let image=[]
                 >
                   <i className="fi-rs-heart"></i>
                 </a>
-
               </div>
 
               <div className="product-badges product-badges-position product-badges-mrg">
-                {product?.productType == 1 ? <span className="hot">{t("Hot Deals")} </span> : null}
+                {product?.productType == 1 ? (
+                  <span className="hot">{t("Hot Deals")} </span>
+                ) : null}
 
-                {product?.productType == 0 ? <span className="hot">{t("New Product")} </span> : null}
+                {product?.productType == 0 ? (
+                  <span className="hot">{t("New Product")} </span>
+                ) : null}
 
-                {product?.productType == 2 ? <span className="hot">{t("Best Seller")} </span> : null}
-                {product?.productType == 3 ? <span className="hot">{t("UP  Coming")} </span> : null}
-
-
-
+                {product?.productType == 2 ? (
+                  <span className="hot">{t("Best Seller")} </span>
+                ) : null}
+                {product?.productType == 3 ? (
+                  <span className="hot">{t("UP  Coming")} </span>
+                ) : null}
               </div>
             </div>
             <div className="product-content-wrap">
               <div className="product-category">
                 <Link href="/products">
-                  <a className="text-capitalize">{product?.SubSubCategory?.subSubCategoryName}</a>
+                  <a className="text-capitalize">
+                    {product?.SubSubCategory?.subSubCategoryName}
+                  </a>
                 </Link>
               </div>
               <h2>
@@ -208,7 +196,7 @@ let image=[]
                     size={20}
                     activeColor="#ffd700"
                     isHalf={true} // Disable half ratings
-                    edit={false}   // Disable user rating changes
+                    edit={false} // Disable user rating changes
                   />
                   <span>{product?.ratingScore} </span>
                 </span>
@@ -217,11 +205,12 @@ let image=[]
                 <span>Rs. {product.finalAmount}</span>
                 {discountPercentage > 0 && (
                   <span className="old-price"> Rs. {basePrice}</span>
-                )} &nbsp;
+                )}{" "}
+                &nbsp;
                 <span>
                   {product?.discountPercentage > 0
                     ? `${product?.discountPercentage}%`
-                    : ''}
+                    : ""}
                 </span>
               </div>
               <div className="product-price text-capitalize ">
@@ -255,4 +244,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(null, mapDispatchToProps)(SingleProduct);
-

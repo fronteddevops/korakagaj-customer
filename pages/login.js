@@ -118,7 +118,7 @@ function Login() {
         const cart = await services.cart.GET_CART();
 
         let cartDetails = [];
-        if (cart?.data?.data?.cartDetail.cartDetails) {
+        if (cart?.data?.data?.cartDetail?.cartDetails) {
           cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
         }
         cartDetails = [...cartDetails, ...cartDetailsLocal];

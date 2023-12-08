@@ -147,21 +147,20 @@ const Header = ({ toggleClick, headerStyle }) => {
     }
   };
 
-
   const navigateOrders = async (productId) => {
     // Example: Navigate to the /products/[slug] page with a specific product ID
-    
-    await router.push('/myprofile?index=5');
+
+    await router.push("/myprofile?index=5");
   };
   const navigateAddress = async (productId) => {
     // Example: Navigate to the /products/[slug] page with a specific product ID
-    
-    await router.push('/myprofile?index=4');
+
+    await router.push("/myprofile?index=4");
   };
   const navigateProfile = async (productId) => {
     // Example: Navigate to the /products/[slug] page with a specific product ID
-    
-    await router.push('/myprofile?index=2');
+
+    await router.push("/myprofile?index=2");
   };
 
   return (
@@ -268,13 +267,13 @@ const Header = ({ toggleClick, headerStyle }) => {
                           menuVariant="light"
                           className="profile-dropdown"
                         >
-                          <NavDropdown.Item    onClick={navigateProfile}>
+                          <NavDropdown.Item onClick={navigateProfile}>
                             {t("My Orders")}
                           </NavDropdown.Item>
-                          <NavDropdown.Item   onClick={navigateAddress}>
+                          <NavDropdown.Item onClick={navigateAddress}>
                             {t("My Address")}
                           </NavDropdown.Item>
-                          <NavDropdown.Item    onClick={navigateOrders}>
+                          <NavDropdown.Item onClick={navigateOrders}>
                             {t("My Profile")}
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
@@ -506,37 +505,45 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li>
                         <Link href="/">
-                          <a className={
-                              router.pathname === "/" ? "active" : ""
-                            }>{t("Home")}</a>
+                          <a
+                            className={router.pathname === "/" ? "active" : ""}
+                          >
+                            {t("Home")}
+                          </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/page-about">
-
-                          <a  className={
+                          <a
+                            className={
                               router.pathname === "/page-about" ? "active" : ""
-                            }>
-                            
-                            {t("About")}</a>
+                            }
+                          >
+                            {t("About")}
+                          </a>
                         </Link>
                       </li>
                       <li>
                         <Link href="/products">
-                          <a   className={
+                          <a
+                            className={
                               router.pathname === "/products" ? "active" : ""
                             }
-
-                           >{t("Shop")}</a>
+                          >
+                            {t("Shop")}
+                          </a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/blog-category-grid">
-                          <a 
-                           className={
-                            router.pathname === "/blog-category-grid" ? "active" : ""
-                          } >
+                          <a
+                            className={
+                              router.pathname === "/blog-category-grid"
+                                ? "active"
+                                : ""
+                            }
+                          >
                             {t("Blog")}
                             <i className="fi-rs-angle-down"></i>
                           </a>
@@ -544,47 +551,62 @@ const Header = ({ toggleClick, headerStyle }) => {
                         <ul className="sub-menu">
                           <li>
                             <Link href="/blog-category-grid">
-                              <a  className={
-                              router.pathname === "/blog-category-grid" ? "active" : ""
-                            }
-                              
-                              >{t("Blog Category Grid")}</a>
+                              <a
+                                className={
+                                  router.pathname === "/blog-category-grid"
+                                    ? "active"
+                                    : ""
+                                }
+                              >
+                                {t("Blog Category Grid")}
+                              </a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-list">
                               <a
-                               className={
-                                router.pathname === "/blog-category-list" ? "active" : ""
-                              }
-                              >{t("Blog Category List")}</a>
+                                className={
+                                  router.pathname === "/blog-category-list"
+                                    ? "active"
+                                    : ""
+                                }
+                              >
+                                {t("Blog Category List")}
+                              </a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-big">
                               <a
-                               className={
-                                router.pathname === "/blog-category-big" ? "active" : ""
-                              }
-                              
-                              >{t("Blog Category Big")}</a>
+                                className={
+                                  router.pathname === "/blog-category-big"
+                                    ? "active"
+                                    : ""
+                                }
+                              >
+                                {t("Blog Category Big")}
+                              </a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/blog-category-fullwidth">
                               <a
-                               className={
-                                router.pathname === "/blog-category-fullwidth" ? "active" : ""
-                              }
-                              >{t("Blog Category Wide")}</a>
+                                className={
+                                  router.pathname === "/blog-category-fullwidth"
+                                    ? "active"
+                                    : ""
+                                }
+                              >
+                                {t("Blog Category Wide")}
+                              </a>
                             </Link>
                           </li>
                           <li>
                             <Link href="/#">
                               <a
-                               className={
-                                router.pathname === "/#" ? "active" : ""
-                              }
+                                className={
+                                  router.pathname === "/#" ? "active" : ""
+                                }
                               >
                                 {t("Single Post")}
                                 <i className="fi-rs-angle-right"></i>
@@ -594,28 +616,40 @@ const Header = ({ toggleClick, headerStyle }) => {
                               <li>
                                 <Link href="/blog-post-left">
                                   <a
-                                   className={
-                                    router.pathname === "/blog-post-left" ? "active" : ""
-                                  }
-                                  >{t("Left Sidebar")}</a>
+                                    className={
+                                      router.pathname === "/blog-post-left"
+                                        ? "active"
+                                        : ""
+                                    }
+                                  >
+                                    {t("Left Sidebar")}
+                                  </a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-right">
                                   <a
-                                   className={
-                                    router.pathname === "/blog-post-right" ? "active" : ""
-                                  }
-                                  >{t("Right Sidebar")}</a>
+                                    className={
+                                      router.pathname === "/blog-post-right"
+                                        ? "active"
+                                        : ""
+                                    }
+                                  >
+                                    {t("Right Sidebar")}
+                                  </a>
                                 </Link>
                               </li>
                               <li>
                                 <Link href="/blog-post-fullwidth">
                                   <a
-                                   className={
-                                    router.pathname === "/blog-post-fullwidth" ? "active" : ""
-                                  }
-                                  >{t("No Sidebar")}</a>
+                                    className={
+                                      router.pathname === "/blog-post-fullwidth"
+                                        ? "active"
+                                        : ""
+                                    }
+                                  >
+                                    {t("No Sidebar")}
+                                  </a>
                                 </Link>
                               </li>
                             </ul>
@@ -626,20 +660,28 @@ const Header = ({ toggleClick, headerStyle }) => {
                       <li>
                         <Link href="/page-contact">
                           <a
-                           className={
-                            router.pathname === "/page-contact" ? "active" : ""
-                          }
-                          >{t("Our Team")}</a>
+                            className={
+                              router.pathname === "/page-contact"
+                                ? "active"
+                                : ""
+                            }
+                          >
+                            {t("Our Team")}
+                          </a>
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/page-contact">
-                          <a className={
-                              router.pathname === "/page-contact" ? "active" : ""
+                          <a
+                            className={
+                              router.pathname === "/page-contact"
+                                ? "active"
+                                : ""
                             }
-                          
-                          >{t("Contact")}</a>
+                          >
+                            {t("Contact")}
+                          </a>
                         </Link>
                       </li>
                     </ul>
