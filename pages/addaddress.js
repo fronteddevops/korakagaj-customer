@@ -26,12 +26,10 @@ export default function Addaddress() {
   const [addressError, setAddressError] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
-
   const toastSuccesscreateaddress = () =>
     toast.success("Created Address successfully");
-//save   use address
+  //save   use address
   const handleUersAddress = async (event) => {
-    
     event.preventDefault();
 
     let isValid = true;
@@ -45,7 +43,7 @@ export default function Addaddress() {
     }
     if (isValid) {
       setPhoneNumberError("");
-      setPinCodeError("")
+      setPinCodeError("");
       try {
         const data = {
           address: {
@@ -62,22 +60,20 @@ export default function Addaddress() {
         const response = await services.myprofile.CREATE_MY_ADDRESS(data);
 
         if (response) {
-          setIsDisabled(false)
+          setIsDisabled(false);
           toastSuccesscreateaddress();
           setTimeout(() => {
             window.location.reload();
           }, 1000);
-         
         } else {
           alert(response?.data?.guide);
         }
       } catch (error) {
-        setIsDisabled(true)
+        setIsDisabled(true);
         console.log(error);
       }
     }
   };
-
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -117,11 +113,11 @@ export default function Addaddress() {
       }
     }
   };
-//hnadle copy paste
+  //hnadle copy paste
   const handlePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
-    if(pastedText.length>10){
+    if (pastedText.length > 10) {
       const isValidNumber = /^\d{10}$/; // Validate 10-digit number
 
       if (!isValidNumber.test(pastedText)) {
@@ -130,22 +126,20 @@ export default function Addaddress() {
         isValid = false;
       }
     }
-  
   };
 
   const handlePinCodePaste = (e) => {
     let isValid = true;
     const pastedText = e.clipboardData.getData("Text");
-    if(pastedText.length>6){
+    if (pastedText.length > 6) {
       const isValidPinCode = /^\d{6}$/; // Validate 6-digit pin code
-  
+
       if (!isValidPinCode.test(pastedText)) {
         e.preventDefault(); // Prevent pasting invalid input
         setPinCodeError(" Pin Code should be 6 digits");
         isValid = false;
       }
     }
-  
   };
   return (
     <div className=" ">
@@ -198,16 +192,16 @@ export default function Addaddress() {
                     }}
                     onKeyDown={(e) => {
                       const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                    
+
                       const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                      
+
                       if (
-                        e.key === " " &&                 // If the pressed key is space
-                        value.length === 0               // And there are no characters yet
+                        e.key === " " && // If the pressed key is space
+                        value.length === 0 // And there are no characters yet
                       ) {
-                        e.preventDefault();              // Prevent entering space at the beginning
+                        e.preventDefault(); // Prevent entering space at the beginning
                       }
-                    
+
                       if (
                         exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                         e.key !== "Backspace" &&
@@ -215,9 +209,8 @@ export default function Addaddress() {
                       ) {
                         e.preventDefault(); // Prevent input of restricted characters
                       }
-                    
+
                       // If the length is 0 and the key pressed is not Backspace or Delete
-                      
                     }}
                   />
                   <div>
@@ -336,16 +329,16 @@ export default function Addaddress() {
                     }}
                     onKeyDown={(e) => {
                       const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                    
+
                       const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                      
+
                       if (
-                        e.key === " " &&                 // If the pressed key is space
-                        value.length === 0               // And there are no characters yet
+                        e.key === " " && // If the pressed key is space
+                        value.length === 0 // And there are no characters yet
                       ) {
-                        e.preventDefault();              // Prevent entering space at the beginning
+                        e.preventDefault(); // Prevent entering space at the beginning
                       }
-                    
+
                       if (
                         exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                         e.key !== "Backspace" &&
@@ -353,9 +346,8 @@ export default function Addaddress() {
                       ) {
                         e.preventDefault(); // Prevent input of restricted characters
                       }
-                    
+
                       // If the length is 0 and the key pressed is not Backspace or Delete
-                      
                     }}
                   />
                   <div>
@@ -394,16 +386,16 @@ export default function Addaddress() {
                     }}
                     onKeyDown={(e) => {
                       const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                    
+
                       const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                      
+
                       if (
-                        e.key === " " &&                 // If the pressed key is space
-                        value.length === 0               // And there are no characters yet
+                        e.key === " " && // If the pressed key is space
+                        value.length === 0 // And there are no characters yet
                       ) {
-                        e.preventDefault();              // Prevent entering space at the beginning
+                        e.preventDefault(); // Prevent entering space at the beginning
                       }
-                    
+
                       if (
                         exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                         e.key !== "Backspace" &&
@@ -411,9 +403,8 @@ export default function Addaddress() {
                       ) {
                         e.preventDefault(); // Prevent input of restricted characters
                       }
-                    
+
                       // If the length is 0 and the key pressed is not Backspace or Delete
-                      
                     }}
                   />
                   <div>
@@ -452,16 +443,16 @@ export default function Addaddress() {
                     }}
                     onKeyDown={(e) => {
                       const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                    
+
                       const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                      
+
                       if (
-                        e.key === " " &&                 // If the pressed key is space
-                        value.length === 0               // And there are no characters yet
+                        e.key === " " && // If the pressed key is space
+                        value.length === 0 // And there are no characters yet
                       ) {
-                        e.preventDefault();              // Prevent entering space at the beginning
+                        e.preventDefault(); // Prevent entering space at the beginning
                       }
-                    
+
                       if (
                         exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                         e.key !== "Backspace" &&
@@ -469,9 +460,8 @@ export default function Addaddress() {
                       ) {
                         e.preventDefault(); // Prevent input of restricted characters
                       }
-                    
+
                       // If the length is 0 and the key pressed is not Backspace or Delete
-                      
                     }}
                   />
                   <div>
@@ -510,16 +500,16 @@ export default function Addaddress() {
                     }}
                     onKeyDown={(e) => {
                       const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
-                    
+
                       const value = e.target.value.trim(); // Trim removes leading/trailing spaces
-                      
+
                       if (
-                        e.key === " " &&                 // If the pressed key is space
-                        value.length === 0               // And there are no characters yet
+                        e.key === " " && // If the pressed key is space
+                        value.length === 0 // And there are no characters yet
                       ) {
-                        e.preventDefault();              // Prevent entering space at the beginning
+                        e.preventDefault(); // Prevent entering space at the beginning
                       }
-                    
+
                       if (
                         exceptThisSymbols.includes(e.key) && // If the key is in the exception list
                         e.key !== "Backspace" &&
@@ -527,9 +517,8 @@ export default function Addaddress() {
                       ) {
                         e.preventDefault(); // Prevent input of restricted characters
                       }
-                    
+
                       // If the length is 0 and the key pressed is not Backspace or Delete
-                      
                     }}
                   />
                   <div>
@@ -548,10 +537,17 @@ export default function Addaddress() {
                   <div>
                     <button
                       className="btn btn-fill-out mt-25"
-                      disabled={!(fullName&&phoneNumber&& pinCode&& state&&city&&houseNo&&address  &&isDisabled)
-                       
-                       
-                       
+                      disabled={
+                        !(
+                          fullName &&
+                          phoneNumber &&
+                          pinCode &&
+                          state &&
+                          city &&
+                          houseNo &&
+                          address &&
+                          isDisabled
+                        )
                       }
                     >
                       {t("Save")}

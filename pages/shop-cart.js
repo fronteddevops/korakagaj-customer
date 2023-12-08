@@ -108,6 +108,7 @@ const Cart = ({}) => {
       }
     }
   };
+  // console.log(selectedAddress);
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
@@ -287,7 +288,7 @@ const Cart = ({}) => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
-
+  console.log("updateCart", updateCart);
   return (
     <>
       <Layout
@@ -437,7 +438,7 @@ const Cart = ({}) => {
                     </tbody>
                   </table>
                 </div>
-                <div className="cart-action text-end">
+                <div className="cart-action text-center">
                   <Link className={"btn"} href="/products">
                     <button className={"btn"}>
                       <i className="fi-rs-shopping-bag mr-10"></i>
@@ -450,90 +451,98 @@ const Cart = ({}) => {
                 </div>
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-12">
-                    <div className="heading_s1 mb-3">
-                      <h4>Select Address</h4>
-                    </div>
-
+                    {updateCart && updateCart.length > 0 && addressList.length > 0 && (
+                      <div className="heading_s1 mb-3">
+                        <h4>Select Address</h4>
+                      </div>
+                    )}
                     <form className="field_form shipping_calculator">
                       <div className="form-row">
                         <div className="form-group col-lg-12">
                           <div className="custom_select">
-                            <select
-                              className="form-control select-active"
-                              value={selectedAddress}
-                              onChange={(e) => {
-                                setSelectedAddress(e.target.value);
-                              }}
-                            >
-                              <option value="">
-                                {t("Choose a option...")}
-                              </option>
-                              {addressList &&
-                                addressList.length > 0 &&
-                                addressList.map((item) => {
-                                  return (
-                                    <option value={item.id}>
-                                      {item.address.address}
-                                    </option>
-                                  );
-                                })}
-                            </select>
+                            {updateCart && updateCart.length > 0 && addressList.length > 0 && (
+                              <select
+                                className="form-control select-active"
+                                value={selectedAddress}
+                                onChange={(e) => {
+                                  setSelectedAddress(e.target.value);
+                                }}
+                              >
+                                <option value="">
+                                  {t("Choose a option...")}
+                                </option>
+                                {addressList &&
+                                  addressList.length > 0 &&
+                                  addressList.map((item) => {
+                                    return (
+                                      <option value={item.id}>
+                                        {item.address.address}
+                                      </option>
+                                    );
+                                  })}
+                              </select>
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="form-row">
                         <div className="form-group col-lg-12">
-                          <Link href={"/myprofile?index=4"}>
-                            <button className="btn  btn-sm w-100">
-                              <i className="fi-rs-shuffle mr-10"></i>
-                              Add new address
-                            </button>
-                          </Link>
+                          {updateCart && updateCart.length > 0 && (
+                            <Link href={"/myprofile?index=4"}>
+                              <button className="btn  btn-sm w-100">
+                                <i className="fi-rs-shuffle mr-10"></i>
+                                Add new address
+                              </button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </form>
                   </div>
                   <div className="col-lg-6 col-md-12">
-                    <div className="border p-md-4 p-30 border-radius cart-totals">
-                      <div className="heading_s1 mb-3">
-                        <h4>{t("Cart Totals")}</h4>
-                      </div>
-                      <div className="table-responsive">
-                        <table className="table">
-                          <tbody>
-                            <tr>
-                              <td className="cart_total_label">
-                                {t("Cart Subtotal")}
-                              </td>
-                              <td className="cart_total_amount">
-                                <span className="font-lg fw-900 text-brand">
-                                  Rs. {totalAmount}
-                                </span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="cart_total_label">
-                                {t("Shipping")}
-                              </td>
-                              <td className="cart_total_amount">
-                                <i className="ti-gift mr-5"></i>
-                                {t("Free Shipping")}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="cart_total_label">{t("Total")}</td>
-                              <td className="cart_total_amount">
-                                <strong>
-                                  <span className="font-xl fw-900 text-brand">
+                    {updateCart && updateCart.length > 0 && (
+                      <div className="border p-md-4 p-30 border-radius cart-totals">
+                        <div className="heading_s1 mb-3">
+                          <h4>{t("Cart Totals")}</h4>
+                        </div>
+                        <div className="table-responsive">
+                          <table className="table">
+                            <tbody>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Cart Subtotal")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <span className="font-lg fw-900 text-brand">
                                     Rs. {totalAmount}
                                   </span>
-                                </strong>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      {/* {isLoggedIn ? (
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Shipping")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <i className="ti-gift mr-5"></i>
+                                  {t("Free Shipping")}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Total")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <strong>
+                                    <span className="font-xl fw-900 text-brand">
+                                      Rs. {totalAmount}
+                                    </span>
+                                  </strong>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        {/* {isLoggedIn ? (
                         <a
                           onClick={() => {
                             if (selectedAddress) {
@@ -561,33 +570,34 @@ const Cart = ({}) => {
                         </Link>
                       )} */}
 
-                      {isLoggedIn ? (
-                        <a
-                          onClick={() => {
-                            if (selectedAddress) {
-                              router.push(`/Continue?id=${selectedAddress}`);
-                            } else {
-                              if (addressList.length > 0) {
-                                toast.error("Choose your address");
+                        {isLoggedIn ? (
+                          <a
+                            onClick={() => {
+                              if (selectedAddress) {
+                                router.push(`/Continue?id=${selectedAddress}`);
                               } else {
-                                toast.error("Add your address");
+                                if (addressList.length > 0) {
+                                  toast.error("Choose your address");
+                                } else {
+                                  toast.error("Add your address");
+                                }
                               }
-                            }
-                          }}
-                          href="#"
-                          className="btn "
-                        >
-                          Continue Order
-                        </a>
-                      ) : (
-                        <Link className={"btn"} href="/login">
-                          <a href="#" className="btn ">
-                            <i className="fi-rs-box-alt mr-10"></i>
-                            {t("Proceed to Login")}
+                            }}
+                            href="#"
+                            className="btn "
+                          >
+                            Continue Order
                           </a>
-                        </Link>
-                      )}
-                    </div>
+                        ) : (
+                          <Link className={"btn"} href="/login">
+                            <a href="#" className="btn ">
+                              <i className="fi-rs-box-alt mr-10"></i>
+                              {t("Proceed to Login")}
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

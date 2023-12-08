@@ -346,108 +346,110 @@ const Cart = ({}) => {
                 <div className="row mb-50">
                   <div className="col-lg-8 col-md-16">
                     <div className="col-lg-6">
-                      <div className="card mb-3 mb-lg-0">
-                        <div className="card-header d-flex justify-content-between">
-                          <h5 className="mb-0">{t("Selected Address")}</h5>
-                        </div>
+                      {updateCart?.length > 0 && (
+                        <div className="card mb-3 mb-lg-0">
+                          <div className="card-header d-flex justify-content-between">
+                            <h5 className="mb-0">{t("Selected Address")}</h5>
+                          </div>
 
-                        <div className="card-body">
-                          <address>
-                            {" "}
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data?.address?.fullName}
-                            </span>
-                            <br />
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data.address?.phoneNumber}
-                            </span>
-                            <br />
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data?.address?.houseNo}
-                            </span>
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data?.address?.address}
-                            </span>
-                            <br />
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data?.address?.city}
-                            </span>
-                            <br />
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data?.address?.pinCode}
-                            </span>
-                            <br />
-                            <span
-                              style={{
-                                whiteSpace: "pre-wrap", // This property allows for line breaks
-                                wordWrap: "break-word", // This property allows for breaking words when needed
-                                overflowWrap: "break-word", // An alternative way to allow word breaking
-                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                              }}
-                            >
-                              {Data?.address?.state}
-                            </span>
-                          </address>
+                          <div className="card-body">
+                            <address>
+                              {" "}
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data?.address?.fullName}
+                              </span>
+                              <br />
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data.address?.phoneNumber}
+                              </span>
+                              <br />
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data?.address?.houseNo}
+                              </span>
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data?.address?.address}
+                              </span>
+                              <br />
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data?.address?.city}
+                              </span>
+                              <br />
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data?.address?.pinCode}
+                              </span>
+                              <br />
+                              <span
+                                style={{
+                                  whiteSpace: "pre-wrap", // This property allows for line breaks
+                                  wordWrap: "break-word", // This property allows for breaking words when needed
+                                  overflowWrap: "break-word", // An alternative way to allow word breaking
+                                  maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                                }}
+                              >
+                                {Data?.address?.state}
+                              </span>
+                            </address>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-4 col-md-8">
-                    {console.log(isLoggedIn)}
+                    {/* {console.log(selectedAddress)} */}
                     {isLoggedIn ? (
                       <a
                         onClick={() => {
-                          if (selectedAddress) {
-                            debouncedFunction();
-                          } else {
-                            if (addressList.length > 0) {
-                              toast.error("Choose your address");
-                            } else {
-                              toast.error("Add your address");
-                            }
-                          }
+                          // if (selectedAddress) {
+                          debouncedFunction();
+                          // } else {
+                          //   if (addressList.length > 0) {
+                          //     toast.error("Choose your address");
+                          //   } else {
+                          //     toast.error("Add your address");
+                          //   }
+                          // }
                         }}
                         href="#"
                         className="btn "

@@ -27,12 +27,10 @@ function OrderViewDetails({ data }) {
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(
         orderId
       );
-      // console.log(response)
-      setaddress(response?.data?.data[0].Order.Address.address);
+      setaddress(response?.data?.data[0].Order?.Address?.address);
       setOrderDetailsData(response?.data?.data);
-      // console.log(response?.data?.data[0].Order.User.Addresses);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -170,9 +168,11 @@ function OrderViewDetails({ data }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {orderDetailsData?.length > 0 &&
-                      orderDetailsData &&
+                    {/* {console.log(orderDetailsData)} */}
+                    {orderDetailsData &&
+                      orderDetailsData?.length > 0 &&
                       orderDetailsData.map((product, j) => {
+                        // console.log(product);
                         const outerId = product?.Product?.id;
 
                         const matchingProducts =

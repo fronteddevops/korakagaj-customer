@@ -51,7 +51,7 @@ let image=[]
   const handleCart = async (product) => {
     const color = JSON?.parse(product?.colour)
     const size = JSON?.parse(product.size)
-   
+
     product.selectedColor = color[0];
     product.selectedSize = size[0];
     product.selectedQuantity = 1;
@@ -59,9 +59,10 @@ let image=[]
       const cart = await services.cart.GET_CART()
  
       let cartDetails = []
-      if (cart?.data?.data?.cartDetail) {
+      if (cart?.data?.data?.cartDetail.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails
       }
+      console.log(product,cartDetails)
       cartDetails?.push(product)
       const key = 'id';
       const unique = [...new Map(cartDetails?.map(item =>
@@ -74,7 +75,7 @@ let image=[]
       console.log(updateCart)
       toast.success("Add to Cart !");
       setTimeout(()=>{
-        window.location.reload()
+        // window.location.reload()
       },1000)
     
 
