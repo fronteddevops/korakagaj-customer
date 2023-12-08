@@ -375,7 +375,7 @@ const Products = ({ products1, productFilters }) => {
                       <Accordion key={index} activeKey={activeCategory}>
                         <Accordion.Item className="custom-filter" eventKey={index} key={index}>
                           <Accordion.Header onClick={() => toggleCategory(index)}>
-                            <h5 className="w-100 section-title style-1 wow fadeIn animated">
+                            <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
                               {Item?.categoryName}
                             </h5>
                           </Accordion.Header>

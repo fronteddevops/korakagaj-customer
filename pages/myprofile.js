@@ -36,22 +36,23 @@ function Account() {
   const [passwordError, setPasswordError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDisabledAcount, setIsDisabledAcount] = useState(true);
-  const [isDisabledChangeP, setIsDisabledChangep] = useState(true)
+  const [isDisabledChangeP, setIsDisabledChangep] = useState(true);
   const [alladdress, setAllAddress] = useState([]);
   const [orderDetailsData, setOrderDetailsData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [showAddAddressComponent, setShowAddAddressComponent] = useState(false);
-  const [showEditAddressComponent, setShowEditAddressComponent] = useState(false);
+  const [showEditAddressComponent, setShowEditAddressComponent] =
+    useState(false);
 
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [dobError, setDobError] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [dobError, setDobError] = useState("");
 
-  const [breadCrumb, setBreadCrumb] = useState(t("Dashboard"))
+  const [breadCrumb, setBreadCrumb] = useState(t("Dashboard"));
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   //image url
-  const imageUrl = nextConfig.BASE_URL_UPLOADS
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const toastSuccesschangepassword = () =>
     toast.success("Change password successfully");
   const toastSuccessprofileupdate = () =>
@@ -60,118 +61,105 @@ function Account() {
     toast.error(error.response?.data?.message || "An error occurred");
   };
 
-  let route = useRouter()
+  let route = useRouter();
   const { index } = route.query;
   useEffect(() => {
     if (index) {
-      handleOnClick(+index)
+      handleOnClick(+index);
     }
-  }, [index])
+  }, [index]);
   const handleOnClick = async (index) => {
-
     setActiveIndex(index);
     setShowAddAddressComponent(false);
-    setShowEditAddressComponent(false)
+    setShowEditAddressComponent(false);
     setFirstNameError("");
     setLastNameError("");
     setPhoneNumberError("");
-    setPassword("")
-    setNewPassword("")
-    setConfirmPassword("")
+    setPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
     setPasswordError("");
     setNewPasswordError("");
     setConfirmPasswordError("");
-
-
-
+    setDobError("");
     if (index === 5) {
-
       try {
         //get my profile data
         const response = await services.myprofile.GET_MY_PROFILE();
-        console.log(response.data.data)
+      
         setFirstName(response?.data?.data?.firstName);
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
         setPhoneNumber(response?.data?.data?.phoneNumber);
-        const date = response?.data?.data?.dob
+        const date = response?.data?.data?.dob;
 
         //  setDateOfBirth(update)
         const formattedDate = moment(date).format("YYYY-MM-DD");
         setDateOfBirth(formattedDate);
-        localStorage.setItem("user", JSON.stringify())
+        localStorage.setItem("user", JSON.stringify());
       } catch (error) {
         console.log(error);
       }
-    } if (index == 2) {
-
+    }
+    if (index == 2) {
       try {
-
         const response = await services.orderDetails.GET_ORDER_DETAILS();
-        setOrderDetailsData(response?.data?.data.rows)
-
-
-
+        setOrderDetailsData(response?.data?.data.rows);
       } catch (error) {
         console.log(error);
         toastError(error);
       }
     }
     if (index === 4) {
-
       try {
-
         //get my address
         const response = await services.myprofile.GET_MY_ADDRESS();
 
         setAllAddress(response?.data?.data);
-
-
       } catch (error) {
-
-        console.log(error)
+        console.log(error);
       }
-
     } else {
-
     }
   };
   //
+
   const handlesubmit = async (event) => {
     event.preventDefault();
-
+    if (dateOfBirth == "Invalid date") {
+      setDobError("Please enter a Date of birth");
+    }
     let isValid = true;
     if (phoneNumber.length < 10) {
       setPhoneNumberError(" Number should be  10  digits.");
       isValid = false;
     }
-    if (isValid) {
-      setPhoneNumberError("")
-      try {
-        const data = {
-          firstName: firstName,
-          lastName: lastName,
-          phoneNumber: phoneNumber,
-          dob: dateOfBirth,
-
-
-        };
-        const response = await services.myprofile.UPDATE_MY_PROFILE(data);
-        if (response) {
-          setIsDisabledAcount(false)
-          toastSuccessprofileupdate();
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000);
-
-        } else {
+    if (dateOfBirth != "Invalid date") {
+      if (isValid) {
+        setPhoneNumberError("");
+        try {
+          const data = {
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            dob: dateOfBirth,
+          };
+          const response = await services.myprofile.UPDATE_MY_PROFILE(data);
+          if (response) {
+            setIsDisabledAcount(false);
+            toastSuccessprofileupdate();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+          }
+        } catch (e) {
+          setIsDisabledAcount(true);
+          console.log(e);
         }
-      } catch (e) {
-        setIsDisabledAcount(true)
-        console.log(e)
       }
     }
-  }
+  };
 
   const handlePaste = (e) => {
     let isValid = true;
@@ -185,13 +173,12 @@ function Account() {
         isValid = false;
       }
     }
-
   };
 
   const changepassword = async (event) => {
     event.preventDefault();
-    setNewPasswordError("")
-    setConfirmPasswordError("")
+    setNewPasswordError("");
+    setConfirmPasswordError("");
     let isValid = true;
 
     setConfirmPasswordError("");
@@ -212,28 +199,25 @@ function Account() {
         };
         const response = await services.myprofile.CHANGE_PASSWORD(data);
         if (response) {
-          setIsDisabledChangep(false)
+          setIsDisabledChangep(false);
           toastSuccesschangepassword();
-          route.push("/login")
+          route.push("/login");
         } else {
           alert(response.data.guide);
         }
       } catch (error) {
         toastError(error);
-        setIsDisabledChangep(true)
+        setIsDisabledChangep(true);
         console.log(error);
       }
     }
-
-  }
-
+  };
 
   const handleaddaddress = () => {
-    setShowEditAddressComponent(false)
+    setShowEditAddressComponent(false);
     // Set the state to true to render the AddAddressComponent
     setShowAddAddressComponent(true);
   };
-
 
   const handleeditaddress = (id) => {
     setSelectedId(id);
@@ -269,23 +253,30 @@ function Account() {
     const isFutureDate = moment(enteredDate).isAfter(moment());
 
     if (!enteredDate.match(dateFormat) || isFutureDate) {
-      setDobError('Please enter a valid past date in the format MM-DD-YYY  ');
-      setDateOfBirth("")
+      setDobError("Please enter a valid past date in the format MM-DD-YYY  ");
+      setDateOfBirth("");
     } else {
-      setDobError('');
+      setDobError("");
       setDateOfBirth(enteredDate);
     }
-
-
-
   };
-
-
-
 
   return (
     <div>
-      <Layout parent={t("Home")} sub={t("Pages")} subsuB={<a href="/myprofile?index=2"> <> <span></span> {t("Pages")}</></a>} subChild={breadCrumb}>
+      <Layout
+        parent={t("Home")}
+        sub={t("Pages")}
+        subsuB={
+          <a href="/myprofile?index=2">
+            {" "}
+            <>
+              {" "}
+              <span></span> {t("Pages")}
+            </>
+          </a>
+        }
+        subChild={breadCrumb}
+      >
         <section className="pt-50 pb-150">
           <div className="container">
             <div className="row">
@@ -300,14 +291,11 @@ function Account() {
                 aria-labelledby="address-tab"
               >
                 <div className="col-lg-12 text-end mb-2">
-
                   <button
                     className="btn btn-fill-out"
                     style={{ width: "150px", padding: "1rem" }}
                     onClick={handleaddaddress}
-
                   >
-
                     <i class="fa fa-plus fs-6 me-2"></i>
                     {t("Add Address")}
                   </button>
@@ -322,9 +310,8 @@ function Account() {
                         <li
                           className="nav-item"
                           onClick={() => {
-
-                            setBreadCrumb("Dashboard")
-                            handleOnClick(1)
+                            setBreadCrumb("Dashboard");
+                            handleOnClick(1);
                           }}
                         >
                           <a
@@ -339,8 +326,8 @@ function Account() {
                         <li
                           className="nav-item"
                           onClick={() => {
-                            setBreadCrumb("Orders")
-                            handleOnClick(2)
+                            setBreadCrumb("Orders");
+                            handleOnClick(2);
                           }}
                         >
                           <a
@@ -368,9 +355,8 @@ function Account() {
                         <li
                           className="nav-item"
                           onClick={() => {
-
-                            setBreadCrumb("My Address")
-                            handleOnClick(4)
+                            setBreadCrumb("My Address");
+                            handleOnClick(4);
                           }}
                         >
                           <a
@@ -385,8 +371,8 @@ function Account() {
                         <li
                           className="nav-item"
                           onClick={() => {
-                            setBreadCrumb(" Account details")
-                            handleOnClick(5)
+                            setBreadCrumb(" Account details");
+                            handleOnClick(5);
                           }}
                         >
                           <a
@@ -401,8 +387,8 @@ function Account() {
                         <li
                           className="nav-item"
                           onClick={() => {
-                            setBreadCrumb(" Change password")
-                            handleOnClick(6)
+                            setBreadCrumb(" Change password");
+                            handleOnClick(6);
                           }}
                         >
                           <a
@@ -440,13 +426,21 @@ function Account() {
                         >
                           <div className="card">
                             <div className="card-header">
-                              <h5 className="mb-0">{t("Welcome to KoraKagaj!")}</h5>
+                              <h5 className="mb-0">
+                                {t("Welcome to KoraKagaj!")}
+                              </h5>
                             </div>
                             <div className="card-body">
                               <p>
-                                {t("From your account dashboard. you can easily check")} &amp; {t("view your")}
-                                <a href="#">{t("recent orders")}</a>, {t("manage your")}
-                                <a href="#">{t("shipping and billing addresses")}</a>
+                                {t(
+                                  "From your account dashboard. you can easily check"
+                                )}{" "}
+                                &amp; {t("view your")}
+                                <a href="#">{t("recent orders")}</a>,{" "}
+                                {t("manage your")}
+                                <a href="#">
+                                  {t("shipping and billing addresses")}
+                                </a>
                                 {t("and")}
                                 <a href="#">
                                   {t("edit your password and account details.")}
@@ -484,42 +478,60 @@ function Account() {
                                       <th>{t("Actions")}</th>
                                     </tr>
                                   </thead>
+                                  {
+                                    console.log("orderDetailsData", orderDetailsData)
+                                  }
                                   <tbody>
-                                    {orderDetailsData?.map((item, key) => (
-                                      <tr key={key}>
-                                        <td>
-                                          <img
-                                            className='img-fluid rounded' // Make the image responsive
-                                            crossOrigin='anonymous'
-                                            src={imageUrl + item?.OrderDetails?.[0]?.Product?.image?.[0]}
-                                            alt='Image'
-                                            height={50}
-                                            width={50}
-                                          />
-                                        </td>
-                                        <td>{item?.id}</td>
-                                        <td>{moment(item?.createdAt).format("MMM DD, YYYY hh:mm A")}</td>
-                                        <td>{item?.totalItems}</td>
-                                        <td>{item?.totalQuantity}</td>
-                                        <td>{item?.totalAmount}</td>
-                                        <td>
-                                          {item?.OrderDetails?.map((orderDetail, index) => (
-                                            index === 0 ? orderDetail.type : null
-                                          ))}
-                                        </td>
-                                        <td>
-                                          <Link href={`/OrderViewDetails?orderId=${item.id}`}>
-                                            <a>{t("View detail")}</a>
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    ))}
+                                    {orderDetailsData &&
+                                      orderDetailsData.length > 0 &&
+                                      orderDetailsData?.map((item, key) => (
+                                        <tr key={key}>
+                                          <td>
+                                            <img
+                                              className="img-fluid rounded" // Make the image responsive
+                                              crossOrigin="anonymous"
+                                              src={
+                                                imageUrl +
+                                                item?.OrderDetails?.[0]?.Product
+                                                  ?.image?.[0]
+                                              }
+                                              alt="Image"
+                                              height={50}
+                                              width={50}
+                                            />
+                                          </td>
+                                          <td>{item?.id}</td>
+                                          <td>
+                                            {moment(item?.createdAt).format(
+                                              "MMM DD, YYYY hh:mm A"
+                                            )}
+                                          </td>
+                                          <td>{item?.totalItems}</td>
+                                          <td>{item?.totalQuantity}</td>
+                                          <td>{item?.totalAmount}</td>
+
+                                          <td>
+                                            {item?.OrderDetails?.map(
+                                              (orderDetail, index) =>
+                                                index === 0
+                                                  ? orderDetail.type
+                                                  : null
+                                            )}
+                                          </td>
+                                          <td>
+                                            <Link
+                                              href={`/OrderViewDetails?orderId=${item.id}`}
+                                            >
+                                              <a>{t("View detail")}</a>
+                                            </Link>
+                                          </td>
+                                        </tr>
+                                      ))}
                                   </tbody>
                                 </table>
                               </div>
                             </div>
                           </div>
-
                         </div>
                         <div
                           className={
@@ -537,7 +549,9 @@ function Account() {
                             </div>
                             <div className="card-body contact-from-area">
                               <p>
-                                {t("To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.")}
+                                {t(
+                                  "To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received."
+                                )}
                               </p>
                               <div className="row">
                                 <div className="col-lg-8">
@@ -578,7 +592,9 @@ function Account() {
                         </div>
                         <div
                           className={
-                            activeIndex === 4 && showAddAddressComponent === false && showEditAddressComponent === false
+                            activeIndex === 4 &&
+                            showAddAddressComponent === false &&
+                            showEditAddressComponent === false
                               ? "tab-pane fade show active"
                               : "tab-pane fade"
                           }
@@ -586,24 +602,26 @@ function Account() {
                           role="tabpanel"
                           aria-labelledby="address-tab"
                         >
-
                           <div className="row">
                             {alladdress?.length === 0 ? (
-                              <span className="text-danger m-10"
+                              <span
+                                className="text-danger m-10"
                                 style={{
                                   textAlign: "center",
-                                  padding: "173px"
+                                  padding: "173px",
                                 }}
-                              >{t("No Address Found")}</span>
+                              >
+                                {t("No Address Found")}
+                              </span>
                             ) : (
                               alladdress?.map((user, index) => {
-
-
                                 return (
                                   <div className="col-lg-6">
                                     <div className="card mb-3 mb-lg-0">
                                       <div className="card-header d-flex justify-content-between">
-                                        <h5 className="mb-0">{t("Billing Address")}</h5>
+                                        <h5 className="mb-0">
+                                          {t("Billing Address")}
+                                        </h5>
                                         <span>
                                           <input
                                             className="form-check-input"
@@ -612,7 +630,6 @@ function Account() {
                                             id="flexSwitchCheckDefault"
                                             disabled="true"
                                             checked={user.defaultAddress}
-
                                           />
                                         </span>
                                       </div>
@@ -701,16 +718,18 @@ function Account() {
                                           </span>
                                         </address>
 
-
-
                                         <div className="col-lg-12 text-end ">
                                           <span
-
-                                            style={{ width: "150px", padding: "1rem", color: "red", cursor: 'pointer' }}
-
-                                            onClick={() => handleeditaddress(user.id)}
+                                            style={{
+                                              width: "150px",
+                                              padding: "1rem",
+                                              color: "red",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() =>
+                                              handleeditaddress(user.id)
+                                            }
                                           >
-
                                             {t("Edit")}
                                           </span>
                                         </div>
@@ -718,12 +737,15 @@ function Account() {
                                     </div>
                                   </div>
                                 );
-                              }))}
+                              })
+                            )}
                           </div>
                         </div>
                         {showAddAddressComponent && <Addaddress />}
 
-                        {showEditAddressComponent && <Editaddress id={selectedid} />}
+                        {showEditAddressComponent && (
+                          <Editaddress id={selectedid} />
+                        )}
                         <div
                           className={
                             activeIndex === 5
@@ -752,7 +774,9 @@ function Account() {
                                       name="name"
                                       type="text"
                                       value={firstName}
-                                      placeholder={t("Enter First Name") + firstName}
+                                      placeholder={
+                                        t("Enter First Name") + firstName
+                                      }
                                       onChange={(e) => {
                                         setFirstName(e.target.value);
                                         if (!e.target.value.trim()) {
@@ -763,18 +787,21 @@ function Account() {
                                           setFirstName(e.target.value);
                                           setFirstNameError("");
                                         }
-
                                       }}
                                       onKeyDown={(e) => {
-                                        const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
+                                        const exceptThisSymbols = [
+                                          "@",
+                                          "#",
+                                          "$",
+                                        ]; // Example: Add the symbols you want to restrict
 
                                         const value = e.target.value.trim(); // Trim removes leading/trailing spaces
 
                                         if (
-                                          e.key === " " &&                 // If the pressed key is space
-                                          value.length === 0               // And there are no characters yet
+                                          e.key === " " && // If the pressed key is space
+                                          value.length === 0 // And there are no characters yet
                                         ) {
-                                          e.preventDefault();              // Prevent entering space at the beginning
+                                          e.preventDefault(); // Prevent entering space at the beginning
                                         }
 
                                         if (
@@ -786,7 +813,6 @@ function Account() {
                                         }
 
                                         // If the length is 0 and the key pressed is not Backspace or Delete
-
                                       }}
                                     />
                                     <div>
@@ -795,7 +821,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
-                                            fontSize: "12px"
+                                            fontSize: "12px",
                                           }}
                                         >
                                           {firstNameError}
@@ -813,7 +839,9 @@ function Account() {
                                       className="form-control square"
                                       name="name"
                                       value={lastName}
-                                      placeholder={t("Enter Last Name") + lastName}
+                                      placeholder={
+                                        t("Enter Last Name") + lastName
+                                      }
                                       onChange={(e) => {
                                         setLastName(e.target.value);
                                         if (!e.target.value.trim()) {
@@ -824,18 +852,21 @@ function Account() {
                                           setLastName(e.target.value);
                                           setLastNameError("");
                                         }
-
                                       }}
                                       onKeyDown={(e) => {
-                                        const exceptThisSymbols = ["@", "#", "$"]; // Example: Add the symbols you want to restrict
+                                        const exceptThisSymbols = [
+                                          "@",
+                                          "#",
+                                          "$",
+                                        ]; // Example: Add the symbols you want to restrict
 
                                         const value = e.target.value.trim(); // Trim removes leading/trailing spaces
 
                                         if (
-                                          e.key === " " &&                 // If the pressed key is space
-                                          value.length === 0               // And there are no characters yet
+                                          e.key === " " && // If the pressed key is space
+                                          value.length === 0 // And there are no characters yet
                                         ) {
-                                          e.preventDefault();              // Prevent entering space at the beginning
+                                          e.preventDefault(); // Prevent entering space at the beginning
                                         }
 
                                         if (
@@ -847,7 +878,6 @@ function Account() {
                                         }
 
                                         // If the length is 0 and the key pressed is not Backspace or Delete
-
                                       }}
                                     />
                                     <div>
@@ -856,7 +886,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
-                                            fontSize: "12px"
+                                            fontSize: "12px",
                                           }}
                                         >
                                           {lastNameError}
@@ -876,7 +906,9 @@ function Account() {
                                       name="phone"
                                       type="number"
                                       value={phoneNumber}
-                                      placeholder={t("Enter Phone Number") + phoneNumber}
+                                      placeholder={
+                                        t("Enter Phone Number") + phoneNumber
+                                      }
                                       onChange={handleInputChange}
                                       onPaste={handlePaste}
                                       min="0"
@@ -901,7 +933,7 @@ function Account() {
                                           style={{
                                             color: "red",
                                             position: "absolute",
-                                            fontSize: "12px"
+                                            fontSize: "12px",
                                           }}
                                         >
                                           {phoneNumberError}
@@ -930,32 +962,38 @@ function Account() {
                                       <input
                                         required=""
                                         className="form-control square"
-
                                         //    name="dob"
                                         type="date"
                                         value={dateOfBirth}
                                         onChange={handleInputChangeDateOfBirth}
-                                        max={moment().format('YYYY-MM-DD')}
+                                        max={moment().format("YYYY-MM-DD")}
                                       />
-                                      {dobError && <span style={{
-                                        color: "red",
-                                        position: "absolute",
-                                        fontSize: "12px"
-                                      }}>{dobError}</span>}
+                                      {dobError && (
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            position: "absolute",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          {dobError}
+                                        </span>
+                                      )}
                                     </div>
-
                                   </div>
                                   <div className="col-md-12 mt-5">
                                     <button
                                       className="btn btn-fill-out "
                                       disabled={
-                                        !(isDisabledAcount &&
+                                        !(
+                                          isDisabledAcount &&
                                           firstName &&
                                           dateOfBirth &&
-                                          lastName && phoneNumber)
-
+                                          lastName &&
+                                          phoneNumber
+                                        )
                                       }
-                                    // onClick={handlesubmit}
+                                      // onClick={handlesubmit}
                                     >
                                       {t("Save")}
                                     </button>
@@ -992,21 +1030,24 @@ function Account() {
                                         required=""
                                         className="form-control square"
                                         name="password"
-                                        type={showPassword ? "text" : "password"}
+                                        type={
+                                          showPassword ? "text" : "password"
+                                        }
                                         value={password}
                                         placeholder={t("Password")}
                                         onChange={(e) => {
-                                          const trimmedValue = e.target.value.trim(); // Remove leading/trailing spaces
+                                          const trimmedValue =
+                                            e.target.value.trim(); // Remove leading/trailing spaces
                                           if (trimmedValue !== "") {
                                             setPassword(trimmedValue);
                                             setPasswordError(""); // Clear the error if the input is not just spaces
                                           } else {
                                             setPassword(""); // Optionally, you can clear the password state
-                                            setPasswordError("Old Password is required");
+                                            setPasswordError(
+                                              "Old Password is required"
+                                            );
                                           }
                                         }}
-
-
                                       />
                                       <span className="">
                                         <i
@@ -1028,12 +1069,18 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
-                                    <div style={{ marginTop: '-1rem', paddingBottom: '17px' }}>
+                                    <div
+                                      style={{
+                                        marginTop: "-1rem",
+                                        paddingBottom: "17px",
+                                      }}
+                                    >
                                       {passwordError ? (
                                         <span
                                           className="text-start position-absolute"
                                           style={{
-                                            color: "red", fontSize: "12px",
+                                            color: "red",
+                                            fontSize: "12px",
                                           }}
                                         >
                                           {passwordError}
@@ -1041,7 +1088,8 @@ function Account() {
                                       ) : null}
                                     </div>
                                   </div>
-                                  <div className="form-group col-md-12"
+                                  <div
+                                    className="form-group col-md-12"
                                     style={{ marginTop: "-1rem" }}
                                   >
                                     <label>
@@ -1062,7 +1110,9 @@ function Account() {
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
-                                            setNewPasswordError("Requierd New Password");
+                                            setNewPasswordError(
+                                              "Requierd New Password"
+                                            );
                                           } else if (
                                             e.target.value.trim() ===
                                             confirmPassword
@@ -1103,18 +1153,27 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
-                                    <div style={{ marginTop: '-1rem', paddingBottom: '17px' }}>
+                                    <div
+                                      style={{
+                                        marginTop: "-1rem",
+                                        paddingBottom: "17px",
+                                      }}
+                                    >
                                       {newpasswordError ? (
                                         <span
                                           className="text-start position-absolute"
-                                          style={{ color: "red", fontSize: "12px" }}
+                                          style={{
+                                            color: "red",
+                                            fontSize: "12px",
+                                          }}
                                         >
                                           {newpasswordError}
                                         </span>
                                       ) : null}
                                     </div>
                                   </div>
-                                  <div className="form-group col-md-12"
+                                  <div
+                                    className="form-group col-md-12"
                                     style={{ marginTop: "-1rem" }}
                                   >
                                     <label>
@@ -1135,7 +1194,9 @@ function Account() {
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
-                                            setConfirmPasswordError("Requierd Confirm Password");
+                                            setConfirmPasswordError(
+                                              "Requierd Confirm Password"
+                                            );
                                           } else if (
                                             e.target.value.trim() !==
                                             newpassword
@@ -1179,11 +1240,19 @@ function Account() {
                                         </i>
                                       </span>
                                     </div>
-                                    <div style={{ marginTop: '-1rem', paddingBottom: '17px' }}>
+                                    <div
+                                      style={{
+                                        marginTop: "-1rem",
+                                        paddingBottom: "17px",
+                                      }}
+                                    >
                                       {confirmPasswordError ? (
                                         <span
                                           className="text-start  position-absolute"
-                                          style={{ color: "red", fontSize: "12px" }}
+                                          style={{
+                                            color: "red",
+                                            fontSize: "12px",
+                                          }}
                                         >
                                           {confirmPasswordError}
                                         </span>
@@ -1196,15 +1265,15 @@ function Account() {
                                       className="btn btn-fill-out  "
                                       // name="submit"
                                       // value="Submit"
-                                      disabled={!(
-                                        isDisabledChangeP &&
-
-                                        password &&
-                                        newpassword &&
-                                        confirmPassword
-                                      )
+                                      disabled={
+                                        !(
+                                          isDisabledChangeP &&
+                                          password &&
+                                          newpassword &&
+                                          confirmPassword
+                                        )
                                       }
-                                    // onClick={changepassword}
+                                      // onClick={changepassword}
                                     >
                                       {t("Save")}
                                     </button>

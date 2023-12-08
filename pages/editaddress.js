@@ -212,6 +212,7 @@ export default function Editaddress(props) {
                     type="text"
                     value={fullName}
                     // placeholder="Enter Full Name"
+                    disabled={true}
                     placeholder={t("Enter Full Name") + fullName}
                     onChange={(e) => {
                       setFullName(e.target.value);
@@ -270,6 +271,7 @@ export default function Editaddress(props) {
                     name="phone"
                     type="number"
                     value={phoneNumber}
+                    disabled={true}
                     placeholder={t("Enter Phone Number") + phoneNumber}
                     onChange={handleInputChange}
                     onPaste={handlePaste}
@@ -311,6 +313,7 @@ export default function Editaddress(props) {
                     name="pincode"
                     type="number"
                     value={pinCode}
+                    disabled={true}
                     placeholder={t("Enter Pin Code") + pinCode}
                     onChange={handlePinCodeInputChange}
                     onPaste={handlePinCodePaste}
@@ -352,6 +355,7 @@ export default function Editaddress(props) {
                     name="state"
                     type="text"
                     value={state}
+                    disabled={true}
                     placeholder={t("Enter Sate")+ state}
                     onChange={(e) => {
                       setState(e.target.value);
@@ -410,6 +414,7 @@ export default function Editaddress(props) {
                     name="city"
                     type="text"
                     value={city}
+                    disabled={true}
                     placeholder={t("Enter City") + city}
                     onChange={(e) => {
                       setCity(e.target.value);
@@ -468,6 +473,7 @@ export default function Editaddress(props) {
                     name="houseno"
                     type="text"
                     value={houseNo}
+                    disabled={true}
                     placeholder={`Enter HouseNo. ${houseNo}`}
                     onChange={(e) => {
                       setHouseNo(e.target.value);
@@ -525,6 +531,7 @@ export default function Editaddress(props) {
                     className="form-control square"
                     name="address"
                     type="address"
+                    disabled={true}
                     value={address}
                     placeholder={`Enter Address${address}`}
                     onChange={(e) => {

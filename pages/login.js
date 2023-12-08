@@ -1,4 +1,3 @@
-
 import Layout from "../components/layout/Layout";
 import "react-toastify/dist/ReactToastify.css";
 import services from "../services/index.js";
@@ -13,16 +12,17 @@ function Login() {
   const { t } = useTranslation("common");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const route = useRouter()
+  const route = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDisabledPassword, setIsDisabledpassword] = useState(true);
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
-  const [showForgetPasswordComponent, setShowForgetPasswordComponent] = useState(false);
+  const [showForgetPasswordComponent, setShowForgetPasswordComponent] =
+    useState(false);
   const [emailForgot, setEmailForgot] = useState("");
- 
+
   const [emailErrorForgot, setEmailErrorForgot] = useState("");
   const toastErrorForgot = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
@@ -40,20 +40,19 @@ function Login() {
     let isValid = true;
     setEmailError("");
     setPasswordError("");
-  
+
     // Assuming you have a state variable for rememberMe
     if (rememberMe) {
-    
-      localStorage.setItem('rememberedUsername', email);
-      localStorage.setItem('rememberedPassword', password);
-      localStorage.setItem('rememberMe', true);
+      localStorage.setItem("rememberedUsername", email);
+      localStorage.setItem("rememberedPassword", password);
+      localStorage.setItem("rememberMe", true);
     } else {
       // Clear saved credentials if "Remember Me" is unchecked
-      localStorage.removeItem('rememberedUsername');
-      localStorage.removeItem('rememberedPassword');
-      localStorage.removeItem('rememberMe');
+      localStorage.removeItem("rememberedUsername");
+      localStorage.removeItem("rememberedPassword");
+      localStorage.removeItem("rememberMe");
     }
-  
+
     if (email === "") {
       setEmailError("Enter a valid email address");
       isValid = false;
@@ -65,7 +64,7 @@ function Login() {
       setPasswordError("Please enter the password");
       isValid = false;
     }
-  
+
     if (isValid) {
       try {
         let payLoad = {
@@ -73,16 +72,16 @@ function Login() {
           password: password,
           role: "Customer",
         };
-  
+
         const response = await services.auth.LOGIN_USER(payLoad);
-    
+
         await handleCart();
         if (response) {
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccessLogin();
           setIsDisabled(false);
           setTimeout(() => {
-            route.push('/');
+            route.push("/");
           }, 1000);
         }
       } catch (error) {
@@ -93,54 +92,51 @@ function Login() {
     }
   };
 
-  
-useEffect(()=>{ 
-  const storedUsername = localStorage.getItem('rememberedUsername');
-  const storedPassword = localStorage.getItem('rememberedPassword');
-  const storedRememberMe = localStorage.getItem('rememberMe');
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("rememberedUsername");
+    const storedPassword = localStorage.getItem("rememberedPassword");
+    const storedRememberMe = localStorage.getItem("rememberMe");
 
-  if (storedRememberMe) {
-    setEmail(storedUsername || '');
-    setPassword(storedPassword || '');
-    setRememberMe(true);
-  }
-},[])
+    if (storedRememberMe) {
+      setEmail(storedUsername || "");
+      setPassword(storedPassword || "");
+      setRememberMe(true);
+    }
+  }, []);
 
-//handle cart data 
+  //handle cart data
   const handleCart = async () => {
     try {
       if (localStorage.getItem("cartDetail")) {
-        const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-        let cartDetailsLocal = []
+        const cartLocal =
+          localStorage.getItem("cartDetail") &&
+          JSON.parse(localStorage.getItem("cartDetail"));
+        let cartDetailsLocal = [];
         if (cartLocal && cartLocal?.cartDetails?.length > 0) {
-          cartDetailsLocal = cartLocal.cartDetails
+          cartDetailsLocal = cartLocal.cartDetails;
         }
-        const cart = await services.cart.GET_CART()
-     
-        
-        let cartDetails = []
+        const cart = await services.cart.GET_CART();
+
+        let cartDetails = [];
         if (cart?.data?.data?.cartDetail.cartDetails) {
-        
-          cartDetails = cart?.data?.data?.cartDetail?.cartDetails
+          cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
         }
-        cartDetails = [...cartDetails, ...cartDetailsLocal]
-        const key = 'id';
-        const unique = [...new Map(cartDetails.map(item =>
-          [item[key], item])).values()];
-          let data = {
-            cartDetail: { cartDetails: unique }
-          }
-       
-        console.log(data)
-        const updateCart = await services.cart.UPDATE_CART(data)
-        console.log(updateCart)
-        localStorage.removeItem('cartDetail')
-  
+        cartDetails = [...cartDetails, ...cartDetailsLocal];
+        const key = "id";
+        const unique = [
+          ...new Map(cartDetails.map((item) => [item[key], item])).values(),
+        ];
+        let data = {
+          cartDetail: { cartDetails: unique },
+        };
+
+        const updateCart = await services.cart.UPDATE_CART(data);
+
+        localStorage.removeItem("cartDetail");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
@@ -151,16 +147,15 @@ useEffect(()=>{
   const togglePasswordVisibilityLogin = () => {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
-  const toastSuccessEmailSent = () =>
-    toast.success("Email Sent successfully");
+  const toastSuccessEmailSent = () => toast.success("Email Sent successfully");
 
   const handleForgetPassword = async () => {
-    setIsDisabledpassword(true)
-    setShowForgetPasswordComponent(true)
-  }
-//handle Forgot email
+    setIsDisabledpassword(true);
+    setShowForgetPasswordComponent(true);
+  };
+  //handle Forgot email
   const handleForgotEmail = async (event) => {
-setIsDisabledpassword(false)
+    setIsDisabledpassword(false);
     event.preventDefault();
     let isValidForget = true;
     setEmailErrorForgot("");
@@ -173,35 +168,27 @@ setIsDisabledpassword(false)
       isValidForget = false;
     }
 
-
     if (isValidForget) {
-      try{
-        let data={
-            email:emailForgot
-          }
-          console.log(data)
-          const response = await services.auth.FORGOT_PASSWORD(data)
-          if(response)
-          {
-           
-            toastSuccessEmailSent()
-            
-           setShowForgetPasswordComponent(false)
-          setIsDisabledpassword(false)
-          
-          }else {
-            alert(response.data.guide);
-          }
-      }
-      catch (error) {
-        toastErrorForgot(error);
-        setIsDisabledpassword(true
-          )
-        console.log(error)
+      try {
+        let data = {
+          email: emailForgot,
+        };
+        const response = await services.auth.FORGOT_PASSWORD(data);
+        if (response) {
+          toastSuccessEmailSent();
 
+          setShowForgetPasswordComponent(false);
+          setIsDisabledpassword(false);
+        } else {
+          alert(response.data.guide);
+        }
+      } catch (error) {
+        toastErrorForgot(error);
+        setIsDisabledpassword(true);
+        console.log(error);
       }
     }
-  }
+  };
   return (
     <>
       <ToastContainer
@@ -215,10 +202,9 @@ setIsDisabledpassword(false)
         draggable
         pauseOnHover
       />
-      {showForgetPasswordComponent === false &&
-        <Layout parent={t("Home")} sub={<a href="/login">{t("Login")}</a>} >
+      {showForgetPasswordComponent === false && (
+        <Layout parent={t("Home")} sub={<a href="/login">{t("Login")}</a>}>
           <section className="pt-100 pb-100 bg-image">
-
             <div className="container">
               <div className="row">
                 <div className="col-lg-12 m-auto">
@@ -227,9 +213,7 @@ setIsDisabledpassword(false)
                       <div className="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
                         <div className="padding_eight_all bg-white">
                           <div className="heading_s1">
-                            <h3 className="mb-30">
-                              {t("Login")}
-                            </h3>
+                            <h3 className="mb-30">{t("Login")}</h3>
                           </div>
                           <form method="post" onSubmit={handleLogin}>
                             <div className="col-md-12 mt-4">
@@ -273,7 +257,9 @@ setIsDisabledpassword(false)
                             <div className="col-md-12 mt-4">
                               <input
                                 required=""
-                                type={passwordVisibleLogin ? "text" : "password"}
+                                type={
+                                  passwordVisibleLogin ? "text" : "password"
+                                }
                                 name="password"
                                 placeholder={t("Password")}
                                 onChange={(e) => {
@@ -328,31 +314,30 @@ setIsDisabledpassword(false)
                             </div>
                             &nbsp; &nbsp; &nbsp;
                             <div className="login_footer form-group">
-                            <div className="chek-form">
-  <div className="custome-checkbox">
-    <input
-      className="form-check-input"
-      type="checkbox"
-      name="checkbox"
-      id="exampleCheckbox1"
-     
-      checked={rememberMe}
-     onChange={()=> setRememberMe(!rememberMe)}
-    />
-    <label
-      className="form-check-label"
-      htmlFor="exampleCheckbox1"
-      
-     // onClick={rememberMe1}
-    >
-      <span>{t("Remember me")}</span>
-    </label>
-  </div>
-</div>
+                              <div className="chek-form">
+                                <div className="custome-checkbox">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="checkbox"
+                                    id="exampleCheckbox1"
+                                    checked={rememberMe}
+                                    onChange={() => setRememberMe(!rememberMe)}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="exampleCheckbox1"
+
+                                    // onClick={rememberMe1}
+                                  >
+                                    <span>{t("Remember me")}</span>
+                                  </label>
+                                </div>
+                              </div>
 
                               <span
                                 onClick={handleForgetPassword}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: "pointer" }}
                               >
                                 {t("Forgot password?")}
                               </span>
@@ -363,13 +348,13 @@ setIsDisabledpassword(false)
                                 className="btn btn-fill-out btn-block hover-up w-100"
                                 name="login"
                                 disabled={!(email && password && isDisabled)}
-                              // onClick={handleLogin}
+                                // onClick={handleLogin}
                               >
                                 {t("Log in")}
                               </button>
                             </div>
                           </form>
-                      
+
                           <div className="divider-text-center mt-15 mb-15">
                             <span> {t("or")}</span>
                           </div>
@@ -391,7 +376,11 @@ setIsDisabledpassword(false)
                               </a>
                             </li>
                           </ul>
-                          <div className="text-muted text-center"> {t("Don't have an account ?")}  <a href="/register">{t("Sign up now")}</a></div>
+                          <div className="text-muted text-center">
+                            {" "}
+                            {t("Don't have an account ?")}{" "}
+                            <a href="/register">{t("Sign up now")}</a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -401,12 +390,10 @@ setIsDisabledpassword(false)
             </div>
           </section>
         </Layout>
-      }
-      {showForgetPasswordComponent &&
-        <Layout parent={t("Home")} sub={<a href="/login">{t("Login")}</a>} >
-          <section  className="pt-100 pb-100 bg-image"
- >
-
+      )}
+      {showForgetPasswordComponent && (
+        <Layout parent={t("Home")} sub={<a href="/login">{t("Login")}</a>}>
+          <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">
                 <div className="col-lg-12 m-auto">
@@ -419,11 +406,7 @@ setIsDisabledpassword(false)
                               {t("Enter your email to reset your password")}
                             </h4>
                           </div>
-                          <form method="post"
-
-                            onSubmit={handleForgotEmail}
-
-                          >
+                          <form method="post" onSubmit={handleForgotEmail}>
                             <div className="col-md-12 mt-4">
                               <input
                                 type="text"
@@ -433,14 +416,13 @@ setIsDisabledpassword(false)
                                 value={emailForgot}
                                 onChange={(e) => {
                                   setEmailForgot(e.target.value.trim());
-                                  setIsDisabledpassword(true)
+                                  setIsDisabledpassword(true);
                                   if (e.target.value.trim()) {
                                     setEmailForgot(e.target.value);
                                   }
                                   if (e.target.value.length === 0) {
                                     setEmailErrorForgot("Required");
-                                    setIsDisabledpassword(true)
-
+                                    setIsDisabledpassword(true);
                                   } else {
                                     setEmailErrorForgot("");
                                   }
@@ -450,8 +432,6 @@ setIsDisabledpassword(false)
                                     ? handleForgotEmail()
                                     : setEmailForgot(e.target.value);
                                 }}
-
-
                               />
                               {emailErrorForgot ? (
                                 <div className="error-message">
@@ -466,26 +446,17 @@ setIsDisabledpassword(false)
                                   </span>
                                 </div>
                               ) : null}
-
-
-
                             </div>
-
                             &nbsp; &nbsp; &nbsp;
-
                             <div className="form-group">
                               <button
                                 // type="submit"
                                 className="btn btn-fill-out btn-block hover-up w-100"
-
-
                                 disabled={!(isDisabledPassword && emailForgot)}
 
-
-
-                              // onClick={handleLogin}
+                                // onClick={handleLogin}
                               >
-                              {t("Save")}
+                                {t("Save")}
                               </button>
                             </div>
                           </form>
@@ -498,8 +469,7 @@ setIsDisabledpassword(false)
             </div>
           </section>
         </Layout>
-
-      }
+      )}
     </>
   );
 }

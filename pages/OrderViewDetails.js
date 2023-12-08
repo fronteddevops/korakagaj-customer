@@ -16,155 +16,131 @@ import Link from "next/link";
 
 function OrderViewDetails({ data }) {
   const { t } = useTranslation("common");
-  const Router = useRouter()
+  const Router = useRouter();
   const [orderDetailsData, setOrderDetailsData] = useState([]);
-  const orderId = Router.query.orderId
-  const imageUrl = nextConfig.BASE_URL_UPLOADS
-  const [address, setaddress] = useState([])
+  const orderId = Router.query.orderId;
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
+  const [address, setaddress] = useState([]);
 
   const orderDetials = async (id) => {
-
     try {
-
-      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(orderId);
-      setaddress(
-        response?.data?.data[0].Order.User.Addresses[0]
-      )
-      setOrderDetailsData(response?.data?.data)
-
-      // localStorage.removeItem("ProductID")
+      const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(
+        orderId
+      );
+      // console.log(response)
+      setaddress(response?.data?.data[0].Order.Address.address);
+      setOrderDetailsData(response?.data?.data);
+      // console.log(response?.data?.data[0].Order.User.Addresses);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
   useEffect(() => {
-    orderDetials()
+    orderDetials();
   }, []);
 
-  //send revting
-
-
-
-  //reting change function 
-
-console.log("+++++++++++++++++",address)
-
   return (
-    <Layout parent={t("Home")} sub={<Link href='/myprofile/?index=2'>{t("Pages")}</Link>} subChild={t("View Order Details")}>
-    <div className="mt-3 ">
+    <Layout
+      parent={t("Home")}
+      sub={<Link href="/myprofile/?index=2">{t("Pages")}</Link>}
+      subChild={t("View Order Details")}
+    >
+      {/* <div className="mt-3 ">
+        <div className="card mb-3 mb-lg-0">
+          <div className="card-header d-flex justify-content-between">
+            <h5 className="mb-0 ml-20 mr-20">{t("Billing Address")}</h5>
+          </div>
+          <address className="ml-40 mb-0">
+            <b>Address</b>&nbsp;:&nbsp;
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              
+              {address?.address}
+            </span>
+            <br />
+            <b>City</b>&nbsp;:&nbsp;
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              {address?.city}
+            </span>
+            <br />
+            <b>House No</b>&nbsp;:&nbsp;
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              {address?.houseNo}
+            </span>
+            <br />
+            <b>Phone Number</b>&nbsp;:&nbsp;
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              {address?.phoneNumber}
+            </span>
+            <br />
+            <b>Pin Code</b>&nbsp;:&nbsp;
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              {address?.pinCode}
+            </span>
+            <br />
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              <b>State</b>&nbsp;:&nbsp;
+              {address?.state}
+            </span>
+            <br />
+            <span
+              style={{
+                whiteSpace: "pre-wrap", // This property allows for line breaks
+                wordWrap: "break-word", // This property allows for breaking words when needed
+                overflowWrap: "break-word", // An alternative way to allow word breaking
+                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+              }}
+            >
+              {}
+            </span>
+          </address>
+        </div>
+      </div> */}
 
-    <div className="card mb-3 mb-lg-0">
-                                      <div className="card-header d-flex justify-content-between">
-                                        <h5 className="mb-0 ml-20 mr-20">{t("Billing Address")}</h5>
-                                       
-                                      </div>
-                                      <address className="ml-40 mb-0">
-                                        <b>Address</b>&nbsp;:&nbsp;
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                             {address?.address?.address}
-                                          </span>
-                                          <br />
-                                          <b>City</b>&nbsp;:&nbsp;
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                            {address?.address?.city}
-                                          </span>
-                                          <br />
-                                          <b>House No</b>&nbsp;:&nbsp;
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                            {address?.address?.houseNo}
-                                          </span><br/>
-                                          <b>Phone Number</b>&nbsp;:&nbsp;
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                           
-                                            {address?.address?.phoneNumber}
-                                          </span>
-                                          <br />
-                                          <b>Pin Code</b>&nbsp;:&nbsp;
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                            {address?.address?.pinCode}
-                                          </span>
-                                          <br />
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                            <b>State</b>&nbsp;:&nbsp;
-                                            {address?.address?.state}
-                                          </span>
-                                          <br />
-                                          <span
-                                            style={{
-                                              whiteSpace: "pre-wrap", // This property allows for line breaks
-                                              wordWrap: "break-word", // This property allows for breaking words when needed
-                                              overflowWrap: "break-word", // An alternative way to allow word breaking
-                                              maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                                            }}
-                                          >
-                                            {}
-                                          </span>
-                                        </address>
-
-                                      <div
-                                        className="card-body"
-
-                                      >
-                                      
-
-
-
-                                      
-                                      </div>
-                                    </div>
-
-
-    </div>
-      
       <section className="mt-50 mb-50">
-      <div className="col-lg-6">
-                                 
-                                  </div>
+        <div className="col-lg-6"></div>
         <div className="container ">
-      
           <div className="row">
             <div className="col-15 ">
               <div className="table-responsive ">
@@ -178,7 +154,7 @@ console.log("+++++++++++++++++",address)
                   <thead>
                     <tr className="main-heading ">
                       <th scope="col">{t("Image")}</th>
-                      <th scope="col">{("Product Name")}</th>
+                      <th scope="col">{"Product Name"}</th>
                       <th scope="col">{t("Total Price")}</th>
                       <th scope="col">{t("Discount Percentage")}</th>
                       <th scope="col">{t("Final Amount")}</th>
@@ -191,67 +167,62 @@ console.log("+++++++++++++++++",address)
                       <th scope="col">{t("Selected Size")}</th>
                       <th scope="col">{t("Selected Quantity")}</th>
                       <th scope="col">{t("Add Review")}</th>
-
                     </tr>
                   </thead>
                   <tbody>
-                    {orderDetailsData?.length > 0 && orderDetailsData &&
+                    {orderDetailsData?.length > 0 &&
+                      orderDetailsData &&
                       orderDetailsData.map((product, j) => {
                         const outerId = product?.Product?.id;
 
-
-                        const matchingProducts = product?.Order?.orderDetails?.filter(
-                          (innerProduct) => {
-                            const innerID = innerProduct?.id;
-                            return innerID === outerId;
-                          }
-                        );
+                        const matchingProducts =
+                          product?.Order?.orderDetails?.filter(
+                            (innerProduct) => {
+                              const innerID = innerProduct?.id;
+                              return innerID === outerId;
+                            }
+                          );
 
                         return matchingProducts?.map((product, i) => (
-                          <tr key={i}   >
+                          <tr key={i}>
                             <td className="image product-thumbnail">
                               <img
                                 src={imageUrl + product?.featuredImage}
                                 alt=""
                                 crossOrigin="anonymous"
                               />
-
                             </td>
 
                             <td className="product-des product-name">
-                              <span>
-                                {product?.productName}
-                              </span>
+                              <span>{product?.productName}</span>
                             </td>
-
-
-
 
                             <td className="text-right" data-title="Cart">
-                              <span  >
-                                {product?.totalPrice}
-
-                              </span>
+                              <span>{product?.totalPrice}</span>
                             </td>
                             <td className="text-right" data-title="Cart">
-                              <span >
-                                {product?.discountPercentage}%
-                              </span>
+                              <span>{product?.discountPercentage}%</span>
                             </td>
                             <td className="text-right" data-title="Cart">
-                              <span>
-                                {product?.finalAmount}
-                              </span>
+                              <span>{product?.finalAmount}</span>
                             </td>
-                            <td className="text-right d-none d-sm-table-cell" data-title="Cart">
+                            <td
+                              className="text-right d-none d-sm-table-cell"
+                              data-title="Cart"
+                            >
                               {/* <td className="text-right" data-title="Cart"> */}
                               <span>
                                 {product?.productType == 1 ? "Hot Deals" : null}
-                                {product?.productType == 0 ? "New Product" : null}
-                                {product?.productType == 3 ? "UP  Coming" : null}
-                                {product?.productType == 2 ? "Best Seller" : null}
+                                {product?.productType == 0
+                                  ? "New Product"
+                                  : null}
+                                {product?.productType == 3
+                                  ? "UP  Coming"
+                                  : null}
+                                {product?.productType == 2
+                                  ? "Best Seller"
+                                  : null}
                               </span>
-
                             </td>
 
                             {/* <td className="text-right" data-title="Cart">
@@ -269,35 +240,29 @@ console.log("+++++++++++++++++",address)
 
                             <td className="text-right" data-title="Cart">
                               <span>
-                                {moment(product?.createdAt).format("DD MMM YYYY")}
-
+                                {moment(product?.createdAt).format(
+                                  "DD MMM YYYY"
+                                )}
                               </span>
                             </td>
 
                             <td className="text-right" data-title="Cart">
-                              <span className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                              <span
+                                className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                 style={{
                                   border: "1px solid black",
-                                  width: '22px',
-                                  height: '22px',
+                                  width: "22px",
+                                  height: "22px",
                                   backgroundColor: product?.selectedColor,
                                 }}
                               ></span>
                             </td>
                             <td className="text-right" data-title="Cart">
-                              <span>
-                                {product?.selectedSize}
-
-                              </span>
+                              <span>{product?.selectedSize}</span>
                             </td>
                             <td className="text-right" data-title="Cart">
-                              <span>
-                                {product?.selectedQuantity}
-
-                              </span>
+                              <span>{product?.selectedQuantity}</span>
                             </td>
-
-
 
                             {/* <td>   <Link href={`/ReviewRetting?orderId=${item?.id}`}>
                                             <a> {t("Review")}</a>
@@ -305,42 +270,117 @@ console.log("+++++++++++++++++",address)
 
                             <td className="text-right" data-title="Cart">
                               <span>
-
-                                <Link href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}>
+                                <Link
+                                  href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}
+                                >
                                   <a>{t("Review")}</a>
                                 </Link>
-
                               </span>
                             </td>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                           </tr>
                         ));
                       })}
-
-                    <tr>
-                    </tr>
                   </tbody>
                 </table>
+
+                <div className="mt-3 ">
+                  <div className="card mb-3 mb-lg-0">
+                    <div className="card-header d-flex justify-content-between">
+                      <h5 className="mb-0 ml-20 mr-20">
+                        {t("Billing Address")}
+                      </h5>
+                    </div>
+                    <address className="ml-40 mb-0">
+                      <b>Address</b>&nbsp;:&nbsp;
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {address?.address}
+                      </span>
+                      <br />
+                      <b>City</b>&nbsp;:&nbsp;
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {address?.city}
+                      </span>
+                      <br />
+                      <b>House No</b>&nbsp;:&nbsp;
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {address?.houseNo}
+                      </span>
+                      <br />
+                      <b>Phone Number</b>&nbsp;:&nbsp;
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {address?.phoneNumber}
+                      </span>
+                      <br />
+                      <b>Pin Code</b>&nbsp;:&nbsp;
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {address?.pinCode}
+                      </span>
+                      <br />
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        <b>State</b>&nbsp;:&nbsp;
+                        {address?.state}
+                      </span>
+                      <br />
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {}
+                      </span>
+                    </address>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-
     </Layout>
   );
 }

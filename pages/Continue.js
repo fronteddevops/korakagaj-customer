@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { useRouter } from "next/router";
 import Layout from "../components/layout/Layout";
 import nextConfig from "../next.config";
 import Link from "next/link";
@@ -7,7 +6,8 @@ import { toast } from "react-toastify";
 import { useEffect, useState, useCallback } from "react";
 import services from "../services";
 import { useTranslation } from "react-i18next";
-import Continue from "./Continue";
+import { useRouter } from "next/router";
+import _debounce from "lodash/debounce";
 function loadScript(src) {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -23,18 +23,17 @@ function loadScript(src) {
 }
 const Cart = ({}) => {
   const { t } = useTranslation("common");
-  //image constant url
-  const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [updateCart, setUpdateCart] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(1);
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [getadressUers, setGetaddress] = useState([]);
+  const [Data, setData] = useState([]);
   const router = useRouter();
 
-  //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData?.map((item) => {
       return item.finalAmount * item.selectedQuantity;
@@ -44,11 +43,9 @@ const Cart = ({}) => {
     });
     const sum = totalAmountArr?.reduce((partialSum, a) => partialSum + a, 0);
     const qty = totalQtyArr?.reduce((partialSum, a) => partialSum + a, 0);
-
     setTotalAmount(sum);
     setTotalQuantity(qty);
   };
-  //set total price in add to card all prodcut
   const getadress = async () => {
     try {
       const response = await services.myprofile.GET_MY_ADDRESS();
@@ -65,8 +62,6 @@ const Cart = ({}) => {
     addressHandler();
     getadress();
   }, []);
-
-  //card data get function
   const cardData = async () => {
     if (localStorage.getItem("access_token")) {
       try {
@@ -77,7 +72,7 @@ const Cart = ({}) => {
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     } else {
       if (localStorage.getItem("cartDetail")) {
@@ -164,76 +159,8 @@ const Cart = ({}) => {
       cardData();
     }
   };
-  const increaseQuantity = (product) => {
-    product.selectedQuantity = product.selectedQuantity + 1;
-    handleCart(product);
-  };
-  const decreaseQuantity = (product) => {
-    product.selectedQuantity = product.selectedQuantity - 1;
-    handleCart(product);
-  };
-  const clearCart = async () => {
-    if (localStorage.getItem("access_token")) {
-      let data = {
-        cartDetail: { cartDetails: [] },
-        totalAmount: 0,
-        totalItems: 0,
-        totalQuantity: 0,
-        addressId: selectedAddress,
-      };
 
-      const updateCart = await services.cart.UPDATE_CART(data);
-      toast.success("Cart updated!");
-      cardData();
-    } else {
-      let data = {
-        cartDetail: { cartDetails: [] },
-      };
-      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
-      toast.success("Cart updated!");
-      cardData();
-    }
-  };
-  const deleteFromCart = async (product) => {
-    if (localStorage.getItem("access_token")) {
-      let updatedCartData = [...updateCart];
-      let index;
-      updateCart.map((item, i) => {
-        if (item.id == product.id) {
-          index = i;
-        }
-      });
-      updatedCartData.splice(index, 1);
-      let data = {
-        cartDetail: { cartDetails: updatedCartData },
-        totalAmount: totalAmount,
-        totalItems: updatedCartData.length,
-        totalQuantity: totalQuantity,
-        addressId: selectedAddress,
-      };
-      const updateCartData = await services.cart.UPDATE_CART(data);
-      toast.success("Cart updated!");
-      cardData();
-    } else {
-      let updatedCartData = [...updateCart];
-      let index;
-      updateCart.map((item, i) => {
-        if (item.id == product.id) {
-          index = i;
-        }
-      });
-      updatedCartData.splice(index, 1);
-      let data = {
-        cartDetail: { cartDetails: updatedCartData },
-      };
-
-      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
-      toast.success("Cart updated!");
-      cardData();
-    }
-  };
   const isLoggedIn = localStorage.getItem("access_token");
-
   async function checkoutHandler() {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -247,7 +174,7 @@ const Cart = ({}) => {
     const userDetails = JSON.parse(localStorage.getItem("profile"));
 
     const options = {
-      key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
+      key: "rzp_test_ug6gBARp85Aq1j",
       currency: "INR",
       amount: updateCartData?.data?.totalAmount,
       order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
@@ -256,10 +183,6 @@ const Cart = ({}) => {
       image:
         "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
       handler: function (response) {
-        // alert(response.razorpay_payment_id);
-        // alert(response.razorpay_order_id);
-        // alert(response.razorpay_signature);
-
         (async () => {
           const data = {
             orderId: updateCartData?.data?.order?.id,
@@ -287,7 +210,23 @@ const Cart = ({}) => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
-
+  const GET_MY_ADDRESS = async (IdAddress) => {
+    try {
+      const response = await services.myprofile.GET_MY_ADDRESS();
+      setData(response?.data?.data.find((item) => item.id == IdAddress));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let IdAddress;
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const IdAddress = urlParams.get("id");
+    GET_MY_ADDRESS(IdAddress);
+  }, []);
+  const debouncedFunction = _debounce(() => {
+    checkoutHandler();
+  }, 500);
   return (
     <>
       <Layout
@@ -304,7 +243,6 @@ const Cart = ({}) => {
             <div className="row">
               <div className="col-12">
                 <div className="table-responsive">
-                  {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
                   {updateCart?.length > 0 ? "" : t("No Products")}
                   <table
                     className={
@@ -320,7 +258,6 @@ const Cart = ({}) => {
                         <th scope="col">{t("Price")}</th>
                         <th scope="col">{t("Quantity")}</th>
                         <th scope="col">{t("Subtotal")}</th>
-                        <th scope="col">{t("Remove")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -384,21 +321,9 @@ const Cart = ({}) => {
 
                               <td className="text-center" data-title="Stock">
                                 <div className="detail-qty border radius m-auto">
-                                  <a
-                                    onClick={(e) => decreaseQuantity(product)}
-                                    className="qty-down"
-                                  >
-                                    <i className="fi-rs-angle-small-down"></i>
-                                  </a>
                                   <span className="qty-val">
                                     {product.selectedQuantity}
                                   </span>
-                                  <a
-                                    onClick={(e) => increaseQuantity(product)}
-                                    className="qty-up"
-                                  >
-                                    <i className="fi-rs-angle-small-up"></i>
-                                  </a>
                                 </div>
                               </td>
 
@@ -409,185 +334,135 @@ const Cart = ({}) => {
                                     product.selectedQuantity}
                                 </span>
                               </td>
-                              <td className="action" data-title="Remove">
-                                <a
-                                  onClick={(e) => deleteFromCart(product)}
-                                  className="text-muted"
-                                >
-                                  <i className="fi-rs-trash"></i>
-                                </a>
-                              </td>
                             </tr>
                           );
                         })}
-                      <tr>
-                        <td colSpan="6" className="text-end">
-                          {updateCart && updateCart.length > 0 && (
-                            <a
-                              href="#"
-                              onClick={clearCart}
-                              className="text-muted"
-                            >
-                              <i className="fi-rs-cross-small"></i>
-                              Clear Cart
-                            </a>
-                          )}
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
-                </div>
-                <div className="cart-action text-end">
-                  <Link className={"btn"} href="/products">
-                    <button className={"btn"}>
-                      <i className="fi-rs-shopping-bag mr-10"></i>
-                      {t("Continue Shopping")}
-                    </button>
-                  </Link>
                 </div>
                 <div className="divider center_icon mt-50 mb-50">
                   <i className="fi-rs-fingerprint"></i>
                 </div>
                 <div className="row mb-50">
-                  <div className="col-lg-6 col-md-12">
-                    <div className="heading_s1 mb-3">
-                      <h4>Select Address</h4>
-                    </div>
+                  <div className="col-lg-8 col-md-16">
+                    <div className="col-lg-6">
+                      <div className="card mb-3 mb-lg-0">
+                        <div className="card-header d-flex justify-content-between">
+                          <h5 className="mb-0">{t("Selected Address")}</h5>
+                        </div>
 
-                    <form className="field_form shipping_calculator">
-                      <div className="form-row">
-                        <div className="form-group col-lg-12">
-                          <div className="custom_select">
-                            <select
-                              className="form-control select-active"
-                              value={selectedAddress}
-                              onChange={(e) => {
-                                setSelectedAddress(e.target.value);
+                        <div className="card-body">
+                          <address>
+                            {" "}
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
                               }}
                             >
-                              <option value="">
-                                {t("Choose a option...")}
-                              </option>
-                              {addressList &&
-                                addressList.length > 0 &&
-                                addressList.map((item) => {
-                                  return (
-                                    <option value={item.id}>
-                                      {item.address.address}
-                                    </option>
-                                  );
-                                })}
-                            </select>
-                          </div>
+                              {Data?.address?.fullName}
+                            </span>
+                            <br />
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                              }}
+                            >
+                              {Data.address?.phoneNumber}
+                            </span>
+                            <br />
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                              }}
+                            >
+                              {Data?.address?.houseNo}
+                            </span>
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                              }}
+                            >
+                              {Data?.address?.address}
+                            </span>
+                            <br />
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                              }}
+                            >
+                              {Data?.address?.city}
+                            </span>
+                            <br />
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                              }}
+                            >
+                              {Data?.address?.pinCode}
+                            </span>
+                            <br />
+                            <span
+                              style={{
+                                whiteSpace: "pre-wrap", // This property allows for line breaks
+                                wordWrap: "break-word", // This property allows for breaking words when needed
+                                overflowWrap: "break-word", // An alternative way to allow word breaking
+                                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                              }}
+                            >
+                              {Data?.address?.state}
+                            </span>
+                          </address>
                         </div>
                       </div>
-                      <div className="form-row">
-                        <div className="form-group col-lg-12">
-                          <Link href={"/myprofile?index=4"}>
-                            <button className="btn  btn-sm w-100">
-                              <i className="fi-rs-shuffle mr-10"></i>
-                              Add new address
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <div className="col-lg-6 col-md-12">
-                    <div className="border p-md-4 p-30 border-radius cart-totals">
-                      <div className="heading_s1 mb-3">
-                        <h4>{t("Cart Totals")}</h4>
-                      </div>
-                      <div className="table-responsive">
-                        <table className="table">
-                          <tbody>
-                            <tr>
-                              <td className="cart_total_label">
-                                {t("Cart Subtotal")}
-                              </td>
-                              <td className="cart_total_amount">
-                                <span className="font-lg fw-900 text-brand">
-                                  Rs. {totalAmount}
-                                </span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="cart_total_label">
-                                {t("Shipping")}
-                              </td>
-                              <td className="cart_total_amount">
-                                <i className="ti-gift mr-5"></i>
-                                {t("Free Shipping")}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="cart_total_label">{t("Total")}</td>
-                              <td className="cart_total_amount">
-                                <strong>
-                                  <span className="font-xl fw-900 text-brand">
-                                    Rs. {totalAmount}
-                                  </span>
-                                </strong>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      {/* {isLoggedIn ? (
-                        <a
-                          onClick={() => {
-                            if (selectedAddress) {
-                              checkoutHandler();
-                            } else {
-                              if (addressList.length > 0) {
-                                toast.error("Choose your address");
-                              } else {
-                                toast.error("Add your address");
-                              }
-                            }
-                          }}
-                          href="#"
-                          className="btn "
-                        >
-                          <i className="fi-rs-box-alt mr-10"></i>
-                          {t("Proceed To CheckOut")}
-                        </a>
-                      ) : (
-                        <Link className={"btn"} href="/login">
-                          <a href="#" className="btn ">
-                            <i className="fi-rs-box-alt mr-10"></i>
-                            {t("Proceed to Login")}
-                          </a>
-                        </Link>
-                      )} */}
-
-                      {isLoggedIn ? (
-                        <a
-                          onClick={() => {
-                            if (selectedAddress) {
-                              router.push(`/Continue?id=${selectedAddress}`);
-                            } else {
-                              if (addressList.length > 0) {
-                                toast.error("Choose your address");
-                              } else {
-                                toast.error("Add your address");
-                              }
-                            }
-                          }}
-                          href="#"
-                          className="btn "
-                        >
-                          Continue Order
-                        </a>
-                      ) : (
-                        <Link className={"btn"} href="/login">
-                          <a href="#" className="btn ">
-                            <i className="fi-rs-box-alt mr-10"></i>
-                            {t("Proceed to Login")}
-                          </a>
-                        </Link>
-                      )}
                     </div>
+                  </div>
+                  <div className="col-lg-4 col-md-8">
+                    {console.log(isLoggedIn)}
+                    {isLoggedIn ? (
+                      <a
+                        onClick={() => {
+                          if (selectedAddress) {
+                            debouncedFunction();
+                          } else {
+                            if (addressList.length > 0) {
+                              toast.error("Choose your address");
+                            } else {
+                              toast.error("Add your address");
+                            }
+                          }
+                        }}
+                        href="#"
+                        className="btn "
+                      >
+                        <i className="fi-rs-box-alt mr-10"></i>
+                        {t("Proceed To CheckOut")}
+                      </a>
+                    ) : (
+                      <Link className={"btn"} href="/login">
+                        <a href="#" className="btn ">
+                          <i className="fi-rs-box-alt mr-10"></i>
+                          {t("Proceed to Login")}
+                        </a>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

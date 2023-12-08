@@ -8,102 +8,89 @@ import moment from "moment";
 const Deals1 = () => {
   const { t } = useTranslation("common");
   const [data, setData] = useState([]);
- const [width,setWidth]=useState()
+  const [width, setWidth] = useState();
   useEffect(() => {
     const updateWidth = () => {
       width = window.innerWidth;
-      setWidth(width)
+      setWidth(width);
     };
 
-    window.addEventListener('resize', updateWidth);
+    window.addEventListener("resize", updateWidth);
     const fetchProducts = async () => {
       try {
-
         // Without access_token, get up_coming products
         const response = await services.product.UP_COMING_PRODUCT();
         if (response) {
           setData(response?.data?.data?.rows);
         }
-
-
       } catch (error) {
         console.error(error);
-        }
+      }
     };
     fetchProducts();
   }, [width]);
-
   const deals1Style = {
-    display: width <= 700 ? "block" : "flex",  
-    justifyContent: "center", 
+    display: width <= 700 ? "block" : "flex",
+    justifyContent: "center",
     alignItems: "center",
-    margin: "auto", 
-    };
+    margin: "auto",
+  };
 
-
-  
   return (
     <div style={deals1Style}>
+      {data &&
+        data?.map((product, index) => {
+          const basePrice = product?.totalPrice || 0;
+          const discountPercentage = product?.discountPercentage || 0;
+          const discountAmount = (basePrice * discountPercentage) / 100;
+          const totalPrice = basePrice - discountAmount;
+          const endDateTime = new Date(product.upComingDate);
 
-      {data && data?.map((product, index) => {
-        const basePrice = product?.totalPrice || 0; 
-        const discountPercentage = product?.discountPercentage || 0; 
-        const discountAmount = (basePrice * discountPercentage) / 100;
-        const totalPrice = basePrice - discountAmount;
-       const endDateTime = new Date(product.upComingDate);
-       
-        //  const endDateTime = moment().add(0, 'days').add(0, 'hours').add(0, 'minutes').add(10, 'seconds')
-        return (
-          <div
-
-            key={index}
-            className="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0  d-flex flex-wrap"
-            style={{
-              backgroundImage: "url('assets/imgs/banner/menu-banner-7.jpg')",
-              margin: '10px'
-            }}
-          >
-            <div className="deal-top">
-              <h2 className="text-brand">{t("Deal of the Day")}</h2>
-              <h5>{t("Limited quantities.")}</h5>
-            </div>
-            <div className="deal-content">
-              <h6 className="product-title">
-                <Link href="/products">
-                  <a>{product.productName}</a>
-                </Link>
-              </h6>
-              <div className="product-price">
-                <span className="new-price">Rs.{totalPrice}</span>
-                <span className="old-price">Rs.{product.totalPrice}</span>
+          
+          //  const endDateTime = moment().add(0, 'days').add(0, 'hours').add(0, 'minutes').add(10, 'seconds')
+          return (
+            <>
+            {endDateTime - new Date() > 0 ? (
+              <div
+                key={index}
+                className="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0  d-flex flex-wrap"
+                style={{
+                  backgroundImage: "url('assets/imgs/banner/menu-banner-7.jpg')",
+                  margin: "10px",
+                }}
+              >
+                <div className="deal-top">
+                  <h2 className="text-brand">{t("Deal of the Day")}</h2>
+                  <h5>{t("Limited quantities.")}</h5>
+                </div>
+                <div className="deal-content">
+                  <h6 className="product-title">
+                    <Link href="/products">
+                      <a>{product.productName}</a>
+                    </Link>
+                  </h6>
+                  <div className="product-price">
+                    <span className="new-price">Rs.{totalPrice}</span>
+                    <span className="old-price">Rs.{product.totalPrice}</span>
+                  </div>
+                </div>
+                <div className="deal-bottom">
+                  <p>{t("Hurry Up! Offer Ends In:")}</p>
+                  {product.upComingDate && <Timer endDateTime={endDateTime} />}
+                  <Link href="/products">
+                    <a className="btn hover-up">
+                      {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
+                    </a>
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="deal-bottom">
-              <p>{t("Hurry Up! Offer Ends In:")}</p>
-
-              {product.upComingDate && (
-                <Timer endDateTime={endDateTime} />
-              )}
-
-              <Link href="/products">
-                <a className="btn hover-up">
-                  {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
-                </a>
-              </Link>
-            </div>
-          </div>
-
-        );
-      })}
+            ) : null}
+          </>
+          
+          );
+        })}
     </div>
   );
 };
 
 export default Deals1;
-
-
-
-
-
-
-

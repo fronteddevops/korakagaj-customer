@@ -153,7 +153,6 @@ const ProductDetails = ({
             let data = {
                 cartDetail: { cartDetails: unique }
             }
-            console.log(data)
             localStorage.setItem('cartDetail', JSON.stringify(data.cartDetail))
             toast.success("Add to Cart!");
         }
