@@ -51,15 +51,15 @@ const Cart = ({}) => {
   //set total price in add to card all prodcut
   const getadress = async () => {
     if (localStorage.getItem("access_token")) {
-    try {
-      const response = await services.myprofile.GET_MY_ADDRESS();
-      if (response) {
-        setGetaddress(response?.data?.data);
+      try {
+        const response = await services.myprofile.GET_MY_ADDRESS();
+        if (response) {
+          setGetaddress(response?.data?.data);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
-  }
   };
 
   useEffect(() => {
@@ -68,9 +68,9 @@ const Cart = ({}) => {
     getadress();
   }, []);
   useEffect(() => {
-if(selectedAddress && updateCart.length > 0){
-  handleCart(updateCart[0])
-}
+    if (selectedAddress && updateCart.length > 0) {
+      handleCart(updateCart[0]);
+    }
   }, [selectedAddress]);
 
   //card data get function
@@ -465,7 +465,7 @@ if(selectedAddress && updateCart.length > 0){
                       updateCart.length > 0 &&
                       addressList.length > 0 && (
                         <div className="heading_s1 mb-3">
-                          <h4>Select Address</h4>
+                          <h4> {t("Select Address")}</h4>
                         </div>
                       )}
                     <form className="field_form shipping_calculator">
@@ -505,7 +505,8 @@ if(selectedAddress && updateCart.length > 0){
                             <Link href={"/myprofile?index=4"}>
                               <button className="btn  btn-sm w-100">
                                 <i className="fi-rs-shuffle mr-10"></i>
-                                Add new address
+                                {/* Add new address */}
+                                {t("Add new address")}
                               </button>
                             </Link>
                           )}
@@ -600,7 +601,7 @@ if(selectedAddress && updateCart.length > 0){
                             href="#"
                             className="btn d-block"
                           >
-                            Continue Order
+                            {t("Continue Order")}
                           </a>
                         ) : (
                           <Link className={"btn"} href="/login">
