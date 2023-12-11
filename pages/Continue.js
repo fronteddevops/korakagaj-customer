@@ -112,9 +112,19 @@ const Cart = ({}) => {
       }
       cartDetails?.push(product);
       const key = "id";
-      const unique = [
-        ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
-      ];
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor
+          )
+      );
+      // const unique = [
+      //   ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
+      // ];
       let totalAmountArr = unique.map((item) => {
         return item.finalAmount * item.selectedQuantity;
       });
@@ -142,11 +152,21 @@ const Cart = ({}) => {
       }
       cartDetails.push(product);
       const key = "id";
-      const unique = [
-        ...new Map(
-          cartDetails && cartDetails?.map((item) => [item[key], item])
-        ).values(),
-      ];
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor
+          )
+      );
+      // const unique = [
+      //   ...new Map(
+      //     cartDetails && cartDetails?.map((item) => [item[key], item])
+      //   ).values(),
+      // ];
 
       let data = {
         cartDetail: { cartDetails: unique },

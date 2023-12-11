@@ -406,10 +406,7 @@ const ProductDetails = ({
                         <div className="product-extra-link2">
                           <button
                             onClick={(e) =>
-                              handleCart({
-                                ...product,
-                                quantity: quantity || 1,
-                              })
+                              handleCart(product)
                             }
                             className="button button-add-to-cart me-3"
                           >
@@ -417,10 +414,7 @@ const ProductDetails = ({
                           </button>
                           <button
                             onClick={(e) =>
-                              handleCart({
-                                ...product,
-                                quantity: quantity || 1,
-                              })
+                              handleCart(product)
                             }
                             className="button button-add-to-cart me-3"
                           >
