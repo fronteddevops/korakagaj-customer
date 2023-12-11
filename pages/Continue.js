@@ -202,8 +202,17 @@ const Cart = ({}) => {
       image:
         "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
         "modal": {
-          "ondismiss": function(){
+          "ondismiss":  async() => {
               console.log('Checkout form closed');
+              const data = {
+                orderId: updateCartData?.data?.order?.id,
+                paymentResponse: {
+                  id: updateCartData?.data?.razorpayPaymentDetails.id,
+                  status: "failed",
+                  amount: updateCartData?.data?.totalAmount,
+                },
+              };
+              const response = await services.cart.PAYMENT_LOG(data);
               router.push("/failed");
           }
       },
