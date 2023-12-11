@@ -30,6 +30,7 @@ const Cart = ({}) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(1);
   const [getadressUers, setGetaddress] = useState([]);
+  const [Address, setAddress] = useState("");
   const [Data, setData] = useState([]);
   const router = useRouter();
 
@@ -89,12 +90,11 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
-        
+
         setAddressList(response?.data?.data);
         if (response?.data?.data?.length > 0) {
           response?.data?.data?.map((item) => {
-            console.log(item)
-           
+            console.log(item);
           });
         }
       } catch (error) {
@@ -137,8 +137,10 @@ const Cart = ({}) => {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,
         totalItems: unique.length,
-        totalQuantity: qty
+        totalQuantity: qty,
+        addressId: Address,
       };
+      console.log("Address", Address);
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -240,6 +242,7 @@ const Cart = ({}) => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const IdAddress = urlParams.get("id");
+    setAddress(IdAddress);
     GET_MY_ADDRESS(IdAddress);
   }, []);
   const debouncedFunction = _debounce(() => {
@@ -367,7 +370,8 @@ const Cart = ({}) => {
                       {updateCart?.length > 0 && (
                         <div className="card mb-3 mb-lg-0">
                           <div className="card-header d-flex justify-content-between">
-                            <h5 className="mb-0">{t("Selected Address")}</h5>
+                            <h5 className="mb-0">{t("Select Address")}</h5>
+                            {/* <h5 className="mb-0">{t("Selected Address")}</h5> */}
                           </div>
 
                           <div className="card-body">
@@ -455,13 +459,10 @@ const Cart = ({}) => {
                     </div>
                   </div>
                   <div className="col-lg-4 col-md-8 text-end">
-                   
                     {isLoggedIn ? (
                       <a
                         onClick={() => {
-                        
                           debouncedFunction();
-           
                         }}
                         href="#"
                         className="btn "

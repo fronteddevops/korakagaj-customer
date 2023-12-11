@@ -28,6 +28,7 @@ function OrderViewDetails({ data }) {
         orderId
       );
       setaddress(response?.data?.data[0].Order?.Address?.address);
+      console.log(response?.data?.data[0].Order);
       setOrderDetailsData(response?.data?.data);
     } catch (error) {
       console.error(error);
@@ -152,7 +153,7 @@ function OrderViewDetails({ data }) {
                   <thead>
                     <tr className="main-heading ">
                       <th scope="col">{t("Image")}</th>
-                      <th scope="col">{"Product Name"}</th>
+                      <th scope="col">{t("Product Name")}</th>
                       <th scope="col">{t("Total Price")}</th>
                       <th scope="col">{t("Discount Percentage")}</th>
                       <th scope="col">{t("Final Amount")}</th>

@@ -86,7 +86,7 @@ function Account() {
       try {
         //get my profile data
         const response = await services.myprofile.GET_MY_PROFILE();
-      
+
         setFirstName(response?.data?.data?.firstName);
         setLastName(response?.data?.data?.lastName);
         setEmail(response?.data?.data?.email);
@@ -478,9 +478,10 @@ function Account() {
                                       <th>{t("Actions")}</th>
                                     </tr>
                                   </thead>
-                                  {
-                                    console.log("orderDetailsData", orderDetailsData)
-                                  }
+                                  {console.log(
+                                    "orderDetailsData",
+                                    orderDetailsData
+                                  )}
                                   <tbody>
                                     {orderDetailsData &&
                                       orderDetailsData.length > 0 &&
@@ -956,7 +957,7 @@ function Account() {
                                     />
                                     <div className="form-group col-md-12">
                                       <label>
-                                        Date of Birth
+                                        {t("Date of Birth")}
                                         <span className="required">*</span>
                                       </label>
                                       <input
