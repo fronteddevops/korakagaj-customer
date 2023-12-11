@@ -122,7 +122,7 @@ const ReviewRetting = () => {
                     </span>
 
                     <div className="d-flex ">
-                      <span className="fw-bold">Rating Review :</span> &nbsp;
+                      <span className="fw-bold">{t("Rating Review")}:</span> &nbsp;
                       <span className="fw-bold">
                         <ReactStars
                           value={Rating}

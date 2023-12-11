@@ -65,7 +65,7 @@ const ProductTab = ({ prodcut }) => {
               data-bs-toggle="tab"
               onClick={() => handleOnClick(3)}
             >
-              {t("Reviews ")}
+              {t("Reviews")}
             </a>
           </li>
         </ul>

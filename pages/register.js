@@ -123,7 +123,7 @@ const handleCart = async () => {
       try {
         setIsValid(false)
         let payLoad = {
-          email: emailRegister,
+          email: emailRegister.toLowerCase(),
           password: passwordRegister,
           role: "Customer",
           firstName: firstName,

@@ -118,7 +118,7 @@ const Cart = ({}) => {
   const handleCart = async (product, qtytype) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      
+
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -134,7 +134,7 @@ const Cart = ({}) => {
               t.selectedColor === value.selectedColor
           )
       );
-      
+
       let totalAmountArr = unique.map((item) => {
         return item.finalAmount * item.selectedQuantity;
       });
@@ -143,13 +143,17 @@ const Cart = ({}) => {
       });
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
-      if(qtytype){
-        unique.map((item)=> {
-          if(item.id == product.id && item.selectedColor == product.selectedColor && item.selectedSize == product.selectedSize){
-            item.selectedQuantity = qtytype
+      if (qtytype) {
+        unique.map((item) => {
+          if (
+            item.id == product.id &&
+            item.selectedColor == product.selectedColor &&
+            item.selectedSize == product.selectedSize
+          ) {
+            item.selectedQuantity = qtytype;
           }
-          return item
-        })
+          return item;
+        });
       }
       let data = {
         cartDetail: { cartDetails: unique },
@@ -443,8 +447,10 @@ const Cart = ({}) => {
                               <td className="text-right" data-title="Cart">
                                 <span>
                                   Rs.{" "}
-                                  {product.finalAmount *
-                                    product.selectedQuantity}
+                                  {(
+                                    product.finalAmount *
+                                    product.selectedQuantity
+                                  ).toFixed(2)}
                                 </span>
                               </td>
                               <td className="action" data-title="Remove">
@@ -556,7 +562,7 @@ const Cart = ({}) => {
                                 </td>
                                 <td className="cart_total_amount">
                                   <span className="font-lg fw-900 text-brand">
-                                    Rs. {totalAmount}
+                                    Rs. {totalAmount.toFixed(2)}
                                   </span>
                                 </td>
                               </tr>
@@ -576,7 +582,7 @@ const Cart = ({}) => {
                                 <td className="cart_total_amount">
                                   <strong>
                                     <span className="font-xl fw-900 text-brand">
-                                      Rs. {totalAmount}
+                                      Rs. {totalAmount.toFixed(2)}
                                     </span>
                                   </strong>
                                 </td>

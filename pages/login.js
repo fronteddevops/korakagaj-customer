@@ -68,7 +68,7 @@ function Login() {
     if (isValid) {
       try {
         let payLoad = {
-          email: email,
+          email: email.toLowerCase(),
           password: password,
           role: "Customer",
         };
@@ -181,7 +181,7 @@ function Login() {
     if (isValidForget) {
       try {
         let data = {
-          email: emailForgot,
+          email: emailForgot.toLowerCase(),
         };
         const response = await services.auth.FORGOT_PASSWORD(data);
         if (response) {

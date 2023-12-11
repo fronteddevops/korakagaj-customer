@@ -137,7 +137,6 @@ const Cart = ({}) => {
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
-        addressId: Address,
       };
       console.log("Address", Address);
       const updateCart = await services.cart.UPDATE_CART(data);
@@ -363,8 +362,8 @@ const Cart = ({}) => {
                               <td className="text-right" data-title="Cart">
                                 <span>
                                   Rs.{" "}
-                                  {product.finalAmount *
-                                    product.selectedQuantity}
+                                  {(product.finalAmount *
+                                    product.selectedQuantity).toFixed(2)}
                                 </span>
                               </td>
                             </tr>
