@@ -145,7 +145,7 @@ const Cart = ({}) => {
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       if(qtytype){
         unique.map((item)=> {
-          if(item.id == product.id){
+          if(item.id == product.id && item.selectedColor == product.selectedColor && item.selectedSize == product.selectedSize){
             item.selectedQuantity = qtytype
           }
           return item
