@@ -201,6 +201,12 @@ const Cart = ({}) => {
       description: "Thank you for ordering. Please initiate payment!",
       image:
         "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
+        "modal": {
+          "ondismiss": function(){
+              console.log('Checkout form closed');
+              router.push("/failed");
+          }
+      },
       handler: function (response) {
         (async () => {
           const data = {
