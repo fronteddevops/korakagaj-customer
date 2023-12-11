@@ -68,7 +68,7 @@ const Cart = ({}) => {
     getadress();
   }, []);
   useEffect(() => {
-    if (selectedAddress && updateCart.length > 0) {
+    if (selectedAddress && updateCart && updateCart?.length > 0) {
       handleCart(updateCart[0]);
     }
   }, [selectedAddress]);
@@ -118,7 +118,7 @@ const Cart = ({}) => {
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-
+      console.log("cart", cart);
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -192,11 +192,12 @@ const Cart = ({}) => {
     }
   };
   const increaseQuantity = (product) => {
-    console.log("product", product);
+    // console.log("increaseQuantity", product);
     product.selectedQuantity = product.selectedQuantity + 1;
     handleCart(product);
   };
   const decreaseQuantity = (product) => {
+    // console.log("decreaseQuantity", product);
     if (product.selectedQuantity == 1) {
       return;
     } else {
@@ -416,19 +417,20 @@ const Cart = ({}) => {
                               <td className="text-center" data-title="Stock">
                                 <div className="detail-qty border radius m-auto">
                                   <a
-                                    onClick={(e) => decreaseQuantity(product)}
-                                    className="qty-down"
-                                  >
-                                    <i className="fi-rs-angle-small-down"></i>
-                                  </a>
-                                  <span className="qty-val">
-                                    {product.selectedQuantity}
-                                  </span>
-                                  <a
                                     onClick={(e) => increaseQuantity(product)}
                                     className="qty-up"
                                   >
                                     <i className="fi-rs-angle-small-up"></i>
+                                  </a>
+                                  <span className="qty-val">
+                                    {/* {console.log(product.selectedQuantity)} */}
+                                    {product.selectedQuantity}
+                                  </span>
+                                  <a
+                                    onClick={(e) => decreaseQuantity(product)}
+                                    className="qty-down"
+                                  >
+                                    <i className="fi-rs-angle-small-down"></i>
                                   </a>
                                 </div>
                               </td>

@@ -104,7 +104,7 @@ const ProductDetails = ({
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
       let cartDetails = [];
-      if (cart?.data?.data?.cartDetail.cartDetails) {
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);

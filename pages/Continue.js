@@ -7,7 +7,6 @@ import { useEffect, useState, useCallback } from "react";
 import services from "../services";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-import _debounce from "lodash/debounce";
 function loadScript(src) {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -245,9 +244,7 @@ const Cart = ({}) => {
     setAddress(IdAddress);
     GET_MY_ADDRESS(IdAddress);
   }, []);
-  const debouncedFunction = _debounce(() => {
-    checkoutHandler();
-  }, 500);
+
   return (
     <>
       <Layout
@@ -462,7 +459,7 @@ const Cart = ({}) => {
                     {isLoggedIn ? (
                       <a
                         onClick={() => {
-                          debouncedFunction();
+                          checkoutHandler();
                         }}
                         href="#"
                         className="btn "
