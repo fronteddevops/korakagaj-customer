@@ -5,8 +5,8 @@ const nextConfig = {
   output: "export",
   //live
 
-  BASE_URL: "http://3.109.196.67:3000/v1",
-  BASE_URL_UPLOADS: "http://3.109.196.67:3000/uploads/",
+  BASE_URL: "https://api.korakagaj.com/v1",
+  BASE_URL_UPLOADS: "https://api.korakagaj.com/uploads/",
   trailingSlash: true,
   distDir: "dist",
   // Ravi
