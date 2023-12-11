@@ -115,17 +115,16 @@ const Cart = ({}) => {
       }
     }
   };
-  const handleCart = async (product) => {
+  const handleCart = async (product, qtytype) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      console.log("cart", cart);
+      
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
-      const key = "id";
-      const unique = cartDetails.filter(
+      let unique = cartDetails.filter(
         (value, index, self) =>
           index ===
           self.findIndex(
@@ -135,9 +134,7 @@ const Cart = ({}) => {
               t.selectedColor === value.selectedColor
           )
       );
-      // const unique = [
-      //   ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
-      // ];
+      
       let totalAmountArr = unique.map((item) => {
         return item.finalAmount * item.selectedQuantity;
       });
@@ -146,6 +143,14 @@ const Cart = ({}) => {
       });
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+      if(qtytype){
+        unique.map((item)=> {
+          if(item.id == product.id){
+            item.selectedQuantity = qtytype
+          }
+          return item
+        })
+      }
       let data = {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,
@@ -194,7 +199,7 @@ const Cart = ({}) => {
   const increaseQuantity = (product) => {
     // console.log("increaseQuantity", product);
     product.selectedQuantity = product.selectedQuantity + 1;
-    handleCart(product);
+    handleCart(product, product.selectedQuantity);
   };
   const decreaseQuantity = (product) => {
     // console.log("decreaseQuantity", product);
@@ -202,7 +207,7 @@ const Cart = ({}) => {
       return;
     } else {
       product.selectedQuantity = product.selectedQuantity - 1;
-      handleCart(product);
+      handleCart(product, product.selectedQuantity);
     }
   };
   const clearCart = async () => {
