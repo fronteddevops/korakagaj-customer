@@ -67,13 +67,14 @@ const Cart = ({}) => {
     addressHandler();
     getadress();
   }, []);
+
   useEffect(() => {
+    console.log(selectedAddress);
+    console.log(selectedAddress && updateCart && updateCart?.length > 0);
     if (selectedAddress && updateCart && updateCart?.length > 0) {
       handleCart(updateCart[0]);
     }
   }, [selectedAddress]);
-
-  //card data get function
   const cardData = async () => {
     if (localStorage.getItem("access_token")) {
       try {
@@ -116,6 +117,7 @@ const Cart = ({}) => {
     }
   };
   const handleCart = async (product, qtytype) => {
+    console.log("product");
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
 

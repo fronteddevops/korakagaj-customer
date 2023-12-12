@@ -28,7 +28,8 @@ function OrderViewDetails({ data }) {
         orderId
       );
       // setaddress(response?.data?.data[0].Order?.Address?.address);
-      setaddress(response.data?.data[0].Address.address);
+      setaddress(response.data?.data[0]?.Address?.address);
+      console.log(response.data?.data[0])
       setOrderDetailsData(response?.data?.data[0]?.orderDetails);
     } catch (error) {
       console.error(error);

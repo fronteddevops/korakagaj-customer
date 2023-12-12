@@ -165,7 +165,9 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
                   aria-label="Quick view"
                   className="action-btn hover-up"
                   data-bs-toggle="modal"
-                  onClick={(e) => openQuickView(product)}
+                  onClick={(e) => {
+                    openQuickView(product);
+                  }}
                 >
                   <i className="fi-rs-eye"></i>
                 </a>

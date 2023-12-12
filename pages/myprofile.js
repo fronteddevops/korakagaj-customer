@@ -459,80 +459,89 @@ function Account() {
                           role="tabpanel"
                           aria-labelledby="orders-tab"
                         >
-                          <div className="card">
-                            <div className="card-header">
-                              <h5 className="mb-0">{t("Your Orders")}</h5>
-                            </div>
-                            <div className="card-body">
-                              <div className="table-responsive">
-                                <table className="table">
-                                  <thead>
-                                    <tr>
-                                      <th>{t("Product Image")}</th>
-                                      <th>{t("Order Id")}</th>
-                                      <th>{t("Date")}</th>
-                                      <th>{t("Total Item")}</th>
-                                      <th>{t("Total Quantity")}</th>
-                                      <th>{t("Total Amount")}</th>
-                                      <th>{t("Order Status")}</th>
-                                      <th>{t("Actions")}</th>
-                                    </tr>
-                                  </thead>
-                                  {console.log(
-                                    "orderDetailsData",
-                                    orderDetailsData
-                                  )}
-                                  <tbody>
-                                    {orderDetailsData &&
-                                      orderDetailsData.length > 0 &&
-                                      orderDetailsData?.map((item, key) => (
-                                        <tr key={key}>
-                                          <td>
-                                            <img
-                                              className="img-fluid rounded" // Make the image responsive
-                                              crossOrigin="anonymous"
-                                              src={
-                                                imageUrl +
-                                                item?.OrderDetails?.[0]?.Product
-                                                  ?.image?.[0]
-                                              }
-                                              alt="Image"
-                                              height={50}
-                                              width={50}
-                                            />
-                                          </td>
-                                          <td>{item?.id}</td>
-                                          <td>
-                                            {moment(item?.createdAt).format(
-                                              "MMM DD, YYYY hh:mm A"
-                                            )}
-                                          </td>
-                                          <td>{item?.totalItems}</td>
-                                          <td>{item?.totalQuantity}</td>
-                                          <td>{item?.totalAmount}</td>
+                          {orderDetailsData.length == 0 ? (
+                            <span
+                              className="text-danger m-10"
+                              style={{
+                                // textAlign: "center",
+                                margin: "0 0 0 400px",
+                              }}
+                            >
+                              {t("Order Not Found")}
+                            </span>
+                          ) : (
+                            <div className="card">
+                              <div className="card-header">
+                                <h5 className="mb-0">{t("Your Orders")}</h5>
+                              </div>
+                              <div className="card-body">
+                                <div className="table-responsive">
+                                  <table className="table">
+                                    <thead>
+                                      <tr>
+                                        <th>{t("Product Image")}</th>
+                                        <th>{t("Order Id")}</th>
+                                        <th>{t("Date")}</th>
+                                        <th>{t("Total Item")}</th>
+                                        <th>{t("Total Quantity")}</th>
+                                        <th>{t("Total Amount")}</th>
+                                        <th>{t("Order Status")}</th>
+                                        <th>{t("Actions")}</th>
+                                      </tr>
+                                    </thead>
 
-                                          <td>
-                                            {item?.OrderDetails?.map(
-                                              (orderDetail, index) =>
-                                                index === 0
-                                                  ? orderDetail.type
-                                                  : null
-                                            )}
-                                          </td>
-                                          <td>
-                                            <Link
-                                              href={`/OrderViewDetails?orderId=${item.id}`}
-                                            >
-                                              <a>{t("View detail")}</a>
-                                            </Link>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                  </tbody>
-                                </table>
+                                    <tbody>
+                                      {orderDetailsData &&
+                                        orderDetailsData.length > 0 &&
+                                        orderDetailsData?.map((item, key) => (
+                                          <tr key={key}>
+                                            <td>
+                                              <img
+                                                className="img-fluid rounded" // Make the image responsive
+                                                crossOrigin="anonymous"
+                                                src={
+                                                  imageUrl +
+                                                  item?.OrderDetails?.[0]
+                                                    ?.Product?.image?.[0]
+                                                }
+                                                alt="Image"
+                                                height={50}
+                                                width={50}
+                                              />
+                                            </td>
+                                            <td>{item?.id}</td>
+                                            <td>
+                                              {moment(item?.createdAt).format(
+                                                "MMM DD, YYYY hh:mm A"
+                                              )}
+                                            </td>
+                                            <td>{item?.totalItems}</td>
+                                            <td>{item?.totalQuantity}</td>
+                                            <td>{item?.totalAmount}</td>
+
+                                            <td>
+                                              {item?.OrderDetails?.map(
+                                                (orderDetail, index) =>
+                                                  index === 0
+                                                    ? orderDetail.type
+                                                    : null
+                                              )}
+                                            </td>
+                                            <td>
+                                              <Link
+                                                href={`/OrderViewDetails?orderId=${item.id}`}
+                                              >
+                                                <a>{t("View detail")}</a>
+                                              </Link>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                    </tbody>
+                                  </table>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                         <div
                           className={
