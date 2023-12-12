@@ -1,4 +1,3 @@
-'use client'
 import Link from "next/link";
 import FeatchTab from "../components/ecommerce/fetchTab";
 import FeatchTab2 from "../components/ecommerce/fetchTabSlider";
@@ -23,19 +22,12 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { useState } from "react";
 import services from "../services";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
 export default function Home() {
   const { t } = useTranslation("common");
   const [category, setcategory] = useState([]);
   const [data, setData] = useState([]);
   const [productType, setProdcuType] = useState([]);
-  const pathname = usePathname();
-  if (true) {
-    if (pathname !== "/") {
-      router.push(pathname);
-    }
-  }
+
   const getCategoryListHandler = async () => {
     try {
       const response = await services.category.GET_CATEGORY();
