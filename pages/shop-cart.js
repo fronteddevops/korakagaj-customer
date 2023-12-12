@@ -55,6 +55,7 @@ const Cart = ({}) => {
         const response = await services.myprofile.GET_MY_ADDRESS();
         if (response) {
           setGetaddress(response?.data?.data);
+          setSelectedAddress(response?.data?.data[0].id);
         }
       } catch (error) {
         console.error(error);
@@ -64,13 +65,10 @@ const Cart = ({}) => {
 
   useEffect(() => {
     cardData();
-    addressHandler();
-    getadress();
   }, []);
 
   useEffect(() => {
-    console.log(selectedAddress);
-    console.log(selectedAddress && updateCart && updateCart?.length > 0);
+    console.log("cardData", selectedAddress, updateCart);
     if (selectedAddress && updateCart && updateCart?.length > 0) {
       handleCart(updateCart[0]);
     }
@@ -82,6 +80,8 @@ const Cart = ({}) => {
 
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
+          addressHandler();
+          getadress();
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
         }
       } catch (error) {
@@ -104,13 +104,7 @@ const Cart = ({}) => {
       try {
         const response = await services.myprofile.GET_MY_ADDRESS();
         setAddressList(response?.data?.data);
-        if (response?.data?.data?.length > 0) {
-          response?.data?.data?.map((item) => {
-            if (item.defaultAddress) {
-              setSelectedAddress(item.id);
-            }
-          });
-        }
+        setSelectedAddress(response?.data?.data[0].id);
       } catch (error) {
         console.log(error);
       }
