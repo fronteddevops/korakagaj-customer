@@ -518,14 +518,17 @@ function Account() {
                                             <td>{item?.totalItems}</td>
                                             <td>{item?.totalQuantity}</td>
                                             <td>{item?.totalAmount}</td>
-
+                                            {console.log(item)}
                                             <td>
-                                              {item?.OrderDetails?.map(
+                                              {/* {item?.OrderDetails?.map(
                                                 (orderDetail, index) =>
                                                   index === 0
                                                     ? orderDetail.type
                                                     : null
-                                              )}
+                                              )} */}
+                                              {
+                                                item?.orderStatus
+                                              }
                                             </td>
                                             <td>
                                               <Link

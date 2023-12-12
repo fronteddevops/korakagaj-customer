@@ -17,9 +17,8 @@ import Accordion from "react-bootstrap/Accordion";
 import services from "../../services";
 import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
-import 'i18next'
+import "i18next";
 import { useTranslation } from "react-i18next";
-
 
 const Products = ({ products1, productFilters }) => {
   const { t } = useTranslation("common");
@@ -33,20 +32,22 @@ const Products = ({ products1, productFilters }) => {
   const [selectedSizes, setSizes] = useState([]);
   const [price, setPrice] = useState({ value: { min: 0, max: 1000000 } });
   const [active, setActive] = useState(0);
-  const [toggle, setToggle] = useState(true)
-  const [searchToggle, setSeachToggle] = useState(true)
-  const [productType, setProdcutType] = useState("")
-  const [prodcutprice, setProdcutPrice] = useState("")
-  const [color, setcolor] = useState([])
+  const [toggle, setToggle] = useState(true);
+  const [searchToggle, setSeachToggle] = useState(true);
+  const [productType, setProdcutType] = useState("");
+  const [prodcutprice, setProdcutPrice] = useState("");
+  const [color, setcolor] = useState([]);
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
-  //get query data 
+  //get query data
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
-  const categoryName = Router.query.categoryName
-  const searchProduct = Router.query.searchProdcut ? Router.query.searchProdcut : "";
+  const categoryName = Router.query.categoryName;
+  const searchProduct = Router.query.searchProdcut
+    ? Router.query.searchProdcut
+    : "";
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -55,19 +56,11 @@ const Products = ({ products1, productFilters }) => {
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
-
-
   const clearAllFilter = () => {
-    window.location.href = '/products'
-
-
-  }
-
-
-
+    window.location.href = "/products";
+  };
 
   //get prodcut
-
 
   //size
   const sizes = ["", "s", "m", "xl", "xxl"];
@@ -123,7 +116,9 @@ const Products = ({ products1, productFilters }) => {
 
     try {
       if (searchProduct && searchToggle) {
-        const response = await services.searchProdcut.SEARCH_PRODCUT(searchProduct);
+        const response = await services.searchProdcut.SEARCH_PRODCUT(
+          searchProduct
+        );
         if (response) {
           setProdcut(response?.data?.data?.rows);
         }
@@ -145,7 +140,6 @@ const Products = ({ products1, productFilters }) => {
     } catch (error) {
       console.log(error);
     }
-
   };
   const getCategroy = async () => {
     try {
@@ -159,37 +153,34 @@ const Products = ({ products1, productFilters }) => {
     }
   };
 
-  //SORTING BY 
-
-
-
+  //SORTING BY
 
   //FILTER CASE
   const handleChange = (selectedValue) => {
     // Call the appropriate function based on the selected value
-    setSeachToggle(false)
+    setSeachToggle(false);
     switch (selectedValue) {
       case "0":
-        setProdcutType("0")
+        setProdcutType("0");
         break;
       case "1":
-        setProdcutType("1")
+        setProdcutType("1");
         break;
       case "2":
-        setProdcutType("2")
+        setProdcutType("2");
         break;
       case "LowToHigh":
-        setProdcutPrice("asc")
-        setProdcutType("")
+        setProdcutPrice("asc");
+        setProdcutType("");
         break;
       case "HighToLow":
-        setProdcutPrice("desc")
-        setProdcutType("")
+        setProdcutPrice("desc");
+        setProdcutType("");
         break;
       case "Default":
         prodcutFilters();
-        setProdcutType("")
-        setProdcutPrice("")
+        setProdcutType("");
+        setProdcutPrice("");
         break;
       // Handle additional cases if needed
       default:
@@ -210,9 +201,7 @@ const Products = ({ products1, productFilters }) => {
   };
   // Replace this with your actual array of products
 
-
   const [activeCategory, setActiveCategory] = useState([0, 0, 0]); // Replace DEFAULT_CATEGORY_INDEX with the actual index of your default category
-
 
   // const [activeCategory, setActiveCategory] = useState(null);
 
@@ -228,23 +217,19 @@ const Products = ({ products1, productFilters }) => {
       if (response) {
         const uniqueData = {
           color: new Set(),
-          DuplicateKeyFound: new Set()
+          DuplicateKeyFound: new Set(),
         };
 
-
         response?.data?.data?.forEach((item) => {
-          const key = `${item.colour}`
+          const key = `${item.colour}`;
           // Check if the key already exists in the set and add it if not
           if (!uniqueData.DuplicateKeyFound.has(key)) {
             uniqueData.color.add(item.colour);
-
           }
         });
 
         // Convert sets to arrays and set state variables
         setcolor(Array.from(uniqueData.color));
-
-
       }
     } catch (error) {
       // Handle the error here
@@ -253,18 +238,18 @@ const Products = ({ products1, productFilters }) => {
   };
   const colorArrays = color.map((color) => JSON.parse(color));
 
-
-
-
   // const handleShowMore = () => {
   //   // Set the number of colors to display to the total number of colors
   //   setDisplayedColors(colorArrays.length);
   // };
 
-
-
   const handleShowToggle = () => {
-    console.log("Before Toggle - showMore:", showMore, "displayedColors:", displayedColors);
+    console.log(
+      "Before Toggle - showMore:",
+      showMore,
+      "displayedColors:",
+      displayedColors
+    );
 
     // Toggle the showMore state
     setShowMore(!showMore);
@@ -272,16 +257,18 @@ const Products = ({ products1, productFilters }) => {
     // Set the displayed colors based on the showMore state
     setDisplayedColors(showMore ? 2 : colorArrays.length);
 
-    console.log("After Toggle - showMore:", !showMore, "displayedColors:", showMore ? 1 : colorArrays.length);
+    console.log(
+      "After Toggle - showMore:",
+      !showMore,
+      "displayedColors:",
+      showMore ? 1 : colorArrays.length
+    );
   };
-  
-  
- 
-  useEffect(() => {
 
+  useEffect(() => {
     cratePagination();
     prodcutFilters();
-    getallProdcut()
+    getallProdcut();
     getCategroy();
   }, [
     categoryId,
@@ -296,14 +283,31 @@ const Products = ({ products1, productFilters }) => {
     products?.length,
   ]);
 
-
-
   return (
     <>
-      <Layout parent={t("Home")} sub={categoryId ? (<><a href="/categories"> {t("Category")}</a></>) :
-        <><a href="/products"> {t("Shop")}</a></>} subSub={categoryId && <a href="/categories"> {categoryName} <span></span></a>
-        } subChild={t("Products")}>
-
+      <Layout
+        parent={t("Home")}
+        sub={
+          categoryId ? (
+            <>
+              <a href="/categories"> {t("Category")}</a>
+            </>
+          ) : (
+            <>
+              <a href="/products"> {t("Shop")}</a>
+            </>
+          )
+        }
+        subSub={
+          categoryId && (
+            <a href="/categories">
+              {" "}
+              {categoryName} <span></span>
+            </a>
+          )
+        }
+        subChild={t("Products")}
+      >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
@@ -325,28 +329,27 @@ const Products = ({ products1, productFilters }) => {
                   >
                     {t("Show Filters")}
                   </span>
-                  {
-        (selectedSubSubCategories.length > 0 ||
-          productType ||
-          selectedColors.length > 0 ||
-          selectedSizes.length > 0 ||
-          price.value.min > 0 || price.value.max<1000000) && (
-          <span
-            className="text-brand fw-bold"
-            onClick={() => clearAllFilter()}
-            style={{ cursor: "pointer" }}
-          >
-            {t("Clear All Filter")}
-          </span>
-        )
-      }
+                  {(selectedSubSubCategories.length > 0 ||
+                    productType ||
+                    selectedColors.length > 0 ||
+                    selectedSizes.length > 0 ||
+                    price.value.min > 0 ||
+                    price.value.max < 1000000) && (
+                    <span
+                      className="text-brand fw-bold"
+                      onClick={() => clearAllFilter()}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {t("Clear All Filter")}
+                    </span>
+                  )}
 
                   <div className="sort-by-cover">
                     <div className="sort-by-product-wrap">
                       <div className="sort-by">
                         <span>
                           <i className="fi-rs-apps-sort"></i>
-                          {t('Sort by:')}
+                          {t("Sort by:")}
                         </span>
                       </div>
                       <div className="sort-by-dropdown-wrap custom-select">
@@ -367,80 +370,104 @@ const Products = ({ products1, productFilters }) => {
               </div>
               {
                 <div
-                  className={`${!isFilterVisible ? "hide-on-mobile" : ""
-                    } col-lg-3 primary-sidebar sticky-sidebar`}
+                  className={`${
+                    !isFilterVisible ? "hide-on-mobile" : ""
+                  } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
                   <div className="widget-category p-3 mb-30">
-                    {category.length > 0 && category?.map((Item, index) => (
-                      <Accordion key={index} activeKey={activeCategory}>
-                        <Accordion.Item className="custom-filter" eventKey={index} key={index}>
-                          <Accordion.Header onClick={() => toggleCategory(index)}>
-                            <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
-                              {Item?.categoryName}
-                            </h5>
-                          </Accordion.Header>
-                          <Accordion.Body>
-                            <Accordion>
-                              {Item?.SubCategories?.map((subCategory, subIndex) => (
-                                <Accordion.Item
-                                  className="custom-filter ms-3"
-                                  eventKey={subIndex}
-                                  key={subCategory.id}
-                                >
-                                  <Accordion.Header>
-                                    <h5 className="w-100 style-1 wow fadeIn animated">
-                                      {subCategory?.subCategoryName}
-                                    </h5>
-                                  </Accordion.Header>
-                                  <Accordion.Body>
-                                    {/* Subcategory content here */}
-                                    {subCategory?.SubSubCategories.map((item, itemIndex) => (
-                                      <div key={item.id}>
-                                        <Form.Check
-                                          type="checkbox"
-                                          id={`default-${item.id}`}
-                                          label={item?.subSubCategoryName}
-                                          onChange={() => {
-                                            const subSubCategoryId = item.id;
-                                            setToggle(true)
-                                            setSeachToggle(false)
-                                            if (
-                                              selectedSubSubCategories?.includes(subSubCategoryId)
-                                            ) {
-                                              // If the subSubCategoryId is already in the array, remove it
-                                              const updatedSubCategories =
-                                                selectedSubSubCategories?.filter(
-                                                  (id) => id !== subSubCategoryId
-                                                );
-                                              setSelectedSubSubCategories(updatedSubCategories);
-                                            } else {
-                                              // If the subSubCategoryId is not in the array, add it
-                                              const updatedSubCategories = [
-                                                ...selectedSubSubCategories,
-                                                subSubCategoryId,
-                                              ];
-                                              setSelectedSubSubCategories(updatedSubCategories);
-                                            }
-                                          }}
-                                          checked={selectedSubSubCategories?.includes(item?.id)}
-                                        />
-                                      </div>
-                                    ))}
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                              ))}
-                            </Accordion>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    ))}
-
-
+                    {category.length > 0 &&
+                      category?.map((Item, index) => (
+                        <Accordion key={index} activeKey={activeCategory}>
+                          <Accordion.Item
+                            className="custom-filter"
+                            eventKey={index}
+                            key={index}
+                          >
+                            <Accordion.Header
+                              onClick={() => toggleCategory(index)}
+                            >
+                              <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
+                                {Item?.categoryName}
+                              </h5>
+                            </Accordion.Header>
+                            <Accordion.Body>
+                              <Accordion>
+                                {Item?.SubCategories?.map(
+                                  (subCategory, subIndex) => (
+                                    <Accordion.Item
+                                      className="custom-filter ms-3"
+                                      eventKey={subIndex}
+                                      key={subCategory.id}
+                                    >
+                                      <Accordion.Header>
+                                        <h5 className="w-100 style-1 wow fadeIn animated">
+                                          {subCategory?.subCategoryName}
+                                        </h5>
+                                      </Accordion.Header>
+                                      <Accordion.Body>
+                                        {/* Subcategory content here */}
+                                        {subCategory?.SubSubCategories.map(
+                                          (item, itemIndex) => (
+                                            <div key={item.id}>
+                                              <Form.Check
+                                                type="checkbox"
+                                                id={`default-${item.id}`}
+                                                label={item?.subSubCategoryName}
+                                                onChange={() => {
+                                                  const subSubCategoryId =
+                                                    item.id;
+                                                  setToggle(true);
+                                                  setSeachToggle(false);
+                                                  if (
+                                                    selectedSubSubCategories?.includes(
+                                                      subSubCategoryId
+                                                    )
+                                                  ) {
+                                                    // If the subSubCategoryId is already in the array, remove it
+                                                    const updatedSubCategories =
+                                                      selectedSubSubCategories?.filter(
+                                                        (id) =>
+                                                          id !==
+                                                          subSubCategoryId
+                                                      );
+                                                    setSelectedSubSubCategories(
+                                                      updatedSubCategories
+                                                    );
+                                                  } else {
+                                                    // If the subSubCategoryId is not in the array, add it
+                                                    const updatedSubCategories =
+                                                      [
+                                                        ...selectedSubSubCategories,
+                                                        subSubCategoryId,
+                                                      ];
+                                                    setSelectedSubSubCategories(
+                                                      updatedSubCategories
+                                                    );
+                                                  }
+                                                }}
+                                                checked={selectedSubSubCategories?.includes(
+                                                  item?.id
+                                                )}
+                                              />
+                                            </div>
+                                          )
+                                        )}
+                                      </Accordion.Body>
+                                    </Accordion.Item>
+                                  )
+                                )}
+                              </Accordion>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                        </Accordion>
+                      ))}
                   </div>
 
                   <div className="sidebar-widget price_range range mb-30">
                     <div className="widget-header position-relative mb-20 pb-10">
-                      <h5 className="widget-title mb-10">{t("Filter by price")}</h5>
+                      <h5 className="widget-title mb-10">
+                        {t("Filter by price")}
+                      </h5>
                       <div className="bt-1 border-color-1"></div>
                     </div>
 
@@ -457,8 +484,8 @@ const Products = ({ products1, productFilters }) => {
                             max={9000}
                             onChange={(value) => {
                               //  PriceRange({ value: { min: value[0], max: value[1] } })
-                              setToggle(true)
-                              setSeachToggle(false)
+                              setToggle(true);
+                              setSeachToggle(false);
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
@@ -477,7 +504,7 @@ const Products = ({ products1, productFilters }) => {
 
                     <div className="list-group">
                       <div className="list-group-item mb-10 mt-10">
-                         {/* <label className="fw-900">{t("Color")}</label>
+                        {/* <label className="fw-900">{t("Color")}</label>
 
                         <>
                           <ul className="categories m-0 p-0" >
@@ -544,9 +571,9 @@ const Products = ({ products1, productFilters }) => {
                             <li
                               className={active == i ? "active" : ""}
                               onClick={() => {
-                                setToggle(true)
-                                setSeachToggle(false)
-                                handleClick(i, tag)
+                                setToggle(true);
+                                setSeachToggle(false);
+                                handleClick(i, tag);
                               }}
                               key={i}
                             >
@@ -566,47 +593,41 @@ const Products = ({ products1, productFilters }) => {
                     <p>
                       {t("We found")}
                       <strong className="text-brand">
-
                         {products?.length > 0 && <> {products?.length}</>}
-
                       </strong>
                       {t("items for you!")}
                     </p>
                   </div>
                   <div className="sort-by-product-area justify-content-between align-items-center">
                     <div>
-                    {
-        (selectedSubSubCategories.length > 0 ||
-          productType ||
-          selectedColors.length > 0 ||
-          selectedSizes.length > 0 ||
-          price.value.min > 0 || price.value.max<1000000) ? (
-          <span
-            className="text-brand fw-bold"
-            onClick={() => clearAllFilter()}
-            style={{ cursor: "pointer" }}
-          >
-            {t("Clear All Filter")}
-          </span>
-        ):""
-
-      }
-       {
-        (categoryId.length > 0 ||
-          categoryName 
-        ) ? (
-          <span
-            className="text-brand fw-bold"
-            onClick={() => clearAllFilter()}
-            style={{ cursor: "pointer" }}
-          >
-            {t("Clear All Filter")}
-          </span>
-        ):""
-
-      }
+                      {selectedSubSubCategories.length > 0 ||
+                      productType ||
+                      selectedColors.length > 0 ||
+                      selectedSizes.length > 0 ||
+                      price.value.min > 0 ||
+                      price.value.max < 1000000 ? (
+                        <span
+                          className="text-brand fw-bold"
+                          onClick={() => clearAllFilter()}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {t("Clear All Filter")}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                      {categoryId.length > 0 || categoryName ? (
+                        <span
+                          className="text-brand fw-bold"
+                          onClick={() => clearAllFilter()}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {t("Clear All Filter")}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
-     
 
                     <div className="sort-by-cover">
                       <div className="sort-by-product-wrap">
@@ -626,8 +647,12 @@ const Products = ({ products1, productFilters }) => {
                             <option value="0">{t("New Product")}</option>
                             <option value="1">{t("Hot Deals")}</option>
                             <option value="2">{t("Best Seller")}</option>
-                            <option value="LowToHigh">{t("Low To High")}</option>
-                            <option value="HighToLow">{t("High To Low")}</option>
+                            <option value="LowToHigh">
+                              {t("Low To High")}
+                            </option>
+                            <option value="HighToLow">
+                              {t("High To Low")}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -641,21 +666,13 @@ const Products = ({ products1, productFilters }) => {
                     <h3>{t("No Products Found")} </h3>
                   )}
 
-
                   {getPaginatedProducts?.map((item, i) => (
-                    <div
-                      className="col-lg-4 col-md-4 col-12 col-sm-6"
-                      key={i}
-                    >
-                      <SingleProduct
-                        product={item}
-                        fabricPrice={fabricPrice}
-                      />
+                    <div className="col-lg-4 col-md-4 col-12 col-sm-6" key={i}>
+                      <SingleProduct product={item} fabricPrice={fabricPrice} />
 
                       {/* <SingleProductList product={item}/> */}
                     </div>
                   ))}
-
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
@@ -675,7 +692,6 @@ const Products = ({ products1, productFilters }) => {
           </div>
         </section>
 
-
         <WishlistModal />
         {/* <CompareModal /> */}
         {/* <CartSidebar /> */}
@@ -690,8 +706,6 @@ const mapStateToProps = (state) => ({
   productFilters: state.productFilters,
 });
 
-const mapDidpatchToProps = {
-
-};
+const mapDidpatchToProps = {};
 
 export default connect(mapStateToProps, mapDidpatchToProps)(Products);

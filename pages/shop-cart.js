@@ -51,14 +51,23 @@ const Cart = ({}) => {
   //set total price in add to card all prodcut
   const getadress = async () => {
     if (localStorage.getItem("access_token")) {
-      try {
-        const response = await services.myprofile.GET_MY_ADDRESS();
-        if (response) {
-          setGetaddress(response?.data?.data);
-          setSelectedAddress(response?.data?.data[0].id);
+      let a = 0;
+
+      if (selectedAddress == a) {
+        try {
+          const response = await services.myprofile.GET_MY_ADDRESS();
+          if (response) {
+            setGetaddress(response?.data?.data);
+            // setSelectedAddress(response?.data?.data[0].id);
+            a = response?.data?.data[0].id;
+            const res = response?.data?.data.find(
+              (item) => item?.defaultAddress === true
+            );
+            setSelectedAddress(res?.id);
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
     }
   };
@@ -68,7 +77,6 @@ const Cart = ({}) => {
   }, []);
 
   useEffect(() => {
-    console.log("cardData", selectedAddress, updateCart);
     if (selectedAddress && updateCart && updateCart?.length > 0) {
       handleCart(updateCart[0]);
     }
@@ -100,18 +108,27 @@ const Cart = ({}) => {
   };
 
   const addressHandler = async () => {
+    let a = 0;
     if (localStorage.getItem("access_token")) {
-      try {
-        const response = await services.myprofile.GET_MY_ADDRESS();
-        setAddressList(response?.data?.data);
-        setSelectedAddress(response?.data?.data[0].id);
-      } catch (error) {
-        console.log(error);
+      if (selectedAddress == a) {
+        try {
+          const response = await services.myprofile.GET_MY_ADDRESS();
+
+          setAddressList(response?.data?.data);
+          // setSelectedAddress(response?.data?.data[0].id);
+          a = response?.data?.data[0]?.id;
+
+          const res = response?.data?.data.find(
+            (item) => item.defaultAddress === true
+          );
+          setSelectedAddress(res?.id);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
   const handleCart = async (product, qtytype) => {
-    console.log("product");
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
 
@@ -197,12 +214,10 @@ const Cart = ({}) => {
     }
   };
   const increaseQuantity = (product) => {
-    // console.log("increaseQuantity", product);
     product.selectedQuantity = product.selectedQuantity + 1;
     handleCart(product, product.selectedQuantity);
   };
   const decreaseQuantity = (product) => {
-    // console.log("decreaseQuantity", product);
     if (product.selectedQuantity == 1) {
       return;
     } else {
@@ -428,7 +443,6 @@ const Cart = ({}) => {
                                     <i className="fi-rs-angle-small-up"></i>
                                   </a>
                                   <span className="qty-val">
-                                    {/* {console.log(product.selectedQuantity)} */}
                                     {product.selectedQuantity}
                                   </span>
                                   <a

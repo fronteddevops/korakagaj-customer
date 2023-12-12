@@ -31,6 +31,11 @@ const ProductDetails = ({
   fabricId,
   totalPrice,
 }) => {
+  console.log("product", product);
+  console.log("quickView", quickView);
+  console.log("fabricPrice", fabricPrice);
+  console.log("fabricName", fabricName)
+  console.log("totalPrice", totalPrice);
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
   const [fabricType, setfabricType] = useState("");
@@ -108,7 +113,7 @@ const ProductDetails = ({
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
-     
+
       const unique = cartDetails.filter(
         (value, index, self) =>
           index ===
@@ -425,17 +430,13 @@ const ProductDetails = ({
                       <div className="detail-extralink">
                         <div className="product-extra-link2">
                           <button
-                            onClick={(e) =>
-                              handleCart(product)
-                            }
+                            onClick={(e) => handleCart(product)}
                             className="button button-add-to-cart me-3"
                           >
                             {t("Design My Way")}
                           </button>
                           <button
-                            onClick={(e) =>
-                              handleCart(product)
-                            }
+                            onClick={(e) => handleCart(product)}
                             className="button button-add-to-cart me-3"
                           >
                             {t("Add to cart")}
