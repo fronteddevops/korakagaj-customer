@@ -346,7 +346,7 @@ const Cart = ({}) => {
         parent={t("Home")}
         sub={
           <>
-            <a href="/products"> {t("Product")}</a>
+            <Link href="/products" as="/products"> {t("Product")}</Link>
           </>
         }
         subChild={t("Cart")}
@@ -477,14 +477,15 @@ const Cart = ({}) => {
                       <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart && updateCart.length > 0 && (
-                            <a
+                            <Link
                               href="#"
+                              as="#"
                               onClick={clearCart}
                               className="text-muted"
                             >
                               <i className="fi-rs-cross-small"></i>
                               Clear Cart
-                            </a>
+                            </Link>
                           )}
                         </td>
                       </tr>
@@ -601,27 +602,14 @@ const Cart = ({}) => {
                           </table>
                         </div>
                         {/* {isLoggedIn ? (
-                        <a
-                          onClick={() => {
-                            if (selectedAddress) {
-                              checkoutHandler();
-                            } else {
-                              if (addressList.length > 0) {
-                                toast.error("Choose your address");
-                              } else {
-                                toast.error("Add your address");
-                              }
-                            }
-                          }}
-                          href="#"
-                          className="btn "
+                  ="btn "
                         >
                           <i className="fi-rs-box-alt mr-10"></i>
                           {t("Proceed To CheckOut")}
                         </a>
                       ) : (
                         <Link className={"btn"} href="/login">
-                          <a href="#" className="btn ">
+                       
                             <i className="fi-rs-box-alt mr-10"></i>
                             {t("Proceed to Login")}
                           </a>
@@ -629,7 +617,7 @@ const Cart = ({}) => {
                       )} */}
 
                         {isLoggedIn ? (
-                          <a
+                          <Link
                             onClick={() => {
                               if (selectedAddress) {
                                 router.push(`/Continue?id=${selectedAddress}`);
@@ -645,14 +633,14 @@ const Cart = ({}) => {
                             className="btn d-block"
                           >
                             {t("Continue Order")}
-                          </a>
+                          </Link>
                         ) : (
-                          <Link className={"btn"} href="/login">
-                            <a href="#" className="btn ">
+                          <a className={"btn"} href="/login">
+                            <Link href="#" as="#" className="btn ">
                               <i className="fi-rs-box-alt mr-10"></i>
                               {t("Proceed to Login")}
-                            </a>
-                          </Link>
+                            </Link>
+                          </a>
                         )}
                       </div>
                     )}

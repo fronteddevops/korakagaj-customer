@@ -28,10 +28,10 @@ function Categories() {
       <Layout
         parent={t("Home")}
         sub={
-          <a href="/">
+          <Link href="/">
             {" "}
             <>{t("Categories")}</>
-          </a>
+          </Link>
         }
         subChild={t("List")}
       >

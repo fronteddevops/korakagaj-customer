@@ -34,11 +34,7 @@ const Deals2 = () => {
         //             <Timer
         //                 endDateTime={fixDate.setDate(fixDate.getDate() + 2)}
         //             />
-        //             <Link href="/products">
-        //                 <a className="btn hover-up">
-        //                     Shop Now <i className="fi-rs-arrow-right"></i>
-        //                 </a>
-        //             </Link>
+       
         //         </div>
         //     </div>
         // </>

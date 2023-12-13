@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
 
 const ProductId = ({ product }) => {
   const { t} = useTranslation("common");
@@ -56,7 +57,7 @@ const ProductId = ({ product }) => {
   return (
     <>
       {data && data?.length > 0 && (
-        <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={data?.productName}>
+        <Layout parent={t("Home")} sub={<><Link href="/products" as="/products"> {t("Product")}</Link></>} subChild={data?.productName}>
           <div className="container">
             <ProductDetails product={data} fabricPrice={fabricPrice} fabricId={fabricId} totalPrice={totalPrice} fabricName={fabricName}  />
           </div>

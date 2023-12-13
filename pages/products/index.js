@@ -290,20 +290,20 @@ const Products = ({ products1, productFilters }) => {
         sub={
           categoryId ? (
             <>
-              <a href="/categories"> {t("Category")}</a>
+              <Link href="/categories"  as="/categories"> {t("Category")}</Link>
             </>
           ) : (
             <>
-              <a href="/products"> {t("Shop")}</a>
+              <Link href="/products"> {t("Shop")}</Link>
             </>
           )
         }
         subSub={
           categoryId && (
-            <a href="/categories">
+            <Link href="/categories" as="/categories">
               {" "}
               {categoryName} <span></span>
-            </a>
+            </Link>
           )
         }
         subChild={t("Products")}

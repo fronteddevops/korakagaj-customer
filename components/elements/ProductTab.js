@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactStars from "react-rating-stars-component";
+import Link from "next/link";
 const ProductTab = ({ prodcut }) => {
   const { t } = useTranslation("common");
   const [activeIndex, setActiveIndex] = useState(1);
@@ -275,10 +276,10 @@ const ProductTab = ({ prodcut }) => {
                                 </div>
                               </div>
                               <h6>
-                                <a href="#">
+                                <Link href="#" as="#">
                                   {item?.User?.firstName} &nbsp;&nbsp;
                                   {item?.User?.lastName}
-                                </a>
+                                </Link>
                               </h6>
                             </div>
                           </div>
@@ -313,9 +314,7 @@ const ProductTab = ({ prodcut }) => {
                                                         </div>
                                                     </div>
                                                     <h6>
-                                                        <a href="#">
-                                                            Ana Rosie
-                                                        </a>
+                                                      
                                                     </h6>
                                                 </div>
                                             </div>
@@ -350,9 +349,7 @@ const ProductTab = ({ prodcut }) => {
                                                         </div>
                                                     </div>
                                                     <h6>
-                                                        <a href="#">
-                                                            Ana Rosie
-                                                        </a>
+                                                     
                                                     </h6>
                                                 </div>
                                             </div>

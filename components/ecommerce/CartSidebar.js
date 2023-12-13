@@ -117,7 +117,7 @@ const CartSidebar = ({
                         Clear all
                     </button>
                 ):null}
-                <Link href="/cart">
+                <Link href="/cart" as="/cart">
                     <div className="cart-popup-total">
                         <span>Continue</span>
                         <div className="amount">Total : {price()}</div>

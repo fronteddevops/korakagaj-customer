@@ -472,9 +472,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                 )}
                 {lastName && firstName && (
                   <>
-                    <a href="/" onClick={() => {localStorage.removeItem("access_token"),localStorage.removeItem("userId")}}>
+                    <Link href="/" as="/" onClick={() => {localStorage.removeItem("access_token"),localStorage.removeItem("userId")}}>
                       {t("Logout")}
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>

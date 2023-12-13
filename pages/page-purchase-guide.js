@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import BlogSidebar from "../components/elements/BlogSidebar";
 import Layout from "../components/layout/Layout";
-
+import Link from "next/link";
 function Guide() {
     const { t } = useTranslation("common");
     return (
@@ -16,7 +16,7 @@ function Guide() {
                                         <h2>{t("Purchase Guide")}</h2>
                                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                                             <span className="post-by">
-                                                {t("By")} <a href="#">{t("Jonh")}</a>
+                                                {t("By")} <Link href="#" as="#">{t("Jonh")}</Link>
                                             </span>
                                             <span className="post-on has-dot">9 {t("April")} 2020</span>
                                             <span className="time-reading has-dot">{t("8 mins read")}</span>

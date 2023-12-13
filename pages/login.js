@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import Link from "next/link.js";
 
 function Login() {
   const { t } = useTranslation("common");
@@ -213,7 +214,7 @@ function Login() {
         pauseOnHover
       />
       {showForgetPasswordComponent === false && (
-        <Layout parent={t("Home")} sub={<a href="/login">{t("Login")}</a>}>
+        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Login")}</Link>}>
           <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">
@@ -370,26 +371,28 @@ function Login() {
                           </div>
                           <ul className="btn-login list_none text-center mb-15">
                             <li>
-                              <a
+                              <Link
                                 href="#"
+                                as="#"
                                 className="btn btn-facebook hover-up mb-lg-0 mb-sm-4"
                               >
                                 {t("Login With Facebook")}
-                              </a>
+                              </Link>
                             </li>
                             <li>
-                              <a
+                              <Link
                                 href="#"
+                                as="#"
                                 className="btn btn-google hover-up mt-2"
                               >
                                 {t("Login With Google")}
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                           <div className="text-muted text-center">
                             {" "}
                             {t("Don't have an account ?")}{" "}
-                            <a href="/register">{t("Sign up now")}</a>
+                            <Link href="/register" as="/register">{t("Sign up now")}</Link>
                           </div>
                         </div>
                       </div>
@@ -402,7 +405,7 @@ function Login() {
         </Layout>
       )}
       {showForgetPasswordComponent && (
-        <Layout parent={t("Home")} sub={<a href="/login">{t("Login")}</a>}>
+        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Login")}</Link>}>
           <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">

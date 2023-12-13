@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import Layout from "../components/layout/Layout";
 
 import { clearCart, closeCart, decreaseQuantity, deleteFromCart, increaseQuantity, openCart } from "../redux/action/cart";
+import Link from "next/link";
 
 const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, decreaseQuantity, deleteFromCart, clearCart }) => {
     const price = () => {
@@ -699,9 +700,9 @@ const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, de
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="#" className="btn btn-fill-out btn-block mt-30">
+                                    <Link href="#" className="btn btn-fill-out btn-block mt-30">
                                         Place Order
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

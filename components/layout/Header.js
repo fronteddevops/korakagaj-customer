@@ -456,11 +456,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                         
                           categoryList.map((item) => (
                             <Link href="/products">
-                              <a
-                                key={item.id}
-                                onMouseEnter={() => subCategoryList(item.id)}
-                                onMouseLeave={() => setHoveredCategoryId(null)}
-                              >
+                             
                                 <i className="korakagaj-font-dress"></i>
                                 {item.categoryName}
                               </a>
@@ -482,9 +478,7 @@ const Header = ({ toggleClick, headerStyle }) => {
 
                                         {subSubCategory.map((item) => (
                                           <li>
-                                            <Link href="/#">
-                                              <a className="dropdown-item nav-link nav_item">
-                                                {item.subSubCategoryName}
+                                            <LinategoryName}
                                               </a>
                                             </Link>
                                           </li>

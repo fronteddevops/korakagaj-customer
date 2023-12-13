@@ -6,6 +6,7 @@ import services from "../services";
 import nextConfig from "../next.config";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const propTypes = {};
 
@@ -79,10 +80,10 @@ const ReviewRetting = () => {
     <Layout
       parent={t("Home")}
       sub={
-        <a href="/myprofile?index=2">
+        <Link href="/myprofile?index=2">
           {" "}
           <>{t("Pages")}</>
-        </a>
+        </Link>
       }
       subChild={t("Review Reting")}
     >

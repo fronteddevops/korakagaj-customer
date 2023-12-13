@@ -34,7 +34,7 @@ const ProductDetails = ({
   console.log("product", product);
   console.log("quickView", quickView);
   console.log("fabricPrice", fabricPrice);
-  console.log("fabricName", fabricName)
+  console.log("fabricName", fabricName);
   console.log("totalPrice", totalPrice);
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
@@ -194,36 +194,36 @@ const ProductDetails = ({
                           <strong className="mr-10">{t("Share this:")}</strong>
                         </li>
                         <li className="social-facebook">
-                          <a href="#">
+                          <Link href="#" as="#">
                             <img
                               src="/assets/imgs/theme/icons/icon-facebook.svg"
                               alt=""
                             />
-                          </a>
+                          </Link>
                         </li>
                         <li className="social-twitter">
-                          <a href="#">
+                          <Link href="#" as="#">
                             <img
                               src="/assets/imgs/theme/icons/icon-twitter.svg"
                               alt=""
                             />
-                          </a>
+                          </Link>
                         </li>
                         <li className="social-instagram">
-                          <a href="#">
+                          <Link href="#" as="#">
                             <img
                               src="/assets/imgs/theme/icons/icon-instagram.svg"
                               alt=""
                             />
-                          </a>
+                          </Link>
                         </li>
                         <li className="social-linkedin">
-                          <a href="#">
+                          <Link href="#" as="#">
                             <img
                               src="/assets/imgs/theme/icons/icon-pinterest.svg"
                               alt=""
                             />
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -237,7 +237,7 @@ const ProductDetails = ({
                         <div className="pro-details-brand">
                           <span>
                             {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
-                            <Link href="/products">
+                            <Link href="/products" as="/products">
                               <a className="text-capitalize">
                                 {product?.Category?.categoryName}
                               </a>
@@ -344,14 +344,14 @@ const ProductDetails = ({
                                 onClick={() => setSelectedColor(clr)}
                                 className={clr == selectedColor && "active"}
                               >
-                                <a href="#">
+                                <Link href="#" as="#">
                                   <span
                                     style={{
                                       border: "1px solid black",
                                       backgroundColor: clr,
                                     }}
                                   ></span>
-                                </a>
+                                </Link>
                               </li>
                             ))}
                         </ul>
@@ -454,14 +454,14 @@ const ProductDetails = ({
                       <ul className="product-meta font-xs color-grey mt-50">
                         <li className="mb-5 text-capitalize">
                           {t("SKU")}&nbsp;:
-                          <a href="#">&nbsp;{product.sku}</a>
+                          <Link href="#" as="#">&nbsp;{product.sku}</Link>
                         </li>
                         <li className="mb-5 text-capitalize">
                           {t("Tags")}&nbsp;:
-                          <a href="#" rel="tag" className="me-1">
+                          <Link href="#" as="#" rel="tag" className="me-1">
                             &nbsp;
                             {product.tags}
-                          </a>
+                          </Link>
                         </li>
                         <li>
                           {t("Availability")}&nbsp;:

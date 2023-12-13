@@ -267,13 +267,13 @@ function Account() {
         parent={t("Home")}
         sub={t("Pages")}
         subsuB={
-          <a href="/myprofile?index=2">
+          <Link href="/myprofile?index=2" as="/myprofile?index=2">
             {" "}
             <>
               {" "}
               <span></span> {t("Pages")}
             </>
-          </a>
+          </Link>
         }
         subChild={breadCrumb}
       >
@@ -436,15 +436,15 @@ function Account() {
                                   "From your account dashboard. you can easily check"
                                 )}{" "}
                                 &amp; {t("view your")}
-                                <a href="#">{t("recent orders")}</a>,{" "}
+                                <Link href="#" as="#">{t("recent orders")}</Link>,{" "}
                                 {t("manage your")}
-                                <a href="#">
+                                <Link href="#" as="#">
                                   {t("shipping and billing addresses")}
-                                </a>
+                                </Link>
                                 {t("and")}
-                                <a href="#">
+                                <Link href="#" as="#">
                                   {t("edit your password and account details.")}
-                                </a>
+                                </Link>
                               </p>
                             </div>
                           </div>

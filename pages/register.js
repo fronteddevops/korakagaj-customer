@@ -572,7 +572,7 @@ const handlePaste = (e) => {
                         </ul>
                         <div className="text-muted text-center">
                           {t("Already have an account?")}{" "}
-                          <a href="/login">{t("Sign in now")}</a>
+                          <Link href="/login">{t("Sign in now")}</Link>
                         </div>
                       </div>
                     </div>
