@@ -637,7 +637,7 @@ const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, de
                                                             <td>
                                                                 <h5>
                                                                     <a>{item.title}</a>
-                                                                </h5>{" "}
+                                                                </h5>
                                                                 <span className="product-qty">x {item.quantity}</span>
                                                             </td>
                                                             <td>Rs.{item.quantity * item.price}</td>
@@ -700,9 +700,9 @@ const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, de
                                             </div>
                                         </div>
                                     </div>
-                                    <Link href="#" className="btn btn-fill-out btn-block mt-30">
+                                    <a className="btn btn-fill-out btn-block mt-30">
                                         Place Order
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         </div>

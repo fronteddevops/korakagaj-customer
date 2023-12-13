@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/action/cart";
 
-import Link from "next/link.js";
 const CompareTable = ({ data, features, deleteFromCompare, addToCart }) => {
   const handleCart = (product) => {
     addToCart(product);
@@ -28,9 +27,9 @@ const CompareTable = ({ data, features, deleteFromCompare, addToCart }) => {
               ) : feature == "name" ? (
                 <td className="product_name">
                   <h5>
-                    <Link href="#" as="#">
+                    <a>
                       {product.title}
-                    </Link>
+                    </a>
                   </h5>
                 </td>
               ) : feature == "price" ? (
@@ -65,9 +64,9 @@ const CompareTable = ({ data, features, deleteFromCompare, addToCart }) => {
                   <ul className="list-filter color-filter">
                     {product.variations.map((item) => (
                       <li>
-                        <Link href="#" as="#">
+                        <a>
                           <span className={`product-color-${item}`}></span>
-                        </Link>
+                        </a>
                       </li>
                     ))}
                   </ul>

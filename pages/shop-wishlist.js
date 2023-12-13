@@ -65,7 +65,7 @@ const Wishlist = ({
 
   return (
     <>
-      <Layout parent={t("Home")} sub={<><Link href="/products" as="/products"> {t("Product")}</Link></>} subChild={t("Wishlist")}>
+      <Layout parent={t("Home")} sub={<><Link href="/products" as={`/products`} >{t("Product")}</Link></>} subChild={t("Wishlist")}>
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row product-grid-3">

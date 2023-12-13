@@ -276,10 +276,10 @@ const ProductTab = ({ prodcut }) => {
                                 </div>
                               </div>
                               <h6>
-                                <Link href="#" as="#">
+                                <a>
                                   {item?.User?.firstName} &nbsp;&nbsp;
                                   {item?.User?.lastName}
-                                </Link>
+                                </a>
                               </h6>
                             </div>
                           </div>

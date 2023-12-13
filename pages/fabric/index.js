@@ -244,12 +244,11 @@ const getProdcut=async()=>{
 
   return (
     <>
-      <Layout parent={t("Home")} sub={<><Link href="/products" as="/products"> {t("Product")}</Link></>} subSub={<>
+      <Layout parent={t("Home")} sub={<><Link href="/products" as={`/products`}>{t("Product")}</Link></>} subSub={<>
         <Link href="/products/[slug]" as={`/products/${id}`}>
           <a>
             {prodcutData?.productName}
           </a>
-
         </Link>
         <span></span>
       </>}
@@ -635,13 +634,13 @@ const getProdcut=async()=>{
 
 
 
-                    <Link href="#" as="#"
+                    <a
                       className="text-brand fw-bold"
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
                       style={{ cursor: "pointer" }}
                     >
                       {t("Show Filters")}
-                    </Link>
+                    </a>
                   </div>
                   {/* <div className="sort-by-product-area">
                     <div className="sort-by-cover">

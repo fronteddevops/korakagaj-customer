@@ -97,7 +97,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   //get category list
   const CategoryList = async () => {
     const response = await service.category.GET_CATEGORY();
-
+    console.log("response", response);
     setCategoryList(response?.data?.data?.rows);
   };
   // Get sub category list
@@ -174,9 +174,9 @@ const Header = ({ toggleClick, headerStyle }) => {
                   <ul>
                     <li>
                       <i className="fi-rs-smartphone"></i>
-                      <Link href="/#">
+                      <a>
                         <a>+91-9791028374</a>
-                      </Link>
+                      </a>
                     </li>
                     <li>
                       <i className="fi-rs-marker"></i>
@@ -205,16 +205,16 @@ const Header = ({ toggleClick, headerStyle }) => {
                 <div className="header-info header-info-right">
                   <ul>
                     <li>
-                      <Link href="/#">
+                      <a>
                         <a className="language-dropdown-active">
                           <i className="fi-rs-world"></i>
                           {lang && <span>{lang}</span>}
                           <i className="fi-rs-angle-small-down"></i>
                         </a>
-                      </Link>
+                      </a>
                       <ul className="language-dropdown">
                         <li>
-                          <Link href="/#">
+                          <a>
                             <a
                               onClick={() => {
                                 i18n.changeLanguage("hi");
@@ -228,10 +228,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                               />
                               Hindi
                             </a>
-                          </Link>
+                          </a>
                         </li>
                         <li>
-                          <Link href="/#">
+                          <a>
                             <a
                               onClick={() => {
                                 i18n.changeLanguage("en");
@@ -246,7 +246,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                               />
                               English
                             </a>
-                          </Link>
+                          </a>
                         </li>
                       </ul>
                     </li>
@@ -338,7 +338,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                       </div>
                     )}
                     <div className="header-action-icon-2">
-                      <Link href="/shop-cart">
+                      <Link href="/shop-cart" as={`/shop-cart`}>
                         <a className="mini-cart-icon">
                           <img
                             alt="korakagaj"
@@ -389,10 +389,15 @@ const Header = ({ toggleClick, headerStyle }) => {
                     }
                   >
                     <ul>
+                      {console.log("categoryList", categoryList)}
                       {categoryList &&
                         categoryList.map((item) => (
                           <li className="has-children" key={item.id}>
-                            <Link href="/products">
+                            <Link
+                              href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                              as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                            >
+                              {/* <Link href="/products"> */}
                               <a
                                 onMouseEnter={() => subCategoryList(item.id)}
                                 onMouseLeave={() => setHoveredCategoryId(null)}
@@ -421,13 +426,13 @@ const Header = ({ toggleClick, headerStyle }) => {
                                             {subSubCategory.map(
                                               (subSubItem) => (
                                                 <li key={subSubItem.id}>
-                                                  <Link href="/#">
+                                                  <a>
                                                     <a className="dropdown-item nav-link nav_item">
                                                       {
                                                         subSubItem.subSubCategoryName
                                                       }
                                                     </a>
-                                                  </Link>
+                                                  </a>
                                                 </li>
                                               )
                                             )}
@@ -518,7 +523,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link href="/products">
+                        <Link href="/products" as={`/products`}>
                           <a
                             className={
                               router.pathname === "/products" ? "active" : ""
@@ -544,7 +549,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                         </Link>
                         <ul className="sub-menu">
                           <li>
-                            <Link href="/blog-category-grid">
+                            <Link
+                              href="/blog-category-grid"
+                              as={`/blog-category-grid`}
+                            >
                               <a
                                 className={
                                   router.pathname === "/blog-category-grid"
@@ -557,7 +565,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                             </Link>
                           </li>
                           <li>
-                            <Link href="/blog-category-list">
+                            <Link
+                              href="/blog-category-list"
+                              as={`/blog-category-list`}
+                            >
                               <a
                                 className={
                                   router.pathname === "/blog-category-list"
@@ -570,7 +581,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                             </Link>
                           </li>
                           <li>
-                            <Link href="/blog-category-big">
+                            <Link
+                              href="/blog-category-big"
+                              as={`/blog-category-big`}
+                            >
                               <a
                                 className={
                                   router.pathname === "/blog-category-big"
@@ -583,7 +597,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                             </Link>
                           </li>
                           <li>
-                            <Link href="/blog-category-fullwidth">
+                            <Link
+                              href="/blog-category-fullwidth"
+                              as={`/blog-category-fullwidth`}
+                            >
                               <a
                                 className={
                                   router.pathname === "/blog-category-fullwidth"
@@ -596,7 +613,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                             </Link>
                           </li>
                           <li>
-                            <Link href="/#">
+                            <a>
                               <a
                                 className={
                                   router.pathname === "/#" ? "active" : ""
@@ -605,10 +622,13 @@ const Header = ({ toggleClick, headerStyle }) => {
                                 {t("Single Post")}
                                 <i className="fi-rs-angle-right"></i>
                               </a>
-                            </Link>
+                            </a>
                             <ul className="level-menu level-menu-modify">
                               <li>
-                                <Link href="/blog-post-left">
+                                <Link
+                                  href="/blog-post-left"
+                                  as={`/blog-post-left`}
+                                >
                                   <a
                                     className={
                                       router.pathname === "/blog-post-left"
@@ -621,7 +641,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/blog-post-right">
+                                <Link
+                                  href="/blog-post-right"
+                                  as={`/blog-post-right`}
+                                >
                                   <a
                                     className={
                                       router.pathname === "/blog-post-right"
@@ -634,7 +657,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/blog-post-fullwidth">
+                                <Link
+                                  href="/blog-post-fullwidth"
+                                  as={`/blog-post-fullwidth`}
+                                >
                                   <a
                                     className={
                                       router.pathname === "/blog-post-fullwidth"
@@ -710,7 +736,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     </Link>
                   </div>
                   <div className="header-action-icon-2">
-                    <Link href="/shop-cart">
+                    <Link href="/shop-cart" as={`/shop-cart`}>
                       <a className="mini-cart-icon">
                         <img
                           alt="korakagaj"

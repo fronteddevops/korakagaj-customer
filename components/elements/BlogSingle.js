@@ -14,7 +14,7 @@ const BlogSingle = () => {
                     <div className="single-header-meta">
                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                             <span className="post-by">
-                                {t("By")} <Link href="#" as="#">{t("Jonh")}</Link>
+                                {t("By")} <a>{t("Jonh")}</a>
                             </span>
                             <span className="post-on has-dot">{t("9 April 2021")}</span>
                             <span className="time-reading has-dot">
@@ -28,37 +28,37 @@ const BlogSingle = () => {
                                     <strong className="mr-10">{t("Share this:")}</strong>
                                 </li>
                                 <li className="social-facebook">
-                                    <Link as="#" href="#">
+                                    <a >
                                         <img
                                             src="assets/imgs/theme/icons/icon-facebook.svg"
                                             alt=""
                                         />
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li className="social-twitter">
                                     
-                                    <Link href="#" as="#">
+                                    <a>
                                         <img
                                             src="assets/imgs/theme/icons/icon-twitter.svg"
                                             alt=""
                                         />
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li className="social-instagram">
-                                    <Link href="#" as="#">
+                                    <a>
                                         <img
                                             src="assets/imgs/theme/icons/icon-instagram.svg"
                                             alt=""
                                         />
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li className="social-linkedin">
-                                    <Link href="#" as="#">
+                                    <a>
                                         <img
                                             src="assets/imgs/theme/icons/icon-pinterest.svg"
                                             alt=""
                                         />
-                                    </Link>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -201,7 +201,7 @@ const BlogSingle = () => {
                     style={{"visibility":"visible","animationName":"fadeIn"}}
                 >
                     <div className="tags w-50 w-sm-100">
-                        <Link href="/blog-category-big"><Link
+                        <Link href="/blog-category-big" as={`/blog-category-big`} ><Link
                           
                             rel="tag"
                             className="hover-up btn btn-sm btn-rounded mr-10"
@@ -224,37 +224,37 @@ const BlogSingle = () => {
                                 <strong className="mr-10">{t("Share this:")}</strong>
                             </li>
                             <li className="social-facebook">
-                                <Link href="#" as="#">
+                                <a>
                                     <img
                                         src="assets/imgs/theme/icons/icon-facebook.svg"
                                         alt=""
                                     />
-                                </Link>
+                                </a>
                             </li>
                             <li className="social-twitter">
                                 
-                                <Link href="#" as="#">
+                                <a>
                                     <img
                                         src="assets/imgs/theme/icons/icon-twitter.svg"
                                         alt=""
                                     />
-                                </Link>
+                                </a>
                             </li>
                             <li className="social-instagram">
-                                <Link href="#" as="#">
+                                <a>
                                     <img
                                         src="assets/imgs/theme/icons/icon-instagram.svg"
                                         alt=""
                                     />
-                                </Link>
+                                </a>
                             </li>
                             <li className="social-linkedin">
-                                <Link href="#" as="#">
+                                <a>
                                     <img
                                         src="assets/imgs/theme/icons/icon-pinterest.svg"
                                         alt=""
                                     />
-                                </Link>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -272,7 +272,7 @@ const BlogSingle = () => {
                                                 alt=""
                                             />
                                             <h6>
-                                                <Link href="#" as="#">{t("Jacky Chan")}</Link>
+                                                <a>{t("Jacky Chan")}</a>
                                             </h6>
                                             <p className="font-xxs">{t("Since 2012")}</p>
                                         </div>
@@ -291,14 +291,12 @@ const BlogSingle = () => {
                                                     <p className="font-xs mr-30">
                                                         {t("December 4, 2020 at 3:12pm")}
                                                     </p>
-                                                    <Link
-                                                        href="#"
-                                                        as="#"
+                                                    <a
                                                         className="text-brand btn-reply"
                                                     >
                                                         {t("Reply")}
                                                         <i className="fi-rs-arrow-right"></i>
-                                                    </Link>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -313,7 +311,7 @@ const BlogSingle = () => {
                                                 alt=""
                                             />
                                             <h6>
-                                                <Link href="#" as="#">{t("Ana Rosie")}</Link>
+                                                <a>{t("Ana Rosie")}</a>
                                             </h6>
                                             <p className="font-xxs">{t("Since")} 2008</p>
                                         </div>
@@ -332,14 +330,12 @@ const BlogSingle = () => {
                                                     <p className="font-xs mr-30">
                                                         {t("December 4, 2020 at 3:12pm")}
                                                     </p>
-                                                    <Link
-                                                        href="#"
-                                                        as="#"
+                                                    <a
                                                         className="text-brand btn-reply"
                                                     >
                                                         {t("Reply")}
                                                         <i className="fi-rs-arrow-right"></i>
-                                                    </Link>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -354,7 +350,7 @@ const BlogSingle = () => {
                                                 alt=""
                                             />
                                             <h6>
-                                                <Link href="#" as="#">{t("Steven Keny")}</Link>
+                                                <a>{t("Steven Keny")}</a>
                                             </h6>
                                             <p className="font-xxs">{t("Since")} 2010</p>
                                         </div>
@@ -373,14 +369,12 @@ const BlogSingle = () => {
                                                     <p className="font-xs mr-30">
                                                         {t("December 4, 2020 at 3:12pm")}
                                                     </p>
-                                                    <Link
-                                                        href="#"
-                                                        as="#"
+                                                    <a
                                                         className="text-brand btn-reply"
                                                     >
                                                         {t("Reply")}
                                                         <i className="fi-rs-arrow-right"></i>
-                                                    </Link>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -400,9 +394,9 @@ const BlogSingle = () => {
                                 </div>
                                 <h6>{t("4.8 out of 5")}</h6>
                             </div>
-                            <Link href="#" as="#" className="font-xs text-muted">
+                            <a className="font-xs text-muted">
                                 {t("How are ratings calculated?")}
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>

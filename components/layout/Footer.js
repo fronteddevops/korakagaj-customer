@@ -151,36 +151,36 @@ const { t} = useTranslation("common");
                     {t("Follow Us")}
                   </h5>
                   <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                    <Link href="#" as="#">
+                    <a>
                       <img
                         src="/assets/imgs/theme/icons/icon-facebook.svg"
                         alt=""
                       />
-                    </Link>
-                    <Link href="#" as="#">
+                    </a>
+                    <a>
                       <img
                         src="/assets/imgs/theme/icons/icon-twitter.svg"
                         alt=""
                       />
-                    </Link>
-                    <Link href="#" as="#">
+                    </a>
+                    <a>
                       <img
                         src="/assets/imgs/theme/icons/icon-instagram.svg"
                         alt=""
                       />
-                    </Link>
-                    <Link href="#" as="#">
+                    </a>
+                    <a>
                       <img
                         src="/assets/imgs/theme/icons/icon-pinterest.svg"
                         alt=""
                       />
-                    </Link>
-                    <Link href="#" as="#">
+                    </a>
+                    <a>
                       <img
                         src="/assets/imgs/theme/icons/icon-youtube.svg"
                         alt=""
                       />
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -188,10 +188,10 @@ const { t} = useTranslation("common");
                 <h5 className="widget-title wow fadeIn animated">{t("About")}</h5>
                 <ul className="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                   <li>
-                    <Link href="#" as="#">{t("About Us")}</Link>
+                    <a>{t("About Us")}</a>
                   </li>
                   <li>
-                    <Link href="#" as="#">{t("Delivery Information")}</Link>
+                    <a>{t("Delivery Information")}</a>
                   </li>
                   <li>
                     <Link href="/page-privacy-policy">
@@ -222,7 +222,7 @@ const { t} = useTranslation("common");
                     <Link href="/page-contact/" as="/page-contact/">{t("Contact Us")}</Link>
                   </li> 
                   <li>
-                    <Link href="#" as="#">{t("Support Center")}</Link>
+                    <a>{t("Support Center")}</a>
                   </li>
                 </ul>
               </div>
@@ -233,19 +233,19 @@ const { t} = useTranslation("common");
                     <Link href="/login" as="/login">{t("Sign In")}</Link>
                   </li>
                   <li>
-                    <Link href="/shop-cart" as="/shop-cart">{t("View Cart")}</Link>
+                    <Link href="/shop-cart" as={`/shop-cart`}>{t("View Cart")}</Link>
                   </li>
                   <li>
-                    <Link href="/shop-wishlist/" as="/shop-wishlist/">{t("My Wishlist")}</Link>
+                    <Link href="/shop-wishlist/" as={`/shop-wishlist/`}>{t("My Wishlist")}</Link>
                   </li>
                   <li>
-                    <Link href="#" as="#">{t("Track My Order")}</Link>
+                    <a>{t("Track My Order")}</a>
                   </li>
                   <li>
-                    <Link href="#" as="#">{t("Help")}</Link>
+                    <a>{t("Help")}</a>
                   </li>
                   <li>
-                    <Link href="#" as="#">{t("Order")}</Link>
+                    <a>{t("Order")}</a>
                   </li>
                 </ul>
               </div>
@@ -259,16 +259,16 @@ const { t} = useTranslation("common");
                       {t("Start Up India & Nidhi Prayas")}
                     </p>
                     <div className="download-app wow fadeIn animated">
-                      <Link href="#" as="#" className="hover-up mb-sm-4 mb-lg-0">
+                      <a className="hover-up mb-sm-4 mb-lg-0">
                         <img
                           className="active"
                           src="/assets/imgs/theme/app-store.jpg"
                           alt=""
                         />
-                      </Link>
-                      <Link href="#" as="#" className="hover-up">
+                      </a>
+                      <a className="hover-up">
                         <img src="/assets/imgs/theme/google-play.jpg" alt="" />
-                      </Link>
+                      </a>
                     </div>
                   </div>
                   <div className="col-md-4 col-lg-12 mt-md-3 mt-lg-0">

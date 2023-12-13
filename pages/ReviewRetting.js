@@ -79,12 +79,7 @@ const ReviewRetting = () => {
   return (
     <Layout
       parent={t("Home")}
-      sub={
-        <Link href="/myprofile?index=2">
-          {" "}
-          <>{t("Pages")}</>
-        </Link>
-      }
+      sub={<Link href="/myprofile?index=2">{t("Pages")}</Link>}
       subChild={t("Review Reting")}
     >
       <div className="d-flex-inline-block justify-content-center align-item-center ">
@@ -123,7 +118,8 @@ const ReviewRetting = () => {
                     </span>
 
                     <div className="d-flex ">
-                      <span className="fw-bold">{t("Rating Review")}:</span> &nbsp;
+                      <span className="fw-bold">{t("Rating Review")}:</span>{" "}
+                      &nbsp;
                       <span className="fw-bold">
                         <ReactStars
                           value={Rating}

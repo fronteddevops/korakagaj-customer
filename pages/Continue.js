@@ -265,7 +265,7 @@ const Cart = ({}) => {
         parent={t("Home")}
         sub={
           <>
-            <Link href="/products" as="/products"> {t("Product")}</Link>
+            <Link href="/products" as="/products">{t("Product")}</Link>
           </>
         }
         subChild={t("Cart")}
@@ -471,23 +471,22 @@ const Cart = ({}) => {
                   </div>
                   <div className="col-lg-4 col-md-8 text-end">
                     {isLoggedIn ? (
-                      <Link
+                      <a
                         onClick={() => {
                           checkoutHandler();
                         }}
-                        href="#"
-                        as="#"
+                       
                         className="btn "
                       >
                         <i className="fi-rs-box-alt mr-10"></i>
                         {t("Proceed To CheckOut")}
-                      </Link>
+                      </a>
                     ) : (
                       <a className={"btn"} href="/login">
-                        <Link href="#" as="#" className="btn ">
+                        <a className="btn ">
                           <i className="fi-rs-box-alt mr-10"></i>
                           {t("Proceed to Login")}
-                        </Link>
+                        </a>
                       </a>
                     )}
                   </div>

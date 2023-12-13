@@ -9,8 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 function Register() {
- 
-  const route = useRouter()
+  const route = useRouter();
   const { t } = useTranslation("common");
   //error handling
 
@@ -19,7 +18,7 @@ function Register() {
   const [numberError, setNumberError] = useState("");
   const [passwordConfirmError, setPasswordConfirmError] = useState();
   const [emailErrorRegister, setEmailErrorRegister] = useState("");
- const [isValid,setIsValid]=useState(true)
+  const [isValid, setIsValid] = useState(true);
   const [passwordErrorRegister, setPasswordErrorRegister] = useState("");
   //password show icon set value in state
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -28,7 +27,7 @@ function Register() {
     useState(false);
 
   //Register user State
-  const [isChecked, setIsChecked] = useState(false); 
+  const [isChecked, setIsChecked] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [number, setNumber] = useState("");
@@ -41,59 +40,57 @@ function Register() {
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
-//handle cart data 
-const handleCart = async () => {
-  try {
-    if (localStorage.getItem("cartDetail")) {
-      const cartLocal = localStorage.getItem('cartDetail') && JSON.parse(localStorage.getItem('cartDetail'))
-      let cartDetailsLocal = []
-      if (cartLocal && cartLocal?.cartDetails?.length > 0) {
-        cartDetailsLocal = cartLocal.cartDetails
-      }
-      const cart = await services.cart.GET_CART()
-   
-      
-      let cartDetails = []
-      if (cart?.data?.data?.cartDetail?.cartDetails) {
-      
-        cartDetails = cart?.data?.data?.cartDetail?.cartDetails
-      }
-      cartDetails = [...cartDetails, ...cartDetailsLocal]
-      const key = 'id';
-      const unique = cartDetails.filter(
-        (value, index, self) =>
-          index ===
-          self.findIndex(
-            (t) =>
-              t.id === value.id &&
-              t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
-          )
-      );
-      // const unique = [...new Map(cartDetails.map(item =>
-      //   [item[key], item])).values()];
-        let data = {
-          cartDetail: { cartDetails: unique }
+  //handle cart data
+  const handleCart = async () => {
+    try {
+      if (localStorage.getItem("cartDetail")) {
+        const cartLocal =
+          localStorage.getItem("cartDetail") &&
+          JSON.parse(localStorage.getItem("cartDetail"));
+        let cartDetailsLocal = [];
+        if (cartLocal && cartLocal?.cartDetails?.length > 0) {
+          cartDetailsLocal = cartLocal.cartDetails;
         }
-     
-      console.log(data)
-      const updateCart = await services.cart.UPDATE_CART(data)
-      console.log(updateCart)
-      localStorage.removeItem('cartDetail')
+        const cart = await services.cart.GET_CART();
 
+        let cartDetails = [];
+        if (cart?.data?.data?.cartDetail?.cartDetails) {
+          cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
+        }
+        cartDetails = [...cartDetails, ...cartDetailsLocal];
+        const key = "id";
+        const unique = cartDetails.filter(
+          (value, index, self) =>
+            index ===
+            self.findIndex(
+              (t) =>
+                t.id === value.id &&
+                t.selectedSize === value.selectedSize &&
+                t.selectedColor === value.selectedColor
+            )
+        );
+        // const unique = [...new Map(cartDetails.map(item =>
+        //   [item[key], item])).values()];
+        let data = {
+          cartDetail: { cartDetails: unique },
+        };
+
+        console.log(data);
+        const updateCart = await services.cart.UPDATE_CART(data);
+        console.log(updateCart);
+        localStorage.removeItem("cartDetail");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error)
-  }
-
-};
+  };
   //handle login  email
-  const exceptThisSymbolspassword = [ "+", "-"];
+  const exceptThisSymbolspassword = ["+", "-"];
 
   // user Register api call
   const handleRegister = async (event) => {
     event.preventDefault();
-    setPasswordConfirmError("")
+    setPasswordConfirmError("");
     let isValid = true;
     setEmailErrorRegister("");
     setPasswordErrorRegister("");
@@ -119,9 +116,9 @@ const handleCart = async () => {
     }
 
     if (isValid) {
-      setNumberError("")
+      setNumberError("");
       try {
-        setIsValid(false)
+        setIsValid(false);
         let payLoad = {
           email: emailRegister.toLowerCase(),
           password: passwordRegister,
@@ -130,22 +127,21 @@ const handleCart = async () => {
           lastName: lastName,
           phoneNumber: number,
         };
-   
+
         const response = await services.auth.REGISTER_USER(payLoad);
 
-      
         if (response) {
           localStorage.setItem("user", JSON.stringify(response?.data?.user));
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccess();
-          setIsValid(false)
-          await handleCart()
-          route.push('/')
+          setIsValid(false);
+          await handleCart();
+          route.push("/");
         } else {
           alert(response.data.guide);
         }
       } catch (error) {
-        setIsValid(true)
+        setIsValid(true);
         toastError(error);
       }
     }
@@ -191,24 +187,23 @@ const handleCart = async () => {
     setPasswordVisibleLogin(!passwordVisibleLogin);
   };
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
-//hnadle copy paste
-const handlePaste = (e) => {
-  let isValid = true;
-  
-  const pastedText = e.clipboardData.getData("Text");
-  if(pastedText.length>10){
-    const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+  //hnadle copy paste
+  const handlePaste = (e) => {
+    let isValid = true;
 
-    if (!isValidNumber.test(pastedText)) {
-      e.preventDefault(); // Prevent pasting invalid input
-      setNumberError( "Number should be  10  digits.");
-      isValid = false;
+    const pastedText = e.clipboardData.getData("Text");
+    if (pastedText.length > 10) {
+      const isValidNumber = /^\d{10}$/; // Validate 10-digit number
+
+      if (!isValidNumber.test(pastedText)) {
+        e.preventDefault(); // Prevent pasting invalid input
+        setNumberError("Number should be  10  digits.");
+        isValid = false;
+      }
     }
-  }
- 
-};
+  };
 
- const handleCheckboxChange = () => {
+  const handleCheckboxChange = () => {
     setIsChecked(!isChecked); // Toggle the checkbox value
   };
 
@@ -226,8 +221,7 @@ const handlePaste = (e) => {
         pauseOnHover
       />
       <Layout parent={t("Home")} sub={t("Register")}>
-        <section className="pt-100 pb-100 bg-image" >
-
+        <section className="pt-100 pb-100 bg-image">
           <div className="container">
             <div className="row">
               <div className="col-lg-12 m-auto">
@@ -236,16 +230,13 @@ const handlePaste = (e) => {
                     <div className="login_wrap widget-taber-content p-30 background-white border-radius-5">
                       <div className="padding_eight_all bg-white">
                         <div className="heading_s1">
-                          <h3 className="mb-30">
-                            {t("Create an Account")}
-                          </h3>
+                          <h3 className="mb-30">{t("Create an Account")}</h3>
                         </div>
                         <p className="mb-50 font-sm">
-                          {t("Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy")}
+                          {t(
+                            "Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy"
+                          )}
                         </p>
-
-
-
 
                         {/* tgfaestgdsgdsgdsgdsgds */}
                         <form method="post" onSubmit={handleRegister}>
@@ -400,19 +391,18 @@ const handlePaste = (e) => {
                               placeholder={t("Password")}
                               value={passwordRegister}
                               onChange={(e) => {
-                                setPasswordConfirmError("")
+                                setPasswordConfirmError("");
                                 const passwordValue = e.target.value;
-                                setPasswordRegister(passwordValue.trimStart().trimEnd());
+                                setPasswordRegister(
+                                  passwordValue.trimStart().trimEnd()
+                                );
                                 if (passwordValue.trim()) {
                                   setPasswordErrorRegister("");
                                 } else {
                                   setPasswordErrorRegister("Required");
                                 }
                               }}
-                             
-                             
                               aria-describedby="password"
-                              
                             />
                             <FontAwesomeIcon
                               icon={passwordVisible ? faEyeSlash : faEye}
@@ -454,7 +444,9 @@ const handlePaste = (e) => {
                               value={passwordConfirm}
                               onChange={(e) => {
                                 const passwordValue = e.target.value;
-                                setPasswordConfirm(passwordValue.trimStart().trimEnd());
+                                setPasswordConfirm(
+                                  passwordValue.trimStart().trimEnd()
+                                );
                                 if (passwordValue.trim()) {
                                   setPasswordConfirmError("");
                                 } else {
@@ -462,7 +454,6 @@ const handlePaste = (e) => {
                                 }
                               }}
                               aria-describedby="password"
-                              
                             />
 
                             <FontAwesomeIcon
@@ -499,19 +490,21 @@ const handlePaste = (e) => {
                           <div className="login_footer form-group">
                             <div className="chek-form">
                               <div className="custome-checkbox">
-                              <input
-        className="form-check-input"
-        type="checkbox"
-        name="checkbox"
-        id="exampleCheckbox12"
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-      />
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  name="checkbox"
+                                  id="exampleCheckbox12"
+                                  checked={isChecked}
+                                  onChange={handleCheckboxChange}
+                                />
                                 <label
                                   className="form-check-label"
                                   htmlFor="exampleCheckbox12"
                                 >
-                                  <span>{t("I agree to terms")} &amp; {t("Policy.")}</span>
+                                  <span>
+                                    {t("I agree to terms")} &amp; {t("Policy.")}
+                                  </span>
                                 </label>
                               </div>
                             </div>
@@ -532,12 +525,12 @@ const handlePaste = (e) => {
                                 !(
                                   lastName &&
                                   firstName &&
-                                  isChecked&&
+                                  isChecked &&
                                   number &&
                                   emailRegister &&
                                   passwordRegister &&
-                                  passwordConfirm 
-                                  &&isValid
+                                  passwordConfirm &&
+                                  isValid
                                 )
                               }
                             >
@@ -546,26 +539,17 @@ const handlePaste = (e) => {
                           </div>
                         </form>
 
-
-
-
                         <div className="divider-text-center mt-15 mb-15">
                           <span> {t("or")}</span>
                         </div>
                         <ul className="btn-login list_none text-center mb-15">
                           <li>
-                            <a
-                              href="#"
-                              className="btn btn-facebook hover-up mb-lg-0 mb-sm-4"
-                            >
+                            <a className="btn btn-facebook hover-up mb-lg-0 mb-sm-4">
                               {t("Login With Facebook")}
                             </a>
                           </li>
                           <li>
-                            <a
-                              href="#"
-                              className="btn btn-google hover-up mt-2"
-                            >
+                            <a className="btn btn-google hover-up mt-2">
                               {t("Login With Google")}
                             </a>
                           </li>

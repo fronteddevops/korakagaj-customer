@@ -149,7 +149,7 @@ function Account() {
             setIsDisabledAcount(false);
             toastSuccessprofileupdate();
             setTimeout(() => {
-              window.location.reload();
+              // window.location.reload();
             }, 1000);
           } else {
           }
@@ -436,15 +436,15 @@ function Account() {
                                   "From your account dashboard. you can easily check"
                                 )}{" "}
                                 &amp; {t("view your")}
-                                <Link href="#" as="#">{t("recent orders")}</Link>,{" "}
+                                <a>{t("recent orders")}</a>,{" "}
                                 {t("manage your")}
-                                <Link href="#" as="#">
+                                <a>
                                   {t("shipping and billing addresses")}
-                                </Link>
+                                </a>
                                 {t("and")}
-                                <Link href="#" as="#">
+                                <a>
                                   {t("edit your password and account details.")}
-                                </Link>
+                                </a>
                               </p>
                             </div>
                           </div>

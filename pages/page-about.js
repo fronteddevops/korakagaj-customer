@@ -48,9 +48,9 @@ function About() {
                                 </p>
                             </div>
                             <div className="col-md-6 text-md-end mt-30">
-                                <Link className="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand text-hover-white border-radius-5 btn-shadow-brand hover-up">
+                                <a className="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand text-hover-white border-radius-5 btn-shadow-brand hover-up">
                                     {t("All Members")}
-                                </Link>
+                                </a>
                             </div>
                         </div>
                         <div className="position-relative">
@@ -69,30 +69,30 @@ function About() {
                                             {t("CEO & Co-Founder")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <Link href="#" as="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
                                                 />
-                                            </Link>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -111,30 +111,30 @@ function About() {
                                             {t("Head Engineer")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <Link href="#" as="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
                                                 />
-                                            </Link>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -151,30 +151,30 @@ function About() {
                                             {t("Senior Planner")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <Link href="#" as="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
                                                 />
-                                            </Link>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -193,30 +193,30 @@ function About() {
                                             {t("Project Manager")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <Link href="#" as="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
-                                            </Link>
-                                            <Link href="#" as="#">
+                                            </a>
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
                                                 />
-                                            </Link>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

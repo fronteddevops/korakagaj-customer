@@ -123,13 +123,13 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
           productDataShow();
           toast.success("Added to Wishlist!");
-          window.location.reload();
+          // window.location.reload();
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           productDataShow();
           toast.success("Removed from Wishlist");
-          window.location.reload();
+          // window.location.reload();
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -148,7 +148,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
                 className="product-img product-img-zoom"
                 style={{ height: "250 px" }}
               >
-                <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+                <Link href={`/products/${product?.id}`} as={`/products/${product?.id}`}>
+                {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
                   <a>
                     <img
                       className="default-img"
@@ -199,14 +200,15 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
             </div>
             <div className="product-content-wrap">
               <div className="product-category">
-                <Link href="/products">
+                <Link href="/products" as={`/products`}>
                   <a className="text-capitalize">
                     {product?.SubSubCategory?.subSubCategoryName}
                   </a>
                 </Link>
               </div>
               <h2>
-                <Link href="/products/[slug]" as={`/products/${product?.id}`}>
+                {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
+                <Link href={`/products/${product?.id}`} as={`/products/${product?.id}`}>
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>
               </h2>

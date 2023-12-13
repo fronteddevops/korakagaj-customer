@@ -92,7 +92,7 @@ export default function Editaddress(props) {
 
           toastSuccessprofileupdate();
           setTimeout(() => {
-            window.location.reload();
+            // window.location.reload();
           }, 1000);
         } else {
           alert(response?.data?.guide);

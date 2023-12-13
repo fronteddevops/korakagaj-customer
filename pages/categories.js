@@ -29,7 +29,6 @@ function Categories() {
         parent={t("Home")}
         sub={
           <Link href="/">
-            {" "}
             <>{t("Categories")}</>
           </Link>
         }
@@ -43,7 +42,7 @@ function Categories() {
                   <div className="card-1">
                     <figure className=" img-hover-scale overflow-hidden">
                       <Link
-                        as={`/products?categoryId=${item.id}&categoryName=${item.categoryName} `}
+                        as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
                         href={`/products/categoryId=${item.id}`}
                       >
                         <a>
@@ -62,10 +61,12 @@ function Categories() {
                     </figure>
                     <h5 className=" text-break">
                       <Link
-                        as={`/products?categoryId=${item.id}&categoryName=${item.categoryName} `}
+                        as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
                         href={`/products/categoryId=${item.id}`}
                       >
-                        <a>{item.categoryName}</a>
+                        <a>
+                          {item.categoryName}
+                          </a>
                       </Link>
                     </h5>
                   </div>

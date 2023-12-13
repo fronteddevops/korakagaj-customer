@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 // import "./styles.css";
 import Link from "next/link";
 function Pagination({

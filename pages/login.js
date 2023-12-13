@@ -371,22 +371,18 @@ function Login() {
                           </div>
                           <ul className="btn-login list_none text-center mb-15">
                             <li>
-                              <Link
-                                href="#"
-                                as="#"
+                              <a
                                 className="btn btn-facebook hover-up mb-lg-0 mb-sm-4"
                               >
                                 {t("Login With Facebook")}
-                              </Link>
+                              </a>
                             </li>
                             <li>
-                              <Link
-                                href="#"
-                                as="#"
+                              <a
                                 className="btn btn-google hover-up mt-2"
                               >
                                 {t("Login With Google")}
-                              </Link>
+                              </a>
                             </li>
                           </ul>
                           <div className="text-muted text-center">

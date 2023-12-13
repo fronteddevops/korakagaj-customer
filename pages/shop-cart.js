@@ -346,7 +346,9 @@ const Cart = ({}) => {
         parent={t("Home")}
         sub={
           <>
-            <Link href="/products" as="/products"> {t("Product")}</Link>
+            <Link href="/products" as={`/products`}>
+              {t("Product")}
+            </Link>
           </>
         }
         subChild={t("Cart")}
@@ -477,15 +479,10 @@ const Cart = ({}) => {
                       <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart && updateCart.length > 0 && (
-                            <Link
-                              href="#"
-                              as="#"
-                              onClick={clearCart}
-                              className="text-muted"
-                            >
+                            <a onClick={clearCart} className="text-muted">
                               <i className="fi-rs-cross-small"></i>
                               Clear Cart
-                            </Link>
+                            </a>
                           )}
                         </td>
                       </tr>
@@ -493,7 +490,7 @@ const Cart = ({}) => {
                   </table>
                 </div>
                 <div className="cart-action text-center">
-                  <Link className={"btn"} href="/products">
+                  <Link className={"btn"} href="/products" as= {`/products`} >
                     <button className={"btn"}>
                       <i className="fi-rs-shopping-bag mr-10"></i>
                       {t("Continue Shopping")}
@@ -617,7 +614,7 @@ const Cart = ({}) => {
                       )} */}
 
                         {isLoggedIn ? (
-                          <Link
+                          <a
                             onClick={() => {
                               if (selectedAddress) {
                                 router.push(`/Continue?id=${selectedAddress}`);
@@ -629,17 +626,16 @@ const Cart = ({}) => {
                                 }
                               }
                             }}
-                            href="#"
                             className="btn d-block"
                           >
                             {t("Continue Order")}
-                          </Link>
+                          </a>
                         ) : (
                           <a className={"btn"} href="/login">
-                            <Link href="#" as="#" className="btn ">
+                            <a className="btn ">
                               <i className="fi-rs-box-alt mr-10"></i>
                               {t("Proceed to Login")}
-                            </Link>
+                            </a>
                           </a>
                         )}
                       </div>
