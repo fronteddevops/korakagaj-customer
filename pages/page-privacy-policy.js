@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import Layout from "../components/layout/Layout";
 import BlogSidebar from "./../components/elements/BlogSidebar";
+import Link from "next/link";
 
 function Privacy() {
     const { t } = useTranslation("common");
@@ -16,7 +17,7 @@ function Privacy() {
                                         <h2>{t("Privacy Policy")}</h2>
                                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                                             <span className="post-by">
-                                                {t("By")} <a href="#">{t("Jonh")}</a>
+                                                {t("By")} <Link href="#">{t("Jonh")}</Link>
                                             </span>
                                             <span className="post-on has-dot">9{t("April")}2020</span>
                                             <span className="time-reading has-dot">{t("8 mins read")}</span>

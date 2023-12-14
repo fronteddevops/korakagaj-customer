@@ -17,7 +17,7 @@ function Terms() {
                                         <h2>{t("Terms of Service")}</h2>
                                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                                             <span className="post-by">
-                                                {t("By")} <a href="#">{t("Jonh")}</a>
+                                                {t("By")} <a>{t("Jonh")}</a>
                                             </span>
                                             <span className="post-on has-dot">9 {t("April")} 2020</span>
                                             <span className="time-reading has-dot">{t("8 mins read")}</span>
@@ -54,7 +54,7 @@ function Terms() {
                                         <p>{t("By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.")}</p>
                                         <h4>{t("Contact Us")}</h4>
                                         <p>
-                                            {t("If you have any questions about these Terms, please")}{" "}
+                                            {t("If you have any questions about these Terms, please")}
                                             <Link href="/page-contact">
                                                 <a>{t("Contact Us")}</a>
                                             </Link>

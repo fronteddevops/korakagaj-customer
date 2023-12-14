@@ -6,7 +6,7 @@ import Search from "../ecommerce/Search";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 const MobileMenu = ({ isToggled, toggleClick }) => {
-  const { t ,i18n} = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const [lang, setLang] = useState("");
   const [categoryList, setCategory] = useState([]);
   const [isActive, setIsActive] = useState({
@@ -17,40 +17,39 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
- //language change function 
- const handleLang = () => {
+  //language change function
+  const handleLang = () => {
+    if (sessionStorage.getItem("lang") === "Hindi") {
+      i18n.changeLanguage("hi");
+      const lng = sessionStorage.getItem("lang");
+      setLang(lng);
+    } else if (sessionStorage.getItem("lang") === "English") {
+      i18n.changeLanguage("en");
+      const lng = sessionStorage.getItem("lang");
 
-  if (sessionStorage.getItem("lang") === "Hindi") {
-    i18n.changeLanguage("hi");
-    const lng = sessionStorage.getItem("lang");
-    setLang(lng);
-  } else if(sessionStorage.getItem("lang") === "English"){
-    i18n.changeLanguage("en");
-    const lng = sessionStorage.getItem("lang");
-
-    setLang(lng);
-  }
-};
+      setLang(lng);
+    }
+  };
 
   useEffect(() => {
-    const langdata= sessionStorage.getItem("lang")
+    const langdata = sessionStorage.getItem("lang");
 
-    setLang(langdata)
+    setLang(langdata);
     handleLang();
     getProfile();
   }, [lang]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
-    try {
-      const response = await services.myprofile.GET_MY_PROFILE();
-      if (response) {
-        setFirstName(response?.data?.data?.firstName);
-        setLastName(response?.data?.data?.lastName);
+      try {
+        const response = await services.myprofile.GET_MY_PROFILE();
+        if (response) {
+          setFirstName(response?.data?.data?.firstName);
+          setLastName(response?.data?.data?.lastName);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
-  }
   };
   const handleToggle = (key) => {
     if (isActive.key === key) {
@@ -184,7 +183,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link href="/shop-cart">
+                        <Link href="/shop-cart" as={`/shop-cart`}>
                           <a>{t("Shop – Cart")}</a>
                         </Link>
                       </li>
@@ -291,20 +290,20 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link href="/blog-category-big">
+                        <Link href="/blog-category-big" as={`/blog-category-big`} >
                           <a>{t("Blog Category Big")}</a>
                         </Link>
                       </li>
                       <li>
-                        <Link href="/blog-category-fullwidth">
+                        <Link href="/blog-category-fullwidth" as={`/blog-category-fullwidth`}>
                           <a>{t("Blog Category Wide")}</a>
                         </Link>
                       </li>
                       <li className="menu-item-has-children">
                         <span className="menu-expand"></span>
-                        <Link href="#">
+                        <a>
                           <a>{t("Single Product Layout")}</a>
-                        </Link>
+                        </a>
                         <ul className="dropdown">
                           <li>
                             <Link href="/blog-post-left">
@@ -393,26 +392,30 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
 
                     <ul className={isActive.key == 6 ? "dropdown" : "d-none"}>
                       <li>
-                        <Link href="#">
+                        <a>
                           <a
-                              onClick={() => {
-                                i18n.changeLanguage("en");
-                                setLang("English");
-                                sessionStorage.setItem("lang", "English");
-                              }}
-                          >English</a>
-                        </Link>
+                            onClick={() => {
+                              i18n.changeLanguage("en");
+                              setLang("English");
+                              sessionStorage.setItem("lang", "English");
+                            }}
+                          >
+                            English
+                          </a>
+                        </a>
                       </li>
                       <li>
-                        <Link href="#">
+                        <a>
                           <a
-                           onClick={() => {
-                            i18n.changeLanguage("hi");
-                            setLang("Hindi");
-                            sessionStorage.setItem("lang", "Hindi");
-                          }}
-                          >Hindi</a>
-                        </Link>
+                            onClick={() => {
+                              i18n.changeLanguage("hi");
+                              setLang("Hindi");
+                              sessionStorage.setItem("lang", "Hindi");
+                            }}
+                          >
+                            Hindi
+                          </a>
+                        </a>
                       </li>
                     </ul>
                   </li>
@@ -472,54 +475,61 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                 )}
                 {lastName && firstName && (
                   <>
-                    <a href="/" onClick={() => {localStorage.removeItem("access_token"),localStorage.removeItem("userId")}}>
+                    <Link
+                      href="/"
+                      as="/"
+                      onClick={() => {
+                        localStorage.removeItem("access_token"),
+                          localStorage.removeItem("userId");
+                      }}
+                    >
                       {t("Logout")}
-                    </a>
+                    </Link>
                   </>
                 )}
               </div>
               <div className="single-mobile-header-info">
-                <Link href="#">
+                <a>
                   <a>(+01) - 2345 - 6789 </a>
-                </Link>
+                </a>
               </div>
             </div>
             <div className="mobile-social-icon">
               <h5 className="mb-15 text-grey-4">{t("Follow Us")}</h5>
-              <Link href="#">
+              <a>
                 <a>
                   <img
                     src="/assets/imgs/theme/icons/icon-facebook.svg"
                     alt=""
                   />
                 </a>
-              </Link>
-              <Link href="#">
+              </a>
+              <a>
                 <a>
                   <img src="/assets/imgs/theme/icons/icon-twitter.svg" alt="" />
                 </a>
-              </Link>
-              <Link href="#">
+              </a>
+              <a>
                 <a>
                   <img
                     src="/assets/imgs/theme/icons/icon-instagram.svg"
                     alt=""
                   />
                 </a>
-              </Link>
-              <Link href="#">
+              </a>
+              <a>
                 <a>
                   <img
                     src="/assets/imgs/theme/icons/icon-pinterest.svg"
                     alt=""
                   />
                 </a>
-              </Link>
-              <Link href="#">
+              </a>
+              <a>
                 <a>
                   <img src="/assets/imgs/theme/icons/icon-youtube.svg" alt="" />
                 </a>
-              </Link>
+              </a>
             </div>
           </div>
         </div>

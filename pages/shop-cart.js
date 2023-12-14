@@ -346,7 +346,9 @@ const Cart = ({}) => {
         parent={t("Home")}
         sub={
           <>
-            <a href="/products"> {t("Product")}</a>
+            <Link href="/products" as={`/products`}>
+              {t("Product")}
+            </Link>
           </>
         }
         subChild={t("Cart")}
@@ -477,11 +479,7 @@ const Cart = ({}) => {
                       <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart && updateCart.length > 0 && (
-                            <a
-                              href="#"
-                              onClick={clearCart}
-                              className="text-muted"
-                            >
+                            <a onClick={clearCart} className="text-muted">
                               <i className="fi-rs-cross-small"></i>
                               Clear Cart
                             </a>
@@ -492,7 +490,7 @@ const Cart = ({}) => {
                   </table>
                 </div>
                 <div className="cart-action text-center">
-                  <Link className={"btn"} href="/products">
+                  <Link className={"btn"} href="/products" as= {`/products`} >
                     <button className={"btn"}>
                       <i className="fi-rs-shopping-bag mr-10"></i>
                       {t("Continue Shopping")}
@@ -601,27 +599,14 @@ const Cart = ({}) => {
                           </table>
                         </div>
                         {/* {isLoggedIn ? (
-                        <a
-                          onClick={() => {
-                            if (selectedAddress) {
-                              checkoutHandler();
-                            } else {
-                              if (addressList.length > 0) {
-                                toast.error("Choose your address");
-                              } else {
-                                toast.error("Add your address");
-                              }
-                            }
-                          }}
-                          href="#"
-                          className="btn "
+                  ="btn "
                         >
                           <i className="fi-rs-box-alt mr-10"></i>
                           {t("Proceed To CheckOut")}
                         </a>
                       ) : (
                         <Link className={"btn"} href="/login">
-                          <a href="#" className="btn ">
+                       
                             <i className="fi-rs-box-alt mr-10"></i>
                             {t("Proceed to Login")}
                           </a>
@@ -641,18 +626,17 @@ const Cart = ({}) => {
                                 }
                               }
                             }}
-                            href="#"
                             className="btn d-block"
                           >
                             {t("Continue Order")}
                           </a>
                         ) : (
-                          <Link className={"btn"} href="/login">
-                            <a href="#" className="btn ">
+                          <a className={"btn"} href="/login">
+                            <a className="btn ">
                               <i className="fi-rs-box-alt mr-10"></i>
                               {t("Proceed to Login")}
                             </a>
-                          </Link>
+                          </a>
                         )}
                       </div>
                     )}

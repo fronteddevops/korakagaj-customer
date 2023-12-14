@@ -149,7 +149,7 @@ function Account() {
             setIsDisabledAcount(false);
             toastSuccessprofileupdate();
             setTimeout(() => {
-              window.location.reload();
+              // window.location.reload();
             }, 1000);
           } else {
           }
@@ -267,13 +267,13 @@ function Account() {
         parent={t("Home")}
         sub={t("Pages")}
         subsuB={
-          <a href="/myprofile?index=2">
+          <Link href="/myprofile?index=2" as="/myprofile?index=2">
             {" "}
             <>
               {" "}
               <span></span> {t("Pages")}
             </>
-          </a>
+          </Link>
         }
         subChild={breadCrumb}
       >
@@ -436,13 +436,13 @@ function Account() {
                                   "From your account dashboard. you can easily check"
                                 )}{" "}
                                 &amp; {t("view your")}
-                                <a href="#">{t("recent orders")}</a>,{" "}
+                                <a>{t("recent orders")}</a>,{" "}
                                 {t("manage your")}
-                                <a href="#">
+                                <a>
                                   {t("shipping and billing addresses")}
                                 </a>
                                 {t("and")}
-                                <a href="#">
+                                <a>
                                   {t("edit your password and account details.")}
                                 </a>
                               </p>

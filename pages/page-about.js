@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Layout from "../components/layout/Layout";
+import Link from "next/link";
 
 function About() {
     const { t } = useTranslation("common");
@@ -68,25 +69,25 @@ function About() {
                                             {t("CEO & Co-Founder")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
@@ -110,25 +111,25 @@ function About() {
                                             {t("Head Engineer")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
@@ -150,25 +151,25 @@ function About() {
                                             {t("Senior Planner")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""
@@ -192,25 +193,25 @@ function About() {
                                             {t("Project Manager")}
                                         </p>
                                         <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-facebook.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-twitter.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-instagram.svg"
                                                     alt=""
                                                 />
                                             </a>
-                                            <a href="#">
+                                            <a>
                                                 <img
                                                     src="assets/imgs/theme/icons/icon-pinterest.svg"
                                                     alt=""

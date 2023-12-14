@@ -90,7 +90,6 @@ const BlogList = ({ show }) => {
                         <div className="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
                             <div>
                                 <span className="post-on">
-                                    {" "}
                                     <i className="fi-rs-clock"></i> {t("25 April")}
                                     2021
                                 </span>
@@ -100,7 +99,7 @@ const BlogList = ({ show }) => {
                             </div>
                             <Link href="/blog-post-right">
                                 <a className="text-brand">
-                                    {t("Read more")}{" "}
+                                    {t("Read more")}
                                     <i className="fi-rs-arrow-right"></i>
                                 </a>
                             </Link>

@@ -6,6 +6,7 @@ import services from "../services";
 import nextConfig from "../next.config";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const propTypes = {};
 
@@ -78,12 +79,7 @@ const ReviewRetting = () => {
   return (
     <Layout
       parent={t("Home")}
-      sub={
-        <a href="/myprofile?index=2">
-          {" "}
-          <>{t("Pages")}</>
-        </a>
-      }
+      sub={<Link href="/myprofile?index=2">{t("Pages")}</Link>}
       subChild={t("Review Reting")}
     >
       <div className="d-flex-inline-block justify-content-center align-item-center ">
@@ -122,7 +118,8 @@ const ReviewRetting = () => {
                     </span>
 
                     <div className="d-flex ">
-                      <span className="fw-bold">{t("Rating Review")}:</span> &nbsp;
+                      <span className="fw-bold">{t("Rating Review")}:</span>{" "}
+                      &nbsp;
                       <span className="fw-bold">
                         <ReactStars
                           value={Rating}

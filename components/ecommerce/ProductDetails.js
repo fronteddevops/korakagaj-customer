@@ -34,7 +34,7 @@ const ProductDetails = ({
   console.log("product", product);
   console.log("quickView", quickView);
   console.log("fabricPrice", fabricPrice);
-  console.log("fabricName", fabricName)
+  console.log("fabricName", fabricName);
   console.log("totalPrice", totalPrice);
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
@@ -83,13 +83,13 @@ const ProductDetails = ({
             toast.success("Added to Wishlist!");
           }
 
-          window.location.reload();
+          // window.location.reload();
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           //  productDataShow()
           toast.success("Removed from Wishlist");
-          window.location.reload();
+          // window.location.reload();
         }
       } catch (error) {
         toast.error(error?.response?.data?.message);
@@ -194,7 +194,7 @@ const ProductDetails = ({
                           <strong className="mr-10">{t("Share this:")}</strong>
                         </li>
                         <li className="social-facebook">
-                          <a href="#">
+                          <a>
                             <img
                               src="/assets/imgs/theme/icons/icon-facebook.svg"
                               alt=""
@@ -202,7 +202,7 @@ const ProductDetails = ({
                           </a>
                         </li>
                         <li className="social-twitter">
-                          <a href="#">
+                          <a>
                             <img
                               src="/assets/imgs/theme/icons/icon-twitter.svg"
                               alt=""
@@ -210,7 +210,7 @@ const ProductDetails = ({
                           </a>
                         </li>
                         <li className="social-instagram">
-                          <a href="#">
+                          <a>
                             <img
                               src="/assets/imgs/theme/icons/icon-instagram.svg"
                               alt=""
@@ -218,7 +218,7 @@ const ProductDetails = ({
                           </a>
                         </li>
                         <li className="social-linkedin">
-                          <a href="#">
+                          <a>
                             <img
                               src="/assets/imgs/theme/icons/icon-pinterest.svg"
                               alt=""
@@ -237,7 +237,7 @@ const ProductDetails = ({
                         <div className="pro-details-brand">
                           <span>
                             {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
-                            <Link href="/products">
+                            <Link href="/products" as={`/products`}>
                               <a className="text-capitalize">
                                 {product?.Category?.categoryName}
                               </a>
@@ -344,7 +344,7 @@ const ProductDetails = ({
                                 onClick={() => setSelectedColor(clr)}
                                 className={clr == selectedColor && "active"}
                               >
-                                <a href="#">
+                                <a>
                                   <span
                                     style={{
                                       border: "1px solid black",
@@ -420,9 +420,7 @@ const ProductDetails = ({
                         </strong>
 
                         <Link href={`/fabric?id=${product.id}`}>
-                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
-                            {t("Choose Fabric")}
-                          </button>
+                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">{t("Choose Fabric")}</button>
                         </Link>
                       </div>
 
@@ -454,11 +452,11 @@ const ProductDetails = ({
                       <ul className="product-meta font-xs color-grey mt-50">
                         <li className="mb-5 text-capitalize">
                           {t("SKU")}&nbsp;:
-                          <a href="#">&nbsp;{product.sku}</a>
+                          <a>&nbsp;{product.sku}</a>
                         </li>
                         <li className="mb-5 text-capitalize">
                           {t("Tags")}&nbsp;:
-                          <a href="#" rel="tag" className="me-1">
+                          <a rel="tag" className="me-1">
                             &nbsp;
                             {product.tags}
                           </a>

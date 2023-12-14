@@ -14,6 +14,7 @@ import services from "../services";
 import { useEffect, useState } from "react";
 import Header from "../components/layout/Header";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
 
 const Wishlist = ({
   
@@ -64,7 +65,7 @@ const Wishlist = ({
 
   return (
     <>
-      <Layout parent={t("Home")} sub={<><a href="/products"> {t("Product")}</a></>} subChild={t("Wishlist")}>
+      <Layout parent={t("Home")} sub={<><Link href="/products" as={`/products`} >{t("Product")}</Link></>} subChild={t("Wishlist")}>
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row product-grid-3">

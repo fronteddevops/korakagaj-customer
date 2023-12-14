@@ -58,13 +58,16 @@ const CategorySlider = () => {
         }}
         className="custom-class"
       >
+        {/* {
+          console.log("category", category)
+        } */}
         {category.map((item, i) => (
           <SwiperSlide key={i}>
             <div className="card-1">
               <figure className="img-hover-scale overflow-hidden">
                 <Link
-                  as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                  href={`/products/categoryId=${item.id}`}
+                  href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                  as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                 >
                   <a>
                     <img
@@ -82,10 +85,10 @@ const CategorySlider = () => {
               </figure>
               <h5>
                 <Link
-                  as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                  href={`/products/categoryId=${item.id}`}
+                  href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                  as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                 >
-                  <h5 className=" text-break">
+                  <h5 className="text-break">
                     <a>{item.categoryName}</a>
                   </h5>
                 </Link>

@@ -22,7 +22,7 @@ const HomeBlog = () => {
                         </div>
                         <div className="post-content">
                             <div className="entry-meta mb-10 mt-10">
-                                <Link href="/blog-category-fullwidth">
+                                <Link href="/blog-category-fullwidth" as={`/blog-category-fullwidth`}>
                                     <a className="entry-meta meta-2">
                                         <span className="post-in font-x-small">
                                             {t("Fashion")}
@@ -67,7 +67,7 @@ const HomeBlog = () => {
                         </div>
                         <div className="post-content">
                             <div className="entry-meta mb-10 mt-10">
-                                <Link href="/blog-category-fullwidth">
+                                <Link href="/blog-category-fullwidth"  as={`/blog-category-fullwidth`} >
                                     <a className="entry-meta meta-2">
                                         <span className="post-in font-x-small">
                                             {t("Healthy")}
