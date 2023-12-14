@@ -92,7 +92,7 @@
 
     //Load functions
     $(document).ready(function () {
-        console.log("Loading")
+         console.log("Loading")
         productDetails();
     });
 
