@@ -118,7 +118,8 @@ const Cart = ({}) => {
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
       // const unique = [
@@ -159,7 +160,8 @@ const Cart = ({}) => {
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
       // const unique = [

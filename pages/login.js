@@ -131,7 +131,8 @@ function Login() {
               (t) =>
                 t.id === value.id &&
                 t.selectedSize === value.selectedSize &&
-                t.selectedColor === value.selectedColor
+                t.selectedColor === value.selectedColor &&
+                t.fabric === value.fabric
             )
         );
         // const unique = [

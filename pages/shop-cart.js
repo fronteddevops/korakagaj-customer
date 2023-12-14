@@ -129,6 +129,8 @@ const Cart = ({}) => {
     }
   };
   const handleCart = async (product, qtytype) => {
+    console.log(product)
+    console.log(qtytype)
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
 
@@ -144,10 +146,11 @@ const Cart = ({}) => {
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
-
+      console.log("unique", unique);
       let totalAmountArr = unique.map((item) => {
         return item.finalAmount * item.selectedQuantity;
       });
@@ -195,7 +198,8 @@ const Cart = ({}) => {
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
       // const unique = [
@@ -490,7 +494,7 @@ const Cart = ({}) => {
                   </table>
                 </div>
                 <div className="cart-action text-center">
-                  <Link className={"btn"} href="/products" as= {`/products`} >
+                  <Link className={"btn"} href="/products" as={`/products`}>
                     <button className={"btn"}>
                       <i className="fi-rs-shopping-bag mr-10"></i>
                       {t("Continue Shopping")}

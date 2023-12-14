@@ -61,7 +61,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
       // const unique = [
@@ -94,7 +95,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
       // const unique = [

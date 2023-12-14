@@ -9,13 +9,14 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import ShopWishlist from "../../pages/shop-wishlist";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
+import nextConfig from "../../next.config";
 import i18next from "i18next";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 const Header = ({ toggleClick, headerStyle }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const { t, i18n } = useTranslation("common");
 
   const router = useRouter();
@@ -24,6 +25,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [scroll, setScroll] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
+  const [HoveredSabCategoryId, setHoveredSabCategoryId] = useState(null);
   const [subCategory, setSubCategory] = useState([]);
   const [subSubCategory, setSubSubCategory] = useState([]);
   const [url, seturl] = useState(false);
@@ -97,7 +99,6 @@ const Header = ({ toggleClick, headerStyle }) => {
   //get category list
   const CategoryList = async () => {
     const response = await service.category.GET_CATEGORY();
-    console.log("response", response);
     setCategoryList(response?.data?.data?.rows);
   };
   // Get sub category list
@@ -110,12 +111,12 @@ const Header = ({ toggleClick, headerStyle }) => {
     const subSubCategoriesArray = [];
 
     // Iterate through subcategories and fetch subsubcategories for each subcategory
+
     for (const subCategoryItem of response.data.data.rows) {
       const subSubCategoryResponse =
         await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
           subCategoryItem.id
         );
-
       // Add the fetched subsubcategories to the temporary array
       subSubCategoriesArray.push(...subSubCategoryResponse.data.data.rows);
     }
@@ -163,6 +164,14 @@ const Header = ({ toggleClick, headerStyle }) => {
     await router.push("/myprofile?index=2");
   };
 
+  // const subSubCategoryList = async (id) => {
+  //   const subSubCategory = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
+  //     id
+  //   );
+  //   console.log(subSubCategory);
+
+  //   setSubSubCategory(subSubCategory?.data?.data?.rows);
+  // };
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -389,7 +398,6 @@ const Header = ({ toggleClick, headerStyle }) => {
                     }
                   >
                     <ul>
-                      {console.log("categoryList", categoryList)}
                       {categoryList &&
                         categoryList.map((item) => (
                           <li className="has-children" key={item.id}>
@@ -397,12 +405,21 @@ const Header = ({ toggleClick, headerStyle }) => {
                               href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                               as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                             >
-                              {/* <Link href="/products"> */}
                               <a
                                 onMouseEnter={() => subCategoryList(item.id)}
                                 onMouseLeave={() => setHoveredCategoryId(null)}
                               >
-                                <i className="korakagaj-font-dress"></i>
+                                <img
+                                  src={imageUrl + item?.icon}
+                                  crossOrigin="anonymous"
+                                  style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    marginRight: "15px",
+                                  }}
+                                  className="align-self-center mr-2"
+                                  alt="not found"
+                                />
                                 {item.categoryName}
                               </a>
                             </Link>
@@ -411,6 +428,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                                 <li className="mega-menu-col col-lg-7">
                                   <ul className="d-lg-flex">
                                     {subCategory &&
+                                      subCategory.length > 0 &&
                                       subCategory.map((subItem) => (
                                         <li
                                           className="mega-menu-col col-lg-6"
@@ -418,24 +436,40 @@ const Header = ({ toggleClick, headerStyle }) => {
                                         >
                                           <ul>
                                             <li>
-                                              <span className="submenu-title">
-                                                {subItem.subCategoryName}
-                                              </span>
+                                              {/* <a
+                                                onMouseEnter={() =>
+                                                  subSubCategoryList(subItem.id)
+                                                }
+                                                onMouseLeave={() =>
+                                                  setHoveredSabCategoryId(null)
+                                                }
+                                              > */}
+                                              <Link
+                                                href={`/products/?categoryId=${subItem?.categoryId}&categoryName=${subItem?.Category?.categoryName}`}
+                                                as={`/products/?categoryId=${subItem?.categoryId}&categoryName=${subItem?.Category?.categoryName}`}
+                                              >
+                                                <span className="submenu-title">
+                                                  {subItem.subCategoryName}
+                                                </span>
+                                              </Link>
+                                              {/* </a> */}
                                             </li>
 
-                                            {subSubCategory.map(
-                                              (subSubItem) => (
-                                                <li key={subSubItem.id}>
-                                                  <a>
-                                                    <a className="dropdown-item nav-link nav_item">
-                                                      {
-                                                        subSubItem.subSubCategoryName
-                                                      }
+                                            {subSubCategory &&
+                                              subSubCategory.length > 0 &&
+                                              subSubCategory.map(
+                                                (subSubItem) => (
+                                                  <li key={subSubItem.id}>
+                                                    <a>
+                                                      <a className="dropdown-item nav-link nav_item">
+                                                        {
+                                                          subSubItem.subSubCategoryName
+                                                        }
+                                                      </a>
                                                     </a>
-                                                  </a>
-                                                </li>
-                                              )
-                                            )}
+                                                  </li>
+                                                )
+                                              )}
                                           </ul>
                                         </li>
                                       ))}

@@ -41,38 +41,40 @@ function Contact() {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-4 mb-4 mb-md-0">
-                                <h4 className="mb-15 text-brand">{t("Office")}</h4>
-                                {t("205 North Michigan Avenue, Suite 810")}
+                                <h4 className="mb-15 text-brand">{t("Office address")}</h4>
+                                {t("A 22/23 bhagwati garden dwarka mor")}
                                 <br />
-                                {t("Chicago, 60601, USA")}
+                                {t("110059 New Delhi")}
                                 <br />
-                                <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
+                                {/* <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
                                 contact@korakagaj.com
-                                <br />
+                                <br /> */}
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
                                     {t("map")}
                                 </a>
                             </div>
                             <div className="col-md-4 mb-4 mb-md-0">
-                                <h4 className="mb-15 text-brand">{t("Studio")}</h4>
-                                {t("205 North Michigan Avenue, Suite 810")}
+                                <h4 className="mb-15 text-brand">{t("Registered Address")}</h4>
+                                {t("TEX 3D INNOVATIVES PRIVATE LIMITED Gadwal Ganeshpur Basti")}
                                 <br />
-                                {t("Chicago, 60601, USA")}
+                                {t("UP India 272001")}
                                 <br />
-                                <abbr title="Phone">{t("Phone:")}</abbr> (123) 456-7890
+                                <abbr title="Phone">{t("Phone:")}</abbr> 9791028374 / 9891088434
                                 <br />
                                 <abbr title="Email">{t("Email:")} </abbr>
-                                contact@korakagaj.com
+                                abhaysharma@korakagaj.com/santosh@korakagaj.com
+                                <br />
+                                Company Founders - Abhay Kumar Sharma & Santosh Kumar Sharma
                                 <br />
                                 <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
                                     {t("map")}
                                 </a>
                             </div>
-                            <div className="col-md-4">
+                            {/* <div className="col-md-4">
                                 <h4 className="mb-15 text-brand">{t("Shop")}</h4>
                                 {t("205 North Michigan Avenue, Suite 810")}
                                 <br />
@@ -88,7 +90,7 @@ function Contact() {
                                     <i className="fi-rs-marker mr-10"></i> {t("View")}
                                     {t("map")}
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </section>

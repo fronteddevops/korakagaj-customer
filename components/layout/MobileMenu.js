@@ -488,11 +488,11 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                   </>
                 )}
               </div>
-              <div className="single-mobile-header-info">
+              {/* <div className="single-mobile-header-info">
                 <a>
                   <a>(+01) - 2345 - 6789 </a>
                 </a>
-              </div>
+              </div> */}
             </div>
             <div className="mobile-social-icon">
               <h5 className="mb-15 text-grey-4">{t("Follow Us")}</h5>

@@ -31,11 +31,6 @@ const ProductDetails = ({
   fabricId,
   totalPrice,
 }) => {
-  console.log("product", product);
-  console.log("quickView", quickView);
-  console.log("fabricPrice", fabricPrice);
-  console.log("fabricName", fabricName);
-  console.log("totalPrice", totalPrice);
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
   const [fabricType, setfabricType] = useState("");
@@ -112,8 +107,8 @@ const ProductDetails = ({
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
+      
       cartDetails?.push(product);
-
       const unique = cartDetails.filter(
         (value, index, self) =>
           index ===
@@ -121,9 +116,11 @@ const ProductDetails = ({
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
+
       // const unique = [
       //   ...new Map(
       //     cartDetails &&
@@ -155,7 +152,8 @@ const ProductDetails = ({
             (t) =>
               t.id === value.id &&
               t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
           )
       );
       // const unique = [
@@ -420,7 +418,9 @@ const ProductDetails = ({
                         </strong>
 
                         <Link href={`/fabric?id=${product.id}`}>
-                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">{t("Choose Fabric")}</button>
+                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
+                            {t("Choose Fabric")}
+                          </button>
                         </Link>
                       </div>
 
