@@ -58,9 +58,6 @@ const CategorySlider = () => {
         }}
         className="custom-class"
       >
-        {/* {
-          console.log("category", category)
-        } */}
         {category.map((item, i) => (
           <SwiperSlide key={i}>
             <div className="card-1">

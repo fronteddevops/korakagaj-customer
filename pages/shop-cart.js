@@ -129,8 +129,7 @@ const Cart = ({}) => {
     }
   };
   const handleCart = async (product, qtytype) => {
-    console.log(product)
-    console.log(qtytype)
+ 
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
 
@@ -150,7 +149,6 @@ const Cart = ({}) => {
               t.fabric === value.fabric
           )
       );
-      console.log("unique", unique);
       let totalAmountArr = unique.map((item) => {
         return item.finalAmount * item.selectedQuantity;
       });

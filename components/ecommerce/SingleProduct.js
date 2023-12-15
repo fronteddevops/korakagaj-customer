@@ -46,12 +46,10 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
     product.selectedQuantity = 1;
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      console.log("cart", cart?.data?.data?.cartDetail);
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
-      console.log(product, cartDetails);
       cartDetails?.push(product);
       const key = "id";
       const unique = cartDetails.filter(
@@ -71,9 +69,9 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      // console.log(data);
+    
       const updateCart = await services.cart.UPDATE_CART(data);
-      console.log(updateCart);
+    
       toast.success("Add to Cart !");
       setTimeout(() => {
         // window.location.reload()
@@ -120,7 +118,6 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
         };
 
         if (!isProductIsWishListed) {
-          console.log(isProductIsWishListed);
           const WishlistResponse =
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
           productDataShow();

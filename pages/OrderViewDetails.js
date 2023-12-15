@@ -299,18 +299,18 @@ function OrderViewDetails({ data }) {
                                 <span>{product?.productName}</span>
                               </td>
 
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Total Price">
                                 <span>{product?.totalPrice}</span>
                               </td>
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Discount Percentage">
                                 <span>{product?.discountPercentage}%</span>
                               </td>
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Final Amount">
                                 <span>{product?.finalAmount}</span>
                               </td>
                               <td
                                 className="text-right d-none d-sm-table-cell"
-                                data-title="Cart"
+                                data-title="Product Type"
                               >
                                 <span>
                                   {product?.productType == 1
@@ -328,7 +328,7 @@ function OrderViewDetails({ data }) {
                                 </span>
                               </td>
 
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Tracking Id & Link">
                                 <span>
                                   {/* {console.log(product)} */}
                                   {product?.Product?.trackingId} <br />
@@ -336,7 +336,7 @@ function OrderViewDetails({ data }) {
                                 </span>
                               </td>
 
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Order Date">
                                 <span>
                                   {moment(product?.createdAt).format(
                                     "DD MMM YYYY"
@@ -344,7 +344,7 @@ function OrderViewDetails({ data }) {
                                 </span>
                               </td>
 
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Selected Color">
                                 <span
                                   className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                   style={{
@@ -355,14 +355,14 @@ function OrderViewDetails({ data }) {
                                   }}
                                 ></span>
                               </td>
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Selected Size">
                                 <span>{product?.selectedSize}</span>
                               </td>
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Selected Quantity">
                                 <span>{product?.selectedQuantity}</span>
                               </td>
 
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="Add Review">
                                 <span>
                                   <Link
                                     href={`/ReviewRetting?orderID=${orderId}&product=${product?.id}`}
@@ -481,3 +481,6 @@ function OrderViewDetails({ data }) {
 }
 
 export default OrderViewDetails;
+
+
+

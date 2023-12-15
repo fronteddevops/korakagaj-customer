@@ -11,7 +11,7 @@ export default function Editaddress(props) {
   const [fullName, setFullName] = useState("");
 
   const id = props.id;
-  console.log(id);
+ 
   const [phoneNumber, setPhoneNumber] = useState("");
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   const [fullNameError, setFullNameError] = useState("");
@@ -80,13 +80,10 @@ export default function Editaddress(props) {
           },
           defaultAddress: isChecked,
         };
-        //   const dataString = JSON.stringify(data);
-        //   console.log(dataString)
         const response = await services.myprofile.UPDATE_MY_ADDRESS_BY_ID(
           id,
           data
         );
-        console.log();
         if (response) {
           setIsDisabled(false);
 

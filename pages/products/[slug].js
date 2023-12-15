@@ -42,7 +42,6 @@ const ProductId = ({ product }) => {
         // Handle the case where no products match the criteria
         // For example, set an empty array or show an error message.
         setData([]); // Set an empty array if no products match
-        console.log("No products match the criteria.");
       }
     } catch (error) {
       console.log(error)

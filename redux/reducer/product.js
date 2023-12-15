@@ -16,7 +16,6 @@ export default (state = { items: [] }, action) => {
                 ...state.items,
                 ...action.payload.products,
             ];
-            // console.log(mergeAllProducts);
             const limit =
                 action.payload.total &&
                 mergeAllProducts.length > action.payload.total

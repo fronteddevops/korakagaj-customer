@@ -76,9 +76,8 @@ function Register() {
           cartDetail: { cartDetails: unique },
         };
 
-        console.log(data);
         const updateCart = await services.cart.UPDATE_CART(data);
-        console.log(updateCart);
+
         localStorage.removeItem("cartDetail");
       }
     } catch (error) {

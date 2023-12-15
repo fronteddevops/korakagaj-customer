@@ -75,14 +75,16 @@ export default function Home() {
                 <h3 className="section-title mb-20">
                   <span>{t("Featured")}</span> {t("Categories")}
                 </h3>
-                <h6>
-                  <Link href="/categories">
-                    <a className="view-more d-none d-md-flex">
-                      {t("View More")}
-                      <i className="fi-rs-angle-double-small-right"></i>
-                    </a>
-                  </Link>
-                </h6>
+                <Link href="/categories">
+                  <h6>
+                    <Link href="/categories">
+                      <a className="view-more d-none d-md-flex">
+                        {t("View More")}
+                        <i className="fi-rs-angle-double-small-right"></i>
+                      </a>
+                    </Link>
+                  </h6>
+                </Link>
               </div>
 
               <div className="carausel-6-columns-cover position-relative">

@@ -93,7 +93,7 @@ const Cart = ({}) => {
         setAddressList(response?.data?.data);
         if (response?.data?.data?.length > 0) {
           response?.data?.data?.map((item) => {
-            console.log(item);
+       
           });
         }
       } catch (error) {
@@ -139,7 +139,6 @@ const Cart = ({}) => {
         totalItems: unique.length,
         totalQuantity: qty,
       };
-      console.log("Address", Address);
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -204,7 +203,6 @@ const Cart = ({}) => {
         "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
         "modal": {
           "ondismiss":  async() => {
-              console.log('Checkout form closed');
               const data = {
                 orderId: updateCartData?.data?.order?.id,
                 paymentResponse: {

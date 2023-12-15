@@ -46,7 +46,7 @@ export default {
     });
   },
   GET_FILTER_PRODUCT: (query) => {
-    console.log(query)
+  
     let response;
     return new Promise(async (resolve, reject) => {
       try {

@@ -495,7 +495,7 @@ function Account() {
                                         orderDetailsData.length > 0 &&
                                         orderDetailsData?.map((item, key) => (
                                           <tr key={key}>
-                                            <td>
+                                            <td className="text-right" data-title="Product Image">
                                               <img
                                                 className="img-fluid rounded" // Make the image responsive
                                                 crossOrigin="anonymous"
@@ -509,17 +509,17 @@ function Account() {
                                                 width={50}
                                               />
                                             </td>
-                                            <td>{item?.id}</td>
-                                            <td>
+                                            <td className="text-right" data-title="Order Id">{item?.id}</td>
+                                            <td className="text-right" data-title="Date">
                                               {moment(item?.createdAt).format(
                                                 "MMM DD, YYYY hh:mm A"
                                               )}
                                             </td>
-                                            <td>{item?.totalItems}</td>
-                                            <td>{item?.totalQuantity}</td>
-                                            <td>{item?.totalAmount}</td>
-                                            {console.log(item)}
-                                            <td>
+                                            <td className="text-right" data-title="Total Item">{item?.totalItems}</td>
+                                            <td className="text-right" data-title="Total Quantity">{item?.totalQuantity}</td>
+                                            <td className="text-right" data-title="Total Amount">{item?.totalAmount}</td>
+                                           
+                                            <td className="text-right" data-title="Order Status">
                                               {/* {item?.OrderDetails?.map(
                                                 (orderDetail, index) =>
                                                   index === 0
@@ -530,7 +530,7 @@ function Account() {
                                                 item?.orderStatus
                                               }
                                             </td>
-                                            <td>
+                                            <td className="text-right" data-title="Actions">
                                               <Link
                                                 href={`/OrderViewDetails?orderId=${item.id}`}
                                               >

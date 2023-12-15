@@ -98,8 +98,10 @@ const Header = ({ toggleClick, headerStyle }) => {
   };
   //get category list
   const CategoryList = async () => {
-    const response = await service.category.GET_CATEGORY();
-    setCategoryList(response?.data?.data?.rows);
+    // const response = await service.category.GET_CATEGORY();
+    // setCategoryList(response?.data?.data?.rows);
+    const respo = await services.category.GET_CATEGORY_ALL();
+    setCategoryList(respo.data.data);
   };
   // Get sub category list
   const subCategoryList = async (id) => {
@@ -122,7 +124,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     }
 
     // Set the subsubcategories state once, after all subsubcategories have been accumulated
-    setSubSubCategory(subSubCategoriesArray);
+    // setSubSubCategory(subSubCategoriesArray);
   };
 
   //user name
@@ -164,14 +166,13 @@ const Header = ({ toggleClick, headerStyle }) => {
     await router.push("/myprofile?index=2");
   };
 
-  // const subSubCategoryList = async (id) => {
-  //   const subSubCategory = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
-  //     id
-  //   );
-  //   console.log(subSubCategory);
+  const subSubCategoryList = async (id) => {
+    const subSubCategory = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
+      id
+    );
 
-  //   setSubSubCategory(subSubCategory?.data?.data?.rows);
-  // };
+    setSubSubCategory(subSubCategory?.data?.data?.rows);
+  };
   return (
     <>
       <header className={`header-area ${headerStyle} header-height-2`}>
@@ -436,46 +437,47 @@ const Header = ({ toggleClick, headerStyle }) => {
                                         >
                                           <ul>
                                             <li>
-                                              {/* <a
+                                              <a
                                                 onMouseEnter={() =>
                                                   subSubCategoryList(subItem.id)
                                                 }
                                                 onMouseLeave={() =>
                                                   setHoveredSabCategoryId(null)
                                                 }
-                                              > */}
-                                              <Link
-                                                href={`/products/?categoryId=${subItem?.categoryId}&categoryName=${subItem?.Category?.categoryName}`}
-                                                as={`/products/?categoryId=${subItem?.categoryId}&categoryName=${subItem?.Category?.categoryName}`}
                                               >
-                                                <span className="submenu-title">
-                                                  {subItem.subCategoryName}
-                                                </span>
-                                              </Link>
-                                              {/* </a> */}
+                                                <Link
+                                                  href={`/products/?subcategoryId=${subItem?.id}&subcategoryName=${subItem?.subCategoryName}`}
+                                                  as={`/products/?subcategoryId=${subItem?.id}&subcategoryName=${subItem?.subCategoryName}`}
+                                                >
+                                                  <span className="submenu-title">
+                                                    {subItem.subCategoryName}
+                                                  </span>
+                                                </Link>
+                                              </a>
                                             </li>
-
-                                            {subSubCategory &&
-                                              subSubCategory.length > 0 &&
-                                              subSubCategory.map(
-                                                (subSubItem) => (
-                                                  <li key={subSubItem.id}>
-                                                    <a>
-                                                      <a className="dropdown-item nav-link nav_item">
-                                                        {
-                                                          subSubItem.subSubCategoryName
-                                                        }
-                                                      </a>
-                                                    </a>
-                                                  </li>
-                                                )
-                                              )}
                                           </ul>
                                         </li>
                                       ))}
                                   </ul>
                                 </li>
                               </ul>
+                              <li>
+                                {subSubCategory &&
+                                  subSubCategory.length > 0 &&
+                                  subSubCategory.map((subSubItem) => (
+                                    <li key={subSubItem.id}>
+                                      {console.log(subSubItem)}
+                                      <Link
+                                        href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                        as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                      >
+                                        <a className="dropdown-item nav-link nav_item">
+                                          {subSubItem.subSubCategoryName}
+                                        </a>
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </li>
                             </div>
                           </li>
                         ))}
@@ -492,10 +494,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li className="has-children">
                         {categoryList &&
-                        
+
                           categoryList.map((item) => (
                             <Link href="/products">
-                             
+
                                 <i className="korakagaj-font-dress"></i>
                                 {item.categoryName}
                               </a>
@@ -712,17 +714,17 @@ const Header = ({ toggleClick, headerStyle }) => {
                       </li>
 
                       <li>
-                        <Link href="/page-contact">
-                          <a
-                            className={
-                              router.pathname === "/page-contact"
-                                ? "active"
-                                : ""
-                            }
-                          >
-                            {t("Our Team")}
-                          </a>
-                        </Link>
+                        {/* <Link href="/page-contact"> */}
+                        <a
+                        // className={
+                        //   router.pathname === "/page-contact"
+                        //     ? "active"
+                        //     : ""
+                        // }
+                        >
+                          {t("Our Team")}
+                        </a>
+                        {/* </Link> */}
                       </li>
 
                       <li>

@@ -8,7 +8,6 @@ export default (state = null, action) => {
       };
 
     case Types.CLOSE_QUICK_VIEW:
-      console.log("quickview close");
       return null;
 
     default:

@@ -37,6 +37,7 @@ const Products = ({ products1, productFilters }) => {
   const [productType, setProdcutType] = useState("");
   const [prodcutprice, setProdcutPrice] = useState("");
   const [color, setcolor] = useState([]);
+
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
@@ -57,21 +58,20 @@ const Products = ({ products1, productFilters }) => {
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
   const clearAllFilter = () => {
-    window.location.href = "/products";
+    // window.location.href = "/products";
+    setSelectedSubSubCategories([]);
+    setSizes([]);
+    setPrice({ value: { min: 0, max: 1000000 } });
+    setProdcutType("");
   };
-
-  //get prodcut
-
-  //size
   const sizes = ["", "s", "m", "xl", "xxl"];
-  //size function
 
   const handleClick = (i, target) => {
     setSizes(target);
+
     setActive(active == i ? 0 : i);
   };
   const cratePagination = () => {
-    // set pagination
     let arr = new Array(Math.ceil(products?.length / limit))
       .fill()
       .map((_, idx) => idx + 1);
@@ -133,8 +133,6 @@ const Products = ({ products1, productFilters }) => {
           } else {
             setProdcut(data);
           }
-        } else {
-          console.log("error");
         }
       }
     } catch (error) {
@@ -144,7 +142,7 @@ const Products = ({ products1, productFilters }) => {
   const getCategroy = async () => {
     try {
       const response = await services.category.GET_CATEGORY_ALL();
-
+      console.log(response);
       if (response) {
         setCategory(response?.data?.data);
       }
@@ -244,25 +242,11 @@ const Products = ({ products1, productFilters }) => {
   // };
 
   const handleShowToggle = () => {
-    console.log(
-      "Before Toggle - showMore:",
-      showMore,
-      "displayedColors:",
-      displayedColors
-    );
-
     // Toggle the showMore state
     setShowMore(!showMore);
 
     // Set the displayed colors based on the showMore state
     setDisplayedColors(showMore ? 2 : colorArrays.length);
-
-    console.log(
-      "After Toggle - showMore:",
-      !showMore,
-      "displayedColors:",
-      showMore ? 1 : colorArrays.length
-    );
   };
 
   useEffect(() => {
@@ -283,6 +267,15 @@ const Products = ({ products1, productFilters }) => {
     products?.length,
   ]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (new URLSearchParams(window.location.search).get("subsubcategoryId"))
+        setSelectedSubSubCategories([
+          new URLSearchParams(window.location.search).get("subsubcategoryId"),
+        ]);
+      prodcutFilters();
+    }, 100);
+  }, [new URLSearchParams(window.location.search).get("subsubcategoryId")]);
   return (
     <>
       <Layout
@@ -290,7 +283,9 @@ const Products = ({ products1, productFilters }) => {
         sub={
           categoryId ? (
             <>
-              <Link href="/categories" as="/categories">{t("Category")}</Link>
+              <Link href="/categories" as="/categories">
+                {t("Category")}
+              </Link>
             </>
           ) : (
             <>
@@ -300,7 +295,9 @@ const Products = ({ products1, productFilters }) => {
         }
         subSub={
           categoryId && (
-            <Link href="/categories" as="/categories">{categoryName}</Link>
+            <Link href="/categories" as="/categories">
+              {categoryName}
+            </Link>
           )
         }
         subChild={t("Products")}
@@ -326,6 +323,7 @@ const Products = ({ products1, productFilters }) => {
                   >
                     {t("Show Filters")}
                   </span>
+                  {console.log(selectedSubSubCategories)}
                   {(selectedSubSubCategories.length > 0 ||
                     productType ||
                     selectedColors.length > 0 ||
@@ -420,7 +418,6 @@ const Products = ({ products1, productFilters }) => {
                                                       subSubCategoryId
                                                     )
                                                   ) {
-                                                    // If the subSubCategoryId is already in the array, remove it
                                                     const updatedSubCategories =
                                                       selectedSubSubCategories?.filter(
                                                         (id) =>
@@ -431,7 +428,6 @@ const Products = ({ products1, productFilters }) => {
                                                       updatedSubCategories
                                                     );
                                                   } else {
-                                                    // If the subSubCategoryId is not in the array, add it
                                                     const updatedSubCategories =
                                                       [
                                                         ...selectedSubSubCategories,
@@ -480,13 +476,11 @@ const Products = ({ products1, productFilters }) => {
                             min={0}
                             max={9000}
                             onChange={(value) => {
-                              //  PriceRange({ value: { min: value[0], max: value[1] } })
                               setToggle(true);
                               setSeachToggle(false);
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
-                              //  prodcutFilters(selectedCategories);
                             }}
                           />
 
@@ -566,7 +560,7 @@ const Products = ({ products1, productFilters }) => {
                         <ul className="list-filter size-filter font-small">
                           {sizes.map((tag, i) => (
                             <li
-                              className={active == i ? "active" : ""}
+                              // className={active == i ? "active" : ""}
                               onClick={() => {
                                 setToggle(true);
                                 setSeachToggle(false);
@@ -603,17 +597,20 @@ const Products = ({ products1, productFilters }) => {
                       selectedSizes.length > 0 ||
                       price.value.min > 0 ||
                       price.value.max < 1000000 ? (
+                        // <Link href="/products" as={`/products`}>
                         <span
                           className="text-brand fw-bold"
                           onClick={() => clearAllFilter()}
                           style={{ cursor: "pointer" }}
                         >
-                          {t("Clear All Filter")}
+                          {t("Clear All Filter ")}
                         </span>
                       ) : (
+                        //  </Link>
                         ""
                       )}
                       {categoryId.length > 0 || categoryName ? (
+                        // <Link href={"/products"} as={`/products`}>
                         <span
                           className="text-brand fw-bold"
                           onClick={() => clearAllFilter()}
@@ -622,6 +619,7 @@ const Products = ({ products1, productFilters }) => {
                           {t("Clear All Filter")}
                         </span>
                       ) : (
+                        // </Link>
                         ""
                       )}
                     </div>
