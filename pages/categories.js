@@ -42,8 +42,8 @@ function Categories() {
                   <div className="card-1">
                     <figure className=" img-hover-scale overflow-hidden">
                       <Link
+                        href={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
                         as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                        href={`/products/categoryId=${item.id}`}
                       >
                         <a>
                           <img
@@ -61,12 +61,10 @@ function Categories() {
                     </figure>
                     <h5 className=" text-break">
                       <Link
+                        href={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
                         as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                        href={`/products/categoryId=${item.id}`}
                       >
-                        <a>
-                          {item.categoryName}
-                          </a>
+                        <a>{item.categoryName}</a>
                       </Link>
                     </h5>
                   </div>

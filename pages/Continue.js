@@ -287,6 +287,7 @@ const Cart = ({}) => {
                       <tr className="main-heading">
                         <th scope="col">{t("Image")}</th>
                         <th scope="col">{t("Name")}</th>
+                        <th scope="col">{t("Fabric Name")}</th>
                         <th scope="col">{t("Price")}</th>
                         <th scope="col">{t("Quantity")}</th>
                         <th scope="col">{t("Subtotal")}</th>
@@ -346,6 +347,11 @@ const Cart = ({}) => {
                                     )}
                                   </div>
                                 ) : null}
+                              </td>
+
+
+                              <td className="Fabric name" data-title="Fabric name">
+                                <span>{product?.fabric}</span>
                               </td>
                               <td className="price" data-title="Price">
                                 <span>Rs. {product.finalAmount}</span>

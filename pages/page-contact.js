@@ -51,10 +51,10 @@ function Contact() {
                                 <abbr title="Email">{t("Email:")} </abbr>
                                 contact@korakagaj.com
                                 <br /> */}
-                                <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
+                                {/* <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
                                     {t("map")}
-                                </a>
+                                </a> */}
                             </div>
                             <div className="col-md-4 mb-4 mb-md-0">
                                 <h4 className="mb-15 text-brand">{t("Registered Address")}</h4>
@@ -69,10 +69,10 @@ function Contact() {
                                 <br />
                                 Company Founders - Abhay Kumar Sharma & Santosh Kumar Sharma
                                 <br />
-                                <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
+                                {/* <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}
                                     {t("map")}
-                                </a>
+                                </a> */}
                             </div>
                             {/* <div className="col-md-4">
                                 <h4 className="mb-15 text-brand">{t("Shop")}</h4>

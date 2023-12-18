@@ -287,6 +287,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                             {t("My Profile")}
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
+
                           <NavDropdown.Item
                             href="/"
                             onClick={() => {
@@ -462,21 +463,22 @@ const Header = ({ toggleClick, headerStyle }) => {
                                 </li>
                               </ul>
                               <li>
-                                {subSubCategory &&
-                                  subSubCategory.length > 0 &&
-                                  subSubCategory.map((subSubItem) => (
-                                    <li key={subSubItem.id}>
-                                      {console.log(subSubItem)}
-                                      <Link
-                                        href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
-                                        as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
-                                      >
-                                        <a className="dropdown-item nav-link nav_item">
-                                          {subSubItem.subSubCategoryName}
-                                        </a>
-                                      </Link>
-                                    </li>
-                                  ))}
+                                <div style={{ marginLeft: "35px" }}>
+                                  {subSubCategory &&
+                                    subSubCategory.length > 0 &&
+                                    subSubCategory.map((subSubItem) => (
+                                      <li key={subSubItem.id}>
+                                        <Link
+                                          href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                          as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                        >
+                                          <a className="dropdown-item nav-link nav_item">
+                                            {subSubItem.subSubCategoryName}
+                                          </a>
+                                        </Link>
+                                      </li>
+                                    ))}
+                                </div>
                               </li>
                             </div>
                           </li>
@@ -711,20 +713,6 @@ const Header = ({ toggleClick, headerStyle }) => {
                             </ul>
                           </li>
                         </ul>
-                      </li>
-
-                      <li>
-                        {/* <Link href="/page-contact"> */}
-                        <a
-                        // className={
-                        //   router.pathname === "/page-contact"
-                        //     ? "active"
-                        //     : ""
-                        // }
-                        >
-                          {t("Our Team")}
-                        </a>
-                        {/* </Link> */}
                       </li>
 
                       <li>

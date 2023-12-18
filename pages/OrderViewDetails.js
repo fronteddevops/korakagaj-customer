@@ -21,24 +21,27 @@ function OrderViewDetails({ data }) {
   const orderId = Router.query.orderId;
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [address, setaddress] = useState([]);
-
+  const [OrderStatusUrl, setOrderStatusUrl] = useState("");
   const orderDetials = async (id) => {
     try {
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(
         orderId
       );
       // setaddress(response?.data?.data[0].Order?.Address?.address);
+
       setaddress(response.data?.data[0]?.Address?.address);
-      console.log(response.data?.data[0])
       setOrderDetailsData(response?.data?.data[0]?.orderDetails);
+      console.log(response?.data?.data[0])
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
     orderDetials();
+    const orderStatus = new URLSearchParams(window.location.search);
+    setOrderStatusUrl(orderStatus.get("orderStatus"));
   }, []);
-
   return (
     <Layout
       parent={t("Home")}
@@ -158,15 +161,18 @@ function OrderViewDetails({ data }) {
                       <th scope="col">{t("Total Price")}</th>
                       <th scope="col">{t("Discount Percentage")}</th>
                       <th scope="col">{t("Final Amount")}</th>
-                      <th scope="col">{t("Product Type")}</th>
+                      <th scope="col">{t("Fabric Name")}</th>
                       {/* <th scope="col">{("Tags")}</th> */}
 
-                      <th scope="col">{t("Tracking Id & Link")}</th>
                       <th scope="col">{t("Order Date")}</th>
                       <th scope="col">{t("Selected Color")}</th>
                       <th scope="col">{t("Selected Size")}</th>
                       <th scope="col">{t("Selected Quantity")}</th>
-                      <th scope="col">{t("Add Review")}</th>
+                      <th scope="col">{t("Tracking Id & Link")}</th>
+
+                      {OrderStatusUrl != "Payment Failed" && (
+                        <th scope="col">{t("Add Review")}</th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -296,19 +302,41 @@ function OrderViewDetails({ data }) {
                               </td>
 
                               <td className="product-des product-name">
-                                <span>{product?.productName}</span>
+                                <Link
+                                  href="/products/[slug]"
+                                  as={`/products/${product?.id}`}
+                                >
+                                  <a>
+                                    <span>{product?.productName}</span>
+                                  </a>
+                                </Link>
                               </td>
 
-                              <td className="text-right" data-title="Total Price">
+                              <td
+                                className="text-right"
+                                data-title="Total Price"
+                              >
                                 <span>{product?.totalPrice}</span>
                               </td>
-                              <td className="text-right" data-title="Discount Percentage">
+                              <td
+                                className="text-right"
+                                data-title="Discount Percentage"
+                              >
                                 <span>{product?.discountPercentage}%</span>
                               </td>
-                              <td className="text-right" data-title="Final Amount">
+                              <td
+                                className="text-right"
+                                data-title="Final Amount"
+                              >
                                 <span>{product?.finalAmount}</span>
                               </td>
                               <td
+                                className="text-right"
+                                data-title="Final Amount"
+                              >
+                                <span>{product?.fabric}</span>
+                              </td>
+                              {/* <td
                                 className="text-right d-none d-sm-table-cell"
                                 data-title="Product Type"
                               >
@@ -326,17 +354,12 @@ function OrderViewDetails({ data }) {
                                     ? "Best Seller"
                                     : null}
                                 </span>
-                              </td>
+                              </td> */}
 
-                              <td className="text-right" data-title="Tracking Id & Link">
-                                <span>
-                                  {/* {console.log(product)} */}
-                                  {product?.Product?.trackingId} <br />
-                                  {product?.Product?.trackingLink}
-                                </span>
-                              </td>
-
-                              <td className="text-right" data-title="Order Date">
+                              <td
+                                className="text-right"
+                                data-title="Order Date"
+                              >
                                 <span>
                                   {moment(product?.createdAt).format(
                                     "DD MMM YYYY"
@@ -344,7 +367,10 @@ function OrderViewDetails({ data }) {
                                 </span>
                               </td>
 
-                              <td className="text-right" data-title="Selected Color">
+                              <td
+                                className="text-right"
+                                data-title="Selected Color"
+                              >
                                 <span
                                   className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                   style={{
@@ -355,22 +381,41 @@ function OrderViewDetails({ data }) {
                                   }}
                                 ></span>
                               </td>
-                              <td className="text-right" data-title="Selected Size">
+                              <td
+                                className="text-right"
+                                data-title="Selected Size"
+                              >
                                 <span>{product?.selectedSize}</span>
                               </td>
-                              <td className="text-right" data-title="Selected Quantity">
+                              <td
+                                className="text-right"
+                                data-title="Selected Quantity"
+                              >
                                 <span>{product?.selectedQuantity}</span>
                               </td>
-
-                              <td className="text-right" data-title="Add Review">
+                              <td
+                                className="text-right"
+                                data-title="Tracking Id & Link"
+                              >
                                 <span>
-                                  <Link
-                                    href={`/ReviewRetting?orderID=${orderId}&product=${product?.id}`}
-                                  >
-                                    <a>{t("Review")}</a>
-                                  </Link>
+                                  {product?.Product?.trackingId} <br />
+                                  {product?.Product?.trackingLink}
                                 </span>
                               </td>
+                              {OrderStatusUrl != "Payment Failed" && (
+                                <td
+                                  className="text-right"
+                                  data-title="Add Review"
+                                >
+                                  <span>
+                                    <Link
+                                      href={`/ReviewRetting?orderID=${orderId}&product=${product?.id}`}
+                                    >
+                                      <a>{t("Review")}</a>
+                                    </Link>
+                                  </span>
+                                </td>
+                              )}
                             </tr>
                           </>
                         );
@@ -481,6 +526,3 @@ function OrderViewDetails({ data }) {
 }
 
 export default OrderViewDetails;
-
-
-

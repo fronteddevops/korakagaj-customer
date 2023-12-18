@@ -145,6 +145,7 @@ function Account() {
             dob: dateOfBirth,
           };
           const response = await services.myprofile.UPDATE_MY_PROFILE(data);
+
           if (response) {
             setIsDisabledAcount(false);
             toastSuccessprofileupdate();
@@ -436,11 +437,8 @@ function Account() {
                                   "From your account dashboard. you can easily check"
                                 )}{" "}
                                 &amp; {t("view your")}
-                                <a>{t("recent orders")}</a>,{" "}
-                                {t("manage your")}
-                                <a>
-                                  {t("shipping and billing addresses")}
-                                </a>
+                                <a>{t("recent orders")}</a>, {t("manage your")}
+                                <a>{t("shipping and billing addresses")}</a>
                                 {t("and")}
                                 <a>
                                   {t("edit your password and account details.")}
@@ -495,7 +493,10 @@ function Account() {
                                         orderDetailsData.length > 0 &&
                                         orderDetailsData?.map((item, key) => (
                                           <tr key={key}>
-                                            <td className="text-right" data-title="Product Image">
+                                            <td
+                                              className="text-right"
+                                              data-title="Product Image"
+                                            >
                                               <img
                                                 className="img-fluid rounded" // Make the image responsive
                                                 crossOrigin="anonymous"
@@ -509,30 +510,57 @@ function Account() {
                                                 width={50}
                                               />
                                             </td>
-                                            <td className="text-right" data-title="Order Id">{item?.id}</td>
-                                            <td className="text-right" data-title="Date">
+                                            <td
+                                              className="text-right"
+                                              data-title="Order Id"
+                                            >
+                                              {item?.id}
+                                            </td>
+                                            <td
+                                              className="text-right"
+                                              data-title="Date"
+                                            >
                                               {moment(item?.createdAt).format(
-                                                "MMM DD, YYYY hh:mm A"
+                                                "hh:mm A DD MMM YYYY"
                                               )}
                                             </td>
-                                            <td className="text-right" data-title="Total Item">{item?.totalItems}</td>
-                                            <td className="text-right" data-title="Total Quantity">{item?.totalQuantity}</td>
-                                            <td className="text-right" data-title="Total Amount">{item?.totalAmount}</td>
-                                           
-                                            <td className="text-right" data-title="Order Status">
+                                            <td
+                                              className="text-right"
+                                              data-title="Total Item"
+                                            >
+                                              {item?.totalItems}
+                                            </td>
+                                            <td
+                                              className="text-right"
+                                              data-title="Total Quantity"
+                                            >
+                                              {item?.totalQuantity}
+                                            </td>
+                                            <td
+                                              className="text-right"
+                                              data-title="Total Amount"
+                                            >
+                                              {item?.totalAmount}
+                                            </td>
+
+                                            <td
+                                              className="text-right"
+                                              data-title="Order Status"
+                                            >
                                               {/* {item?.OrderDetails?.map(
                                                 (orderDetail, index) =>
                                                   index === 0
                                                     ? orderDetail.type
                                                     : null
                                               )} */}
-                                              {
-                                                item?.orderStatus
-                                              }
+                                              {item?.orderStatus}
                                             </td>
-                                            <td className="text-right" data-title="Actions">
+                                            <td
+                                              className="text-right"
+                                              data-title="Actions"
+                                            >
                                               <Link
-                                                href={`/OrderViewDetails?orderId=${item.id}`}
+                                                href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}`}
                                               >
                                                 <a>{t("View detail")}</a>
                                               </Link>

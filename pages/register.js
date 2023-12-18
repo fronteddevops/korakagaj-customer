@@ -8,6 +8,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import Preloader from "../components/elements/Preloader.js";
 function Register() {
   const route = useRouter();
   const { t } = useTranslation("common");
@@ -23,6 +24,7 @@ function Register() {
   //password show icon set value in state
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
+  const [Load , setLoad] = useState(false)
   const [passwordVisibleConfirmPassword, setpasswordVisibleConfirmPassword] =
     useState(false);
 
@@ -89,6 +91,7 @@ function Register() {
 
   // user Register api call
   const handleRegister = async (event) => {
+    setLoad(true)
     event.preventDefault();
     setPasswordConfirmError("");
     let isValid = true;
@@ -129,7 +132,8 @@ function Register() {
         };
 
         const response = await services.auth.REGISTER_USER(payLoad);
-
+        console.log(response);
+        setLoad(false)
         if (response) {
           localStorage.setItem("user", JSON.stringify(response?.data?.user));
           localStorage.setItem("userId", response?.data?.user.id);
@@ -209,6 +213,7 @@ function Register() {
 
   return (
     <>
+      {Load && <Preloader />}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -543,11 +548,11 @@ function Register() {
                           <span> {t("or")}</span>
                         </div>
                         <ul className="btn-login list_none text-center mb-15">
-                          <li>
+                          {/* <li>
                             <a className="btn btn-facebook hover-up mb-lg-0 mb-sm-4">
                               {t("Login With Facebook")}
                             </a>
-                          </li>
+                          </li> */}
                           <li>
                             <a className="btn btn-google hover-up mt-2">
                               {t("Login With Google")}

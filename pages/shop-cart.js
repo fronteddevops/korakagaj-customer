@@ -129,7 +129,6 @@ const Cart = ({}) => {
     }
   };
   const handleCart = async (product, qtytype) => {
- 
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
 
@@ -138,6 +137,7 @@ const Cart = ({}) => {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
+      console.log(cartDetails);
       let unique = cartDetails.filter(
         (value, index, self) =>
           index ===
@@ -162,7 +162,8 @@ const Cart = ({}) => {
           if (
             item.id == product.id &&
             item.selectedColor == product.selectedColor &&
-            item.selectedSize == product.selectedSize
+            item.selectedSize == product.selectedSize &&
+            item.fabric === product.fabric
           ) {
             item.selectedQuantity = qtytype;
           }
@@ -373,6 +374,8 @@ const Cart = ({}) => {
                       <tr className="main-heading">
                         <th scope="col">{t("Image")}</th>
                         <th scope="col">{t("Name")}</th>
+                        <th scope="col">{t("Fabric Name")}</th>
+                        
                         <th scope="col">{t("Price")}</th>
                         <th scope="col">{t("Quantity")}</th>
                         <th scope="col">{t("Subtotal")}</th>
@@ -401,6 +404,7 @@ const Cart = ({}) => {
                                     <a>{product.productName}</a>
                                   </Link>
                                 </h5>
+                                {console.log(product)}
                                 {product?.selectedColor ||
                                 product?.selectedSize ? (
                                   <div className="font-xs">
@@ -434,27 +438,37 @@ const Cart = ({}) => {
                                   </div>
                                 ) : null}
                               </td>
+
+                              <td className="Fabric name" data-title="Fabric name">
+                                <span>{product?.fabric}</span>
+                              </td>
                               <td className="price" data-title="Price">
                                 <span>Rs. {product.finalAmount}</span>
                               </td>
 
                               <td className="text-center" data-title="Stock">
                                 <div className="detail-qty border radius m-auto">
-                                  <a
-                                    onClick={(e) => increaseQuantity(product)}
-                                    className="qty-up"
-                                  >
-                                    <i className="fi-rs-angle-small-up"></i>
-                                  </a>
+                                  {localStorage.getItem("access_token") && (
+                                    <a
+                                      onClick={(e) => increaseQuantity(product)}
+                                      className="qty-up"
+                                    >
+                                      <i className="fi-rs-angle-small-up"></i>
+                                    </a>
+                                  )}
+
                                   <span className="qty-val">
                                     {product.selectedQuantity}
                                   </span>
-                                  <a
-                                    onClick={(e) => decreaseQuantity(product)}
-                                    className="qty-down"
-                                  >
-                                    <i className="fi-rs-angle-small-down"></i>
-                                  </a>
+
+                                  {localStorage.getItem("access_token") && (
+                                    <a
+                                      onClick={(e) => decreaseQuantity(product)}
+                                      className="qty-down"
+                                    >
+                                      <i className="fi-rs-angle-small-down"></i>
+                                    </a>
+                                  )}
                                 </div>
                               </td>
 
@@ -633,12 +647,14 @@ const Cart = ({}) => {
                             {t("Continue Order")}
                           </a>
                         ) : (
-                          <a className={"btn"} href="/login">
+                          // <a className={"btn"} href="/login">
+                          <Link href="/login" as={`/login`}>
                             <a className="btn ">
                               <i className="fi-rs-box-alt mr-10"></i>
                               {t("Proceed to Login")}
                             </a>
-                          </a>
+                          </Link>
+                          // </a>
                         )}
                       </div>
                     )}

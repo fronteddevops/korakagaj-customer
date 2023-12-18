@@ -142,7 +142,6 @@ const Products = ({ products1, productFilters }) => {
   const getCategroy = async () => {
     try {
       const response = await services.category.GET_CATEGORY_ALL();
-      console.log(response);
       if (response) {
         setCategory(response?.data?.data);
       }
@@ -323,7 +322,6 @@ const Products = ({ products1, productFilters }) => {
                   >
                     {t("Show Filters")}
                   </span>
-                  {console.log(selectedSubSubCategories)}
                   {(selectedSubSubCategories.length > 0 ||
                     productType ||
                     selectedColors.length > 0 ||
@@ -400,7 +398,6 @@ const Products = ({ products1, productFilters }) => {
                                         </h5>
                                       </Accordion.Header>
                                       <Accordion.Body>
-                                        {/* Subcategory content here */}
                                         {subCategory?.SubSubCategories.map(
                                           (item, itemIndex) => (
                                             <div key={item.id}>
@@ -597,29 +594,29 @@ const Products = ({ products1, productFilters }) => {
                       selectedSizes.length > 0 ||
                       price.value.min > 0 ||
                       price.value.max < 1000000 ? (
-                        // <Link href="/products" as={`/products`}>
-                        <span
-                          className="text-brand fw-bold"
-                          onClick={() => clearAllFilter()}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {t("Clear All Filter ")}
-                        </span>
+                        <Link href="/products" as={`/products`}>
+                          <span
+                            className="text-brand fw-bold"
+                            onClick={() => clearAllFilter()}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {t("Clear All Filter")}
+                          </span>
+                        </Link>
                       ) : (
-                        //  </Link>
                         ""
                       )}
                       {categoryId.length > 0 || categoryName ? (
-                        // <Link href={"/products"} as={`/products`}>
-                        <span
-                          className="text-brand fw-bold"
-                          onClick={() => clearAllFilter()}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {t("Clear All Filter")}
-                        </span>
+                        <Link href="/products" as={`/products`}>
+                          <span
+                            className="text-brand fw-bold"
+                            onClick={() => clearAllFilter()}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {t("Clear All Filter")}
+                          </span>
+                        </Link>
                       ) : (
-                        // </Link>
                         ""
                       )}
                     </div>

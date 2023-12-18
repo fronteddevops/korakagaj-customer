@@ -3,16 +3,17 @@ import services from "../services";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { Router } from "react-router-dom";
 export default function Addaddress() {
   const { t } = useTranslation("common");
-  const route = useRouter();
   const [fullName, setFullName] = useState("");
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   const [fullNameError, setFullNameError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-
+  const router = useRouter();
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [pinCodeError, setPinCodeError] = useState("");
@@ -25,9 +26,9 @@ export default function Addaddress() {
   const [address, setAddress] = useState("");
   const [addressError, setAddressError] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-
+  // const [Index, SetIndex] = useState(false);
   const toastSuccesscreateaddress = () =>
-    toast.success("Created Address successfully");
+    toast.success("Add Address Successfully");
   //save   use address
   const handleUersAddress = async (event) => {
     event.preventDefault();
@@ -62,9 +63,12 @@ export default function Addaddress() {
         if (response) {
           setIsDisabled(false);
           toastSuccesscreateaddress();
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 1000);
+          // }, 1000);
+          // SetIndex(true);
+          router.push("/myprofile?index=4")
         } else {
           alert(response?.data?.guide);
         }
@@ -143,6 +147,9 @@ export default function Addaddress() {
   };
   return (
     <div className=" ">
+      {/* {Index && (
+        <Link href="/myprofile?index=4" as={`/myprofile?index=4`}></Link>
+      )} */}
       <div
         className="tab-pane fade show active tab-pane fade"
         id="account-detail"

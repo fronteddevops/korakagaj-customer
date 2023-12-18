@@ -371,13 +371,13 @@ function Login() {
                             <span> {t("or")}</span>
                           </div>
                           <ul className="btn-login list_none text-center mb-15">
-                            <li>
+                            {/* <li>
                               <a
                                 className="btn btn-facebook hover-up mb-lg-0 mb-sm-4"
                               >
                                 {t("Login With Facebook")}
                               </a>
-                            </li>
+                            </li> */}
                             <li>
                               <a
                                 className="btn btn-google hover-up mt-2"
