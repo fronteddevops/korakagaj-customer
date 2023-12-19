@@ -209,14 +209,19 @@
      "Selected Quantity":"Selected Quantity",
      "Albania":"Albania",
      "Add Review":"Add Review",
+     "Abhay Kumar Sharma & Santosh Kumar Sharma":"Abhay Kumar Sharma & Santosh Kumar Sharma",
      "Algeria":"Algeria",
      "Andorra":"Andorra",
      "State / Country":"State / Country",
      "Selected Size":"Selected Size",
      "Selected Color":"Selected Color",
      "PostCode / ZIP":"PostCode / ZIP",
+     
+     "Company Founders":"Company Founders",
      "Update":"Update",
+     "Rating & Review":"Rating & Review",
      "Final Amount":"Final Amount",
+     "Fabric Name":"Fabric Name",
      "Image":"Image",
      "Order Date":"Order Date",
      "Product Type":"Product Type",
@@ -790,7 +795,10 @@
      "Mastercards":"Mastercards",
      "American Express":"American Express",
      "Discover":"Discover",
+     "Use of This Site":"Use of This Site",
      "*Taxes are calculated by your local bank and location.":"*Taxes are calculated by your local bank and location.",
-     "6. Download and Setup":"6. Download and Setup"
-   
+     "6. Download and Setup":"6. Download and Setup",
+     "ThisWebsite" :"This website (Korakagaj.com) and any mobile application (collectively, this “Site”) is owned by Tex 3D Innovatives Pvt. Ltd (“We”, “Us” Korakagaj.com”  or “Tex 3D Innovatives Pvt. Ltd”). We are providing you with access to this Site and our onlinestore (together, our “Services”) subject to the following terms and conditions.  By browsing, accessing, using, registering for or purchasing merchandise on this Site  or otherwise using our Services, you are agreeing to all of the following terms and conditions, including any policies referred to herein (collectively, these “Terms”). So,  please read these Terms carefully. We reserve the right to change this Site and these  Terms at any time. If you are unwilling to be bound by these Terms‚ you should not  browse, access‚ use‚ register for or purchase merchandise from the Site. You represent and warrant that you are at least 18 years old or visiting this Site under  the supervision of a parent or guardian.",
+     "OurPrivacy":"Our Privacy Policy, which also governs your visit to Our Site, can be found at [INSERT LINK TO YOUR PRIVACY POLICY]. Please review our Privacy Policy for information on how We collect, use and share information about our users.",
+     "SubjectToYour" :"Subject to your compliance with these Terms‚ We grant you a limited‚ non-exclusive‚ non-transferable‚   non-sublicensable   license   to   access   and   make   personal‚   non- commercial use of this Site. This license grant does not include: (a) any resale or commercial use of this Site or content therein; (b) the collection and use of any  product   listings  or  descriptions;   (c)  making  derivative   uses  of  this  Site   and  its  contents;   or  (d)  use   of  any  data   mining‚  robots‚  or  similar  data   gathering  and extraction methods on this Site."
 }

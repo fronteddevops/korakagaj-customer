@@ -288,7 +288,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
 
-                          <NavDropdown.Item
+                          {/* <NavDropdown.Item
                             href="/"
                             onClick={() => {
                               localStorage.removeItem("access_token"),
@@ -296,7 +296,19 @@ const Header = ({ toggleClick, headerStyle }) => {
                             }}
                           >
                             {t("Logout")}
-                          </NavDropdown.Item>
+                          </NavDropdown.Item> */}
+                          <div style={{ marginLeft: "10px" }}>
+                            <Link href="/login/" as={`/login/`}>
+                              <a
+                                onClick={() => {
+                                  localStorage.removeItem("access_token");
+                                  localStorage.removeItem("userId");
+                                }}
+                              >
+                                {t("Logout")}
+                              </a>
+                            </Link>
+                          </div>
                         </NavDropdown>
                       ) : (
                         <Link href="/login">

@@ -156,7 +156,7 @@ function Account() {
           }
         } catch (e) {
           setIsDisabledAcount(true);
-          console.log(e);
+      
         }
       }
     }
@@ -216,8 +216,9 @@ function Account() {
 
   const handleaddaddress = () => {
     setShowEditAddressComponent(false);
-    // Set the state to true to render the AddAddressComponent
     setShowAddAddressComponent(true);
+
+    route.push(`/myprofile?Address=1`);
   };
 
   const handleeditaddress = (id) => {
@@ -461,7 +462,6 @@ function Account() {
                             <span
                               className="text-danger m-10"
                               style={{
-                                // textAlign: "center",
                                 margin: "0 0 0 400px",
                               }}
                             >
@@ -559,6 +559,9 @@ function Account() {
                                               className="text-right"
                                               data-title="Actions"
                                             >
+                                              {
+                                                console.log(item)
+                                              }
                                               <Link
                                                 href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}`}
                                               >

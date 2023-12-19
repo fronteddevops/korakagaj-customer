@@ -3,8 +3,7 @@ import services from "../services";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
-import { Router } from "react-router-dom";
+
 export default function Addaddress() {
   const { t } = useTranslation("common");
   const [fullName, setFullName] = useState("");
@@ -63,12 +62,9 @@ export default function Addaddress() {
         if (response) {
           setIsDisabled(false);
           toastSuccesscreateaddress();
-          // setTimeout(() => {
-          //   window.location.reload();
-          // }, 1000);
-          // }, 1000);
-          // SetIndex(true);
-          router.push("/myprofile?index=4")
+          setTimeout(() => {
+            router.push(`/myprofile/?index=4`);
+          }, 1000);
         } else {
           alert(response?.data?.guide);
         }
@@ -147,9 +143,6 @@ export default function Addaddress() {
   };
   return (
     <div className=" ">
-      {/* {Index && (
-        <Link href="/myprofile?index=4" as={`/myprofile?index=4`}></Link>
-      )} */}
       <div
         className="tab-pane fade show active tab-pane fade"
         id="account-detail"

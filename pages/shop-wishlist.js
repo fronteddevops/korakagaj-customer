@@ -5,6 +5,7 @@ import { addToCart } from "../redux/action/cart";
 import nextConfig from "../next.config";
 import SingleProduct from "../components/ecommerce/SingleProduct";
 
+import QuickView from "../components/ecommerce/QuickView";
 import {
   clearWishlist,
   closeWishlistModal,
@@ -89,6 +90,7 @@ const Wishlist = ({
           </div>
         </section>
       </Layout>
+      <QuickView />
     </>
   );
 };

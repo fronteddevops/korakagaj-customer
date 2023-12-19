@@ -67,7 +67,7 @@ function Contact() {
                                 <abbr title="Email">{t("Email:")} </abbr>
                                 abhaysharma@korakagaj.com/santosh@korakagaj.com
                                 <br />
-                                Company Founders - Abhay Kumar Sharma & Santosh Kumar Sharma
+                                {t("Company Founders")} - {t("Abhay Kumar Sharma & Santosh Kumar Sharma")}
                                 <br />
                                 {/* <a className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white mt-20 border-radius-5 btn-shadow-brand hover-up">
                                     <i className="fi-rs-marker mr-10"></i>{t("View")}

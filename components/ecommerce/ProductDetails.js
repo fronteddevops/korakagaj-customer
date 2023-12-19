@@ -107,7 +107,7 @@ const ProductDetails = ({
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
-      
+
       cartDetails?.push(product);
       const unique = cartDetails.filter(
         (value, index, self) =>

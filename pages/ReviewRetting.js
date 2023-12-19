@@ -48,6 +48,9 @@ const ReviewRetting = () => {
         review: description,
         ratings: reviewRating,
         status: true,
+        // orderDetailId: new URLSearchParams(window.location.search).get(
+        //   "product"
+        // ),
       };
 
       const response = await services.review.POST_REVIEW_BY_USER(data);
@@ -136,46 +139,51 @@ const ReviewRetting = () => {
               </div>
             </div> */}
 
-
-
-
-<div className="card shadow">
-      <div className="card-header bg-primary text-white">
-        <h3 className="fw-bold">{orderDetailsData1?.Product?.brandName}</h3>
-      </div>
-      <div className="card-body">
-        <div className="d-flex justify-content-start align-items-center">
-          <div className="me-3">
-            <img
-              className="rounded"
-              crossOrigin="anonymous"
-              src={imageUrl + orderDetailsData1?.featuredImage}
-              alt="Product Image"
-              height="150"
-              width="150"
-            />
-          </div>
-          <div>
-            <h5 className="card-title">{orderDetailsData1?.productName}</h5>
-            <p className="card-text">{orderDetailsData1?.description}</p>
-            <p className="fw-bold">
-              {t("Price:")} {orderDetailsData1?.finalAmount}
-            </p>
-            <div className="d-flex align-items-center">
-              <span className="fw-bold me-2">{t("Rating & Review")}: </span>
-              <ReactStars
-                value={Rating}
-                count={5}
-                size={24}
-                activeColor="#ffd700"
-                isHalf={true}
-                edit={false}
-              />
+            <div className="card shadow">
+              <div className="card-header bg-primary text-white">
+                <h3 className="fw-bold">
+                  {orderDetailsData1?.Product?.brandName}
+                </h3>
+              </div>
+              <div className="card-body">
+                <div className="d-flex justify-content-start align-items-center">
+                  <div className="me-3">
+                    <img
+                      className="rounded"
+                      crossOrigin="anonymous"
+                      src={imageUrl + orderDetailsData1?.featuredImage}
+                      alt="Product Image"
+                      height="150"
+                      width="150"
+                    />
+                  </div>
+                  <div>
+                    <h5 className="card-title">
+                      {orderDetailsData1?.productName}
+                    </h5>
+                    <p className="card-text">
+                      {orderDetailsData1?.description}
+                    </p>
+                    <p className="fw-bold">
+                      {t("Price:")} {orderDetailsData1?.finalAmount}
+                    </p>
+                    <div className="d-flex align-items-center">
+                      <span className="fw-bold me-2">
+                        {t("Rating & Review")}:{" "}
+                      </span>
+                      <ReactStars
+                        value={Rating}
+                        count={5}
+                        size={24}
+                        activeColor="#ffd700"
+                        isHalf={true}
+                        edit={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
             <div className="contanier d-flex-inline-block justify-content-center align-item-center  p-20">
               <div className="">

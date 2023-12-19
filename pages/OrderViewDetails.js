@@ -31,7 +31,6 @@ function OrderViewDetails({ data }) {
 
       setaddress(response.data?.data[0]?.Address?.address);
       setOrderDetailsData(response?.data?.data[0]?.orderDetails);
-      console.log(response?.data?.data[0])
     } catch (error) {
       console.error(error);
     }
@@ -179,7 +178,7 @@ function OrderViewDetails({ data }) {
                     {/* {orderDetailsData &&
                       orderDetailsData?.length > 0 &&
                       orderDetailsData.map((product, j) => {
-                        console.log(product);
+                       
                         const outerId = product?.Product?.id;
 
                         const matchingProducts =
@@ -289,7 +288,6 @@ function OrderViewDetails({ data }) {
                         //       return innerID === outerId;
                         //     }
                         //   );
-
                         return (
                           <>
                             <tr>
@@ -361,9 +359,10 @@ function OrderViewDetails({ data }) {
                                 data-title="Order Date"
                               >
                                 <span>
-                                  {moment(product?.createdAt).format(
+                                  {moment(product?.updatedAt).format(
                                     "DD MMM YYYY"
                                   )}
+                                  
                                 </span>
                               </td>
 

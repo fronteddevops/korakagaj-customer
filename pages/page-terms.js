@@ -16,36 +16,42 @@ function Terms() {
                                     <div className="single-header style-2">
                                         <h2>{t("Terms of Service")}</h2>
                                         <div className="entry-meta meta-1 font-xs mt-15 mb-15">
-                                            <span className="post-by">
-                                                {t("By")} <a>{t("Jonh")}</a>
+                                            <span className="h6">
+                                            {t("ThisWebsite")}
                                             </span>
-                                            <span className="post-on has-dot">9 {t("April")} 2020</span>
-                                            <span className="time-reading has-dot">{t("8 mins read")}</span>
-                                            <span className="hit-count has-dot">69k {t("Views")}</span>
                                         </div>
                                     </div>
                                     <figure className="single-thumbnail">
                                         <img src="assets/imgs/blog/blog-10.jpg" alt="" />
                                     </figure>
                                     <div className="single-content">
-                                        <p> {t("Please read these Terms of Service (“Terms”, “Terms of Service”) carefully before using the https://korakagaj.com website (the “Service”) operated by korakagaj (“us”, “we”, or “our”).")}</p>
-                                        <p>{t("Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.")}</p>
-                                        <p>{t("By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.")}</p>
-                                        <h4>{t("Rights & restrictions")}</h4>
-                                        <ol>
-                                            <li>{t("Members must be at least 18 years of age.")}</li>
-                                            <li>{t("Members are granted a time-limited, non-exclusive, revocable, nontransferable, and non-sublicensable right to access that portion of the online course corresponding to the purchase.")}</li>
-                                            <li>{t("The portion of the online course corresponding to the purchase will be available to the Member as long as the course is maintained by the Company, which will be a minimum of one year after Member’s purchase.")}</li>
-                                            <li>{t("The videos in the course are provided as a video stream and are not downloadable.")}</li>
-                                            <li>{t("By agreeing to grant such access, the Company does not obligate itself to maintain the course, or to maintain it in its present form.")}</li>
-                                        </ol>
-                                        <h4>{t("Links To Other Web Sites")}</h4>
-                                        <p>{t("Our Service may contain links to third-party web sites or services that are not owned or controlled by korakagaj.")}</p>
-                                        <p>{t("korakagaj has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that korakagaj shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.")}</p>
-                                        <p>{t("We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.")}</p>
-                                        <h4>{t("Termination")}</h4>
-                                        <p>{t("We may terminate or suspend access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.")}</p>
-                                        <p>{t("All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.")}</p>
+                                        <h4>{t("Privacy Policy")}</h4>
+                                        
+                                        <span className="h6">{t("OurPrivacy")}</span>
+
+
+
+
+
+
+
+
+
+
+
+                                        <h4>{t("Use of This Site")}</h4>
+                                        <span className="h6">{t("SubjectToYour")}</span>
+
+
+
+
+
+
+
+
+
+
+
                                         <h4>{t("Governing Law")}</h4>
                                         <p>{t("These Terms shall be governed and construed in accordance with the laws of Viet Nam, without regard to its conflict of law provisions.")}</p>
                                         <p>{t("Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.")}</p>

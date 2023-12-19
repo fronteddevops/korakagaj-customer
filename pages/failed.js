@@ -32,7 +32,7 @@ const ThankYou = () => {
       <div style={contentStyle}>
         <h1 className="text-white">Uh oh!</h1>
         <p style={{color:'white'}}>Your order has been created but payment failed! Kindly Contact Admin</p>
-        <Link href="/myprofile">
+        <Link href="/myprofile/?index=2" as={`/myprofile/?index=2`}>
           <a style={linkStyle}>View Orders</a>
         </Link>
       </div>

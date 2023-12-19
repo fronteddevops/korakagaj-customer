@@ -7,72 +7,69 @@ import { useEffect } from "react";
 SwiperCore.use([Navigation, Thumbs]);
 
 const ThumbSlider = ({ product }) => {
-   
-    const imageUrl=nextConfig.BASE_URL_UPLOADS
-    const [thumbsSwiper, setThumbsSwiper] = useState(null);
-    const [image,setImage]=useState([])
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [image, setImage] = useState([]);
 
-useEffect(()=>{
+  useEffect(() => {
     if (product) {
-        const images =[]
-        if (product?.featuredImage) {
-            images .push(product.featuredImage);
-        }
-      
-        if (product.image && Array.isArray(product?.image)) {
-          // Assuming product.image is an array
-          images .push(...product?.image);
-        }
-        setImage(images)
+      const images = [];
+      if (product?.featuredImage) {
+        images.push(product.featuredImage);
       }
-},[])
 
-    return (
-        <div>
-            <Swiper
-                style={{
-                    "--swiper-navigation-color": "#fff",
-                    "--swiper-pagination-color": "#fff",
-                }}
-                //loop={false}
-                spaceBetween={10}
-                navigation={true}
-                thumbs={{ swiper: thumbsSwiper }}
-                className="mySwiper2"
-            >
-               {image ?.map((item,i) => (
-                   <SwiperSlide key={i}>
-                    
-                   
-                        <img src={ imageUrl+ item} alt="korakagaj" crossOrigin="anonymous"/>
-                        {/* <Zoom
-                            src={imageUrl+ item}
-                            zoomScale={5}
-                            width={500}
-                            height={500}
-                            ransitionTime={0.5}
-                        /> */}
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-            <Swiper
-                onSwiper={setThumbsSwiper}
-                //loop={false}
-                spaceBetween={10}
-                slidesPerView={4}
-                freeMode={true}
-                watchSlidesProgress={true}
-                className="mySwiper"
-            >
-                {image ?.map((item, i) => (
-                    <SwiperSlide key={i}>
-                           
-                        <img src={ imageUrl+item} alt="korakagaj" crossOrigin="anonymous"/>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div>
-    );
+      if (product.image && Array.isArray(product?.image)) {
+        // Assuming product.image is an array
+        images.push(...product?.image);
+      }
+      setImage(images);
+    }
+  }, [product]);
+//   console.log(image);
+  return (
+    <div>
+      <Swiper
+        style={{
+          "--swiper-navigation-color": "#fff",
+          "--swiper-pagination-color": "#fff",
+        }}
+        //loop={false}
+        spaceBetween={10}
+        navigation={true}
+        thumbs={{ swiper: thumbsSwiper }}
+        className="mySwiper2"
+      >
+        {image?.map((item, i) => (
+          <SwiperSlide key={i}>
+            <img
+              src={imageUrl + item}
+              alt="korakagaj"
+              crossOrigin="anonymous"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <Swiper
+        onSwiper={setThumbsSwiper}
+        //loop={false}
+        spaceBetween={10}
+        slidesPerView={4}
+        freeMode={true}
+        watchSlidesProgress={true}
+        className="mySwiper"
+      >
+        {image?.map((item, i) => (
+          <SwiperSlide key={i}>
+            <img
+              src={imageUrl + item}
+              alt="korakagaj"
+              crossOrigin="anonymous"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
 };
 
 export default ThumbSlider;
