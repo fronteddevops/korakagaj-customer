@@ -161,6 +161,7 @@ const [prodcutData,setprodcutData]=useState({
 const getProdcut=async()=>{
   try {
      const response =await services.product.GET_PRODUCT_BY_ID(id)
+   
      if(response){
     
       setprodcutData({

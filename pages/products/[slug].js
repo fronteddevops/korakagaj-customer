@@ -27,14 +27,16 @@ const ProductId = ({ product }) => {
 
   const getProdcut = async () => {
     // Fetch product data here and return it as props
+    
+    
     try {
       const response = await services.product.GET_PRODUCT_BY_ID(prodcutId);
     
-
+   
       // const filteredProducts = response.data.data.rows.filter(
       //   (product) => product.id == id
 
-console.log(response)
+
       if (response) {
         // Assuming 'setData' is a state-setting function
         setData(response?.data?.data[0]);

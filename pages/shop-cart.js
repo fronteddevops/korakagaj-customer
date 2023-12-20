@@ -170,7 +170,7 @@ const Cart = ({}) => {
           return item;
         });
       }
-      console.log("unique", unique)
+      console.log("unique", unique);
       let data = {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,
@@ -361,8 +361,8 @@ const Cart = ({}) => {
           <div className="container">
             <div className="row">
               <div className="col-12">
+               
                 <div className="table-responsive">
-                  {/* {updateCart &&  updateCart?.length <= 0 && t("No Products")} */}
                   {updateCart?.length > 0 ? "" : t("No Products")}
                   <table
                     className={
@@ -376,7 +376,6 @@ const Cart = ({}) => {
                         <th scope="col">{t("Image")}</th>
                         <th scope="col">{t("Name")}</th>
                         <th scope="col">{t("Fabric Name")}</th>
-                        
                         <th scope="col">{t("Price")}</th>
                         <th scope="col">{t("Quantity")}</th>
                         <th scope="col">{t("Subtotal")}</th>
@@ -385,114 +384,113 @@ const Cart = ({}) => {
                     </thead>
                     <tbody>
                       {updateCart &&
-                        updateCart.map((product, j) => {
-                          return (
-                            <tr key={j}>
-                              <td className="image product-thumbnail">
-                                <img
-                                  src={imageUrl + product.featuredImage}
-                                  alt=""
-                                  crossOrigin="anonymous"
-                                />
-                              </td>
+                        updateCart.map((product, j) => (
+                          <tr key={j}>
+                            <td className="image product-thumbnail" data-title="image" >
+                              <img
+                                src={`${imageUrl}${product.featuredImage}`}
+                                alt=""
+                                crossOrigin="anonymous"
+                              />
+                            </td>
 
-                              <td className="product-des product-name">
-                                <h5 className="product-name">
-                                  <Link
-                                    href="/products/[slug]"
-                                    as={`/products/${product?.id}`}
-                                  >
-                                    <a>{product.productName}</a>
-                                  </Link>
-                                </h5>
-                                {console.log(product)}
-                                {product?.selectedColor ||
-                                product?.selectedSize ? (
-                                  <div className="font-xs">
-                                    {product?.selectedColor && (
-                                      <>
-                                        <div className="align-items-center row pe-0 ps-0 m-0">
-                                          <div className="col pe-0 ps-0 m-0 p-0">
-                                            <small className="mb-0 m-0">
-                                              Color :
-                                            </small>{" "}
-                                            &nbsp;{" "}
-                                            <span
-                                              className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
-                                              style={{
-                                                border: "1px solid black",
-                                                width: "12px",
-                                                height: "12px",
-                                                backgroundColor:
-                                                  product?.selectedColor,
-                                              }}
-                                            ></span>{" "}
-                                          </div>
+                            <td className="product-des product-name"  data-title="Product Name">
+                              <h5 className="product-name" >
+                                <Link
+                                  href="/products/[slug]"
+                                  as={`/products/${product?.id}`}
+                                >
+                                  <a>{product.productName}</a>
+                                </Link>
+                              </h5>
+                              {product?.selectedColor ||
+                              product?.selectedSize ? (
+                                <div className="font-xs">
+                                  {product?.selectedColor && (
+                                    <>
+                                      <div className="align-items-center row pe-0 ps-0 m-0">
+                                        <div className="col pe-0 ps-0 m-0 p-0">
+                                          <small className="mb-0 m-0">
+                                            Color :
+                                          </small>{" "}
+                                          &nbsp;{" "}
+                                          <span
+                                            className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                            style={{
+                                              border: "1px solid black",
+                                              width: "12px",
+                                              height: "12px",
+                                              backgroundColor:
+                                                product?.selectedColor,
+                                            }}
+                                          ></span>{" "}
                                         </div>
-                                      </>
-                                    )}
-                                    {product?.selectedSize && (
-                                      <small className="ml-md-2">
-                                        Size: {product?.selectedSize}
-                                      </small>
-                                    )}
-                                  </div>
-                                ) : null}
-                              </td>
-
-                              <td className="Fabric name" data-title="Fabric name">
-                                <span>{product?.fabric}</span>
-                              </td>
-                              <td className="price" data-title="Price">
-                                <span>Rs. {product.finalAmount}</span>
-                              </td>
-
-                              <td className="text-center" data-title="Stock">
-                                <div className="detail-qty border radius m-auto">
-                                  {localStorage.getItem("access_token") && (
-                                    <a
-                                      onClick={(e) => increaseQuantity(product)}
-                                      className="qty-up"
-                                    >
-                                      <i className="fi-rs-angle-small-up"></i>
-                                    </a>
+                                      </div>
+                                    </>
                                   )}
-
-                                  <span className="qty-val">
-                                    {product.selectedQuantity}
-                                  </span>
-
-                                  {localStorage.getItem("access_token") && (
-                                    <a
-                                      onClick={(e) => decreaseQuantity(product)}
-                                      className="qty-down"
-                                    >
-                                      <i className="fi-rs-angle-small-down"></i>
-                                    </a>
+                                  {product?.selectedSize && (
+                                    <small className="ml-md-2">
+                                      Size: {product?.selectedSize}
+                                    </small>
                                   )}
                                 </div>
-                              </td>
+                              ) : null}
+                            </td>
 
-                              <td className="text-right" data-title="Cart">
-                                <span>
-                                  Rs.{" "}
-                                  {(
-                                    product.finalAmount *
-                                    product.selectedQuantity
-                                  ).toFixed(2)}
+                            <td
+                              className="Fabric name"
+                              data-title="Fabric name"
+                            >
+                              <span>{product?.fabric}</span>
+                            </td>
+                            <td className="price" data-title="Price">
+                              <span>Rs. {product.finalAmount}</span>
+                            </td>
+
+                            <td className="text-center" data-title="Stock">
+                              <div className="detail-qty border radius m-auto">
+                                {localStorage.getItem("access_token") && (
+                                  <a
+                                    onClick={(e) => increaseQuantity(product)}
+                                    className="qty-up"
+                                  >
+                                    <i className="fi-rs-angle-small-up"></i>
+                                  </a>
+                                )}
+
+                                <span className="qty-val">
+                                  {product.selectedQuantity}
                                 </span>
-                              </td>
-                              <td className="action" data-title="Remove">
-                                <a
-                                  onClick={(e) => deleteFromCart(product)}
-                                  className="text-muted"
-                                >
-                                  <i className="fi-rs-trash"></i>
-                                </a>
-                              </td>
-                            </tr>
-                          );
-                        })}
+
+                                {localStorage.getItem("access_token") && (
+                                  <a
+                                    onClick={(e) => decreaseQuantity(product)}
+                                    className="qty-down"
+                                  >
+                                    <i className="fi-rs-angle-small-down"></i>
+                                  </a>
+                                )}
+                              </div>
+                            </td>
+
+                            <td className="text-right" data-title="SubTotal">
+                              <span>
+                                Rs.{" "}
+                                {(
+                                  product.finalAmount * product.selectedQuantity
+                                ).toFixed(2)}
+                              </span>
+                            </td>
+                            <td className="action" data-title="Remove">
+                              <a
+                                onClick={(e) => deleteFromCart(product)}
+                                className="text-muted"
+                              >
+                                <i className="fi-rs-trash"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        ))}
                       <tr>
                         <td colSpan="6" className="text-end">
                           {updateCart && updateCart.length > 0 && (
@@ -506,6 +504,7 @@ const Cart = ({}) => {
                     </tbody>
                   </table>
                 </div>
+
                 <div className="cart-action text-center">
                   <Link className={"btn"} href="/products" as={`/products`}>
                     <button className={"btn"}>

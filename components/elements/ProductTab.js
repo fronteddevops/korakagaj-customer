@@ -5,6 +5,7 @@ import Link from "next/link";
 const ProductTab = ({ prodcut }) => {
   const { t } = useTranslation("common");
   const [activeIndex, setActiveIndex] = useState(1);
+  const [visibleItems, setVisibleItems] = useState(2);
 
   const handleOnClick = (index) => {
     setActiveIndex(index);
@@ -35,6 +36,13 @@ const ProductTab = ({ prodcut }) => {
     return "";
   }
 
+  const handleToggle = () => {
+    setVisibleItems((prevVisibleItems) =>
+      prevVisibleItems === prodcut?.Ratings?.length
+        ? 3
+        : prodcut?.Ratings?.length
+    );
+  };
   return (
     <>
       <div className="tab-style3">
@@ -235,20 +243,12 @@ const ProductTab = ({ prodcut }) => {
               <div className="row">
                 <div className="col-lg-8">
                   <h4 className="mb-30">{t("Customer questions & answers")}</h4>
-                  {prodcut?.Ratings?.map((item) => (
+                  {/* {prodcut?.Ratings?.map((item) => (
                     <>
                       <div className="comment-list">
                         <div className="single-comment justify-content-between d-flex">
                           <div className="user justify-content-between d-flex">
                             <div className="desc">
-                              {/* <div className="product-rate d-inline-block">
-                                                        <div
-                                                            className="product-rating"
-                                                            style={{
-                                                                width: "90%",
-                                                            }}
-                                                        ></div>
-                                                    </div> */}
                               <span>
                                 <ReactStars
                                   value={item?.ratings}
@@ -258,22 +258,11 @@ const ProductTab = ({ prodcut }) => {
                                   isHalf={true} // Disable half ratings
                                   edit={false} // Disable user rating changes
                                 />
-                                {/* <span>{prodcut?.ratingScore} </span> */}
                               </span>
-                              <p>
-                                {item?.review}
-
-                                {/* {t("Thank you very fast shipping from Poland only 3days.")} */}
-                              </p>
+                              <p>{item?.review}</p>
 
                               <div className="d-flex justify-content-between">
-                                <div className="d-flex align-items-center">
-                                  {/* <p className="font-xs mr-30">
-                                                                December 4, 2020
-                                                                at 3:12 pm
-
-                                                            </p> */}
-                                </div>
+                                <div className="d-flex align-items-center"></div>
                               </div>
                               <h6>
                                 <a>
@@ -284,80 +273,59 @@ const ProductTab = ({ prodcut }) => {
                             </div>
                           </div>
                         </div>
-
-                        {/* <div className="single-comment justify-content-between d-flex">
-                                            <div className="user justify-content-between d-flex">
-                                                <div className="thumb text-center">
-                                                    
-                                                   
-                                                    
-                                                </div>
-                                                <div className="desc">
-                                                    <div className="product-rate d-inline-block">
-                                                        <div
-                                                            className="product-rating"
-                                                            style={{
-                                                                width: "90%",
-                                                            }}
-                                                        ></div>
-                                                    </div>
-                                                    <p>
-                                                        {t("Great low price anD works well.")}
-                                                    </p>
-                                                    <div className="d-flex justify-content-between">
-                                                        <div className="d-flex align-items-center">
-                                                            <p className="font-xs mr-30">
-                                                                December 4, 2020
-                                                                at 3:12 pm
-                                                            </p>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                    <h6>
-                                                      
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="single-comment justify-content-between d-flex">
-                                            <div className="user justify-content-between d-flex">
-                                                <div className="thumb text-center">
-                                                   
-                                                   
-                                                   
-                                                </div>
-                                                <div className="desc">
-                                                    <div className="product-rate d-inline-block">
-                                                        <div
-                                                            className="product-rating"
-                                                            style={{
-                                                                width: "90%",
-                                                            }}
-                                                        ></div>
-                                                    </div>
-                                                    <p>
-                                                      {t("Authentic and Beautiful,Love these way more than ever expected They are Great earphones")}
-                                                    </p>
-                                                    <div className="d-flex justify-content-between">
-                                                        <div className="d-flex align-items-center">
-                                                            <p className="font-xs mr-30">
-                                                                December 4, 2020
-                                                                at 3:12 pm
-                                                            </p>
-                                                           
-                                                        </div>
-                                                    </div>
-                                                    <h6>
-                                                     
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div> */}
                         <hr />
                       </div>
                     </>
-                  ))}
+                  ))} */}
+
+                  <div>
+                    {prodcut?.Ratings?.slice(0, visibleItems).map(
+                      (item, index) => (
+                        <div className="comment-list" key={index}>
+                          <div className="comment-list">
+                            <div className="single-comment justify-content-between d-flex">
+                              <div className="user justify-content-between d-flex">
+                                <div className="desc">
+                                  <span>
+                                    <ReactStars
+                                      value={item?.ratings}
+                                      count={5}
+                                      size={20}
+                                      activeColor="#ffd700"
+                                      isHalf={true}
+                                      edit={false}
+                                    />
+                                  </span>
+                                  <p>{item?.review}</p>
+
+                                  <div className="d-flex justify-content-between">
+                                    <div className="d-flex align-items-center"></div>
+                                  </div>
+                                  <h6>
+                                    <a>
+                                      {item?.User?.firstName} &nbsp;&nbsp;
+                                      {item?.User?.lastName}
+                                    </a>
+                                  </h6>
+                                </div>
+                              </div>
+                            </div>
+
+                            <br />
+                          </div>
+                        </div>
+                      )
+                    )}
+
+                    {prodcut?.Ratings?.length > visibleItems && (
+                      <button
+                        onClick={handleToggle}
+                        className="button button-add-to-cart me-3"
+                      >
+                        {visibleItems === 2 ? "Show all Reviews" : "Review"}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
