@@ -564,7 +564,7 @@ function Register() {
                             <div>
                               {/* <h2>Google Login</h2> */}
                               <GoogleLogin
-                                clientId="370694445446-skmknjqkt6uvkqrlb7i18co6m2lh4n60.apps.googleusercontent.com"
+                                clientId="326731544347-beug10oiispd5vhemqno3sinnbheg6a6.apps.googleusercontent.com"
                                 buttonText="Login With Google"
                                 onSuccess={responseGoogle}
                                 onFailure={responseGoogle}

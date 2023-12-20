@@ -31,7 +31,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   const [url, seturl] = useState(false);
   const [totalCartItems, setTotalCartItems] = useState();
   const [totalWishlistItems, setTotalWishlistItems] = useState();
-
+  const [SubCate, setSubCate] = useState(false);
   const GetWishlistdata = async () => {
     if (localStorage.getItem("access_token")) {
       try {
@@ -105,26 +105,18 @@ const Header = ({ toggleClick, headerStyle }) => {
   };
   // Get sub category list
   const subCategoryList = async (id) => {
+    setSubCate(false);
     const response = await service.subCategory.GET_ALL_SUB_CATEGORY(id);
-
     setSubCategory(response.data.data.rows);
-
-    // Create an array to accumulate subsubcategories
     const subSubCategoriesArray = [];
-
-    // Iterate through subcategories and fetch subsubcategories for each subcategory
-
     for (const subCategoryItem of response.data.data.rows) {
       const subSubCategoryResponse =
         await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
           subCategoryItem.id
         );
-      // Add the fetched subsubcategories to the temporary array
       subSubCategoriesArray.push(...subSubCategoryResponse.data.data.rows);
     }
-
-    // Set the subsubcategories state once, after all subsubcategories have been accumulated
-    // setSubSubCategory(subSubCategoriesArray);
+    console.log("SubCategory");
   };
 
   //user name
@@ -172,6 +164,8 @@ const Header = ({ toggleClick, headerStyle }) => {
     );
 
     setSubSubCategory(subSubCategory?.data?.data?.rows);
+    setSubCate(true);
+    console.log("Sub Sub Category");
   };
   return (
     <>
@@ -476,7 +470,8 @@ const Header = ({ toggleClick, headerStyle }) => {
                               </ul>
                               <li>
                                 <div style={{ marginLeft: "35px" }}>
-                                  {subSubCategory &&
+                                  {SubCate &&
+                                    subSubCategory &&
                                     subSubCategory.length > 0 &&
                                     subSubCategory.map((subSubItem) => (
                                       <li key={subSubItem.id}>

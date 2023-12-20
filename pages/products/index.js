@@ -37,7 +37,7 @@ const Products = ({ products1, productFilters }) => {
   const [productType, setProdcutType] = useState("");
   const [prodcutprice, setProdcutPrice] = useState("");
   const [color, setcolor] = useState([]);
-
+  const [SortBaar,setSortBaar] = useState(false);
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
@@ -58,11 +58,12 @@ const Products = ({ products1, productFilters }) => {
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
   const clearAllFilter = () => {
-    // window.location.href = "/products";
     setSelectedSubSubCategories([]);
     setSizes([]);
     setPrice({ value: { min: 0, max: 1000000 } });
     setProdcutType("");
+    // handleChange("Default");
+    setSortBaar(!SortBaar)
   };
   const sizes = ["", "s", "m", "xl", "xxl"];
 
@@ -149,12 +150,7 @@ const Products = ({ products1, productFilters }) => {
       console.log(error);
     }
   };
-
-  //SORTING BY
-
-  //FILTER CASE
   const handleChange = (selectedValue) => {
-    // Call the appropriate function based on the selected value
     setSeachToggle(false);
     switch (selectedValue) {
       case "0":
@@ -179,35 +175,23 @@ const Products = ({ products1, productFilters }) => {
         setProdcutType("");
         setProdcutPrice("");
         break;
-      // Handle additional cases if needed
       default:
         break;
     }
   };
 
-  //color array
-
-  //color set function
   const handleCheckboxChange = (value) => {
     const updatedBrands = selectedColors.includes(value)
       ? selectedColors.filter((brand) => brand !== value)
       : [...selectedColors, value];
 
     setSelectedColors(updatedBrands);
-    // You can now use the updatedBrands array in your filter logic.
   };
-  // Replace this with your actual array of products
 
-  const [activeCategory, setActiveCategory] = useState([0, 0, 0]); // Replace DEFAULT_CATEGORY_INDEX with the actual index of your default category
-
-  // const [activeCategory, setActiveCategory] = useState(null);
-
+  const [activeCategory, setActiveCategory] = useState([0, 0, 0]);
   const toggleCategory = (categoryIndex) => {
     setActiveCategory(activeCategory === categoryIndex ? null : categoryIndex);
   };
-
-  //filter color
-
   const getallProdcut = async () => {
     try {
       const response = await services.product.GET_PRODUCT();
@@ -219,34 +203,17 @@ const Products = ({ products1, productFilters }) => {
 
         response?.data?.data?.forEach((item) => {
           const key = `${item.colour}`;
-          // Check if the key already exists in the set and add it if not
           if (!uniqueData.DuplicateKeyFound.has(key)) {
             uniqueData.color.add(item.colour);
           }
         });
-
-        // Convert sets to arrays and set state variables
         setcolor(Array.from(uniqueData.color));
       }
     } catch (error) {
-      // Handle the error here
       console.log(error);
     }
   };
   const colorArrays = color.map((color) => JSON.parse(color));
-
-  // const handleShowMore = () => {
-  //   // Set the number of colors to display to the total number of colors
-  //   setDisplayedColors(colorArrays.length);
-  // };
-
-  const handleShowToggle = () => {
-    // Toggle the showMore state
-    setShowMore(!showMore);
-
-    // Set the displayed colors based on the showMore state
-    setDisplayedColors(showMore ? 2 : colorArrays.length);
-  };
 
   useEffect(() => {
     cratePagination();
@@ -308,9 +275,6 @@ const Products = ({ products1, productFilters }) => {
                 <div className="totall-product">
                   <p>
                     {t("We found")}
-                    {/* <strong className="text-brand">
-                                            {products?.items?.length}
-                                        </strong> */}
                     {t("items for you!")}
                   </p>
                 </div>
@@ -469,7 +433,7 @@ const Products = ({ products1, productFilters }) => {
                           <Slider
                             range
                             allowCross={false}
-                            defaultValue={[0, 100]}
+                            
                             min={0}
                             max={9000}
                             onChange={(value) => {
@@ -478,6 +442,7 @@ const Products = ({ products1, productFilters }) => {
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
+                              
                             }}
                           />
 
@@ -593,7 +558,8 @@ const Products = ({ products1, productFilters }) => {
                       selectedColors.length > 0 ||
                       selectedSizes.length > 0 ||
                       price.value.min > 0 ||
-                      categoryId?.length > 0 || categoryName ||
+                      categoryId?.length > 0 ||
+                      categoryName ||
                       price.value.max < 1000000 ? (
                         <Link href="/products" as={`/products`}>
                           <span
@@ -614,7 +580,7 @@ const Products = ({ products1, productFilters }) => {
                             onClick={() => clearAllFilter()}
                             style={{ cursor: "pointer" }}
                           >
-                            {t("Clear All Filter")}
+                            {t("Clear All Filter3")}
                           </span>
                         </Link>
                       ) : (
@@ -630,7 +596,7 @@ const Products = ({ products1, productFilters }) => {
                             {t("Sort by:")}
                           </span>
                         </div>
-                        <div className="sort-by-dropdown-wrap custom-select">
+                        {/* <div className="sort-by-dropdown-wrap custom-select">
                           <select
                             onChange={(event) =>
                               handleChange(event.target.value)
@@ -647,10 +613,50 @@ const Products = ({ products1, productFilters }) => {
                               {t("High To Low")}
                             </option>
                           </select>
-                        </div>
-                      </div>
+                        </div> */}
 
-                      {/* <SortSelect /> */}
+                        {!SortBaar && (
+                          <div className="sort-by-dropdown-wrap custom-select">
+                            <select
+                              onChange={(event) =>
+                                handleChange(event.target.value)
+                              }
+                            >
+                              <option value="Default">{t("Default")}</option>
+                              <option value="0">{t("New Product")}</option>
+                              <option value="1">{t("Hot Deals")}</option>
+                              <option value="2">{t("Best Seller")}</option>
+                              <option value="LowToHigh">
+                                {t("Low To High")}
+                              </option>
+                              <option value="HighToLow">
+                                {t("High To Low")}
+                              </option>
+                            </select>
+                          </div>
+                        )}
+
+                        {SortBaar && (
+                          <div className="sort-by-dropdown-wrap custom-select">
+                            <select
+                              onChange={(event) =>
+                                handleChange(event.target.value)
+                              }
+                            >
+                              <option value="Default">{t("Default")}</option>
+                              <option value="0">{t("New Product")}</option>
+                              <option value="1">{t("Hot Deals")}</option>
+                              <option value="2">{t("Best Seller")}</option>
+                              <option value="LowToHigh">
+                                {t("Low To High")}
+                              </option>
+                              <option value="HighToLow">
+                                {t("High To Low")}
+                              </option>
+                            </select>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -662,8 +668,6 @@ const Products = ({ products1, productFilters }) => {
                   {getPaginatedProducts?.map((item, i) => (
                     <div className="col-lg-4 col-md-4 col-12 col-sm-6" key={i}>
                       <SingleProduct product={item} fabricPrice={fabricPrice} />
-
-                      {/* <SingleProductList product={item}/> */}
                     </div>
                   ))}
                 </div>
@@ -686,8 +690,6 @@ const Products = ({ products1, productFilters }) => {
         </section>
 
         <WishlistModal />
-        {/* <CompareModal /> */}
-        {/* <CartSidebar /> */}
         <QuickView />
       </Layout>
     </>

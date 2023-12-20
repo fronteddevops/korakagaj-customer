@@ -402,12 +402,9 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title="Selected Quantity"
                               >
-                                {OrderStatusUrl != "Payment Failed" &&
-                                !product?.Rating ? (
-                                  // <td
-                                  //   className="text-right"
-                                  //   data-title="Add Review"
-                                  // >
+                                {OrderStatusUrl != "Payment Failed" ? (
+                                  !product?.Rating ? (
+                                  
                                     <span>
                                       <Link
                                         href={`/ReviewRetting?orderID=${orderId}&product=${product?.Product?.id}&OrderdetailsId=${product?.id}`}
@@ -415,9 +412,11 @@ function OrderViewDetails({ data }) {
                                         <a>{t("Review")}</a>
                                       </Link>
                                     </span>
-                                  //  </td> 
+                                  ) : (
+                                    <div>Reviewed</div>
+                                  )
                                 ) : (
-                                  <div>Reviewed</div>
+                                  ""
                                 )}
                               </td>
                             </tr>
