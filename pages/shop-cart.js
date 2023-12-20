@@ -170,6 +170,7 @@ const Cart = ({}) => {
           return item;
         });
       }
+      console.log("unique", unique)
       let data = {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,

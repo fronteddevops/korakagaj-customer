@@ -48,9 +48,9 @@ const ReviewRetting = () => {
         review: description,
         ratings: reviewRating,
         status: true,
-        // orderDetailId: new URLSearchParams(window.location.search).get(
-        //   "product"
-        // ),
+        orderDetailId: new URLSearchParams(window.location.search).get(
+          "OrderdetailsId"
+        ),
       };
 
       const response = await services.review.POST_REVIEW_BY_USER(data);

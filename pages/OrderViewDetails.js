@@ -30,7 +30,7 @@ function OrderViewDetails({ data }) {
       // setaddress(response?.data?.data[0].Order?.Address?.address);
 
       setaddress(response.data?.data[0]?.Address?.address);
-      setOrderDetailsData(response?.data?.data[0]?.orderDetails);
+      setOrderDetailsData(response?.data?.data[0]?.OrderDetails);
     } catch (error) {
       console.error(error);
     }
@@ -41,6 +41,7 @@ function OrderViewDetails({ data }) {
     const orderStatus = new URLSearchParams(window.location.search);
     setOrderStatusUrl(orderStatus.get("orderStatus"));
   }, []);
+
   return (
     <Layout
       parent={t("Home")}
@@ -279,33 +280,27 @@ function OrderViewDetails({ data }) {
                     {orderDetailsData &&
                       orderDetailsData?.length > 0 &&
                       orderDetailsData.map((product, j) => {
-                        // const outerId = product?.Product?.id;
-
-                        // const matchingProducts =
-                        //   product?.Order?.orderDetails?.filter(
-                        //     (innerProduct) => {
-                        //       const innerID = innerProduct?.id;
-                        //       return innerID === outerId;
-                        //     }
-                        //   );
                         return (
                           <>
                             <tr>
                               <td className="image product-thumbnail">
                                 <img
-                                  src={imageUrl + product?.featuredImage}
+                                  src={
+                                    imageUrl + product?.detail?.featuredImage
+                                  }
                                   alt=""
                                   crossOrigin="anonymous"
                                 />
                               </td>
 
                               <td className="product-des product-name">
+                                {console.log(product)}
                                 <Link
                                   href="/products/[slug]"
-                                  as={`/products/${product?.id}`}
+                                  as={`/products/${product?.productId}`}
                                 >
                                   <a>
-                                    <span>{product?.productName}</span>
+                                    <span>{product?.detail?.productName}</span>
                                   </a>
                                 </Link>
                               </td>
@@ -314,25 +309,27 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title="Total Price"
                               >
-                                <span>{product?.totalPrice}</span>
+                                <span>{product?.Product?.totalPrice}</span>
                               </td>
                               <td
                                 className="text-right"
                                 data-title="Discount Percentage"
                               >
-                                <span>{product?.discountPercentage}%</span>
+                                <span>
+                                  {product?.Product?.discountPercentage}%
+                                </span>
                               </td>
                               <td
                                 className="text-right"
                                 data-title="Final Amount"
                               >
-                                <span>{product?.finalAmount}</span>
+                                <span>{product?.Product?.finalAmount}</span>
                               </td>
                               <td
                                 className="text-right"
                                 data-title="Final Amount"
                               >
-                                <span>{product?.fabric}</span>
+                                <span>{product?.Product?.fabric}</span>
                               </td>
                               {/* <td
                                 className="text-right d-none d-sm-table-cell"
@@ -362,7 +359,6 @@ function OrderViewDetails({ data }) {
                                   {moment(product?.updatedAt).format(
                                     "DD MMM YYYY"
                                   )}
-                                  
                                 </span>
                               </td>
 
@@ -376,7 +372,8 @@ function OrderViewDetails({ data }) {
                                     border: "1px solid black",
                                     width: "22px",
                                     height: "22px",
-                                    backgroundColor: product?.selectedColor,
+                                    backgroundColor:
+                                      product?.detail?.selectedColor,
                                   }}
                                 ></span>
                               </td>
@@ -384,13 +381,13 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title="Selected Size"
                               >
-                                <span>{product?.selectedSize}</span>
+                                <span>{product?.detail?.selectedSize}</span>
                               </td>
                               <td
                                 className="text-right"
                                 data-title="Selected Quantity"
                               >
-                                <span>{product?.selectedQuantity}</span>
+                                <span>{product?.detail?.selectedQuantity}</span>
                               </td>
                               <td
                                 className="text-right"
@@ -401,20 +398,28 @@ function OrderViewDetails({ data }) {
                                   {product?.Product?.trackingLink}
                                 </span>
                               </td>
-                              {OrderStatusUrl != "Payment Failed" && (
-                                <td
-                                  className="text-right"
-                                  data-title="Add Review"
-                                >
-                                  <span>
-                                    <Link
-                                      href={`/ReviewRetting?orderID=${orderId}&product=${product?.id}`}
-                                    >
-                                      <a>{t("Review")}</a>
-                                    </Link>
-                                  </span>
-                                </td>
-                              )}
+                              <td
+                                className="text-right"
+                                data-title="Selected Quantity"
+                              >
+                                {OrderStatusUrl != "Payment Failed" &&
+                                !product?.Rating ? (
+                                  // <td
+                                  //   className="text-right"
+                                  //   data-title="Add Review"
+                                  // >
+                                    <span>
+                                      <Link
+                                        href={`/ReviewRetting?orderID=${orderId}&product=${product?.Product?.id}&OrderdetailsId=${product?.id}`}
+                                      >
+                                        <a>{t("Review")}</a>
+                                      </Link>
+                                    </span>
+                                  //  </td> 
+                                ) : (
+                                  <div>Reviewed</div>
+                                )}
+                              </td>
                             </tr>
                           </>
                         );

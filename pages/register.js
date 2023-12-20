@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import Preloader from "../components/elements/Preloader.js";
+import { GoogleLogin } from "react-google-login";
 function Register() {
   const route = useRouter();
   const { t } = useTranslation("common");
@@ -24,7 +25,7 @@ function Register() {
   //password show icon set value in state
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordVisibleLogin, setPasswordVisibleLogin] = useState(false);
-  const [Load , setLoad] = useState(false)
+  const [Load, setLoad] = useState(false);
   const [passwordVisibleConfirmPassword, setpasswordVisibleConfirmPassword] =
     useState(false);
 
@@ -91,7 +92,7 @@ function Register() {
 
   // user Register api call
   const handleRegister = async (event) => {
-    setLoad(true)
+    setLoad(true);
     event.preventDefault();
     setPasswordConfirmError("");
     let isValid = true;
@@ -133,7 +134,7 @@ function Register() {
 
         const response = await services.auth.REGISTER_USER(payLoad);
         console.log(response);
-        setLoad(false)
+        setLoad(false);
         if (response) {
           localStorage.setItem("user", JSON.stringify(response?.data?.user));
           localStorage.setItem("userId", response?.data?.user.id);
@@ -210,7 +211,9 @@ function Register() {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked); // Toggle the checkbox value
   };
-
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
   return (
     <>
       {Load && <Preloader />}
@@ -554,9 +557,20 @@ function Register() {
                             </a>
                           </li> */}
                           <li>
-                            <a className="btn btn-google hover-up mt-2">
+                            {/* <a className="btn btn-google hover-up mt-2">
                               {t("Login With Google")}
-                            </a>
+                            </a> */}
+
+                            <div>
+                              {/* <h2>Google Login</h2> */}
+                              <GoogleLogin
+                                clientId="370694445446-skmknjqkt6uvkqrlb7i18co6m2lh4n60.apps.googleusercontent.com"
+                                buttonText="Login With Google"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={"single_host_origin"}
+                              />
+                            </div>
                           </li>
                         </ul>
                         <div className="text-muted text-center">

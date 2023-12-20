@@ -593,6 +593,7 @@ const Products = ({ products1, productFilters }) => {
                       selectedColors.length > 0 ||
                       selectedSizes.length > 0 ||
                       price.value.min > 0 ||
+                      categoryId?.length > 0 || categoryName ||
                       price.value.max < 1000000 ? (
                         <Link href="/products" as={`/products`}>
                           <span
@@ -606,7 +607,7 @@ const Products = ({ products1, productFilters }) => {
                       ) : (
                         ""
                       )}
-                      {categoryId.length > 0 || categoryName ? (
+                      {/* {categoryId.length > 0 || categoryName ? (
                         <Link href="/products" as={`/products`}>
                           <span
                             className="text-brand fw-bold"
@@ -618,7 +619,7 @@ const Products = ({ products1, productFilters }) => {
                         </Link>
                       ) : (
                         ""
-                      )}
+                      )} */}
                     </div>
 
                     <div className="sort-by-cover">

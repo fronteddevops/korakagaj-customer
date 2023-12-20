@@ -34,7 +34,7 @@ const ProductId = ({ product }) => {
       // const filteredProducts = response.data.data.rows.filter(
       //   (product) => product.id == id
 
-
+console.log(response)
       if (response) {
         // Assuming 'setData' is a state-setting function
         setData(response?.data?.data[0]);
