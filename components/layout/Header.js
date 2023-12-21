@@ -66,7 +66,7 @@ const Header = ({ toggleClick, headerStyle }) => {
 
     setLang(langdata);
     handleLang();
-    GetWishlistdata();
+    
     cheklogin();
 
     document.addEventListener("scroll", () => {
@@ -78,7 +78,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     getProfile();
     const interval = setInterval(()=>{
       handleCart();
-      console.log('test')
+      GetWishlistdata();
     },3000)
     return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
