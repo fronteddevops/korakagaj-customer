@@ -68,7 +68,7 @@ const Header = ({ toggleClick, headerStyle }) => {
     handleLang();
     GetWishlistdata();
     cheklogin();
-    handleCart();
+
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY >= 100;
       if (scrollCheck !== scroll) {
@@ -76,6 +76,11 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
+    // const interval = setInterval(()=>{
+    //   handleCart();
+    //   console.log('test')
+    // },3000)
+    // return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
@@ -178,9 +183,9 @@ const Header = ({ toggleClick, headerStyle }) => {
                   <ul>
                     <li>
                       <i className="fi-rs-smartphone"></i>
-                      <a>
-                        <a>+91-9791028374</a>
-                      </a>
+                     
+                        <a href="tel:+919791028374">+91-9791028374</a>
+                     
                     </li>
                     <li>
                       <i className="fi-rs-marker"></i>
@@ -742,7 +747,7 @@ const Header = ({ toggleClick, headerStyle }) => {
               <div className="hotline d-none d-lg-block">
                 <p className="text-dark">
                   <i className="fi-rs-headset"></i>
-                  <span></span> +91-9791028374
+                  <span></span> <a href="tel:+919791028374">+91-9791028374</a>
                 </p>
               </div>
               {/* <p className="mobile-promotion">

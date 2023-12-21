@@ -147,6 +147,7 @@ function Register() {
         }
       } catch (error) {
         setIsValid(true);
+        setLoad(false);
         toastError(error);
       }
     }

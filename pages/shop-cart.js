@@ -291,59 +291,7 @@ const Cart = ({}) => {
   };
   const isLoggedIn = localStorage.getItem("access_token");
 
-  async function checkoutHandler() {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
-    await handleCart(updateCart[0]);
-    const updateCartData = await services.cart.CHECKOUT();
-    const userDetails = JSON.parse(localStorage.getItem("profile"));
 
-    const options = {
-      key: "rzp_test_ug6gBARp85Aq1j", //id from key_id generation dashboard
-      currency: "INR",
-      amount: updateCartData?.data?.totalAmount,
-      order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
-      name: "KoraKagaj",
-      description: "Thank you for ordering. Please initiate payment!",
-      image:
-        "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
-      handler: function (response) {
-        // alert(response.razorpay_payment_id);
-        // alert(response.razorpay_order_id);
-        // alert(response.razorpay_signature);
-
-        (async () => {
-          const data = {
-            orderId: updateCartData?.data?.order?.id,
-            paymentResponse: {
-              id: updateCartData?.data?.razorpayPaymentDetails.id,
-              status: "paid",
-              amount: updateCartData?.data?.totalAmount,
-            },
-          };
-          try {
-            const response = await services.cart.PAYMENT_LOG(data);
-
-            router.push("/thankyou");
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      },
-      prefill: {
-        name: userDetails.firstName,
-        email: userDetails.email,
-        phone_number: userDetails.phoneNumber,
-      },
-    };
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
-  }
   return (
     <>
       <Layout
@@ -557,7 +505,7 @@ const Cart = ({}) => {
                         </div>
                       </div>
                       <div className="form-row">
-                        <div className="form-group col-lg-12">
+                        {isLoggedIn && <div className="form-group col-lg-12">
                           {updateCart && updateCart.length > 0 && (
                             <Link href={"/myprofile?index=4"}>
                               <button className="btn  btn-sm w-100">
@@ -567,7 +515,7 @@ const Cart = ({}) => {
                               </button>
                             </Link>
                           )}
-                        </div>
+                        </div>}
                       </div>
                     </form>
                   </div>

@@ -45,6 +45,7 @@ const Products = ({ products1, productFilters }) => {
   //get query data
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
+  const subCategoryId = Router.query.subcategoryId ? Router.query.subcategoryId : "";
   const categoryName = Router.query.categoryName;
   const searchProduct = Router.query.searchProdcut
     ? Router.query.searchProdcut
@@ -106,6 +107,7 @@ const Products = ({ products1, productFilters }) => {
     const data = {
       subSubCategoryId: selectedSubSubCategories,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       productType: productType,
       order: prodcutprice,
       priceTo: price.value.max,

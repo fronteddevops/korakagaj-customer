@@ -10189,3 +10189,11 @@ background-color: #fff;
 .size-chart-modal-custom .modal-dialog {
   max-width: none;
 }
+.view-more-new {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  border-bottom: 2px solid #E74C2650;
+  margin-bottom: 20px;
+}

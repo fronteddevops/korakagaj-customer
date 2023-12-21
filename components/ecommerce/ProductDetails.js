@@ -166,7 +166,7 @@ const ProductDetails = ({
       toast.success("Add to Cart!");
     }
   };
-
+const isLoggedIn = localStorage.getItem("access_token")
   return (
     <>
       <section className="mt-50 mb-50">
@@ -385,7 +385,7 @@ const ProductDetails = ({
                           />
                         )}
                       </div>
-                      <div className="attr-detail attr-size mt-20">
+                      <div className={`attr-detail attr-size mt-20 ${!isLoggedIn && 'd-none' }`}>
                         <strong className="mr-10">{t("Quantity")}</strong>
                         <div className="detail-qty border radius">
                           <a
