@@ -92,7 +92,6 @@ function Register() {
 
   // user Register api call
   const handleRegister = async (event) => {
-    setLoad(true);
     event.preventDefault();
     setPasswordConfirmError("");
     let isValid = true;
@@ -131,9 +130,9 @@ function Register() {
           lastName: lastName,
           phoneNumber: number,
         };
-
+        setLoad(true);
         const response = await services.auth.REGISTER_USER(payLoad);
-       
+
         setLoad(false);
         if (response) {
           localStorage.setItem("user", JSON.stringify(response?.data?.user));
@@ -212,8 +211,7 @@ function Register() {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked); // Toggle the checkbox value
   };
-  const responseGoogle = (response) => {
-  };
+  const responseGoogle = (response) => {};
   return (
     <>
       {Load && <Preloader />}

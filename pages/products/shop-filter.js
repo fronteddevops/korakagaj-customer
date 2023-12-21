@@ -106,7 +106,7 @@ const ProductsFullWidth = ({ products, productFilters }) => {
                                             key={i}
                                         >
                                             <SingleProduct product={item} />
-                                            {/* <SingleProductList product={item}/> */}
+                                          
                                         </div>
                                     ))}
                                 </div>
@@ -130,8 +130,6 @@ const ProductsFullWidth = ({ products, productFilters }) => {
                     </div>
                 </section>
                 <WishlistModal />
-                {/* <CompareModal /> */}
-                {/* <CartSidebar /> */}
                 <QuickView />                
             </Layout>
         </>

@@ -38,8 +38,8 @@ const Header = ({ toggleClick, headerStyle }) => {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
 
         setTotalWishlistItems(WishlistResponse?.data?.data?.length);
+        console.log(WishlistResponse)
       } catch (error) {
-        // Handle errors here
         console.error("An error occurred:", error);
       }
 
@@ -79,8 +79,8 @@ const Header = ({ toggleClick, headerStyle }) => {
     const interval = setInterval(()=>{
       handleCart();
       GetWishlistdata();
-    },3000)
-    return () => clearInterval(interval)
+    },2000)
+    // return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
@@ -101,14 +101,10 @@ const Header = ({ toggleClick, headerStyle }) => {
     CategoryList();
     setToggled(!isToggled);
   };
-  //get category list
   const CategoryList = async () => {
-    // const response = await service.category.GET_CATEGORY();
-    // setCategoryList(response?.data?.data?.rows);
     const respo = await services.category.GET_CATEGORY_ALL();
     setCategoryList(respo.data.data);
   };
-  // Get sub category list
   const subCategoryList = async (id) => {
     setSubCate(false);
     const response = await service.subCategory.GET_ALL_SUB_CATEGORY(id);
@@ -147,17 +143,14 @@ const Header = ({ toggleClick, headerStyle }) => {
   };
 
   const navigateOrders = async (productId) => {
-    // Example: Navigate to the /products/[slug] page with a specific product ID
 
     await router.push("/myprofile?index=5");
   };
   const navigateAddress = async (productId) => {
-    // Example: Navigate to the /products/[slug] page with a specific product ID
 
     await router.push("/myprofile?index=4");
   };
   const navigateProfile = async (productId) => {
-    // Example: Navigate to the /products/[slug] page with a specific product ID
 
     await router.push("/myprofile?index=2");
   };
@@ -166,7 +159,6 @@ const Header = ({ toggleClick, headerStyle }) => {
     const subSubCategory = await service.subSubCategory.GET_SUB_SUB_CATEGORYALL(
       id
     );
-
     setSubSubCategory(subSubCategory?.data?.data?.rows);
     setSubCate(true);
   };
@@ -284,16 +276,6 @@ const Header = ({ toggleClick, headerStyle }) => {
                             {t("My Profile")}
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
-
-                          {/* <NavDropdown.Item
-                            href="/"
-                            onClick={() => {
-                              localStorage.removeItem("access_token"),
-                                localStorage.removeItem("userId");
-                            }}
-                          >
-                            {t("Logout")}
-                          </NavDropdown.Item> */}
                           <div style={{ marginLeft: "10px" }}>
                             <Link href="/login/" as={`/login/`}>
                               <a

@@ -14,7 +14,6 @@ const nextConfig = {
   trailingSlash: true,
   distDir: "dist",
 
-
   // satish
   // BASE_URL: "http://192.168.29.131:5000/v1",
   // BASE_URL_UPLOADS: "http://192.168.29.131:5000/uploads/",

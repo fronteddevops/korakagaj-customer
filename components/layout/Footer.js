@@ -164,35 +164,39 @@ const Footer = () => {
                     {t("Follow Us")}
                   </h5>
                   <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                    <a>
+                    <a
+                      target="_blank"
+                      href={`https://www.facebook.com/officialkorakagaj/?url=:${window.location.href}`}
+                    >
                       <img
                         src="/assets/imgs/theme/icons/icon-facebook.svg"
                         alt=""
                       />
                     </a>
-                    <a>
+                    <a
+                      target="_blank"
+                      href={`https://twitter.com/Asli_KoraKagaj?url=:${window.location.href}`}
+                    >
                       <img
                         src="/assets/imgs/theme/icons/icon-twitter.svg"
                         alt=""
                       />
                     </a>
-                    <a>
+                    <a
+                      target="_blank"
+                      href={`https://www.instagram.com/korakagaj_official/?url=:${window.location.href}`}
+                    >
                       <img
                         src="/assets/imgs/theme/icons/icon-instagram.svg"
                         alt=""
                       />
                     </a>
-                    <a>
-                      <img
-                        src="/assets/imgs/theme/icons/icon-pinterest.svg"
-                        alt=""
-                      />
-                    </a>
-                    <a>
-                      <img
-                        src="/assets/imgs/theme/icons/icon-youtube.svg"
-                        alt=""
-                      />
+
+                    <a
+                      target="_blank"
+                      href={`https://in.linkedin.com/in/korakagaj-4u-5a8482216/?url=:${window.location.href}`}
+                    >
+                      <img src="/assets/imgs/theme/icons/Linkedin.svg" alt="" />
                     </a>
                   </div>
                 </div>

@@ -37,7 +37,7 @@ const Products = ({ products1, productFilters }) => {
   const [productType, setProdcutType] = useState("");
   const [prodcutprice, setProdcutPrice] = useState("");
   const [color, setcolor] = useState([]);
-  const [SortBaar,setSortBaar] = useState(false);
+  const [SortBaar, setSortBaar] = useState(false);
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
@@ -45,7 +45,9 @@ const Products = ({ products1, productFilters }) => {
   //get query data
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";
   const categoryId = Router.query.categoryId ? Router.query.categoryId : "";
-  const subCategoryId = Router.query.subcategoryId ? Router.query.subcategoryId : "";
+  const subCategoryId = Router.query.subcategoryId
+    ? Router.query.subcategoryId
+    : "";
   const categoryName = Router.query.categoryName;
   const searchProduct = Router.query.searchProdcut
     ? Router.query.searchProdcut
@@ -64,7 +66,7 @@ const Products = ({ products1, productFilters }) => {
     setPrice({ value: { min: 0, max: 1000000 } });
     setProdcutType("");
     // handleChange("Default");
-    setSortBaar(!SortBaar)
+    setSortBaar(!SortBaar);
   };
   const sizes = ["", "s", "m", "xl", "xxl"];
 
@@ -103,6 +105,9 @@ const Products = ({ products1, productFilters }) => {
   };
 
   //filter prodcut
+  useEffect(() => {
+    setSelectedSubSubCategories([]);
+  }, [categoryId, subCategoryId]);
   const prodcutFilters = async () => {
     const data = {
       subSubCategoryId: selectedSubSubCategories,
@@ -219,9 +224,12 @@ const Products = ({ products1, productFilters }) => {
 
   useEffect(() => {
     cratePagination();
-    prodcutFilters();
+
     getallProdcut();
     getCategroy();
+    setTimeout(() => {
+      prodcutFilters();
+    }, 100);
   }, [
     categoryId,
     selectedSubSubCategories,
@@ -243,7 +251,10 @@ const Products = ({ products1, productFilters }) => {
         ]);
       prodcutFilters();
     }, 100);
-  }, [new URLSearchParams(window.location.search).get("subsubcategoryId")]);
+  }, [
+    new URLSearchParams(window.location.search).get("subsubcategoryId"),
+    new URLSearchParams(window.location.search).get("subcategoryId"),
+  ]);
   return (
     <>
       <Layout
@@ -435,7 +446,6 @@ const Products = ({ products1, productFilters }) => {
                           <Slider
                             range
                             allowCross={false}
-                            
                             min={0}
                             max={9000}
                             onChange={(value) => {
@@ -444,7 +454,6 @@ const Products = ({ products1, productFilters }) => {
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
-                              
                             }}
                           />
 

@@ -192,7 +192,7 @@ const isLoggedIn = localStorage.getItem("access_token")
                           <strong className="mr-10">{t("Share this:")}</strong>
                         </li>
                         <li className="social-facebook">
-                          <a>
+                          <a target="_blank" href={`https://www.facebook.com/?url=:${window.location.href}`}>
                             <img
                               src="/assets/imgs/theme/icons/icon-facebook.svg"
                               alt=""
@@ -200,7 +200,7 @@ const isLoggedIn = localStorage.getItem("access_token")
                           </a>
                         </li>
                         <li className="social-twitter">
-                          <a>
+                        <a target="_blank" href={`https://www.twitter.com/?url=:${window.location.href}`}>
                             <img
                               src="/assets/imgs/theme/icons/icon-twitter.svg"
                               alt=""
@@ -208,7 +208,7 @@ const isLoggedIn = localStorage.getItem("access_token")
                           </a>
                         </li>
                         <li className="social-instagram">
-                          <a>
+                        <a target="_blank" href={`https://www.instagram.com/?url=:${window.location.href}`}>
                             <img
                               src="/assets/imgs/theme/icons/icon-instagram.svg"
                               alt=""
@@ -216,7 +216,7 @@ const isLoggedIn = localStorage.getItem("access_token")
                           </a>
                         </li>
                         <li className="social-linkedin">
-                          <a>
+                        <a target="_blank" href={`https://www.pinterest.com/?url=:${window.location.href}`}>
                             <img
                               src="/assets/imgs/theme/icons/icon-pinterest.svg"
                               alt=""
