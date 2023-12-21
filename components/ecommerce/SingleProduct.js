@@ -69,9 +69,9 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-    
+
       const updateCart = await services.cart.UPDATE_CART(data);
-    
+
       toast.success("Add to Cart !");
       setTimeout(() => {
         // window.location.reload()
@@ -147,8 +147,10 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
                 className="product-img product-img-zoom"
                 style={{ height: "250 px" }}
               >
-                <Link href={`/products/${product?.id}`} as={`/products/${product?.id}`}>
-                {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
+                <Link
+                  href={`/products/${product?.id}`}
+                  as={`/products/${product?.id}`}
+                >
                   <a>
                     <img
                       className="default-img"
@@ -207,7 +209,10 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
               </div>
               <h2>
                 {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
-                <Link href={`/products/${product?.id}`} as={`/products/${product?.id}`}>
+                <Link
+                  href={`/products/${product?.id}`}
+                  as={`/products/${product?.id}`}
+                >
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>
               </h2>

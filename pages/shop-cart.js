@@ -137,7 +137,6 @@ const Cart = ({}) => {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
-      console.log(cartDetails);
       let unique = cartDetails.filter(
         (value, index, self) =>
           index ===
@@ -170,7 +169,6 @@ const Cart = ({}) => {
           return item;
         });
       }
-      console.log("unique", unique);
       let data = {
         cartDetail: { cartDetails: unique },
         totalAmount: sum,

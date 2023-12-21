@@ -25,7 +25,6 @@ const ThumbSlider = ({ product }) => {
       setImage(images);
     }
   }, [product]);
-//   console.log(image);
   return (
     <div>
       <Swiper

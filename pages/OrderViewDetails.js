@@ -294,7 +294,7 @@ function OrderViewDetails({ data }) {
                               </td>
 
                               <td className="product-des product-name">
-                                {console.log(product)}
+                          
                                 <Link
                                   href="/products/[slug]"
                                   as={`/products/${product?.productId}`}

@@ -4,11 +4,13 @@ import { useState } from "react";
 import services from "../../services";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 const Footer = () => {
-const { t} = useTranslation("common");
+  const { t } = useTranslation("common");
   const [email, setemail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const router = useRouter();
   const [isValid, setIsValid] = useState(true);
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -50,6 +52,13 @@ const { t} = useTranslation("common");
       }
     }
   };
+  const handleWishlist = () => {
+    if (localStorage.getItem("access_token")) {
+      router.push("/shop-wishlist/");
+    } else {
+      toast.error("Please Login!");
+    }
+  };
   return (
     <div>
       <ToastContainer
@@ -86,7 +95,9 @@ const { t} = useTranslation("common");
               </div>
               <div className="col-lg-6 my-4 my-md-0 des">
                 <h5 className="font-size-15 ml-4 mb-0">
-                  {t("Cheers! You’re happiness will be delivered shortly with Korakagaj")}
+                  {t(
+                    "Cheers! You’re happiness will be delivered shortly with Korakagaj"
+                  )}
                 </h5>
               </div>
               <div className="col-lg-5">
@@ -139,13 +150,15 @@ const { t} = useTranslation("common");
                     {t("Contact")}
                   </h5>
                   <p className="wow fadeIn animated">
-                    <strong>{t("Address:")} </strong>{t("Basti, UP, India, 272001")}
+                    <strong>{t("Address:")} </strong>
+                    {t("Basti, UP, India, 272001")}
                   </p>
                   <p className="wow fadeIn animated">
                     <strong>{t("Phone:")} </strong>(+91) 9791028374
                   </p>
                   <p className="wow fadeIn animated">
-                    <strong>{t("Hours:")} </strong>10:00 - 18:00, {t("Mon - Sat")}
+                    <strong>{t("Hours:")} </strong>10:00 - 18:00,{" "}
+                    {t("Mon - Sat")}
                   </p>
                   <h5 className="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">
                     {t("Follow Us")}
@@ -185,7 +198,9 @@ const { t} = useTranslation("common");
                 </div>
               </div>
               <div className="col-lg-2 col-md-3">
-                <h5 className="widget-title wow fadeIn animated">{t("About")}</h5>
+                <h5 className="widget-title wow fadeIn animated">
+                  {t("About")}
+                </h5>
                 <ul className="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                   <li>
                     <a>{t("About Us")}</a>
@@ -195,48 +210,51 @@ const { t} = useTranslation("common");
                   </li>
                   <li>
                     <Link href="/page-privacy-policy">
-                    <a>
-                    {t("Privacy Policy")}
-                    </a>
+                      <a>{t("Privacy Policy")}</a>
                     </Link>
                   </li>
                   <li>
                     <Link href="/page-return-policy">
-                    <a>
-                    {t("Returns")}
-                    </a>
+                      <a>{t("Returns")}</a>
                     </Link>
                   </li>
                   <li>
                     <Link href="/page-terms">
-                    <a>
-                    {t("Terms")} 
-               
-                    &amp; 
-                
-                    {t("Conditions")}
-                    </a>
+                      <a>
+                        {t("Terms")}
+                        &amp;
+                        {t("Conditions")}
+                      </a>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/page-contact/" as="/page-contact/">{t("Contact Us")}</Link>
-                  </li> 
+                    <Link href="/page-contact/" as="/page-contact/">
+                      {t("Contact Us")}
+                    </Link>
+                  </li>
                   <li>
                     <a>{t("Support Center")}</a>
                   </li>
                 </ul>
               </div>
               <div className="col-lg-2  col-md-3">
-                <h5 className="widget-title wow fadeIn animated">{t("My Account")}</h5>
+                <h5 className="widget-title wow fadeIn animated">
+                  {t("My Account")}
+                </h5>
                 <ul className="footer-list wow fadeIn animated">
                   <li>
-                    <Link href="/login" as="/login">{t("Sign In")}</Link>
+                    <Link href="/login" as="/login">
+                      {t("Sign In")}
+                    </Link>
                   </li>
                   <li>
-                    <Link href="/shop-cart" as={`/shop-cart`}>{t("View Cart")}</Link>
+                    <Link href="/shop-cart" as={`/shop-cart`}>
+                      {t("View Cart")}
+                    </Link>
                   </li>
                   <li>
-                    <Link href="/shop-wishlist/" as={`/shop-wishlist/`}>{t("My Wishlist")}</Link>
+                    {/* <Link href="/shop-wishlist/" as={`/shop-wishlist/`}>{t("My Wishlist")}</Link> */}
+                    <a onClick={handleWishlist}>{t("My Wishlist")}</a>
                   </li>
                   <li>
                     <a>{t("Track My Order")}</a>
@@ -304,7 +322,7 @@ const { t} = useTranslation("common");
           </div>
         </div>
       </footer>
-  </div>
+    </div>
   );
 };
 

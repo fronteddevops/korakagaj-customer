@@ -121,7 +121,6 @@ const Header = ({ toggleClick, headerStyle }) => {
         );
       subSubCategoriesArray.push(...subSubCategoryResponse.data.data.rows);
     }
-    console.log("SubCategory");
   };
 
   //user name
@@ -170,7 +169,6 @@ const Header = ({ toggleClick, headerStyle }) => {
 
     setSubSubCategory(subSubCategory?.data?.data?.rows);
     setSubCate(true);
-    console.log("Sub Sub Category");
   };
   return (
     <>

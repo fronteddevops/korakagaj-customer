@@ -133,7 +133,7 @@ function Register() {
         };
 
         const response = await services.auth.REGISTER_USER(payLoad);
-        console.log(response);
+       
         setLoad(false);
         if (response) {
           localStorage.setItem("user", JSON.stringify(response?.data?.user));
@@ -213,7 +213,6 @@ function Register() {
     setIsChecked(!isChecked); // Toggle the checkbox value
   };
   const responseGoogle = (response) => {
-    console.log(response);
   };
   return (
     <>
