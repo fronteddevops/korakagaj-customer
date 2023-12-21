@@ -76,11 +76,11 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-    // const interval = setInterval(()=>{
-    //   handleCart();
-    //   console.log('test')
-    // },3000)
-    // return () => clearInterval(interval)
+    const interval = setInterval(()=>{
+      handleCart();
+      console.log('test')
+    },3000)
+    return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
