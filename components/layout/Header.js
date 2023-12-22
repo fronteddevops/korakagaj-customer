@@ -38,7 +38,6 @@ const Header = ({ toggleClick, headerStyle }) => {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
 
         setTotalWishlistItems(WishlistResponse?.data?.data?.length);
-        console.log(WishlistResponse)
       } catch (error) {
         console.error("An error occurred:", error);
       }
@@ -66,7 +65,7 @@ const Header = ({ toggleClick, headerStyle }) => {
 
     setLang(langdata);
     handleLang();
-    
+
     cheklogin();
 
     document.addEventListener("scroll", () => {
@@ -76,10 +75,10 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-    const interval = setInterval(()=>{
+    const interval = setInterval(() => {
       handleCart();
       GetWishlistdata();
-    },2000)
+    }, 2000);
     // return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
   const getProfile = async () => {
@@ -104,6 +103,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   const CategoryList = async () => {
     const respo = await services.category.GET_CATEGORY_ALL();
     setCategoryList(respo.data.data);
+    console.log(respo);
   };
   const subCategoryList = async (id) => {
     setSubCate(false);
@@ -143,15 +143,12 @@ const Header = ({ toggleClick, headerStyle }) => {
   };
 
   const navigateOrders = async (productId) => {
-
     await router.push("/myprofile?index=5");
   };
   const navigateAddress = async (productId) => {
-
     await router.push("/myprofile?index=4");
   };
   const navigateProfile = async (productId) => {
-
     await router.push("/myprofile?index=2");
   };
 
@@ -173,9 +170,8 @@ const Header = ({ toggleClick, headerStyle }) => {
                   <ul>
                     <li>
                       <i className="fi-rs-smartphone"></i>
-                     
-                        <a href="tel:+919791028374">+91-9791028374</a>
-                     
+
+                      <a href="tel:+919791028374">+91-9791028374</a>
                     </li>
                     <li>
                       <i className="fi-rs-marker"></i>
@@ -424,7 +420,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                                       subCategory.length > 0 &&
                                       subCategory.map((subItem) => (
                                         <li
-                                          className="mega-menu-col col-lg-6"
+                                          className="mega-menu-col col-lg-10"
                                           key={subItem.id}
                                         >
                                           <ul>
@@ -458,18 +454,23 @@ const Header = ({ toggleClick, headerStyle }) => {
                                   {SubCate &&
                                     subSubCategory &&
                                     subSubCategory.length > 0 &&
-                                    subSubCategory.map((subSubItem) => (
-                                      <li key={subSubItem.id}>
-                                        <Link
-                                          href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
-                                          as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
-                                        >
-                                          <a className="dropdown-item nav-link nav_item">
-                                            {subSubItem.subSubCategoryName}
-                                          </a>
-                                        </Link>
-                                      </li>
-                                    ))}
+                                    subSubCategory.map((subSubItem) => {
+                                      const str = subSubItem.subSubCategoryName;
+                                      const UpperCase =
+                                        str[0]?.toUpperCase() + str?.slice(1);
+                                      return (
+                                        <li key={subSubItem.id}>
+                                          <Link
+                                            href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                            as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                          >
+                                            <a className="dropdown-item nav-link nav_item">
+                                              {UpperCase}
+                                            </a>
+                                          </Link>
+                                        </li>
+                                      );
+                                    })}
                                 </div>
                               </li>
                             </div>
@@ -564,7 +565,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                         </Link>
                       </li>
 
-                      <li>
+                      {/* <li>
                         <Link href="/blog-category-grid">
                           <a
                             className={
@@ -705,7 +706,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                             </ul>
                           </li>
                         </ul>
-                      </li>
+                      </li> */}
 
                       <li>
                         <Link href="/page-contact">

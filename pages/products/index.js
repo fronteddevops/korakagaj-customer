@@ -591,7 +591,7 @@ const Products = ({ products1, productFilters }) => {
                             onClick={() => clearAllFilter()}
                             style={{ cursor: "pointer" }}
                           >
-                            {t("Clear All Filter3")}
+                            {t("Clear All Filter")}
                           </span>
                         </Link>
                       ) : (
@@ -607,16 +607,14 @@ const Products = ({ products1, productFilters }) => {
                             {t("Sort by:")}
                           </span>
                         </div>
-                        {/* <div className="sort-by-dropdown-wrap custom-select">
+                        <div className="sort-by-dropdown-wrap custom-select">
                           <select
                             onChange={(event) =>
                               handleChange(event.target.value)
                             }
                           >
                             <option value="Default">{t("Default")}</option>
-                            <option value="0">{t("New Product")}</option>
-                            <option value="1">{t("Hot Deals")}</option>
-                            <option value="2">{t("Best Seller")}</option>
+                          
                             <option value="LowToHigh">
                               {t("Low To High")}
                             </option>
@@ -624,9 +622,9 @@ const Products = ({ products1, productFilters }) => {
                               {t("High To Low")}
                             </option>
                           </select>
-                        </div> */}
+                        </div>
 
-                        {!SortBaar && (
+                        {/* {!SortBaar && (
                           <div className="sort-by-dropdown-wrap custom-select">
                             <select
                               onChange={(event) =>
@@ -666,7 +664,7 @@ const Products = ({ products1, productFilters }) => {
                               </option>
                             </select>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>

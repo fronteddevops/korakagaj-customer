@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { addToCart } from "../../redux/action/cart";
 import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
@@ -71,11 +71,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       };
 
       const updateCart = await services.cart.UPDATE_CART(data);
-
+      console.log("Add to Cart !");
       toast.success("Add to Cart !");
-      setTimeout(() => {
-        // window.location.reload()
-      }, 1000);
     } else {
       const cart =
         localStorage.getItem("cartDetail") &&
@@ -106,8 +103,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       };
 
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+
       toast.success("Add to Cart !");
-      // window.location.reload();
     }
   };
   const handleWishlist = async (product) => {

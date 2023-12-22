@@ -166,7 +166,7 @@ const ProductDetails = ({
       toast.success("Add to Cart!");
     }
   };
-const isLoggedIn = localStorage.getItem("access_token")
+  const isLoggedIn = localStorage.getItem("access_token");
   return (
     <>
       <section className="mt-50 mb-50">
@@ -192,7 +192,10 @@ const isLoggedIn = localStorage.getItem("access_token")
                           <strong className="mr-10">{t("Share this:")}</strong>
                         </li>
                         <li className="social-facebook">
-                          <a target="_blank" href={`https://www.facebook.com/?url=:${window.location.href}`}>
+                          <a
+                            target="_blank"
+                            href={`https://www.facebook.com/?url=:${window.location.href}`}
+                          >
                             <img
                               src="/assets/imgs/theme/icons/icon-facebook.svg"
                               alt=""
@@ -200,7 +203,10 @@ const isLoggedIn = localStorage.getItem("access_token")
                           </a>
                         </li>
                         <li className="social-twitter">
-                        <a target="_blank" href={`https://www.twitter.com/?url=:${window.location.href}`}>
+                          <a
+                            target="_blank"
+                            href={`https://www.twitter.com/?url=:${window.location.href}`}
+                          >
                             <img
                               src="/assets/imgs/theme/icons/icon-twitter.svg"
                               alt=""
@@ -208,7 +214,10 @@ const isLoggedIn = localStorage.getItem("access_token")
                           </a>
                         </li>
                         <li className="social-instagram">
-                        <a target="_blank" href={`https://www.instagram.com/?url=:${window.location.href}`}>
+                          <a
+                            target="_blank"
+                            href={`https://www.instagram.com/?url=:${window.location.href}`}
+                          >
                             <img
                               src="/assets/imgs/theme/icons/icon-instagram.svg"
                               alt=""
@@ -216,7 +225,10 @@ const isLoggedIn = localStorage.getItem("access_token")
                           </a>
                         </li>
                         <li className="social-linkedin">
-                        <a target="_blank" href={`https://www.pinterest.com/?url=:${window.location.href}`}>
+                          <a
+                            target="_blank"
+                            href={`https://www.pinterest.com/?url=:${window.location.href}`}
+                          >
                             <img
                               src="/assets/imgs/theme/icons/icon-pinterest.svg"
                               alt=""
@@ -385,7 +397,11 @@ const isLoggedIn = localStorage.getItem("access_token")
                           />
                         )}
                       </div>
-                      <div className={`attr-detail attr-size mt-20 ${!isLoggedIn && 'd-none' }`}>
+                      <div
+                        className={`attr-detail attr-size mt-20 ${
+                          !isLoggedIn && "d-none"
+                        }`}
+                      >
                         <strong className="mr-10">{t("Quantity")}</strong>
                         <div className="detail-qty border radius">
                           <a

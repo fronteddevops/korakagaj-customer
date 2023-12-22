@@ -154,7 +154,8 @@ const Footer = () => {
                     {t("Basti, UP, India, 272001")}
                   </p>
                   <p className="wow fadeIn animated">
-                    <strong>{t("Phone:")} </strong>(+91) 9791028374
+                    {/* <strong>{t("Phone:")} </strong> */}
+                    <a href="tel:+919791028374" style={{color: "#442452" }}>+91-9791028374</a>
                   </p>
                   <p className="wow fadeIn animated">
                     <strong>{t("Hours:")} </strong>10:00 - 18:00,{" "}
@@ -201,7 +202,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-3">
+              <div className="col-lg-4 col-md-6">
                 <h5 className="widget-title wow fadeIn animated">
                   {t("About")}
                 </h5>
@@ -209,9 +210,9 @@ const Footer = () => {
                   <li>
                     <a>{t("About Us")}</a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a>{t("Delivery Information")}</a>
-                  </li>
+                  </li> */}
                   <li>
                     <Link href="/page-privacy-policy">
                       <a>{t("Privacy Policy")}</a>
@@ -236,12 +237,12 @@ const Footer = () => {
                       {t("Contact Us")}
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <a>{t("Support Center")}</a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
-              <div className="col-lg-2  col-md-3">
+              <div className="col-lg-4  col-md-6">
                 <h5 className="widget-title wow fadeIn animated">
                   {t("My Account")}
                 </h5>
@@ -260,19 +261,26 @@ const Footer = () => {
                     {/* <Link href="/shop-wishlist/" as={`/shop-wishlist/`}>{t("My Wishlist")}</Link> */}
                     <a onClick={handleWishlist}>{t("My Wishlist")}</a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a>{t("Track My Order")}</a>
-                  </li>
-                  <li>
+                  </li> */}
+                  {/* <li>
                     <a>{t("Help")}</a>
-                  </li>
+                  </li> */}
                   <li>
-                    <a>{t("Order")}</a>
+                    <a>
+                      <Link
+                        href="/myprofile/?index=2"
+                        as={`/myprofile/?index=2`}
+                      >
+                        {t("Order")}
+                      </Link>
+                    </a>
                     {/* <Link href="/#" as={`/#`}>{t("Order")}</Link> */}
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-4">
+              {/* <div className="col-lg-4">
                 <h5 className="widget-title wow fadeIn animated">
                   {t("Supported By")}
                 </h5>
@@ -305,7 +313,7 @@ const Footer = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
