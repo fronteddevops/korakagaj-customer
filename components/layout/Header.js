@@ -75,10 +75,10 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-    const interval = setInterval(() => {
-      handleCart();
-      GetWishlistdata();
-    }, 2000);
+    // const interval = setInterval(() => {
+    //   handleCart();
+    //   GetWishlistdata();
+    // }, 2000);
     // return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
   const getProfile = async () => {

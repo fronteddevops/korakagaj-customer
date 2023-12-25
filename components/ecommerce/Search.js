@@ -1,108 +1,96 @@
-
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import services from "../../services";
-import Link from "next/link";
 import nextConfig from "../../next.config";
 import { useTranslation } from "react-i18next";
 const Search = () => {
   const { t } = useTranslation("common");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [prodcut,setProdcut]=useState([])
-    const router = useRouter();
-    const imageUrl=nextConfig.BASE_URL_UPLOADS
-    const Router=useRouter()
-    // Define your useEffect for specific side effects
-    useEffect( () => {
-        // You can put your side effects logic here
-        // For example, you can perform some action when searchTerm changes
-        {searchTerm.length>0   &&  searchProduct()}
-       
-
-
-     
-    }, [searchTerm]);
-
-    const navigate = async (productId) => {
-      // Example: Navigate to the /products/[slug] page with a specific product ID
-      
-      await router.push('/products/[slug]', `/products/${productId}`);
-    };
-    //serach product fucntion call
-    const searchProduct = async () => {
-    
-  try {
-
-    const response= await services.searchProdcut.SEARCH_PRODCUT(searchTerm)
-    if(response){
-
-        setProdcut(response?.data?.data?.rows)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [prodcut, setProdcut] = useState([]);
+  const router = useRouter();
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
+  const Router = useRouter();
+  useEffect(() => {
+    {
+      searchTerm.length > 2 && searchProduct();
     }
-  } catch (error) {
-    console.log(error)
-  }
-    };
+  }, [searchTerm]);
 
-
-    const handleSearch=(e)=>{
-      if (e.target.value !== "") {
-        setSearchTerm(e.target.value);
-      } else if (e.target.value === "") {
-        setSearchTerm(""); // Clear the search term
-        setProdcut([]); // Clear search results
+  const navigate = async (productId) => {
+    await router.push("/products/[slug]", `/products/${productId}`);
+  };
+  const searchProduct = async () => {
+    try {
+      const response = await services.searchProdcut.SEARCH_PRODCUT(searchTerm);
+      if (response) {
+        setProdcut(response?.data?.data?.rows);
       }
+    } catch (error) {
+      console.log(error);
     }
-    return (
-      <div>
-  
-    <span>
-      <input
-        value={searchTerm}
-        onChange={handleSearch}
-        onKeyDown={(e)=>{
-          if(e.key==="Enter"){
-            router.push(`/products?searchProdcut=${e.target.value}`)
-          }
-        }}
-        type="text"
-        placeholder={t("Search")}
-      />
-    </span>
+  };
 
-    {prodcut?.length > 0 ? (
-  <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
-    <div className="card bg-white">
-    <ul className="list-group list-group-flush">
-  {prodcut?.map((product, index) => (
-    <li className="list-group-item bg-white" key={index}>
-   
-        <a onClick={()=>navigate(product?.id)}  >
-          <div style={{ display: 'flex' }}>
-            <img
-              className="default-img"
-              src={imageUrl + product?.featuredImage}
-              crossOrigin="anonymous"
-              alt=""
-              height={50}
-              width={50}
-            /> &nbsp; &nbsp;
-            <h4 style={{ maxWidth: "200px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-              {product.productName}
-            </h4>
+  const handleSearch = (e) => {
+    if (e.target.value !== "") {
+      setSearchTerm(e.target.value);
+    } else if (e.target.value === "") {
+      setSearchTerm("");
+      setProdcut([]);
+    }
+  };
+  return (
+    <div>
+      <span>
+        <input
+          value={searchTerm}
+          onChange={handleSearch}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              router.push(`/products?searchProdcut=${e.target.value}`);
+            }
+          }}
+          type="text"
+          placeholder={t("Search")}
+        />
+      </span>
+
+      {prodcut?.length > 0 ? (
+        <div style={{ position: "absolute", width: "600px", zIndex: "5" }}>
+          <div className="card bg-white">
+            <ul className="list-group list-group-flush">
+              {prodcut?.map((product, index) => (
+                <li className="list-group-item bg-white" key={index}>
+                  <a onClick={() => navigate(product?.id)}>
+                    <div style={{ display: "flex" }}>
+                      <img
+                        className="default-img"
+                        src={imageUrl + product?.featuredImage}
+                        crossOrigin="anonymous"
+                        alt=""
+                        height={50}
+                        width={50}
+                      />{" "}
+                      &nbsp; &nbsp;
+                      <h4
+                        style={{
+                          maxWidth: "200px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {product.productName}
+                      </h4>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        </a>
-     
-    </li>
-  ))}
-</ul>
-
+        </div>
+      ) : null}
     </div>
-  </div>
-) : null}
-
-</div>
-
-    )
+  );
 };
 
 export default Search;

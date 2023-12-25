@@ -39,7 +39,7 @@ const Cart = ({}) => {
   const [DiscountID, setDiscountID] = useState("");
   const [RemoveStatus, setRemoveStatus] = useState(false);
   const [DiscountPer, setDiscountPer] = useState(0);
-
+  const [CouponDis, setCouponDis] = useState(false);
   const router = useRouter();
 
   const calculateTotalAmount = (prodcutData) => {
@@ -328,6 +328,7 @@ const Cart = ({}) => {
     setDiscountID("");
     setDiscountPer(0);
     setRemoveStatus(false);
+    setCouponDis(false);
     // await handleCart(updateCart[0]);
     toast.success("Coupon Remove!");
   };
@@ -591,15 +592,25 @@ const Cart = ({}) => {
                         )}
                       </div>
                     </form>
-                   
-                    {isLoggedIn && (
+                    {isLoggedIn && updateCart && updateCart.length > 0 && (
+                      <hr />
+                    )}
+                    {isLoggedIn && updateCart && updateCart.length > 0 && (
                       <form className="field_form shipping_calculator">
                         <div className="form-row">
                           <div className="form-group col-lg-12">
                             <div className="custom_select">
                               <input
-                                onChange={(e) => setDiscount(e.target.value)}
-                                placeholder="Enter coupon code"
+                                placeholder="Enter Coupon Code"
+                                onChange={(e) => {
+                                  setDiscount(e.target.value.trimStart());
+                                  if (e.target.value.length > 0) {
+                                    setCouponDis(true);
+                                  }
+                                  if (e.target.value.length == 0) {
+                                    setCouponDis(false);
+                                  }
+                                }}
                                 value={Discount}
                               />
                             </div>
@@ -610,6 +621,7 @@ const Cart = ({}) => {
                             <button
                               className="btn btn-sm w-100"
                               onClick={(e) => ApplyCoupon(e)}
+                              disabled={!CouponDis}
                             >
                               {t("Apply Coupon")}
                             </button>

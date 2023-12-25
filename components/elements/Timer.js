@@ -6,18 +6,18 @@ const Timer = ({ endDateTime }) => {
   const { t } = useTranslation("common");
   const [timeParts, setTimeParts] = useState(getPartsOfTimeDuration());
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const remainingTimeParts = getPartsOfTimeDuration();
-      setTimeParts(remainingTimeParts);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const remainingTimeParts = getPartsOfTimeDuration();
+  //     setTimeParts(remainingTimeParts);
 
-      if (remainingTimeParts.days < 0) {
-        clearInterval(interval);
-      }
-    }, 1000);
+  //     if (remainingTimeParts.days < 0) {
+  //       clearInterval(interval);
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   function getPartsOfTimeDuration() {
     const now = moment();
