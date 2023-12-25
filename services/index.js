@@ -11,20 +11,22 @@ import searchProdcut from "./searchProdcut";
 import myprofile from "./myprofile";
 import orderDetails from "./orderDetails";
 import review from "./review";
-
-export default{
-    category,
-    product,
-    auth,
-    subCategory,
-    subSubCategory,
-    fabric,
-    cart,
-    subScribeUers,
-    searchProdcut,
-    Wishlist,
-    myprofile,
-    orderDetails,
-    review,
-   
-}
+import CMS from "./CMS";
+import Discount from "./Discount";
+export default {
+  category,
+  product,
+  auth,
+  subCategory,
+  subSubCategory,
+  fabric,
+  cart,
+  subScribeUers,
+  searchProdcut,
+  Wishlist,
+  myprofile,
+  orderDetails,
+  review,
+  CMS,
+  Discount,
+};

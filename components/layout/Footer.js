@@ -155,7 +155,9 @@ const Footer = () => {
                   </p>
                   <p className="wow fadeIn animated">
                     {/* <strong>{t("Phone:")} </strong> */}
-                    <a href="tel:+919791028374" style={{color: "#442452" }}>+91-9791028374</a>
+                    <a href="tel:+919791028374" style={{ color: "#442452" }}>
+                      +91-9791028374
+                    </a>
                   </p>
                   <p className="wow fadeIn animated">
                     <strong>{t("Hours:")} </strong>10:00 - 18:00,{" "}
@@ -208,7 +210,9 @@ const Footer = () => {
                 </h5>
                 <ul className="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                   <li>
+                    <Link href={"/page-about/"} as={`/page-about/`}>
                     <a>{t("About Us")}</a>
+                    </Link>
                   </li>
                   {/* <li>
                     <a>{t("Delivery Information")}</a>
@@ -267,17 +271,23 @@ const Footer = () => {
                   {/* <li>
                     <a>{t("Help")}</a>
                   </li> */}
-                  <li>
-                    <a>
-                      <Link
-                        href="/myprofile/?index=2"
-                        as={`/myprofile/?index=2`}
-                      >
-                        {t("Order")}
-                      </Link>
-                    </a>
-                    {/* <Link href="/#" as={`/#`}>{t("Order")}</Link> */}
-                  </li>
+
+                  {localStorage.getItem("access_token") ? (
+                    <li>
+                      <a>
+                        <Link
+                          href="/myprofile/?index=2"
+                          as={`/myprofile/?index=2`}
+                        >
+                          {t("Order")}
+                        </Link>
+                      </a>
+                    </li>
+                  ) : (
+                    <li>
+                      <a onClick={handleWishlist}>{t("Order")}</a>
+                    </li>
+                  )}
                 </ul>
               </div>
               {/* <div className="col-lg-4">

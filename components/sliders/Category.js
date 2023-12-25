@@ -58,41 +58,49 @@ const CategorySlider = () => {
         }}
         className="custom-class"
       >
-        {category.map((item, i) => (
-          <SwiperSlide key={i}>
-            <div className="card-1">
-              <figure className="img-hover-scale overflow-hidden">
-                <Link
-                  href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
-                  as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
-                >
-                  <a>
-                    <img
-                      src={imageUrl + item.image}
-                      alt=""
-                      crossOrigin="anonymous"
-                      style={{
-                        width: "200px",
-                        height: "150px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </a>
-                </Link>
-              </figure>
-              <h5>
-                <Link
-                  href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
-                  as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
-                >
-                  <h5 className="text-break">
-                    <a>{item.categoryName}</a>
-                  </h5>
-                </Link>
-              </h5>
-            </div>
-          </SwiperSlide>
-        ))}
+        {category.map((item, i) => {
+          const str = item.categoryName;
+          const UpperCase = str
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+
+          return (
+            <SwiperSlide key={i}>
+              <div className="card-1">
+                <figure className="img-hover-scale overflow-hidden">
+                  <Link
+                    href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                    as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                  >
+                    <a>
+                      <img
+                        src={imageUrl + item.image}
+                        alt=""
+                        crossOrigin="anonymous"
+                        style={{
+                          width: "200px",
+                          height: "150px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </a>
+                  </Link>
+                </figure>
+                <h5>
+                  <Link
+                    href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                    as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                  >
+                    <h5 className="text-break">
+                      <a>{UpperCase}</a>
+                    </h5>
+                  </Link>
+                </h5>
+              </div>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
 
       <div

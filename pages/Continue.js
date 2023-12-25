@@ -31,8 +31,8 @@ const Cart = ({}) => {
   const [getadressUers, setGetaddress] = useState([]);
   const [Address, setAddress] = useState("");
   const [Data, setData] = useState([]);
+  const [AmountTotal, setAmountTotal] = useState("");
   const router = useRouter();
-
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData?.map((item) => {
       return item.finalAmount * item.selectedQuantity;
@@ -66,6 +66,10 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
 
+        setTimeout(() => {
+          setAmountTotal(response?.data?.data?.totalAmount);
+        }, 1000);
+
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
@@ -92,9 +96,7 @@ const Cart = ({}) => {
 
         setAddressList(response?.data?.data);
         if (response?.data?.data?.length > 0) {
-          response?.data?.data?.map((item) => {
-       
-          });
+          response?.data?.data?.map((item) => {});
         }
       } catch (error) {
         console.log(error);
@@ -201,19 +203,19 @@ const Cart = ({}) => {
       description: "Thank you for ordering. Please initiate payment!",
       image:
         "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
-        "modal": {
-          "ondismiss":  async() => {
-              const data = {
-                orderId: updateCartData?.data?.order?.id,
-                paymentResponse: {
-                  id: updateCartData?.data?.razorpayPaymentDetails.id,
-                  status: "failed",
-                  amount: updateCartData?.data?.totalAmount,
-                },
-              };
-              const response = await services.cart.PAYMENT_LOG(data);
-              router.push("/failed");
-          }
+      modal: {
+        ondismiss: async () => {
+          const data = {
+            orderId: updateCartData?.data?.order?.id,
+            paymentResponse: {
+              id: updateCartData?.data?.razorpayPaymentDetails.id,
+              status: "failed",
+              amount: updateCartData?.data?.totalAmount,
+            },
+          };
+          const response = await services.cart.PAYMENT_LOG(data);
+          router.push("/failed");
+        },
       },
       handler: function (response) {
         (async () => {
@@ -265,7 +267,9 @@ const Cart = ({}) => {
         parent={t("Home")}
         sub={
           <>
-            <Link href="/products" as="/products">{t("Product")}</Link>
+            <Link href="/products" as="/products">
+              {t("Product")}
+            </Link>
           </>
         }
         subChild={t("Cart")}
@@ -274,6 +278,13 @@ const Cart = ({}) => {
           <div className="container">
             <div className="row">
               <div className="col-12">
+                <div
+                  className="cart-action text-Start"
+                  style={{ marginBottom: "10px" }}
+                >
+                  <h2>Preview Page</h2>
+                </div>
+
                 <div className="table-responsive">
                   {updateCart?.length > 0 ? "" : t("No Products")}
                   <table
@@ -298,7 +309,10 @@ const Cart = ({}) => {
                         updateCart.map((product, j) => {
                           return (
                             <tr key={j}>
-                              <td className="image product-thumbnail">
+                              <td
+                                className="image product-thumbnail"
+                                data-title="Image"
+                              >
                                 <img
                                   src={imageUrl + product.featuredImage}
                                   alt=""
@@ -306,7 +320,10 @@ const Cart = ({}) => {
                                 />
                               </td>
 
-                              <td className="product-des product-name">
+                              <td
+                                className="product-name"
+                                data-title="Product Name"
+                              >
                                 <h5 className="product-name">
                                   <Link
                                     href="/products/[slug]"
@@ -349,8 +366,10 @@ const Cart = ({}) => {
                                 ) : null}
                               </td>
 
-
-                              <td className="Fabric name" data-title="Fabric name">
+                              <td
+                                className="Fabric name"
+                                data-title="Fabric name"
+                              >
                                 <span>{product?.fabric}</span>
                               </td>
                               <td className="price" data-title="Price">
@@ -365,11 +384,13 @@ const Cart = ({}) => {
                                 </div>
                               </td>
 
-                              <td className="text-right" data-title="Cart">
+                              <td className="text-right" data-title="SubTotal">
                                 <span>
                                   Rs.{" "}
-                                  {(product.finalAmount *
-                                    product.selectedQuantity).toFixed(2)}
+                                  {(
+                                    product.finalAmount *
+                                    product.selectedQuantity
+                                  ).toFixed(2)}
                                 </span>
                               </td>
                             </tr>
@@ -378,8 +399,21 @@ const Cart = ({}) => {
                     </tbody>
                   </table>
                 </div>
+
+                <div
+                  className="font-lg text-end"
+                  style={{ marginRight: "70px" }}
+                >
+                  {t("Total Amount")} -{" "}
+                  <span className="font-lg fw-900 text-brand ">
+                    {totalAmount}
+                  </span>
+                </div>
+
                 <div className="divider center_icon mt-50 mb-50">
-                  <i className="fi-rs-fingerprint"></i>
+                  {/* <i className="fi-rs-fingerprint"></i> */}
+
+                  <hr />
                 </div>
                 <div className="row mb-50">
                   <div className="col-lg-8 col-md-16">
@@ -413,7 +447,7 @@ const Cart = ({}) => {
                                   maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
                                 }}
                               >
-                                {Data.address?.phoneNumber}
+                                {Data?.address?.phoneNumber}
                               </span>
                               <br />
                               <span
@@ -475,13 +509,13 @@ const Cart = ({}) => {
                       )}
                     </div>
                   </div>
+
                   <div className="col-lg-4 col-md-8 text-end">
                     {isLoggedIn ? (
                       <a
                         onClick={() => {
                           checkoutHandler();
                         }}
-                       
                         className="btn "
                       >
                         <i className="fi-rs-box-alt mr-10"></i>

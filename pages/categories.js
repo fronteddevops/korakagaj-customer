@@ -37,39 +37,46 @@ function Categories() {
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
-              {categories.map((item, i) => (
-                <div className="col-lg-2 mb-20" key={i}>
-                  <div className="card-1">
-                    <figure className=" img-hover-scale overflow-hidden">
-                      <Link
-                        href={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                        as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                      >
-                        <a>
-                          <img
-                            src={imageUrl + item.image}
-                            alt=""
-                            crossOrigin="anonymous"
-                            style={{
-                              width: "200px",
-                              height: "150px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </a>
-                      </Link>
-                    </figure>
-                    <h5 className=" text-break">
-                      <Link
-                        href={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                        as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
-                      >
-                        <a>{item.categoryName}</a>
-                      </Link>
-                    </h5>
+              {categories.map((item, i) => {
+                const word3 = item.categoryName;
+                const UpperCase = word3
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ");
+                return (
+                  <div className="col-lg-2 mb-20" key={i}>
+                    <div className="card-1">
+                      <figure className=" img-hover-scale overflow-hidden">
+                        <Link
+                          href={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
+                          as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
+                        >
+                          <a>
+                            <img
+                              src={imageUrl + item.image}
+                              alt=""
+                              crossOrigin="anonymous"
+                              style={{
+                                width: "200px",
+                                height: "150px",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </a>
+                        </Link>
+                      </figure>
+                      <h5 className=" text-break">
+                        <Link
+                          href={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
+                          as={`/products?categoryId=${item.id}&categoryName=${item.categoryName}`}
+                        >
+                          <a>{UpperCase}</a>
+                        </Link>
+                      </h5>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

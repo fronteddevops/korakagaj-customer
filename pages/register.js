@@ -254,7 +254,7 @@ function Register() {
                               placeholder={t("First Name")}
                               value={firstName}
                               onChange={(e) => {
-                                setFirstName(e.target.value.trimStart()); // Trim whitespace before setting
+                                setFirstName(e.target.value.trimStart()); 
                                 if (e.target.value.trimStart()) {
                                   setFirstName(e.target.value);
                                 }

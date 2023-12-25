@@ -280,6 +280,7 @@ function OrderViewDetails({ data }) {
                     {orderDetailsData &&
                       orderDetailsData?.length > 0 &&
                       orderDetailsData.map((product, j) => {
+                        console.log(product)
                         return (
                           <>
                             <tr>
@@ -309,7 +310,7 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title="Total Price"
                               >
-                                <span>{product?.Product?.totalPrice}</span>
+                                <span>{product?.detail?.totalPrice}</span>
                               </td>
                               <td
                                 className="text-right"
@@ -323,13 +324,13 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title="Final Amount"
                               >
-                                <span>{product?.Product?.finalAmount}</span>
+                                <span>{product?.detail?.finalAmount}</span>
                               </td>
                               <td
                                 className="text-right"
                                 data-title="Final Amount"
                               >
-                                <span>{product?.Product?.fabric}</span>
+                                <span>{product?.detail?.fabric}</span>
                               </td>
                               {/* <td
                                 className="text-right d-none d-sm-table-cell"

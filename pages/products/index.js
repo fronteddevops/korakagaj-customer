@@ -127,6 +127,7 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.searchProdcut.SEARCH_PRODCUT(
           searchProduct
         );
+        console.log(response);
         if (response) {
           setProdcut(response?.data?.data?.rows);
         }
@@ -134,13 +135,26 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.product.GET_FILTER_PRODUCT(query);
         if (response && toggle) {
           const data = response?.data?.data;
-
-          if (data.length <= 12) {
-            setProdcut(data);
-            setCurrentPage(1);
-          } else {
-            setProdcut(data);
-          }
+          setTimeout(async () => {
+            if (
+              new URLSearchParams(window.location.search).get("product") &&
+              data.length == 0
+            ) {
+              const response = await services.searchProdcut.SEARCH_PRODCUT(
+                searchProduct
+              );
+              if (response) {
+                setProdcut(response?.data?.data?.rows);
+              }
+            } else {
+              if (data.length <= 12) {
+                setProdcut(data);
+                setCurrentPage(1);
+              } else {
+                setProdcut(data);
+              }
+            }
+          }, 0);
         }
       }
     } catch (error) {
@@ -171,17 +185,25 @@ const Products = ({ products1, productFilters }) => {
         break;
       case "LowToHigh":
         setProdcutPrice("asc");
-        setProdcutType("");
+        // setProdcutType("");
         break;
       case "HighToLow":
         setProdcutPrice("desc");
-        setProdcutType("");
+        // setProdcutType("");
         break;
+
       case "Default":
-        prodcutFilters();
-        setProdcutType("");
-        setProdcutPrice("");
-        break;
+        console.log(new URLSearchParams(window.location.search).get("product"));
+        if (new URLSearchParams(window.location.search).get("product")) {
+          console.log("Setting default");
+          break;
+        } else {
+          prodcutFilters();
+          setProdcutType("");
+          setProdcutPrice("");
+          break;
+        }
+
       default:
         break;
     }
@@ -255,6 +277,12 @@ const Products = ({ products1, productFilters }) => {
     new URLSearchParams(window.location.search).get("subsubcategoryId"),
     new URLSearchParams(window.location.search).get("subcategoryId"),
   ]);
+
+  useEffect(() => {
+    handleChange(new URLSearchParams(window.location.search).get("product"));
+  }, [new URLSearchParams(window.location.search).get("product")]);
+
+  // console.log(products);
   return (
     <>
       <Layout
@@ -327,9 +355,7 @@ const Products = ({ products1, productFilters }) => {
                           onChange={(event) => handleChange(event.target.value)}
                         >
                           <option value="Default">{t("Default")}</option>
-                          <option value="0">{t("New Product")}</option>
-                          <option value="1">{t("Hot Deals")}</option>
-                          <option value="2">{t("Best Seller")}</option>
+                          {/* < ion value="2">{t("Best Seller")}</> */}
                           <option value="LowToHigh">{t("Low To High")}</option>
                           <option value="HighToLow">{t("High To Low")}</option>
                         </select>
@@ -346,88 +372,124 @@ const Products = ({ products1, productFilters }) => {
                 >
                   <div className="widget-category p-3 mb-30">
                     {category.length > 0 &&
-                      category?.map((Item, index) => (
-                        <Accordion key={index} activeKey={activeCategory}>
-                          <Accordion.Item
-                            className="custom-filter"
-                            eventKey={index}
-                            key={index}
-                          >
-                            <Accordion.Header
-                              onClick={() => toggleCategory(index)}
+                      category?.map((Item, index) => {
+                        const word3 = Item?.categoryName;
+                        const UpperCase = word3
+                          .split(" ")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ");
+                        return (
+                          <Accordion key={index} activeKey={activeCategory}>
+                            <Accordion.Item
+                              className="custom-filter"
+                              eventKey={index}
+                              key={index}
                             >
-                              <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
-                                {Item?.categoryName}
-                              </h5>
-                            </Accordion.Header>
-                            <Accordion.Body>
-                              <Accordion>
-                                {Item?.SubCategories?.map(
-                                  (subCategory, subIndex) => (
-                                    <Accordion.Item
-                                      className="custom-filter ms-3"
-                                      eventKey={subIndex}
-                                      key={subCategory.id}
-                                    >
-                                      <Accordion.Header>
-                                        <h5 className="w-100 style-1 wow fadeIn animated">
-                                          {subCategory?.subCategoryName}
-                                        </h5>
-                                      </Accordion.Header>
-                                      <Accordion.Body>
-                                        {subCategory?.SubSubCategories.map(
-                                          (item, itemIndex) => (
-                                            <div key={item.id}>
-                                              <Form.Check
-                                                type="checkbox"
-                                                id={`default-${item.id}`}
-                                                label={item?.subSubCategoryName}
-                                                onChange={() => {
-                                                  const subSubCategoryId =
-                                                    item.id;
-                                                  setToggle(true);
-                                                  setSeachToggle(false);
-                                                  if (
-                                                    selectedSubSubCategories?.includes(
-                                                      subSubCategoryId
-                                                    )
-                                                  ) {
-                                                    const updatedSubCategories =
-                                                      selectedSubSubCategories?.filter(
-                                                        (id) =>
-                                                          id !==
-                                                          subSubCategoryId
-                                                      );
-                                                    setSelectedSubSubCategories(
-                                                      updatedSubCategories
-                                                    );
-                                                  } else {
-                                                    const updatedSubCategories =
-                                                      [
-                                                        ...selectedSubSubCategories,
-                                                        subSubCategoryId,
-                                                      ];
-                                                    setSelectedSubSubCategories(
-                                                      updatedSubCategories
-                                                    );
-                                                  }
-                                                }}
-                                                checked={selectedSubSubCategories?.includes(
-                                                  item?.id
-                                                )}
-                                              />
-                                            </div>
-                                          )
-                                        )}
-                                      </Accordion.Body>
-                                    </Accordion.Item>
-                                  )
-                                )}
-                              </Accordion>
-                            </Accordion.Body>
-                          </Accordion.Item>
-                        </Accordion>
-                      ))}
+                              <Accordion.Header
+                                onClick={() => toggleCategory(index)}
+                              >
+                                <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
+                                  {UpperCase}
+                                </h5>
+                              </Accordion.Header>
+                              <Accordion.Body>
+                                <Accordion>
+                                  {Item?.SubCategories?.map(
+                                    (subCategory, subIndex) => {
+                                      const word2 =
+                                        subCategory?.subCategoryName;
+                                      const UpperCase2 = word2
+                                        .split(" ")
+                                        .map(
+                                          (word) =>
+                                            word.charAt(0).toUpperCase() +
+                                            word.slice(1)
+                                        )
+                                        .join(" ");
+                                      return (
+                                        <Accordion.Item
+                                          className="custom-filter ms-3"
+                                          eventKey={subIndex}
+                                          key={subCategory.id}
+                                        >
+                                          <Accordion.Header>
+                                            <h5 className="w-100 style-1 wow fadeIn animated">
+                                              {UpperCase2}
+                                            </h5>
+                                          </Accordion.Header>
+                                          <Accordion.Body>
+                                            {subCategory?.SubSubCategories.map(
+                                              (item, itemIndex) => {
+                                                const word1 =
+                                                  item?.subSubCategoryName;
+                                                const UpperCase3 = word1
+                                                  .split(" ")
+                                                  .map(
+                                                    (word) =>
+                                                      word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                      word.slice(1)
+                                                  )
+                                                  .join(" ");
+                                                return (
+                                                  <div key={item.id}>
+                                                    <Form.Check
+                                                      type="checkbox"
+                                                      id={`default-${item.id}`}
+                                                      label={UpperCase3}
+                                                      onChange={() => {
+                                                        const subSubCategoryId =
+                                                          item.id;
+                                                        setToggle(true);
+                                                        setSeachToggle(false);
+                                                        if (
+                                                          selectedSubSubCategories?.includes(
+                                                            subSubCategoryId
+                                                          )
+                                                        ) {
+                                                          const updatedSubCategories =
+                                                            selectedSubSubCategories?.filter(
+                                                              (id) =>
+                                                                id !==
+                                                                subSubCategoryId
+                                                            );
+                                                          setSelectedSubSubCategories(
+                                                            updatedSubCategories
+                                                          );
+                                                        } else {
+                                                          const updatedSubCategories =
+                                                            [
+                                                              ...selectedSubSubCategories,
+                                                              subSubCategoryId,
+                                                            ];
+                                                          setSelectedSubSubCategories(
+                                                            updatedSubCategories
+                                                          );
+                                                        }
+                                                      }}
+                                                      checked={selectedSubSubCategories?.includes(
+                                                        item?.id
+                                                      )}
+                                                    />
+                                                  </div>
+                                                );
+                                              }
+                                            )}
+                                          </Accordion.Body>
+                                        </Accordion.Item>
+                                      );
+                                    }
+                                  )}
+                                </Accordion>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          </Accordion>
+                        );
+                      })}
                   </div>
 
                   <div className="sidebar-widget price_range range mb-30">
@@ -607,14 +669,14 @@ const Products = ({ products1, productFilters }) => {
                             {t("Sort by:")}
                           </span>
                         </div>
-                        <div className="sort-by-dropdown-wrap custom-select">
+                        {/* <div className="sort-by-dropdown-wrap custom-select">
                           <select
                             onChange={(event) =>
                               handleChange(event.target.value)
                             }
                           >
                             <option value="Default">{t("Default")}</option>
-                          
+
                             <option value="LowToHigh">
                               {t("Low To High")}
                             </option>
@@ -622,9 +684,9 @@ const Products = ({ products1, productFilters }) => {
                               {t("High To Low")}
                             </option>
                           </select>
-                        </div>
+                        </div> */}
 
-                        {/* {!SortBaar && (
+                        {!SortBaar && (
                           <div className="sort-by-dropdown-wrap custom-select">
                             <select
                               onChange={(event) =>
@@ -632,9 +694,9 @@ const Products = ({ products1, productFilters }) => {
                               }
                             >
                               <option value="Default">{t("Default")}</option>
-                              <option value="0">{t("New Product")}</option>
+                              {/* <option value="0">{t("New Product")}</option>
                               <option value="1">{t("Hot Deals")}</option>
-                              <option value="2">{t("Best Seller")}</option>
+                              <option value="2">{t("Best Seller")}</option> */}
                               <option value="LowToHigh">
                                 {t("Low To High")}
                               </option>
@@ -653,9 +715,9 @@ const Products = ({ products1, productFilters }) => {
                               }
                             >
                               <option value="Default">{t("Default")}</option>
-                              <option value="0">{t("New Product")}</option>
+                              {/* <option value="0">{t("New Product")}</option>
                               <option value="1">{t("Hot Deals")}</option>
-                              <option value="2">{t("Best Seller")}</option>
+                              <option value="2">{t("Best Seller")}</option> */}
                               <option value="LowToHigh">
                                 {t("Low To High")}
                               </option>
@@ -664,7 +726,7 @@ const Products = ({ products1, productFilters }) => {
                               </option>
                             </select>
                           </div>
-                        )} */}
+                        )}
                       </div>
                     </div>
                   </div>

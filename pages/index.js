@@ -76,15 +76,14 @@ export default function Home() {
                   <span>{t("Featured")}</span> {t("Categories")}
                 </h3>
 
-                  <h6 style={{zIndex:'9999'}}>
-                    <Link href="/categories">
-                      <a className="view-more-new d-none d-md-flex">
-                        {t("View More")}
-                        <i className="fi-rs-angle-double-small-right"></i>
-                      </a>
-                    </Link>
-                  </h6>
-                
+                <h6 style={{ zIndex: "9999" }}>
+                  <Link href="/categories">
+                    <a className="view-more-new d-none d-md-flex">
+                      {t("View More")}
+                      <i className="fi-rs-angle-double-small-right"></i>
+                    </a>
+                  </Link>
+                </h6>
               </div>
 
               <div className="carausel-6-columns-cover position-relative">
@@ -140,18 +139,16 @@ export default function Home() {
           <div className="container pt-25 pb-20">
             <div className="row">
               <h3 className="section-title mb-20">
-                <span>{t("From")}</span> {t("blog")}
+                {/* <span>{t("From")}</span> {t("blog")} */}
               </h3>
               <div className="col-lg-6">
                 {/* <h3 className="section-title mb-20">
                                     <span>{t("From")}</span> {t("blog")}
                                 </h3> */}
-                <HomeBlog />
+                {/* <HomeBlog /> */}
               </div>
               <div className="col-lg-6">
-                <div className="row">
-                  <Banner3 />
-                </div>
+                <div className="row">{/* <Banner3 /> */}</div>
               </div>
             </div>
           </div>

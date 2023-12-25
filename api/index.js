@@ -11,7 +11,8 @@ import Wishlist from "./Wishlist";
 import myprofile from "./myprofile";
 import orderDetials from "./orderDetials";
 import review from "./review";
-
+import CMS from "./CMS";
+import Discount from "./Discount";
 export default {
   category,
   product,
@@ -26,5 +27,6 @@ export default {
   myprofile,
   orderDetials,
   review,
-  
+  CMS,
+  Discount,
 };

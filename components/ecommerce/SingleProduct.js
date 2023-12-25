@@ -71,7 +71,6 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       };
 
       const updateCart = await services.cart.UPDATE_CART(data);
-      console.log("Add to Cart !");
       toast.success("Add to Cart !");
     } else {
       const cart =

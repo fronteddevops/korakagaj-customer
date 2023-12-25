@@ -96,7 +96,11 @@ const Deals1 = () => {
                         {product.upComingDate && (
                           <Timer endDateTime={endDateTime} />
                         )}
-                        <Link href="/products">
+                        {console.log(product)}
+                        <Link
+                          href={`/products/${product?.id}`}
+                          as={`/products/${product?.id}`}
+                        >
                           <a className="btn hover-up">
                             {t("Shop Now")}{" "}
                             <i className="fi-rs-arrow-right"></i>

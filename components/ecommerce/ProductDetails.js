@@ -494,7 +494,7 @@ const ProductDetails = ({
                     <div className="row mt-60">
                       <div className="col-12">
                         <h3 className="section-title style-1 mb-30">
-                          {t("Related products")}
+                          {t("Recent products")}
                         </h3>
                       </div>
                       <div className="col-12">

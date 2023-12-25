@@ -31,10 +31,17 @@ const Cart = ({}) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(1);
   const [selectedAddress, setSelectedAddress] = useState(0);
+
   const [getadressUers, setGetaddress] = useState([]);
+
+  //Discount
+  const [Discount, setDiscount] = useState("");
+  const [DiscountID, setDiscountID] = useState("");
+  const [RemoveStatus, setRemoveStatus] = useState(false);
+  const [DiscountPer, setDiscountPer] = useState(0);
+
   const router = useRouter();
 
-  //Calculate the total amount using the reduce method
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData?.map((item) => {
       return item.finalAmount * item.selectedQuantity;
@@ -136,24 +143,28 @@ const Cart = ({}) => {
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
+
       cartDetails?.push(product);
-      let unique = cartDetails.filter(
+      console.log("Access1");
+      let unique = cartDetails?.filter(
         (value, index, self) =>
           index ===
           self.findIndex(
             (t) =>
-              t.id === value.id &&
-              t.selectedSize === value.selectedSize &&
-              t.selectedColor === value.selectedColor &&
-              t.fabric === value.fabric
+              t?.id === value?.id &&
+              t?.selectedSize === value?.selectedSize &&
+              t?.selectedColor === value?.selectedColor &&
+              t?.fabric === value?.fabric
           )
       );
-      let totalAmountArr = unique.map((item) => {
-        return item.finalAmount * item.selectedQuantity;
+
+      let totalAmountArr = unique?.map((item) => {
+        return item?.finalAmount * item?.selectedQuantity;
       });
-      let totalQtyArr = unique.map((item) => {
-        return item.selectedQuantity;
+      let totalQtyArr = unique?.map((item) => {
+        return item?.selectedQuantity;
       });
+      console.log("Access2");
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       if (qtytype) {
@@ -175,6 +186,7 @@ const Cart = ({}) => {
         totalItems: unique.length,
         totalQuantity: qty,
         addressId: selectedAddress,
+        discountId: DiscountID,
       };
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
@@ -235,6 +247,7 @@ const Cart = ({}) => {
         totalItems: 0,
         totalQuantity: 0,
         addressId: selectedAddress,
+        discountId: DiscountID,
       };
 
       const updateCart = await services.cart.UPDATE_CART(data);
@@ -265,6 +278,7 @@ const Cart = ({}) => {
         totalItems: updatedCartData.length,
         totalQuantity: totalQuantity,
         addressId: selectedAddress,
+        discountId: DiscountID,
       };
       const updateCartData = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
@@ -289,7 +303,38 @@ const Cart = ({}) => {
   };
   const isLoggedIn = localStorage.getItem("access_token");
 
+  const ApplyCoupon = async (e) => {
+    e.preventDefault();
+    const data = {
+      couponcode: Discount,
+    };
+    const query = new URLSearchParams(data);
+    try {
+      const response = await services.Discount.GET_DISCOUNT(query);
+      if (response) {
+        setDiscountID(response?.data?.data?.id);
+        setDiscountPer(response?.data?.data?.discount);
+        setRemoveStatus(true);
+        toast.success("Apply Coupon!");
+        // await handleCart(updateCart[0]);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Invalid Coupon!");
+    }
+  };
+  const ClearCoupon = async () => {
+    setDiscount("");
+    setDiscountID("");
+    setDiscountPer(0);
+    setRemoveStatus(false);
+    // await handleCart(updateCart[0]);
+    toast.success("Coupon Remove!");
+  };
 
+  useEffect(() => {
+    if (updateCart && updateCart?.length > 0) handleCart(updateCart[0]);
+  }, [DiscountID]);
   return (
     <>
       <Layout
@@ -307,7 +352,6 @@ const Cart = ({}) => {
           <div className="container">
             <div className="row">
               <div className="col-12">
-               
                 <div className="table-responsive">
                   {updateCart?.length > 0 ? "" : t("No Products")}
                   <table
@@ -323,7 +367,9 @@ const Cart = ({}) => {
                         <th scope="col">{t("Name")}</th>
                         <th scope="col">{t("Fabric Name")}</th>
                         <th scope="col">{t("Price")}</th>
-                        <th scope="col">{t("Quantity")}</th>
+                        {localStorage.getItem("access_token") && (
+                          <th scope="col">{t("Quantity")}</th>
+                        )}
                         <th scope="col">{t("Subtotal")}</th>
                         <th scope="col">{t("Remove")}</th>
                       </tr>
@@ -332,7 +378,10 @@ const Cart = ({}) => {
                       {updateCart &&
                         updateCart.map((product, j) => (
                           <tr key={j}>
-                            <td className="image product-thumbnail" data-title="image" >
+                            <td
+                              className="image product-thumbnail"
+                              data-title="image"
+                            >
                               <img
                                 src={`${imageUrl}${product.featuredImage}`}
                                 alt=""
@@ -340,8 +389,11 @@ const Cart = ({}) => {
                               />
                             </td>
 
-                            <td className="product-des product-name"  data-title="Product Name">
-                              <h5 className="product-name" >
+                            <td
+                              className="product-des product-name"
+                              data-title="Product Name"
+                            >
+                              <h5 className="product-name">
                                 <Link
                                   href="/products/[slug]"
                                   as={`/products/${product?.id}`}
@@ -392,10 +444,11 @@ const Cart = ({}) => {
                             <td className="price" data-title="Price">
                               <span>Rs. {product.finalAmount}</span>
                             </td>
-
-                            <td className="text-center" data-title="Stock">
-                              <div className="detail-qty border radius m-auto">
-                                {localStorage.getItem("access_token") && (
+                            {localStorage.getItem("access_token") && (
+                              <>
+                                <td className="text-center" data-title="Stock">
+                                  <div className="detail-qty border radius m-auto">
+                                    {/* {localStorage.getItem("access_token") && (
                                   <a
                                     onClick={(e) => increaseQuantity(product)}
                                     className="qty-up"
@@ -415,10 +468,29 @@ const Cart = ({}) => {
                                   >
                                     <i className="fi-rs-angle-small-down"></i>
                                   </a>
-                                )}
-                              </div>
-                            </td>
+                                )} */}
 
+                                    <a
+                                      onClick={(e) => increaseQuantity(product)}
+                                      className="qty-up"
+                                    >
+                                      <i className="fi-rs-angle-small-up"></i>
+                                    </a>
+
+                                    <span className="qty-val">
+                                      {product.selectedQuantity}
+                                    </span>
+
+                                    <a
+                                      onClick={(e) => decreaseQuantity(product)}
+                                      className="qty-down"
+                                    >
+                                      <i className="fi-rs-angle-small-down"></i>
+                                    </a>
+                                  </div>
+                                </td>
+                              </>
+                            )}
                             <td className="text-right" data-title="SubTotal">
                               <span>
                                 Rs.{" "}
@@ -460,7 +532,8 @@ const Cart = ({}) => {
                   </Link>
                 </div>
                 <div className="divider center_icon mt-50 mb-50">
-                  <i className="fi-rs-fingerprint"></i>
+                  {/* <i className="fi-rs-fingerprint"></i> */}
+                  <hr />
                 </div>
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-12">
@@ -503,19 +576,53 @@ const Cart = ({}) => {
                         </div>
                       </div>
                       <div className="form-row">
-                        {isLoggedIn && <div className="form-group col-lg-12">
-                          {updateCart && updateCart.length > 0 && (
-                            <Link href={"/myprofile?index=4"}>
-                              <button className="btn  btn-sm w-100">
-                                <i className="fi-rs-shuffle mr-10"></i>
-                                {/* Add new address */}
-                                {t("Add new address")}
-                              </button>
-                            </Link>
-                          )}
-                        </div>}
+                        {isLoggedIn && (
+                          <div className="form-group col-lg-12">
+                            {updateCart && updateCart.length > 0 && (
+                              <Link href={"/myprofile?index=4"}>
+                                <button className="btn  btn-sm w-100">
+                                  <i className="fi-rs-shuffle mr-10"></i>
+                                  {t("Add new address")}
+                                </button>
+                              </Link>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </form>
+                    <hr />
+                    {isLoggedIn && (
+                      <form className="field_form shipping_calculator">
+                        <div className="form-row">
+                          <div className="form-group col-lg-6">
+                            <div className="custom_select">
+                              <input
+                                onChange={(e) => setDiscount(e.target.value)}
+                                value={Discount}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-lg-3">
+                            <button
+                              className="btn btn-sm w-100"
+                              onClick={(e) => ApplyCoupon(e)}
+                            >
+                              {t("Apply Coupon")}
+                            </button>
+                          </div>
+                          {RemoveStatus && (
+                            <div className="form-group col-lg-3">
+                              <a onClick={ClearCoupon} className="text-muted">
+                                <i className="fi-rs-cross-small"></i>
+                                Remove Coupon
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </form>
+                    )}
                   </div>
                   <div className="col-lg-6 col-md-12">
                     {updateCart && updateCart.length > 0 && (
@@ -545,6 +652,37 @@ const Cart = ({}) => {
                                   {t("Free Shipping")}
                                 </td>
                               </tr>
+                              {DiscountPer != 0 && (
+                                <tr>
+                                  <td className="cart_total_label">
+                                    {t("Discount Percentage")}
+                                  </td>
+                                  <td className="cart_total_amount">
+                                    <i className="ti-gift mr-5"></i>
+                                    {DiscountPer}%
+                                  </td>
+                                </tr>
+                              )}
+                              {DiscountPer != 0 && (
+                                <tr>
+                                  <td className="cart_total_label">
+                                    {t("Discount Amount")}
+                                  </td>
+                                  <td className="cart_total_amount">
+                                    <strong>
+                                      <span className="font-xl fw-900 text-brand">
+                                        Rs.
+                                        {DiscountPer == 0
+                                          ? totalAmount
+                                          : (
+                                              (totalAmount * DiscountPer) /
+                                              100
+                                            ).toFixed(2)}
+                                      </span>
+                                    </strong>
+                                  </td>
+                                </tr>
+                              )}
                               <tr>
                                 <td className="cart_total_label">
                                   {t("Total")}
@@ -552,7 +690,13 @@ const Cart = ({}) => {
                                 <td className="cart_total_amount">
                                   <strong>
                                     <span className="font-xl fw-900 text-brand">
-                                      Rs. {totalAmount.toFixed(2)}
+                                      Rs.
+                                      {DiscountPer == 0
+                                        ? totalAmount
+                                        : (
+                                            totalAmount *
+                                            (1 - DiscountPer / 100)
+                                          ).toFixed(2)}
                                     </span>
                                   </strong>
                                 </td>
@@ -560,20 +704,6 @@ const Cart = ({}) => {
                             </tbody>
                           </table>
                         </div>
-                        {/* {isLoggedIn ? (
-                  ="btn "
-                        >
-                          <i className="fi-rs-box-alt mr-10"></i>
-                          {t("Proceed To CheckOut")}
-                        </a>
-                      ) : (
-                        <Link className={"btn"} href="/login">
-                       
-                            <i className="fi-rs-box-alt mr-10"></i>
-                            {t("Proceed to Login")}
-                          </a>
-                        </Link>
-                      )} */}
 
                         {isLoggedIn ? (
                           <a
@@ -593,14 +723,12 @@ const Cart = ({}) => {
                             {t("Continue Order")}
                           </a>
                         ) : (
-                          // <a className={"btn"} href="/login">
                           <Link href="/login" as={`/login`}>
                             <a className="btn ">
                               <i className="fi-rs-box-alt mr-10"></i>
                               {t("Proceed to Login")}
                             </a>
                           </Link>
-                          // </a>
                         )}
                       </div>
                     )}

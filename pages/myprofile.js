@@ -540,6 +540,9 @@ function Account() {
                                               className="text-right"
                                               data-title="Total Amount"
                                             >
+                                              {
+                                                console.log(item?.totalAmount)
+                                              }
                                               {item?.totalAmount}
                                             </td>
 
