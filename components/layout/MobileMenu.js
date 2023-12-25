@@ -470,7 +470,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                   </div>
                 ) : (
                   <Link href="/login">
-                    <a>{t("Log In / Sign Up")}</a>
+                    <a> {t("Sign In")}/{t("Sign Up")}</a>
                   </Link>
                 )}
                 {lastName && firstName && (

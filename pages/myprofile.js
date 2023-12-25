@@ -1153,7 +1153,7 @@ function Account() {
                                         required=""
                                         className="form-control square"
                                         name="npassword"
-                                        placeholder={t("new password")}
+                                        placeholder={t("New Password")}
                                         autoComplete="off"
                                         type={
                                           showPassword1 ? "text" : "password"

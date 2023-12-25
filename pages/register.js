@@ -581,7 +581,7 @@ function Register() {
                               {/* <h2>Google Login</h2> */}
                               <GoogleLogin
                                 clientId="326731544347-beug10oiispd5vhemqno3sinnbheg6a6.apps.googleusercontent.com"
-                                buttonText="Login With Google"
+                                buttonText="Sing In With Google"
                                 onSuccess={responseGoogle}
                                 onFailure={responseGoogle}
                                 cookiePolicy={"single_host_origin"}

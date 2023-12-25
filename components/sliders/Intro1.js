@@ -145,14 +145,14 @@ const Intro1 = () => {
               <div className="single-hero-slider single-animation-wrap">
                 <div className="container">
                   <div className="row align-items-center slider-animated-1">
-                    <div className="col-lg-10 col-md-8">
+                    <div className="col-lg-12 col-md-12">
                       <div className="single-slider-img single-slider-img-1">
                         <img
                           className="animated slider-1-1"
                           src={imageUrl + Image}
                           alt="Not Found"
                           crossOrigin="anonymous"
-                          style={{ width: "800px", height: "600px" }}
+                          style={{ width: "100%", height: "auto" }}
                         />
                       </div>
                     </div>
