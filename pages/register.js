@@ -87,25 +87,35 @@ function Register() {
       console.log(error);
     }
   };
-  //handle login  email
+
   const exceptThisSymbolspassword = ["+", "-"];
 
-  // user Register api call
+
   const handleRegister = async (event) => {
+    
     event.preventDefault();
     setPasswordConfirmError("");
+   
     let isValid = true;
     setEmailErrorRegister("");
     setPasswordErrorRegister("");
+ 
+    if (passwordRegister.length < 8) {
+
+      setPasswordErrorRegister("Password must be at least 8 characters");
+      isValid = false;
+    }
+    
     if (passwordRegister !== passwordConfirm) {
-      // Update the passwordConfirm variable with an error message
+   
       setPasswordConfirmError("Password not match");
-      isValid = false; // Set isValid to false
+      isValid = false; 
     }
     if (number.length < 10) {
       setNumberError(" Number should be  10  digits.");
       isValid = false;
     }
+   
     if (emailRegister === "") {
       setEmailErrorRegister("Enter a valid email address");
       isValid = false;
@@ -212,6 +222,7 @@ function Register() {
     setIsChecked(!isChecked); // Toggle the checkbox value
   };
   const responseGoogle = (response) => {};
+
   return (
     <>
       {Load && <Preloader />}
@@ -399,15 +410,22 @@ function Register() {
                               onChange={(e) => {
                                 setPasswordConfirmError("");
                                 const passwordValue = e.target.value;
+
+                               
                                 setPasswordRegister(
                                   passwordValue.trimStart().trimEnd()
                                 );
-                                if (passwordValue.trim()) {
+
+                               
+                                if (passwordValue.trim().length >= 8) {
                                   setPasswordErrorRegister("");
                                 } else {
-                                  setPasswordErrorRegister("Required");
+                                  setPasswordErrorRegister(
+                                    "Password must be at least 8 characters"
+                                  );
                                 }
                               }}
+                              
                               aria-describedby="password"
                             />
                             <FontAwesomeIcon

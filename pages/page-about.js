@@ -10,7 +10,30 @@ function About() {
                 <section className="section-padding">
                     <div className="container pt-25">
                         <div className="row">
-                            <div className="col-lg-6 align-self-center mb-lg-0 mb-4">
+                            <div className="col-lg-12 align-self-center mb-lg-0 mb-4">
+                            <p>
+                                    {t("Founded")}
+                                </p><br></br>
+                                <p>
+                                {t("TheCompany")}
+                                </p><br></br>
+                                <p>
+                                    {t("TheUltimate")}
+                                </p><br></br>
+                                <p>
+                                    {t("KoraKagajJourney")}
+                                </p><br></br>
+                                <p>
+                                    {t("Central")}
+                                </p><br></br>
+                                <p>
+                                    {t("KoraKagajalso")}
+                                </p><br></br>
+                                <p>
+                                    {t("KoraKagajstands")}
+                                </p><br></br>
+                            </div>
+                            {/* <div className="col-lg-6 align-self-center mb-lg-0 mb-4">
                                 <h6 className="mt-0 mb-15 text-uppercase font-sm text-brand wow fadeIn animated">
                                     {t("Our Company")}
                                 </h6>
@@ -23,17 +46,17 @@ function About() {
                                 <p>
                                     {t("Tempus ultricies augue luctus et ut suscipit. Morbi arcu, ultrices purus dolor erat bibendum sapien metus. Sit mi, pharetra, morbi arcu id. Pellentesque dapibus nibh augue senectus.")}
                                 </p>
-                            </div>
-                            <div className="col-lg-6">
+                            </div> */}
+                            {/* <div className="col-lg-6">
                                 <img
                                     src="assets/imgs/page/about-1.png"
                                     alt=""
                                 />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </section>
-                <section id="team" className="pt-25 wow fadeIn animated">
+                {/* <section id="team" className="pt-25 wow fadeIn animated">
                     <div className="container">
                         <div className="row mb-50 align-items-center">
                             <div className="col-md-6">
@@ -223,8 +246,8 @@ function About() {
                             </div>
                         </div>
                     </div>
-                </section>
-                <section id="work" className="mt-40 pt-50 pb-50 section-border">
+                </section> */}
+                {/* <section id="work" className="mt-40 pt-50 pb-50 section-border">
                     <div className="container">
                         <div className="row mb-50">
                             <div className="col-lg-12 col-md-12 text-center">
@@ -287,8 +310,8 @@ function About() {
                             </div>
                         </div>
                     </div>
-                </section>
-                <section id="testimonials" className="section-padding">
+                </section> */}
+                {/* <section id="testimonials" className="section-padding">
                     <div className="container pt-25">
                         <div className="row mb-50">
                             <div className="col-lg-12 col-md-12 text-center">
@@ -439,7 +462,7 @@ function About() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
             </Layout>
         </>
     );

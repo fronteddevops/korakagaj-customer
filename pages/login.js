@@ -215,7 +215,7 @@ function Login() {
         pauseOnHover
       />
       {showForgetPasswordComponent === false && (
-        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Login")}</Link>}>
+        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Sign In")}</Link>}>
           <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">
@@ -225,7 +225,7 @@ function Login() {
                       <div className="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
                         <div className="padding_eight_all bg-white">
                           <div className="heading_s1">
-                            <h3 className="mb-30">{t("Login")}</h3>
+                            <h3 className="mb-30">{t("Sign In")}</h3>
                           </div>
                           <form method="post" onSubmit={handleLogin}>
                             <div className="col-md-12 mt-4">
@@ -362,7 +362,7 @@ function Login() {
                                 disabled={!(email && password && isDisabled)}
                                 // onClick={handleLogin}
                               >
-                                {t("Log in")}
+                                {t("Sign In")}
                               </button>
                             </div>
                           </form>
@@ -402,7 +402,7 @@ function Login() {
         </Layout>
       )}
       {showForgetPasswordComponent && (
-        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Login")}</Link>}>
+        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Sign In")}</Link>}>
           <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">

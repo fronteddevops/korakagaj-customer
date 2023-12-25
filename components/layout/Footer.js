@@ -230,8 +230,8 @@ const Footer = () => {
                   <li>
                     <Link href="/page-terms">
                       <a>
-                        {t("Terms")}
-                        &amp;
+                        {t("Terms")}&nbsp; 
+                        & &nbsp; 
                         {t("Conditions")}
                       </a>
                     </Link>

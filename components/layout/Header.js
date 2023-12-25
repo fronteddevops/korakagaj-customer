@@ -280,7 +280,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                                   localStorage.removeItem("userId");
                                 }}
                               >
-                                {t("Logout")}
+                                {t("SingOut")}
                               </a>
                             </Link>
                           </div>
@@ -288,7 +288,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                       ) : (
                         <Link href="/login">
                           <a>
-                            {t("Log In")}/{t("Sign Up")}
+                          {t("Sign In")}/{t("Sign Up")}
                           </a>
                         </Link>
                       )}

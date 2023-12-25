@@ -181,17 +181,21 @@ function Account() {
     setNewPasswordError("");
     setConfirmPasswordError("");
     let isValid = true;
-
-    setConfirmPasswordError("");
+  
     if (newpassword !== confirmPassword) {
       // Update the passwordConfirm variable with an error message
       setConfirmPasswordError("Password does not match");
       isValid = false; // Set isValid to false
     }
+  
     if (newpassword === "") {
       setNewPasswordError("Please enter password");
       isValid = false;
+    } else if (newpassword.length < 8) {
+      setNewPasswordError("Password must be at least 8 characters");
+      isValid = false;
     }
+  
     if (isValid) {
       try {
         const data = {
@@ -213,6 +217,7 @@ function Account() {
       }
     }
   };
+  
 
   const handleaddaddress = () => {
     setShowEditAddressComponent(false);
@@ -406,7 +411,7 @@ function Account() {
                           <Link href="/login">
                             <a className="nav-link">
                               <i className="fi-rs-sign-out mr-10"></i>
-                              {t("Logout")}
+                              {t("SingOut")}
                             </a>
                           </Link>
                         </li>
@@ -1154,13 +1159,18 @@ function Account() {
                                           showPassword1 ? "text" : "password"
                                         }
                                         onChange={(e) => {
+                                          
+                                         
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
                                             setNewPasswordError(
                                               "Requierd New Password"
                                             );
-                                          } else if (
+                                          } else if (e.target.value.trim().length < 8) {
+                                            setIsDisabled(true);
+                                            setNewPasswordError("Password must be at least 8 characters");
+                                          }else if (
                                             e.target.value.trim() ===
                                             confirmPassword
                                           ) {

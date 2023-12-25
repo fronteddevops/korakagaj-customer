@@ -74,7 +74,7 @@ export default function Forgetpassword() {
 
   return (
     <div>
-      <Layout parent={t("Home")} sub={t("Login")}>
+      <Layout parent={t("Home")} sub={t("Sign In")}>
         <section
           className="pt-100 pb-100 bg-image"
          

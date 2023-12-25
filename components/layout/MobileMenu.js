@@ -483,7 +483,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           localStorage.removeItem("userId");
                       }}
                     >
-                      {t("Logout")}
+                      {t("SingOut")}
                     </Link>
                   </>
                 )}

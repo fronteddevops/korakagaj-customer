@@ -504,16 +504,16 @@ const Cart = ({}) => {
                                 onClick={(e) => deleteFromCart(product)}
                                 className="text-muted"
                               >
-                                <i className="fi-rs-trash"></i>
+                               <i className="fi-rs-angle-small-up"></i>
                               </a>
                             </td>
                           </tr>
                         ))}
                       <tr>
-                        <td colSpan="6" className="text-end">
+                        <td colSpan="12" className="text-end">
                           {updateCart && updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
-                              <i className="fi-rs-cross-small"></i>
+                             <i className="fi-rs-angle-small-down"></i>
                               Clear Cart
                             </a>
                           )}
@@ -536,7 +536,7 @@ const Cart = ({}) => {
                   <hr />
                 </div>
                 <div className="row mb-50">
-                  <div className="col-lg-6 col-md-12">
+                  
                     {updateCart &&
                       updateCart.length > 0 &&
                       addressList.length > 0 && (
@@ -544,6 +544,7 @@ const Cart = ({}) => {
                           <h4> {t("Select Address")}</h4>
                         </div>
                       )}
+                      <div className="col-lg-6 col-md-12">
                     <form className="field_form shipping_calculator">
                       <div className="form-row">
                         <div className="form-group col-lg-12">
@@ -590,21 +591,22 @@ const Cart = ({}) => {
                         )}
                       </div>
                     </form>
-                    <hr />
+                   
                     {isLoggedIn && (
                       <form className="field_form shipping_calculator">
                         <div className="form-row">
-                          <div className="form-group col-lg-6">
+                          <div className="form-group col-lg-12">
                             <div className="custom_select">
                               <input
                                 onChange={(e) => setDiscount(e.target.value)}
+                                placeholder="Enter coupon code"
                                 value={Discount}
                               />
                             </div>
                           </div>
                         </div>
                         <div className="form-row">
-                          <div className="form-group col-lg-3">
+                          <div className="form-group col-lg-12 ">
                             <button
                               className="btn btn-sm w-100"
                               onClick={(e) => ApplyCoupon(e)}
@@ -613,7 +615,7 @@ const Cart = ({}) => {
                             </button>
                           </div>
                           {RemoveStatus && (
-                            <div className="form-group col-lg-3">
+                            <div className="form-group text-end">
                               <a onClick={ClearCoupon} className="text-muted">
                                 <i className="fi-rs-cross-small"></i>
                                 Remove Coupon

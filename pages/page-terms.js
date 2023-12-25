@@ -13,12 +13,12 @@ function Terms() {
             <div className="row">
               <div className="col-lg-12">
                 <div className="single-page pr-30 mb-lg-0 mb-sm-5">
-                  <div className="single-header style-2">
-                    <h2>{t("Terms of Service")}</h2>
-                    <div className="entry-meta meta-1 font-xs mt-15 mb-15">
+                  <div className="style-2">
+                    <h2>{t("Terms of Service")}</h2><br></br>
+                   
                       <span className="h6">{t("ThisWebsite")}</span>
-                    </div>
-                  </div>
+                   
+                  </div><br></br>
                   {/* <figure className="single-thumbnail">
                     <img src="assets/imgs/blog/blog-10.jpg" alt="" />
                   </figure> */}
