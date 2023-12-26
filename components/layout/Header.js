@@ -103,7 +103,7 @@ const Header = ({ toggleClick, headerStyle }) => {
   const CategoryList = async () => {
     const respo = await services.category.GET_CATEGORY_ALL();
     setCategoryList(respo.data.data);
-    console.log(respo);
+ 
   };
   const subCategoryList = async (id) => {
     setSubCate(false);

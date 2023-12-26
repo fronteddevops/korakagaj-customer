@@ -145,7 +145,6 @@ const Cart = ({}) => {
       }
 
       cartDetails?.push(product);
-      console.log("Access1");
       let unique = cartDetails?.filter(
         (value, index, self) =>
           index ===
@@ -164,7 +163,6 @@ const Cart = ({}) => {
       let totalQtyArr = unique?.map((item) => {
         return item?.selectedQuantity;
       });
-      console.log("Access2");
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       if (qtytype) {

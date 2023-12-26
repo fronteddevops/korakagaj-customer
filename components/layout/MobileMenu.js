@@ -290,12 +290,18 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link href="/blog-category-big" as={`/blog-category-big`} >
+                        <Link
+                          href="/blog-category-big"
+                          as={`/blog-category-big`}
+                        >
                           <a>{t("Blog Category Big")}</a>
                         </Link>
                       </li>
                       <li>
-                        <Link href="/blog-category-fullwidth" as={`/blog-category-fullwidth`}>
+                        <Link
+                          href="/blog-category-fullwidth"
+                          as={`/blog-category-fullwidth`}
+                        >
                           <a>{t("Blog Category Wide")}</a>
                         </Link>
                       </li>
@@ -470,17 +476,21 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                   </div>
                 ) : (
                   <Link href="/login">
-                    <a> {t("Sign In")}/{t("Sign Up")}</a>
+                    <a>
+                      {" "}
+                      {t("Sign In")}/{t("Sign Up")}
+                    </a>
                   </Link>
                 )}
+
                 {lastName && firstName && (
                   <>
                     <Link
-                      href="/"
-                      as="/"
+                      href="/login"
+                      as="/login"
                       onClick={() => {
-                        localStorage.removeItem("access_token"),
-                          localStorage.removeItem("userId");
+                        localStorage.removeItem("access_token");
+                        localStorage.removeItem("userId");
                       }}
                     >
                       {t("SingOut")}

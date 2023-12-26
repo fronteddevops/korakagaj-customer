@@ -127,7 +127,6 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.searchProdcut.SEARCH_PRODCUT(
           searchProduct
         );
-        console.log(response);
         if (response) {
           setProdcut(response?.data?.data?.rows);
         }
@@ -146,7 +145,8 @@ const Products = ({ products1, productFilters }) => {
               if (response) {
                 setProdcut(response?.data?.data?.rows);
               }
-            } else {
+            }
+            else {
               if (data.length <= 12) {
                 setProdcut(data);
                 setCurrentPage(1);
@@ -193,9 +193,7 @@ const Products = ({ products1, productFilters }) => {
         break;
 
       case "Default":
-        console.log(new URLSearchParams(window.location.search).get("product"));
         if (new URLSearchParams(window.location.search).get("product")) {
-          console.log("Setting default");
           break;
         } else {
           prodcutFilters();
@@ -246,7 +244,6 @@ const Products = ({ products1, productFilters }) => {
 
   useEffect(() => {
     cratePagination();
-
     getallProdcut();
     getCategroy();
     setTimeout(() => {
@@ -282,7 +279,6 @@ const Products = ({ products1, productFilters }) => {
     handleChange(new URLSearchParams(window.location.search).get("product"));
   }, [new URLSearchParams(window.location.search).get("product")]);
 
-  // console.log(products);
   return (
     <>
       <Layout

@@ -23,7 +23,6 @@ const Intro1 = () => {
       console.error(e);
     }
   };
-  console.log(Image);
   return (
     <>
       <Swiper

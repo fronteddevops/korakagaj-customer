@@ -280,7 +280,6 @@ function OrderViewDetails({ data }) {
                     {orderDetailsData &&
                       orderDetailsData?.length > 0 &&
                       orderDetailsData.map((product, j) => {
-                        console.log(product)
                         return (
                           <>
                             <tr>

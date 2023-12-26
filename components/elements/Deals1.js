@@ -96,7 +96,6 @@ const Deals1 = () => {
                         {product.upComingDate && (
                           <Timer endDateTime={endDateTime} />
                         )}
-                        {console.log(product)}
                         <Link
                           href={`/products/${product?.id}`}
                           as={`/products/${product?.id}`}

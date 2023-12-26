@@ -480,7 +480,7 @@ export default function Addaddress() {
                 </div>
                 <div className="form-group col-md-12">
                   <label>
-                    {t("Address")}
+                    {t("AddressAdd")}
                     <span className="required">*</span>
                   </label>
                   <input
