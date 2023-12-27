@@ -12,7 +12,9 @@ function Contact() {
   const GET_CMS = async () => {
     try {
       const response = await services.CMS.GET_CMS();
-      setData(response?.data?.data?.rows[1].html);
+      let add = response?.data?.data?.rows[1].html.replace(/&lt;/g, "<");
+      console.log(add);
+      setData(add);
       setStatus(response?.data?.data?.rows[1]?.status);
     } catch (e) {
       console.error(e);
@@ -54,7 +56,10 @@ function Contact() {
         {Status && (
           <section className="hero-2">
             <div className="container">
-              <div className="text-center">{Data}</div>
+              <div
+                className="text-center"
+                dangerouslySetInnerHTML={{ __html: Data }}
+              />
             </div>
           </section>
         )}

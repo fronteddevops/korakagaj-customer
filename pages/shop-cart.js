@@ -92,7 +92,15 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.cart.GET_CART();
+        if (response?.data?.discountAmount) {
+          setDiscount(response?.data?.discountAmount?.couponCode);
 
+          if (response?.data?.discountAmount?.couponCode.length) {
+            setCouponDis(true);
+            setRemoveStatus(true);
+          }
+          setDiscountPer(response?.data?.discountAmount?.discount);
+        }
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           addressHandler();
@@ -107,7 +115,6 @@ const Cart = ({}) => {
         const cartLocal =
           localStorage.getItem("cartDetail") &&
           JSON.parse(localStorage.getItem("cartDetail"));
-
         setUpdateCart(cartLocal.cartDetails);
         calculateTotalAmount(cartLocal.cartDetails);
       }
@@ -122,7 +129,6 @@ const Cart = ({}) => {
           const response = await services.myprofile.GET_MY_ADDRESS();
 
           setAddressList(response?.data?.data);
-          // setSelectedAddress(response?.data?.data[0].id);
           a = response?.data?.data[0]?.id;
 
           const res = response?.data?.data.find(
@@ -138,6 +144,10 @@ const Cart = ({}) => {
   const handleCart = async (product, qtytype) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
+      console.log(cart?.data?.discountAmount);
+      if (cart?.data?.discountAmount) {
+        setDiscountID(cart?.data?.discountAmount?.id);
+      }
 
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
@@ -178,13 +188,13 @@ const Cart = ({}) => {
           return item;
         });
       }
+      console.log(sum);
       let data = {
-        cartDetail: { cartDetails: unique },
+        cartDetail: { cartDetails: unique, discountId: DiscountID },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
         addressId: selectedAddress,
-        discountId: DiscountID,
       };
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
@@ -210,11 +220,6 @@ const Cart = ({}) => {
               t.fabric === value.fabric
           )
       );
-      // const unique = [
-      //   ...new Map(
-      //     cartDetails && cartDetails?.map((item) => [item[key], item])
-      //   ).values(),
-      // ];
 
       let data = {
         cartDetail: { cartDetails: unique },
@@ -245,7 +250,6 @@ const Cart = ({}) => {
         totalItems: 0,
         totalQuantity: 0,
         addressId: selectedAddress,
-        discountId: DiscountID,
       };
 
       const updateCart = await services.cart.UPDATE_CART(data);
@@ -276,7 +280,6 @@ const Cart = ({}) => {
         totalItems: updatedCartData.length,
         totalQuantity: totalQuantity,
         addressId: selectedAddress,
-        discountId: DiscountID,
       };
       const updateCartData = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
@@ -332,8 +335,97 @@ const Cart = ({}) => {
   };
 
   useEffect(() => {
-    if (updateCart && updateCart?.length > 0) handleCart(updateCart[0]);
+    if (updateCart && updateCart?.length > 0) RemoveCoupon(updateCart[0]);
   }, [DiscountID]);
+  const RemoveCoupon = async (product, qtytype) => {
+    if (localStorage.getItem("access_token")) {
+      const cart = await services.cart.GET_CART();
+      console.log(cart?.data?.discountAmount);
+      if (cart?.data?.discountAmount) {
+        // setDiscountID(cart?.data?.discountAmount?.id);
+      }
+
+      let cartDetails = [];
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
+      }
+
+      cartDetails?.push(product);
+      let unique = cartDetails?.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t?.id === value?.id &&
+              t?.selectedSize === value?.selectedSize &&
+              t?.selectedColor === value?.selectedColor &&
+              t?.fabric === value?.fabric
+          )
+      );
+
+      let totalAmountArr = unique?.map((item) => {
+        return item?.finalAmount * item?.selectedQuantity;
+      });
+      let totalQtyArr = unique?.map((item) => {
+        return item?.selectedQuantity;
+      });
+      const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+      const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+      if (qtytype) {
+        unique.map((item) => {
+          if (
+            item.id == product.id &&
+            item.selectedColor == product.selectedColor &&
+            item.selectedSize == product.selectedSize &&
+            item.fabric === product.fabric
+          ) {
+            item.selectedQuantity = qtytype;
+          }
+          return item;
+        });
+      }
+      // console.log("sum", sum);
+      let data = {
+        cartDetail: { cartDetails: unique, discountId: DiscountID },
+        totalAmount: sum,
+        totalItems: unique.length,
+        totalQuantity: qty,
+        addressId: selectedAddress,
+      };
+      const updateCart = await services.cart.UPDATE_CART(data);
+      toast.success("Cart updated!");
+      cardData();
+    } else {
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      let cartDetails = [];
+      if (cart) {
+        cartDetails = cart.cartDetails;
+      }
+      cartDetails.push(product);
+      const key = "id";
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
+          )
+      );
+
+      let data = {
+        cartDetail: { cartDetails: unique },
+      };
+
+      localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
+      toast.success("Cart updated!");
+      cardData();
+    }
+  };
   return (
     <>
       <Layout
@@ -503,7 +595,7 @@ const Cart = ({}) => {
                                 onClick={(e) => deleteFromCart(product)}
                                 className="text-muted"
                               >
-                               <i className="fi-rs-angle-small-up"></i>
+                                 <i className="fi-rs-trash"></i>
                               </a>
                             </td>
                           </tr>
@@ -512,7 +604,8 @@ const Cart = ({}) => {
                         <td colSpan="12" className="text-end">
                           {updateCart && updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
-                             <i className="fi-rs-angle-small-down"></i>
+                              <i className="fi-rs-cross-small"></i>
+                              
                               Clear Cart
                             </a>
                           )}
@@ -535,15 +628,14 @@ const Cart = ({}) => {
                   <hr />
                 </div>
                 <div className="row mb-50">
-                  
-                    {updateCart &&
-                      updateCart.length > 0 &&
-                      addressList.length > 0 && (
-                        <div className="heading_s1 mb-3">
-                          <h4> {t("Select Address")}</h4>
-                        </div>
-                      )}
-                      <div className="col-lg-6 col-md-12">
+                  {updateCart &&
+                    updateCart.length > 0 &&
+                    addressList.length > 0 && (
+                      <div className="heading_s1 mb-3">
+                        <h4> {t("Select Address")}</h4>
+                      </div>
+                    )}
+                  <div className="col-lg-6 col-md-12">
                     <form className="field_form shipping_calculator">
                       <div className="form-row">
                         <div className="form-group col-lg-12">
@@ -684,12 +776,15 @@ const Cart = ({}) => {
                                     <strong>
                                       <span className="font-xl fw-900 text-brand">
                                         Rs.
-                                        {DiscountPer == 0
-                                          ? totalAmount
-                                          : (
-                                              (totalAmount * DiscountPer) /
-                                              100
-                                            ).toFixed(2)}
+                                        <s>
+                                          {" "}
+                                          {DiscountPer == 0
+                                            ? totalAmount
+                                            : (
+                                                (totalAmount * DiscountPer) /
+                                                100
+                                              ).toFixed(2)}
+                                        </s>
                                       </span>
                                     </strong>
                                   </td>

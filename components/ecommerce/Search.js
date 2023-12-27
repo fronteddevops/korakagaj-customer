@@ -47,6 +47,8 @@ const Search = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               router.push(`/products?searchProdcut=${e.target.value}`);
+              setSearchTerm("");
+              setProdcut([]);
             }
           }}
           type="text"

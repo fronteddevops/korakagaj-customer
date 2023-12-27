@@ -38,6 +38,7 @@ const Products = ({ products1, productFilters }) => {
   const [prodcutprice, setProdcutPrice] = useState("");
   const [color, setcolor] = useState([]);
   const [SortBaar, setSortBaar] = useState(false);
+
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
@@ -49,7 +50,7 @@ const Products = ({ products1, productFilters }) => {
     ? Router.query.subcategoryId
     : "";
   const categoryName = Router.query.categoryName;
-  const searchProduct = Router.query.searchProdcut
+  let searchProduct = Router.query.searchProdcut
     ? Router.query.searchProdcut
     : "";
 
@@ -61,12 +62,20 @@ const Products = ({ products1, productFilters }) => {
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
 
   const clearAllFilter = () => {
+    searchProduct = "";
+
     setSelectedSubSubCategories([]);
     setSizes([]);
     setPrice({ value: { min: 0, max: 1000000 } });
     setProdcutType("");
+
+    setSeachToggle(false);
+    setTimeout(() => {
+      setSeachToggle(true);
+    }, 1500);
     // handleChange("Default");
     setSortBaar(!SortBaar);
+    prodcutFilters();
   };
   const sizes = ["", "s", "m", "xl", "xxl"];
 
@@ -104,7 +113,11 @@ const Products = ({ products1, productFilters }) => {
     setCurrentPage(item);
   };
 
-  //filter prodcut
+  useEffect(() => {
+    if (searchProduct) {
+      prodcutFilters();
+    }
+  }, [searchProduct]);
   useEffect(() => {
     setSelectedSubSubCategories([]);
   }, [categoryId, subCategoryId]);
@@ -119,9 +132,12 @@ const Products = ({ products1, productFilters }) => {
       priceFrom: price.value.min,
       colour: selectedColors,
       size: selectedSizes,
+      productName: searchProduct,
     };
     const query = new URLSearchParams(data);
-
+    console.log(searchProduct);
+    console.log(searchToggle);
+    console.log(toggle);
     try {
       if (searchProduct && searchToggle) {
         const response = await services.searchProdcut.SEARCH_PRODCUT(
@@ -132,6 +148,7 @@ const Products = ({ products1, productFilters }) => {
         }
       } else {
         const response = await services.product.GET_FILTER_PRODUCT(query);
+        console.log(response);
         if (response && toggle) {
           const data = response?.data?.data;
           setTimeout(async () => {
@@ -145,8 +162,7 @@ const Products = ({ products1, productFilters }) => {
               if (response) {
                 setProdcut(response?.data?.data?.rows);
               }
-            }
-            else {
+            } else {
               if (data.length <= 12) {
                 setProdcut(data);
                 setCurrentPage(1);
@@ -172,7 +188,6 @@ const Products = ({ products1, productFilters }) => {
     }
   };
   const handleChange = (selectedValue) => {
-    setSeachToggle(false);
     switch (selectedValue) {
       case "0":
         setProdcutType("0");
@@ -185,11 +200,20 @@ const Products = ({ products1, productFilters }) => {
         break;
       case "LowToHigh":
         setProdcutPrice("asc");
+        setSeachToggle(false);
+        setTimeout(() => {
+          setSeachToggle(true);
+        }, [1000]);
         // setProdcutType("");
         break;
       case "HighToLow":
-        setProdcutPrice("desc");
+        setSeachToggle(false);
+        setTimeout(() => {
+          setSeachToggle(true);
+        }, [1000]);
         // setProdcutType("");
+        setProdcutPrice("desc");
+
         break;
 
       case "Default":
@@ -261,7 +285,6 @@ const Products = ({ products1, productFilters }) => {
     pages,
     products?.length,
   ]);
-
   useEffect(() => {
     setTimeout(() => {
       if (new URLSearchParams(window.location.search).get("subsubcategoryId"))
@@ -328,6 +351,7 @@ const Products = ({ products1, productFilters }) => {
                     selectedColors.length > 0 ||
                     selectedSizes.length > 0 ||
                     price.value.min > 0 ||
+                    searchProduct ||
                     price.value.max < 1000000) && (
                     <span
                       className="text-brand fw-bold"
@@ -441,7 +465,7 @@ const Products = ({ products1, productFilters }) => {
                                                         const subSubCategoryId =
                                                           item.id;
                                                         setToggle(true);
-                                                        setSeachToggle(false);
+                                                        // setSeachToggle(false);
                                                         if (
                                                           selectedSubSubCategories?.includes(
                                                             subSubCategoryId
@@ -508,7 +532,7 @@ const Products = ({ products1, productFilters }) => {
                             max={9000}
                             onChange={(value) => {
                               setToggle(true);
-                              setSeachToggle(false);
+                              // setSeachToggle(false);
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
@@ -545,7 +569,6 @@ const Products = ({ products1, productFilters }) => {
 
                                       onChange={() => {
                                         setToggle(true);
-                                        setSeachToggle(false);
                                         handleCheckboxChange(color);
                                       }}
                                       checked={selectedColors?.includes(color)}
@@ -594,7 +617,7 @@ const Products = ({ products1, productFilters }) => {
                               // className={active == i ? "active" : ""}
                               onClick={() => {
                                 setToggle(true);
-                                setSeachToggle(false);
+                                // setSeachToggle(false);
                                 handleClick(i, tag);
                               }}
                               key={i}
@@ -629,6 +652,7 @@ const Products = ({ products1, productFilters }) => {
                       price.value.min > 0 ||
                       categoryId?.length > 0 ||
                       categoryName ||
+                      searchProduct ||
                       price.value.max < 1000000 ? (
                         <Link href="/products" as={`/products`}>
                           <span

@@ -30,6 +30,10 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
   const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
   // const discountAmount = (basePrice * discountPercentage) / 100;
   // const totalPrice = basePrice - discountAmount;
+
+  const UpperCase = product?.SubSubCategory?.subSubCategoryName.split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   let image = [];
   useEffect(() => {
     productDataShow();
@@ -197,11 +201,12 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
             </div>
             <div className="product-content-wrap">
               <div className="product-category">
-                <Link href="/products" as={`/products`}>
-                  <a className="text-capitalize">
-                    {product?.SubSubCategory?.subSubCategoryName}
-                  </a>
-                </Link>
+                {/* <Link href="/products" as={`/products`}>
+                  <a className="text-capitalize"> */}
+                {/* {product?.SubSubCategory?.subSubCategoryName} */}
+                {UpperCase}
+                {/* </a>
+                </Link> */}
               </div>
               <h2>
                 {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}

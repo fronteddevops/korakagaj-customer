@@ -12,30 +12,27 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
 const ProductId = ({ product }) => {
-  const { t} = useTranslation("common");
+  const { t } = useTranslation("common");
   const [data, setData] = useState([]);
   const router = useRouter();
-  
-// set query data 
-  const prodcutId = router.query.productId ? router.query.productId : router.query.slug;
+  // set query data
+  const prodcutId = router.query.productId
+    ? router.query.productId
+    : router.query.slug;
   const totalPrice = router.query.totalPrice ? router.query.totalPrice : "";
   const fabricPrice = router.query.fabricPrice ? router.query.fabricPrice : "";
   const fabricId = router.query.fabricId ? router.query.fabricId : "";
   const fabricName = router.query.fabricName ? router.query.fabricName : "";
-  
-
 
   const getProdcut = async () => {
     // Fetch product data here and return it as props
-    
-    
+
     try {
       const response = await services.product.GET_PRODUCT_BY_ID(prodcutId);
-    
-   
+
+      console.log("slug", response);
       // const filteredProducts = response.data.data.rows.filter(
       //   (product) => product.id == id
-
 
       if (response) {
         // Assuming 'setData' is a state-setting function
@@ -46,9 +43,8 @@ const ProductId = ({ product }) => {
         setData([]); // Set an empty array if no products match
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   };
   useEffect(() => {
     //get prodcut function call
@@ -58,9 +54,25 @@ const ProductId = ({ product }) => {
   return (
     <>
       {data && data?.length > 0 && (
-        <Layout parent={t("Home")} sub={<><Link href="/products" as="/products">{t("Product")}</Link></>} subChild={data?.productName}>
+        <Layout
+          parent={t("Home")}
+          sub={
+            <>
+              <Link href="/products" as="/products">
+                {t("Product")}
+              </Link>
+            </>
+          }
+          subChild={data?.productName}
+        >
           <div className="container">
-            <ProductDetails product={data} fabricPrice={fabricPrice} fabricId={fabricId} totalPrice={totalPrice} fabricName={fabricName}  />
+            <ProductDetails
+              product={data}
+              fabricPrice={fabricPrice}
+              fabricId={fabricId}
+              totalPrice={totalPrice}
+              fabricName={fabricName}
+            />
           </div>
         </Layout>
       )}

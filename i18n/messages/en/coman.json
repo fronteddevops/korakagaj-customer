@@ -254,6 +254,7 @@
      "Login With Google":"Sing In With Google",
      "Don't have an account ?":"Don't have an account ?",
      "Sign up now":"Sign up now",
+     "Sign up":"Sign up",
      "Enter your email to reset your password":"Enter your email to reset your password",
      "Forgot Password":"Forgot Password",
      "New Password":"New Password",
@@ -672,7 +673,7 @@
      "Shiny":"Shiny",
      "Mat":"Mat",
      "No Products Found":"No Products Found",
-
+"Preview Page":"Preview Page",
      "Mega Menu":"Mega Menu",
      "Language":"Language",
      "Shop List":"Shop List",

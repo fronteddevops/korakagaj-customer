@@ -31,7 +31,9 @@ const Cart = ({}) => {
   const [getadressUers, setGetaddress] = useState([]);
   const [Address, setAddress] = useState("");
   const [Data, setData] = useState([]);
-  const [AmountTotal, setAmountTotal] = useState("");
+  const [DiscountPer, setDiscountPer] = useState("");
+  const [SubTotal, setSubTotal] = useState("");
+  const [DiscountAmo, setDiscountAmo] = useState("");
   const router = useRouter();
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData?.map((item) => {
@@ -43,6 +45,9 @@ const Cart = ({}) => {
     const sum = totalAmountArr?.reduce((partialSum, a) => partialSum + a, 0);
     const qty = totalQtyArr?.reduce((partialSum, a) => partialSum + a, 0);
     setTotalAmount(sum);
+    setSubTotal(sum);
+
+    console.log(sum);
     setTotalQuantity(qty);
   };
   const getadress = async () => {
@@ -65,14 +70,25 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.cart.GET_CART();
-
-        setTimeout(() => {
-          setAmountTotal(response?.data?.data?.totalAmount);
-        }, 1000);
-
+        console.log("1", response?.data?.data?.cartDetail?.cartDetails);
+        console.log(response.data);
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
+        }
+
+        if (response.data.discountAmount) {
+          setDiscountPer(response.data.discountAmount?.discount);
+          const DisAmt = JSON.parse(response?.data?.data?.discountCode);
+          setDiscountAmo(DisAmt);
+          // setSubTotal(JSON.parse(response?.data?.data?.totalAmount));
+          const payableAmount =
+            JSON.parse(response?.data?.data?.totalAmount) -
+            response?.data?.data?.discountCode;
+          // setTotalAmount(payableAmount);
+        } else {
+          // setSubTotal(response?.data?.data?.totalAmount);
+          // setTotalAmount(response.data.data.totalAmount);
         }
       } catch (error) {
         console.error(error);
@@ -106,9 +122,9 @@ const Cart = ({}) => {
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-
+      console.log("2", cart.data);
       let cartDetails = [];
-      if (cart?.data?.data?.cartDetail.cartDetails) {
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
       cartDetails?.push(product);
@@ -136,7 +152,7 @@ const Cart = ({}) => {
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
-        cartDetail: { cartDetails: unique },
+        cartDetail: { cartDetails: unique  },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
@@ -282,7 +298,7 @@ const Cart = ({}) => {
                   className="cart-action text-Start"
                   style={{ marginBottom: "10px" }}
                 >
-                  <h2>Preview Page</h2>
+                  <h3>{t("Preview Page")}</h3>
                 </div>
 
                 <div className="table-responsive">
@@ -400,23 +416,13 @@ const Cart = ({}) => {
                   </table>
                 </div>
 
-                <div
-                  className="font-lg text-end"
-                  style={{ marginRight: "70px" }}
-                >
-                  {t("Total Amount")} -{" "}
-                  <span className="font-lg fw-900 text-brand ">
-                    {totalAmount}
-                  </span>
-                </div>
-
                 <div className="divider center_icon mt-50 mb-50">
                   {/* <i className="fi-rs-fingerprint"></i> */}
 
                   <hr />
                 </div>
                 <div className="row mb-50">
-                  <div className="col-lg-8 col-md-16">
+                  <div className="col-lg-6 col-md-16">
                     <div className="col-lg-6">
                       {updateCart?.length > 0 && (
                         <div className="card mb-3 mb-lg-0">
@@ -510,26 +516,116 @@ const Cart = ({}) => {
                     </div>
                   </div>
 
-                  <div className="col-lg-4 col-md-8 text-end">
-                    {isLoggedIn ? (
-                      <a
-                        onClick={() => {
-                          checkoutHandler();
-                        }}
-                        className="btn "
-                      >
-                        <i className="fi-rs-box-alt mr-10"></i>
-                        {t("Proceed To CheckOut")}
-                      </a>
-                    ) : (
-                      <a className={"btn"} href="/login">
-                        <a className="btn ">
-                          <i className="fi-rs-box-alt mr-10"></i>
-                          {t("Proceed to Login")}
-                        </a>
-                      </a>
-                    )}
+                  <div className="col-lg-6 col-md-12">
+                    <div className="border p-md-4 p-30 border-radius cart-totals">
+                      <div className="heading_s1 mb-3">
+                        <h4>{t("Cart Totals")}</h4>
+                      </div>
+                      <div className="table-responsive">
+                        <table className="table">
+                          <tbody>
+                            <tr>
+                              <td className="cart_total_label">
+                                {t("Cart Subtotal")}
+                              </td>
+                              <td className="cart_total_amount">
+                                <span className="font-lg fw-900 text-brand">
+                                  Rs. {SubTotal}
+                                </span>
+                              </td>
+                            </tr>
+                            {DiscountPer && (
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Discount Percentage")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <i className="ti-gift mr-5"></i>
+                                  {DiscountPer}%
+                                </td>
+                              </tr>
+                            )}
+
+                            {DiscountPer && (
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Discount Amount")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <strong>
+                                    <span className="font-xl fw-900 text-brand">
+                                      Rs.{" "}
+                                      <s>
+                                        {(
+                                          (totalAmount * DiscountPer) /
+                                          100
+                                        ).toFixed(2)}
+                                      </s>
+                                    </span>
+                                  </strong>
+                                </td>
+                              </tr>
+                            )}
+                            {DiscountPer ? (
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Total")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <strong>
+                                    <span className="font-xl fw-900 text-brand">
+                                      Rs.{" "}
+                                      {(
+                                        totalAmount -
+                                        (totalAmount * DiscountPer) / 100
+                                      ).toFixed(2)}
+                                    </span>
+                                  </strong>
+                                </td>
+                              </tr>
+                            ) : (
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Total")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <strong>
+                                    <span className="font-xl fw-900 text-brand">
+                                      Rs. {totalAmount?.toFixed(2)}
+                                    </span>
+                                  </strong>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="text-center">
+                        {isLoggedIn ? (
+                          <a
+                            onClick={() => {
+                              checkoutHandler();
+                            }}
+                            className="btn"
+                          >
+                            <i className="fi-rs-box-alt mr-10"></i>
+                            {t("Proceed To CheckOut")}
+                          </a>
+                        ) : (
+                          <a className={"btn"} href="/login">
+                            <a className="btn ">
+                              <i className="fi-rs-box-alt mr-10"></i>
+                              {t("Proceed to Login")}
+                            </a>
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
+
+                  {/* <div className="text-end"> */}
+
+                  {/* </div> */}
                 </div>
               </div>
             </div>

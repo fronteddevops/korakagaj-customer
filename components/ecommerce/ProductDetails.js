@@ -59,7 +59,10 @@ const ProductDetails = ({
     setSelectedColor(color[0]);
     setSelectedSize(size[0]);
   }, [product]);
-
+  const UpperCase = product?.Category?.categoryName
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   const handleWishlist = async (product) => {
     if (localStorage.getItem("access_token")) {
       try {
@@ -247,11 +250,11 @@ const ProductDetails = ({
                         <div className="pro-details-brand">
                           <span>
                             {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
-                            <Link href="/products" as={`/products`}>
-                              <a className="text-capitalize">
-                                {product?.Category?.categoryName}
-                              </a>
-                            </Link>
+                            {/* <Link href="/products" as={`/products`}>
+                            <a className="text-capitalize"> */}
+                            {UpperCase}
+                            {/* </a>
+                            </Link> */}
                           </span>
                         </div>
                         <div className="product-rate-cover text-end">

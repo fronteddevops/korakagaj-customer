@@ -90,32 +90,28 @@ function Register() {
 
   const exceptThisSymbolspassword = ["+", "-"];
 
-
   const handleRegister = async (event) => {
-    
     event.preventDefault();
     setPasswordConfirmError("");
-   
+
     let isValid = true;
     setEmailErrorRegister("");
     setPasswordErrorRegister("");
- 
-    if (passwordRegister.length < 8) {
 
+    if (passwordRegister.length < 8) {
       setPasswordErrorRegister("Password must be at least 8 characters");
       isValid = false;
     }
-    
+
     if (passwordRegister !== passwordConfirm) {
-   
       setPasswordConfirmError("Password not match");
-      isValid = false; 
+      isValid = false;
     }
     if (number.length < 10) {
       setNumberError(" Number should be  10  digits.");
       isValid = false;
     }
-   
+
     if (emailRegister === "") {
       setEmailErrorRegister("Enter a valid email address");
       isValid = false;
@@ -265,7 +261,7 @@ function Register() {
                               placeholder={t("First Name")}
                               value={firstName}
                               onChange={(e) => {
-                                setFirstName(e.target.value.trimStart()); 
+                                setFirstName(e.target.value.trimStart());
                                 if (e.target.value.trimStart()) {
                                   setFirstName(e.target.value);
                                 }
@@ -411,12 +407,10 @@ function Register() {
                                 setPasswordConfirmError("");
                                 const passwordValue = e.target.value;
 
-                               
                                 setPasswordRegister(
                                   passwordValue.trimStart().trimEnd()
                                 );
 
-                               
                                 if (passwordValue.trim().length >= 8) {
                                   setPasswordErrorRegister("");
                                 } else {
@@ -425,7 +419,6 @@ function Register() {
                                   );
                                 }
                               }}
-                              
                               aria-describedby="password"
                             />
                             <FontAwesomeIcon
