@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Axios from "axios";
 import initialiseInterceptor from "../api/interceptor";
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // Swiper Slider
 import "swiper/css";
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }) {
     new WOW.WOW().init();
   }, []);
   return (
-    <>
+    <GoogleOAuthProvider clientId="794458147066-3stka0516uba519fftsh1064espk1q02.apps.googleusercontent.com">
     
       {!loading ? (
      
@@ -75,7 +75,7 @@ function MyApp({ Component, pageProps }) {
        
       )}
   
-    </>
+    </GoogleOAuthProvider>
   );
 }
 
