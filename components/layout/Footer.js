@@ -61,7 +61,7 @@ const Footer = () => {
   };
   return (
     <div>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -71,7 +71,7 @@ const Footer = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      /> */}
 
       <footer className="main">
         <section className="newsletter p-30  text-white wow fadeIn animated">

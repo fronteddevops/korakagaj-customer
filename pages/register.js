@@ -5,7 +5,7 @@ import services from "../services/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import Preloader from "../components/elements/Preloader.js";
@@ -45,9 +45,9 @@ function Register() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
   const onSuccesshandler = (token) => {
-    const tokenDecoded = "jwt_decode(token.credential)";
-    // console.log(tokenDecoded, token);
-    GoogleAuth(token.clientId, token.credential);
+    if (token) {
+      GoogleAuth(token?.clientId, token?.credential);
+    }
   };
   const GoogleAuth = async (clientId, credential) => {
     const data = {
@@ -243,17 +243,6 @@ function Register() {
   return (
     <>
       {Load && <Preloader />}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Layout parent={t("Home")} sub={t("Register")}>
         <section className="pt-100 pb-100 bg-image">
           <div className="container">
@@ -271,8 +260,6 @@ function Register() {
                             "Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy"
                           )}
                         </p>
-
-                        {/* tgfaestgdsgdsgdsgdsgds */}
                         <form method="post" onSubmit={handleRegister}>
                           <div className="col-md-12 mt-4">
                             <input

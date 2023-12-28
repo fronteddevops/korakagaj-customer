@@ -122,7 +122,7 @@ const Cart = ({}) => {
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      const DicountID =(cart?.data?.discountAmount?.id);
+      const DicountID = cart?.data?.discountAmount?.id;
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -152,15 +152,16 @@ const Cart = ({}) => {
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
-        cartDetail: { cartDetails: unique , discountId: DicountID  },
+        cartDetail: { cartDetails: unique, discountId: DicountID },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
       };
       console.log("UPDATE_CART");
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
+      localStorage.setItem("cartItemsCount", 0);
       cardData();
     } else {
       const cart =
@@ -347,7 +348,7 @@ const Cart = ({}) => {
                                     // href="/products/[slug]"
                                     // as={`/products/${product?.id}`}
                                     href={`/products/${product?.id}_${product?.productName}`}
-                  as={`/products/${product?.id}_${product?.productName}`}
+                                    as={`/products/${product?.id}_${product?.productName}`}
                                   >
                                     <a>{product.productName}</a>
                                   </Link>

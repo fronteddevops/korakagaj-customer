@@ -1,6 +1,5 @@
-
 import "react-perfect-scrollbar/dist/css/styles.css";
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider } from "react-i18next";
 
 import { Provider } from "react-redux";
 import "react-responsive-modal/styles.css";
@@ -12,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Axios from "axios";
 import initialiseInterceptor from "../api/interceptor";
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 // Swiper Slider
 import "swiper/css";
@@ -25,20 +24,20 @@ import Preloader from "./../components/elements/Preloader";
 //   )}`;
 
 // import { I18nextProvider } from 'react-i18next';
-import i18next from 'i18next';
+import i18next from "i18next";
 import common_hi from "../i18n/messages/hi/coman.json";
 import common_en from "../i18n/messages/en/coman.json";
 
 i18next.init({
-  interpolation: { escapeValue: false },  
-  lng: 'en',                              // language to use
+  interpolation: { escapeValue: false },
+  lng: "en", // language to use
   resources: {
-      en: {
-          common: common_en               // 'common' is our custom namespace
-      },
-      hi: {
-          common: common_hi
-      },
+    en: {
+      common: common_en, // 'common' is our custom namespace
+    },
+    hi: {
+      common: common_hi,
+    },
   },
 });
 
@@ -57,24 +56,30 @@ function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <GoogleOAuthProvider clientId="794458147066-3stka0516uba519fftsh1064espk1q02.apps.googleusercontent.com">
-    
       {!loading ? (
-     
-        <Suspense >
-        <I18nextProvider i18n={i18next}>
-        <Provider store={store}>
-          <StorageWrapper>
-            <ToastContainer />
-            <Component {...pageProps} />
-            </StorageWrapper>
+        <Suspense>
+          <I18nextProvider i18n={i18next}>
+            <Provider store={store}>
+              <StorageWrapper>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+                <Component {...pageProps} />
+              </StorageWrapper>
             </Provider>
-            </I18nextProvider>
-            </Suspense>
+          </I18nextProvider>
+        </Suspense>
       ) : (
         <Preloader />
-       
       )}
-  
     </GoogleOAuthProvider>
   );
 }
