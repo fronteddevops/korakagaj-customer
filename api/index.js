@@ -13,6 +13,7 @@ import orderDetials from "./orderDetials";
 import review from "./review";
 import CMS from "./CMS";
 import Discount from "./Discount";
+import Google from "./Google";
 export default {
   category,
   product,
@@ -29,4 +30,5 @@ export default {
   review,
   CMS,
   Discount,
+  Google
 };

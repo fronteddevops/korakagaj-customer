@@ -97,8 +97,10 @@ const Deals1 = () => {
                           <Timer endDateTime={endDateTime} />
                         )}
                         <Link
-                          href={`/products/${product?.id}`}
-                          as={`/products/${product?.id}`}
+                          // href={`/products/${product?.id}`}
+                          // as={`/products/${product?.id}`}
+                          href={`/products/${product?.id}_${product?.productName}`}
+                          as={`/products/${product?.id}_${product?.productName}`}
                         >
                           <a className="btn hover-up">
                             {t("Shop Now")}{" "}

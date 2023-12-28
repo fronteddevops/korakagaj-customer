@@ -344,8 +344,10 @@ const Cart = ({}) => {
                               >
                                 <h5 className="product-name">
                                   <Link
-                                    href="/products/[slug]"
-                                    as={`/products/${product?.id}`}
+                                    // href="/products/[slug]"
+                                    // as={`/products/${product?.id}`}
+                                    href={`/products/${product?.id}_${product?.productName}`}
+                  as={`/products/${product?.id}_${product?.productName}`}
                                   >
                                     <a>{product.productName}</a>
                                   </Link>
