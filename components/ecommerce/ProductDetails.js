@@ -30,6 +30,8 @@ const ProductDetails = ({
   fabricName,
   fabricId,
   totalPrice,
+  source,
+  GetWishlistdata
 }) => {
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
@@ -81,13 +83,17 @@ const ProductDetails = ({
             toast.success("Added to Wishlist!");
           }
 
-          // window.location.reload();
+          if(source == 'wishlist'){
+            GetWishlistdata()
+          }
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           //  productDataShow()
           toast.success("Removed from Wishlist");
-          // window.location.reload();
+          if(source == 'wishlist'){
+            GetWishlistdata()
+          }
         }
       } catch (error) {
         toast.error(error?.response?.data?.message);
