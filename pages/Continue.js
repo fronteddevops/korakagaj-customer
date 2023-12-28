@@ -158,6 +158,7 @@ const Cart = ({}) => {
         totalQuantity: qty,
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();

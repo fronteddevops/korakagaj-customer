@@ -2,7 +2,7 @@ import Axios from "axios";
 import nextConfig from "../next.config";
 import api from "../api";
 import axios from "axios";
-
+import services from "./index";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   
@@ -12,6 +12,7 @@ export default {
         const response = await Axios.post(
             nextConfig.BASE_URL + api.Wishlist.CREATE_WISHLIST_BY_ID(),data
         );
+        services.Wishlist.GET_WISHLIST_DATA()
         resolve(response);
       } catch (err) {
         reject(err);
@@ -24,6 +25,7 @@ export default {
         const response = await Axios.get(
             nextConfig.BASE_URL + api.Wishlist.GET_WISHLIST_DATA()
         );
+        localStorage.setItem('wishListItemsCount', response.data.data.length)
         resolve(response);
       } catch (err) {
         reject(err);
@@ -38,6 +40,7 @@ export default {
         const response = await Axios.put(
             nextConfig.BASE_URL + api.Wishlist.UPDATE_WISHLIST(userID),data
         );
+        services.Wishlist.GET_WISHLIST_DATA()
         resolve(response);
       } catch (err) {
         reject(err);
@@ -51,6 +54,7 @@ DELETE_WISHLIST_BY_ID : (id) => {
       const response = await Axios.delete(
           nextConfig.BASE_URL + api.Wishlist.DELETE_WISHLIST_BY_ID(id)
       );
+      services.Wishlist.GET_WISHLIST_DATA()
       resolve(response);
     } catch (err) {
       reject(err);

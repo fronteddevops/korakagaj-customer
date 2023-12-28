@@ -61,9 +61,6 @@ const Wishlist = ({
     GetWishlistdata(wishlist);
   }, [wishlist]);
 
-
-
-
   return (
     <>
       <Layout parent={t("Home")} sub={<><Link href="/products" as={`/products`} >{t("Product")}</Link></>} subChild={t("Wishlist")}>
@@ -79,8 +76,7 @@ const Wishlist = ({
 
                   <SingleProduct
                     data1={item}
-                    product={item?.Product} isWishlisted={item.isWishlisted} 
-                  />
+                    product={item?.Product} isWishlisted={item.isWishlisted}  source={'wishlist'} GetWishlistdata={GetWishlistdata}/>
 
                 </div>
               ))}

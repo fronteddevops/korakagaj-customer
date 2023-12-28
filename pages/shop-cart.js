@@ -198,6 +198,7 @@ const Cart = ({}) => {
         addressId: selectedAddress,
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
       console.log("updateCart", updateCart);
       toast.success("Cart updated!");
@@ -227,7 +228,7 @@ const Cart = ({}) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-
+      localStorage.setItem('cartItemsCount', unique.length)
       localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
       cardData();
@@ -255,6 +256,7 @@ const Cart = ({}) => {
         addressId: selectedAddress,
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', 0)
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -263,6 +265,7 @@ const Cart = ({}) => {
         cartDetail: { cartDetails: [] },
       };
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      localStorage.setItem('cartItemsCount', 0)
       toast.success("Cart updated!");
       cardData();
     }
@@ -285,6 +288,7 @@ const Cart = ({}) => {
         addressId: selectedAddress,
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', updatedCartData.length)
       const updateCartData = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -302,6 +306,7 @@ const Cart = ({}) => {
       };
 
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      localStorage.setItem('cartItemsCount', updatedCartData.length)
       toast.success("Cart updated!");
       cardData();
     }
@@ -397,6 +402,7 @@ const Cart = ({}) => {
         addressId: selectedAddress,
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -425,7 +431,7 @@ const Cart = ({}) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-
+localStorage.setItem('cartItemsCount', unique.length)
       localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
       cardData();

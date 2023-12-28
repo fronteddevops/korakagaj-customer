@@ -136,6 +136,7 @@ const ProductDetails = ({
         cartDetail: { cartDetails: unique },
       };
       // console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
 
       toast.success("Add to Cart!");
@@ -166,6 +167,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
+      localStorage.setItem('cartItemsCount', unique.length)
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Add to Cart!");
     }

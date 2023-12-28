@@ -82,9 +82,9 @@ const Header = ({ toggleClick, headerStyle }) => {
      const wishListItemsCount = localStorage.getItem('wishListItemsCount') ? localStorage.getItem('wishListItemsCount') : 0;
      setTotalWishlistItems(wishListItemsCount)
      setTotalCartItems(cartItemsCount)
-    }, 1000);
+    }, 500);
     // return () => clearInterval(interval)
-  }, [lang, totalWishlistItems]);
+  }, [lang]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
       try {

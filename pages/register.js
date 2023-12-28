@@ -85,6 +85,7 @@ const handleCart = async () => {
         cartDetail: { cartDetails: unique },
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
 
       localStorage.removeItem("cartDetail");
