@@ -102,7 +102,6 @@ const ProductDetails = ({
   const handleCart = async (product) => {
     const fabricPriceString = fabricPrice && JSON.parse(fabricPrice);
     product.basePrice = fabricPriceString || product.basePrice;
-    console.log(fabricPrice);
     product.selectedColor = selectedColor;
     product.selectedSize = selectedSize;
     product.selectedQuantity = selectedQuantity;

@@ -176,110 +176,21 @@ function OrderViewDetails({ data }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {orderDetailsData &&
-                      orderDetailsData?.length > 0 &&
-                      orderDetailsData.map((product, j) => {
-                       
-                        const outerId = product?.Product?.id;
-
-                        const matchingProducts =
-                          product?.Order?.orderDetails?.filter(
-                            (innerProduct) => {
-                              const innerID = innerProduct?.id;
-                              return innerID === outerId;
-                            }
-                          );
-
-                        return matchingProducts?.map((product, i) => (
-                          <tr key={i}>
-                            <td className="image product-thumbnail">
-                              <img
-                                src={imageUrl + product?.featuredImage}
-                                alt=""
-                                crossOrigin="anonymous"
-                              />
-                            </td>
-
-                            <td className="product-des product-name">
-                              <span>{product?.productName}</span>
-                            </td>
-
-                            <td className="text-right" data-title="Cart">
-                              <span>{product?.totalPrice}</span>
-                            </td>
-                            <td className="text-right" data-title="Cart">
-                              <span>{product?.discountPercentage}%</span>
-                            </td>
-                            <td className="text-right" data-title="Cart">
-                              <span>{product?.finalAmount}</span>
-                            </td>
-                            <td
-                              className="text-right d-none d-sm-table-cell"
-                              data-title="Cart"
-                            >
-                              <span>
-                                {product?.productType == 1 ? "Hot Deals" : null}
-                                {product?.productType == 0
-                                  ? "New Product"
-                                  : null}
-                                {product?.productType == 3
-                                  ? "UP  Coming"
-                                  : null}
-                                {product?.productType == 2
-                                  ? "Best Seller"
-                                  : null}
-                              </span>
-                            </td>
-
-                            <td className="text-right" data-title="Cart">
-                              <span>
-                                {product?.trackingId} <br />
-                                {product?.trackingLink}
-                              </span>
-                            </td>
-
-                            <td className="text-right" data-title="Cart">
-                              <span>
-                                {moment(product?.createdAt).format(
-                                  "DD MMM YYYY"
-                                )}
-                              </span>
-                            </td>
-
-                            <td className="text-right" data-title="Cart">
-                              <span
-                                className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
-                                style={{
-                                  border: "1px solid black",
-                                  width: "22px",
-                                  height: "22px",
-                                  backgroundColor: product?.selectedColor,
-                                }}
-                              ></span>
-                            </td>
-                            <td className="text-right" data-title="Cart">
-                              <span>{product?.selectedSize}</span>
-                            </td>
-                            <td className="text-right" data-title="Cart">
-                              <span>{product?.selectedQuantity}</span>
-                            </td>
-
-                            <td className="text-right" data-title="Cart">
-                              <span>
-                                <Link
-                                  href={`/ReviewRetting?orderID=${orderId}&product=${product.id}`}
-                                >
-                                  <a>{t("Review")}</a>
-                                </Link>
-                              </span>
-                            </td>
-                          </tr>
-                        ));
-                      })} */}
-
                     {orderDetailsData &&
                       orderDetailsData?.length > 0 &&
                       orderDetailsData.map((product, j) => {
+                        const dataOfMargin = product?.detail;
+                        // const marginBefore = dataOfMargin?.totalPrice -(dataOfMargin?.basePrice * dataOfMargin?.length)
+                        // const marginAfter = dataOfMargin?.finalAmount -(dataOfMargin?.basePrice * dataOfMargin?.length)
+                        //  const margin = (marginBefore - marginAfter)
+                        //  const discountper = (margin/dataOfMargin?.totalPrice*100)
+
+                        const basePrice =
+                          dataOfMargin?.basePrice * dataOfMargin?.length +
+                          dataOfMargin?.marginAmount;
+                        const percentOfmargin =
+                          (100 - dataOfMargin.discountPercentage) / 100;
+                        const MRP = basePrice / percentOfmargin;
                         return (
                           <>
                             <tr>
@@ -294,7 +205,6 @@ function OrderViewDetails({ data }) {
                               </td>
 
                               <td className="product-des product-name">
-                          
                                 <Link
                                   href="/products/[slug]"
                                   as={`/products/${product?.productId}`}
@@ -309,15 +219,13 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title="Total Price"
                               >
-                                <span>{product?.detail?.totalPrice}</span>
+                                <span>{MRP.toFixed(2)}</span>
                               </td>
                               <td
                                 className="text-right"
                                 data-title="Discount Percentage"
                               >
-                                <span>
-                                  {product?.Product?.discountPercentage}%
-                                </span>
+                                <span>{dataOfMargin?.discountPercentage}%</span>
                               </td>
                               <td
                                 className="text-right"
@@ -404,7 +312,6 @@ function OrderViewDetails({ data }) {
                               >
                                 {OrderStatusUrl != "Payment Failed" ? (
                                   !product?.Rating ? (
-                                  
                                     <span>
                                       <Link
                                         href={`/ReviewRetting?orderID=${orderId}&product=${product?.Product?.id}&OrderdetailsId=${product?.id}`}
@@ -434,7 +341,7 @@ function OrderViewDetails({ data }) {
                       </h5>
                     </div>
                     <address className="ml-40 mb-0">
-                      <b>{t("Address")}</b>&nbsp;:&nbsp;
+                      <b>{t("Addres")}</b>&nbsp;:&nbsp;
                       <span
                         style={{
                           whiteSpace: "pre-wrap", // This property allows for line breaks
