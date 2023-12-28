@@ -4,27 +4,107 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
 function Privacy() {
-    const { t } = useTranslation("common");
-    return (
-        <>
-            <Layout parent={t("Home")} sub={t("Pages")} subChild={t("Privacy")}>
-                <section className="mt-50 mb-50">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-9">
-                                <div className="single-page pr-30">
-                                    <div className="single-header style-2">
-                                        <h2>{t("Return Policy")}</h2>
-                                        <div className="entry-meta meta-1 font-xs mt-15 mb-15">
+  const { t } = useTranslation("common");
+  return (
+    <>
+      <Layout parent={t("Home")} sub={t("Pages")} subChild={t("Privacy")}>
+        <section className="mt-50 mb-50">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="single-page pr-30">
+                  <div className=" style-2">
+                    <h2>{t("RefundPolicyforkorakagajcom")}</h2>
+                    <h2>{t("Tex3DInnovativesPvtLtd")}</h2>
+                    {/* <div className="entry-meta meta-1 font-xs mt-15 mb-15">
                                             <span className="post-by">
                                                 {t("By")} <Link href="#">{t("Jonh")}</Link>
                                             </span>
                                             <span className="post-on has-dot">9 {t("April")} 2020</span>
                                             <span className="time-reading has-dot">{t("8 mins read")}</span>
                                             <span className="hit-count has-dot">69k {t("Views")}</span>
-                                        </div>
-                                    </div>
-                                    <div className="single-content">
+                                        </div> */}
+                  </div>
+                  <br></br>
+
+                  <span>{t("Tex3DInnovativesPvtLtdistheauthor")}</span>
+                  <br></br>
+                  <br></br>
+
+                  <h3>{t("ReturnsandRefunds")}</h3>
+          <br></br>
+                  <span>{t("Atkorakagaj.com")}</span>
+                  <br></br>
+                  <br></br>
+
+                  <h3>{t("1ManufacturingDefects")}</h3>
+                  <br></br>
+                  <span>{t("Wetake")}</span>
+                  <br></br>
+                  <br></br>
+                  <h3>{t("2NonRefundableItems")}</h3>
+                  <br></br>
+                  <span>{t("Pleasenote")}</span>
+                  <br></br>
+                  <br></br>
+                  <h3>{t("3ShippingCosts")}</h3>
+                  <br></br>
+                  <span>{t("Youwill")}</span>
+                  <br></br>
+                  <br></br>
+                  <h3>{t("4SaleItems")}</h3>
+                  <br></br>
+                  <span>{t("Sale")}</span>
+                  <br></br>
+                  <br></br>
+                  <h3>{t("Exchanges")}</h3>
+                  <br></br>
+                  <span>{t("Weonly")}</span>
+
+                  <div>
+                    <br></br>
+
+                    <span>{t("AbhaySharma")}</span>
+                    <br></br>
+                    <span>{t("GadwalGadwalGaneshpur")}</span>
+                    <br></br>
+                    <span>{t("BastiUP272001")}</span>
+                    <br></br>
+                    <span>{t("India")}</span>
+                  </div>
+                  <br></br>
+                  <span>{t("Pleasenote")}</span>
+                  <br></br>
+                  <br></br>
+                  <h3>{t("CompletionofReturn")}</h3>
+                  <br></br>
+
+                  <span>{t("Tocomplete")}</span>
+                  <br></br>
+                  <br></br>
+
+                  <span>{t("Ifyou")}</span>
+                  <br></br>
+                  <br></br>
+
+                  <span>{t("Pleasenotethatthisrefundpolicy")}</span>
+                  <br></br>
+                  <br></br>
+
+                  <span>{t("Lastupdated")}</span>
+                  <br></br>
+                  <br></br>
+
+                  <span>{t("Tex3DInnovativesPvtLtd")}</span>
+                  <br></br>
+
+                  <span>{t("GadwalGadwalGaneshpur")}</span>
+                  <br></br>
+                  <span>{t("BastiUP272001")}</span>
+                  <br></br>
+                  <span>{t("India")}</span>
+
+                  {/* <div className="single-content">
                                         <h4>{t("Welcome to korakagaj’s Privacy Policy")}</h4>
                                         <ol start="1">
                                             <li>
@@ -200,18 +280,18 @@ function Privacy() {
                                             <li>{t("Where we require your personal information to comply with legal or contractual obligations, then provision of such data is mandatory: if such data is not provided, then we will not be able to manage our contractual relationship with you, or to meet obligations placed on us. In all other cases, provision of requested personal information is optional.")}</li>
                                             <li>{t("If you have unresolved concerns you also have the right to complain to data protection authorities. The relevant data protection authority will be the data protection authority of the country: (i) of your habitual residence; (ii) of your place of work; or (iii) in which you consider the alleged infringement has occurred.")}.</li>
                                         </ol>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 primary-sidebar sticky-sidebar">
-                                <BlogSidebar />
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </Layout>
-        </>
-    );
+                                    </div> */}
+                </div>
+              </div>
+              <div className="col-lg-3 primary-sidebar sticky-sidebar">
+                {/* <BlogSidebar /> */}
+              </div>
+            </div>
+          </div>
+        </section>
+      </Layout>
+    </>
+  );
 }
 
 export default Privacy;
