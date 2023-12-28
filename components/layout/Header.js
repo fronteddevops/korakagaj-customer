@@ -176,7 +176,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <li>
                       <i className="fi-rs-marker"></i>
                       <Link href="/page-contact">
-                        <a>{t("Basti, UP, India")}</a>
+                        {t("Basti, UP, India")}
                       </Link>
                     </li>
                   </ul>
@@ -188,8 +188,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li>
                         {t("Get great offer up to 50% off")}
-                        <Link href="/products">
-                          <a> {t("View detail")}</a>
+                        <Link href="/products">{t("View detail")}
                         </Link>
                       </li>
                     </ul>
@@ -200,16 +199,16 @@ const Header = ({ toggleClick, headerStyle }) => {
                 <div className="header-info header-info-right">
                   <ul>
                     <li>
-                      <a>
+                     
                         <a className="language-dropdown-active">
                           <i className="fi-rs-world"></i>
                           {lang && <span>{lang}</span>}
                           <i className="fi-rs-angle-small-down"></i>
                         </a>
-                      </a>
+                     
                       <ul className="language-dropdown">
                         <li>
-                          <a>
+                        
                             <a
                               onClick={() => {
                                 i18n.changeLanguage("hi");
@@ -223,10 +222,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                               />
                               Hindi
                             </a>
-                          </a>
+                        
                         </li>
                         <li>
-                          <a>
+                        
                             <a
                               onClick={() => {
                                 i18n.changeLanguage("en");
@@ -241,7 +240,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                               />
                               English
                             </a>
-                          </a>
+                       
                         </li>
                       </ul>
                     </li>
@@ -274,22 +273,22 @@ const Header = ({ toggleClick, headerStyle }) => {
                           <NavDropdown.Divider />
                           <div style={{ marginLeft: "10px" }}>
                             <Link href="/login/" as={`/login/`}>
-                              <a
+                              <span
                                 onClick={() => {
                                   localStorage.removeItem("access_token");
                                   localStorage.removeItem("userId");
                                 }}
                               >
                                 {t("SingOut")}
-                              </a>
+                              </span>
                             </Link>
                           </div>
                         </NavDropdown>
                       ) : (
                         <Link href="/login">
-                          <a>
+                          <span>
                           {t("Sign In")}/{t("Sign Up")}
-                          </a>
+                          </span>
                         </Link>
                       )}
                     </li>
