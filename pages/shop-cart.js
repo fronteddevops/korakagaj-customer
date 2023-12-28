@@ -188,7 +188,8 @@ const Cart = ({}) => {
           return item;
         });
       }
-      console.log(sum);
+      console.log("sum", sum);
+      console.log("qty", qty);
       let data = {
         cartDetail: { cartDetails: unique, discountId: DiscountID },
         totalAmount: sum,
@@ -196,7 +197,9 @@ const Cart = ({}) => {
         totalQuantity: qty,
         addressId: selectedAddress,
       };
+      console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
+      console.log("updateCart", updateCart);
       toast.success("Cart updated!");
       cardData();
     } else {
@@ -251,7 +254,7 @@ const Cart = ({}) => {
         totalQuantity: 0,
         addressId: selectedAddress,
       };
-
+      console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -281,6 +284,7 @@ const Cart = ({}) => {
         totalQuantity: totalQuantity,
         addressId: selectedAddress,
       };
+      console.log("UPDATE_CART");
       const updateCartData = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -384,7 +388,7 @@ const Cart = ({}) => {
           return item;
         });
       }
-      // console.log("sum", sum);
+    
       let data = {
         cartDetail: { cartDetails: unique, discountId: DiscountID },
         totalAmount: sum,
@@ -392,6 +396,7 @@ const Cart = ({}) => {
         totalQuantity: qty,
         addressId: selectedAddress,
       };
+      console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -595,7 +600,7 @@ const Cart = ({}) => {
                                 onClick={(e) => deleteFromCart(product)}
                                 className="text-muted"
                               >
-                                 <i className="fi-rs-trash"></i>
+                                <i className="fi-rs-trash"></i>
                               </a>
                             </td>
                           </tr>
@@ -605,7 +610,6 @@ const Cart = ({}) => {
                           {updateCart && updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
                               <i className="fi-rs-cross-small"></i>
-                              
                               Clear Cart
                             </a>
                           )}

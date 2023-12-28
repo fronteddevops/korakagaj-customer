@@ -31,7 +31,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
   // const discountAmount = (basePrice * discountPercentage) / 100;
   // const totalPrice = basePrice - discountAmount;
 
-  const UpperCase = product?.SubSubCategory?.subSubCategoryName.split(" ")
+  const UpperCase = product?.SubSubCategory?.subSubCategoryName
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
   let image = [];
@@ -73,7 +74,7 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-
+      console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Add to Cart !");
     } else {

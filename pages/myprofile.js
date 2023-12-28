@@ -156,7 +156,6 @@ function Account() {
           }
         } catch (e) {
           setIsDisabledAcount(true);
-      
         }
       }
     }
@@ -181,13 +180,13 @@ function Account() {
     setNewPasswordError("");
     setConfirmPasswordError("");
     let isValid = true;
-  
+
     if (newpassword !== confirmPassword) {
       // Update the passwordConfirm variable with an error message
       setConfirmPasswordError("Password does not match");
       isValid = false; // Set isValid to false
     }
-  
+
     if (newpassword === "") {
       setNewPasswordError("Please enter password");
       isValid = false;
@@ -195,7 +194,7 @@ function Account() {
       setNewPasswordError("Password must be at least 8 characters");
       isValid = false;
     }
-  
+
     if (isValid) {
       try {
         const data = {
@@ -217,7 +216,6 @@ function Account() {
       }
     }
   };
-  
 
   const handleaddaddress = () => {
     setShowEditAddressComponent(false);
@@ -488,6 +486,11 @@ function Account() {
                                         <th>{t("Total Item")}</th>
                                         <th>{t("Total Quantity")}</th>
                                         <th>{t("Total Amount")}</th>
+                                        <th>{t("Coupon Discount")}</th>
+                                        <th>{t("Coupon Code")}</th>
+                                        <th>{t("Coupon Discounted Amount")}</th>
+                                        <th>{t("Payable Amount")}</th>
+                                       
                                         <th>{t("Order Status")}</th>
                                         <th>{t("Actions")}</th>
                                       </tr>
@@ -545,9 +548,57 @@ function Account() {
                                               className="text-right"
                                               data-title="Total Amount"
                                             >
-                                              
                                               {item?.totalAmount}
                                             </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            <td
+                                              className="text-right"
+                                              data-title="CouponPercent"
+                                            >
+                                              {item?.couponPercent
+                                                ? item?.couponPercent
+                                                : 0}
+                                              %
+                                            </td>
+                                            <td
+                                              className="text-right"
+                                              data-title="DiscountAmount"
+                                            >
+                                              {item?.couponCode
+                                                ? item?.couponCode
+                                                : "--"  }
+                                            </td>
+                                            <td
+                                              className="text-right"
+                                              data-title="DiscountAmount"
+                                            >
+                                              {item?.discountAmount
+                                                ? item?.discountAmount
+                                                : 0}
+                                            </td>
+                                            <td
+                                              className="text-right"
+                                              data-title="FinalAmount"
+                                            >
+                                              {item?.finalAmount
+                                                ? item?.finalAmount
+                                                : 0}
+                                            </td>
+                                            
 
                                             <td
                                               className="text-right"
@@ -565,9 +616,7 @@ function Account() {
                                               className="text-right"
                                               data-title="Actions"
                                             >
-                                              {
-                                                console.log(item)
-                                              }
+                                              {console.log(item)}
                                               <Link
                                                 href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}`}
                                               >
@@ -1157,18 +1206,20 @@ function Account() {
                                           showPassword1 ? "text" : "password"
                                         }
                                         onChange={(e) => {
-                                          
-                                         
                                           if (e.target.value.trim() === "") {
                                             setIsDisabled(true);
 
                                             setNewPasswordError(
                                               "Requierd New Password"
                                             );
-                                          } else if (e.target.value.trim().length < 8) {
+                                          } else if (
+                                            e.target.value.trim().length < 8
+                                          ) {
                                             setIsDisabled(true);
-                                            setNewPasswordError("Password must be at least 8 characters");
-                                          }else if (
+                                            setNewPasswordError(
+                                              "Password must be at least 8 characters"
+                                            );
+                                          } else if (
                                             e.target.value.trim() ===
                                             confirmPassword
                                           ) {

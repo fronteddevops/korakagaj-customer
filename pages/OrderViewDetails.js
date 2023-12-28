@@ -158,7 +158,7 @@ function OrderViewDetails({ data }) {
                     <tr className="main-heading ">
                       <th scope="col">{t("Image")}</th>
                       <th scope="col">{t("Product Name")}</th>
-                      <th scope="col">{t("Total Price")}</th>
+                      <th scope="col">{t("MRP")}</th>
                       <th scope="col">{t("Discount Percentage")}</th>
                       <th scope="col">{t("Final Amount")}</th>
                       <th scope="col">{t("Fabric Name")}</th>

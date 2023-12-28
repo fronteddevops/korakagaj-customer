@@ -171,6 +171,7 @@
      "Orders tracking":"Orders tracking",
      "To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.":"  To track your order please enter your OrderID in the box below and press Track button. This was given to you on your receipt and in the confirmation email you should have received.",
      "Order ID":"Order ID",
+     "Discount Per":"Discount Per",
      "Found in your order confirmation email":"Found in your order confirmation email",
      "Billing email":"Billing email",
      "Email you used during checkout":"Email you used during checkout",
@@ -561,6 +562,8 @@
 
      
      "Edit Address":"Edit Address",
+     "Addres":"Address",
+     "Discount Code":"Discount Code",
      "Authentic and Beautiful,Love these way more than ever expected They are Great earphones":"Authentic and Beautiful,Love these way more than ever expected They are Great earphones",
      "Estimated Price":"Estimated Price",
      "Your product's estimated final price will be":"Your product's estimated final price will be",
@@ -972,6 +975,8 @@
      "Your Orders": "Your Orders",
      "Product Image": "Product Image",
      "Order Id": "Order Id",
+     "Payable Amount":"Payable Amount",
+     "Discounted Amount":"Discounted Amount",
      "Date": "Date",
      "Total Item": "Total Item",
      "Total Quantity": "Total Quantity",

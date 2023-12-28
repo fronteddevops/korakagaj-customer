@@ -511,7 +511,7 @@ export default function Editaddress(props) {
                 </div>
                 <div className="form-group col-md-12">
                   <label>
-                    {t("Address")}
+                    {t("Addres")}
                     <span className="required">*</span>
                   </label>
                   <input

@@ -122,7 +122,7 @@ const Cart = ({}) => {
   const handleCart = async (product) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      console.log("2", cart.data);
+      const DicountID =(cart?.data?.discountAmount?.id);
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -152,11 +152,12 @@ const Cart = ({}) => {
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
-        cartDetail: { cartDetails: unique  },
+        cartDetail: { cartDetails: unique , discountId: DicountID  },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
       };
+      console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();

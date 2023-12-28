@@ -134,7 +134,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-
+      console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
 
       toast.success("Add to Cart!");
