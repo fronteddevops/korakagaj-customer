@@ -100,17 +100,19 @@ const ProductDetails = ({
   const size = JSON?.parse(product.size);
 
   const handleCart = async (product) => {
+    const fabricPriceString = fabricPrice && JSON.parse(fabricPrice);
+    product.basePrice = fabricPriceString || product.basePrice;
+    console.log(fabricPrice);
     product.selectedColor = selectedColor;
     product.selectedSize = selectedSize;
     product.selectedQuantity = selectedQuantity;
-
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
-
+      // console.log(cartDetails);
       cartDetails?.push(product);
       const unique = cartDetails.filter(
         (value, index, self) =>
@@ -134,7 +136,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      console.log("UPDATE_CART");
+      // console.log("UPDATE_CART");
       const updateCart = await services.cart.UPDATE_CART(data);
 
       toast.success("Add to Cart!");
