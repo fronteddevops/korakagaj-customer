@@ -149,8 +149,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
                 style={{ height: "250 px" }}
               >
                 <Link
-                  href={`/products/${product?.id}`}
-                  as={`/products/${product?.id}`}
+                  href={`/products/${product?.id}_${product?.productName}`}
+                  as={`/products/${product?.id}_${product?.productName}`}
                 >
                   <a>
                     <img
@@ -212,8 +212,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
               <h2>
                 {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
                 <Link
-                  href={`/products/${product?.id}`}
-                  as={`/products/${product?.id}`}
+                  href={`/products/${product?.id}_${product?.productName}`}
+                  as={`/products/${product?.id}_${product?.productName}`}
                 >
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>
