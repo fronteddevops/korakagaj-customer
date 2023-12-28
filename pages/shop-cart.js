@@ -311,7 +311,7 @@ const Cart = ({}) => {
       cardData();
     }
   };
-  const isLoggedIn = localStorage.getItem("access_token");
+  const isLoggedIn = localStorage?.getItem("access_token");
 
   const ApplyCoupon = async (e) => {
     e.preventDefault();

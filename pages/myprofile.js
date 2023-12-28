@@ -490,7 +490,7 @@ function Account() {
                                         <th>{t("Coupon Code")}</th>
                                         <th>{t("Coupon Discounted Amount")}</th>
                                         <th>{t("Payable Amount")}</th>
-                                       
+
                                         <th>{t("Order Status")}</th>
                                         <th>{t("Actions")}</th>
                                       </tr>
@@ -551,28 +551,13 @@ function Account() {
                                               {item?.totalAmount}
                                             </td>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             <td
                                               className="text-right"
                                               data-title="CouponPercent"
                                             >
                                               {item?.couponPercent
-                                                ? item?.couponPercent
-                                                : 0}
-                                              %
+                                                ? item?.couponPercent + "%"
+                                                : "--"}
                                             </td>
                                             <td
                                               className="text-right"
@@ -580,15 +565,15 @@ function Account() {
                                             >
                                               {item?.couponCode
                                                 ? item?.couponCode
-                                                : "--"  }
+                                                : "--"}
                                             </td>
                                             <td
                                               className="text-right"
                                               data-title="DiscountAmount"
                                             >
-                                              {item?.discountAmount
+                                              {item?.discountAmount != 0
                                                 ? item?.discountAmount
-                                                : 0}
+                                                : "--"}
                                             </td>
                                             <td
                                               className="text-right"
@@ -596,27 +581,19 @@ function Account() {
                                             >
                                               {item?.finalAmount
                                                 ? item?.finalAmount
-                                                : 0}
+                                                : "--"}
                                             </td>
-                                            
 
                                             <td
                                               className="text-right"
                                               data-title="Order Status"
                                             >
-                                              {/* {item?.OrderDetails?.map(
-                                                (orderDetail, index) =>
-                                                  index === 0
-                                                    ? orderDetail.type
-                                                    : null
-                                              )} */}
                                               {item?.orderStatus}
                                             </td>
                                             <td
                                               className="text-right"
                                               data-title="Actions"
                                             >
-                                              {console.log(item)}
                                               <Link
                                                 href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}`}
                                               >

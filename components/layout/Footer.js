@@ -211,7 +211,7 @@ const Footer = () => {
                 <ul className="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
                   <li>
                     <Link href={"/page-about/"} as={`/page-about/`}>
-                    <a>{t("About Us")}</a>
+                      <a>{t("About Us")}</a>
                     </Link>
                   </li>
                   {/* <li>
@@ -230,8 +230,7 @@ const Footer = () => {
                   <li>
                     <Link href="/page-terms">
                       <a>
-                        {t("Terms")}&nbsp; 
-                        & &nbsp; 
+                        {t("Terms")}&nbsp; & &nbsp;
                         {t("Conditions")}
                       </a>
                     </Link>
@@ -251,11 +250,20 @@ const Footer = () => {
                   {t("My Account")}
                 </h5>
                 <ul className="footer-list wow fadeIn animated">
-                  <li>
-                    <Link href="/login" as="/login">
-                      {t("Sign In")}
-                    </Link>
-                  </li>
+                  {localStorage.getItem("access_token") ? (
+                    <li>
+                      <a>
+                        {t("Sign In")}
+                      </a>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link href="/login" as="/login">
+                        {t("Sign In")}
+                      </Link>
+                    </li>
+                  )}
+
                   <li>
                     <Link href="/shop-cart" as={`/shop-cart`}>
                       {t("View Cart")}
