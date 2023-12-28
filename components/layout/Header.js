@@ -75,10 +75,14 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-    // const interval = setInterval(() => {
-    //   handleCart();
-    //   GetWishlistdata();
-    // }, 2000);
+    handleCart();
+    GetWishlistdata();
+    const interval = setInterval(() => {
+     const cartItemsCount = localStorage.getItem('cartItemsCount') ? localStorage.getItem('cartItemsCount') : 0;
+     const wishListItemsCount = localStorage.getItem('wishListItemsCount') ? localStorage.getItem('wishListItemsCount') : 0;
+     setTotalWishlistItems(wishListItemsCount)
+     setTotalCartItems(cartItemsCount)
+    }, 1000);
     // return () => clearInterval(interval)
   }, [lang, totalWishlistItems]);
   const getProfile = async () => {
