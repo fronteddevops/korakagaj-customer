@@ -88,7 +88,6 @@ const SingleProduct = ({
               <div className="product-price">
                 <span>Rs.{product?.price}/MTR </span>
               </div>
-              {console.log(product)}
               <div className="product-action-1 show">
                 <Link
                   href={{

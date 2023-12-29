@@ -47,7 +47,6 @@ const Cart = ({}) => {
     setTotalAmount(sum);
     setSubTotal(sum);
 
-    console.log(sum);
     setTotalQuantity(qty);
   };
   const getadress = async () => {
@@ -70,8 +69,6 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.cart.GET_CART();
-        console.log("1", response?.data?.data?.cartDetail?.cartDetails);
-        console.log(response.data);
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
@@ -157,7 +154,6 @@ const Cart = ({}) => {
         totalItems: unique.length,
         totalQuantity: qty,
       };
-      console.log("UPDATE_CART");
       localStorage.setItem("cartItemsCount", unique.length);
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");

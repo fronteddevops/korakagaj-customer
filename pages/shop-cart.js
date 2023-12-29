@@ -144,7 +144,6 @@ const Cart = ({}) => {
   const handleCart = async (product, qtytype) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      console.log(cart?.data?.discountAmount);
       if (cart?.data?.discountAmount) {
         setDiscountID(cart?.data?.discountAmount?.id);
       }
@@ -188,8 +187,6 @@ const Cart = ({}) => {
           return item;
         });
       }
-      console.log("sum", sum);
-      console.log("qty", qty);
       let data = {
         cartDetail: { cartDetails: unique, discountId: DiscountID },
         totalAmount: sum,
@@ -197,10 +194,8 @@ const Cart = ({}) => {
         totalQuantity: qty,
         addressId: selectedAddress,
       };
-      console.log("UPDATE_CART");
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       const updateCart = await services.cart.UPDATE_CART(data);
-      console.log("updateCart", updateCart);
       toast.success("Cart updated!");
       cardData();
     } else {
@@ -228,7 +223,7 @@ const Cart = ({}) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
       cardData();
@@ -255,8 +250,7 @@ const Cart = ({}) => {
         totalQuantity: 0,
         addressId: selectedAddress,
       };
-      console.log("UPDATE_CART");
-      localStorage.setItem('cartItemsCount', 0)
+      localStorage.setItem("cartItemsCount", 0);
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -265,7 +259,7 @@ const Cart = ({}) => {
         cartDetail: { cartDetails: [] },
       };
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
-      localStorage.setItem('cartItemsCount', 0)
+      localStorage.setItem("cartItemsCount", 0);
       toast.success("Cart updated!");
       cardData();
     }
@@ -287,8 +281,7 @@ const Cart = ({}) => {
         totalQuantity: totalQuantity,
         addressId: selectedAddress,
       };
-      console.log("UPDATE_CART");
-      localStorage.setItem('cartItemsCount', updatedCartData.length)
+      localStorage.setItem("cartItemsCount", updatedCartData.length);
       const updateCartData = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -306,7 +299,7 @@ const Cart = ({}) => {
       };
 
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
-      localStorage.setItem('cartItemsCount', updatedCartData.length)
+      localStorage.setItem("cartItemsCount", updatedCartData.length);
       toast.success("Cart updated!");
       cardData();
     }
@@ -349,7 +342,6 @@ const Cart = ({}) => {
   const RemoveCoupon = async (product, qtytype) => {
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
-      console.log(cart?.data?.discountAmount);
       if (cart?.data?.discountAmount) {
         // setDiscountID(cart?.data?.discountAmount?.id);
       }
@@ -401,8 +393,7 @@ const Cart = ({}) => {
         totalQuantity: qty,
         addressId: selectedAddress,
       };
-      console.log("UPDATE_CART");
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Cart updated!");
       cardData();
@@ -431,7 +422,7 @@ const Cart = ({}) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
       cardData();

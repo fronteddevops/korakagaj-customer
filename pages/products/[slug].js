@@ -31,7 +31,6 @@ const ProductId = ({ product }) => {
       let id = prodcutId.split('_')[0]
       const response = await services.product.GET_PRODUCT_BY_ID(id);
 
-      console.log("slug", response);
       // const filteredProducts = response.data.data.rows.filter(
       //   (product) => product.id == id
 

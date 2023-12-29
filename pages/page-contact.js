@@ -13,7 +13,6 @@ function Contact() {
     try {
       const response = await services.CMS.GET_CMS();
       let add = response?.data?.data?.rows[1].html.replace(/&lt;/g, "<");
-      console.log(add);
       setData(add);
       setStatus(response?.data?.data?.rows[1]?.status);
     } catch (e) {
