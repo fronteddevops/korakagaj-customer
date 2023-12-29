@@ -44,6 +44,7 @@ i18next.init({
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
+    console.log("Loading")
     initialiseInterceptor(); // Initialize the interceptor when the app loads
     setLoading(true);
     setTimeout(() => {

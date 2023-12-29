@@ -154,6 +154,7 @@ function Login() {
   };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
+  const toastSuccess = () => toast.success("Successfully");
   const toastErrorLogin = (error) => {
     toast.error(error?.response?.data?.message || "An error occurred");
   };
@@ -207,13 +208,20 @@ function Login() {
   const onSuccesshandler = (token) => {
     if (token) {
       const decoded = jwtDecode(token?.credential);
-      GoogleAuth(decoded?.email, token?.clientId);
+      GoogleAuth(
+        decoded.email,
+        decoded?.sub,
+        decoded.given_name,
+        decoded.family_name
+      );
     }
   };
-  const GoogleAuth = async (email, gAuth) => {
+  const GoogleAuth = async (email, gAuth, firstname, lastname) => {
     const data = {
       email,
       gAuth,
+      firstname,
+      lastname,
     };
     try {
       const response = await services.GoogleAuth.GoogleAuth(data);
@@ -227,8 +235,9 @@ function Login() {
             response.data.tokens.access.token
           );
         }
-        toastSuccessLogin();
+        toastSuccess();
         setIsDisabled(false);
+        await handleCart();
         setTimeout(() => {
           route.push("/");
         }, 1000);

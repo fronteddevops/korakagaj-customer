@@ -8,8 +8,23 @@ export default {
       try {
         const response = await Axios.post(
           nextConfig.BASE_URL + api.Google.GoogleAuth(),
-          data
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
+        if (response?.data?.tokens?.access?.token) {
+          localStorage.setItem(
+            "access_token",
+            response.data.tokens.access.token
+          );
+        }
+
+        Axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.getItem("access_token")}`;
         resolve(response);
       } catch (err) {
         reject(err);

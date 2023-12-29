@@ -56,6 +56,7 @@ const Cart = ({}) => {
     setTotalQuantity(qty);
   };
   //set total price in add to card all prodcut
+  console.log("localStorage", localStorage.getItem("access_token"));
   const getadress = async () => {
     if (localStorage.getItem("access_token")) {
       let a = 0;

@@ -48,13 +48,20 @@ function Register() {
     if (token) {
       const decoded = jwtDecode(token?.credential);
       console.log("decoded", decoded);
-      GoogleAuth(decoded.email, token?.clientId);
+      GoogleAuth(
+        decoded.email,
+        decoded?.sub,
+        decoded.given_name,
+        decoded.family_name
+      );
     }
   };
-  const GoogleAuth = async (email, gAuth) => {
+  const GoogleAuth = async (email, gAuth, firstname, lastname) => {
     const data = {
       email,
       gAuth,
+      firstname,
+      lastname,
     };
     try {
       const response = await services.GoogleAuth.GoogleAuth(data);
@@ -67,9 +74,9 @@ function Register() {
             response.data.tokens.access.token
           );
         }
-
-        toastSuccess();
+        toastSuccessFully();
         setIsValid(false);
+        await handleCart();
         route.push("/");
       } else {
         alert(response.data.guide);
@@ -215,6 +222,7 @@ function Register() {
 
   //set toster  register
   const toastSuccess = () => toast.success("Register User successfully");
+  const toastSuccessFully = () => toast.success("Successfully");
   const toastError = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };
