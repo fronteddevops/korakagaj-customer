@@ -146,7 +146,7 @@ const Products = ({ products1, productFilters }) => {
         }
       } else {
         const response = await services.product.GET_FILTER_PRODUCT(query);
-        console.log(response);
+        
         if (response && toggle) {
           const data = response?.data?.data;
           setTimeout(async () => {

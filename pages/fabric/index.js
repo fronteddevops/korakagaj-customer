@@ -643,8 +643,6 @@ const Products = ({ products, productFilters, closeQuickView }) => {
                         className="col-lg-4 col-md-4 col-12 col-sm-6"
                         key={i}
                       >
-                        {/* {console.log(prodcutData)}
-                        {console.log(item)} */}
                         <SingleFabric
                           product={item}
                           length={prodcutData?.newlength}

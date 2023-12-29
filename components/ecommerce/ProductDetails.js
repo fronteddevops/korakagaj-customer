@@ -117,7 +117,6 @@ const ProductDetails = ({
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
-      // console.log(cartDetails);
       cartDetails?.push(product);
       const unique = cartDetails.filter(
         (value, index, self) =>
@@ -141,7 +140,6 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      // console.log("UPDATE_CART");
       localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
 

@@ -74,7 +74,6 @@ const SingleProduct = ({ data1, product, openQuickView, source,GetWishlistdata }
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      console.log("UPDATE_CART");
       localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Add to Cart !");
