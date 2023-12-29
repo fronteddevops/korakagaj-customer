@@ -320,7 +320,7 @@ function OrderViewDetails({ data }) {
                                       </Link>
                                     </span>
                                   ) : (
-                                    <div>Reviewed</div>
+                                    <div>{t("Reviewed")}</div>
                                   )
                                 ) : (
                                   ""

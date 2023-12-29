@@ -24,7 +24,7 @@ function loadScript(src) {
 const Cart = ({}) => {
   const { t } = useTranslation("common");
   //image constant url
-  
+
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
   const [updateCart, setUpdateCart] = useState([]);
@@ -611,7 +611,7 @@ const Cart = ({}) => {
                           {updateCart && updateCart.length > 0 && (
                             <a onClick={clearCart} className="text-muted">
                               <i className="fi-rs-cross-small"></i>
-                              Clear Cart
+                              {t("Clear Cart")}
                             </a>
                           )}
                         </td>
