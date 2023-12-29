@@ -101,9 +101,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
           <div className="mobile-header-top">
             <div className="mobile-header-logo">
               <Link href="/index">
-               
-                  <img src="/assets/imgs/theme/logo.svg" alt="logo" />
-              
+                <img src="/assets/imgs/theme/logo.svg" alt="logo" />
               </Link>
             </div>
             <div className="mobile-menu-close close-style-wrap close-style-position-inherit">
@@ -150,8 +148,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       className="menu-expand"
                       onClick={() => handleToggle(1)}
                     ></span>
-                    <Link href="/">{t("Home")}
-                    </Link>
+                    <Link href="/">{t("Home")}</Link>
                   </li>
                   <li
                     className={
@@ -171,9 +168,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
 
                     <ul className={isActive.key == 2 ? "dropdown" : "d-none"}>
                       <li>
-                        <Link href="/products">
-                         {t("Shop List")}
-                        </Link>
+                        <Link href="/products">{t("Shop List")}</Link>
                       </li>
 
                       <li>
@@ -216,9 +211,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         categoryList?.map((item) => (
                           <li className="menu-item-has-children" key={item.id}>
                             <span className="menu-expand"></span>
-                            <Link href="/products">
-                             {item?.categoryName}
-                            </Link>
+                            <Link href="/products">{item?.categoryName}</Link>
                             <ul className="dropdown">
                               {item?.SubCategories?.map(
                                 (subCategory, subIndex) => (
@@ -240,11 +233,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                             key={subSubCategory?.id}
                                           >
                                             <Link href="/products">
-                                              
-                                                {
-                                                  subSubCategory?.subSubCategoryName
-                                                }
-                                              
+                                              {
+                                                subSubCategory?.subSubCategoryName
+                                              }
                                             </Link>
                                           </li>
                                         </ul>
@@ -397,30 +388,26 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
 
                     <ul className={isActive.key == 6 ? "dropdown" : "d-none"}>
                       <li>
-                        
-                          <a
-                            onClick={() => {
-                              i18n.changeLanguage("en");
-                              setLang("English");
-                              sessionStorage.setItem("lang", "English");
-                            }}
-                          >
-                            English
-                          </a>
-                       
+                        <a
+                          onClick={() => {
+                            i18n.changeLanguage("en");
+                            setLang("English");
+                            sessionStorage.setItem("lang", "English");
+                          }}
+                        >
+                          English
+                        </a>
                       </li>
                       <li>
-                      
-                          <a
-                            onClick={() => {
-                              i18n.changeLanguage("hi");
-                              setLang("Hindi");
-                              sessionStorage.setItem("lang", "Hindi");
-                            }}
-                          >
-                            Hindi
-                          </a>
-                       
+                        <a
+                          onClick={() => {
+                            i18n.changeLanguage("hi");
+                            setLang("Hindi");
+                            sessionStorage.setItem("lang", "Hindi");
+                          }}
+                        >
+                          Hindi
+                        </a>
                       </li>
                     </ul>
                   </li>
@@ -450,12 +437,12 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </li>
                         <li>
                           <Link href="/myprofile?index=4">
-                           {t("My Address")}
+                            {t("My Address")}
                           </Link>
                         </li>
                         <li>
                           <Link href="/myprofile?index=2">
-                           {t("My Orders")}
+                            {t("My Orders")}
                           </Link>
                         </li>
                       </ul>
@@ -482,7 +469,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                   </Link>
                 )}
 
-                {lastName && firstName && (
+                {/* {lastName && firstName && (
                   <>
                     <Link
                       href="/login"
@@ -495,7 +482,19 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       {t("SingOut")}
                     </Link>
                   </>
-                )}
+                )} */}
+                <>
+                  <Link href="/login/" as={`/login/`}>
+                    <span
+                      onClick={() => {
+                        localStorage.removeItem("access_token");
+                        localStorage.removeItem("userId");
+                      }}
+                    >
+                      {t("SingOut")}
+                    </span>
+                  </Link>
+                </>
               </div>
               {/* <div className="single-mobile-header-info">
                 <a>
@@ -506,39 +505,22 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
             <div className="mobile-social-icon">
               <h5 className="mb-15 text-grey-4">{t("Follow Us")}</h5>
               <a>
-               
-                  <img
-                    src="/assets/imgs/theme/icons/icon-facebook.svg"
-                    alt=""
-                  />
-               
+                <img src="/assets/imgs/theme/icons/icon-facebook.svg" alt="" />
               </a>
               <a>
-              
-                  <img src="/assets/imgs/theme/icons/icon-twitter.svg" alt="" />
-                </a>
-     
+                <img src="/assets/imgs/theme/icons/icon-twitter.svg" alt="" />
+              </a>
+
               <a>
-               
-                  <img
-                    src="/assets/imgs/theme/icons/icon-instagram.svg"
-                    alt=""
-                  />
-                </a>
-              
+                <img src="/assets/imgs/theme/icons/icon-instagram.svg" alt="" />
+              </a>
+
               <a>
-               
-                  <img
-                    src="/assets/imgs/theme/icons/icon-pinterest.svg"
-                    alt=""
-                  />
-               
+                <img src="/assets/imgs/theme/icons/icon-pinterest.svg" alt="" />
               </a>
               <a>
-               
-                  <img src="/assets/imgs/theme/icons/icon-youtube.svg" alt="" />
-                </a>
-              
+                <img src="/assets/imgs/theme/icons/icon-youtube.svg" alt="" />
+              </a>
             </div>
           </div>
         </div>
