@@ -24,6 +24,7 @@ function loadScript(src) {
 const Cart = ({}) => {
   const { t } = useTranslation("common");
   //image constant url
+  
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
   const [updateCart, setUpdateCart] = useState([]);
@@ -695,7 +696,7 @@ const Cart = ({}) => {
                           <div className="form-group col-lg-12">
                             <div className="custom_select">
                               <input
-                                placeholder="Enter Coupon Code"
+                                placeholder={t("Enter Coupon Code")}
                                 onChange={(e) => {
                                   setDiscount(e.target.value.trimStart());
                                   if (e.target.value.length > 0) {
@@ -724,7 +725,7 @@ const Cart = ({}) => {
                             <div className="form-group text-end">
                               <a onClick={ClearCoupon} className="text-muted">
                                 <i className="fi-rs-cross-small"></i>
-                                Remove Coupon
+                                {t("Remove Coupon")}
                               </a>
                             </div>
                           )}
