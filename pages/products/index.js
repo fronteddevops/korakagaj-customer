@@ -135,9 +135,7 @@ const Products = ({ products1, productFilters }) => {
       productName: searchProduct,
     };
     const query = new URLSearchParams(data);
-    console.log(searchProduct);
-    console.log(searchToggle);
-    console.log(toggle);
+
     try {
       if (searchProduct && searchToggle) {
         const response = await services.searchProdcut.SEARCH_PRODCUT(
@@ -465,7 +463,10 @@ const Products = ({ products1, productFilters }) => {
                                                         const subSubCategoryId =
                                                           item.id;
                                                         setToggle(true);
-                                                        // setSeachToggle(false);
+                                                        setSeachToggle(false);
+                                                        setTimeout(() => {
+                                                          setSeachToggle(true);
+                                                        }, [1000]);
                                                         if (
                                                           selectedSubSubCategories?.includes(
                                                             subSubCategoryId
@@ -523,7 +524,6 @@ const Products = ({ products1, productFilters }) => {
                     <div className="price-filter">
                       <div className="price-filter-inner">
                         <br />
-                        {/* <PriceRangeSlider /> */}
                         <div className="korakagaj_price_slider_amount">
                           <Slider
                             range
@@ -532,7 +532,10 @@ const Products = ({ products1, productFilters }) => {
                             max={9000}
                             onChange={(value) => {
                               setToggle(true);
-                              // setSeachToggle(false);
+                              setSeachToggle(false);
+                              setTimeout(() => {
+                                setSeachToggle(true);
+                              }, [1000]);
                               setPrice({
                                 value: { min: value[0], max: value[1] },
                               });
