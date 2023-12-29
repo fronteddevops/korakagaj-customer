@@ -44,7 +44,7 @@ function Privacy() {
                   <br></br>
                   <h3>{t("2NonRefundableItems")}</h3>
                   <br></br>
-                  <span>{t("Pleasenote")}</span>
+                  <span>{t("Pleasenotethatcustomdesigned")}</span>
                   <br></br>
                   <br></br>
                   <h3>{t("3ShippingCosts")}</h3>
@@ -68,7 +68,7 @@ function Privacy() {
                     <br></br>
                     <span>{t("GadwalGadwalGaneshpur")}</span>
                     <br></br>
-                    <span>{t("BastiUP272001")}</span>
+                    <span>{t("BastiUP")}</span>
                     <br></br>
                     <span>{t("India")}</span>
                   </div>
@@ -100,7 +100,7 @@ function Privacy() {
 
                   <span>{t("GadwalGadwalGaneshpur")}</span>
                   <br></br>
-                  <span>{t("BastiUP272001")}</span>
+                  <span>{t("BastiUttarPradesh")}</span>
                   <br></br>
                   <span>{t("India")}</span>
 
