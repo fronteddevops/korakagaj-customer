@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import Link from "next/link.js";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const { t } = useTranslation("common");
@@ -142,6 +143,7 @@ function Login() {
           cartDetail: { cartDetails: unique },
         };
         console.log("UPDATE_CART");
+        localStorage.setItem("cartItemsCount", unique.length);
         const updateCart = await services.cart.UPDATE_CART(data);
 
         localStorage.removeItem("cartDetail");
@@ -201,9 +203,27 @@ function Login() {
       }
     }
   };
+
+  const onSuccesshandler = (token) => {
+    if (token) {
+      GoogleAuth(token?.clientId, token?.credential);
+    }
+  };
+  const GoogleAuth = async (clientId, credential) => {
+    const data = {
+      clientId,
+      credential,
+    };
+    try {
+      const response = await services.GoogleAuth.GoogleAuth(data);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -213,9 +233,16 @@ function Login() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      /> */}
       {showForgetPasswordComponent === false && (
-        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Sign In")}</Link>}>
+        <Layout
+          parent={t("Home")}
+          sub={
+            <Link href="/login" as="/login">
+              {t("Sign In")}
+            </Link>
+          }
+        >
           <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">
@@ -379,17 +406,32 @@ function Login() {
                               </a>
                             </li> */}
                             <li>
-                              <a
-                                className="btn btn-google hover-up mt-2"
-                              >
+                              {/* <a className="btn btn-google hover-up mt-2">
                                 {t("Login With Google")}
-                              </a>
+                              </a> */}
+
+                              <div>
+                                {/* <h2>Google Login</h2> */}
+                                <GoogleLogin
+                                  onSuccess={(credentialResponse) => {
+                                    if (credentialResponse.credential != null) {
+                                      onSuccesshandler(credentialResponse);
+                                    }
+                                  }}
+                                  onError={() => {
+                                    console.log("Login Failed");
+                                  }}
+                                />
+                                ;
+                              </div>
                             </li>
                           </ul>
                           <div className="text-muted text-center">
                             {" "}
                             {t("Don't have an account ?")}{" "}
-                            <Link href="/register" as="/register">{t("Sign up now")}</Link>
+                            <Link href="/register" as="/register">
+                              {t("Sign up now")}
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -402,7 +444,14 @@ function Login() {
         </Layout>
       )}
       {showForgetPasswordComponent && (
-        <Layout parent={t("Home")} sub={<Link href="/login" as="/login">{t("Sign In")}</Link>}>
+        <Layout
+          parent={t("Home")}
+          sub={
+            <Link href="/login" as="/login">
+              {t("Sign In")}
+            </Link>
+          }
+        >
           <section className="pt-100 pb-100 bg-image">
             <div className="container">
               <div className="row">

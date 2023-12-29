@@ -75,12 +75,20 @@ const Header = ({ toggleClick, headerStyle }) => {
       }
     });
     getProfile();
-    // const interval = setInterval(() => {
-    //   handleCart();
-    //   GetWishlistdata();
-    // }, 2000);
+    handleCart();
+    GetWishlistdata();
+    const interval = setInterval(() => {
+      const cartItemsCount = localStorage.getItem("cartItemsCount")
+        ? localStorage.getItem("cartItemsCount")
+        : 0;
+      const wishListItemsCount = localStorage.getItem("wishListItemsCount")
+        ? localStorage.getItem("wishListItemsCount")
+        : 0;
+      setTotalWishlistItems(wishListItemsCount);
+      setTotalCartItems(cartItemsCount);
+    }, 500);
     // return () => clearInterval(interval)
-  }, [lang, totalWishlistItems]);
+  }, [lang]);
   const getProfile = async () => {
     if (localStorage.getItem("access_token")) {
       try {
@@ -103,7 +111,6 @@ const Header = ({ toggleClick, headerStyle }) => {
   const CategoryList = async () => {
     const respo = await services.category.GET_CATEGORY_ALL();
     setCategoryList(respo.data.data);
- 
   };
   const subCategoryList = async (id) => {
     setSubCate(false);
@@ -175,9 +182,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     </li>
                     <li>
                       <i className="fi-rs-marker"></i>
-                      <Link href="/page-contact">
-                        <a>{t("Basti, UP, India")}</a>
-                      </Link>
+                      <Link href="/page-contact">{t("Basti, UP, India")}</Link>
                     </li>
                   </ul>
                 </div>
@@ -188,9 +193,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <ul>
                       <li>
                         {t("Get great offer up to 50% off")}
-                        <Link href="/products">
-                          <a> {t("View detail")}</a>
-                        </Link>
+                        <Link href="/products">{t("View detail")}</Link>
                       </li>
                     </ul>
                   </div>
@@ -200,47 +203,42 @@ const Header = ({ toggleClick, headerStyle }) => {
                 <div className="header-info header-info-right">
                   <ul>
                     <li>
-                      <a>
-                        <a className="language-dropdown-active">
-                          <i className="fi-rs-world"></i>
-                          {lang && <span>{lang}</span>}
-                          <i className="fi-rs-angle-small-down"></i>
-                        </a>
+                      <a className="language-dropdown-active">
+                        <i className="fi-rs-world"></i>
+                        {lang && <span>{lang}</span>}
+                        <i className="fi-rs-angle-small-down"></i>
                       </a>
+
                       <ul className="language-dropdown">
                         <li>
-                          <a>
-                            <a
-                              onClick={() => {
-                                i18n.changeLanguage("hi");
-                                setLang("Hindi");
-                                sessionStorage.setItem("lang", "Hindi");
-                              }}
-                            >
-                              <img
-                                src="/assets/imgs/theme/India-flag.png"
-                                alt=""
-                              />
-                              Hindi
-                            </a>
+                          <a
+                            onClick={() => {
+                              i18n.changeLanguage("hi");
+                              setLang("Hindi");
+                              sessionStorage.setItem("lang", "Hindi");
+                            }}
+                          >
+                            <img
+                              src="/assets/imgs/theme/India-flag.png"
+                              alt=""
+                            />
+                            Hindi
                           </a>
                         </li>
                         <li>
-                          <a>
-                            <a
-                              onClick={() => {
-                                i18n.changeLanguage("en");
-                                setLang("English");
-                                sessionStorage.setItem("lang", "English");
-                              }}
-                            >
-                              <img
-                                src="/assets/imgs/theme/English-flag.png"
-                                height="10px"
-                                width="20px"
-                              />
-                              English
-                            </a>
+                          <a
+                            onClick={() => {
+                              i18n.changeLanguage("en");
+                              setLang("English");
+                              sessionStorage.setItem("lang", "English");
+                            }}
+                          >
+                            <img
+                              src="/assets/imgs/theme/English-flag.png"
+                              height="10px"
+                              width="20px"
+                            />
+                            English
                           </a>
                         </li>
                       </ul>
@@ -273,23 +271,25 @@ const Header = ({ toggleClick, headerStyle }) => {
                           </NavDropdown.Item>
                           <NavDropdown.Divider />
                           <div style={{ marginLeft: "10px" }}>
-                            <Link href="/login/" as={`/login/`}>
-                              <a
-                                onClick={() => {
-                                  localStorage.removeItem("access_token");
-                                  localStorage.removeItem("userId");
-                                }}
-                              >
-                                {t("SingOut")}
-                              </a>
-                            </Link>
+                            <a>
+                              <Link href="/login/" as={`/login/`}>
+                                <span
+                                  onClick={() => {
+                                    localStorage.removeItem("access_token");
+                                    localStorage.removeItem("userId");
+                                  }}
+                                >
+                                  {t("SingOut")}
+                                </span>
+                              </Link>
+                            </a>
                           </div>
                         </NavDropdown>
                       ) : (
                         <Link href="/login">
-                          <a>
-                          {t("Sign In")}/{t("Sign Up")}
-                          </a>
+                          <span>
+                            {t("Sign In")}/{t("Sign Up")}
+                          </span>
                         </Link>
                       )}
                     </li>
@@ -482,8 +482,8 @@ const Header = ({ toggleClick, headerStyle }) => {
                                       subSubCategory &&
                                       subSubCategory.length > 0 &&
                                       subSubCategory.map((subSubItem) => {
-
-                                        const word3 = subSubItem.subSubCategoryName;
+                                        const word3 =
+                                          subSubItem.subSubCategoryName;
                                         const UpperCase = word3
                                           .split(" ")
                                           .map(

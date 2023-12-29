@@ -30,6 +30,8 @@ const ProductDetails = ({
   fabricName,
   fabricId,
   totalPrice,
+  source,
+  GetWishlistdata
 }) => {
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
@@ -81,13 +83,17 @@ const ProductDetails = ({
             toast.success("Added to Wishlist!");
           }
 
-          // window.location.reload();
+          if(source == 'wishlist'){
+            GetWishlistdata()
+          }
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           //  productDataShow()
           toast.success("Removed from Wishlist");
-          // window.location.reload();
+          if(source == 'wishlist'){
+            GetWishlistdata()
+          }
         }
       } catch (error) {
         toast.error(error?.response?.data?.message);
@@ -100,17 +106,18 @@ const ProductDetails = ({
   const size = JSON?.parse(product.size);
 
   const handleCart = async (product) => {
+    const fabricPriceString = fabricPrice && JSON.parse(fabricPrice);
+    product.basePrice = fabricPriceString || product.basePrice;
     product.selectedColor = selectedColor;
     product.selectedSize = selectedSize;
     product.selectedQuantity = selectedQuantity;
-
     if (localStorage.getItem("access_token")) {
       const cart = await services.cart.GET_CART();
       let cartDetails = [];
       if (cart?.data?.data?.cartDetail?.cartDetails) {
         cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
       }
-
+      // console.log(cartDetails);
       cartDetails?.push(product);
       const unique = cartDetails.filter(
         (value, index, self) =>
@@ -134,7 +141,8 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      console.log("UPDATE_CART");
+      // console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
 
       toast.success("Add to Cart!");
@@ -165,6 +173,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
+      localStorage.setItem('cartItemsCount', unique.length)
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Add to Cart!");
     }

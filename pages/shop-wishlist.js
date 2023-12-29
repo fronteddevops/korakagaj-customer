@@ -34,7 +34,7 @@ const Wishlist = ({
 
 
 
-  const GetWishlistdata = async (wishlist) => {
+  const GetWishlistdata = async () => {
     if (localStorage.getItem("access_token")) {
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
@@ -46,6 +46,9 @@ const Wishlist = ({
       
           setWishlistdata(data)
           setWishlistLength(WishlistResponse?.data?.data?.length)
+        } else{
+          setWishlistdata([])
+          setWishlistLength(0)
         }
 
       } catch (error) {
@@ -57,12 +60,9 @@ const Wishlist = ({
 
   }
 
-  useEffect((wishlist) => {
-    GetWishlistdata(wishlist);
-  }, [wishlist]);
-
-
-
+  useEffect(() => {
+    GetWishlistdata();
+  }, []);
 
   return (
     <>
@@ -79,8 +79,7 @@ const Wishlist = ({
 
                   <SingleProduct
                     data1={item}
-                    product={item?.Product} isWishlisted={item.isWishlisted} 
-                  />
+                    product={item?.Product} isWishlisted={item.isWishlisted}  source={'wishlist'} GetWishlistdata={GetWishlistdata}/>
 
                 </div>
               ))}
@@ -90,7 +89,7 @@ const Wishlist = ({
           </div>
         </section>
       </Layout>
-      <QuickView />
+      <QuickView source={'wishlist'} GetWishlistdata={GetWishlistdata}/>
     </>
   );
 };

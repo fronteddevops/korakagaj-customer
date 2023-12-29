@@ -92,9 +92,9 @@ const CategorySlider = () => {
                     href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                     as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                   >
-                    <h5 className="text-break">
+                    <span className="text-break">
                       <a>{UpperCase}</a>
-                    </h5>
+                    </span>
                   </Link>
                 </h5>
               </div>

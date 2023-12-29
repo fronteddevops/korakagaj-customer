@@ -101,9 +101,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
           <div className="mobile-header-top">
             <div className="mobile-header-logo">
               <Link href="/index">
-                <a>
+               
                   <img src="/assets/imgs/theme/logo.svg" alt="logo" />
-                </a>
+              
               </Link>
             </div>
             <div className="mobile-menu-close close-style-wrap close-style-position-inherit">
@@ -150,8 +150,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       className="menu-expand"
                       onClick={() => handleToggle(1)}
                     ></span>
-                    <Link href="/">
-                      <a>{t("Home")}</a>
+                    <Link href="/">{t("Home")}
                     </Link>
                   </li>
                   <li
@@ -173,23 +172,23 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     <ul className={isActive.key == 2 ? "dropdown" : "d-none"}>
                       <li>
                         <Link href="/products">
-                          <a>{t("Shop List")}</a>
+                         {t("Shop List")}
                         </Link>
                       </li>
 
                       <li>
                         <Link href="/shop-wishlist">
-                          <a>{t("Shop – Wishlist")}</a>
+                          {t("Shop – Wishlist")}
                         </Link>
                       </li>
                       <li>
                         <Link href="/shop-cart" as={`/shop-cart`}>
-                          <a>{t("Shop – Cart")}</a>
+                          {t("Shop – Cart")}
                         </Link>
                       </li>
                       <li>
                         <Link href="/shop-checkout">
-                          <a>{t("Shop – Checkout")}</a>
+                          {t("Shop – Checkout")}
                         </Link>
                       </li>
                     </ul>
@@ -218,7 +217,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           <li className="menu-item-has-children" key={item.id}>
                             <span className="menu-expand"></span>
                             <Link href="/products">
-                              <a>{item?.categoryName}</a>
+                             {item?.categoryName}
                             </Link>
                             <ul className="dropdown">
                               {item?.SubCategories?.map(
@@ -228,7 +227,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                     key={subCategory?.id}
                                   >
                                     <Link href="/products">
-                                      <a>{subCategory?.subCategoryName}</a>
+                                      {subCategory?.subCategoryName}
                                     </Link>
                                     {subCategory?.SubSubCategories.map(
                                       (subSubCategory, subSubIndex) => (
@@ -241,11 +240,11 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                                             key={subSubCategory?.id}
                                           >
                                             <Link href="/products">
-                                              <a>
+                                              
                                                 {
                                                   subSubCategory?.subSubCategoryName
                                                 }
-                                              </a>
+                                              
                                             </Link>
                                           </li>
                                         </ul>
@@ -262,7 +261,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
 
                   {/* moblie menu category show in the end  */}
 
-                  <li
+                  {/* <li
                     className={
                       isActive.key == 4
                         ? "menu-item-has-children active"
@@ -329,8 +328,8 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </ul>
                       </li>
                     </ul>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={
                       isActive.key == 5
                         ? "menu-item-has-children active"
@@ -379,7 +378,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         </Link>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                   <li
                     className={
                       isActive.key == 6
@@ -398,7 +397,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
 
                     <ul className={isActive.key == 6 ? "dropdown" : "d-none"}>
                       <li>
-                        <a>
+                        
                           <a
                             onClick={() => {
                               i18n.changeLanguage("en");
@@ -408,10 +407,10 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           >
                             English
                           </a>
-                        </a>
+                       
                       </li>
                       <li>
-                        <a>
+                      
                           <a
                             onClick={() => {
                               i18n.changeLanguage("hi");
@@ -421,7 +420,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           >
                             Hindi
                           </a>
-                        </a>
+                       
                       </li>
                     </ul>
                   </li>
@@ -446,17 +445,17 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       <ul className={isActive.key == 7 ? "dropdown" : "d-none"}>
                         <li>
                           <Link href="/myprofile?index=5">
-                            <a>{t("My Profile")}</a>
+                            {t("My Profile")}
                           </Link>
                         </li>
                         <li>
                           <Link href="/myprofile?index=4">
-                            <a>{t("My Address")}</a>
+                           {t("My Address")}
                           </Link>
                         </li>
                         <li>
                           <Link href="/myprofile?index=2">
-                            <a>{t("My Orders")}</a>
+                           {t("My Orders")}
                           </Link>
                         </li>
                       </ul>
@@ -476,10 +475,10 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                   </div>
                 ) : (
                   <Link href="/login">
-                    <a>
+                    <span>
                       {" "}
                       {t("Sign In")}/{t("Sign Up")}
-                    </a>
+                    </span>
                   </Link>
                 )}
 
@@ -507,39 +506,39 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
             <div className="mobile-social-icon">
               <h5 className="mb-15 text-grey-4">{t("Follow Us")}</h5>
               <a>
-                <a>
+               
                   <img
                     src="/assets/imgs/theme/icons/icon-facebook.svg"
                     alt=""
                   />
-                </a>
+               
               </a>
               <a>
-                <a>
+              
                   <img src="/assets/imgs/theme/icons/icon-twitter.svg" alt="" />
                 </a>
-              </a>
+     
               <a>
-                <a>
+               
                   <img
                     src="/assets/imgs/theme/icons/icon-instagram.svg"
                     alt=""
                   />
                 </a>
-              </a>
+              
               <a>
-                <a>
+               
                   <img
                     src="/assets/imgs/theme/icons/icon-pinterest.svg"
                     alt=""
                   />
-                </a>
+               
               </a>
               <a>
-                <a>
+               
                   <img src="/assets/imgs/theme/icons/icon-youtube.svg" alt="" />
                 </a>
-              </a>
+              
             </div>
           </div>
         </div>

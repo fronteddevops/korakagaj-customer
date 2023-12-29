@@ -5,11 +5,12 @@ import services from "../services/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import Preloader from "../components/elements/Preloader.js";
-import { GoogleLogin } from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 function Register() {
   const route = useRouter();
   const { t } = useTranslation("common");
@@ -43,6 +44,25 @@ function Register() {
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
+  const onSuccesshandler = (token) => {
+    if (token) {
+      GoogleAuth(token?.clientId, token?.credential);
+    }
+  };
+  const GoogleAuth = async (clientId, credential) => {
+    const data = {
+      clientId,
+      credential,
+    };
+    console.log(data);
+    try {
+      const response = await services.GoogleAuth.GoogleAuth(data);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   //handle cart data
   const handleCart = async () => {
     try {
@@ -79,6 +99,7 @@ function Register() {
           cartDetail: { cartDetails: unique },
         };
         console.log("UPDATE_CART");
+        localStorage.setItem("cartItemsCount", unique.length);
         const updateCart = await services.cart.UPDATE_CART(data);
 
         localStorage.removeItem("cartDetail");
@@ -222,17 +243,6 @@ function Register() {
   return (
     <>
       {Load && <Preloader />}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Layout parent={t("Home")} sub={t("Register")}>
         <section className="pt-100 pb-100 bg-image">
           <div className="container">
@@ -250,8 +260,6 @@ function Register() {
                             "Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy"
                           )}
                         </p>
-
-                        {/* tgfaestgdsgdsgdsgdsgds */}
                         <form method="post" onSubmit={handleRegister}>
                           <div className="col-md-12 mt-4">
                             <input
@@ -573,12 +581,16 @@ function Register() {
                             <div>
                               {/* <h2>Google Login</h2> */}
                               <GoogleLogin
-                                clientId="326731544347-beug10oiispd5vhemqno3sinnbheg6a6.apps.googleusercontent.com"
-                                buttonText="Sing In With Google"
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
-                                cookiePolicy={"single_host_origin"}
+                                onSuccess={(credentialResponse) => {
+                                  if (credentialResponse.credential != null) {
+                                    onSuccesshandler(credentialResponse);
+                                  }
+                                }}
+                                onError={() => {
+                                  console.log("Login Failed");
+                                }}
                               />
+                              ;
                             </div>
                           </li>
                         </ul>

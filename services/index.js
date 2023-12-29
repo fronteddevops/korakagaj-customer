@@ -13,6 +13,7 @@ import orderDetails from "./orderDetails";
 import review from "./review";
 import CMS from "./CMS";
 import Discount from "./Discount";
+import GoogleAuth from "./GoogleAuth";
 export default {
   category,
   product,
@@ -29,4 +30,5 @@ export default {
   review,
   CMS,
   Discount,
+  GoogleAuth
 };

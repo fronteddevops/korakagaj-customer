@@ -10,7 +10,7 @@ const images = [
   { src: "/images/offer/offer-3.jpg" },
 ];
 
-const QuickView = ({ quickView, closeQuickView }) => {
+const QuickView = ({ quickView, closeQuickView, source, GetWishlistdata }) => {
   const settings = {
     customPaging: function (i) {
       return (
@@ -31,7 +31,7 @@ const QuickView = ({ quickView, closeQuickView }) => {
       <Modal open={quickView ? true : false} onClose={closeQuickView}>
         {quickView ? (
           <div className="quick-view">
-            <ProductDetails product={quickView} quickView={quickView} />
+            <ProductDetails product={quickView} quickView={quickView} source={source} GetWishlistdata={GetWishlistdata} />
           </div>
         ) : null}
       </Modal>

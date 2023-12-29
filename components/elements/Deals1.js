@@ -80,9 +80,9 @@ const Deals1 = () => {
                       </div>
                       <div className="deal-content">
                         <h6 className="product-title">
-                          <Link href="/products">
+                          {/* <Link href="/products"> */}
                             <a>{product.productName}</a>
-                          </Link>
+                          {/* </Link> */}
                         </h6>
                         <div className="product-price">
                           <span className="new-price">Rs.{totalPrice}</span>
@@ -97,8 +97,10 @@ const Deals1 = () => {
                           <Timer endDateTime={endDateTime} />
                         )}
                         <Link
-                          href={`/products/${product?.id}`}
-                          as={`/products/${product?.id}`}
+                          // href={`/products/${product?.id}`}
+                          // as={`/products/${product?.id}`}
+                          href={`/products/${product?.id}_${product?.productName}`}
+                          as={`/products/${product?.id}_${product?.productName}`}
                         >
                           <a className="btn hover-up">
                             {t("Shop Now")}{" "}

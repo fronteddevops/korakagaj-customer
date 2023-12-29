@@ -20,20 +20,18 @@ import services from "../../services";
 import { closeQuickView } from "../../redux/action/quickViewAction";
 import { useTranslation } from "react-i18next";
 
-
-
 const Products = ({ products, productFilters, closeQuickView }) => {
   const { t } = useTranslation("common");
   const [fabricType, setFabricList] = useState([]);
   const [filterFabric, setFilterFabric] = useState([]);
-  const [printType, setPrintType] = useState([])
-  const [usage, setUsage] = useState([])
-  const [handle, setHandle] = useState([])
-  const [construction, setConstruction] = useState([])
-  const [properties, setProperties] = useState([])
-  const [reflection, setReflection] = useState([])
-  const [transparency, setTransparency] = useState([])
-  const [weight, setWeight] = useState([])
+  const [printType, setPrintType] = useState([]);
+  const [usage, setUsage] = useState([]);
+  const [handle, setHandle] = useState([]);
+  const [construction, setConstruction] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [reflection, setReflection] = useState([]);
+  const [transparency, setTransparency] = useState([]);
+  const [weight, setWeight] = useState([]);
   const [selectedfabricType, setSelectedfabricType] = useState([]);
   const [selectedprintType, setSelectedprintType] = useState([]);
 
@@ -44,35 +42,29 @@ const Products = ({ products, productFilters, closeQuickView }) => {
   const [selectedhandle, setSelectedhandle] = useState([]);
   const [selectedusage, setSelectedusage] = useState([]);
   const [selectedweight, setSelectedweight] = useState([]);
-  const [fabric, setFabric] = useState("")
-const [prodcutData,setprodcutData]=useState({
-  newlength:'',
-  discountPercentage:'',
-  productName:'',
-  productId:'',
-  marginAmount:''
-})
+  const [fabric, setFabric] = useState("");
+  const [prodcutData, setprodcutData] = useState({
+    newlength: "",
+    discountPercentage: "",
+    productName: "",
+    productId: "",
+    marginAmount: "",
+  });
   //pagination
- 
+
   let Router = useRouter(),
     searchTerm = Router.query.search,
     showLimit = 12,
     showPagination = 4;
 
-  const {  id  } = Router.query;
+  const { id } = Router.query;
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
 
   let [isFilterVisible, setIsFilterVisible] = useState(false);
   let [currentPage, setCurrentPage] = useState(1);
-  let [pages, setPages] = useState(
-    Math.ceil(
-
-      filterFabric?.length / limit
-    )
-  );
-
+  let [pages, setPages] = useState(Math.ceil(filterFabric?.length / limit));
 
   //filter fabric state send qu..
   const filterFabricState = {
@@ -91,8 +83,7 @@ const [prodcutData,setprodcutData]=useState({
   const cratePagination = () => {
     // Calculate the number of pages based on the list length and limit
 
-    const totalItems =
-      filterFabric.length
+    const totalItems = filterFabric.length;
     const totalPages = Math.ceil(totalItems / limit);
 
     // Create an array of page numbers
@@ -101,9 +92,6 @@ const [prodcutData,setprodcutData]=useState({
     // Update the state variables
     setPagination(pageNumbers);
     setPages(totalPages);
-
-
-
   };
   //fabric data
 
@@ -121,7 +109,7 @@ const [prodcutData,setprodcutData]=useState({
           reflection: new Set(),
           transparency: new Set(),
           weight: new Set(),
-          DuplicateKeyFound: new Set()
+          DuplicateKeyFound: new Set(),
         };
 
         response?.data?.data?.rows?.forEach((item) => {
@@ -158,32 +146,29 @@ const [prodcutData,setprodcutData]=useState({
     }
   };
 
-const getProdcut=async()=>{
-  try {
-     const response =await services.product.GET_PRODUCT_BY_ID(id)
-   
-     if(response){
-    
-      setprodcutData({
-        newlength: response?.data?.data[0]?.length,
-        discountPercentage: response?.data?.data[0]?.discountPercentage,
-        productName: response?.data?.data[0]?.productName,
-        productId: response?.data?.data[0]?.id,
-        marginAmount:response?.data?.data[0]?.marginAmount
-      });
-      
-      
-     }
-  } catch (error) {
-      console.log(error)
-  }
-}
+  const getProdcut = async () => {
+    try {
+      const response = await services.product.GET_PRODUCT_BY_ID(id);
+
+      if (response) {
+        setprodcutData({
+          newlength: response?.data?.data[0]?.length,
+          discountPercentage: response?.data?.data[0]?.discountPercentage,
+          productName: response?.data?.data[0]?.productName,
+          productId: response?.data?.data[0]?.id,
+          marginAmount: response?.data?.data[0]?.marginAmount,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    closeQuickView()
-    getFabric()
+    closeQuickView();
+    getFabric();
     getFilterFabric();
-    getProdcut()
+    getProdcut();
     cratePagination();
   }, [
     selectedfabricType,
@@ -198,13 +183,11 @@ const getProdcut=async()=>{
     selectedweight,
     limit,
     filterFabric.length,
-
-
   ]);
 
   const startIndex = currentPage * limit - limit;
   const endIndex = startIndex + limit;
-  const getPaginatedProducts = filterFabric.slice(startIndex, endIndex)
+  const getPaginatedProducts = filterFabric.slice(startIndex, endIndex);
 
   let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
   let end = start + showPagination;
@@ -215,7 +198,6 @@ const getProdcut=async()=>{
   };
 
   const prev = () => {
-
     setCurrentPage((pages) => pages - 1);
   };
 
@@ -228,16 +210,14 @@ const getProdcut=async()=>{
   const getFilterFabric = async () => {
     try {
       const response = await services.fabric.GET_FilTER_FABRIC(query);
-      const data = response?.data?.data?.rows
+      const data = response?.data?.data?.rows;
       if (data.length <= 12) {
-        setFilterFabric(data)
+        setFilterFabric(data);
 
-        setCurrentPage(1)
+        setCurrentPage(1);
+      } else {
+        setFilterFabric(data);
       }
-      else {
-        setFilterFabric(data)
-      }
-
     } catch (error) {
       console.log(error);
     }
@@ -245,21 +225,32 @@ const getProdcut=async()=>{
 
   return (
     <>
-      <Layout parent={t("Home")} sub={<><Link href="/products" as={`/products`}>{t("Product")}</Link></>} subSub={<>
-        <Link href="/products/[slug]" as={`/products/${id}`}>
-          <a>
-            {prodcutData?.productName}
-          </a>
-        </Link>
-        <span></span>
-      </>}
-        subChild={t("Select Fabric")}  >
+      <Layout
+        parent={t("Home")}
+        sub={
+          <>
+            <Link href="/products" as={`/products`}>
+              {t("Product")}
+            </Link>
+          </>
+        }
+        subSub={
+          <>
+            <Link href="/products/[slug]" as={`/products/${id}`}>
+              <a>{prodcutData?.productName}</a>
+            </Link>
+            <span></span>
+          </>
+        }
+        subChild={t("Select Fabric")}
+      >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">
               <div
-                className={`${!isFilterVisible ? "hide-on-mobile" : ""
-                  } col-lg-3 primary-sidebar sticky-sidebar`}
+                className={`${
+                  !isFilterVisible ? "hide-on-mobile" : ""
+                } col-lg-3 primary-sidebar sticky-sidebar`}
               >
                 <div className="sidebar-widget price_range range mb-30">
                   <div className="widget-header position-relative mb-20 pb-10">
@@ -294,9 +285,9 @@ const getProdcut=async()=>{
                                     weight
                                   )
                                     ? selectedweight.filter(
-                                      (selectedType) =>
-                                        selectedType !== weight
-                                    )
+                                        (selectedType) =>
+                                          selectedType !== weight
+                                      )
                                     : [...selectedweight, weight];
 
                                   setSelectedweight(updatedweight);
@@ -315,7 +306,6 @@ const getProdcut=async()=>{
                         </h5>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {/* <BrandFilter /> */}
                         {fabricType.length > 0 &&
                           fabricType
                             .filter((item, index) => item) // Filter out items with blank fabricType
@@ -325,16 +315,15 @@ const getProdcut=async()=>{
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
-                               
                                 style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const fabricType = item;
                                   const updatedFabricType =
                                     selectedfabricType.includes(fabricType)
                                       ? selectedfabricType.filter(
-                                        (selectedType) =>
-                                          selectedType !== fabricType
-                                      )
+                                          (selectedType) =>
+                                            selectedType !== fabricType
+                                        )
                                       : [...selectedfabricType, fabricType];
 
                                   setSelectedfabricType(updatedFabricType);
@@ -344,8 +333,6 @@ const getProdcut=async()=>{
                             ))}
                       </Accordion.Body>
                     </Accordion.Item>
-
-
 
                     <Accordion.Item
                       className="custom-filter mt-20"
@@ -373,9 +360,9 @@ const getProdcut=async()=>{
                                   const updatedprintType =
                                     selectedprintType.includes(printType)
                                       ? selectedprintType.filter(
-                                        (selectedType) =>
-                                          selectedType !== printType
-                                      )
+                                          (selectedType) =>
+                                            selectedType !== printType
+                                        )
                                       : [...selectedprintType, printType];
 
                                   setSelectedprintType(updatedprintType);
@@ -412,8 +399,8 @@ const getProdcut=async()=>{
                                     usage
                                   )
                                     ? selectedusage.filter(
-                                      (selectedType) => selectedType !== usage
-                                    )
+                                        (selectedType) => selectedType !== usage
+                                      )
                                     : [...selectedusage, usage];
 
                                   setSelectedusage(updatedusage);
@@ -450,9 +437,9 @@ const getProdcut=async()=>{
                                   const updatedproperties =
                                     selectedproperties.includes(properties)
                                       ? selectedproperties.filter(
-                                        (selectedType) =>
-                                          selectedType !== properties
-                                      )
+                                          (selectedType) =>
+                                            selectedType !== properties
+                                        )
                                       : [...selectedproperties, properties];
 
                                   setSelectedproperties(updatedproperties);
@@ -486,13 +473,14 @@ const getProdcut=async()=>{
                                 style={{ textTransform: "capitalize" }}
                                 onChange={() => {
                                   const handle = item;
-                                  const updatedhandle =
-                                    selectedhandle.includes(handle)
-                                      ? selectedhandle.filter(
+                                  const updatedhandle = selectedhandle.includes(
+                                    handle
+                                  )
+                                    ? selectedhandle.filter(
                                         (selectedType) =>
                                           selectedType !== handle
                                       )
-                                      : [...selectedhandle, handle];
+                                    : [...selectedhandle, handle];
 
                                   setSelectedhandle(updatedhandle);
                                 }}
@@ -528,9 +516,9 @@ const getProdcut=async()=>{
                                   const updatedconstruction =
                                     selectedconstruction.includes(construction)
                                       ? selectedconstruction.filter(
-                                        (selectedType) =>
-                                          selectedType !== construction
-                                      )
+                                          (selectedType) =>
+                                            selectedType !== construction
+                                        )
                                       : [...selectedconstruction, construction];
 
                                   setSelectedconstruction(updatedconstruction);
@@ -558,7 +546,6 @@ const getProdcut=async()=>{
                             .map((item, index) => (
                               <Form.Check
                                 key={index}
-
                                 type="checkbox"
                                 id={`default-${index}`}
                                 label={item}
@@ -568,9 +555,9 @@ const getProdcut=async()=>{
                                   const updatedFabricType =
                                     selectedtransparency.includes(fabricType)
                                       ? selectedtransparency.filter(
-                                        (selectedType) =>
-                                          selectedType !== fabricType
-                                      )
+                                          (selectedType) =>
+                                            selectedType !== fabricType
+                                        )
                                       : [...selectedtransparency, fabricType];
 
                                   setSelectedtransparency(updatedFabricType);
@@ -607,9 +594,9 @@ const getProdcut=async()=>{
                                   const updatedhandle =
                                     selectedreflection.includes(reflection)
                                       ? selectedreflection.filter(
-                                        (selectedType) =>
-                                          selectedType !== reflection
-                                      )
+                                          (selectedType) =>
+                                            selectedType !== reflection
+                                        )
                                       : [...selectedreflection, reflection];
 
                                   setSelectedreflection(updatedhandle);
@@ -622,19 +609,15 @@ const getProdcut=async()=>{
                   </Accordion>
                 </div>
               </div>
+
               <div className="col-lg-9">
                 <div className="shop-product-fillter">
                   <div className="totall-product">
-
-
                     {t("We found")}
                     <strong className="text-brand">
                       {filterFabric.length}
                     </strong>
                     {t("items for you!")} &nbsp;&nbsp;
-
-
-
                     <a
                       className="text-brand fw-bold"
                       onClick={() => setIsFilterVisible(!isFilterVisible)}
@@ -643,32 +626,38 @@ const getProdcut=async()=>{
                       {t("Show Filters")}
                     </a>
                   </div>
-                  {/* <div className="sort-by-product-area">
-                    <div className="sort-by-cover">
-                      <SortSelect />
-                    </div>
-                  </div> */}
                 </div>
                 <div className="row product-grid-3">
-                  {filterFabric.length === 0 && <h3 > <strong className="text-brand">
-                    {t("No Fabric Found")}  </strong></h3>}
+                  {filterFabric.length === 0 && (
+                    <h3>
+                      {" "}
+                      <strong className="text-brand">
+                        {t("No Fabric Found")}{" "}
+                      </strong>
+                    </h3>
+                  )}
 
-                  {getPaginatedProducts.length > 0 && getPaginatedProducts?.map((item, i) => (
-                    <div
-                      className="col-lg-4 col-md-4 col-12 col-sm-6"
-                      key={i}
-                    >
-                      <SingleFabric product={item} length={prodcutData?.newlength} id={id}  discountPercentage={prodcutData?.discountPercentage}  marginAmount={prodcutData?.marginAmount}/>
-                   
-                    </div>
-                  ))}
-
+                  {getPaginatedProducts.length > 0 &&
+                    getPaginatedProducts?.map((item, i) => (
+                      <div
+                        className="col-lg-4 col-md-4 col-12 col-sm-6"
+                        key={i}
+                      >
+                        {/* {console.log(prodcutData)}
+                        {console.log(item)} */}
+                        <SingleFabric
+                          product={item}
+                          length={prodcutData?.newlength}
+                          id={id}
+                          discountPercentage={prodcutData?.discountPercentage}
+                          marginAmount={prodcutData?.marginAmount}
+                        />
+                      </div>
+                    ))}
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
                   <nav aria-label="Page navigation example">
-
-
                     <Pagination
                       getPaginationGroup={getPaginationGroup}
                       currentPage={currentPage}
@@ -676,7 +665,6 @@ const getProdcut=async()=>{
                       next={next}
                       prev={prev}
                       handleActive={handleActive}
-
                     />
                   </nav>
                 </div>
@@ -685,18 +673,11 @@ const getProdcut=async()=>{
           </div>
         </section>
         <WishlistModal />
-        {/* <CompareModal /> */}
-        {/* <CartSidebar /> */}
         <QuickView />
       </Layout>
     </>
   );
 };
-
-
-
-
-
 
 const mapStateToProps = (state) => ({
   quickView: state.quickView,

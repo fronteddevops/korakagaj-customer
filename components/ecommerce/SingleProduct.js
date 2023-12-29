@@ -12,7 +12,7 @@ import nextConfig from "../../next.config";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 
-const SingleProduct = ({ data1, product, openQuickView }) => {
+const SingleProduct = ({ data1, product, openQuickView, source,GetWishlistdata }) => {
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
@@ -75,6 +75,7 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
         cartDetail: { cartDetails: unique },
       };
       console.log("UPDATE_CART");
+      localStorage.setItem('cartItemsCount', unique.length)
       const updateCart = await services.cart.UPDATE_CART(data);
       toast.success("Add to Cart !");
     } else {
@@ -105,7 +106,7 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
       let data = {
         cartDetail: { cartDetails: unique },
       };
-
+      localStorage.setItem('cartItemsCount', unique.length)
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
 
       toast.success("Add to Cart !");
@@ -131,6 +132,9 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
           toast.success("Removed from Wishlist");
           // window.location.reload();
         }
+        if(source == 'wishlist'){
+          GetWishlistdata()
+        }
       } catch (error) {
         console.error("An error occurred:", error);
       }
@@ -149,8 +153,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
                 style={{ height: "250 px" }}
               >
                 <Link
-                  href={`/products/${product?.id}`}
-                  as={`/products/${product?.id}`}
+                  href={`/products/${product?.id}_${product?.productName}`}
+                  as={`/products/${product?.id}_${product?.productName}`}
                 >
                   <a>
                     <img
@@ -212,8 +216,8 @@ const SingleProduct = ({ data1, product, openQuickView }) => {
               <h2>
                 {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
                 <Link
-                  href={`/products/${product?.id}`}
-                  as={`/products/${product?.id}`}
+                  href={`/products/${product?.id}_${product?.productName}`}
+                  as={`/products/${product?.id}_${product?.productName}`}
                 >
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>

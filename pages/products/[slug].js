@@ -28,7 +28,8 @@ const ProductId = ({ product }) => {
     // Fetch product data here and return it as props
 
     try {
-      const response = await services.product.GET_PRODUCT_BY_ID(prodcutId);
+      let id = prodcutId.split('_')[0]
+      const response = await services.product.GET_PRODUCT_BY_ID(id);
 
       console.log("slug", response);
       // const filteredProducts = response.data.data.rows.filter(
