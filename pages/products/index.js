@@ -141,33 +141,35 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.searchProdcut.SEARCH_PRODCUT(
           searchProduct
         );
+        console.log(response?.data?.data?.rows);
         if (response) {
           setProdcut(response?.data?.data?.rows);
         }
       } else {
         const response = await services.product.GET_FILTER_PRODUCT(query);
-        
+
         if (response && toggle) {
           const data = response?.data?.data;
           setTimeout(async () => {
-            if (
-              new URLSearchParams(window.location.search).get("product") &&
-              data.length == 0
-            ) {
-              const response = await services.searchProdcut.SEARCH_PRODCUT(
-                searchProduct
-              );
-              if (response) {
-                setProdcut(response?.data?.data?.rows);
-              }
+            // if (
+            //   new URLSearchParams(window.location.search).get("product") &&
+            //   data.length == 0
+            // ) {
+            // const response = await services.searchProdcut.SEARCH_PRODCUT(
+            //   searchProduct
+            // );
+            // if (response) {
+            // setProdcut(response?.data?.data?.rows);
+            // }
+            // }
+            // else {
+            if (data.length <= 12) {
+              setProdcut(data);
+              setCurrentPage(1);
             } else {
-              if (data.length <= 12) {
-                setProdcut(data);
-                setCurrentPage(1);
-              } else {
-                setProdcut(data);
-              }
+              setProdcut(data);
             }
+            // }
           }, 0);
         }
       }

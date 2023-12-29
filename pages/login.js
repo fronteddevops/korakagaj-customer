@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import Link from "next/link.js";
 import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const { t } = useTranslation("common");
@@ -38,7 +39,7 @@ function Login() {
   };
   //handle login  email
   const handleLogin = async (event) => {
-    event?.preventDefault(); // This prevents the default form submission behavior
+    event?.preventDefault();
     let isValid = true;
     setEmailError("");
     setPasswordError("");
@@ -205,17 +206,35 @@ function Login() {
 
   const onSuccesshandler = (token) => {
     if (token) {
-      GoogleAuth(token?.clientId, token?.credential);
+      const decoded = jwtDecode(token?.credential);
+      GoogleAuth(decoded?.email, token?.clientId);
     }
   };
-  const GoogleAuth = async (clientId, credential) => {
+  const GoogleAuth = async (email, gAuth) => {
     const data = {
-      clientId,
-      credential,
+      email,
+      gAuth,
     };
     try {
       const response = await services.GoogleAuth.GoogleAuth(data);
-      console.log(response);
+
+      if (response) {
+        localStorage.setItem("userId", response?.data?.user.id);
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        if (response?.data?.tokens?.access?.token) {
+          localStorage.setItem(
+            "access_token",
+            response.data.tokens.access.token
+          );
+        }
+        toastSuccessLogin();
+        setIsDisabled(false);
+        setTimeout(() => {
+          route.push("/");
+        }, 1000);
+      } else {
+        alert(response.data.guide);
+      }
     } catch (err) {
       console.error(err);
     }

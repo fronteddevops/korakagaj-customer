@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import Preloader from "../components/elements/Preloader.js";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 function Register() {
   const route = useRouter();
   const { t } = useTranslation("common");
@@ -46,18 +46,34 @@ function Register() {
   };
   const onSuccesshandler = (token) => {
     if (token) {
-      GoogleAuth(token?.clientId, token?.credential);
+      const decoded = jwtDecode(token?.credential);
+      console.log("decoded", decoded);
+      GoogleAuth(decoded.email, token?.clientId);
     }
   };
-  const GoogleAuth = async (clientId, credential) => {
+  const GoogleAuth = async (email, gAuth) => {
     const data = {
-      clientId,
-      credential,
+      email,
+      gAuth,
     };
-    console.log(data);
     try {
       const response = await services.GoogleAuth.GoogleAuth(data);
-      console.log(response);
+      if (response) {
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        localStorage.setItem("userId", response?.data?.user?.id);
+        if (response?.data?.tokens?.access?.token) {
+          localStorage.setItem(
+            "access_token",
+            response.data.tokens.access.token
+          );
+        }
+
+        toastSuccess();
+        setIsValid(false);
+        route.push("/");
+      } else {
+        alert(response.data.guide);
+      }
     } catch (err) {
       console.error(err);
     }

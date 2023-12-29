@@ -7,9 +7,8 @@ export default {
   REGISTER_USER: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
-      
         const response = await Axios.post(
-            nextConfig.BASE_URL + api.auth.REGISTER(),
+          nextConfig.BASE_URL + api.auth.REGISTER(),
           data,
           {
             headers: {
@@ -19,7 +18,10 @@ export default {
         );
 
         if (response?.data?.tokens?.access?.token) {
-          localStorage.setItem('access_token', response.data.tokens.access.token)
+          localStorage.setItem(
+            "access_token",
+            response.data.tokens.access.token
+          );
         }
 
         Axios.defaults.headers.common[
@@ -27,7 +29,6 @@ export default {
         ] = `Bearer ${localStorage.getItem("access_token")}`;
         resolve(response);
       } catch (err) {
-      
         reject(err);
       }
     });
@@ -50,9 +51,8 @@ export default {
   LOGIN_USER: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
-      
         const response = await Axios.post(
-            nextConfig.BASE_URL + api.auth.LOGIN(),
+          nextConfig.BASE_URL + api.auth.LOGIN(),
           data,
           {
             headers: {
@@ -62,7 +62,10 @@ export default {
         );
 
         if (response?.data?.tokens?.access?.token) {
-          localStorage.setItem('access_token', response.data.tokens.access.token)
+          localStorage.setItem(
+            "access_token",
+            response.data.tokens.access.token
+          );
         }
 
         Axios.defaults.headers.common[
@@ -70,7 +73,6 @@ export default {
         ] = `Bearer ${localStorage.getItem("access_token")}`;
         resolve(response);
       } catch (err) {
-      
         reject(err);
       }
     });
@@ -105,8 +107,8 @@ export default {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.post(
-         nextConfig.BASE_URL + api.auth.FORGOT_PASSWORD(),data
-          
+          nextConfig.BASE_URL + api.auth.FORGOT_PASSWORD(),
+          data
         );
         resolve(response);
       } catch (err) {
@@ -114,7 +116,7 @@ export default {
       }
     });
   },
-  RESET_PASSWORD: (query,data) => {
+  RESET_PASSWORD: (query, data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await Axios.post(
@@ -127,5 +129,4 @@ export default {
       }
     });
   },
- 
 };
