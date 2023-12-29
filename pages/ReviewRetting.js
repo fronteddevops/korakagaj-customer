@@ -161,9 +161,9 @@ const ReviewRetting = () => {
                     <h5 className="card-title">
                       {orderDetailsData1?.productName}
                     </h5>
-                    <p className="card-text">
+                    {/* <p className="card-text">
                       {orderDetailsData1?.description}
-                    </p>
+                    </p> */}
                     <p className="fw-bold">
                       {t("Price:")} {orderDetailsData1?.finalAmount}
                     </p>

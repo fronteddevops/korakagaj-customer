@@ -286,11 +286,13 @@ const Header = ({ toggleClick, headerStyle }) => {
                           </div>
                         </NavDropdown>
                       ) : (
-                        <Link href="/login">
-                          <span>
-                            {t("Sign In")}/{t("Sign Up")}
-                          </span>
-                        </Link>
+                        <a>
+                          <Link href="/login">
+                            <span>
+                              {t("Sign In")}/{t("Sign Up")}
+                            </span>
+                          </Link>
+                        </a>
                       )}
                     </li>
                   </ul>
