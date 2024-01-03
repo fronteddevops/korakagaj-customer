@@ -277,6 +277,8 @@ const Header = ({ toggleClick, headerStyle }) => {
                                   onClick={() => {
                                     localStorage.removeItem("access_token");
                                     localStorage.removeItem("userId");
+                                    localStorage.setItem("wishListItemsCount", 0);
+                                    localStorage.setItem("cartItemsCount", 0);
                                   }}
                                 >
                                   {t("SingOut")}

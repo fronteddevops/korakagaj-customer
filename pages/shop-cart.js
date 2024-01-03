@@ -57,7 +57,6 @@ const Cart = ({}) => {
     setTotalQuantity(qty);
   };
   //set total price in add to card all prodcut
-  console.log("localStorage", localStorage.getItem("access_token"));
   const getadress = async () => {
     if (localStorage.getItem("access_token")) {
       let a = 0;
@@ -430,6 +429,7 @@ const Cart = ({}) => {
       cardData();
     }
   };
+
   return (
     <>
       <Layout
@@ -483,7 +483,7 @@ const Cart = ({}) => {
                                 crossOrigin="anonymous"
                               />
                             </td>
-
+                            {console.log(product?.selectedQuantity)}
                             <td
                               className="product-des product-name"
                               data-title="Product Name"
@@ -543,7 +543,7 @@ const Cart = ({}) => {
                             </td>
                             {localStorage.getItem("access_token") && (
                               <>
-                                <td className="text-center" data-title="Stock">
+                                <td className="text-center" data-title="Quantity">
                                   <div className="detail-qty border radius m-auto">
                                     {/* {localStorage.getItem("access_token") && (
                                   <a
@@ -588,7 +588,7 @@ const Cart = ({}) => {
                                 </td>
                               </>
                             )}
-                            <td className="text-right" data-title="SubTotal">
+                            <td className="text-right" data-title="Subtotal">
                               <span>
                                 Rs.{" "}
                                 {(

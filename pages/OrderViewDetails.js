@@ -204,7 +204,7 @@ function OrderViewDetails({ data }) {
                                 />
                               </td>
 
-                              <td className="product-des product-name">
+                              <td className="product-des product-name"   data-title="Product Name">
                                 <Link
                                   href="/products/[slug]"
                                   as={`/products/${product?.productId}`}
@@ -217,7 +217,7 @@ function OrderViewDetails({ data }) {
 
                               <td
                                 className="text-right"
-                                data-title="Total Price"
+                                data-title="MRP"
                               >
                                 <span>{MRP.toFixed(2)}</span>
                               </td>
@@ -235,7 +235,7 @@ function OrderViewDetails({ data }) {
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Final Amount"
+                                data-title="fabric Name"
                               >
                                 <span>{product?.detail?.fabric}</span>
                               </td>
@@ -308,7 +308,7 @@ function OrderViewDetails({ data }) {
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Selected Quantity"
+                                data-title="Add Review"
                               >
                                 {OrderStatusUrl != "Payment Failed" ? (
                                   !product?.Rating ? (

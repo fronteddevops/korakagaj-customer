@@ -468,33 +468,22 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     </span>
                   </Link>
                 )}
-
-                {/* {lastName && firstName && (
+                {lastName && firstName && (
                   <>
-                    <Link
-                      href="/login"
-                      as="/login"
-                      onClick={() => {
-                        localStorage.removeItem("access_token");
-                        localStorage.removeItem("userId");
-                      }}
-                    >
-                      {t("SingOut")}
+                    <Link href="/login/" as={`/login/`}>
+                      <span
+                        onClick={() => {
+                          localStorage.removeItem("access_token");
+                          localStorage.removeItem("userId");
+                          localStorage.setItem("wishListItemsCount", 0);
+                          localStorage.setItem("cartItemsCount", 0);
+                        }}
+                      >
+                        {t("SingOut")}
+                      </span>
                     </Link>
                   </>
-                )} */}
-                <>
-                  <Link href="/login/" as={`/login/`}>
-                    <span
-                      onClick={() => {
-                        localStorage.removeItem("access_token");
-                        localStorage.removeItem("userId");
-                      }}
-                    >
-                      {t("SingOut")}
-                    </span>
-                  </Link>
-                </>
+                )}
               </div>
               {/* <div className="single-mobile-header-info">
                 <a>

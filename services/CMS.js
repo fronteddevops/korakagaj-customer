@@ -15,4 +15,17 @@ export default {
       }
     });
   },
+  Contact: (data) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.post(
+          nextConfig.BASE_URL + api.CMS.Contact(),
+          data
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
 };

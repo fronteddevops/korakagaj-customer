@@ -259,9 +259,8 @@ function Register() {
   };
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked); // Toggle the checkbox value
+    setIsChecked(!isChecked); 
   };
-  const responseGoogle = (response) => {};
 
   return (
     <>

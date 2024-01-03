@@ -553,7 +553,7 @@ function Account() {
 
                                             <td
                                               className="text-right"
-                                              data-title="CouponPercent"
+                                              data-title="Coupon Discount"
                                             >
                                               {item?.couponPercent
                                                 ? item?.couponPercent + "%"
@@ -561,7 +561,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="DiscountAmount"
+                                              data-title="Coupon Code"
                                             >
                                               {item?.couponCode
                                                 ? item?.couponCode
@@ -569,7 +569,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="DiscountAmount"
+                                              data-title="Discount Amount"
                                             >
                                               {item?.discountAmount != 0
                                                 ? item?.discountAmount
@@ -577,7 +577,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="FinalAmount"
+                                              data-title="Final Amount"
                                             >
                                               {item?.finalAmount
                                                 ? item?.finalAmount
