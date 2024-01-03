@@ -79,6 +79,7 @@ function Login() {
         const response = await services.auth.LOGIN_USER(payLoad);
 
         await handleCart();
+        await previous();
         if (response) {
           localStorage.setItem("userId", response?.data?.user.id);
           toastSuccessLogin();
@@ -88,7 +89,7 @@ function Login() {
           }, 1000);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setIsDisabled(true);
         toastErrorLogin(error);
       }
@@ -119,7 +120,6 @@ function Login() {
           cartDetailsLocal = cartLocal.cartDetails;
         }
         const cart = await services.cart.GET_CART();
-
         let cartDetails = [];
         if (cart?.data?.data?.cartDetail?.cartDetails) {
           cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -154,7 +154,7 @@ function Login() {
   };
   //set toster  login
   const toastSuccessLogin = () => toast.success("Login User successfully");
-  const toastSuccess = () => toast.success("Successfully");
+  const toastSuccess = () => toast.success("Login Successfully");
   const toastErrorLogin = (error) => {
     toast.error(error?.response?.data?.message || "An error occurred");
   };
@@ -238,6 +238,7 @@ function Login() {
         toastSuccess();
         setIsDisabled(false);
         await handleCart();
+        await previous();
         setTimeout(() => {
           route.push("/");
         }, 1000);
@@ -246,6 +247,17 @@ function Login() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+  const previous = async () => {
+    try {
+      const cart = await services.cart.GET_CART();
+      localStorage.setItem(
+        "cartItemsCount",
+        cart?.data?.data?.cartDetail?.cartDetails?.length
+      );
+    } catch (e) {
+      console.error(e);
     }
   };
   return (
@@ -446,7 +458,7 @@ function Login() {
                                     }
                                   }}
                                   onError={() => {
-                                    console.log("Login Failed");
+                                    console.error("Login Failed");
                                   }}
                                 />
                                 ;

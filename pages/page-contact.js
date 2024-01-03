@@ -17,6 +17,7 @@ function Contact() {
   const [SubjectError, setSubjectError] = useState("");
   const [Message, setMessage] = useState("");
   const [MessageError, setMessageError] = useState("");
+  let [CMSEMPTY, setCMSEMPTY] = useState("");
   useEffect(() => {
     GET_CMS();
   }, []);
@@ -25,7 +26,9 @@ function Contact() {
       const response = await services.CMS.GET_CMS();
       let add = response?.data?.data?.rows[1].html.replace(/&lt;/g, "<");
       setData(add);
+      CMSEMPTY = add.replace(/<p[^>]*><\/p>/g, "");
       setStatus(response?.data?.data?.rows[1]?.status);
+      setCMSEMPTY(CMSEMPTY);
     } catch (e) {
       console.error(e);
     }
@@ -33,7 +36,6 @@ function Contact() {
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
-  console.log(EmailError);
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
@@ -76,7 +78,6 @@ function Contact() {
       };
       try {
         const response = await services.CMS.Contact(Data);
-        console.log(response);
         if (response) {
           ClearAllInput();
           toast.success("Drop Message Successfully");
@@ -158,9 +159,8 @@ function Contact() {
             </div>
           </div>
         </section> */}
-
-        {Status && (
-          <section className="hero-2">
+        {Status && CMSEMPTY.length != 1 && (
+          <section style={{ margin: "50px" }}>
             <div className="container">
               <div
                 className="text-center"
@@ -391,7 +391,7 @@ function Contact() {
                           {MessageError && (
                             <div
                               className="error-message"
-                              style={{ textAlign: "left"}}
+                              style={{ textAlign: "left" }}
                             >
                               <span
                                 style={{

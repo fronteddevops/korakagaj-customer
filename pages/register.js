@@ -47,7 +47,6 @@ function Register() {
   const onSuccesshandler = (token) => {
     if (token) {
       const decoded = jwtDecode(token?.credential);
-      console.log("decoded", decoded);
       GoogleAuth(
         decoded.email,
         decoded?.sub,
@@ -222,7 +221,7 @@ function Register() {
 
   //set toster  register
   const toastSuccess = () => toast.success("Register User successfully");
-  const toastSuccessFully = () => toast.success("Successfully");
+  const toastSuccessFully = () => toast.success("Register Successfully");
   const toastError = (error) => {
     toast.error(error.response?.data?.message || "An error occurred");
   };

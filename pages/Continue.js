@@ -112,7 +112,7 @@ const Cart = ({}) => {
           response?.data?.data?.map((item) => {});
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -393,7 +393,7 @@ const Cart = ({}) => {
                                 <span>Rs. {product.finalAmount}</span>
                               </td>
 
-                              <td className="text-center" data-title="Stock">
+                              <td className="text-center" data-title="Quantity">
                                 <div className="detail-qty border radius m-auto">
                                   <span className="qty-val">
                                     {product.selectedQuantity}
@@ -401,7 +401,7 @@ const Cart = ({}) => {
                                 </div>
                               </td>
 
-                              <td className="text-right" data-title="SubTotal">
+                              <td className="text-right" data-title="Subtotal">
                                 <span>
                                   Rs.{" "}
                                   {(

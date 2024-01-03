@@ -55,7 +55,6 @@ export default function Home() {
 
   useEffect(() => {
     getCategoryListHandler();
-
     getUpcoming();
   }, []);
 
