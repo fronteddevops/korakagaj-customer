@@ -8,8 +8,6 @@ import { useEffect, useState, useCallback } from "react";
 import services from "../services";
 import { useTranslation } from "react-i18next";
 import { isMobile } from "react-device-detect";
-import increase from "../build/assets/imgs/theme/plus.svg";
-import decrease from "../build/assets/imgs/theme/Minus.svg";
 
 import Continue from "./Continue";
 function loadScript(src) {
