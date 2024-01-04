@@ -181,11 +181,11 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                           {t("Shop – Cart")}
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link href="/shop-checkout">
                           {t("Shop – Checkout")}
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
 
@@ -204,7 +204,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       <i className="fi-rs-angle-small-down"></i>
                     </span>
 
-                    <a>{t("Mega Menu")}</a>
+                    <a>{t("category")}</a>
 
                     <ul className={isActive.key == 3 ? "dropdown" : "d-none"}>
                       {categoryList &&

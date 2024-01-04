@@ -981,9 +981,9 @@ function Account() {
                                       className="form-control square"
                                       name="phone"
                                       type="number"
-                                      value={phoneNumber}
+                                      // value={phoneNumber}
                                       placeholder={
-                                        t("Enter Phone Number") + phoneNumber
+                                        t("Enter Phone Number")
                                       }
                                       onChange={handleInputChange}
                                       onPaste={handlePaste}

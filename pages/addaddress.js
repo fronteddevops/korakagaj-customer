@@ -8,7 +8,7 @@ export default function Addaddress() {
   const { t } = useTranslation("common");
   const [fullName, setFullName] = useState("");
 
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState();
   const exceptThisSymbols = ["+", "-", "*", "/", " "];
   const [fullNameError, setFullNameError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
@@ -236,6 +236,7 @@ export default function Addaddress() {
                     type="number"
                     required=""
                     name="phoneNumber"
+                    // value={phoneNumber}
                     placeholder={t("Enter Phone Number")}
                     onPaste={handlePaste}
                     onChange={handleInputChange}

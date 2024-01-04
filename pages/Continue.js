@@ -7,6 +7,7 @@ import { useEffect, useState, useCallback } from "react";
 import services from "../services";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import { isMobile } from "react-device-detect";
 function loadScript(src) {
   return new Promise((resolve) => {
     const script = document.createElement("script");
@@ -34,6 +35,7 @@ const Cart = ({}) => {
   const [DiscountPer, setDiscountPer] = useState("");
   const [SubTotal, setSubTotal] = useState("");
   const [DiscountAmo, setDiscountAmo] = useState("");
+  const [DisacountIDInst,setDisacountIDInst] = useState("");
   const router = useRouter();
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData?.map((item) => {
@@ -69,6 +71,7 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.cart.GET_CART();
+        setDisacountIDInst(response?.data?.data?.cartDetail?.discountId)
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
@@ -137,9 +140,6 @@ const Cart = ({}) => {
               t.fabric === value.fabric
           )
       );
-      // const unique = [
-      //   ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
-      // ];
       let totalAmountArr = unique.map((item) => {
         return item.finalAmount * item.selectedQuantity;
       });
@@ -149,13 +149,84 @@ const Cart = ({}) => {
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
-        cartDetail: { cartDetails: unique, discountId: DicountID },
+        cartDetail: { cartDetails: unique, discountId: DicountID || DisacountIDInst },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
       };
       localStorage.setItem("cartItemsCount", unique.length);
-      const updateCart = await services.cart.UPDATE_CART(data);
+
+      try {
+        const updateCart = await services.cart.UPDATE_CART(data);
+        console.log(updateCart);
+        if(updateCart){
+          const updateCartData = await services.cart.CHECKOUT();
+          const userDetails = JSON.parse(localStorage.getItem("profile"));
+      
+          const options = {
+            key: "rzp_test_ug6gBARp85Aq1j",
+            currency: "INR",
+            amount: updateCartData?.data?.totalAmount,
+            order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
+            name: "KoraKagaj",
+            description: "Thank you for ordering. Please initiate payment!",
+            image:
+              "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
+            modal: {
+              ondismiss: async () => {
+                const data = {
+                  orderId: updateCartData?.data?.order?.id,
+                  paymentResponse: {
+                    id: updateCartData?.data?.razorpayPaymentDetails.id,
+                    status: "failed",
+                    amount: updateCartData?.data?.totalAmount,
+                  },
+                };
+                const response = await services.cart.PAYMENT_LOG(data);
+                router.push("/failed");
+              },
+            },
+            handler: function (response) {
+              (async () => {
+                const data = {
+                  orderId: updateCartData?.data?.order?.id,
+                  paymentResponse: {
+                    id: updateCartData?.data?.razorpayPaymentDetails.id,
+                    status: "paid",
+                    amount: updateCartData?.data?.totalAmount,
+                  },
+                };
+                try {
+                  const response = await services.cart.PAYMENT_LOG(data);
+      
+                  router.push("/thankyou");
+                } catch (err) {
+                  console.log(err);
+                }
+              })();
+            },
+            prefill: {
+              name: userDetails.firstName,
+              email: userDetails.email,
+              phone_number: userDetails.phoneNumber,
+            },
+          };
+          const paymentObject = new window.Razorpay(options);
+          paymentObject.open();
+        }
+
+      } catch (error) {
+
+if(error?.response?.data?.message) {
+  toast.error("coupon code expired");
+}
+
+        toast.error(error?.response?.data?.message[0]?.message);
+
+        console.log(updateCart);
+        return;
+      }
+
       toast.success("Cart updated!");
       localStorage.setItem("cartItemsCount", 0);
       cardData();
@@ -206,59 +277,59 @@ const Cart = ({}) => {
       return;
     }
     await handleCart(updateCart[0]);
-    const updateCartData = await services.cart.CHECKOUT();
-    const userDetails = JSON.parse(localStorage.getItem("profile"));
+    // const updateCartData = await services.cart.CHECKOUT();
+    // const userDetails = JSON.parse(localStorage.getItem("profile"));
 
-    const options = {
-      key: "rzp_test_ug6gBARp85Aq1j",
-      currency: "INR",
-      amount: updateCartData?.data?.totalAmount,
-      order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
-      name: "KoraKagaj",
-      description: "Thank you for ordering. Please initiate payment!",
-      image:
-        "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
-      modal: {
-        ondismiss: async () => {
-          const data = {
-            orderId: updateCartData?.data?.order?.id,
-            paymentResponse: {
-              id: updateCartData?.data?.razorpayPaymentDetails.id,
-              status: "failed",
-              amount: updateCartData?.data?.totalAmount,
-            },
-          };
-          const response = await services.cart.PAYMENT_LOG(data);
-          router.push("/failed");
-        },
-      },
-      handler: function (response) {
-        (async () => {
-          const data = {
-            orderId: updateCartData?.data?.order?.id,
-            paymentResponse: {
-              id: updateCartData?.data?.razorpayPaymentDetails.id,
-              status: "paid",
-              amount: updateCartData?.data?.totalAmount,
-            },
-          };
-          try {
-            const response = await services.cart.PAYMENT_LOG(data);
+    // const options = {
+    //   key: "rzp_test_ug6gBARp85Aq1j",
+    //   currency: "INR",
+    //   amount: updateCartData?.data?.totalAmount,
+    //   order_id: updateCartData?.data?.razorpayPaymentDetails?.id,
+    //   name: "KoraKagaj",
+    //   description: "Thank you for ordering. Please initiate payment!",
+    //   image:
+    //     "http://korakagaj-dev.s3-website.ap-south-1.amazonaws.com/assets/imgs/theme/logo.svg",
+    //   modal: {
+    //     ondismiss: async () => {
+    //       const data = {
+    //         orderId: updateCartData?.data?.order?.id,
+    //         paymentResponse: {
+    //           id: updateCartData?.data?.razorpayPaymentDetails.id,
+    //           status: "failed",
+    //           amount: updateCartData?.data?.totalAmount,
+    //         },
+    //       };
+    //       const response = await services.cart.PAYMENT_LOG(data);
+    //       router.push("/failed");
+    //     },
+    //   },
+    //   handler: function (response) {
+    //     (async () => {
+    //       const data = {
+    //         orderId: updateCartData?.data?.order?.id,
+    //         paymentResponse: {
+    //           id: updateCartData?.data?.razorpayPaymentDetails.id,
+    //           status: "paid",
+    //           amount: updateCartData?.data?.totalAmount,
+    //         },
+    //       };
+    //       try {
+    //         const response = await services.cart.PAYMENT_LOG(data);
 
-            router.push("/thankyou");
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      },
-      prefill: {
-        name: userDetails.firstName,
-        email: userDetails.email,
-        phone_number: userDetails.phoneNumber,
-      },
-    };
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+    //         router.push("/thankyou");
+    //       } catch (err) {
+    //         console.log(err);
+    //       }
+    //     })();
+    //   },
+    //   prefill: {
+    //     name: userDetails.firstName,
+    //     email: userDetails.email,
+    //     phone_number: userDetails.phoneNumber,
+    //   },
+    // };
+    // const paymentObject = new window.Razorpay(options);
+    // paymentObject.open();
   }
   const GET_MY_ADDRESS = async (IdAddress) => {
     try {
@@ -302,126 +373,259 @@ const Cart = ({}) => {
 
                 <div className="table-responsive">
                   {updateCart?.length > 0 ? "" : t("No Products")}
-                  <table
-                    className={
-                      updateCart?.length > 0
-                        ? "table shopping-summery text-center clean"
-                        : "d-none"
-                    }
-                  >
-                    <thead>
-                      <tr className="main-heading">
-                        <th scope="col">{t("Image")}</th>
-                        <th scope="col">{t("Name")}</th>
-                        <th scope="col">{t("Fabric Name")}</th>
-                        <th scope="col">{t("Price")}</th>
-                        <th scope="col">{t("Quantity")}</th>
-                        <th scope="col">{t("Subtotal")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+
+                  {isMobile ? (
+                    <>
                       {updateCart &&
                         updateCart.map((product, j) => {
                           return (
-                            <tr key={j}>
-                              <td
-                                className="image product-thumbnail"
-                                data-title="Image"
+                            <div>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  // alignItems: "flex-start",
+                                  // marginBottom: "10px",
+                                }}
                               >
                                 <img
-                                  src={imageUrl + product.featuredImage}
+                                  src={`${imageUrl}${product.featuredImage}`}
                                   alt=""
                                   crossOrigin="anonymous"
+                                  style={{
+                                    maxWidth: "110px",
+                                    marginRight: "20px",
+                                  }}
                                 />
-                              </td>
 
-                              <td
-                                className="product-name"
-                                data-title="Product Name"
-                              >
-                                <h5 className="product-name">
-                                  <Link
-                                    // href="/products/[slug]"
-                                    // as={`/products/${product?.id}`}
-                                    href={`/products/${product?.id}_${product?.productName}`}
-                                    as={`/products/${product?.id}_${product?.productName}`}
+                                <div>
+                                  <h5>
+                                    <Link
+                                      href={`/products/${product?.id}_${product?.productName}`}
+                                      as={`/products/${product?.id}_${product?.productName}`}
+                                    >
+                                      <a>{product.productName}</a>
+                                    </Link>
+                                  </h5>
+                                  <span
+                                    style={
+                                      {
+                                        // background: "red",
+                                      }
+                                    }
                                   >
-                                    <a>{product.productName}</a>
-                                  </Link>
-                                </h5>
-                                {product?.selectedColor ||
-                                product?.selectedSize ? (
-                                  <div className="font-xs">
-                                    {product?.selectedColor && (
-                                      <>
-                                        <div className="align-items-center row pe-0 ps-0 m-0">
-                                          <div className="col pe-0 ps-0 m-0 p-0">
-                                            <small className="mb-0 m-0">
-                                              Color :
-                                            </small>{" "}
-                                            &nbsp;{" "}
-                                            <span
-                                              className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
-                                              style={{
-                                                border: "1px solid black",
-                                                width: "12px",
-                                                height: "12px",
-                                                backgroundColor:
-                                                  product?.selectedColor,
-                                              }}
-                                            ></span>{" "}
-                                          </div>
-                                        </div>
-                                      </>
-                                    )}
-                                    {product?.selectedSize && (
-                                      <small className="ml-md-2">
-                                        Size: {product?.selectedSize}
-                                      </small>
-                                    )}
-                                  </div>
-                                ) : null}
-                              </td>
-
-                              <td
-                                className="Fabric name"
-                                data-title="Fabric name"
-                              >
-                                <span>{product?.fabric}</span>
-                              </td>
-                              <td className="price" data-title="Price">
-                                <span>Rs. {product.finalAmount}</span>
-                              </td>
-
-                              <td className="text-center" data-title="Quantity">
-                                <div className="detail-qty border radius m-auto">
-                                  <span className="qty-val">
-                                    {product.selectedQuantity}
+                                    {" "}
+                                    {product?.discountPercentage}% off{" "}
+                                  </span>{" "}
+                                  &nbsp;&nbsp;
+                                  <span style={{ fontWeight: "bold" }}>
+                                    {product?.discountPercentage != 0 &&
+                                      "Limited Time Deal"}
                                   </span>
+                                  <div>
+                                    <span
+                                      style={{
+                                        fontSize: "20px",
+                                        fontWeight: "bold",
+                                      }}
+                                    >
+                                      Rs. {product?.finalAmount}
+                                    </span>{" "}
+                                    &nbsp;&nbsp; M.R.P.{" "}
+                                    <s>{product?.totalPrice}</s>
+                                  </div>
+                                  <div style={{ marginTop: "-5px" }}>
+                                    Fabric : {product?.fabric}
+                                  </div>
+                                  {product?.selectedColor ||
+                                  product?.selectedSize ? (
+                                    <div style={{ marginTop: "-8px" }}>
+                                      {product?.selectedColor && (
+                                        <div>
+                                          Color : &nbsp;
+                                          <span
+                                            className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                            style={{
+                                              border: "1px solid black",
+                                              width: "12px",
+                                              height: "12px",
+                                              backgroundColor:
+                                                product?.selectedColor,
+                                            }}
+                                          ></span>
+                                        </div>
+                                      )}
+                                      {product?.selectedSize && (
+                                        <div
+                                          className="col -12"
+                                          style={{ marginTop: "-8px" }}
+                                        >
+                                          Size : {product?.selectedSize}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : null}
+                                  {localStorage.getItem("access_token") && (
+                                    <div style={{ marginTop: "-8px" }}>
+                                      <span>Quantity</span>
+                                      <span
+                                        style={
+                                          {
+                                            // backgroundColor: "orange",
+                                            // padding: "10px",
+                                          }
+                                        }
+                                      >
+                                        &nbsp;&nbsp;&nbsp;
+                                        <span
+                                          style={
+                                            {
+                                              // fontSize: "20px",
+                                              // marginBottom: "2px",
+                                            }
+                                          }
+                                        >
+                                          {product?.selectedQuantity}
+                                        </span>
+                                        &nbsp;&nbsp;
+                                      </span>
+                                    </div>
+                                  )}
                                 </div>
-                              </td>
-
-                              <td className="text-right" data-title="Subtotal">
-                                <span>
-                                  Rs.{" "}
-                                  {(
-                                    product.finalAmount *
-                                    product.selectedQuantity
-                                  ).toFixed(2)}
-                                </span>
-                              </td>
-                            </tr>
+                              </div>
+                              <hr />
+                            </div>
                           );
                         })}
-                    </tbody>
-                  </table>
-                </div>
+                    </>
+                  ) : (
+                    <table
+                      className={
+                        updateCart?.length > 0
+                          ? "table shopping-summery text-center clean"
+                          : "d-none"
+                      }
+                    >
+                      <thead>
+                        <tr className="main-heading">
+                          <th scope="col">{t("Image")}</th>
+                          <th scope="col">{t("Name")}</th>
+                          <th scope="col">{t("Fabric Name")}</th>
+                          <th scope="col">{t("Price")}</th>
+                          <th scope="col">{t("Quantity")}</th>
+                          <th scope="col">{t("Subtotal")}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {updateCart &&
+                          updateCart.map((product, j) => {
+                            return (
+                              <tr key={j}>
+                                <td
+                                  className="image product-thumbnail"
+                                  data-title="Image"
+                                >
+                                  <img
+                                    src={imageUrl + product.featuredImage}
+                                    alt=""
+                                    crossOrigin="anonymous"
+                                  />
+                                </td>
 
-                <div className="divider center_icon mt-50 mb-50">
-                  {/* <i className="fi-rs-fingerprint"></i> */}
+                                <td
+                                  className="product-name"
+                                  data-title="Product Name"
+                                >
+                                  <h5 className="product-name">
+                                    <Link
+                                      // href="/products/[slug]"
+                                      // as={`/products/${product?.id}`}
+                                      href={`/products/${product?.id}_${product?.productName}`}
+                                      as={`/products/${product?.id}_${product?.productName}`}
+                                    >
+                                      <a>{product.productName}</a>
+                                    </Link>
+                                  </h5>
+                                  {product?.selectedColor ||
+                                  product?.selectedSize ? (
+                                    <div className="font-xs">
+                                      {product?.selectedColor && (
+                                        <>
+                                          <div className="align-items-center row pe-0 ps-0 m-0">
+                                            <div className="col pe-0 ps-0 m-0 p-0">
+                                              <small className="mb-0 m-0">
+                                                Color :
+                                              </small>{" "}
+                                              &nbsp;{" "}
+                                              <span
+                                                className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                                style={{
+                                                  border: "1px solid black",
+                                                  width: "12px",
+                                                  height: "12px",
+                                                  backgroundColor:
+                                                    product?.selectedColor,
+                                                }}
+                                              ></span>{" "}
+                                            </div>
+                                          </div>
+                                        </>
+                                      )}
+                                      {product?.selectedSize && (
+                                        <small className="ml-md-2">
+                                          Size: {product?.selectedSize}
+                                        </small>
+                                      )}
+                                    </div>
+                                  ) : null}
+                                </td>
 
-                  <hr />
+                                <td
+                                  className="Fabric name"
+                                  data-title="Fabric name"
+                                >
+                                  <span>{product?.fabric}</span>
+                                </td>
+                                <td className="price" data-title="Price">
+                                  <span>Rs. {product.finalAmount}</span>
+                                </td>
+
+                                <td
+                                  className="text-center"
+                                  data-title="Quantity"
+                                >
+                                  <div className="detail-qty border radius m-auto">
+                                    <span className="qty-val">
+                                      {product.selectedQuantity}
+                                    </span>
+                                  </div>
+                                </td>
+
+                                <td
+                                  className="text-right"
+                                  data-title="Subtotal"
+                                >
+                                  <span>
+                                    Rs.{" "}
+                                    {(
+                                      product.finalAmount *
+                                      product.selectedQuantity
+                                    ).toFixed(2)}
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
+                {!isMobile && (
+                  <div className="divider center_icon mt-50 mb-50">
+                    {/* <i className="fi-rs-fingerprint"></i> */}
+
+                    <hr />
+                  </div>
+                )}
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-16">
                     <div className="col-lg-6">
@@ -531,7 +735,7 @@ const Cart = ({}) => {
                               </td>
                               <td className="cart_total_amount">
                                 <span className="font-lg fw-900 text-brand">
-                                  Rs. {SubTotal}
+                                  Rs. {parseInt(SubTotal).toFixed(2)}
                                 </span>
                               </td>
                             </tr>
