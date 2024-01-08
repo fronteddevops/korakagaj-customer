@@ -265,7 +265,6 @@ const Cart = ({}) => {
     }
   };
   const deleteFromCart = async (product) => {
-    console.log(product);
     if (localStorage.getItem("access_token")) {
       let updatedCartData = [...updateCart];
       let index;

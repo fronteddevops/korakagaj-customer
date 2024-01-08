@@ -32,7 +32,6 @@ const SingleProduct = ({
 
   const result = route?.query?.id.split("_")[1];
 
-  console.log(result);
 
   useEffect(() => {
     setLoading(true);

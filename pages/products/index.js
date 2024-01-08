@@ -145,7 +145,6 @@ const Products = ({ products1, productFilters }) => {
         const response = await services.searchProdcut.SEARCH_PRODCUT(
           searchProduct
         );
-        console.log(response?.data?.data?.rows);
         if (response) {
           setProdcut(response?.data?.data?.rows);
         }

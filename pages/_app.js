@@ -48,8 +48,7 @@ function MyApp({ Component, pageProps }) {
   const route = useRouter();
 
   useEffect(() => {
-    console.log("Loading");
-    initialiseInterceptor(); // Initialize the interceptor when the app loads
+    initialiseInterceptor()
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

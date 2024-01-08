@@ -46,6 +46,7 @@ const SingleProduct = ({
     productDataShow();
     setIsProductIsWishListed(product.isWishlisted);
     console.log(product.isWishlisted)
+
   }, []);
 
   const handleCart = async (product) => {
@@ -118,18 +119,16 @@ const SingleProduct = ({
     }
   };
   const handleWishlist = async (product) => {
+    console.log("Wishlist");
     if (localStorage.getItem("access_token")) {
-      console.log(product);
       try {
         const data = {
           productId: product.id,
         };
-
-        console.log(isProductIsWishListed);
-
         if (!isProductIsWishListed) {
           const WishlistResponse =
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+            setIsProductIsWishListed(true);
           productDataShow();
           toast.success("Added to Wishlist!");
         } else {

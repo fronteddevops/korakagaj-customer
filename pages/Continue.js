@@ -161,7 +161,6 @@ const Cart = ({}) => {
 
       try {
         const updateCart = await services.cart.UPDATE_CART(data);
-        console.log(updateCart);
         if (updateCart) {
           const updateCartData = await services.cart.CHECKOUT();
           const userDetails = JSON.parse(localStorage.getItem("profile"));
@@ -224,7 +223,6 @@ const Cart = ({}) => {
           toast.error(error?.response?.data?.message[0]?.message || "error");
         }
 
-        console.log(updateCart);
         return;
       }
 

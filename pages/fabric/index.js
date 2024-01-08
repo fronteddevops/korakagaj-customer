@@ -58,7 +58,6 @@ const Products = ({ products, productFilters, closeQuickView }) => {
     showPagination = 4;
 
   const { id } = Router.query;
-  console.log(id);
 
   const result = id.split("_")[0];
 

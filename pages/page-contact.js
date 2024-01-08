@@ -40,7 +40,6 @@ function Contact() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
   const handleSubmit = async (e) => {
-    console.log("disable", ButtonStatus);
     setButtonStatus(false);
     e.preventDefault();
     let isValid = true;
