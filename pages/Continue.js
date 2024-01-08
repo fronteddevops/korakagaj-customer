@@ -523,7 +523,7 @@ const Cart = ({}) => {
                               <tr key={j}>
                                 <td
                                   className="image product-thumbnail"
-                                  data-title= {t("Image")}
+                                  data-title={t("Image")}
                                 >
                                   <img
                                     src={imageUrl + product.featuredImage}
@@ -534,7 +534,7 @@ const Cart = ({}) => {
 
                                 <td
                                   className="product-name"
-                                  data-title=  {t("Product Name")}
+                                  data-title={t("Product Name")}
                                 >
                                   <h5 className="product-name">
                                     <Link
@@ -582,7 +582,7 @@ const Cart = ({}) => {
 
                                 <td
                                   className="Fabric name"
-                                  data-title = {t("Fabric name")}
+                                  data-title={t("Fabric name")}
                                 >
                                   <span>{product?.fabric}</span>
                                 </td>
@@ -592,7 +592,7 @@ const Cart = ({}) => {
 
                                 <td
                                   className="text-center"
-                                  data-title = {t("Quantity")}
+                                  data-title={t("Quantity")}
                                 >
                                   <div className="detail-qty border radius m-auto">
                                     <span className="qty-val">
@@ -603,7 +603,7 @@ const Cart = ({}) => {
 
                                 <td
                                   className="text-right"
-                                  data-title = {t("Subtotal")}
+                                  data-title={t("Subtotal")}
                                 >
                                   <span>
                                     Rs.{" "}
@@ -672,6 +672,7 @@ const Cart = ({}) => {
                               >
                                 {Data?.address?.houseNo}
                               </span>
+                              <br />
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks

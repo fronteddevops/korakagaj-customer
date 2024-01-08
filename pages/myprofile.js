@@ -503,7 +503,7 @@ function Account() {
                                           <tr key={key}>
                                             <td
                                               className="text-right"
-                                              data-title="Product Image"
+                                              data-title={t("Product Image")}
                                             >
                                               <img
                                                 className="img-fluid rounded" // Make the image responsive
@@ -520,13 +520,13 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Order Id"
+                                              data-title={t("Order Id")}
                                             >
                                               {item?.id}
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Date"
+                                              data-title={t("Date")}
                                             >
                                               {moment(item?.createdAt).format(
                                                 "hh:mm A DD MMM YYYY"
@@ -534,26 +534,26 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Total Item"
+                                              data-title={t("Total Item")}
                                             >
                                               {item?.totalItems}
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Total Quantity"
+                                              data-title={t("Total Quantity")}
                                             >
                                               {item?.totalQuantity}
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Total Amount"
+                                              data-title={t("Total Amount")}
                                             >
                                               {item?.totalAmount}
                                             </td>
 
                                             <td
                                               className="text-right"
-                                              data-title="Coupon Discount"
+                                              data-title={t("Coupon Discount")}
                                             >
                                               {item?.couponPercent
                                                 ? item?.couponPercent + "%"
@@ -561,7 +561,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Coupon Code"
+                                              data-title={t("Coupon Code")}
                                             >
                                               {item?.couponCode
                                                 ? item?.couponCode
@@ -569,7 +569,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Discount Amount"
+                                              data-title={t("Discount Amount")}
                                             >
                                               {item?.discountAmount != 0
                                                 ? item?.discountAmount
@@ -577,7 +577,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Final Amount"
+                                              data-title={t("Final Amount")}
                                             >
                                               {item?.finalAmount
                                                 ? item?.finalAmount
@@ -586,13 +586,13 @@ function Account() {
 
                                             <td
                                               className="text-right"
-                                              data-title="Order Status"
+                                              data-title={t("Order Status")}
                                             >
                                               {item?.orderStatus}
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title="Actions"
+                                              data-title={t("Actions")}
                                             >
                                               <Link
                                                 href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}`}
@@ -983,9 +983,7 @@ function Account() {
                                       name="phone"
                                       type="number"
                                       value={phoneNumber}
-                                      placeholder={
-                                        t("Enter Phone Number")
-                                      }
+                                      placeholder={t("Enter Phone Number")}
                                       onChange={handleInputChange}
                                       onPaste={handlePaste}
                                       min="0"

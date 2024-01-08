@@ -206,7 +206,7 @@ function OrderViewDetails({ data }) {
 
                               <td
                                 className="product-des product-name"
-                                data-title="Product Name"
+                                data-title={t("Product Name")}
                               >
                                 <Link
                                   href="/products/[slug]"
@@ -218,24 +218,24 @@ function OrderViewDetails({ data }) {
                                 </Link>
                               </td>
 
-                              <td className="text-right" data-title="MRP">
+                              <td className="text-right" data-title={t("MRP")}>
                                 <span>{MRP.toFixed(2)}</span>
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Discount Percentage"
+                                data-title={t("Discount Percentage")}
                               >
                                 <span>{dataOfMargin?.discountPercentage}%</span>
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Final Amount"
+                                data-title={t("Final Amount")}
                               >
                                 <span>{product?.detail?.finalAmount}</span>
                               </td>
                               <td
                                 className="text-right"
-                                data-title="fabric Name"
+                                data-title={t("Fabric Name")}
                               >
                                 <span>{product?.detail?.fabric}</span>
                               </td>
@@ -261,7 +261,7 @@ function OrderViewDetails({ data }) {
 
                               <td
                                 className="text-right"
-                                data-title="Order Date"
+                                data-title= {t("Order Date")}
                               >
                                 <span>
                                   {moment(product?.updatedAt).format(
@@ -272,7 +272,7 @@ function OrderViewDetails({ data }) {
 
                               <td
                                 className="text-right"
-                                data-title="Selected Color"
+                                data-title= {t("Selected Color")}
                               >
                                 <span
                                   className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
@@ -287,19 +287,19 @@ function OrderViewDetails({ data }) {
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Selected Size"
+                                data-title= {t("Selected Size")}
                               >
                                 <span>{product?.detail?.selectedSize}</span>
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Selected Quantity"
+                                data-title= {t("Selected Quantity")}
                               >
                                 <span>{product?.detail?.selectedQuantity}</span>
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Tracking Id & Link"
+                                data-title= {t("Tracking Id & Link")}
                               >
                                 <span>
                                   {product?.Product?.trackingId} <br />
@@ -308,7 +308,7 @@ function OrderViewDetails({ data }) {
                               </td>
                               <td
                                 className="text-right"
-                                data-title="Add Review"
+                                data-title= {t("Add Review")}
                               >
                                 {OrderStatusUrl != "Payment Failed" ? (
                                   !product?.Rating ? (
