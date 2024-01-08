@@ -228,6 +228,7 @@ function Account() {
     setSelectedId(id);
     // Set the state to true to render the AddAddressComponent
     setShowEditAddressComponent(true);
+    route.push(`/myprofile?EditAddress=1`);
   };
 
   const handleInputChange = (e) => {

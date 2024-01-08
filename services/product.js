@@ -29,6 +29,22 @@ export default {
       }
     });
   },
+
+  GET_PRODUCT_SLUG_BY_ID: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await Axios.get(
+          nextConfig.BASE_URL + api.product.GET_PRODUCT_SLUG_BY_ID(id)
+        );
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
+
+
+
   UP_COMING_PRODUCT: () => {
     return new Promise(async (resolve, reject) => {
       try {

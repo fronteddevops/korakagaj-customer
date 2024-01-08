@@ -16,8 +16,8 @@ const ProductId = ({ product }) => {
   const [data, setData] = useState([]);
   const router = useRouter();
   // set query data
-  const prodcutId = router.query.productId
-    ? router.query.productId
+  const prodcutId = router.query.slug
+    ? router.query.slug
     : router.query.slug;
   const totalPrice = router.query.totalPrice ? router.query.totalPrice : "";
   const fabricPrice = router.query.fabricPrice ? router.query.fabricPrice : "";
@@ -28,8 +28,8 @@ const ProductId = ({ product }) => {
     // Fetch product data here and return it as props
 
     try {
-      let id = prodcutId.split('_')[0]
-      const response = await services.product.GET_PRODUCT_BY_ID(id);
+     
+      const response = await services.product.GET_PRODUCT_SLUG_BY_ID(prodcutId);
 
       // const filteredProducts = response.data.data.rows.filter(
       //   (product) => product.id == id

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Layout from "../components/layout/Layout";
+
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import services from "../services";
@@ -19,6 +20,7 @@ function Contact() {
   const [MessageError, setMessageError] = useState("");
   const [ButtonStatus, setButtonStatus] = useState(true);
   let [CMSEMPTY, setCMSEMPTY] = useState("");
+
   useEffect(() => {
     GET_CMS();
   }, []);
@@ -140,6 +142,7 @@ function Contact() {
     }
   };
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
+
   return (
     <>
       <Layout parent={t("Home")} sub={t("Pages")} subChild={t("Contact")}>

@@ -58,6 +58,9 @@ const Products = ({ products, productFilters, closeQuickView }) => {
     showPagination = 4;
 
   const { id } = Router.query;
+  console.log(id);
+
+  const result = id.split("_")[0];
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -148,7 +151,7 @@ const Products = ({ products, productFilters, closeQuickView }) => {
 
   const getProdcut = async () => {
     try {
-      const response = await services.product.GET_PRODUCT_BY_ID(id);
+      const response = await services.product.GET_PRODUCT_BY_ID(result);
 
       if (response) {
         setprodcutData({
@@ -236,7 +239,7 @@ const Products = ({ products, productFilters, closeQuickView }) => {
         }
         subSub={
           <>
-            <Link href="/products/[slug]" as={`/products/${id}`}>
+            <Link href="/products/[slug]" as={`/products/${result}`}>
               <a>{prodcutData?.productName}</a>
             </Link>
             <span></span>
@@ -638,20 +641,22 @@ const Products = ({ products, productFilters, closeQuickView }) => {
                   )}
 
                   {getPaginatedProducts.length > 0 &&
-                    getPaginatedProducts?.map((item, i) => (
-                      <div
-                        className="col-lg-4 col-md-4 col-12 col-sm-6"
-                        key={i}
-                      >
-                        <SingleFabric
-                          product={item}
-                          length={prodcutData?.newlength}
-                          id={id}
-                          discountPercentage={prodcutData?.discountPercentage}
-                          marginAmount={prodcutData?.marginAmount}
-                        />
-                      </div>
-                    ))}
+                    getPaginatedProducts?.map((item, i) => {
+                      return (
+                        <div
+                          className="col-lg-4 col-md-4 col-12 col-sm-6"
+                          key={i}
+                        >
+                          <SingleFabric
+                            product={item}
+                            length={prodcutData?.newlength}
+                            id={result}
+                            discountPercentage={prodcutData?.discountPercentage}
+                            marginAmount={prodcutData?.marginAmount}
+                          />
+                        </div>
+                      );
+                    })}
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">

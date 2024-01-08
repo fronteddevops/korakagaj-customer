@@ -13,6 +13,8 @@ import Axios from "axios";
 import initialiseInterceptor from "../api/interceptor";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+import { useRouter } from "next/router";
+
 // Swiper Slider
 import "swiper/css";
 import "swiper/css/pagination";
@@ -43,8 +45,10 @@ i18next.init({
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
+  const route = useRouter();
+
   useEffect(() => {
-    console.log("Loading")
+    console.log("Loading");
     initialiseInterceptor(); // Initialize the interceptor when the app loads
     setLoading(true);
     setTimeout(() => {
@@ -55,6 +59,47 @@ function MyApp({ Component, pageProps }) {
     }
     new WOW.WOW().init();
   }, []);
+
+  // useEffect(() => {
+  //   const alertUser = (e) => {
+  //     const confirmationMessage = "Are you sure you want to leave?";
+  //     e.returnValue = confirmationMessage;
+  //   };
+
+  //   const handleBeforeUnload = (e) => {
+  //     alertUser(e);
+  //     route.push("/");
+  //   };
+
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
+  useEffect(() => {
+    const alertUser = (e) => {
+      const confirmationMessage = "Are you sure you want to leave?";
+      e.returnValue = confirmationMessage;
+    };
+  
+    const handleBeforeUnload = (e) => {
+      alertUser(e);
+    };
+  
+    const handleUnload = () => {
+      route.push("/");
+    };
+  
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("unload", handleUnload);
+  
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("unload", handleUnload);
+    };
+  }, []);
+  
   return (
     <GoogleOAuthProvider clientId="794458147066-3stka0516uba519fftsh1064espk1q02.apps.googleusercontent.com">
       {!loading ? (

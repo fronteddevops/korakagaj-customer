@@ -38,6 +38,7 @@ const Wishlist = ({
     if (localStorage.getItem("access_token")) {
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
+        console.log("WishlistResponse", WishlistResponse)
         if(WishlistResponse?.data?.data && WishlistResponse?.data?.data.length > 0){
           let data = WishlistResponse?.data?.data.map((item)=>{
             item.Product.isWishlisted = true

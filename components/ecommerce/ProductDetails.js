@@ -443,7 +443,7 @@ const ProductDetails = ({
                           <span className="text-brand">{product?.fabric}</span>
                         </strong>
 
-                        <Link href={`/fabric?id=${product.id}`}>
+                        <Link href={`/fabric?id=${product?.id}_${product?.slug}`}>
                           <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
                             {t("Choose Fabric")}
                           </button>

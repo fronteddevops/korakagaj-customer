@@ -7,6 +7,7 @@ import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import Loader from "./../elements/Loader";
+import { useRouter } from "next/router";
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
@@ -27,6 +28,12 @@ const SingleProduct = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
+  const route = useRouter();
+
+  const result = route?.query?.id.split("_")[1];
+
+  console.log(result);
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -100,7 +107,7 @@ const SingleProduct = ({
                       fabricName: product?.fabricType,
                     },
                   }}
-                  as={`/products/${id}`}
+                  as={`/products/${result}`}
                 >
                   <a className="action-btn hover-up">
                     <i className="fi-rs-shopping-bag-add"></i>

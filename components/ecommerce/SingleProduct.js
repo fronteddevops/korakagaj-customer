@@ -45,7 +45,7 @@ const SingleProduct = ({
   useEffect(() => {
     productDataShow();
     setIsProductIsWishListed(product.isWishlisted);
-    console.log("useEffect", product.isWishlisted);
+    console.log(product.isWishlisted)
   }, []);
 
   const handleCart = async (product) => {
@@ -119,10 +119,13 @@ const SingleProduct = ({
   };
   const handleWishlist = async (product) => {
     if (localStorage.getItem("access_token")) {
+      console.log(product);
       try {
         const data = {
           productId: product.id,
         };
+
+        console.log(isProductIsWishListed);
 
         if (!isProductIsWishListed) {
           const WishlistResponse =
@@ -156,9 +159,13 @@ const SingleProduct = ({
                 className="product-img product-img-zoom"
                 style={{ height: "250 px" }}
               >
-                <Link
+                {/* <Link
                   href={`/products/${product?.id}_${product?.productName}`}
                   as={`/products/${product?.id}_${product?.productName}`}
+                > */}
+                <Link
+                  href={`/products/${product?.slug}`}
+                  as={`/products/${product?.slug}`}
                 >
                   <a>
                     <img
@@ -219,9 +226,13 @@ const SingleProduct = ({
               </div>
               <h2>
                 {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
-                <Link
+                {/* <Link
                   href={`/products/${product?.id}_${product?.productName}`}
                   as={`/products/${product?.id}_${product?.productName}`}
+                > */}
+                <Link
+                  href={`/products/${product?.slug}`}
+                  as={`/products/${product?.slug}`}
                 >
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>

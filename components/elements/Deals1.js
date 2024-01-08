@@ -96,11 +96,17 @@ const Deals1 = () => {
                         {product.upComingDate && (
                           <Timer endDateTime={endDateTime} />
                         )}
-                        <Link
+                        {/* <Link
                           // href={`/products/${product?.id}`}
                           // as={`/products/${product?.id}`}
                           href={`/products/${product?.id}_${product?.productName}`}
                           as={`/products/${product?.id}_${product?.productName}`}
+                        > */}
+                        <Link
+                          // href={`/products/${product?.id}`}
+                          // as={`/products/${product?.id}`}
+                          href={`/products/${product?.slug}`}
+                          as={`/products/${product?.slug}`}
                         >
                           <a className="btn hover-up">
                             {t("Shop Now")}{" "}

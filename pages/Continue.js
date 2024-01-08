@@ -400,12 +400,12 @@ const Cart = ({}) => {
 
                                 <div>
                                   <h5>
-                                    <Link
+                                    {/* <Link
                                       href={`/products/${product?.id}_${product?.productName}`}
                                       as={`/products/${product?.id}_${product?.productName}`}
-                                    >
-                                      <a>{product.productName}</a>
-                                    </Link>
+                                    > */}
+                                    <a>{product.productName}</a>
+                                    {/* </Link> */}
                                   </h5>
                                   <span
                                     style={
@@ -537,14 +537,14 @@ const Cart = ({}) => {
                                   data-title={t("Product Name")}
                                 >
                                   <h5 className="product-name">
-                                    <Link
+                                    {/* <Link
                                       // href="/products/[slug]"
                                       // as={`/products/${product?.id}`}
                                       href={`/products/${product?.id}_${product?.productName}`}
                                       as={`/products/${product?.id}_${product?.productName}`}
-                                    >
-                                      <a>{product.productName}</a>
-                                    </Link>
+                                    > */}
+                                    <a>{product.productName}</a>
+                                    {/* </Link> */}
                                   </h5>
                                   {product?.selectedColor ||
                                   product?.selectedSize ? (

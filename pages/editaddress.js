@@ -89,7 +89,7 @@ export default function Editaddress(props) {
 
           toastSuccessprofileupdate();
           setTimeout(() => {
-            // window.location.reload();
+            route.push(`/myprofile/?index=4`);
           }, 1000);
         } else {
           alert(response?.data?.guide);
