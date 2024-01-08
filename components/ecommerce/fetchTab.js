@@ -141,14 +141,18 @@ function FeatchTab() {
             </li>
           )}
         </ul>
-        <h6>
-          <Link href="/products">
-            <a className="view-more d-none d-md-flex">
-              {t("View More")}
-              <i className="fi-rs-angle-double-small-right"></i>
-            </a>
-          </Link>
-        </h6>
+        {(productData?.bestSell.length > 0 ||
+          productData?.hotDeals.length > 0 ||
+          productData?.newProduct.length > 0) && (
+          <h6>
+            <Link href="/products">
+              <a className="view-more d-none d-md-flex">
+                {t("View More")}
+                <i className="fi-rs-angle-double-small-right"></i>
+              </a>
+            </Link>
+          </h6>
+        )}
       </div>
 
       <div className="tab-content wow fadeIn animated">

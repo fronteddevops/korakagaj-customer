@@ -497,16 +497,13 @@ const Cart = ({}) => {
                                   <span
                                     style={{
                                       marginTop: "0px",
-                                      background: "red",
                                     }}
                                   >
                                     {" "}
                                     {product?.discountPercentage}% off{" "}
                                   </span>{" "}
                                   &nbsp;&nbsp;
-                                  <span
-                                    style={{ color: "red", fontWeight: "bold" }}
-                                  >
+                                  <span style={{ fontWeight: "bold" }}>
                                     {product?.discountPercentage != 0 &&
                                       "Limited Time Deal"}
                                   </span>
@@ -527,7 +524,7 @@ const Cart = ({}) => {
                                     <div style={{ marginTop: "0px" }}>
                                       {product?.selectedColor && (
                                         <div>
-                                          Color : &nbsp;
+                                          {t("Color")} : &nbsp;
                                           <span
                                             className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                             style={{
@@ -542,7 +539,7 @@ const Cart = ({}) => {
                                       )}
                                       {product?.selectedSize && (
                                         <div className="col -12">
-                                          Size : {product?.selectedSize}
+                                          {t("Size")} : {product?.selectedSize}
                                         </div>
                                       )}
                                     </div>
@@ -665,7 +662,7 @@ const Cart = ({}) => {
                             <tr key={j}>
                               <td
                                 className="image product-thumbnail"
-                                data-title="image"
+                                data-title={t("Image")}
                                 // style={{marginLeft:"130px"}}
                               >
                                 <img
@@ -676,7 +673,7 @@ const Cart = ({}) => {
                               </td>
                               <td
                                 className="product-des product-name"
-                                data-title="Product Name"
+                                data-title={t("Product Name")}
                               >
                                 <h5 className="product-name">
                                   <Link
@@ -717,11 +714,11 @@ const Cart = ({}) => {
 
                               <td
                                 className="Fabric name"
-                                data-title="Fabric name"
+                                data-title={t("Fabric name")}
                               >
                                 <span>{product?.fabric}</span>
                               </td>
-                              <td className="price" data-title="Price">
+                              <td className="price" data-title={t("Price")}>
                                 <span>
                                   Rs.&nbsp;
                                   {product?.finalAmount}
@@ -731,7 +728,7 @@ const Cart = ({}) => {
                                 <>
                                   <td
                                     className="text-center"
-                                    data-title="Quantity"
+                                    data-title={t("Quantity")}
                                   >
                                     <div className="detail-qty border radius m-auto">
                                       <a
@@ -759,7 +756,10 @@ const Cart = ({}) => {
                                   </td>
                                 </>
                               )}
-                              <td className="text-right" data-title="Subtotal">
+                              <td
+                                className="text-right"
+                                data-title={t("Subtotal")}
+                              >
                                 <span>
                                   Rs.{" "}
                                   {(
@@ -768,7 +768,7 @@ const Cart = ({}) => {
                                   ).toFixed(2)}
                                 </span>
                               </td>
-                              <td className="action" data-title="Remove">
+                              <td className="action" data-title={t("Remove")}>
                                 <a
                                   onClick={(e) => deleteFromCart(product)}
                                   className="text-muted"

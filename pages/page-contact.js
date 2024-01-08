@@ -17,6 +17,7 @@ function Contact() {
   const [SubjectError, setSubjectError] = useState("");
   const [Message, setMessage] = useState("");
   const [MessageError, setMessageError] = useState("");
+  const [ButtonStatus, setButtonStatus] = useState(true);
   let [CMSEMPTY, setCMSEMPTY] = useState("");
   useEffect(() => {
     GET_CMS();
@@ -37,35 +38,44 @@ function Contact() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
   const handleSubmit = async (e) => {
+    console.log("disable", ButtonStatus);
+    setButtonStatus(false);
     e.preventDefault();
     let isValid = true;
     if (Email === "") {
       setEmailError("Enter a valid email address");
       isValid = false;
+      setButtonStatus(true);
     } else if (!validateEmail(Email)) {
       setEmailError("Enter a valid email address");
       isValid = false;
+      setButtonStatus(true);
     }
 
     if (FirstName == "") {
       setFirstNameError("Please enter a first name");
       isValid = false;
+      setButtonStatus(true);
     }
     if (Subject == "") {
       setSubjectError("Please enter a Subject");
       isValid = false;
+      setButtonStatus(true);
     }
     if (Message == "") {
       setMessageError("Please enter a message");
       isValid = false;
+      setButtonStatus(true);
     }
     if (Number == "") {
       setNumberError("Please enter a Phone Number");
       isValid = false;
+      setButtonStatus(true);
     }
     if (Number.length < 10) {
       setNumberError("Please enter a vaild Phone Number");
       isValid = false;
+      setButtonStatus(true);
     }
 
     if (isValid) {
@@ -81,10 +91,12 @@ function Contact() {
         if (response) {
           ClearAllInput();
           toast.success("Drop Message Successfully");
+          setButtonStatus(true);
         }
       } catch (e) {
         console.error(e);
         toast.error("An error occurred");
+        setButtonStatus(true);
       }
     }
   };
@@ -409,6 +421,7 @@ function Contact() {
                           className="submit submit-auto-width"
                           type="submit"
                           onClick={handleSubmit}
+                          disabled={!ButtonStatus}
                         >
                           {t("Send message")}
                         </button>

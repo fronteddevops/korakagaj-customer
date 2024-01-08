@@ -204,7 +204,10 @@ function OrderViewDetails({ data }) {
                                 />
                               </td>
 
-                              <td className="product-des product-name"   data-title="Product Name">
+                              <td
+                                className="product-des product-name"
+                                data-title="Product Name"
+                              >
                                 <Link
                                   href="/products/[slug]"
                                   as={`/products/${product?.productId}`}
@@ -215,10 +218,7 @@ function OrderViewDetails({ data }) {
                                 </Link>
                               </td>
 
-                              <td
-                                className="text-right"
-                                data-title="MRP"
-                              >
+                              <td className="text-right" data-title="MRP">
                                 <span>{MRP.toFixed(2)}</span>
                               </td>
                               <td
@@ -341,6 +341,19 @@ function OrderViewDetails({ data }) {
                       </h5>
                     </div>
                     <address className="ml-40 mb-0">
+                      <br />
+                      <b>{t("Name")}</b>&nbsp;:&nbsp;
+                      <span
+                        style={{
+                          whiteSpace: "pre-wrap", // This property allows for line breaks
+                          wordWrap: "break-word", // This property allows for breaking words when needed
+                          overflowWrap: "break-word", // An alternative way to allow word breaking
+                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                        }}
+                      >
+                        {address?.fullName}
+                      </span>
+                      <br />
                       <b>{t("Addres")}</b>&nbsp;:&nbsp;
                       <span
                         style={{

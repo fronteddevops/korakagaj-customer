@@ -35,7 +35,7 @@ const Cart = ({}) => {
   const [DiscountPer, setDiscountPer] = useState("");
   const [SubTotal, setSubTotal] = useState("");
   const [DiscountAmo, setDiscountAmo] = useState("");
-  const [DisacountIDInst,setDisacountIDInst] = useState("");
+  const [DisacountIDInst, setDisacountIDInst] = useState("");
   const router = useRouter();
   const calculateTotalAmount = (prodcutData) => {
     let totalAmountArr = prodcutData?.map((item) => {
@@ -71,7 +71,7 @@ const Cart = ({}) => {
     if (localStorage.getItem("access_token")) {
       try {
         const response = await services.cart.GET_CART();
-        setDisacountIDInst(response?.data?.data?.cartDetail?.discountId)
+        setDisacountIDInst(response?.data?.data?.cartDetail?.discountId);
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
@@ -149,7 +149,10 @@ const Cart = ({}) => {
       const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
       const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
       let data = {
-        cartDetail: { cartDetails: unique, discountId: DicountID || DisacountIDInst },
+        cartDetail: {
+          cartDetails: unique,
+          discountId: DicountID || DisacountIDInst,
+        },
         totalAmount: sum,
         totalItems: unique.length,
         totalQuantity: qty,
@@ -159,10 +162,10 @@ const Cart = ({}) => {
       try {
         const updateCart = await services.cart.UPDATE_CART(data);
         console.log(updateCart);
-        if(updateCart){
+        if (updateCart) {
           const updateCartData = await services.cart.CHECKOUT();
           const userDetails = JSON.parse(localStorage.getItem("profile"));
-      
+
           const options = {
             key: "rzp_test_ug6gBARp85Aq1j",
             currency: "INR",
@@ -198,7 +201,7 @@ const Cart = ({}) => {
                 };
                 try {
                   const response = await services.cart.PAYMENT_LOG(data);
-      
+
                   router.push("/thankyou");
                 } catch (err) {
                   console.log(err);
@@ -214,14 +217,12 @@ const Cart = ({}) => {
           const paymentObject = new window.Razorpay(options);
           paymentObject.open();
         }
-
       } catch (error) {
-
-if(error?.response?.data?.message) {
-  toast.error("coupon code expired");
-}
-
-        toast.error(error?.response?.data?.message[0]?.message);
+        if (error?.response?.data?.message === "coupon code expired") {
+          toast.error("coupon code expired");
+        } else {
+          toast.error(error?.response?.data?.message[0]?.message || "error");
+        }
 
         console.log(updateCart);
         return;
@@ -441,7 +442,7 @@ if(error?.response?.data?.message) {
                                     <div style={{ marginTop: "-8px" }}>
                                       {product?.selectedColor && (
                                         <div>
-                                          Color : &nbsp;
+                                          {t("Color")} : &nbsp;
                                           <span
                                             className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                             style={{
@@ -459,14 +460,14 @@ if(error?.response?.data?.message) {
                                           className="col -12"
                                           style={{ marginTop: "-8px" }}
                                         >
-                                          Size : {product?.selectedSize}
+                                          {t("Size")} : {product?.selectedSize}
                                         </div>
                                       )}
                                     </div>
                                   ) : null}
                                   {localStorage.getItem("access_token") && (
                                     <div style={{ marginTop: "-8px" }}>
-                                      <span>Quantity</span>
+                                      <span>{t("Quantity")}</span>
                                       <span
                                         style={
                                           {
@@ -522,7 +523,7 @@ if(error?.response?.data?.message) {
                               <tr key={j}>
                                 <td
                                   className="image product-thumbnail"
-                                  data-title="Image"
+                                  data-title= {t("Image")}
                                 >
                                   <img
                                     src={imageUrl + product.featuredImage}
@@ -533,7 +534,7 @@ if(error?.response?.data?.message) {
 
                                 <td
                                   className="product-name"
-                                  data-title="Product Name"
+                                  data-title=  {t("Product Name")}
                                 >
                                   <h5 className="product-name">
                                     <Link
@@ -581,17 +582,17 @@ if(error?.response?.data?.message) {
 
                                 <td
                                   className="Fabric name"
-                                  data-title="Fabric name"
+                                  data-title = {t("Fabric name")}
                                 >
                                   <span>{product?.fabric}</span>
                                 </td>
-                                <td className="price" data-title="Price">
+                                <td className="price" data-title={t("Price")}>
                                   <span>Rs. {product.finalAmount}</span>
                                 </td>
 
                                 <td
                                   className="text-center"
-                                  data-title="Quantity"
+                                  data-title = {t("Quantity")}
                                 >
                                   <div className="detail-qty border radius m-auto">
                                     <span className="qty-val">
@@ -602,7 +603,7 @@ if(error?.response?.data?.message) {
 
                                 <td
                                   className="text-right"
-                                  data-title="Subtotal"
+                                  data-title = {t("Subtotal")}
                                 >
                                   <span>
                                     Rs.{" "}

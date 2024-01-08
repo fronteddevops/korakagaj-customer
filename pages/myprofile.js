@@ -749,6 +749,7 @@ function Account() {
                                           >
                                             {user.address.houseNo}
                                           </span>
+                                          <br />
                                           <span
                                             style={{
                                               whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -981,7 +982,7 @@ function Account() {
                                       className="form-control square"
                                       name="phone"
                                       type="number"
-                                      // value={phoneNumber}
+                                      value={phoneNumber}
                                       placeholder={
                                         t("Enter Phone Number")
                                       }
