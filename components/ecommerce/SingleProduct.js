@@ -11,8 +11,7 @@ import Loader from "./../elements/Loader";
 import nextConfig from "../../next.config";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
-import { use } from "i18next";
-
+import { useRouter } from "next/router";
 const SingleProduct = ({
   data1,
   product,
@@ -24,6 +23,7 @@ const SingleProduct = ({
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
   const [isProductIsWishListed, setIsProductIsWishListed] = useState();
+  const route = useRouter();
   const productDataShow = () => {
     setProductId(data1?.productId);
     setUserId(data1?.User?.id);
@@ -114,13 +114,19 @@ const SingleProduct = ({
         if (!isProductIsWishListed) {
           const WishlistResponse =
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-          setIsProductIsWishListed(!isProductIsWishListed);
+
+          if (route.pathname != "/shop-wishlist") {
+            setIsProductIsWishListed(!isProductIsWishListed);
+          }
+
           productDataShow();
           toast.success("Added to Wishlist!");
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-          setIsProductIsWishListed(!isProductIsWishListed);
+          if (route.pathname != "/shop-wishlist") {
+            setIsProductIsWishListed(!isProductIsWishListed);
+          }
           productDataShow();
           toast.success("Removed from Wishlist");
         }
