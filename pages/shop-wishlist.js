@@ -9,7 +9,7 @@ import QuickView from "../components/ecommerce/QuickView";
 import {
   clearWishlist,
   closeWishlistModal,
-  deleteFromWishlist
+  deleteFromWishlist,
 } from "../redux/action/wishlistAction";
 import services from "../services";
 import { useEffect, useState } from "react";
@@ -18,7 +18,6 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
 const Wishlist = ({
-  
   handleWishlistLength,
   wishlist,
   clearWishlist,
@@ -28,37 +27,35 @@ const Wishlist = ({
 }) => {
   const { t } = useTranslation("common");
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
-  const [WishlistData, setWishlistdata] = useState()
-  const [WishlistLength, setWishlistLength] = useState()
-
-
-
+  const [WishlistData, setWishlistdata] = useState();
+  const [WishlistLength, setWishlistLength] = useState();
 
   const GetWishlistdata = async () => {
     if (localStorage.getItem("access_token")) {
       try {
         const WishlistResponse = await services.Wishlist.GET_WISHLIST_DATA();
-        if(WishlistResponse?.data?.data && WishlistResponse?.data?.data.length > 0){
-          let data = WishlistResponse?.data?.data.map((item)=>{
-            item.Product.isWishlisted = true
-            return item
-          })
-      
-          setWishlistdata(data)
-          setWishlistLength(WishlistResponse?.data?.data?.length)
-        } else{
-          setWishlistdata([])
-          setWishlistLength(0)
-        }
+        if (
+          WishlistResponse?.data?.data &&
+          WishlistResponse?.data?.data.length > 0
+        ) {
+          let data = WishlistResponse?.data?.data.map((item) => {
+            item.Product.isWishlisted = true;
+            return item;
+          });
 
+          setWishlistdata(data);
+          setWishlistLength(WishlistResponse?.data?.data?.length);
+        } else {
+          setWishlistdata([]);
+          setWishlistLength(0);
+        }
       } catch (error) {
         console.error("An error occurred:", error);
       }
 
       return;
-    } 
-
-  }
+    }
+  };
 
   useEffect(() => {
     GetWishlistdata();
@@ -66,37 +63,42 @@ const Wishlist = ({
 
   return (
     <>
-      <Layout parent={t("Home")} sub={<><Link href="/products" as={`/products`} >{t("Product")}</Link></>} subChild={t("Wishlist")}>
+      <Layout
+        parent={t("Home")}
+        sub={
+          <>
+            <Link href="/products" as={`/products`}>
+              {t("Product")}
+            </Link>
+          </>
+        }
+        subChild={t("Wishlist")}
+      >
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row product-grid-3">
-
               {WishlistData?.map((item, i) => (
-                <div
-                  className="col-lg-3 col-md-3 col-6 col-sm-6"
-                  key={i}
-                >
-
+                <div className="col-lg-3 col-md-3 col-6 col-sm-6" key={i}>
                   <SingleProduct
                     data1={item}
-                    product={item?.Product} isWishlisted={item.isWishlisted}  source={'wishlist'} GetWishlistdata={GetWishlistdata}/>
-
+                    product={item?.Product}
+                    isWishlisted={item.isWishlisted}
+                    source={"wishlist"}
+                    GetWishlistdata={GetWishlistdata}
+                  />
                 </div>
               ))}
-
             </div>
-
           </div>
         </section>
       </Layout>
-      <QuickView source={'wishlist'} GetWishlistdata={GetWishlistdata}/>
+      <QuickView source={"wishlist"} GetWishlistdata={GetWishlistdata} />
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
   wishlist: state.wishlist,
-
 });
 
 const mapDispatchToProps = {

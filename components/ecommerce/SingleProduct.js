@@ -11,6 +11,7 @@ import Loader from "./../elements/Loader";
 import nextConfig from "../../next.config";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
+import { use } from "i18next";
 
 const SingleProduct = ({
   data1,
@@ -23,7 +24,6 @@ const SingleProduct = ({
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
   const [isProductIsWishListed, setIsProductIsWishListed] = useState();
-
   const productDataShow = () => {
     setProductId(data1?.productId);
     setUserId(data1?.User?.id);
@@ -43,11 +43,9 @@ const SingleProduct = ({
     productDataShow();
     setIsProductIsWishListed(product.isWishlisted);
   }, []);
-
   const handleCart = async (product) => {
     const color = JSON?.parse(product?.colour);
     const size = JSON?.parse(product.size);
-
     product.selectedColor = color[0];
     product.selectedSize = size[0];
     product.selectedQuantity = 1;
@@ -122,7 +120,6 @@ const SingleProduct = ({
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-          // setIsProductIsWishListed(false);
           setIsProductIsWishListed(!isProductIsWishListed);
           productDataShow();
           toast.success("Removed from Wishlist");

@@ -7,7 +7,6 @@ import Pagination from "../../components/ecommerce/Pagination";
 import PriceRangeSlider from "../../components/ecommerce/PriceRangeSlider";
 import QuickView from "../../components/ecommerce/QuickView";
 import ShowSelect from "../../components/ecommerce/ShowSelect";
-import SingleProduct from "../../components/ecommerce/SingleProduct";
 import SizeFilter from "../../components/ecommerce/SizeFilter";
 import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
