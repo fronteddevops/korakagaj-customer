@@ -7,6 +7,7 @@ import { addToCart } from "../../redux/action/cart";
 import { addToCompare } from "../../redux/action/compareAction";
 import { openQuickView } from "../../redux/action/quickViewAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
+import { isMobile } from "react-device-detect";
 import Loader from "./../elements/Loader";
 import nextConfig from "../../next.config";
 import services from "../../services";
@@ -169,7 +170,11 @@ const SingleProduct = ({
                 </Link>
               </div>
 
-              <div className="product-action-1">
+              <div
+                className="product-action-1"
+                style={isMobile ? { marginTop: "-120px" } : {}}
+              >
+                {console.log(isMobile)}
                 <a
                   aria-label="Quick view"
                   className="action-btn hover-up"
