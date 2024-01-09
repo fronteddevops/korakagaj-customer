@@ -14,7 +14,6 @@ const RelatedSlider = () => {
   }, []);
 
   const fetchProducts = async () => {
-    // With Category
     try {
       const allProducts = await services.product.GET_PRODUCT();
       if (allProducts) {
@@ -27,21 +26,16 @@ const RelatedSlider = () => {
   return (
     <>
       <Swiper
-        // Set the width to 100% or another value suitable for mobile screens
-
         breakpoints={{
           200: {
-            // width: 576,
             slidesPerView: 1.5,
             spaceBetween: 10,
           },
           768: {
-            // width: 768,
             slidesPerView: 2.5,
             spaceBetween: 10,
           },
           1024: {
-            // width: 768,
             slidesPerView: 4,
             spaceBetween: 20,
           },
@@ -60,9 +54,6 @@ const RelatedSlider = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-
-
-
 
       <div
         className="slider-arrow slider-arrow-2 carausel-6-columns-arrow"

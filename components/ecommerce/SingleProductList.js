@@ -44,7 +44,6 @@ const SingleProductList = ({
                 aria-label="Quick view"
                 className="action-btn hover-up"
                 data-bs-toggle="modal"
-                // data-bs-target="#quickViewModal"
                 onClick={(e) => openQuickView(product)}
               >
                 <i className="fi-rs-eye"></i>

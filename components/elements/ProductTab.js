@@ -104,119 +104,6 @@ const ProductTab = ({ prodcut }) => {
                 {}
               </ul>
             </div>
-            {/* <table className="font-md">
-                            <tbody>
-                                <tr className="stand-up">
-                                    <th>{t("Stand Up")}</th>
-                                    <td>
-                                        <p>
-                                            35″L x 24″W x 37-45″H(front to back
-                                            wheel)
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr className="folded-wo-wheels">
-                                    <th>{t("Folded")} (w/o wheels)</th>
-                                    <td>
-                                        <p>32.5″L x 18.5″W x 16.5″H</p>
-                                    </td>
-                                </tr>
-                                <tr className="folded-w-wheels">
-                                    <th>{t("Folded")} ({t("w/ wheels")})</th>
-                                    <td>
-                                        <p>32.5″L x 24″W x 18.5″H</p>
-                                    </td>
-                                </tr>
-                                <tr className="door-pass-through">
-                                    <th>{t("Door Pass Through")}</th>
-                                    <td>
-                                        <p>24</p>
-                                    </td>
-                                </tr>
-                                <tr className="frame">
-                                    <th>{t("Frame")}</th>
-                                    <td>
-                                        <p>{t("Aluminum")}</p>
-                                    </td>
-                                </tr>
-                                <tr className="weight-wo-wheels">
-                                    <th>{t("Weight")} {t("w/o wheels")}</th>
-                                    <td>
-                                        <p>20 LBS</p>
-                                    </td>
-                                </tr>
-                                <tr className="weight-capacity">
-                                    <th>{t("Weight Capacity")}</th>
-                                    <td>
-                                        <p>60 LBS</p>
-                                    </td>
-                                </tr>
-                                <tr className="width">
-                                    <th>{t("Length")}  </th>
-                                    <td>
-                                        <p>{prodcut?.length}</p>
-                                    </td>
-                                </tr>
-                                <tr className="handle-height-ground-to-handle">
-                                    <th>{t("Handle height")} {t("ground to handle")}</th>
-                                    <td>
-                                        <p>37-45″</p>
-                                    </td>
-                                </tr>
-                                <tr className="wheels">
-                                    <th>{t("Wheels")}</th>
-                                    <td>
-                                        <p>{t("12″ air / wide track slick tread")}</p>
-                                    </td>
-                                </tr>
-                                <tr className="wheels">
-                                    <th>{t("Name and Address of Importer")}</th>
-                                    <td>
-                                        <p>{t("adidas India Marketing Private Limited, Office no. 6, 2nd Floor, Sector-B, Pocket no. 7, Plot no. 11, Vasant Kunj, New Delhi - 110070")}</p>
-                                    </td>
-                                </tr>
-                                <tr className="seat-back-height">
-                                    <th>{t("Country of Origin")}</th>
-                                    <td>
-                                        <p>21.5″</p>
-                                    </td>
-                                </tr>
-                                <tr className="seat-back-height">
-                                    <th>{t("Gender")}</th>
-                                    <td>
-                                        <p>21.5″</p>
-                                    </td>
-                                </tr>
-                                <tr className="head-room-inside-canopy">
-                                    <th>{t("BrandName")}</th>
-                                    <td>
-                                        <p>{prodcut?.brandName}</p>
-                                    </td>
-                                </tr>
-                             
-                               <tr className="pa_color">
-  <th>{t("Color")}</th>
-  <td>
-    <p className="mb-2">
-     {parseAndFormatColors(prodcut?.colour)}
-    </p>
-  </td>
-</tr>
-
-                                <tr className="pa_size">
-                                    <th>{t("size")}</th>
-                                    <td>
-                                    <p className="mb-2">
-      {prodcut?.size && JSON?.parse(prodcut?.size).map((size, index) => (
-        <span key={index}>
-          <span>{index + 1}:</span> {size}&nbsp;
-        </span>
-      ))}
-    </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table> */}
           </div>
           <div
             className={
@@ -224,59 +111,10 @@ const ProductTab = ({ prodcut }) => {
             }
             id="Reviews"
           >
-            {/* 
-<h4 className="mb-30">{t("Customer reviews")}</h4> */}
-
-            {/* <span>
-                  <ReactStars
-                    value={prodcut.averageRating}
-                    count={5}
-                    size={20}
-                    activeColor="#ffd700"
-                    isHalf={true} // Disable half ratings
-                    edit={false}   // Disable user rating changes
-                  />
-                  <span>{prodcut?.ratingScore} </span>
-                </span> */}
-
             <div className="comments-area">
               <div className="row">
                 <div className="col-lg-8">
                   <h4 className="mb-30">{t("Customer questions & answers")}</h4>
-                  {/* {prodcut?.Ratings?.map((item) => (
-                    <>
-                      <div className="comment-list">
-                        <div className="single-comment justify-content-between d-flex">
-                          <div className="user justify-content-between d-flex">
-                            <div className="desc">
-                              <span>
-                                <ReactStars
-                                  value={item?.ratings}
-                                  count={5}
-                                  size={20}
-                                  activeColor="#ffd700"
-                                  isHalf={true} // Disable half ratings
-                                  edit={false} // Disable user rating changes
-                                />
-                              </span>
-                              <p>{item?.review}</p>
-
-                              <div className="d-flex justify-content-between">
-                                <div className="d-flex align-items-center"></div>
-                              </div>
-                              <h6>
-                                <a>
-                                  {item?.User?.firstName} &nbsp;&nbsp;
-                                  {item?.User?.lastName}
-                                </a>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <hr />
-                      </div>
-                    </>
-                  ))} */}
 
                   <div>
                     {prodcut?.Ratings?.slice(0, visibleItems).map(

@@ -32,11 +32,8 @@ const SingleProduct = ({
   const { t, i18n } = useTranslation("common");
 
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
-  const basePrice = product?.totalPrice || 0; // Ensure basePrice is a number or set it to 0
-  const discountPercentage = product?.discountPercentage || 0; // Ensure discountPercentage is a number or set it to 0
-  // const discountAmount = (basePrice * discountPercentage) / 100;
-  // const totalPrice = basePrice - discountAmount;
-
+  const basePrice = product?.totalPrice || 0;
+  const discountPercentage = product?.discountPercentage || 0;
   const UpperCase = product?.SubSubCategory?.subSubCategoryName
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -45,8 +42,6 @@ const SingleProduct = ({
   useEffect(() => {
     productDataShow();
     setIsProductIsWishListed(product.isWishlisted);
-    console.log(product.isWishlisted)
-
   }, []);
 
   const handleCart = async (product) => {
@@ -75,9 +70,6 @@ const SingleProduct = ({
               t.fabric === value.fabric
           )
       );
-      // const unique = [
-      //   ...new Map(cartDetails?.map((item) => [item[key], item])).values(),
-      // ];
       let data = {
         cartDetail: { cartDetails: unique },
       };
@@ -105,9 +97,6 @@ const SingleProduct = ({
               t.fabric === value.fabric
           )
       );
-      // const unique = [
-      //   ...new Map(cartDetails.map((item) => [item[key], item])).values(),
-      // ];
 
       let data = {
         cartDetail: { cartDetails: unique },
@@ -119,7 +108,6 @@ const SingleProduct = ({
     }
   };
   const handleWishlist = async (product) => {
-    console.log("Wishlist");
     if (localStorage.getItem("access_token")) {
       try {
         const data = {
@@ -128,7 +116,7 @@ const SingleProduct = ({
         if (!isProductIsWishListed) {
           const WishlistResponse =
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-            setIsProductIsWishListed(true);
+          setIsProductIsWishListed(true);
           productDataShow();
           toast.success("Added to Wishlist!");
         } else {
@@ -215,14 +203,7 @@ const SingleProduct = ({
               </div>
             </div>
             <div className="product-content-wrap">
-              <div className="product-category">
-                {/* <Link href="/products" as={`/products`}>
-                  <a className="text-capitalize"> */}
-                {/* {product?.SubSubCategory?.subSubCategoryName} */}
-                {UpperCase}
-                {/* </a>
-                </Link> */}
-              </div>
+              <div className="product-category">{UpperCase}</div>
               <h2>
                 {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
                 {/* <Link
