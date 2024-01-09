@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactStars from "react-rating-stars-component";
+
+import QuickView from "../../components/ecommerce/QuickView";
 import Link from "next/link";
 const ProductTab = ({ prodcut }) => {
   const { t } = useTranslation("common");
@@ -170,6 +172,8 @@ const ProductTab = ({ prodcut }) => {
           </div>
         </div>
       </div>
+
+      <QuickView />
     </>
   );
 };

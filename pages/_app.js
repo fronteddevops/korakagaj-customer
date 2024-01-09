@@ -87,7 +87,7 @@ function MyApp({ Component, pageProps }) {
     };
   
     const handleUnload = () => {
-      route.push("/");
+      // route.push("/");
     };
   
     window.addEventListener("beforeunload", handleBeforeUnload);

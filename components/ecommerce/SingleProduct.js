@@ -116,13 +116,14 @@ const SingleProduct = ({
         if (!isProductIsWishListed) {
           const WishlistResponse =
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-          setIsProductIsWishListed(true);
+          setIsProductIsWishListed(!isProductIsWishListed);
           productDataShow();
           toast.success("Added to Wishlist!");
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-          setIsProductIsWishListed(false);
+          // setIsProductIsWishListed(false);
+          setIsProductIsWishListed(!isProductIsWishListed);
           productDataShow();
           toast.success("Removed from Wishlist");
         }

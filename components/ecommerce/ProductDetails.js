@@ -17,6 +17,7 @@ import services from "../../services";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import SizeChart from "../elements/SizeChart";
+
 const ProductDetails = ({
   product,
   cartItems,
@@ -31,7 +32,7 @@ const ProductDetails = ({
   fabricId,
   totalPrice,
   source,
-  GetWishlistdata
+  GetWishlistdata,
 }) => {
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
@@ -83,16 +84,16 @@ const ProductDetails = ({
             toast.success("Added to Wishlist!");
           }
 
-          if(source == 'wishlist'){
-            GetWishlistdata()
+          if (source == "wishlist") {
+            GetWishlistdata();
           }
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           //  productDataShow()
           toast.success("Removed from Wishlist");
-          if(source == 'wishlist'){
-            GetWishlistdata()
+          if (source == "wishlist") {
+            GetWishlistdata();
           }
         }
       } catch (error) {
@@ -140,7 +141,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       const updateCart = await services.cart.UPDATE_CART(data);
 
       toast.success("Add to Cart!");
@@ -171,7 +172,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Add to Cart!");
     }
@@ -443,7 +444,9 @@ const ProductDetails = ({
                           <span className="text-brand">{product?.fabric}</span>
                         </strong>
 
-                        <Link href={`/fabric?id=${product?.id}_${product?.slug}`}>
+                        <Link
+                          href={`/fabric?id=${product?.id}_${product?.slug}`}
+                        >
                           <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
                             {t("Choose Fabric")}
                           </button>
@@ -519,6 +522,8 @@ const ProductDetails = ({
             </div>
           </div>
         </div>
+
+        
       </section>
     </>
   );
