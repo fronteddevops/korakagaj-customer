@@ -15,7 +15,7 @@ const ProductsFullWidth = ({ products, productFilters }) => {
 
     let Router = useRouter(),
      
-        showLimit = 12,
+        showLimit = 6,
         showPagination = 4;
 
     let [pagination, setPagination] = useState([]);

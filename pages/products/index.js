@@ -41,7 +41,7 @@ const Products = ({ products1, productFilters }) => {
 
   let Router = useRouter(),
     searchTerm = Router.query.search,
-    showLimit = 12,
+    showLimit = 6,
     showPagination = 4;
   //get query data
   const fabricPrice = Router.query.fabricPrice ? Router.query.fabricPrice : "";

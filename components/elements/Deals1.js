@@ -4,7 +4,7 @@ import Link from "next/link";
 import services from "../../services";
 import { useTranslation } from "react-i18next";
 import nextConfig from "../../next.config";
-import moment from "moment";
+import { isMobile } from "react-device-detect";
 
 const Deals1 = () => {
   const { t } = useTranslation("common");
@@ -49,67 +49,158 @@ const Deals1 = () => {
           const endDateTime = new Date(product.upComingDate);
           return (
             <>
-              <div
-                className="d-flex p-2"
-                style={{
-                  deals1Style,
+              {isMobile ? (
+                <div
+                  className="d-flex p-2"
+                  style={{
+                    deals1Style,
+                    margin: "10px",
+                  }}
+                >
+                  {endDateTime - new Date() > 0 ? (
+                    <>
+                      <div
+                        style={{
+                          borderColor: "black",
+                          borderWidth: "1px",
+                          borderStyle: "solid",
+                        }}
+                      >
+                        <div
+                          className="d-flex p-2"
+                          style={{
+                            ...deals1Style,
+                            // marginRight: "10px",
+                            // marginLeft: "10px",
+                          }}
+                        >
+                          {endDateTime - new Date() > 0 ? (
+                            <img
+                              src={imageUrl + product?.upComingImg}
+                              alt="Not found"
+                              crossOrigin="anonymous"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                maxHeight: "420px",
+                                objectFit: "cover",
+                              }}
+                            />
+                          ) : null}
+                        </div>
 
-                  margin: "10px",
-                }}
-              >
-                {endDateTime - new Date() > 0 ? (
-                  <>
-                    <img
-                      src={imageUrl + product?.upComingImg}
-                      alt="Not found"
-                      crossOrigin="anonymous"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        maxHeight: "420px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <div
-                      key={index}
-                      className="deal position-relative wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0  d-flex flex-wrap "
-                    >
-                      <div className="deal-top">
-                        <h2 className="text-brand">{t("Deal of the Day")}</h2>
-                        <h5>{t("Limited quantities.")}</h5>
-                      </div>
-                      <div className="deal-content">
-                        <h6 className="product-title">
-                          {/* <Link href="/products"> */}
-                          <a>{product.productName}</a>
-                          {/* </Link> */}
-                        </h6>
-                        <div className="product-price">
-                          <span className="new-price">Rs.{totalPrice}</span>
-                          <span className="old-price">
-                            Rs.{product.totalPrice}
-                          </span>
+                        <div
+                          className="d-flex p-2"
+                          style={{
+                            ...deals1Style,
+                            // marginRight: "10px",
+                            // marginLeft: "10px",
+                          }}
+                        >
+                          <div
+                            key={index}
+                            className="deal position-relative wow fadeIn animated mb-md-0 mb-sm-0 mb-lg-0 d-flex flex-wrap"
+                          >
+                            <div className="deal-top">
+                              <h2 className="text-brand">
+                                {t("Deal of the Day")}
+                              </h2>
+                              <h5>{t("Limited quantities.")}</h5>
+                            </div>
+                            <div className="deal-content">
+                              <h6 className="product-title">
+                                <a>{product.productName}</a>
+                              </h6>
+                              <div className="product-price">
+                                <span className="new-price">
+                                  Rs.{totalPrice}
+                                </span>
+                                <span className="old-price">
+                                  Rs.{product.totalPrice}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="deal-bottom">
+                              <p>{t("Hurry Up! Offer Ends In:")}</p>
+                              {product.upComingDate && (
+                                <Timer endDateTime={endDateTime} />
+                              )}
+                              <Link
+                                href={`/products/${product?.slug}`}
+                                as={`/products/${product?.slug}`}
+                              >
+                                <a className="btn hover-up">
+                                  {t("Shop Now")}{" "}
+                                  <i className="fi-rs-arrow-right"></i>
+                                </a>
+                              </Link>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div className="deal-bottom">
-                        <p>{t("Hurry Up! Offer Ends In:")}</p>
-                        {product.upComingDate && (
-                          <Timer endDateTime={endDateTime} />
-                        )}
-                        <Link
-                          href={`/products/${product?.slug}`}
-                          as={`/products/${product?.slug}`}
-                        >
-                          <a className="btn hover-up">
-                            {t("Shop Now")}{" "}
-                            <i className="fi-rs-arrow-right"></i>
-                          </a>
-                        </Link>
+                    </>
+                  ) : null}
+                </div>
+              ) : (
+                <div
+                  className="d-flex p-2"
+                  style={{
+                    deals1Style,
+                    margin: "10px",
+                  }}
+                >
+                  {endDateTime - new Date() > 0 ? (
+                    <>
+                      <img
+                        src={imageUrl + product?.upComingImg}
+                        alt="Not found"
+                        crossOrigin="anonymous"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          maxHeight: "420px",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <div
+                        key={index}
+                        className="deal position-relative wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0  d-flex flex-wrap "
+                      >
+                        <div className="deal-top">
+                          <h2 className="text-brand">{t("Deal of the Day")}</h2>
+                          <h5>{t("Limited quantities.")}</h5>
+                        </div>
+                        <div className="deal-content">
+                          <h6 className="product-title">
+                            <a>{product.productName}</a>
+                          </h6>
+                          <div className="product-price">
+                            <span className="new-price">Rs.{totalPrice}</span>
+                            <span className="old-price">
+                              Rs.{product.totalPrice}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="deal-bottom">
+                          <p>{t("Hurry Up! Offer Ends In:")}</p>
+                          {product.upComingDate && (
+                            <Timer endDateTime={endDateTime} />
+                          )}
+                          <Link
+                            href={`/products/${product?.slug}`}
+                            as={`/products/${product?.slug}`}
+                          >
+                            <a className="btn hover-up">
+                              {t("Shop Now")}{" "}
+                              <i className="fi-rs-arrow-right"></i>
+                            </a>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                ) : null}
-              </div>
+                    </>
+                  ) : null}
+                </div>
+              )}
             </>
           );
         })}
