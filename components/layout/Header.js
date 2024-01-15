@@ -173,7 +173,7 @@ const Header = ({ toggleClick, headerStyle }) => {
           <div className="container">
             <div className="row align-items-center">
               <div className="col-xl-3 col-lg-4">
-                <div className="header-info d-inline-block">
+                <div className="header-info d-inline-block" style={{  whiteSpace: "nowrap"}}>
                   <ul>
                     <li>
                       <i className="fi-rs-smartphone"></i>
