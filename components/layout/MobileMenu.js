@@ -9,6 +9,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
   const { t, i18n } = useTranslation("common");
   const [lang, setLang] = useState("");
   const [categoryList, setCategory] = useState([]);
+  const [IconsRemove, setIconsRemove] = useState([]);
   const [isActive, setIsActive] = useState({
     status: false,
     key: "",
@@ -88,6 +89,11 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
     }
   };
 
+  const iconRemove = (data) => {
+    console.log("data", data.length);
+    setIconsRemove(data.length);
+  };
+
   return (
     <>
       <div
@@ -118,7 +124,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
             <div className="mobile-search search-style-3 mobile-header-border">
               <form action="#">
                 {/* <input type="text" placeholder="Search for items…" /> */}
-                <Search />
+                <Search iconRemove={iconRemove} />
                 <button type="submit">
                   <i className="fi-rs-search"></i>
                 </button>
@@ -161,7 +167,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       className="menu-expand"
                       onClick={() => handleToggle(2)}
                     >
-                      <i className="fi-rs-angle-small-down"></i>
+                      {IconsRemove == 0 && (
+                        <i className="fi-rs-angle-small-down"></i>
+                      )}
                     </span>
 
                     <a>{t("Shop")}</a>
@@ -201,7 +209,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       className="menu-expand"
                       onClick={() => handleToggle(3)}
                     >
-                      <i className="fi-rs-angle-small-down"></i>
+                      {IconsRemove == 0 && (
+                        <i className="fi-rs-angle-small-down"></i>
+                      )}
                     </span>
 
                     <a>{t("category")}</a>
@@ -381,7 +391,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                       className="menu-expand"
                       onClick={() => handleToggle(6)}
                     >
-                      <i className="fi-rs-angle-small-down"></i>
+                      {IconsRemove == 0 && (
+                        <i className="fi-rs-angle-small-down"></i>
+                      )}
                     </span>
 
                     <a>{t("Language")}</a>

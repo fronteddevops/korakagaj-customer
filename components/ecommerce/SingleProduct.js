@@ -20,7 +20,6 @@ const SingleProduct = ({
   source,
   GetWishlistdata,
 }) => {
-  
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState(data1?.productId);
   const [UserId, setUserId] = useState(data1?.User?.id);
@@ -267,11 +266,44 @@ const SingleProduct = ({
                     : ""}
                 </span>
               </div>
-              <div className="product-price text-capitalize ">
-                Designer : &nbsp;{product?.designerName}
-              </div>
 
-              <div className="product-action-1 show">
+              {isMobile ? (
+                <div className="product-price text-capitalize product-action-1 show">
+                  {/* Designer : &nbsp;{product?.designerName} */}
+                  {/* </div> */}
+                  {/* <div className="product-action-1 show"> */}
+                  <span>
+                    <a
+                      aria-label="Add To Cart"
+                      className="action-btn hover-up"
+                      onClick={(e) => handleCart(product)}
+                    >
+                      <i className="fi-rs-shopping-bag-add"></i>
+                    </a>
+                  </span>
+                  Design : &nbsp;{product?.designerName}
+                </div>
+              ) : (
+                <>
+                  <div className="product-price text-capitalize ">
+                    Designer : &nbsp;{product?.designerName}
+                  </div>
+
+                  <div className="product-action-1 show">
+                    <span>
+                      <a
+                        aria-label="Add To Cart"
+                        className="action-btn hover-up"
+                        onClick={(e) => handleCart(product)}
+                      >
+                        <i className="fi-rs-shopping-bag-add"></i>
+                      </a>
+                    </span>
+                  </div>
+                </>
+              )}
+
+              {/* <div className="product-action-1 show">
                 <a
                   aria-label="Add To Cart"
                   className="action-btn hover-up"
@@ -279,7 +311,7 @@ const SingleProduct = ({
                 >
                   <i className="fi-rs-shopping-bag-add"></i>
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </>

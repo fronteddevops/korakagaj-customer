@@ -4,7 +4,8 @@ import services from "../../services";
 import nextConfig from "../../next.config";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-const Search = () => {
+import { isMobile } from "react-device-detect";
+const Search = ({ iconRemove }) => {
   const { t } = useTranslation("common");
   const [searchTerm, setSearchTerm] = useState("");
   const [prodcut, setProdcut] = useState([]);
@@ -25,6 +26,7 @@ const Search = () => {
       const response = await services.searchProdcut.SEARCH_PRODCUT(searchTerm);
       if (response) {
         setProdcut(response?.data?.data?.rows);
+        iconRemove(response?.data?.data?.rows);
       }
     } catch (error) {
       console.log(error);
@@ -37,6 +39,7 @@ const Search = () => {
     } else if (e.target.value === "") {
       setSearchTerm("");
       setProdcut([]);
+      iconRemove([])
     }
   };
 
@@ -102,6 +105,8 @@ const Search = () => {
       toast.success("Add to Cart!");
     }
   };
+
+  // iconRemove(prodcut.length);
   return (
     <div>
       <span>
@@ -113,6 +118,7 @@ const Search = () => {
               router.push(`/products?searchProdcut=${e.target.value}`);
               setSearchTerm("");
               setProdcut([]);
+              iconRemove([]);
             }
           }}
           type="text"
@@ -120,26 +126,88 @@ const Search = () => {
         />
       </span>
 
-      {prodcut?.length > 0 && (
-        <div style={{ position: "absolute", width: "685px", zIndex: "5" }}>
-          <div className="card bg-white">
-            <ul className="list-group list-group-flush">
-              {prodcut?.map((product, index) => (
-                <li className="list-group-item bg-white" key={index}>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <div style={{ display: "flex" }}>
-                      <img
-                        className="default-img"
-                        src={imageUrl + product?.featuredImage}
-                        crossOrigin="anonymous"
-                        alt=""
-                        height={50}
-                        width={50}
-                      />
-                      &nbsp; &nbsp;
-                      {console.log("product?.id", product)}
+      {isMobile ? (
+        <>
+          {prodcut?.length > 0 && (
+            <div style={{ position: "absolute", width: "685px", zIndex: "5" }}>
+              <div className="card bg-white">
+                <ul className="list-group list-group-flush">
+                  {prodcut?.map((product, index) => (
+                    <li className="list-group-item bg-white" key={index}>
+                      <div style={{ display: "flex" }}>
+                        <div style={{ display: "flex" }}>
+                          <img
+                            className="default-img"
+                            src={imageUrl + product?.featuredImage}
+                            crossOrigin="anonymous"
+                            alt=""
+                            height={50}
+                            width={50}
+                          />
+                          <div>
+                            <a
+                              onClick={() => navigate(product?.slug)}
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                marginTop: "12px",
+                              }}
+                            >
+                              &nbsp;&nbsp;
+                              <h4
+                                style={{
+                                  maxWidth: "60px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                ₹ {product.finalAmount}
+                              </h4>
+                              &nbsp;&nbsp;
+                              <h4
+                                style={{
+                                  maxWidth: "60px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                ₹ <s>{product.totalPrice}</s>
+                              </h4>
+                              &nbsp;&nbsp;
+                              <h4
+                                style={{
+                                  maxWidth: "60px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  color: "#E74C26",
+                                }}
+                              >
+                                {product.discountPercentage}% Off
+                              </h4>
+                              &nbsp;&nbsp;&nbsp;
+                            </a>
+                          </div>
+                        </div>
+
+                        <div
+                          className="product-action-1 show"
+                          style={{ marginTop: "12px" }}
+                        >
+                          <a
+                            aria-label="Add To Cart"
+                            className="action-btn hover-up "
+                            onClick={(e) => handleCart(product)}
+                          >
+                            <i
+                              className="fi-rs-shopping-bag-add"
+                              style={{ fontSize: "20px" }}
+                            ></i>
+                          </a>
+                        </div>
+                      </div>
                       <div>
                         <a
                           onClick={() => navigate(product?.slug)}
@@ -154,70 +222,123 @@ const Search = () => {
                               maxWidth: "200px",
                               whiteSpace: "nowrap",
                               overflow: "hidden",
-                              textOverflow: "ellipsis",
                             }}
                           >
                             {product.productName}
                           </h4>
-                          &nbsp;&nbsp;&nbsp;
-                          <h4
-                            style={{
-                              maxWidth: "200px",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            ₹ {product.finalAmount}
-                          </h4>
-                          &nbsp;&nbsp;
-                          <h4
-                            style={{
-                              maxWidth: "200px",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            ₹ <s>{product.totalPrice}</s>
-                          </h4>
-                          &nbsp;&nbsp;&nbsp;
-                          <h4
-                            style={{
-                              maxWidth: "200px",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              color: "#E74C26",
-                            }}
-                          >
-                            {product.discountPercentage}% Off
-                          </h4>
                         </a>
                       </div>
-                    </div>
-
-                    <div
-                      className="product-action-1 show"
-                      style={{ marginTop: "12px" }}
-                    >
-                      <a
-                        aria-label="Add To Cart"
-                        className="action-btn hover-up "
-                        onClick={(e) => handleCart(product)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {prodcut?.length > 0 && (
+            <div style={{ position: "absolute", width: "685px", zIndex: "5" }}>
+              <div className="card bg-white">
+                <ul className="list-group list-group-flush">
+                  {prodcut?.map((product, index) => (
+                    <li className="list-group-item bg-white" key={index}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
                       >
-                        <i
-                          className="fi-rs-shopping-bag-add"
-                          style={{ fontSize: "20px" }}
-                        ></i>
-                      </a>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+                        <div style={{ display: "flex" }}>
+                          <img
+                            className="default-img"
+                            src={imageUrl + product?.featuredImage}
+                            crossOrigin="anonymous"
+                            alt=""
+                            height={50}
+                            width={50}
+                          />
+                          &nbsp; &nbsp;
+                          <div>
+                            <a
+                              onClick={() => navigate(product?.slug)}
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                marginTop: "12px",
+                              }}
+                            >
+                              <h4
+                                style={{
+                                  maxWidth: "200px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                {product.productName}
+                              </h4>
+                              &nbsp;&nbsp;&nbsp;
+                              <h4
+                                style={{
+                                  maxWidth: "200px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                ₹ {product.finalAmount}
+                              </h4>
+                              &nbsp;&nbsp;
+                              <h4
+                                style={{
+                                  maxWidth: "200px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                ₹ <s>{product.totalPrice}</s>
+                              </h4>
+                              &nbsp;&nbsp;&nbsp;
+                              <h4
+                                style={{
+                                  maxWidth: "200px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  color: "#E74C26",
+                                }}
+                              >
+                                {product.discountPercentage}% Off
+                              </h4>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div
+                          className="product-action-1 show"
+                          style={{ marginTop: "12px" }}
+                        >
+                          <a
+                            aria-label="Add To Cart"
+                            className="action-btn hover-up "
+                            onClick={(e) => handleCart(product)}
+                          >
+                            <i
+                              className="fi-rs-shopping-bag-add"
+                              style={{ fontSize: "20px" }}
+                            ></i>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
