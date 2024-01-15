@@ -54,14 +54,14 @@ const Deals1 = () => {
                   className="d-flex p-2"
                   style={{
                     deals1Style,
-                    margin: "10px",
+                    // margin: "10px",
                   }}
                 >
                   {endDateTime - new Date() > 0 ? (
                     <>
                       <div
                         style={{
-                          borderColor: "black",
+                          borderColor: "#E74C26",
                           borderWidth: "1px",
                           borderStyle: "solid",
                         }}
@@ -70,8 +70,6 @@ const Deals1 = () => {
                           className="d-flex p-2"
                           style={{
                             ...deals1Style,
-                            // marginRight: "10px",
-                            // marginLeft: "10px",
                           }}
                         >
                           {endDateTime - new Date() > 0 ? (
@@ -93,8 +91,6 @@ const Deals1 = () => {
                           className="d-flex p-2"
                           style={{
                             ...deals1Style,
-                            // marginRight: "10px",
-                            // marginLeft: "10px",
                           }}
                         >
                           <div

@@ -12,137 +12,127 @@ import ShopFilter from "./../../components/ecommerce/Filter";
 import { useTranslation } from "react-i18next";
 
 const ProductsFullWidth = ({ products, productFilters }) => {
+  let Router = useRouter(),
+    showLimit = 6,
+    showPagination = 4;
 
-    let Router = useRouter(),
-     
-        showLimit = 6,
-        showPagination = 4;
+  let [pagination, setPagination] = useState([]);
+  let [limit, setLimit] = useState(showLimit);
+  let [pages, setPages] = useState(Math.ceil(products.items.length / limit));
+  let [currentPage, setCurrentPage] = useState(1);
+  const { t, i18n } = useTranslation("common");
 
-    let [pagination, setPagination] = useState([]);
-    let [limit, setLimit] = useState(showLimit);
-    let [pages, setPages] = useState(Math.ceil(products.items.length / limit));
-    let [currentPage, setCurrentPage] = useState(1);
-    const { t, i18n } = useTranslation("common");
-    
-    useEffect(() => {
-        cratePagination();
-    }, [productFilters, limit, pages, products.items.length]);
+  useEffect(() => {
+    cratePagination();
+  }, [productFilters, limit, pages, products.items.length]);
 
-    const cratePagination = () => {
-        // set pagination
-        let arr = new Array(Math.ceil(products.items.length / limit))
-            .fill()
-            .map((_, idx) => idx + 1);
+  const cratePagination = () => {
+    // set pagination
+    let arr = new Array(Math.ceil(products.items.length / limit))
+      .fill()
+      .map((_, idx) => idx + 1);
 
-        setPagination(arr);
-        setPages(Math.ceil(products.items.length / limit));
-    };
+    setPagination(arr);
+    setPages(Math.ceil(products.items.length / limit));
+  };
 
-    const startIndex = currentPage * limit - limit;
-    const endIndex = startIndex + limit;
-    const getPaginatedProducts = products.items.slice(startIndex, endIndex);
+  const startIndex = currentPage * limit - limit;
+  const endIndex = startIndex + limit;
+  const getPaginatedProducts = products.items.slice(startIndex, endIndex);
 
-    let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
-    let end = start + showPagination;
-    const getPaginationGroup = pagination.slice(start, end);
+  let start = Math.floor((currentPage - 1) / showPagination) * showPagination;
+  let end = start + showPagination;
+  const getPaginationGroup = pagination.slice(start, end);
 
-    const next = () => {
-        setCurrentPage((page) => page + 1);
-    };
+  const next = () => {
+    setCurrentPage((page) => page + 1);
+  };
 
-    const prev = () => {
-        setCurrentPage((page) => page - 1);
-    };
+  const prev = () => {
+    setCurrentPage((page) => page - 1);
+  };
 
-    const handleActive = (item) => {
-        setCurrentPage(item);
-    };
+  const handleActive = (item) => {
+    setCurrentPage(item);
+  };
 
-    const selectChange = (e) => {
-        setLimit(Number(e.target.value));
-        setCurrentPage(1);
-        setPages(Math.ceil(products.items.length / Number(e.target.value)));
-    };
-    return (
-        <>
-            <Layout parent={t("Home")} sub={t("Shop")} subChild={("Filter")}>
-                <section className="mt-50 mb-50">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <ShopFilter />
-                            </div>
-                            <div className="col-lg-12">
-                                <div className="shop-product-fillter">
-                                    <div className="totall-product">
-                                        <p>
-                                            {t("We found")}
-                                            <strong className="text-brand">
-                                                {products.items.length}
-                                            </strong>
-                                            {t("items for you!")}
-                                        </p>
-                                    </div>
-                                    <div className="sort-by-product-area">
-                                        <div className="sort-by-cover mr-10">
-                                            <ShowSelect
-                                                selectChange={selectChange}
-                                                showLimit={showLimit}
-                                            />
-                                        </div>
-                                        <div className="sort-by-cover">
-                                            <SortSelect />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row product-grid-3">
-                                    {getPaginatedProducts.length === 0 && (
-                                        <h3>{t("No Products Found")} </h3>
-                                    )}
-
-                                    {getPaginatedProducts.map((item, i) => (
-                                        <div
-                                            className="col-lg-3 col-md-3 col-12 col-sm-6"
-                                            key={i}
-                                        >
-                                            <SingleProduct product={item} />
-                                          
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                                    <nav aria-label="Page navigation example">
-                                        <Pagination
-                                            getPaginationGroup={
-                                                getPaginationGroup
-                                            }
-                                            currentPage={currentPage}
-                                            pages={pages}
-                                            next={next}
-                                            prev={prev}
-                                            handleActive={handleActive}
-                                        />
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+  const selectChange = (e) => {
+    setLimit(Number(e.target.value));
+    setCurrentPage(1);
+    setPages(Math.ceil(products.items.length / Number(e.target.value)));
+  };
+  return (
+    <>
+      <Layout parent={t("Home")} sub={t("Shop")} subChild={"Filter"}>
+        <section className="mt-50 mb-50">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <ShopFilter />
+              </div>
+              <div className="col-lg-12">
+                <div className="shop-product-fillter">
+                  <div className="totall-product">
+                    <p>
+                      {t("We found")}
+                      <strong className="text-brand">
+                        {products.items.length}
+                      </strong>
+                      {t("items for you!")}
+                    </p>
+                  </div>
+                  <div className="sort-by-product-area">
+                    <div className="sort-by-cover mr-10">
+                      <ShowSelect
+                        selectChange={selectChange}
+                        showLimit={showLimit}
+                      />
                     </div>
-                </section>
-                <WishlistModal />
-                <QuickView />                
-            </Layout>
-        </>
-    );
+                    <div className="sort-by-cover">
+                      <SortSelect />
+                    </div>
+                  </div>
+                </div>
+                <div className="row product-grid-3">
+                  {getPaginatedProducts.length === 0 && (
+                    <h3>{t("No Products Found")} </h3>
+                  )}
+
+                  {getPaginatedProducts.map((item, i) => (
+                    <div className="col-lg-3 col-md-3 col-12 col-sm-6" key={i}>
+                      <SingleProduct product={item} />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                  <nav aria-label="Page navigation example">
+                    <Pagination
+                      getPaginationGroup={getPaginationGroup}
+                      currentPage={currentPage}
+                      pages={pages}
+                      next={next}
+                      prev={prev}
+                      handleActive={handleActive}
+                    />
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <WishlistModal />
+        <QuickView />
+      </Layout>
+    </>
+  );
 };
 
 const mapStateToProps = (state) => ({
-    products: state.products,
-    productFilters: state.productFilters,
+  products: state.products,
+  productFilters: state.productFilters,
 });
 
-const mapDidpatchToProps = {
-
-};
+const mapDidpatchToProps = {};
 
 export default connect(mapStateToProps, mapDidpatchToProps)(ProductsFullWidth);

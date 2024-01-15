@@ -393,130 +393,134 @@ const Products = ({ products1, productFilters }) => {
                     !isFilterVisible ? "hide-on-mobile" : ""
                   } col-lg-3 primary-sidebar sticky-sidebar`}
                 >
-                  <div className="widget-category p-3 mb-30">
-                    {category.length > 0 &&
-                      category?.map((Item, index) => {
-                        const word3 = Item?.categoryName;
-                        const UpperCase = word3
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ");
-                        return (
-                          <Accordion key={index} activeKey={activeCategory}>
-                            <Accordion.Item
-                              className="custom-filter"
-                              eventKey={index}
-                              key={index}
-                            >
-                              <Accordion.Header
-                                onClick={() => toggleCategory(index)}
+                  {category.length > 0 && (
+                    <div className="widget-category p-3 mb-30">
+                      {category.length > 0 &&
+                        category?.map((Item, index) => {
+                          const word3 = Item?.categoryName;
+                          const UpperCase = word3
+                            .split(" ")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ");
+                          return (
+                            <Accordion key={index} activeKey={activeCategory}>
+                              <Accordion.Item
+                                className="custom-filter"
+                                eventKey={index}
+                                key={index}
                               >
-                                <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
-                                  {UpperCase}
-                                </h5>
-                              </Accordion.Header>
-                              <Accordion.Body>
-                                <Accordion>
-                                  {Item?.SubCategories?.map(
-                                    (subCategory, subIndex) => {
-                                      const word2 =
-                                        subCategory?.subCategoryName;
-                                      const UpperCase2 = word2
-                                        .split(" ")
-                                        .map(
-                                          (word) =>
-                                            word.charAt(0).toUpperCase() +
-                                            word.slice(1)
-                                        )
-                                        .join(" ");
-                                      return (
-                                        <Accordion.Item
-                                          className="custom-filter ms-3"
-                                          eventKey={subIndex}
-                                          key={subCategory.id}
-                                        >
-                                          <Accordion.Header>
-                                            <h5 className="w-100 style-1 wow fadeIn animated">
-                                              {UpperCase2}
-                                            </h5>
-                                          </Accordion.Header>
-                                          <Accordion.Body>
-                                            {subCategory?.SubSubCategories.map(
-                                              (item, itemIndex) => {
-                                                const word1 =
-                                                  item?.subSubCategoryName;
-                                                const UpperCase3 = word1
-                                                  .split(" ")
-                                                  .map(
-                                                    (word) =>
-                                                      word
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                      word.slice(1)
-                                                  )
-                                                  .join(" ");
-                                                return (
-                                                  <div key={item.id}>
-                                                    <Form.Check
-                                                      type="checkbox"
-                                                      id={`default-${item.id}`}
-                                                      label={UpperCase3}
-                                                      onChange={() => {
-                                                        const subSubCategoryId =
-                                                          item.id;
-                                                        setToggle(true);
-                                                        setSeachToggle(false);
-                                                        setTimeout(() => {
-                                                          setSeachToggle(true);
-                                                        }, [1000]);
-                                                        if (
-                                                          selectedSubSubCategories?.includes(
-                                                            subSubCategoryId
-                                                          )
-                                                        ) {
-                                                          const updatedSubCategories =
-                                                            selectedSubSubCategories?.filter(
-                                                              (id) =>
-                                                                id !==
-                                                                subSubCategoryId
+                                <Accordion.Header
+                                  onClick={() => toggleCategory(index)}
+                                >
+                                  <h5 className="w-100 section-title style-1 wow fadeIn animated text-break">
+                                    {UpperCase}
+                                  </h5>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                  <Accordion>
+                                    {Item?.SubCategories?.map(
+                                      (subCategory, subIndex) => {
+                                        const word2 =
+                                          subCategory?.subCategoryName;
+                                        const UpperCase2 = word2
+                                          .split(" ")
+                                          .map(
+                                            (word) =>
+                                              word.charAt(0).toUpperCase() +
+                                              word.slice(1)
+                                          )
+                                          .join(" ");
+                                        return (
+                                          <Accordion.Item
+                                            className="custom-filter ms-3"
+                                            eventKey={subIndex}
+                                            key={subCategory.id}
+                                          >
+                                            <Accordion.Header>
+                                              <h5 className="w-100 style-1 wow fadeIn animated">
+                                                {UpperCase2}
+                                              </h5>
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                              {subCategory?.SubSubCategories.map(
+                                                (item, itemIndex) => {
+                                                  const word1 =
+                                                    item?.subSubCategoryName;
+                                                  const UpperCase3 = word1
+                                                    .split(" ")
+                                                    .map(
+                                                      (word) =>
+                                                        word
+                                                          .charAt(0)
+                                                          .toUpperCase() +
+                                                        word.slice(1)
+                                                    )
+                                                    .join(" ");
+                                                  return (
+                                                    <div key={item.id}>
+                                                      <Form.Check
+                                                        type="checkbox"
+                                                        id={`default-${item.id}`}
+                                                        label={UpperCase3}
+                                                        onChange={() => {
+                                                          const subSubCategoryId =
+                                                            item.id;
+                                                          setToggle(true);
+                                                          setSeachToggle(false);
+                                                          setTimeout(() => {
+                                                            setSeachToggle(
+                                                              true
                                                             );
-                                                          setSelectedSubSubCategories(
-                                                            updatedSubCategories
-                                                          );
-                                                        } else {
-                                                          const updatedSubCategories =
-                                                            [
-                                                              ...selectedSubSubCategories,
-                                                              subSubCategoryId,
-                                                            ];
-                                                          setSelectedSubSubCategories(
-                                                            updatedSubCategories
-                                                          );
-                                                        }
-                                                      }}
-                                                      checked={selectedSubSubCategories?.includes(
-                                                        item?.id
-                                                      )}
-                                                    />
-                                                  </div>
-                                                );
-                                              }
-                                            )}
-                                          </Accordion.Body>
-                                        </Accordion.Item>
-                                      );
-                                    }
-                                  )}
-                                </Accordion>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          </Accordion>
-                        );
-                      })}
-                  </div>
+                                                          }, [1000]);
+                                                          if (
+                                                            selectedSubSubCategories?.includes(
+                                                              subSubCategoryId
+                                                            )
+                                                          ) {
+                                                            const updatedSubCategories =
+                                                              selectedSubSubCategories?.filter(
+                                                                (id) =>
+                                                                  id !==
+                                                                  subSubCategoryId
+                                                              );
+                                                            setSelectedSubSubCategories(
+                                                              updatedSubCategories
+                                                            );
+                                                          } else {
+                                                            const updatedSubCategories =
+                                                              [
+                                                                ...selectedSubSubCategories,
+                                                                subSubCategoryId,
+                                                              ];
+                                                            setSelectedSubSubCategories(
+                                                              updatedSubCategories
+                                                            );
+                                                          }
+                                                        }}
+                                                        checked={selectedSubSubCategories?.includes(
+                                                          item?.id
+                                                        )}
+                                                      />
+                                                    </div>
+                                                  );
+                                                }
+                                              )}
+                                            </Accordion.Body>
+                                          </Accordion.Item>
+                                        );
+                                      }
+                                    )}
+                                  </Accordion>
+                                </Accordion.Body>
+                              </Accordion.Item>
+                            </Accordion>
+                          );
+                        })}
+                    </div>
+                  )}
 
                   <div className="sidebar-widget price_range range mb-30">
                     <div className="widget-header position-relative mb-20 pb-10">

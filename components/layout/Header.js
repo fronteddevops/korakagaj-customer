@@ -386,60 +386,116 @@ const Header = ({ toggleClick, headerStyle }) => {
                     <span className="fi-rs-apps"></span>
                     {t("Browse Categories")}
                   </a>
-                  <div
-                    className={
-                      isToggled
-                        ? "categori-dropdown-wrap categori-dropdown-active-large open"
-                        : "categori-dropdown-wrap categori-dropdown-active-large"
-                    }
-                  >
-                    <ul>
-                      {categoryList &&
-                        categoryList.map((item) => {
-                          const word = item.categoryName;
-                          const UpperCase3 = word
-                            .split(" ")
-                            .map(
-                              (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ");
+                  {categoryList.length > 0 && (
+                    <div
+                      className={
+                        isToggled
+                          ? "categori-dropdown-wrap categori-dropdown-active-large open"
+                          : "categori-dropdown-wrap categori-dropdown-active-large"
+                      }
+                    >
+                      <ul>
+                        {categoryList &&
+                          categoryList.map((item) => {
+                            const word = item.categoryName;
+                            const UpperCase3 = word
+                              .split(" ")
+                              .map(
+                                (word) =>
+                                  word.charAt(0).toUpperCase() + word.slice(1)
+                              )
+                              .join(" ");
 
-                          return (
-                            <li className="has-children" key={item.id}>
-                              <Link
-                                href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
-                                as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
-                              >
-                                <a
-                                  onMouseEnter={() => subCategoryList(item.id)}
-                                  onMouseLeave={() =>
-                                    setHoveredCategoryId(null)
-                                  }
+                            return (
+                              <li className="has-children" key={item.id}>
+                                <Link
+                                  href={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
+                                  as={`/products?categoryId=${item?.id}&categoryName=${item?.categoryName}`}
                                 >
-                                  <img
-                                    src={imageUrl + item?.icon}
-                                    crossOrigin="anonymous"
-                                    style={{
-                                      width: "20px",
-                                      height: "20px",
-                                      marginRight: "15px",
-                                    }}
-                                    className="align-self-center mr-2"
-                                    alt="not found"
-                                  />
-                                  {UpperCase3}
-                                </a>
-                              </Link>
-                              <div className="dropdown-menu">
-                                <ul className="mega-menu d-lg-flex">
-                                  <li className="mega-menu-col col-lg-7">
-                                    <ul className="d-lg-flex">
-                                      {subCategory &&
-                                        subCategory.length > 0 &&
-                                        subCategory.map((subItem) => {
-                                          const word2 = subItem.subCategoryName;
-                                          const UpperCase2 = word2
+                                  <a
+                                    onMouseEnter={() =>
+                                      subCategoryList(item.id)
+                                    }
+                                    onMouseLeave={() =>
+                                      setHoveredCategoryId(null)
+                                    }
+                                  >
+                                    <img
+                                      src={imageUrl + item?.icon}
+                                      crossOrigin="anonymous"
+                                      style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        marginRight: "15px",
+                                      }}
+                                      className="align-self-center mr-2"
+                                      alt="not found"
+                                    />
+                                    {UpperCase3}
+                                  </a>
+                                </Link>
+                                <div className="dropdown-menu">
+                                  <ul className="mega-menu d-lg-flex">
+                                    <li className="mega-menu-col col-lg-7">
+                                      <ul className="d-lg-flex">
+                                        {subCategory &&
+                                          subCategory.length > 0 &&
+                                          subCategory.map((subItem) => {
+                                            const word2 =
+                                              subItem.subCategoryName;
+                                            const UpperCase2 = word2
+                                              .split(" ")
+                                              .map(
+                                                (word) =>
+                                                  word.charAt(0).toUpperCase() +
+                                                  word.slice(1)
+                                              )
+                                              .join(" ");
+                                            return (
+                                              <li
+                                                className="mega-menu-col col-lg-10"
+                                                key={subItem.id}
+                                              >
+                                                <ul>
+                                                  <li>
+                                                    <a
+                                                      onMouseEnter={() =>
+                                                        subSubCategoryList(
+                                                          subItem.id
+                                                        )
+                                                      }
+                                                      onMouseLeave={() =>
+                                                        setHoveredSabCategoryId(
+                                                          null
+                                                        )
+                                                      }
+                                                    >
+                                                      <Link
+                                                        href={`/products/?subcategoryId=${subItem?.id}&subcategoryName=${subItem?.subCategoryName}`}
+                                                        as={`/products/?subcategoryId=${subItem?.id}&subcategoryName=${subItem?.subCategoryName}`}
+                                                      >
+                                                        <span className="submenu-title">
+                                                          {UpperCase2}
+                                                        </span>
+                                                      </Link>
+                                                    </a>
+                                                  </li>
+                                                </ul>
+                                              </li>
+                                            );
+                                          })}
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                  <li>
+                                    <div style={{ marginLeft: "35px" }}>
+                                      {SubCate &&
+                                        subSubCategory &&
+                                        subSubCategory.length > 0 &&
+                                        subSubCategory.map((subSubItem) => {
+                                          const word3 =
+                                            subSubItem.subSubCategoryName;
+                                          const UpperCase = word3
                                             .split(" ")
                                             .map(
                                               (word) =>
@@ -448,129 +504,27 @@ const Header = ({ toggleClick, headerStyle }) => {
                                             )
                                             .join(" ");
                                           return (
-                                            <li
-                                              className="mega-menu-col col-lg-10"
-                                              key={subItem.id}
-                                            >
-                                              <ul>
-                                                <li>
-                                                  <a
-                                                    onMouseEnter={() =>
-                                                      subSubCategoryList(
-                                                        subItem.id
-                                                      )
-                                                    }
-                                                    onMouseLeave={() =>
-                                                      setHoveredSabCategoryId(
-                                                        null
-                                                      )
-                                                    }
-                                                  >
-                                                    <Link
-                                                      href={`/products/?subcategoryId=${subItem?.id}&subcategoryName=${subItem?.subCategoryName}`}
-                                                      as={`/products/?subcategoryId=${subItem?.id}&subcategoryName=${subItem?.subCategoryName}`}
-                                                    >
-                                                      <span className="submenu-title">
-                                                        {UpperCase2}
-                                                      </span>
-                                                    </Link>
-                                                  </a>
-                                                </li>
-                                              </ul>
+                                            <li key={subSubItem.id}>
+                                              <Link
+                                                href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                                as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
+                                              >
+                                                <a className="dropdown-item nav-link nav_item">
+                                                  {UpperCase}
+                                                </a>
+                                              </Link>
                                             </li>
                                           );
                                         })}
-                                    </ul>
+                                    </div>
                                   </li>
-                                </ul>
-                                <li>
-                                  <div style={{ marginLeft: "35px" }}>
-                                    {SubCate &&
-                                      subSubCategory &&
-                                      subSubCategory.length > 0 &&
-                                      subSubCategory.map((subSubItem) => {
-                                        const word3 =
-                                          subSubItem.subSubCategoryName;
-                                        const UpperCase = word3
-                                          .split(" ")
-                                          .map(
-                                            (word) =>
-                                              word.charAt(0).toUpperCase() +
-                                              word.slice(1)
-                                          )
-                                          .join(" ");
-                                        return (
-                                          <li key={subSubItem.id}>
-                                            <Link
-                                              href={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
-                                              as={`/products/?subsubcategoryId=${subSubItem?.id}&subsubcategoryName=${subSubItem?.subSubCategoryName}`}
-                                            >
-                                              <a className="dropdown-item nav-link nav_item">
-                                                {UpperCase}
-                                              </a>
-                                            </Link>
-                                          </li>
-                                        );
-                                      })}
-                                  </div>
-                                </li>
-                              </div>
-                            </li>
-                          );
-                        })}
-                    </ul>
-                  </div>
-
-                  {/* <div
-                    className={
-                      isToggled
-                        ? "categori-dropdown-wrap categori-dropdown-active-large open"
-                        : "categori-dropdown-wrap categori-dropdown-active-large"
-                    }
-                  >
-                    <ul>
-                      <li className="has-children">
-                        {categoryList &&
-
-                          categoryList.map((item) => (
-                            <Link href="/products">
-
-                                <i className="korakagaj-font-dress"></i>
-                                {item.categoryName}
-                              </a>
-                            </Link>
-                          ))}
-                        <div className="dropdown-menu">
-                          <ul className="mega-menu d-lg-flex">
-                            <li className="mega-menu-col col-lg-7">
-                              <ul className="d-lg-flex">
-                                {subCategory &&
-                                  subCategory.map((item) => (
-                                    <li className="mega-menu-col col-lg-6">
-                                      <ul>
-                                        <li>
-                                          <span className="submenu-title">
-                                            {item.subCategoryName}
-                                          </span>
-                                        </li>
-
-                                        {subSubCategory.map((item) => (
-                                          <li>
-                                            <LinategoryName}
-                                              </a>
-                                            </Link>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </li>
-                                  ))}
-                              </ul>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                    </ul>
-                  </div> */}
+                                </div>
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <div className="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                   <nav>
@@ -607,149 +561,6 @@ const Header = ({ toggleClick, headerStyle }) => {
                         </Link>
                       </li>
 
-                      {/* <li>
-                        <Link href="/blog-category-grid">
-                          <a
-                            className={
-                              router.pathname === "/blog-category-grid"
-                                ? "active"
-                                : ""
-                            }
-                          >
-                            {t("Blog")}
-                            <i className="fi-rs-angle-down"></i>
-                          </a>
-                        </Link>
-                        <ul className="sub-menu">
-                          <li>
-                            <Link
-                              href="/blog-category-grid"
-                              as={`/blog-category-grid`}
-                            >
-                              <a
-                                className={
-                                  router.pathname === "/blog-category-grid"
-                                    ? "active"
-                                    : ""
-                                }
-                              >
-                                {t("Blog Category Grid")}
-                              </a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog-category-list"
-                              as={`/blog-category-list`}
-                            >
-                              <a
-                                className={
-                                  router.pathname === "/blog-category-list"
-                                    ? "active"
-                                    : ""
-                                }
-                              >
-                                {t("Blog Category List")}
-                              </a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog-category-big"
-                              as={`/blog-category-big`}
-                            >
-                              <a
-                                className={
-                                  router.pathname === "/blog-category-big"
-                                    ? "active"
-                                    : ""
-                                }
-                              >
-                                {t("Blog Category Big")}
-                              </a>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              href="/blog-category-fullwidth"
-                              as={`/blog-category-fullwidth`}
-                            >
-                              <a
-                                className={
-                                  router.pathname === "/blog-category-fullwidth"
-                                    ? "active"
-                                    : ""
-                                }
-                              >
-                                {t("Blog Category Wide")}
-                              </a>
-                            </Link>
-                          </li>
-                          <li>
-                            <a>
-                              <a
-                                className={
-                                  router.pathname === "/#" ? "active" : ""
-                                }
-                              >
-                                {t("Single Post")}
-                                <i className="fi-rs-angle-right"></i>
-                              </a>
-                            </a>
-                            <ul className="level-menu level-menu-modify">
-                              <li>
-                                <Link
-                                  href="/blog-post-left"
-                                  as={`/blog-post-left`}
-                                >
-                                  <a
-                                    className={
-                                      router.pathname === "/blog-post-left"
-                                        ? "active"
-                                        : ""
-                                    }
-                                  >
-                                    {t("Left Sidebar")}
-                                  </a>
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  href="/blog-post-right"
-                                  as={`/blog-post-right`}
-                                >
-                                  <a
-                                    className={
-                                      router.pathname === "/blog-post-right"
-                                        ? "active"
-                                        : ""
-                                    }
-                                  >
-                                    {t("Right Sidebar")}
-                                  </a>
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  href="/blog-post-fullwidth"
-                                  as={`/blog-post-fullwidth`}
-                                >
-                                  <a
-                                    className={
-                                      router.pathname === "/blog-post-fullwidth"
-                                        ? "active"
-                                        : ""
-                                    }
-                                  >
-                                    {t("No Sidebar")}
-                                  </a>
-                                </Link>
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li> */}
-
                       <li>
                         <Link href="/page-contact">
                           <a
@@ -780,20 +591,23 @@ const Header = ({ toggleClick, headerStyle }) => {
               </p> */}
               <div className="header-action-right d-block d-lg-none">
                 <div className="header-action-2">
-                  <div className="header-action-icon-2">
-                    <Link href={"/shop-wishlist"}>
-                      <a>
-                        <img
-                          className="svgInject"
-                          alt="korakagaj"
-                          src="/assets/imgs/theme/icons/icon-heart.svg"
-                        />
-                        <span className="pro-count blue">
-                          {totalWishlistItems > 0 ? totalWishlistItems : 0}
-                        </span>
-                      </a>
-                    </Link>
-                  </div>
+                  {url && (
+                    <div className="header-action-icon-2">
+                      <Link href={"/shop-wishlist"}>
+                        <a>
+                          <img
+                            className="svgInject"
+                            alt="korakagaj"
+                            src="/assets/imgs/theme/icons/icon-heart.svg"
+                          />
+                          <span className="pro-count blue">
+                            {totalWishlistItems > 0 ? totalWishlistItems : 0}
+                          </span>
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+
                   <div className="header-action-icon-2">
                     <Link href="/shop-cart" as={`/shop-cart`}>
                       <a className="mini-cart-icon">

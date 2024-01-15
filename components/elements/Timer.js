@@ -40,37 +40,27 @@ const Timer = ({ endDateTime }) => {
   };
 
   const hasTimeRemaining =
-    timeParts.days > 0 ||
-    timeParts.hours > 0 ||
-    timeParts.minutes > 0 ||
-    timeParts.seconds > 0;
+    timeParts.days > 0 || timeParts.hours > 0 || timeParts.minutes > 0 || timeParts.seconds > 0;
 
   return (
     <>
       {hasTimeRemaining && (
-        <div className="deals-countdown">
+        <div className="deals-countdown ">
           <span className="countdown-section">
-            <span className="countdown-amount hover-up">
-              {renderTimePart(timeParts.days, "days")}
-            </span>
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.days, "days")}</span>
             <span className="countdown-period"> {t("days")} </span>
           </span>
           <span className="countdown-section">
-            <span className="countdown-amount hover-up">
-              {renderTimePart(timeParts.hours, "hours")}
-            </span>
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.hours, "hours")}</span>
             <span className="countdown-period"> {t("hours")} </span>
           </span>
           <span className="countdown-section">
-            <span className="countdown-amount hover-up">
-              {renderTimePart(timeParts.minutes, "minutes")}
-            </span>
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.minutes, "minutes")}</span>
             <span className="countdown-period"> {t("mins")} </span>
           </span>
+
           <span className="countdown-section">
-            <span className="countdown-amount hover-up">
-              {renderTimePart(timeParts.seconds, "seconds")}
-            </span>
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.seconds, "seconds")}</span>
             <span className="countdown-period"> {t("sec")} </span>
           </span>
         </div>
