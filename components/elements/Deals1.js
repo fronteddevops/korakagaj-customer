@@ -81,7 +81,7 @@ const Deals1 = () => {
                       <div className="deal-content">
                         <h6 className="product-title">
                           {/* <Link href="/products"> */}
-                            <a>{product.productName}</a>
+                          <a>{product.productName}</a>
                           {/* </Link> */}
                         </h6>
                         <div className="product-price">
@@ -96,15 +96,7 @@ const Deals1 = () => {
                         {product.upComingDate && (
                           <Timer endDateTime={endDateTime} />
                         )}
-                        {/* <Link
-                          // href={`/products/${product?.id}`}
-                          // as={`/products/${product?.id}`}
-                          href={`/products/${product?.id}_${product?.productName}`}
-                          as={`/products/${product?.id}_${product?.productName}`}
-                        > */}
                         <Link
-                          // href={`/products/${product?.id}`}
-                          // as={`/products/${product?.id}`}
                           href={`/products/${product?.slug}`}
                           as={`/products/${product?.slug}`}
                         >

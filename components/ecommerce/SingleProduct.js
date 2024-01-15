@@ -174,17 +174,32 @@ const SingleProduct = ({
                 className="product-action-1"
                 style={isMobile ? { marginTop: "-120px" } : {}}
               >
-                {console.log(isMobile)}
-                <a
-                  aria-label="Quick view"
-                  className="action-btn hover-up"
-                  data-bs-toggle="modal"
-                  onClick={() => {
-                    openQuickView(product);
-                  }}
-                >
-                  <i className="fi-rs-eye"></i>
-                </a>
+                {/* {!isMobile && (
+                  <a
+                    aria-label="Quick view"
+                    className="action-btn hover-up"
+                    data-bs-toggle="modal"
+                    onClick={() => {
+                      openQuickView(product);
+                    }}
+                  >
+                    <i className="fi-rs-eye"></i>
+                  </a>
+                )} */}
+
+                {isMobile ? null : (
+                  <a
+                    aria-label="Quick view"
+                    className="action-btn hover-up"
+                    data-bs-toggle="modal"
+                    onClick={() => {
+                      openQuickView(product);
+                    }}
+                  >
+                    <i className="fi-rs-eye"></i>
+                  </a>
+                )}
+
                 <a
                   aria-label="Add To Wishlist"
                   className="action-btn hover-up"

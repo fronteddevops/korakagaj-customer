@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import services from "../../services";
 import { useEffect, useState } from "react";
 import nextConfig from "../../next.config";
+
 const Intro1 = () => {
   const { t } = useTranslation("common");
   const [Image, setImage] = useState("");
@@ -61,8 +62,9 @@ const Intro1 = () => {
                   <div className="single-slider-img single-slider-img-1">
                     <img
                       className="animated slider-1-1"
-                      src="assets/imgs/slider/slider-1.png"
-                      alt=""
+                      src="/assets/imgs/slider/slider-1.png"
+                      alt="Not Found"
+                      layout="fill"
                     />
                   </div>
                 </div>
@@ -95,8 +97,9 @@ const Intro1 = () => {
                   <div className="single-slider-img single-slider-img-1">
                     <img
                       className="animated slider-1-2"
-                      src="assets/imgs/slider/slider-2.png"
-                      alt=""
+                      src="/assets/imgs/slider/slider-2.png"
+                      alt="Not Found"
+                      layout="fill"
                     />
                   </div>
                 </div>
@@ -129,8 +132,9 @@ const Intro1 = () => {
                   <div className="single-slider-img single-slider-img-1">
                     <img
                       className="animated slider-1-3"
-                      src="assets/imgs/slider/slider-3.png"
-                      alt=""
+                      src="/assets/imgs/slider/slider-3.png"
+                      alt="Not Found"
+                      layout="fill"
                     />
                   </div>
                 </div>

@@ -192,7 +192,7 @@ const Header = ({ toggleClick, headerStyle }) => {
                   <div id="news-flash" className="d-inline-block">
                     <ul>
                       <li>
-                        {t("Get great offer up to 50% off")}
+                        {t("Get great offer up to 50% off")}&nbsp;&nbsp;
                         <Link href="/products">{t("View detail")}</Link>
                       </li>
                     </ul>
@@ -277,7 +277,10 @@ const Header = ({ toggleClick, headerStyle }) => {
                                   onClick={() => {
                                     localStorage.removeItem("access_token");
                                     localStorage.removeItem("userId");
-                                    localStorage.setItem("wishListItemsCount", 0);
+                                    localStorage.setItem(
+                                      "wishListItemsCount",
+                                      0
+                                    );
                                     localStorage.setItem("cartItemsCount", 0);
                                   }}
                                 >

@@ -88,7 +88,7 @@ const ProductTab = ({ prodcut }) => {
             id="Description"
           >
             <div className="">
-              <p>{prodcut.description}</p>
+              <p>{prodcut?.description}</p>
             </div>
           </div>
           <div

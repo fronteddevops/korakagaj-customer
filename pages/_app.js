@@ -77,17 +77,15 @@ function MyApp({ Component, pageProps }) {
   //   };
   // }, []);
   useEffect(() => {
-    const alertUser = (e) => {
-      const confirmationMessage = "Are you sure you want to leave?";
-      e.returnValue = confirmationMessage;
-    };
+ 
   
     const handleBeforeUnload = (e) => {
-      alertUser(e);
+     e.preventDefault();
+     alert("beforeunload")
     };
   
     const handleUnload = () => {
-      // route.push("/");
+     console.log('Unloading')
     };
   
     window.addEventListener("beforeunload", handleBeforeUnload);
