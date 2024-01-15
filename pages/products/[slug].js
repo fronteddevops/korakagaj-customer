@@ -16,6 +16,8 @@ const ProductId = ({ product }) => {
   const [data, setData] = useState([]);
   const router = useRouter();
   // set query data
+
+  
   const prodcutId = router.query.slug
     ? router.query.slug
     : router.query.slug;

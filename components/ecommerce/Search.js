@@ -139,9 +139,10 @@ const Search = () => {
                         width={50}
                       />
                       &nbsp; &nbsp;
+                      {console.log("product?.id", product)}
                       <div>
                         <a
-                          onClick={() => navigate(product?.id)}
+                          onClick={() => navigate(product?.slug)}
                           style={{
                             display: "flex",
                             flexDirection: "row",
