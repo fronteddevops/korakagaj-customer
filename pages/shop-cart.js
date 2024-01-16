@@ -693,7 +693,7 @@ const Cart = ({}) => {
                                   <div className="row">
                                     {product?.selectedColor && (
                                       <div className="col-12">
-                                        Color :
+                                        Color : &nbsp;
                                         <span
                                           className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
                                           style={{
