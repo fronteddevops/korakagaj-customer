@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
   const route = useRouter();
 
   useEffect(() => {
-    initialiseInterceptor()
+    initialiseInterceptor();
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -60,43 +60,25 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   // useEffect(() => {
-  //   const alertUser = (e) => {
-  //     const confirmationMessage = "Are you sure you want to leave?";
-  //     e.returnValue = confirmationMessage;
-  //   };
 
   //   const handleBeforeUnload = (e) => {
-  //     alertUser(e);
-  //     route.push("/");
+  //    e.preventDefault();
+  //    alert("beforeunload")
+  //   };
+
+  //   const handleUnload = () => {
+  //    console.log('Unloading')
   //   };
 
   //   window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("unload", handleUnload);
 
   //   return () => {
   //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     window.removeEventListener("unload", handleUnload);
   //   };
   // }, []);
-  useEffect(() => {
- 
-  
-    const handleBeforeUnload = (e) => {
-     e.preventDefault();
-     alert("beforeunload")
-    };
-  
-    const handleUnload = () => {
-     console.log('Unloading')
-    };
-  
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    window.addEventListener("unload", handleUnload);
-  
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener("unload", handleUnload);
-    };
-  }, []);
-  
+
   return (
     <GoogleOAuthProvider clientId="794458147066-3stka0516uba519fftsh1064espk1q02.apps.googleusercontent.com">
       {!loading ? (
