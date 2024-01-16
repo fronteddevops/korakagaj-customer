@@ -141,6 +141,7 @@ const SingleProduct = ({
       toast.error("Please Login!");
     }
   };
+
   return (
     <>
       {!loading ? (
@@ -151,10 +152,6 @@ const SingleProduct = ({
                 className="product-img product-img-zoom"
                 style={{ height: "250 px" }}
               >
-                {/* <Link
-                  href={`/products/${product?.id}_${product?.productName}`}
-                  as={`/products/${product?.id}_${product?.productName}`}
-                > */}
                 <Link
                   href={`/products/${product?.slug}`}
                   as={`/products/${product?.slug}`}
@@ -174,19 +171,6 @@ const SingleProduct = ({
                 className="product-action-1"
                 style={isMobile ? { marginTop: "-120px" } : {}}
               >
-                {/* {!isMobile && (
-                  <a
-                    aria-label="Quick view"
-                    className="action-btn hover-up"
-                    data-bs-toggle="modal"
-                    onClick={() => {
-                      openQuickView(product);
-                    }}
-                  >
-                    <i className="fi-rs-eye"></i>
-                  </a>
-                )} */}
-
                 {isMobile ? null : (
                   <a
                     aria-label="Quick view"
@@ -229,11 +213,6 @@ const SingleProduct = ({
             <div className="product-content-wrap">
               <div className="product-category">{UpperCase}</div>
               <h2>
-                {/* <Link href="/products/[slug]" as={`/products/${product?.id}`}> */}
-                {/* <Link
-                  href={`/products/${product?.id}_${product?.productName}`}
-                  as={`/products/${product?.id}_${product?.productName}`}
-                > */}
                 <Link
                   href={`/products/${product?.slug}`}
                   as={`/products/${product?.slug}`}
@@ -269,10 +248,7 @@ const SingleProduct = ({
 
               {isMobile ? (
                 <div className="product-price text-capitalize product-action-1 show">
-                  {/* Designer : &nbsp;{product?.designerName} */}
-                  {/* </div> */}
-                  {/* <div className="product-action-1 show"> */}
-                  <span>
+                  {/* <span>
                     <a
                       aria-label="Add To Cart"
                       className="action-btn hover-up"
@@ -280,7 +256,7 @@ const SingleProduct = ({
                     >
                       <i className="fi-rs-shopping-bag-add"></i>
                     </a>
-                  </span>
+                  </span> */}
                   Design : &nbsp;{product?.designerName}
                 </div>
               ) : (
@@ -302,16 +278,6 @@ const SingleProduct = ({
                   </div>
                 </>
               )}
-
-              {/* <div className="product-action-1 show">
-                <a
-                  aria-label="Add To Cart"
-                  className="action-btn hover-up"
-                  onClick={(e) => handleCart(product)}
-                >
-                  <i className="fi-rs-shopping-bag-add"></i>
-                </a>
-              </div> */}
             </div>
           </div>
         </>

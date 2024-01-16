@@ -19,6 +19,7 @@ import Form from "react-bootstrap/Form";
 import Slider from "rc-slider";
 import "i18next";
 import { useTranslation } from "react-i18next";
+import { isMobile } from "react-device-detect";
 
 const Products = ({ products1, productFilters }) => {
   const { t } = useTranslation("common");
@@ -768,11 +769,33 @@ const Products = ({ products1, productFilters }) => {
                     <h3>{t("No Products Found")} </h3>
                   )}
 
-                  {getPaginatedProducts?.map((item, i) => (
-                    <div className="col-lg-4 col-md-4 col-12 col-sm-6" key={i}>
-                      <SingleProduct product={item} fabricPrice={fabricPrice} />
-                    </div>
-                  ))}
+                  {getPaginatedProducts?.map((item, i) => {
+                    return (
+                      <>
+                        {isMobile ? (
+                          <div
+                            className="col-lg-3 col-md-4 col-6 col-sm-6"
+                            key={i}
+                          >
+                            <SingleProduct
+                              product={item}
+                              fabricPrice={fabricPrice}
+                            />
+                          </div>
+                        ) : (
+                          <div
+                            className="col-lg-4 col-md-4 col-12 col-sm-6"
+                            key={i}
+                          >
+                            <SingleProduct
+                              product={item}
+                              fabricPrice={fabricPrice}
+                            />
+                          </div>
+                        )}
+                      </>
+                    );
+                  })}
                 </div>
 
                 <div className="pagination-area mt-15 mb-sm-5 mb-lg-0">

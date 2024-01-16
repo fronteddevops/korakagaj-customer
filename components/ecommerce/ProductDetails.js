@@ -17,6 +17,7 @@ import services from "../../services";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import SizeChart from "../elements/SizeChart";
+import { isMobile } from "react-device-detect";
 
 const ProductDetails = ({
   product,
@@ -458,13 +459,13 @@ const ProductDetails = ({
                         <div className="product-extra-link2">
                           <button
                             onClick={(e) => handleCart(product)}
-                            className="button button-add-to-cart me-3"
+                            className="button button-add-to-cart me-2"
                           >
                             {t("Design My Way")}
                           </button>
                           <button
                             onClick={(e) => handleCart(product)}
-                            className="button button-add-to-cart me-3"
+                            className="button button-add-to-cart me-2"
                           >
                             {t("Add to cart")}
                           </button>
@@ -483,13 +484,33 @@ const ProductDetails = ({
                           {t("SKU")}&nbsp;:
                           <a>&nbsp;{product.sku}</a>
                         </li>
-                        <li className="mb-5 text-capitalize">
-                          {t("Tags")}&nbsp;:
-                          <a rel="tag" className="me-1">
-                            &nbsp;
-                            {product.tags}
-                          </a>
-                        </li>
+
+                        {isMobile ? (
+                          <li
+                            className="mb-5 text-capitalize "
+                            style={{
+                              maxWidth: "500px",
+                              // whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {t("Tags")}&nbsp;:
+                            <a rel="tag" className="me-1">
+                              &nbsp;
+                              {product.tags}
+                            </a>
+                          </li>
+                        ) : (
+                          <li className="mb-5 text-capitalize">
+                            {t("Tags")}&nbsp;:
+                            <a rel="tag" className="me-1">
+                              &nbsp;
+                              {product.tags}
+                            </a>
+                          </li>
+                        )}
+
                         <li>
                           {t("Availability")}&nbsp;:
                           <span className="in-stock text-success ml-5">
@@ -522,8 +543,6 @@ const ProductDetails = ({
             </div>
           </div>
         </div>
-
-        
       </section>
     </>
   );

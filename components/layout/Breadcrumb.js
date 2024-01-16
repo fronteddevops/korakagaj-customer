@@ -14,7 +14,7 @@ const Breadcrumb = ({ parent, sub, subSub, subChild, noBreadcrumb }) => {
             {subChild} */}
             <span></span> {sub}
             <span></span> {subSub}
-            {subSub && <span></span>}
+            {/* {subSub && <span></span>} */}
             {subChild}
           </div>
         </div>

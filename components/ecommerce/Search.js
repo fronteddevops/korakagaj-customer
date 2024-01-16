@@ -39,7 +39,7 @@ const Search = ({ iconRemove }) => {
     } else if (e.target.value === "") {
       setSearchTerm("");
       setProdcut([]);
-      iconRemove([])
+      iconRemove([]);
     }
   };
 
@@ -118,7 +118,7 @@ const Search = ({ iconRemove }) => {
               router.push(`/products?searchProdcut=${e.target.value}`);
               setSearchTerm("");
               setProdcut([]);
-              iconRemove([]);
+              // iconRemove([]);
             }
           }}
           type="text"
@@ -144,7 +144,28 @@ const Search = ({ iconRemove }) => {
                             height={50}
                             width={50}
                           />
+                          &nbsp;&nbsp;&nbsp;
                           <div>
+                            <a
+                              onClick={() => navigate(product?.slug)}
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                marginTop: "12px",
+                              }}
+                            >
+                              <h4
+                                style={{
+                                  maxWidth: "200px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                {product.productName}
+                              </h4>
+                            </a>
+                          </div>
+                          {/* <div>
                             <a
                               onClick={() => navigate(product?.slug)}
                               style={{
@@ -189,10 +210,10 @@ const Search = ({ iconRemove }) => {
                               </h4>
                               &nbsp;&nbsp;&nbsp;
                             </a>
-                          </div>
+                          </div> */}
                         </div>
 
-                        <div
+                        {/* <div
                           className="product-action-1 show"
                           style={{ marginTop: "12px" }}
                         >
@@ -206,27 +227,7 @@ const Search = ({ iconRemove }) => {
                               style={{ fontSize: "20px" }}
                             ></i>
                           </a>
-                        </div>
-                      </div>
-                      <div>
-                        <a
-                          onClick={() => navigate(product?.slug)}
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            marginTop: "12px",
-                          }}
-                        >
-                          <h4
-                            style={{
-                              maxWidth: "200px",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                            }}
-                          >
-                            {product.productName}
-                          </h4>
-                        </a>
+                        </div> */}
                       </div>
                     </li>
                   ))}

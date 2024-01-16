@@ -57,8 +57,10 @@ const Products = ({ products, productFilters, closeQuickView }) => {
     showPagination = 4;
 
   const { id } = Router.query;
-
-  const result = id.split("_")[0];
+  {
+    console.log(id);
+  }
+  const result = id?.split("_")[0];
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);

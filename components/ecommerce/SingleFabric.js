@@ -13,6 +13,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import nextConfig from "../../next.config";
 import { useTranslation } from "react-i18next";
+import { isMobile } from "react-device-detect";
 
 const SingleProduct = ({
   product,
@@ -31,7 +32,6 @@ const SingleProduct = ({
   const route = useRouter();
 
   const result = route?.query?.id.split("_")[1];
-
 
   useEffect(() => {
     setLoading(true);
@@ -70,7 +70,11 @@ const SingleProduct = ({
                   />
                 </a>
               </div>
-              <div className="product-action-1">
+
+              <div
+                className="product-action-1"
+                style={isMobile ? { marginTop: "-100px" } : {}}
+              >
                 <OverlayTrigger
                   trigger="click"
                   placement="top"

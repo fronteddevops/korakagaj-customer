@@ -32,7 +32,7 @@ const ReviewRetting = () => {
   const orderDetials = async () => {
     try {
       const response = await services.product.GET_PRODUCT_BY_ID(product);
-     
+
       setOrderDetailsData1(response?.data?.data[0]);
       setRating(response?.data?.data[0]?.averageRating);
     } catch (error) {
@@ -230,7 +230,10 @@ const ReviewRetting = () => {
                     {descriptionError}
                   </span>
                 )}
-                <div className="mt-10">
+                <div
+                  className="mt-10"
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
                   {" "}
                   <button
                     className="btn btn-primary float-end"

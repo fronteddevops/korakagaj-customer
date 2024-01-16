@@ -13,6 +13,7 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import nextConfig from "../next.config";
 import { useTranslation } from "react-i18next";
+import { isMobile } from "react-device-detect";
 
 function Account() {
   const { t } = useTranslation("common");
@@ -87,16 +88,22 @@ function Account() {
         //get my profile data
         const response = await services.myprofile.GET_MY_PROFILE();
 
-        setFirstName(response?.data?.data?.firstName);
-        setLastName(response?.data?.data?.lastName);
-        setEmail(response?.data?.data?.email);
-        setPhoneNumber(response?.data?.data?.phoneNumber);
-        const date = response?.data?.data?.dob;
+        const DataOfResponse = response?.data?.data;
+        setFirstName(DataOfResponse?.firstName);
+        setLastName(DataOfResponse.lastName);
+        setEmail(DataOfResponse.email);
+        setPhoneNumber(DataOfResponse.phoneNumber);
+        const date = DataOfResponse?.dob;
 
         //  setDateOfBirth(update)
         const formattedDate = moment(date).format("YYYY-MM-DD");
         setDateOfBirth(formattedDate);
         localStorage.setItem("user", JSON.stringify());
+        // console.log(formattedDate);
+        if (firstName && lastName && email && phoneNumber && dateOfBirth) {
+          console.log("if");
+          setIsDisabledAcount(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -465,9 +472,19 @@ function Account() {
                           {orderDetailsData.length == 0 ? (
                             <span
                               className="text-danger m-10"
-                              style={{
-                                margin: "0 0 0 400px",
-                              }}
+                              style={
+                                isMobile
+                                  ? {
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      marginTop: "40px",
+                                    }
+                                  : {
+                                      padding: "173px",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                    }
+                              }
                             >
                               {t("Order Not Found")}
                             </span>
@@ -683,12 +700,26 @@ function Account() {
                             {alladdress?.length === 0 ? (
                               <span
                                 className="text-danger m-10"
-                                style={{
-                                  textAlign: "center",
-                                  padding: "173px",
-                                }}
+                                // style={{
+                                //   textAlign: "center",
+                                //   padding: "173px",
+                                // }}
+
+                                style={
+                                  isMobile
+                                    ? {
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "40px",
+                                      }
+                                    : {
+                                        padding: "173px",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                      }
+                                }
                               >
-                                {t("No Address Found")}
+                                {t("Address Not Found")}
                               </span>
                             ) : (
                               alladdress?.map((user, index) => {

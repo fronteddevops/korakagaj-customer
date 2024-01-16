@@ -110,6 +110,7 @@ const Footer = () => {
                     className="form-control bg-white font-small"
                     placeholder={t("Enter your email")}
                     name="email"
+                    style={{ fontSize: "12px" }}
                     value={email}
                     onChange={(e) => {
                       setemail(e.target.value.trim());
@@ -252,9 +253,7 @@ const Footer = () => {
                 <ul className="footer-list wow fadeIn animated">
                   {localStorage.getItem("access_token") ? (
                     <li>
-                      <a>
-                        {t("Sign In")}
-                      </a>
+                      <a>{t("Sign In")}</a>
                     </li>
                   ) : (
                     <li>

@@ -52,6 +52,9 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
       }
     }
   };
+  useEffect(() => {
+    getCategroy();
+  }, []);
   const handleToggle = (key) => {
     if (isActive.key === key) {
       getCategroy();
@@ -71,12 +74,6 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
       status: false,
     });
   });
-  //category list
-
-  //get category list
-
-  //gt sub category list
-  // Get sub category list
 
   const getCategroy = async () => {
     try {
@@ -90,7 +87,6 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
   };
 
   const iconRemove = (data) => {
-    console.log("data", data.length);
     setIconsRemove(data.length);
   };
 
@@ -131,15 +127,15 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
               </form>
             </div>
             <div className="mobile-menu-wrap mobile-header-border">
-              <div className="main-categori-wrap mobile-header-border">
+              {/* <div className="main-categori-wrap mobile-header-border">
                 <a className="categori-button-active-2">
                   <span className="fi-rs-apps"></span> {t("Browse Categories")}
                 </a>
 
-                <div className="categori-dropdown-wrap categori-dropdown-active-small">
-                  <ul></ul>
-                </div>
-              </div>
+                 <div className="categori-dropdown-wrap categori-dropdown-active-small">
+                   <ul></ul>
+                 </div>
+              </div> */}
 
               <nav>
                 <ul className="mobile-menu" ref={domNode}>
@@ -215,7 +211,6 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                     </span>
 
                     <a>{t("category")}</a>
-
                     <ul className={isActive.key == 3 ? "dropdown" : "d-none"}>
                       {categoryList &&
                         categoryList?.map((item) => (
