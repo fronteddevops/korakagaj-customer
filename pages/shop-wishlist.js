@@ -92,16 +92,16 @@ const Wishlist = ({
                 role="tabpanel"
                 aria-labelledby="address-tab"
               >
-                <div className="col-lg-12 text-end mb-2">
+                {/* <div className="col-lg-12 text-end mb-2">
                   <button
                     className="btn btn-fill-out"
                     style={{ width: "150px", padding: "1rem" }}
-                    // onClick={handleaddaddress}
+                    onClick={handleaddaddress}
                   >
                     <i class="fa fa-plus fs-6 me-2"></i>
-                    {/* {t("Add Address")} */}
+                    {t("Add Address")}
                   </button>
-                </div>
+                </div> */}
               </div>
 
               <div className="col-lg-12 m-auto">
@@ -168,14 +168,12 @@ const Wishlist = ({
                           </a>
                         </li>
 
-
-
-
                         <li
                           className="nav-item"
                           onClick={() => {
                             // handleaddaddress();
                             // handleOnClick(8);
+                            route.push("myprofile/?Address=1");
                           }}
                         >
                           <a

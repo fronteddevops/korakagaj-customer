@@ -69,6 +69,15 @@ function Account() {
       handleOnClick(+index);
     }
   }, [index]);
+  console.log(route.query);
+
+  useEffect(() => {
+    if (route.query.Address) {
+      setActiveIndex(8);
+      handleaddaddress();
+    }
+  }, [route.query.Address]);
+
   const handleOnClick = async (index) => {
     setActiveIndex(index);
     setShowAddAddressComponent(false);
@@ -388,6 +397,7 @@ function Account() {
                           onClick={() => {
                             handleaddaddress();
                             // handleOnClick(8);
+                            setActiveIndex(8);
                           }}
                         >
                           <a
