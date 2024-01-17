@@ -19,7 +19,7 @@ const Search = ({ iconRemove }) => {
   }, [searchTerm]);
 
   const navigate = async (productId) => {
-    await router.push("/products/[slug]", `/products/${productId}`);
+    await router.push("/products/details${productId}", `/products/details${productId}`);
   };
   const searchProduct = async () => {
     try {

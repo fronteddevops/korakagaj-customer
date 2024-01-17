@@ -20,7 +20,7 @@ const initialiseInterceptor = () => {
       
         if (error.response && (error.response.status == 401 || error.response.status == 403)) {
           localStorage.clear();
-          localStorage?.removeItem("access_token")
+          localStorage.removeItem("access_token")
           return Promise.reject(error);
         } else {
          

@@ -153,8 +153,10 @@ const SingleProduct = ({
                 style={{ height: "250 px" }}
               >
                 <Link
-                  href={`/products/${product?.slug}`}
-                  as={`/products/${product?.slug}`}
+                  // href={`/products/${product.slug}`}
+                  // as={`/products/${product.slug}`}
+                  href={`/products/details?${product.slug}`}
+                  as={`/products/details?${product.slug}`}
                 >
                   <a>
                     <img
@@ -214,8 +216,8 @@ const SingleProduct = ({
               <div className="product-category">{UpperCase}</div>
               <h2>
                 <Link
-                  href={`/products/${product?.slug}`}
-                  as={`/products/${product?.slug}`}
+                    href={`/products/details?${product.slug}`}
+                    as={`/products/details?${product.slug}`}
                 >
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>

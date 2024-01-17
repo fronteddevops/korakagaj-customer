@@ -209,8 +209,8 @@ function OrderViewDetails({ data }) {
                                 data-title={t("Product Name")}
                               >
                                 <Link
-                                  href={`/products/${product?.Product?.slug}`}
-                                  as={`/products/${product?.Product?.slug}`}
+                                  href={`/products/details?${product.slug}`}
+                                  as={`/products/details?${product.slug}`}
                                 >
                                   <a>
                                     <span>{product?.detail?.productName}</span>

@@ -99,9 +99,7 @@ function Account() {
         const formattedDate = moment(date).format("YYYY-MM-DD");
         setDateOfBirth(formattedDate);
         localStorage.setItem("user", JSON.stringify());
-        // console.log(formattedDate);
         if (firstName && lastName && email && phoneNumber && dateOfBirth) {
-          console.log("if");
           setIsDisabledAcount(true);
         }
       } catch (error) {
@@ -183,6 +181,8 @@ function Account() {
   };
 
   const changepassword = async (event) => {
+    console.log("changepassword");
+
     event.preventDefault();
     setNewPasswordError("");
     setConfirmPasswordError("");
@@ -212,6 +212,10 @@ function Account() {
         if (response) {
           setIsDisabledChangep(false);
           toastSuccesschangepassword();
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("userId");
+          localStorage.setItem("wishListItemsCount", 0);
+          localStorage.setItem("cartItemsCount", 0);
           route.push("/login");
         } else {
           alert(response.data.guide);

@@ -57,10 +57,9 @@ const Products = ({ products, productFilters, closeQuickView }) => {
     showPagination = 4;
 
   const { id } = Router.query;
-  {
-    console.log(id);
-  }
+
   const result = id?.split("_")[0];
+  const URLID = id?.split("_")[1];
 
   let [pagination, setPagination] = useState([]);
   let [limit, setLimit] = useState(showLimit);
@@ -239,7 +238,7 @@ const Products = ({ products, productFilters, closeQuickView }) => {
         }
         subSub={
           <>
-            <Link href="/products/[slug]" as={`/products/${result}`}>
+            <Link href="/products/[slug]" as={`/products/details?${URLID}`}>
               <a>{prodcutData?.productName}</a>
             </Link>
             <span></span>

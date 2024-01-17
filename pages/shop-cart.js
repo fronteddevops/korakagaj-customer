@@ -491,8 +491,8 @@ const Cart = ({}) => {
                                       as={`/products/${product?.id}_${product?.productName}`}
                                     > */}
                                     <Link
-                                      href={`/products/${product?.slug}`}
-                                      as={`/products/${product?.slug}`}
+                                    href={`/products/details?${product.slug}`}
+                                    as={`/products/details?${product.slug}`}
                                     >
                                       <a>{product.productName}</a>
                                     </Link>
@@ -682,8 +682,8 @@ const Cart = ({}) => {
                                   <Link
                                     // href="/products/[slug]"
                                     // as={`/products/${product?.id}`}
-                                    href={`/products/${product?.slug}`}
-                                    as={`/products/${product?.slug}`}
+                                    href={`/products/details?${product.slug}`}
+                                    as={`/products/details?${product.slug}`}
                                   >
                                     <a>{product.productName}</a>
                                   </Link>

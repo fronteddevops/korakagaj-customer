@@ -11,17 +11,20 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
-const ProductId = ({ product }) => {
+const ProductId = ({ Data }) => {
   const { t } = useTranslation("common");
   const [data, setData] = useState([]);
   const router = useRouter();
   // set query data
+  // console.log("router", router.asPath);
+  // console.log(window.location);
 
-  
-  const prodcutId = router.query.slug
-    ? router.query.slug
-    : router.query.slug;
+  const prodcutId = window.location.search.slice(1);
+
+  // const prodcutId = router.query.slug ? router.query.slug : router.query.slug;
   const totalPrice = router.query.totalPrice ? router.query.totalPrice : "";
+
+  console.log(router);
   const fabricPrice = router.query.fabricPrice ? router.query.fabricPrice : "";
   const fabricId = router.query.fabricId ? router.query.fabricId : "";
   const fabricName = router.query.fabricName ? router.query.fabricName : "";
@@ -30,9 +33,7 @@ const ProductId = ({ product }) => {
     // Fetch product data here and return it as props
 
     try {
-     
       const response = await services.product.GET_PRODUCT_SLUG_BY_ID(prodcutId);
-
       // const filteredProducts = response.data.data.rows.filter(
       //   (product) => product.id == id
 
@@ -52,7 +53,6 @@ const ProductId = ({ product }) => {
     //get prodcut function call
     getProdcut();
   }, [prodcutId, totalPrice, fabricPrice]);
-
   return (
     <>
       {data && data?.length > 0 && (

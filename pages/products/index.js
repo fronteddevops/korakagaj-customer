@@ -11,6 +11,7 @@ import SingleProduct from "../../components/ecommerce/SingleProduct";
 import SizeFilter from "../../components/ecommerce/SizeFilter";
 import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
+
 import Layout from "../../components/layout/Layout";
 import Link from "next/link";
 import Accordion from "react-bootstrap/Accordion";
@@ -61,7 +62,7 @@ const Products = ({ products1, productFilters }) => {
   let [isFilterVisible, setIsFilterVisible] = useState(false);
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
-
+  // console.log(Router);
   const clearAllFilter = () => {
     searchProduct = "";
 
@@ -332,6 +333,7 @@ const Products = ({ products1, productFilters }) => {
         }
         subChild={t("Products")}
       >
+        {/* <Slug Data={Router} /> */}
         <section className="mt-50 mb-50">
           <div className="container">
             <div className="row">

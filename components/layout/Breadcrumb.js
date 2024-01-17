@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Breadcrumb = ({ parent, sub, subSub, subChild, noBreadcrumb }) => {
+  const Route = useRouter();
+
   return (
     <>
       <div className={`page-header breadcrumb-wrap ${noBreadcrumb}`}>
@@ -14,6 +17,7 @@ const Breadcrumb = ({ parent, sub, subSub, subChild, noBreadcrumb }) => {
             {subChild} */}
             <span></span> {sub}
             <span></span> {subSub}
+            {Route.pathname != "/fabric" && <>{subSub && <span></span>}</>}
             {/* {subSub && <span></span>} */}
             {subChild}
           </div>

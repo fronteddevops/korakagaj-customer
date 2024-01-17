@@ -122,8 +122,8 @@ const Deals1 = () => {
                                 <Timer endDateTime={endDateTime} />
                               )}
                               <Link
-                                href={`/products/${product?.slug}`}
-                                as={`/products/${product?.slug}`}
+                              href={`/products/details?${product.slug}`}
+                              as={`/products/details?${product.slug}`}
                               >
                                 <a className="btn hover-up">
                                   {t("Shop Now")}{" "}
@@ -183,8 +183,8 @@ const Deals1 = () => {
                             <Timer endDateTime={endDateTime} />
                           )}
                           <Link
-                            href={`/products/${product?.slug}`}
-                            as={`/products/${product?.slug}`}
+                             href={`/products/details?${product.slug}`}
+                             as={`/products/details?${product.slug}`}
                           >
                             <a className="btn hover-up">
                               {t("Shop Now")}{" "}

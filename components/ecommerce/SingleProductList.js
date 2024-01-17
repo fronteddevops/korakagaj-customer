@@ -23,7 +23,10 @@ const SingleProductList = ({
           <div className="product-img-action-wrap">
             <div className="product-img product-img-zoom">
               <div className="product-img-inner">
-                <Link href="/products/[slug]" as={`/products/${product.slug}`}>
+                <Link
+                  href={`/products/details?${product.slug}`}
+                  as={`/products/details?${product.slug}`}
+                >
                   <a>
                     <img
                       className="default-img"
@@ -85,7 +88,10 @@ const SingleProductList = ({
               </Link>
             </div>
             <h2>
-              <Link href="/products/[slug]" as={`/products/${product.slug}`}>
+              <Link
+                href={`/products/details?${product.slug}`}
+                as={`/products/details?${product.slug}`}
+              >
                 <a>{product.title}</a>
               </Link>
             </h2>
