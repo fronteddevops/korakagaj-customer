@@ -181,7 +181,6 @@ function Account() {
   };
 
   const changepassword = async (event) => {
-
     event.preventDefault();
     setNewPasswordError("");
     setConfirmPasswordError("");
@@ -296,7 +295,7 @@ function Account() {
         <section className="pt-20 pb-50">
           <div className="container">
             <div className="row">
-              <div
+              {/* <div
                 className={
                   activeIndex === 4
                     ? "tab-pane fade show active"
@@ -316,7 +315,7 @@ function Account() {
                     {t("Add Address")}
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               <div className="col-lg-12 m-auto">
                 <div className="row">
@@ -382,6 +381,22 @@ function Account() {
                           >
                             <i className="fi-rs-marker mr-10"></i>
                             {t("My Address")}
+                          </a>
+                        </li>
+                        <li
+                          className="nav-item"
+                          onClick={() => {
+                            handleaddaddress();
+                            // handleOnClick(8);
+                          }}
+                        >
+                          <a
+                            className={
+                              activeIndex === 8 ? "nav-link active" : "nav-link"
+                            }
+                          >
+                            <i class="fa fa-plus fs-6 me-2"></i>
+                            {t("Add Address")}
                           </a>
                         </li>
                         <li
@@ -843,7 +858,7 @@ function Account() {
                                               handleeditaddress(user.id)
                                             }
                                           >
-                                            {t("Edit")}
+                                            {t("Default Address")}
                                           </span>
                                         </div>
                                       </div>
@@ -1406,9 +1421,6 @@ function Account() {
                   </div>
                 </div>
               </div>
-
-
-
             </div>
           </div>
         </section>

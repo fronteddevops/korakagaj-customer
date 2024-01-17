@@ -664,6 +664,9 @@ const Products = ({ products1, productFilters }) => {
               }
               <div className="col-lg-9">
                 <div className="shop-product-fillter d-lg-block d-none">
+                 
+                  <div className="sort-by-product-area justify-content-between align-items-center">
+                 <span>
                   <div className="totall-product">
                     <p>
                       {t("We found")}
@@ -673,7 +676,6 @@ const Products = ({ products1, productFilters }) => {
                       {t("items for you!")}
                     </p>
                   </div>
-                  <div className="sort-by-product-area justify-content-between align-items-center">
                     <div>
                       {selectedSubSubCategories.length > 0 ||
                       productType ||
@@ -710,7 +712,7 @@ const Products = ({ products1, productFilters }) => {
                         ""
                       )} */}
                     </div>
-
+                    </span>
                     <div className="sort-by-cover">
                       <div className="sort-by-product-wrap">
                         <div className="sort-by">

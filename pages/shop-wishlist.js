@@ -167,6 +167,26 @@ const Wishlist = ({
                             {t("My Address")}
                           </a>
                         </li>
+
+
+
+
+                        <li
+                          className="nav-item"
+                          onClick={() => {
+                            // handleaddaddress();
+                            // handleOnClick(8);
+                          }}
+                        >
+                          <a
+                            className={
+                              activeIndex === 8 ? "nav-link active" : "nav-link"
+                            }
+                          >
+                            <i class="fa fa-plus fs-6 me-2"></i>
+                            {t("Add Address")}
+                          </a>
+                        </li>
                         <li
                           className="nav-item"
                           onClick={() => {
