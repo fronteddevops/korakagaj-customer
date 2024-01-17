@@ -627,7 +627,7 @@ const Cart = ({}) => {
                 )}
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-16">
-                    <div className="col-lg-6" style={{marginLeft:"20px"}}>
+                    <div className="col-lg-6" style={isMobile?{}:{marginLeft:"20px"}}>
                       {updateCart?.length > 0 && (
                         <div className="card mb-3 mb-lg-0">
                           <div className="card-header d-flex justify-content-between">

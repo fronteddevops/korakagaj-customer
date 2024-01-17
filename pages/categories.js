@@ -4,6 +4,7 @@ import nextConfig from "../next.config";
 import services from "../services";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -44,7 +45,14 @@ function Categories() {
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(" ");
                 return (
-                  <div className="col-lg-2 mb-20" key={i}>
+                  <div
+                    className={
+                      isMobile
+                        ? "col-lg-3 col-md-4 col-6 col-sm-6"
+                        : "col-lg-2 mb-20"
+                    }
+                    key={i}
+                  >
                     <div className="card-1">
                       <figure className=" img-hover-scale overflow-hidden">
                         <Link

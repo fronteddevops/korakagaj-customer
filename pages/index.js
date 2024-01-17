@@ -129,11 +129,7 @@ export default function Home() {
             <div className="container">
               <div
                 className="row "
-                style={
-                  isMobile
-                    ? {}
-                    : { marginBottom: "-100px", marginTop: "-100px" }
-                }
+                style={isMobile ? {} : { marginBottom: "-100px" }}
               >
                 <div className="col-lg-12 deal-co">
                   <Deals1 />

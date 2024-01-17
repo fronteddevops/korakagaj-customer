@@ -1,8 +1,10 @@
-import Axios from 'axios';
+import Axios from "axios";
 
 const initialiseInterceptor = () => {
-  if (typeof window !== 'undefined') {
-    Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage?.getItem("access_token")}`;
+  if (typeof window !== "undefined") {
+    Axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage?.getItem("access_token")}`;
 
     Axios.interceptors.request.use(
       (config) => {
@@ -17,13 +19,16 @@ const initialiseInterceptor = () => {
         return response;
       },
       (error) => {
-      
-        if (error.response && (error.response.status == 401 || error.response.status == 403)) {
-          localStorage.clear();
-          localStorage.removeItem("access_token")
+        if (
+          error.response &&
+          (error.response.status == 401 || error.response.status == 403)
+        ) {
+          // localStorage.clear();
+          // localStorage.removeItem("cartDetail");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("userId");
           return Promise.reject(error);
         } else {
-         
           return Promise.reject(error);
         }
       }

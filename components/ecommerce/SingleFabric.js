@@ -101,7 +101,7 @@ const SingleProduct = ({
               <div className="product-action-1 show">
                 <Link
                   href={{
-                    pathname: "/products/[slug]",
+                    pathname: "/products/details",
                     query: {
                       totalPrice: newTotalPrice,
                       productId: id,

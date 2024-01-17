@@ -247,6 +247,17 @@ const Products = ({ products1, productFilters }) => {
   const toggleCategory = (categoryIndex) => {
     setActiveCategory(activeCategory === categoryIndex ? null : categoryIndex);
   };
+
+  const [SubactiveCategory, setSubActiveCategory] = useState([0]);
+  const toggleSubCategory = (categoryIndex) => {
+    setSubActiveCategory(
+      SubactiveCategory === 0
+        ? 1
+        : SubactiveCategory === categoryIndex
+        ? 0
+        : categoryIndex
+    );
+  };
   const getallProdcut = async () => {
     try {
       const response = await services.product.GET_PRODUCT();
@@ -407,9 +418,7 @@ const Products = ({ products1, productFilters }) => {
                                 word.charAt(0).toUpperCase() + word.slice(1)
                             )
                             .join(" ");
-                          {
-                            console.log(activeCategory);
-                          }
+
                           return (
                             <Accordion key={index} activeKey={activeCategory}>
                               <Accordion.Item
@@ -425,7 +434,7 @@ const Products = ({ products1, productFilters }) => {
                                   </h5>
                                 </Accordion.Header>
                                 <Accordion.Body>
-                                  <Accordion>
+                                  <Accordion activeKey={SubactiveCategory}>
                                     {Item?.SubCategories?.map(
                                       (subCategory, subIndex) => {
                                         const word2 =
@@ -444,7 +453,11 @@ const Products = ({ products1, productFilters }) => {
                                             eventKey={subIndex}
                                             key={subCategory.id}
                                           >
-                                            <Accordion.Header>
+                                            <Accordion.Header
+                                              onClick={() =>
+                                                toggleSubCategory(index)
+                                              }
+                                            >
                                               <h5 className="w-100 style-1 wow fadeIn animated">
                                                 {UpperCase2}
                                               </h5>

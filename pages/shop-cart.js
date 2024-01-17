@@ -811,7 +811,7 @@ const Cart = ({}) => {
                   {updateCart &&
                     updateCart.length > 0 &&
                     addressList.length > 0 && (
-                      <div className="col-lg-6 col-md-12  border p-md-4 p-30 border-radius cart-totals">
+                      <div className="col-lg-6 col-md-12  border p-md-10 p-20 border-radius ">
                         {updateCart &&
                           updateCart.length > 0 &&
                           addressList.length > 0 && (
@@ -856,7 +856,7 @@ const Cart = ({}) => {
                                 <div className="form-group col-lg-12">
                                   {updateCart && updateCart.length > 0 && (
                                     <Link href={"/myprofile?index=4"}>
-                                      <button className="btn  btn-sm w-100">
+                                      <button className="btn  btn-sm w-100 d-block">
                                         <i className="fi-rs-shuffle mr-10"></i>
                                         {t("Add new address")}
                                       </button>
@@ -897,7 +897,7 @@ const Cart = ({}) => {
                                 <div className="form-row">
                                   <div className="form-group col-lg-12 ">
                                     <button
-                                      className="btn btn-sm w-100"
+                                      className="btn btn-sm w-100 d-blocks"
                                       onClick={(e) => ApplyCoupon(e)}
                                       disabled={!CouponDis}
                                     >

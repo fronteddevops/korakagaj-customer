@@ -39,6 +39,8 @@ function Login() {
   };
   //handle login  email
   const handleLogin = async (event) => {
+    console.log("handleLogin");
+
     event?.preventDefault();
     let isValid = true;
     setEmailError("");

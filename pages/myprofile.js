@@ -181,7 +181,6 @@ function Account() {
   };
 
   const changepassword = async (event) => {
-    console.log("changepassword");
 
     event.preventDefault();
     setNewPasswordError("");
@@ -212,11 +211,11 @@ function Account() {
         if (response) {
           setIsDisabledChangep(false);
           toastSuccesschangepassword();
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("userId");
-          localStorage.setItem("wishListItemsCount", 0);
-          localStorage.setItem("cartItemsCount", 0);
-          route.push("/login");
+          // localStorage.removeItem("access_token");
+          // localStorage.removeItem("userId");
+          // localStorage.setItem("wishListItemsCount", 0);
+          // localStorage.setItem("cartItemsCount", 0);
+          route.push("/myprofile/?index=1");
         } else {
           alert(response.data.guide);
         }
@@ -356,19 +355,19 @@ function Account() {
                             {t("Orders")}
                           </a>
                         </li>
-                        {/* <li
+                        <li
                           className="nav-item"
-                          onClick={() => handleOnClick(3)}
+                          onClick={() => route.push("/shop-wishlist")}
                         >
                           <a
                             className={
                               activeIndex === 3 ? "nav-link active" : "nav-link"
                             }
                           >
-                            <i className="fi-rs-shopping-cart-check mr-10"></i>
-                            Track Your Order
+                            <i className="fi-rs-heart"></i>
+                            &nbsp; Wishlist
                           </a>
-                        </li> */}
+                        </li>
                         <li
                           className="nav-item"
                           onClick={() => {
@@ -1407,6 +1406,9 @@ function Account() {
                   </div>
                 </div>
               </div>
+
+
+
             </div>
           </div>
         </section>
