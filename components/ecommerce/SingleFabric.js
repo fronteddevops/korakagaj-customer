@@ -110,7 +110,7 @@ const SingleProduct = ({
                       fabricName: product?.fabricType,
                     },
                   }}
-                  as={`/products/${result}`}
+                  as={`/products/details?${result}`}
                 >
                   <a className="action-btn hover-up">
                     <i className="fi-rs-shopping-bag-add"></i>

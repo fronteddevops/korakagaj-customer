@@ -491,8 +491,8 @@ const Cart = ({}) => {
                                       as={`/products/${product?.id}_${product?.productName}`}
                                     > */}
                                     <Link
-                                    href={`/products/details?${product.slug}`}
-                                    as={`/products/details?${product.slug}`}
+                                      href={`/products/details?${product.slug}`}
+                                      as={`/products/details?${product.slug}`}
                                     >
                                       <a>{product.productName}</a>
                                     </Link>
@@ -796,118 +796,132 @@ const Cart = ({}) => {
                   )}
                 </div>
 
-                <div className="cart-action text-center">
+                {/* <div className="cart-action text-center">
                   <Link className={"btn"} href="/products" as={`/products`}>
                     <button className={"btn"}>
                       <i className="fi-rs-shopping-bag mr-10"></i>
                       {t("Continue Shopping")}
                     </button>
                   </Link>
-                </div>
-                <div className="divider center_icon mt-50 mb-50">
+                </div> */}
+                {/* <div className="divider center_icon mt-50 mb-50">
                   <hr />
-                </div>
+                </div> */}
                 <div className="row mb-50">
                   {updateCart &&
                     updateCart.length > 0 &&
                     addressList.length > 0 && (
-                      <div className="heading_s1 mb-3">
-                        <h4> {t("Select Address")}</h4>
-                      </div>
-                    )}
-                  <div className="col-lg-6 col-md-12">
-                    <form className="field_form shipping_calculator">
-                      <div className="form-row">
-                        <div className="form-group col-lg-12">
-                          <div className="custom_select">
-                            {updateCart &&
-                              updateCart.length > 0 &&
-                              addressList.length > 0 && (
-                                <select
-                                  className="form-control select-active"
-                                  value={selectedAddress}
-                                  onChange={(e) => {
-                                    setSelectedAddress(e.target.value);
-                                  }}
-                                >
-                                  <option value="">
-                                    {t("Choose a option...")}
-                                  </option>
-                                  {addressList &&
-                                    addressList.length > 0 &&
-                                    addressList.map((item) => {
-                                      return (
-                                        <option value={item.id}>
-                                          {item.address.address}
-                                        </option>
-                                      );
-                                    })}
-                                </select>
-                              )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="form-row">
-                        {isLoggedIn && (
-                          <div className="form-group col-lg-12">
-                            {updateCart && updateCart.length > 0 && (
-                              <Link href={"/myprofile?index=4"}>
-                                <button className="btn  btn-sm w-100">
-                                  <i className="fi-rs-shuffle mr-10"></i>
-                                  {t("Add new address")}
-                                </button>
-                              </Link>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </form>
-                    {isLoggedIn && updateCart && updateCart.length > 0 && (
-                      <hr />
-                    )}
-                    {isLoggedIn && updateCart && updateCart.length > 0 && (
-                      <form className="field_form shipping_calculator">
-                        <div className="form-row">
-                          <div className="form-group col-lg-12">
-                            <div className="custom_select">
-                              <input
-                                placeholder={t("Enter Coupon Code")}
-                                onChange={(e) => {
-                                  setDiscount(e.target.value.trimStart());
-                                  if (e.target.value.length > 0) {
-                                    setCouponDis(true);
-                                  }
-                                  if (e.target.value.length == 0) {
-                                    setCouponDis(false);
-                                  }
-                                }}
-                                value={Discount}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="form-row">
-                          <div className="form-group col-lg-12 ">
-                            <button
-                              className="btn btn-sm w-100"
-                              onClick={(e) => ApplyCoupon(e)}
-                              disabled={!CouponDis}
-                            >
-                              {t("Apply Coupon")}
-                            </button>
-                          </div>
-                          {RemoveStatus && (
-                            <div className="form-group text-end">
-                              <a onClick={ClearCoupon} className="text-muted">
-                                <i className="fi-rs-cross-small"></i>
-                                {t("Remove Coupon")}
-                              </a>
+                      <div className="col-lg-6 col-md-12  border p-md-4 p-30 border-radius cart-totals">
+                        {updateCart &&
+                          updateCart.length > 0 &&
+                          addressList.length > 0 && (
+                            <div className="heading_s1 mb-3">
+                              <h4> {t("Select Address")}</h4>
                             </div>
                           )}
+                        <div className="col-lg-6 col-md-12">
+                          <form className="field_form shipping_calculator">
+                            <div className="form-row">
+                              <div className="form-group col-lg-12">
+                                <div className="custom_select">
+                                  {updateCart &&
+                                    updateCart.length > 0 &&
+                                    addressList.length > 0 && (
+                                      <select
+                                        className="form-control select-active"
+                                        value={selectedAddress}
+                                        onChange={(e) => {
+                                          setSelectedAddress(e.target.value);
+                                        }}
+                                      >
+                                        <option value="">
+                                          {t("Choose a option...")}
+                                        </option>
+                                        {addressList &&
+                                          addressList.length > 0 &&
+                                          addressList.map((item) => {
+                                            return (
+                                              <option value={item.id}>
+                                                {item.address.address}
+                                              </option>
+                                            );
+                                          })}
+                                      </select>
+                                    )}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              {isLoggedIn && (
+                                <div className="form-group col-lg-12">
+                                  {updateCart && updateCart.length > 0 && (
+                                    <Link href={"/myprofile?index=4"}>
+                                      <button className="btn  btn-sm w-100">
+                                        <i className="fi-rs-shuffle mr-10"></i>
+                                        {t("Add new address")}
+                                      </button>
+                                    </Link>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </form>
+                          {isLoggedIn &&
+                            updateCart &&
+                            updateCart.length > 0 && <hr />}
+                          {isLoggedIn &&
+                            updateCart &&
+                            updateCart.length > 0 && (
+                              <form className="field_form shipping_calculator">
+                                <div className="form-row">
+                                  <div className="form-group col-lg-12">
+                                    <div className="custom_select">
+                                      <input
+                                        placeholder={t("Enter Coupon Code")}
+                                        onChange={(e) => {
+                                          setDiscount(
+                                            e.target.value.trimStart()
+                                          );
+                                          if (e.target.value.length > 0) {
+                                            setCouponDis(true);
+                                          }
+                                          if (e.target.value.length == 0) {
+                                            setCouponDis(false);
+                                          }
+                                        }}
+                                        value={Discount}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="form-row">
+                                  <div className="form-group col-lg-12 ">
+                                    <button
+                                      className="btn btn-sm w-100"
+                                      onClick={(e) => ApplyCoupon(e)}
+                                      disabled={!CouponDis}
+                                    >
+                                      {t("Apply Coupon")}
+                                    </button>
+                                  </div>
+                                  {RemoveStatus && (
+                                    <div className="form-group text-end">
+                                      <a
+                                        onClick={ClearCoupon}
+                                        className="text-muted"
+                                      >
+                                        <i className="fi-rs-cross-small"></i>
+                                        {t("Remove Coupon")}
+                                      </a>
+                                    </div>
+                                  )}
+                                </div>
+                              </form>
+                            )}
                         </div>
-                      </form>
+                      </div>
                     )}
-                  </div>
+
                   <div className="col-lg-6 col-md-12">
                     {updateCart && updateCart.length > 0 && (
                       <div className="border p-md-4 p-30 border-radius cart-totals">

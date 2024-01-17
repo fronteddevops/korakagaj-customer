@@ -104,7 +104,7 @@ function FeatchTab() {
     <>
       <div className="tab-header">
         <ul className="nav nav-tabs" id="myTab" role="tablist">
-          {productData && productData?.newProduct.length > 0 && (
+          {/* {productData && productData?.newProduct.length > 0 && (
             <li className="nav-item" role="presentation">
               <button
                 className={hover === "0" ? "nav-link active" : "nav-link"}
@@ -115,7 +115,7 @@ function FeatchTab() {
                 {t("New Product")}
               </button>
             </li>
-          )}
+          )} */}
           {productData && productData?.hotDeals.length > 0 && (
             <li className="nav-item" role="presentation">
               <button

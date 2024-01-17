@@ -62,7 +62,6 @@ const Products = ({ products1, productFilters }) => {
   let [isFilterVisible, setIsFilterVisible] = useState(false);
   let [currentPage, setCurrentPage] = useState(1);
   let [pages, setPages] = useState(Math.ceil(products?.length / limit));
-  // console.log(Router);
   const clearAllFilter = () => {
     searchProduct = "";
 
@@ -79,7 +78,7 @@ const Products = ({ products1, productFilters }) => {
     setSortBaar(!SortBaar);
     prodcutFilters();
   };
-  const sizes = ["", "s", "m", "xl", "xxl"];
+  const sizes = ["", "s", "m", "xl", "xxl", "xs", "l"];
 
   const handleClick = (i, target) => {
     setSeachToggle(false);
@@ -408,6 +407,9 @@ const Products = ({ products1, productFilters }) => {
                                 word.charAt(0).toUpperCase() + word.slice(1)
                             )
                             .join(" ");
+                          {
+                            console.log(activeCategory);
+                          }
                           return (
                             <Accordion key={index} activeKey={activeCategory}>
                               <Accordion.Item

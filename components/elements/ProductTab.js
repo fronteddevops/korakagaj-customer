@@ -115,14 +115,14 @@ const ProductTab = ({ prodcut }) => {
           >
             <div className="comments-area">
               <div className="row">
-                <div className="col-lg-8">
-                  <h4 className="mb-30">{t("Customer questions & answers")}</h4>
+                <div className="col-lg-8 " style={{ marginBottom: "-50px" }}>
+                  <h4 className="mb-15">{t("Customer questions & answers")}</h4>
 
                   <div>
                     {prodcut?.Ratings?.slice(0, visibleItems).map(
                       (item, index) => (
-                        <div className="comment-list" key={index}>
-                          <div className="comment-list">
+                        <div key={index}>
+                          <div >
                             <div className="single-comment justify-content-between d-flex">
                               <div className="user justify-content-between d-flex">
                                 <div className="desc">

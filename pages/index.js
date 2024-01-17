@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { useState } from "react";
 import services from "../services";
+import { isMobile } from "react-device-detect";
 export default function Home() {
   const { t } = useTranslation("common");
   const [category, setcategory] = useState([]);
@@ -57,7 +58,6 @@ export default function Home() {
     getCategoryListHandler();
     getUpcoming();
   }, []);
-
 
   return (
     <>
@@ -116,7 +116,7 @@ export default function Home() {
           <section className="section-padding">
             <div className="container wow fadeIn animated">
               <h3 className="section-title mb-20">
-                <span>{t("New")}</span> {t("Arrivals")}
+                <span>{t("New")}</span> {t("Product")}
               </h3>
               <div className="carausel-6-columns-cover position-relative">
                 <NewArrival />
@@ -127,7 +127,14 @@ export default function Home() {
         {productType && productType?.length > 0 && (
           <section className="deals section-padding">
             <div className="container">
-              <div className="row ">
+              <div
+                className="row "
+                style={
+                  isMobile
+                    ? {}
+                    : { marginBottom: "-100px", marginTop: "-100px" }
+                }
+              >
                 <div className="col-lg-12 deal-co">
                   <Deals1 />
                 </div>

@@ -31,28 +31,38 @@ const ProductId = ({ Data }) => {
 
   const getProdcut = async () => {
     // Fetch product data here and return it as props
+    if (prodcutId) {
+      try {
+        const response = await services.product.GET_PRODUCT_SLUG_BY_ID(
+          prodcutId
+        );
+        // const filteredProducts = response.data.data.rows.filter(
+        //   (product) => product.id == id
 
-    try {
-      const response = await services.product.GET_PRODUCT_SLUG_BY_ID(prodcutId);
-      // const filteredProducts = response.data.data.rows.filter(
-      //   (product) => product.id == id
-
-      if (response) {
-        // Assuming 'setData' is a state-setting function
-        setData(response?.data?.data[0]);
-      } else {
-        // Handle the case where no products match the criteria
-        // For example, set an empty array or show an error message.
-        setData([]); // Set an empty array if no products match
+        if (response) {
+          // Assuming 'setData' is a state-setting function
+          setData(response?.data?.data[0]);
+        } else {
+          // Handle the case where no products match the criteria
+          // For example, set an empty array or show an error message.
+          setData([]); // Set an empty array if no products match
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
   useEffect(() => {
     //get prodcut function call
     getProdcut();
   }, [prodcutId, totalPrice, fabricPrice]);
+
+  useEffect(() => {
+    if (!prodcutId) {
+      router.push("/products");
+    }
+  }, [prodcutId]);
+
   return (
     <>
       {data && data?.length > 0 && (

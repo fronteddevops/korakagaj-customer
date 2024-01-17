@@ -189,9 +189,9 @@ const ProductDetails = ({
                 <div className="row mb-50">
                   <div className="col-md-6 col-sm-12 col-xs-12">
                     <div className="detail-gallery">
-                      <span className="zoom-icon">
+                      {/* <span className="zoom-icon">
                         <img width={"80%"} src="/assets/imgs/360.svg" />
-                      </span>
+                      </span> */}
 
                       <div className="product-image-slider">
                         <ThumbSlider product={product} />
@@ -252,32 +252,46 @@ const ProductDetails = ({
                   </div>
                   <div className="col-md-6 col-sm-12 col-xs-12">
                     <div className="detail-info">
-                      <h2 className="title-detail text-capitalize">
+                      <h3 className="title-detail text-capitalize">
                         {product.productName}
-                      </h2>
-                      <div className="product-detail-rating">
-                        <div className="pro-details-brand">
+                      </h3>
+                      <div className="product-detail-rating" >
+                        <div
+                          className="pro-details-brand"
+                          style={{ marginTop: "15px" }}
+                        >
                           <span>
                             {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
-                            {/* <Link href="/products" as={`/products`}>
-                            <a className="text-capitalize"> */}
+                       
                             {UpperCase}
-                            {/* </a>
-                            </Link> */}
+                           
                           </span>
                         </div>
                         <div className="product-rate-cover text-end">
                           <span className="font-small ml-5 text-muted">
-                            <ReactStars
-                              value={product.averageRating}
-                              count={5}
-                              size={20}
-                              activeColor="#ffd700"
-                              isHalf={true} // Disable half ratings
-                              edit={false} // Disable user rating changes
-                            />
-                            <span>{product?.ratingScore} </span>
-                            {t("Reviews")}
+                            <div style={{ marginTop: "-10px" }}>
+                              <ReactStars
+                                value={product.averageRating}
+                                count={5}
+                                size={20}
+                                activeColor="#ffd700"
+                                isHalf={true} // Disable half ratings
+                                edit={false} // Disable user rating changes
+                              />
+                              <span>{product?.ratingScore}</span>
+                            </div>
+                            {isMobile ? (
+                              <>{t("Reviews")}</>
+                            ) : (
+                              <div
+                                style={{
+                                  marginTop: "-25px",
+                                  marginLeft: "90px",
+                                }}
+                              >
+                                {t("Reviews")}
+                              </div>
+                            )}
                           </span>
                         </div>
                       </div>
@@ -286,8 +300,11 @@ const ProductDetails = ({
                           <div className="clearfix product-price-cover">
                             <div className="product-price primary-color float-left">
                               <ins>
-                                <span className="text-brand">
-                                  Rs.{product?.finalAmount}
+                                <span
+                                  className="text-brand"
+                                  style={{ fontSize: "20px" }}
+                                >
+                                  <>Rs.{product?.finalAmount}</>
                                 </span>
                               </ins>
                             </div>
@@ -298,8 +315,11 @@ const ProductDetails = ({
                           <div className="clearfix product-price-cover">
                             <div className="product-price primary-color float-left">
                               <ins>
-                                <span className="text-brand">
-                                  Rs.{product?.finalAmount}
+                                <span
+                                  className="text-brand"
+                                  style={{ fontSize: "20px" }}
+                                >
+                                  <>Rs.{product?.finalAmount}</>
                                 </span>
                               </ins>
                               <ins>
@@ -314,45 +334,48 @@ const ProductDetails = ({
                           </div>
                         </>
                       )}
-                      {/* <div className="clearfix product-price-cover">
-                                                <div className="product-price primary-color float-left">
-
-                                                    <ins>
-                                                        <span className="text-brand">
-                                                            Rs.{product?.finalAmount}
-                                                        </span>
-                                                    </ins>
-                                                    <ins>
-                                                        <span className="old-price font-md ml-15">
-                                                            Rs.{product.totalPrice}
-                                                        </span>
-                                                    </ins>
-                                                    <span className="save-price  font-md color3 ml-15">
-                                                        {
-                                                            product.discountPercentage
-                                                        }
-                                                        % Off
-                                                    </span>
-
-                                                </div>
-                                            </div> */}
-                      <div className="bt-1 border-color-1 mt-15 mb-15"></div>
-                      <div className="short-desc mb-30">
+                 
+                      <div className="short-desc mb-20">
                         <p className="text-capitalize">{product.description}</p>
                       </div>
-                      <div className="product_sort_info font-xs mb-30">
+                      <div className="product_sort_info font-xs mb-10">
                         <ul>
                           <li className="mb-10">
-                            <i className="fi-rs-crown mr-5"></i>
-                            {t("1 Year AL Jazeera Brand Warranty")}
+                            {t("SKU")}&nbsp;:
+                            <a>&nbsp;{product.sku}</a>
                           </li>
-                          <li className="mb-10">
-                            <i className="fi-rs-refresh mr-5"></i>
-                            {t("30 Day Return Policy")}
-                          </li>
+
+                          {isMobile ? (
+                            <li
+                              className="mb-10"
+                              style={{
+                                maxWidth: "500px",
+                                // whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {t("Tags")}&nbsp;:
+                              <a rel="tag" className="me-1">
+                                &nbsp;
+                                {product.tags}
+                              </a>
+                            </li>
+                          ) : (
+                            <li className="mb-10">
+                              {t("Tags")}&nbsp;:
+                              <a rel="tag" className="me-1">
+                                &nbsp;
+                                {product.tags}
+                              </a>
+                            </li>
+                          )}
+
                           <li>
-                            <i className="fi-rs-credit-card mr-5"></i>
-                            {t("Cash on Delivery available")}
+                            {t("Availability")}&nbsp;:
+                            <span className="in-stock text-success ml-5">
+                              {product.currentStock} Items In Stock
+                            </span>
                           </li>
                         </ul>
                       </div>
@@ -392,7 +415,7 @@ const ProductDetails = ({
                           ))}
                         </ul>
                         <strong className="mr-10">
-                          &nbsp;&nbsp; | &nbsp;&nbsp;
+                          &nbsp;&nbsp;
                           <span
                             className="text-brand"
                             style={{ cursor: " pointer" }}
@@ -479,8 +502,8 @@ const ProductDetails = ({
                           </a>
                         </div>
                       </div>
-                      <ul className="product-meta font-xs color-grey mt-50">
-                        <li className="mb-5 text-capitalize">
+                      {/* <ul className="product-meta font-xs color-grey mt-50"> */}
+                      {/* <li className="mb-5 text-capitalize">
                           {t("SKU")}&nbsp;:
                           <a>&nbsp;{product.sku}</a>
                         </li>
@@ -516,16 +539,18 @@ const ProductDetails = ({
                           <span className="in-stock text-success ml-5">
                             {product.currentStock} Items In Stock
                           </span>
-                        </li>
-                      </ul>
+                        </li> */}
+                      {/* </ul> */}
                     </div>
                   </div>
                 </div>
 
                 {quickView ? null : (
                   <>
-                    <ProductTab prodcut={product} />
-                    <div className="row mt-60">
+                    <div style={{ marginTop: "-30px" }}>
+                      <ProductTab prodcut={product} />
+                    </div>
+                    <div className="row mt-40">
                       <div className="col-12">
                         <h3 className="section-title style-1 mb-30">
                           {t("Recent products")}

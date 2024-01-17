@@ -294,7 +294,7 @@ function Account() {
         }
         subChild={breadCrumb}
       >
-        <section className="pt-50 pb-150">
+        <section className="pt-20 pb-50">
           <div className="container">
             <div className="row">
               <div
@@ -402,6 +402,7 @@ function Account() {
                           </a>
                         </li>
                         <li
+                          style={{ whiteSpace: "nowrap" }}
                           className="nav-item"
                           onClick={() => {
                             setBreadCrumb(" Change password");
@@ -502,15 +503,15 @@ function Account() {
                                   <table className="table">
                                     <thead>
                                       <tr>
-                                        <th>{t("Product Image")}</th>
+                                        {/* <th>{t("Product Image")}</th> */}
                                         <th>{t("Order Id")}</th>
                                         <th>{t("Date")}</th>
-                                        <th>{t("Total Item")}</th>
+                                        {/* <th>{t("Total Item")}</th>
                                         <th>{t("Total Quantity")}</th>
                                         <th>{t("Total Amount")}</th>
                                         <th>{t("Coupon Discount")}</th>
                                         <th>{t("Coupon Code")}</th>
-                                        <th>{t("Coupon Discounted Amount")}</th>
+                                        <th>{t("Coupon Discounted Amount")}</th> */}
                                         <th>{t("Payable Amount")}</th>
 
                                         <th>{t("Order Status")}</th>
@@ -523,7 +524,7 @@ function Account() {
                                         orderDetailsData.length > 0 &&
                                         orderDetailsData?.map((item, key) => (
                                           <tr key={key}>
-                                            <td
+                                            {/* <td
                                               className="text-right"
                                               data-title={t("Product Image")}
                                             >
@@ -539,7 +540,7 @@ function Account() {
                                                 height={50}
                                                 width={50}
                                               />
-                                            </td>
+                                            </td> */}
                                             <td
                                               className="text-right"
                                               data-title={t("Order Id")}
@@ -554,7 +555,7 @@ function Account() {
                                                 "hh:mm A DD MMM YYYY"
                                               )}
                                             </td>
-                                            <td
+                                            {/* <td
                                               className="text-right"
                                               data-title={t("Total Item")}
                                             >
@@ -596,7 +597,7 @@ function Account() {
                                               {item?.discountAmount != 0
                                                 ? item?.discountAmount
                                                 : "--"}
-                                            </td>
+                                            </td> */}
                                             <td
                                               className="text-right"
                                               data-title={t("Final Amount")}

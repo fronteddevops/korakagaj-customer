@@ -122,8 +122,8 @@ const Deals1 = () => {
                                 <Timer endDateTime={endDateTime} />
                               )}
                               <Link
-                              href={`/products/details?${product.slug}`}
-                              as={`/products/details?${product.slug}`}
+                                href={`/products/details?${product.slug}`}
+                                as={`/products/details?${product.slug}`}
                               >
                                 <a className="btn hover-up">
                                   {t("Shop Now")}{" "}
@@ -142,7 +142,9 @@ const Deals1 = () => {
                   className="d-flex p-2"
                   style={{
                     deals1Style,
-                    margin: "10px",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    marginLeft: "-20px",
                   }}
                 >
                   {endDateTime - new Date() > 0 ? (
@@ -183,8 +185,8 @@ const Deals1 = () => {
                             <Timer endDateTime={endDateTime} />
                           )}
                           <Link
-                             href={`/products/details?${product.slug}`}
-                             as={`/products/details?${product.slug}`}
+                            href={`/products/details?${product.slug}`}
+                            as={`/products/details?${product.slug}`}
                           >
                             <a className="btn hover-up">
                               {t("Shop Now")}{" "}

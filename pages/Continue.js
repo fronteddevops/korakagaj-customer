@@ -619,7 +619,7 @@ const Cart = ({}) => {
                   )}
                 </div>
                 {!isMobile && (
-                  <div className="divider center_icon mt-50 mb-50">
+                  <div >
                     {/* <i className="fi-rs-fingerprint"></i> */}
 
                     <hr />
@@ -627,7 +627,7 @@ const Cart = ({}) => {
                 )}
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-16">
-                    <div className="col-lg-6">
+                    <div className="col-lg-6" style={{marginLeft:"20px"}}>
                       {updateCart?.length > 0 && (
                         <div className="card mb-3 mb-lg-0">
                           <div className="card-header d-flex justify-content-between">
@@ -638,6 +638,7 @@ const Cart = ({}) => {
                           <div className="card-body">
                             <address>
                               {" "}
+                              <b>{t("Name")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -649,6 +650,7 @@ const Cart = ({}) => {
                                 {Data?.address?.fullName}
                               </span>
                               <br />
+                              <b>{t("Phone Number")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -660,6 +662,7 @@ const Cart = ({}) => {
                                 {Data?.address?.phoneNumber}
                               </span>
                               <br />
+                              <b>{t("House No.")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -671,6 +674,7 @@ const Cart = ({}) => {
                                 {Data?.address?.houseNo}
                               </span>
                               <br />
+                              <b>{t("Addres")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -682,6 +686,7 @@ const Cart = ({}) => {
                                 {Data?.address?.address}
                               </span>
                               <br />
+                              <b>{t("City")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -693,6 +698,7 @@ const Cart = ({}) => {
                                 {Data?.address?.city}
                               </span>
                               <br />
+                              <b>{t("Pin Code")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -704,6 +710,7 @@ const Cart = ({}) => {
                                 {Data?.address?.pinCode}
                               </span>
                               <br />
+                              <b>{t("State")}</b>&nbsp;:&nbsp;
                               <span
                                 style={{
                                   whiteSpace: "pre-wrap", // This property allows for line breaks
@@ -828,9 +835,7 @@ const Cart = ({}) => {
                     </div>
                   </div>
 
-                  {/* <div className="text-end"> */}
-
-                  {/* </div> */}
+                 
                 </div>
               </div>
             </div>

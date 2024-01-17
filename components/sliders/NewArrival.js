@@ -51,7 +51,7 @@ const NewArrival = () => {
       const data = {
         subSubCategoryId: "",
         categoryId: "",
-        productType: 3,
+        productType: 0,
         order: "",
         priceTo: "1000000",
         priceFrom: "0",
