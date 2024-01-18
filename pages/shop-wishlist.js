@@ -4,6 +4,7 @@ import Layout from "../components/layout/Layout";
 import { addToCart } from "../redux/action/cart";
 import nextConfig from "../next.config";
 import SingleProduct from "../components/ecommerce/SingleProduct";
+import "font-awesome/css/font-awesome.min.css";
 
 import QuickView from "../components/ecommerce/QuickView";
 import { useRouter } from "next/router";
@@ -171,8 +172,6 @@ const Wishlist = ({
                         <li
                           className="nav-item"
                           onClick={() => {
-                            // handleaddaddress();
-                            // handleOnClick(8);
                             route.push("myprofile/?Address=1");
                           }}
                         >
@@ -181,7 +180,7 @@ const Wishlist = ({
                               activeIndex === 8 ? "nav-link active" : "nav-link"
                             }
                           >
-                            <i class="fa fa-plus fs-6 me-2"></i>
+                            <i class="fa fa-plus fs-6 me-2"></i> &nbsp;
                             {t("Add Address")}
                           </a>
                         </li>
@@ -242,7 +241,9 @@ const Wishlist = ({
                                 isWishlisted={item.isWishlisted}
                                 source={"wishlist"}
                                 GetWishlistdata={GetWishlistdata}
+                                
                               />
+                              
                             </div>
                           ))}
                         </div>

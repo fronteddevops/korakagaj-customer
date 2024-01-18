@@ -810,16 +810,17 @@ const Cart = ({}) => {
                 <div className="row mb-50">
                   {updateCart &&
                     updateCart.length > 0 &&
-                    addressList.length > 0 && (
+                    localStorage.getItem("access_token") && 
+                     (
                       <div className="col-lg-6 col-md-12  border p-md-10 p-20 border-radius ">
                         {updateCart &&
                           updateCart.length > 0 &&
-                          addressList.length > 0 && (
+                          localStorage.getItem("access_token") &&(
                             <div className="heading_s1 mb-3">
                               <h4> {t("Select Address")}</h4>
                             </div>
                           )}
-                        <div className="col-lg-6 col-md-12">
+                        <div className=" col-md-12">
                           <form className="field_form shipping_calculator">
                             <div className="form-row">
                               <div className="form-group col-lg-12">

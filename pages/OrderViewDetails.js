@@ -22,6 +22,7 @@ function OrderViewDetails({ data }) {
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
   const [address, setaddress] = useState([]);
   const [OrderStatusUrl, setOrderStatusUrl] = useState("");
+  const [OrderIntUrl, setOrderIntUrl] = useState("");
   const orderDetials = async (id) => {
     try {
       const response = await services.orderDetails.GET_ORDER_DETAILS_BY_ID(
@@ -40,8 +41,10 @@ function OrderViewDetails({ data }) {
     orderDetials();
     const orderStatus = new URLSearchParams(window.location.search);
     setOrderStatusUrl(orderStatus.get("orderStatus"));
+    const orderIntial = new URLSearchParams(window.location.search);
+    setOrderIntUrl(orderIntial.get("orderIntial"));
   }, []);
-
+console.log(OrderIntUrl)
   return (
     <Layout
       parent={t("Home")}
@@ -170,7 +173,7 @@ function OrderViewDetails({ data }) {
                       <th scope="col">{t("Selected Quantity")}</th>
                       <th scope="col">{t("Tracking Id & Link")}</th>
 
-                      {OrderStatusUrl != "Payment Failed" && (
+                      {OrderStatusUrl != "Payment Failed" &&  OrderIntUrl !="Intially Payment" && (
                         <th scope="col">{t("Add Review")}</th>
                       )}
                     </tr>
@@ -191,6 +194,7 @@ function OrderViewDetails({ data }) {
                         const percentOfmargin =
                           (100 - dataOfMargin.discountPercentage) / 100;
                         const MRP = basePrice / percentOfmargin;
+                        console.log(product)
                         return (
                           <>
                             <tr>
@@ -209,8 +213,8 @@ function OrderViewDetails({ data }) {
                                 data-title={t("Product Name")}
                               >
                                 <Link
-                                  href={`/products/details?${product.slug}`}
-                                  as={`/products/details?${product.slug}`}
+                                  href={`/products/details?${product?.detail?.slug}`}
+                                  as={`/products/details?${product?.detail?.slug}`}
                                 >
                                   <a>
                                     <span>{product?.detail?.productName}</span>
@@ -310,7 +314,12 @@ function OrderViewDetails({ data }) {
                                 className="text-right"
                                 data-title={t("Add Review")}
                               >
-                                {OrderStatusUrl != "Payment Failed" ? (
+
+
+                                {
+                                  console.log(OrderStatusUrl)
+                                }
+                                {OrderStatusUrl != "Payment Failed" || OrderIntUrl !="Intially Payment"  ? (
                                   !product?.Rating ? (
                                     <span>
                                       <Link

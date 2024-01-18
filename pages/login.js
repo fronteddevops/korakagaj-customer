@@ -87,7 +87,7 @@ function Login() {
           toastSuccessLogin();
           setIsDisabled(false);
           setTimeout(() => {
-            route.push("/");
+            route.push("/myprofile/?index=5");
           }, 1000);
         }
       } catch (error) {
@@ -242,7 +242,7 @@ function Login() {
         await handleCart();
         await previous();
         setTimeout(() => {
-          route.push("/");
+          route.push("/myprofile/?index=5");
         }, 1000);
       } else {
         alert(response.data.guide);

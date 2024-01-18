@@ -115,8 +115,7 @@ const SingleProduct = ({
         if (!isProductIsWishListed) {
           const WishlistResponse =
             await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
-
-          if (route.pathname != "/shop-wishlist") {
+          if (route.pathname != "/shop-wishlist" && route.pathname != "/products") {
             setIsProductIsWishListed(!isProductIsWishListed);
           }
 
@@ -125,7 +124,8 @@ const SingleProduct = ({
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
-          if (route.pathname != "/shop-wishlist") {
+        
+          if (route.pathname != "/shop-wishlist" && route.pathname != "/products") {
             setIsProductIsWishListed(!isProductIsWishListed);
           }
           productDataShow();
@@ -216,8 +216,8 @@ const SingleProduct = ({
               <div className="product-category">{UpperCase}</div>
               <h2>
                 <Link
-                    href={`/products/details?${product.slug}`}
-                    as={`/products/details?${product.slug}`}
+                  href={`/products/details?${product.slug}`}
+                  as={`/products/details?${product.slug}`}
                 >
                   <a className="text-capitalize">{product?.productName}</a>
                 </Link>

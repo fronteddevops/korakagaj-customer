@@ -119,6 +119,7 @@ function Account() {
       try {
         const response = await services.orderDetails.GET_ORDER_DETAILS();
         setOrderDetailsData(response?.data?.data.rows);
+        console.log(response?.data?.data.rows);
       } catch (error) {
         console.log(error);
         toastError(error);
@@ -373,7 +374,7 @@ function Account() {
                             }
                           >
                             <i className="fi-rs-heart"></i>
-                            &nbsp; Wishlist
+                            &nbsp; {t("Wishlist")}
                           </a>
                         </li>
                         <li
@@ -634,15 +635,13 @@ function Account() {
                                             <td
                                               className="text-right"
                                               data-title={t("Order Status")}
-                                            >
-                                              {item?.orderStatus}
-                                            </td>
+                                            >{item?.paymentLogs[0]?.paymentResponse?.status}</td>
                                             <td
                                               className="text-right"
                                               data-title={t("Actions")}
                                             >
                                               <Link
-                                                href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}`}
+                                                href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}&orderIntial=${item?.paymentLogs[0]?.paymentResponse?.status}`}
                                               >
                                                 <a>{t("View detail")}</a>
                                               </Link>

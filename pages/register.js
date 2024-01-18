@@ -76,7 +76,7 @@ function Register() {
         toastSuccessFully();
         setIsValid(false);
         await handleCart();
-        route.push("/");
+        route.push("/myprofile/?index=5");
       } else {
         alert(response.data.guide);
       }
@@ -188,7 +188,7 @@ function Register() {
           toastSuccess();
           setIsValid(false);
           await handleCart();
-          route.push("/");
+          route.push("/myprofile/?index=5");
         } else {
           alert(response.data.guide);
         }

@@ -165,6 +165,26 @@ const Cart = ({}) => {
           const updateCartData = await services.cart.CHECKOUT();
           const userDetails = JSON.parse(localStorage.getItem("profile"));
 
+
+
+
+
+
+
+
+          const data = {
+            orderId: updateCartData?.data?.order?.id,
+            paymentResponse: {
+              id: updateCartData?.data?.razorpayPaymentDetails.id,
+              status: "Intially Payment",
+              amount: updateCartData?.data?.totalAmount,
+            },
+          };
+          try {
+            const response = await services.cart.PAYMENT_LOG(data);
+          } catch (err) {
+            console.log(err);
+          }
           const options = {
             key: "rzp_test_ug6gBARp85Aq1j",
             currency: "INR",
@@ -276,6 +296,8 @@ const Cart = ({}) => {
       return;
     }
     await handleCart(updateCart[0]);
+   
+
     // const updateCartData = await services.cart.CHECKOUT();
     // const userDetails = JSON.parse(localStorage.getItem("profile"));
 
@@ -619,7 +641,7 @@ const Cart = ({}) => {
                   )}
                 </div>
                 {!isMobile && (
-                  <div >
+                  <div>
                     {/* <i className="fi-rs-fingerprint"></i> */}
 
                     <hr />
@@ -627,7 +649,10 @@ const Cart = ({}) => {
                 )}
                 <div className="row mb-50">
                   <div className="col-lg-6 col-md-16">
-                    <div className="col-lg-6" style={isMobile?{}:{marginLeft:"20px"}}>
+                    <div
+                      className="col-lg-6"
+                      style={isMobile ? {} : { marginLeft: "20px" }}
+                    >
                       {updateCart?.length > 0 && (
                         <div className="card mb-3 mb-lg-0">
                           <div className="card-header d-flex justify-content-between">
@@ -834,8 +859,6 @@ const Cart = ({}) => {
                       </div>
                     </div>
                   </div>
-
-                 
                 </div>
               </div>
             </div>
