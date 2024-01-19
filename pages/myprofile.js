@@ -647,10 +647,12 @@ function Account() {
                                               className="text-right"
                                               data-title={t("Order Status")}
                                             >
-                                              {
-                                                item?.paymentLogs[0]
-                                                  ?.paymentResponse?.status
-                                              }
+                                              {item?.paymentLogs[0]?.paymentResponse?.status
+                                                ?.charAt(0)
+                                                .toUpperCase() +
+                                                item?.paymentLogs[0]?.paymentResponse?.status?.slice(
+                                                  1
+                                                )}
                                             </td>
                                             <td
                                               className="text-right"
