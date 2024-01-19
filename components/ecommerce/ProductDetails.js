@@ -42,7 +42,7 @@ const ProductDetails = ({
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [showSizeChart, setShowSizeChart] = useState(false);
-
+  const str = product?.tags;
   useEffect(() => {
     if (totalPrice) {
       let fabriccost = +fabricPrice * product?.length;
@@ -181,7 +181,7 @@ const ProductDetails = ({
   const isLoggedIn = localStorage.getItem("access_token");
   return (
     <>
-      <section >
+      <section>
         <div className="container">
           <div className="row flex-row-reverse">
             <div className="col-lg-12">
@@ -371,7 +371,8 @@ const ProductDetails = ({
                                 {t("Tags")}&nbsp;:
                                 <a rel="tag" className="me-1">
                                   &nbsp;
-                                  {product.tags}
+                                  {str.charAt(0).toUpperCase() +
+                                    str.slice(1)}
                                 </a>
                               </b>
                             </li>
@@ -381,7 +382,8 @@ const ProductDetails = ({
                                 {t("Tags")}&nbsp;:
                                 <a rel="tag" className="me-1">
                                   &nbsp;
-                                  {product.tags}
+                                  {str.charAt(0).toUpperCase() +
+                                    str.slice(1)}
                                 </a>
                               </b>
                             </li>
@@ -421,14 +423,14 @@ const ProductDetails = ({
                       </div>
                       <div className="attr-detail attr-size">
                         <strong className="mr-10">{t("size")}</strong>
-                        <ul className="list-filter size-filter font-small" >
+                        <ul className="list-filter size-filter font-small">
                           {size.map((size, i) => (
                             <li
                               className={size == selectedSize ? "active" : ""}
                               key={i}
                               onClick={() => setSelectedSize(size)}
                             >
-                              <a style={{marginTop:"8px"}}>{size}</a>
+                              <a style={{ marginTop: "8px" }}>{size}</a>
                             </li>
                           ))}
                         </ul>
@@ -480,9 +482,11 @@ const ProductDetails = ({
                           </a>
                         </div>
                       </div>
-                      <div className="attr-detail attr-size mt-20" style={{whiteSpace:"nowrap"}}>
+                      <div
+                        className="attr-detail attr-size mt-20"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
                         <strong className="text-capitalize ">
-
                           {t("Fabric")}&nbsp;:&nbsp;{" "}
                           <span className="text-brand">{product?.fabric}</span>
                         </strong>
@@ -498,7 +502,10 @@ const ProductDetails = ({
 
                       <div className="bt-1 border-color-1 mt-30 mb-30"></div>
                       <div className="detail-extralink">
-                        <div className="product-extra-link2" style={{whiteSpace:"nowrap"}}>
+                        <div
+                          className="product-extra-link2"
+                          style={{ whiteSpace: "nowrap" }}
+                        >
                           <button
                             onClick={(e) => handleCart(product)}
                             className="button button-add-to-cart me-2"
