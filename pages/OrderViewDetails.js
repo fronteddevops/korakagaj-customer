@@ -242,7 +242,6 @@ function OrderViewDetails({ data }) {
                             const percentOfmargin =
                               (100 - dataOfMargin.discountPercentage) / 100;
                             const MRP = basePrice / percentOfmargin;
-                            console.log(product);
                             return (
                               <>
                                 <tr>

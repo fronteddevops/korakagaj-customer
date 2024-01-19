@@ -24,7 +24,6 @@ const ProductId = ({ Data }) => {
   // const prodcutId = router.query.slug ? router.query.slug : router.query.slug;
   const totalPrice = router.query.totalPrice ? router.query.totalPrice : "";
 
-  console.log(router);
   const fabricPrice = router.query.fabricPrice ? router.query.fabricPrice : "";
   const fabricId = router.query.fabricId ? router.query.fabricId : "";
   const fabricName = router.query.fabricName ? router.query.fabricName : "";

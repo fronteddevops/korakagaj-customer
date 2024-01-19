@@ -770,9 +770,9 @@ function Account() {
                             ) : (
                               alladdress?.map((user, index) => {
                                 return (
-                                  <div className="col-lg-6">
-                                    <div className="card mb-3 mb-lg-0">
-                                      <div className="card-header d-flex justify-content-between">
+                                  <div className="col-lg-6 mb-4" >
+                                    <div className="card mb-3 mb-lg-0 " >
+                                      <div className="card-header d-flex justify-content-between ">
                                         <h5 className="mb-0">
                                           {t("Billing Address")}
                                         </h5>

@@ -72,7 +72,6 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
         setDisacountIDInst(response?.data?.data?.cartDetail?.discountId);
-        console.log(response);
         if (response?.data?.data?.cartDetail?.cartDetails?.length == 0  || response?.data?.data?.cartDetail == null) {
           router.push("/");
         }

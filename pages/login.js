@@ -468,7 +468,7 @@ function Login() {
                                     console.error("Login Failed");
                                   }}
                                 />
-                                ;
+                                
                               </div>
                             </li>
                           </ul>

@@ -611,7 +611,7 @@ function Register() {
                                   console.log("Login Failed");
                                 }}
                               />
-                              ;
+                              
                             </div>
                           </li>
                         </ul>
