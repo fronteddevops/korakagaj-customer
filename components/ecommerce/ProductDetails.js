@@ -181,12 +181,12 @@ const ProductDetails = ({
   const isLoggedIn = localStorage.getItem("access_token");
   return (
     <>
-      <section className=" mb-50">
+      <section >
         <div className="container">
           <div className="row flex-row-reverse">
             <div className="col-lg-12">
               <div className="product-detail accordion-detail">
-                <div className="row mb-50">
+                <div className="row">
                   <div className="col-md-6 col-sm-12 col-xs-12">
                     <div className="detail-gallery">
                       {/* <span className="zoom-icon">
@@ -481,7 +481,7 @@ const ProductDetails = ({
                         </div>
                       </div>
                       <div className="attr-detail attr-size mt-20" style={{whiteSpace:"nowrap"}}>
-                        <strong className="mr-10 text-capitalize ">
+                        <strong className="text-capitalize ">
 
                           {t("Fabric")}&nbsp;:&nbsp;{" "}
                           <span className="text-brand">{product?.fabric}</span>
@@ -490,7 +490,7 @@ const ProductDetails = ({
                         <Link
                           href={`/fabric?id=${product?.id}_${product?.slug}`}
                         >
-                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
+                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-5 border-radius-5 btn-shadow-brand hover-up">
                             {t("Choose Fabric")}
                           </button>
                         </Link>
@@ -567,7 +567,7 @@ const ProductDetails = ({
                 {quickView ? null : (
                   <>
                     <div style={{ marginTop: "-50px" }}>
-                      <ProductTab prodcut={product} />
+                      {/* <ProductTab prodcut={product} /> */}
                     </div>
                     <div className="row mt-40">
                       <div className="col-12">
