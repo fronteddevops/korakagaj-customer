@@ -609,7 +609,7 @@ const Cart = ({}) => {
                                   className="text-center"
                                   data-title={t("Quantity")}
                                 >
-                                  <div className="detail-qty border radius m-auto">
+                                  <div className="detail-qty  m-auto">
                                     <span className="qty-val">
                                       {product.selectedQuantity}
                                     </span>

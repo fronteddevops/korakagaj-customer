@@ -271,10 +271,10 @@ const ProductDetails = ({
                           style={{ marginTop: "15px" }}
                         >
                           <span>
-                            <b>
+                            <strong className="text-capitalize ">
                               {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
                               {UpperCase}
-                            </b>
+                            </strong>
                           </span>
                         </div>
                         <div className="product-rate-cover text-end">
@@ -351,10 +351,10 @@ const ProductDetails = ({
                       <div className="product_sort_info font-xs mb-10">
                         <ul>
                           <li className="mb-10">
-                            <b>
+                            <strong className="text-capitalize ">
                               {t("SKU")}&nbsp;:
                               <a>&nbsp;{product.sku}</a>
-                            </b>
+                            </strong>
                           </li>
 
                           {isMobile ? (
@@ -367,35 +367,33 @@ const ProductDetails = ({
                                 textOverflow: "ellipsis",
                               }}
                             >
-                              <b>
+                              <strong className="text-capitalize ">
                                 {t("Tags")}&nbsp;:
                                 <a rel="tag" className="me-1">
                                   &nbsp;
-                                  {str.charAt(0).toUpperCase() +
-                                    str.slice(1)}
+                                  {str.charAt(0).toUpperCase() + str.slice(1)}
                                 </a>
-                              </b>
+                              </strong>
                             </li>
                           ) : (
                             <li className="mb-10">
-                              <b>
+                              <strong className="text-capitalize ">
                                 {t("Tags")}&nbsp;:
                                 <a rel="tag" className="me-1">
                                   &nbsp;
-                                  {str.charAt(0).toUpperCase() +
-                                    str.slice(1)}
+                                  {str.charAt(0).toUpperCase() + str.slice(1)}
                                 </a>
-                              </b>
+                              </strong>
                             </li>
                           )}
 
                           <li>
-                            <b>
+                            <strong className="text-capitalize ">
                               {t("Availability")}&nbsp;:
                               <span className="in-stock text-success ml-5">
                                 {product.currentStock} Items In Stock
                               </span>
-                            </b>
+                            </strong>
                           </li>
                         </ul>
                       </div>
@@ -494,9 +492,11 @@ const ProductDetails = ({
                         <Link
                           href={`/fabric?id=${product?.id}_${product?.slug}`}
                         >
-                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-5 border-radius-5 btn-shadow-brand hover-up">
-                            {t("Choose Fabric")}
-                          </button>
+                          <strong className="text-capitalize ">
+                            <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-5 border-radius-5 btn-shadow-brand hover-up">
+                              {t("Choose Fabric")}
+                            </button>
+                          </strong>
                         </Link>
                       </div>
 
@@ -573,8 +573,8 @@ const ProductDetails = ({
 
                 {quickView ? null : (
                   <>
-                    <div style={{ marginTop: "-50px" }}>
-                      {/* <ProductTab prodcut={product} /> */}
+                    <div>
+                      <ProductTab prodcut={product} />
                     </div>
                     <div className="row mt-40">
                       <div className="col-12">

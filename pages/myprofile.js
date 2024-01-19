@@ -541,15 +541,16 @@ function Account() {
                                       <tr>
                                         {/* <th>{t("Product Image")}</th> */}
                                         <th>{t("Order Id")}</th>
-                                        <th>{t("Date")}</th>
+                                        <th>{t("Order Date")}</th>
                                         {/* <th>{t("Total Item")}</th>
                                         <th>{t("Total Quantity")}</th>
                                         <th>{t("Total Amount")}</th>
                                         <th>{t("Coupon Discount")}</th>
                                         <th>{t("Coupon Code")}</th>
                                         <th>{t("Coupon Discounted Amount")}</th> */}
-                                        <th>{t("Payable Amount")}</th>
+                                        <th>{t("Paid Amount")}</th>
 
+                                        <th>{t("Payment Status")}</th>
                                         <th>{t("Order Status")}</th>
                                         <th>{t("Actions")}</th>
                                       </tr>
@@ -585,7 +586,7 @@ function Account() {
                                             </td>
                                             <td
                                               className="text-right"
-                                              data-title={t("Date")}
+                                              data-title={t("Order Date")}
                                             >
                                               {moment(item?.createdAt).format(
                                                 "hh:mm A DD MMM YYYY"
@@ -636,7 +637,7 @@ function Account() {
                                             </td> */}
                                             <td
                                               className="text-right"
-                                              data-title={t("Final Amount")}
+                                              data-title={t("Paid Amount")}
                                             >
                                               {item?.finalAmount
                                                 ? item?.finalAmount
@@ -645,7 +646,7 @@ function Account() {
 
                                             <td
                                               className="text-right"
-                                              data-title={t("Order Status")}
+                                              data-title={t("Payment Status")}
                                             >
                                               {item?.paymentLogs[0]?.paymentResponse?.status
                                                 ?.charAt(0)
@@ -654,6 +655,8 @@ function Account() {
                                                   1
                                                 )}
                                             </td>
+                                          
+                                            <td     className="text-right"     data-title={t("Order Status")}>  {item.orderStatus}</td>
                                             <td
                                               className="text-right"
                                               data-title={t("Actions")}
@@ -770,8 +773,8 @@ function Account() {
                             ) : (
                               alladdress?.map((user, index) => {
                                 return (
-                                  <div className="col-lg-6 mb-4" >
-                                    <div className="card mb-3 mb-lg-0 " >
+                                  <div className="col-lg-6 mb-4">
+                                    <div className="card mb-3 mb-lg-0 ">
                                       <div className="card-header d-flex justify-content-between ">
                                         <h5 className="mb-0">
                                           {t("Billing Address")}
