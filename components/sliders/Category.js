@@ -42,7 +42,7 @@ const CategorySlider = () => {
           },
           1024: {
             // width: 768,
-            slidesPerView: 6,
+            slidesPerView: 3,
             spaceBetween: 20,
           },
         }}
@@ -79,7 +79,7 @@ const CategorySlider = () => {
                         alt=""
                         crossOrigin="anonymous"
                         style={{
-                          width: "200px",
+                          width: "400px",
                           height: "150px",
                           objectFit: "cover",
                         }}

@@ -20,8 +20,9 @@ function OrderViewDetails({ data }) {
   const [orderDetailsData, setOrderDetailsData] = useState([]);
   const orderId = Router.query.orderId;
   const imageUrl = nextConfig.BASE_URL_UPLOADS;
+  const [activeIndex, setActiveIndex] = useState(2);
+  const [breadCrumb, setBreadCrumb] = useState(t("Dashboard"));
   const [address, setaddress] = useState([]);
-  const [OrderStatusUrl, setOrderStatusUrl] = useState("");
   const [OrderIntUrl, setOrderIntUrl] = useState("");
   const orderDetials = async (id) => {
     try {
@@ -39,211 +40,266 @@ function OrderViewDetails({ data }) {
 
   useEffect(() => {
     orderDetials();
-    const orderStatus = new URLSearchParams(window.location.search);
-    setOrderStatusUrl(orderStatus.get("orderStatus"));
+
     const orderIntial = new URLSearchParams(window.location.search);
     setOrderIntUrl(orderIntial.get("orderIntial"));
   }, []);
-console.log(OrderIntUrl)
+
   return (
     <Layout
       parent={t("Home")}
       sub={<Link href="/myprofile/?index=2">{t("Pages")}</Link>}
       subChild={t("View Order Details")}
     >
-      {/* <div className="mt-3 ">
-        <div className="card mb-3 mb-lg-0">
-          <div className="card-header d-flex justify-content-between">
-            <h5 className="mb-0 ml-20 mr-20">{t("Billing Address")}</h5>
-          </div>
-          <address className="ml-40 mb-0">
-            <b>Address</b>&nbsp;:&nbsp;
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              
-              {address?.address}
-            </span>
-            <br />
-            <b>City</b>&nbsp;:&nbsp;
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              {address?.city}
-            </span>
-            <br />
-            <b>House No</b>&nbsp;:&nbsp;
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              {address?.houseNo}
-            </span>
-            <br />
-            <b>Phone Number</b>&nbsp;:&nbsp;
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              {address?.phoneNumber}
-            </span>
-            <br />
-            <b>Pin Code</b>&nbsp;:&nbsp;
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              {address?.pinCode}
-            </span>
-            <br />
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              <b>State</b>&nbsp;:&nbsp;
-              {address?.state}
-            </span>
-            <br />
-            <span
-              style={{
-                whiteSpace: "pre-wrap", // This property allows for line breaks
-                wordWrap: "break-word", // This property allows for breaking words when needed
-                overflowWrap: "break-word", // An alternative way to allow word breaking
-                maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-              }}
-            >
-              {}
-            </span>
-          </address>
-        </div>
-      </div> */}
-
-      <section className="mt-50 mb-50">
-        <div className="col-lg-6"></div>
-        <div className="container ">
+      <section className="pt-20 pb-50">
+        <div className="container">
           <div className="row">
-            <div className="col-15 ">
-              <div className="table-responsive ">
-                <table
-                  className={
-                    orderDetailsData?.length > 0
-                      ? "table shopping-summery text-center clean"
-                      : "d-none"
-                  }
-                >
-                  <thead>
-                    <tr className="main-heading ">
-                      <th scope="col">{t("Image")}</th>
-                      <th scope="col">{t("Product Name")}</th>
-                      <th scope="col">{t("MRP")}</th>
-                      <th scope="col">{t("Discount Percentage")}</th>
-                      <th scope="col">{t("Final Amount")}</th>
-                      <th scope="col">{t("Fabric Name")}</th>
-                      {/* <th scope="col">{("Tags")}</th> */}
+            <div className="col-lg-12 m-auto">
+              <div className="row">
+                <div className="col-md-2">
+                  <div className="dashboard-menu">
+                    <ul className="nav flex-column" role="tablist">
+                      <li
+                        className="nav-item"
+                        onClick={() => {
+                          setBreadCrumb("Dashboard");
+                          Router.push("/myprofile/?index=1");
+                        }}
+                      >
+                        <a
+                          className={
+                            activeIndex === 1 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i className="fi-rs-settings-sliders mr-10"></i>
+                          {t("Dashboard")}
+                        </a>
+                      </li>
+                      <li
+                        className="nav-item"
+                        onClick={() => {
+                          setBreadCrumb("Orders");
+                          handleOnClick(2);
+                        }}
+                      >
+                        <a
+                          className={
+                            activeIndex === 2 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i className="fi-rs-shopping-bag mr-10"></i>
+                          {t("Orders")}
+                        </a>
+                      </li>
+                      <li
+                        className="nav-item"
+                        onClick={() => Router.push("/shop-wishlist")}
+                      >
+                        <a
+                          className={
+                            activeIndex === 3 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i className="fi-rs-heart"></i>
+                          &nbsp; {t("Wishlist")}
+                        </a>
+                      </li>
+                      <li
+                        className="nav-item"
+                        onClick={() => {
+                          setBreadCrumb("My Address");
+                          Router.push("/myprofile/?index=4");
+                        }}
+                      >
+                        <a
+                          className={
+                            activeIndex === 4 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i className="fi-rs-marker mr-10"></i>
+                          {t("My Address")}
+                        </a>
+                      </li>
+                      <li
+                        className="nav-item"
+                        onClick={() => {
+                          // handleaddaddress();
+                          // handleOnClick(8);
+                          // setActiveIndex(8);
+                          Router.push("/myprofile/?Address=1");
+                        }}
+                      >
+                        <a
+                          className={
+                            activeIndex === 8 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i class="fa fa-plus fs-6 me-2"></i>
+                          {t("Add Address")}
+                        </a>
+                      </li>
+                      <li
+                        className="nav-item"
+                        onClick={() => {
+                          // setBreadCrumb(" Account details");
+                          // handleOnClick(5);
 
-                      <th scope="col">{t("Order Date")}</th>
-                      <th scope="col">{t("Selected Color")}</th>
-                      <th scope="col">{t("Selected Size")}</th>
-                      <th scope="col">{t("Selected Quantity")}</th>
-                      <th scope="col">{t("Tracking Id & Link")}</th>
+                          Router.push("/myprofile/?index=5");
+                        }}
+                      >
+                        <a
+                          className={
+                            activeIndex === 5 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i className="fi-rs-user mr-10"></i>
+                          {t("Account details")}
+                        </a>
+                      </li>
+                      <li
+                        style={{ whiteSpace: "nowrap" }}
+                        className="nav-item"
+                        onClick={() => {
+                          // setBreadCrumb(" Change password");
+                          // handleOnClick(6);
+                          Router.push("/myprofile/?index=6");
+                        }}
+                      >
+                        <a
+                          className={
+                            activeIndex === 6 ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          <i class="fa fa-key mr-10"></i>
+                          {t("Change password")}
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <Link href="/login">
+                          <a
+                            className="nav-link"
+                            onClick={() => {
+                              localStorage.removeItem("access_token");
+                              localStorage.removeItem("userId");
+                              localStorage.setItem("wishListItemsCount", 0);
+                              localStorage.setItem("cartItemsCount", 0);
+                            }}
+                          >
+                            <i className="fi-rs-sign-out mr-10"></i>
+                            {t("SingOut")}
+                          </a>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-md-10">
+                  <div className="table-responsive ">
+                    <table
+                      className={
+                        orderDetailsData?.length > 0
+                          ? "table shopping-summery text-center clean"
+                          : "d-none"
+                      }
+                    >
+                      <thead>
+                        <tr className="main-heading ">
+                          <th scope="col">{t("Image")}</th>
+                          <th scope="col">{t("Product Name")}</th>
+                          <th scope="col">{t("MRP")}</th>
+                          <th scope="col">{t("Discount Percentage")}</th>
+                          <th scope="col">{t("Final Amount")}</th>
+                          <th scope="col">{t("Fabric Name")}</th>
+                          {/* <th scope="col">{("Tags")}</th> */}
 
-                      {OrderStatusUrl != "Payment Failed" &&  OrderIntUrl !="Intially Payment" && (
-                        <th scope="col">{t("Add Review")}</th>
-                      )}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orderDetailsData &&
-                      orderDetailsData?.length > 0 &&
-                      orderDetailsData.map((product, j) => {
-                        const dataOfMargin = product?.detail;
-                        // const marginBefore = dataOfMargin?.totalPrice -(dataOfMargin?.basePrice * dataOfMargin?.length)
-                        // const marginAfter = dataOfMargin?.finalAmount -(dataOfMargin?.basePrice * dataOfMargin?.length)
-                        //  const margin = (marginBefore - marginAfter)
-                        //  const discountper = (margin/dataOfMargin?.totalPrice*100)
+                          <th scope="col">{t("Order Date")}</th>
+                          <th scope="col">{t("Selected Color")}</th>
+                          <th scope="col">{t("Selected Size")}</th>
+                          <th scope="col">{t("Selected Quantity")}</th>
+                          <th scope="col">{t("Tracking Id & Link")}</th>
 
-                        const basePrice =
-                          dataOfMargin?.basePrice * dataOfMargin?.length +
-                          dataOfMargin?.marginAmount;
-                        const percentOfmargin =
-                          (100 - dataOfMargin.discountPercentage) / 100;
-                        const MRP = basePrice / percentOfmargin;
-                        console.log(product)
-                        return (
-                          <>
-                            <tr>
-                              <td className="image product-thumbnail">
-                                <img
-                                  src={
-                                    imageUrl + product?.detail?.featuredImage
-                                  }
-                                  alt=""
-                                  crossOrigin="anonymous"
-                                />
-                              </td>
+                          {OrderIntUrl == "Intially Payment" ||
+                          OrderIntUrl == "failed" ? (
+                            <></>
+                          ) : (
+                            <th scope="col">{t("Add Review")}</th>
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {orderDetailsData &&
+                          orderDetailsData?.length > 0 &&
+                          orderDetailsData.map((product, j) => {
+                            const dataOfMargin = product?.detail;
+                            // const marginBefore = dataOfMargin?.totalPrice -(dataOfMargin?.basePrice * dataOfMargin?.length)
+                            // const marginAfter = dataOfMargin?.finalAmount -(dataOfMargin?.basePrice * dataOfMargin?.length)
+                            //  const margin = (marginBefore - marginAfter)
+                            //  const discountper = (margin/dataOfMargin?.totalPrice*100)
 
-                              <td
-                                className="product-des product-name"
-                                data-title={t("Product Name")}
-                              >
-                                <Link
-                                  href={`/products/details?${product?.detail?.slug}`}
-                                  as={`/products/details?${product?.detail?.slug}`}
-                                >
-                                  <a>
-                                    <span>{product?.detail?.productName}</span>
-                                  </a>
-                                </Link>
-                              </td>
+                            const basePrice =
+                              dataOfMargin?.basePrice * dataOfMargin?.length +
+                              dataOfMargin?.marginAmount;
+                            const percentOfmargin =
+                              (100 - dataOfMargin.discountPercentage) / 100;
+                            const MRP = basePrice / percentOfmargin;
+                            console.log(product);
+                            return (
+                              <>
+                                <tr>
+                                  <td className="image product-thumbnail">
+                                    <img
+                                      src={
+                                        imageUrl +
+                                        product?.detail?.featuredImage
+                                      }
+                                      alt=""
+                                      crossOrigin="anonymous"
+                                    />
+                                  </td>
 
-                              <td className="text-right" data-title={t("MRP")}>
-                                <span>{MRP.toFixed(2)}</span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Discount Percentage")}
-                              >
-                                <span>{dataOfMargin?.discountPercentage}%</span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Final Amount")}
-                              >
-                                <span>{product?.detail?.finalAmount}</span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Fabric Name")}
-                              >
-                                <span>{product?.detail?.fabric}</span>
-                              </td>
-                              {/* <td
+                                  <td
+                                    className="product-des product-name"
+                                    data-title={t("Product Name")}
+                                  >
+                                    <Link
+                                      href={`/products/details?${product?.detail?.slug}`}
+                                      as={`/products/details?${product?.detail?.slug}`}
+                                    >
+                                      <a>
+                                        <span>
+                                          {product?.detail?.productName}
+                                        </span>
+                                      </a>
+                                    </Link>
+                                  </td>
+
+                                  <td
+                                    className="text-right"
+                                    data-title={t("MRP")}
+                                  >
+                                    <span>{MRP.toFixed(2)}</span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Discount Percentage")}
+                                  >
+                                    <span>
+                                      {dataOfMargin?.discountPercentage}%
+                                    </span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Final Amount")}
+                                  >
+                                    <span>{product?.detail?.finalAmount}</span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Fabric Name")}
+                                  >
+                                    <span>{product?.detail?.fabric}</span>
+                                  </td>
+                                  {/* <td
                                 className="text-right d-none d-sm-table-cell"
                                 data-title="Product Type"
                               >
@@ -263,189 +319,186 @@ console.log(OrderIntUrl)
                                 </span>
                               </td> */}
 
-                              <td
-                                className="text-right"
-                                data-title={t("Order Date")}
-                              >
-                                <span>
-                                  {moment(product?.updatedAt).format(
-                                    "DD MMM YYYY"
-                                  )}
-                                </span>
-                              </td>
-
-                              <td
-                                className="text-right"
-                                data-title={t("Selected Color")}
-                              >
-                                <span
-                                  className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
-                                  style={{
-                                    border: "1px solid black",
-                                    width: "22px",
-                                    height: "22px",
-                                    backgroundColor:
-                                      product?.detail?.selectedColor,
-                                  }}
-                                ></span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Selected Size")}
-                              >
-                                <span>{product?.detail?.selectedSize}</span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Selected Quantity")}
-                              >
-                                <span>{product?.detail?.selectedQuantity}</span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Tracking Id & Link")}
-                              >
-                                <span>
-                                  {product?.Product?.trackingId} <br />
-                                  {product?.Product?.trackingLink}
-                                </span>
-                              </td>
-                              <td
-                                className="text-right"
-                                data-title={t("Add Review")}
-                              >
-
-
-                                {
-                                  console.log(OrderStatusUrl)
-                                }
-                                {OrderStatusUrl != "Payment Failed" || OrderIntUrl !="Intially Payment"  ? (
-                                  !product?.Rating ? (
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Order Date")}
+                                  >
                                     <span>
-                                      <Link
-                                        href={`/ReviewRetting?orderID=${orderId}&product=${product?.Product?.id}&OrderdetailsId=${product?.id}`}
-                                      >
-                                        <a>{t("Review")}</a>
-                                      </Link>
+                                      {moment(product?.updatedAt).format(
+                                        "DD MMM YYYY"
+                                      )}
                                     </span>
-                                  ) : (
-                                    <div>{t("Reviewed")}</div>
-                                  )
-                                ) : (
-                                  ""
-                                )}
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                                  </td>
 
-                <div className="mt-3 ">
-                  <div className="card mb-3 mb-lg-0">
-                    <div className="card-header d-flex justify-content-between">
-                      <h5 className="mb-0 ml-20 mr-20">
-                        {t("Billing Address")}
-                      </h5>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Selected Color")}
+                                  >
+                                    <span
+                                      className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                      style={{
+                                        border: "1px solid black",
+                                        width: "22px",
+                                        height: "22px",
+                                        backgroundColor:
+                                          product?.detail?.selectedColor,
+                                      }}
+                                    ></span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Selected Size")}
+                                  >
+                                    <span>{product?.detail?.selectedSize}</span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Selected Quantity")}
+                                  >
+                                    <span>
+                                      {product?.detail?.selectedQuantity}
+                                    </span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Tracking Id & Link")}
+                                  >
+                                    <span>
+                                      {product?.Product?.trackingId} <br />
+                                      {product?.Product?.trackingLink}
+                                    </span>
+                                  </td>
+                                  <td
+                                    className="text-right"
+                                    data-title={t("Add Review")}
+                                  >
+                                    {OrderIntUrl == "Intially Payment" ||
+                                    OrderIntUrl == "failed" ? (
+                                      ""
+                                    ) : !product?.Rating ? (
+                                      <span>
+                                        <Link
+                                          href={`/ReviewRetting?orderID=${orderId}&product=${product?.Product?.id}&OrderdetailsId=${product?.id}`}
+                                        >
+                                          <a>{t("Review")}</a>
+                                        </Link>
+                                      </span>
+                                    ) : (
+                                      <div>{t("Reviewed")}</div>
+                                    )}
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="mt-3 ">
+                    <div className="card mb-3 mb-lg-0">
+                      <div className="card-header d-flex justify-content-between">
+                        <h5 className="mb-0 ml-20 mr-20">
+                          {t("Billing Address")}
+                        </h5>
+                      </div>
+                      <address className="ml-40 mb-0">
+                        <br />
+                        <b>{t("Name")}</b>&nbsp;:&nbsp;
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {address?.fullName}
+                        </span>
+                        <br />
+                        <b>{t("Addres")}</b>&nbsp;:&nbsp;
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {address?.address}
+                        </span>
+                        <br />
+                        <b>{t("City")}</b>&nbsp;:&nbsp;
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {address?.city}
+                        </span>
+                        <br />
+                        <b>{t("House No.")}</b>&nbsp;:&nbsp;
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {address?.houseNo}
+                        </span>
+                        <br />
+                        <b>{t("Phone Number")}</b>&nbsp;:&nbsp;
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {address?.phoneNumber}
+                        </span>
+                        <br />
+                        <b>{t("Pin Code")}</b>&nbsp;:&nbsp;
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {address?.pinCode}
+                        </span>
+                        <br />
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          <b>{t("State")}</b>&nbsp;:&nbsp;
+                          {address?.state}
+                        </span>
+                        <br />
+                        <span
+                          style={{
+                            whiteSpace: "pre-wrap", // This property allows for line breaks
+                            wordWrap: "break-word", // This property allows for breaking words when needed
+                            overflowWrap: "break-word", // An alternative way to allow word breaking
+                            maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
+                          }}
+                        >
+                          {}
+                        </span>
+                      </address>
                     </div>
-                    <address className="ml-40 mb-0">
-                      <br />
-                      <b>{t("Name")}</b>&nbsp;:&nbsp;
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {address?.fullName}
-                      </span>
-                      <br />
-                      <b>{t("Addres")}</b>&nbsp;:&nbsp;
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {address?.address}
-                      </span>
-                      <br />
-                      <b>{t("City")}</b>&nbsp;:&nbsp;
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {address?.city}
-                      </span>
-                      <br />
-                      <b>{t("House No.")}</b>&nbsp;:&nbsp;
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {address?.houseNo}
-                      </span>
-                      <br />
-                      <b>{t("Phone Number")}</b>&nbsp;:&nbsp;
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {address?.phoneNumber}
-                      </span>
-                      <br />
-                      <b>{t("Pin Code")}</b>&nbsp;:&nbsp;
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {address?.pinCode}
-                      </span>
-                      <br />
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        <b>{t("State")}</b>&nbsp;:&nbsp;
-                        {address?.state}
-                      </span>
-                      <br />
-                      <span
-                        style={{
-                          whiteSpace: "pre-wrap", // This property allows for line breaks
-                          wordWrap: "break-word", // This property allows for breaking words when needed
-                          overflowWrap: "break-word", // An alternative way to allow word breaking
-                          maxWidth: "10ch", // Limit the text width to prevent excessive horizontal stretching
-                        }}
-                      >
-                        {}
-                      </span>
-                    </address>
                   </div>
                 </div>
               </div>

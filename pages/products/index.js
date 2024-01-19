@@ -32,7 +32,7 @@ const Products = ({ products1, productFilters }) => {
   const [selectedSubSubCategories, setSelectedSubSubCategories] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSizes] = useState([]);
-  const [price, setPrice] = useState({ value: { min: 0, max: 1000000 } });
+  const [price, setPrice] = useState({ value: { min: 0, max: 10000 } });
   const [active, setActive] = useState(0);
   const [toggle, setToggle] = useState(true);
   const [searchToggle, setSeachToggle] = useState(true);
@@ -67,7 +67,7 @@ const Products = ({ products1, productFilters }) => {
 
     setSelectedSubSubCategories([]);
     setSizes([]);
-    setPrice({ value: { min: 0, max: 1000000 } });
+    setPrice({ value: { min: 0, max: 10000 } });
     setProdcutType("");
 
     setSeachToggle(false);
@@ -78,7 +78,7 @@ const Products = ({ products1, productFilters }) => {
     setSortBaar(!SortBaar);
     prodcutFilters();
   };
-  const sizes = ["", "s", "m", "xl", "xxl", "xs", "l"];
+  const sizes = ["", "xs", "s", "m", "l", "xl", "xxl"];
 
   const handleClick = (i, target) => {
     setSeachToggle(false);
@@ -368,7 +368,7 @@ const Products = ({ products1, productFilters }) => {
                     selectedSizes.length > 0 ||
                     price.value.min > 0 ||
                     searchProduct ||
-                    price.value.max < 1000000) && (
+                    price.value.max < 10000) && (
                     <span
                       className="text-brand fw-bold"
                       onClick={() => clearAllFilter()}
@@ -556,7 +556,7 @@ const Products = ({ products1, productFilters }) => {
                             range
                             allowCross={false}
                             min={0}
-                            max={9000}
+                            max={10000}
                             onChange={(value) => {
                               setToggle(true);
                               setSeachToggle(false);
@@ -652,7 +652,9 @@ const Products = ({ products1, productFilters }) => {
                               }}
                               key={i}
                             >
-                              <a>{i == 0 ? "all" : `${tag}`}</a>
+                              <a style={{ marginTop: "8px" }}>
+                                {i == 0 ? "all" : `${tag}`}
+                              </a>
                             </li>
                           ))}
                         </ul>
@@ -664,41 +666,40 @@ const Products = ({ products1, productFilters }) => {
               }
               <div className="col-lg-9">
                 <div className="shop-product-fillter d-lg-block d-none">
-                 
                   <div className="sort-by-product-area justify-content-between align-items-center">
-                 <span>
-                  <div className="totall-product">
-                    <p>
-                      {t("We found")}
-                      <strong className="text-brand">
-                        {products?.length > 0 && <> {products?.length}</>}
-                      </strong>
-                      {t("items for you!")}
-                    </p>
-                  </div>
-                    <div>
-                      {selectedSubSubCategories.length > 0 ||
-                      productType ||
-                      selectedColors.length > 0 ||
-                      selectedSizes.length > 0 ||
-                      price.value.min > 0 ||
-                      categoryId?.length > 0 ||
-                      categoryName ||
-                      searchProduct ||
-                      price.value.max < 1000000 ? (
-                        <Link href="/products" as={`/products`}>
-                          <span
-                            className="text-brand fw-bold"
-                            onClick={() => clearAllFilter()}
-                            style={{ cursor: "pointer" }}
-                          >
-                            {t("Clear All Filter")}
-                          </span>
-                        </Link>
-                      ) : (
-                        ""
-                      )}
-                      {/* {categoryId.length > 0 || categoryName ? (
+                    <span>
+                      <div className="totall-product">
+                        <p>
+                          {t("We found")}
+                          <strong className="text-brand">
+                            {products?.length > 0 && <> {products?.length}</>}
+                          </strong>
+                          {t("items for you!")}
+                        </p>
+                      </div>
+                      <div>
+                        {selectedSubSubCategories.length > 0 ||
+                        productType ||
+                        selectedColors.length > 0 ||
+                        selectedSizes.length > 0 ||
+                        price.value.min > 0 ||
+                        categoryId?.length > 0 ||
+                        categoryName ||
+                        searchProduct ||
+                        price.value.max < 10000 ? (
+                          <Link href="/products" as={`/products`}>
+                            <span
+                              className="text-brand fw-bold"
+                              onClick={() => clearAllFilter()}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {t("Clear All Filter")}
+                            </span>
+                          </Link>
+                        ) : (
+                          ""
+                        )}
+                        {/* {categoryId.length > 0 || categoryName ? (
                         <Link href="/products" as={`/products`}>
                           <span
                             className="text-brand fw-bold"
@@ -711,7 +712,7 @@ const Products = ({ products1, productFilters }) => {
                       ) : (
                         ""
                       )} */}
-                    </div>
+                      </div>
                     </span>
                     <div className="sort-by-cover">
                       <div className="sort-by-product-wrap">

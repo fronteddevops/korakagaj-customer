@@ -181,7 +181,7 @@ const ProductDetails = ({
   const isLoggedIn = localStorage.getItem("access_token");
   return (
     <>
-      <section className="mt-50 mb-50">
+      <section className=" mb-50">
         <div className="container">
           <div className="row flex-row-reverse">
             <div className="col-lg-12">
@@ -252,19 +252,29 @@ const ProductDetails = ({
                   </div>
                   <div className="col-md-6 col-sm-12 col-xs-12">
                     <div className="detail-info">
-                      <h3 className="title-detail text-capitalize">
+                      <h3
+                        className="title-detail text-capitalize"
+                        style={{
+                          fontWeight: "normal",
+                          fontSize: "20px",
+                          // paddingBottom: "12px",
+                        }}
+                      >
                         {product.productName}
                       </h3>
-                      <div className="product-detail-rating" >
+                      <div
+                        className="product-detail-rating"
+                        style={{ padding: "0px" }}
+                      >
                         <div
                           className="pro-details-brand"
                           style={{ marginTop: "15px" }}
                         >
                           <span>
-                            {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
-                       
-                            {UpperCase}
-                           
+                            <b>
+                              {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
+                              {UpperCase}
+                            </b>
                           </span>
                         </div>
                         <div className="product-rate-cover text-end">
@@ -334,15 +344,17 @@ const ProductDetails = ({
                           </div>
                         </>
                       )}
-                 
+
                       <div className="short-desc mb-20">
                         <p className="text-capitalize">{product.description}</p>
                       </div>
                       <div className="product_sort_info font-xs mb-10">
                         <ul>
                           <li className="mb-10">
-                            {t("SKU")}&nbsp;:
-                            <a>&nbsp;{product.sku}</a>
+                            <b>
+                              {t("SKU")}&nbsp;:
+                              <a>&nbsp;{product.sku}</a>
+                            </b>
                           </li>
 
                           {isMobile ? (
@@ -355,27 +367,33 @@ const ProductDetails = ({
                                 textOverflow: "ellipsis",
                               }}
                             >
-                              {t("Tags")}&nbsp;:
-                              <a rel="tag" className="me-1">
-                                &nbsp;
-                                {product.tags}
-                              </a>
+                              <b>
+                                {t("Tags")}&nbsp;:
+                                <a rel="tag" className="me-1">
+                                  &nbsp;
+                                  {product.tags}
+                                </a>
+                              </b>
                             </li>
                           ) : (
                             <li className="mb-10">
-                              {t("Tags")}&nbsp;:
-                              <a rel="tag" className="me-1">
-                                &nbsp;
-                                {product.tags}
-                              </a>
+                              <b>
+                                {t("Tags")}&nbsp;:
+                                <a rel="tag" className="me-1">
+                                  &nbsp;
+                                  {product.tags}
+                                </a>
+                              </b>
                             </li>
                           )}
 
                           <li>
-                            {t("Availability")}&nbsp;:
-                            <span className="in-stock text-success ml-5">
-                              {product.currentStock} Items In Stock
-                            </span>
+                            <b>
+                              {t("Availability")}&nbsp;:
+                              <span className="in-stock text-success ml-5">
+                                {product.currentStock} Items In Stock
+                              </span>
+                            </b>
                           </li>
                         </ul>
                       </div>
@@ -403,14 +421,14 @@ const ProductDetails = ({
                       </div>
                       <div className="attr-detail attr-size">
                         <strong className="mr-10">{t("size")}</strong>
-                        <ul className="list-filter size-filter font-small">
+                        <ul className="list-filter size-filter font-small" >
                           {size.map((size, i) => (
                             <li
                               className={size == selectedSize ? "active" : ""}
                               key={i}
                               onClick={() => setSelectedSize(size)}
                             >
-                              <a>{size}</a>
+                              <a style={{marginTop:"8px"}}>{size}</a>
                             </li>
                           ))}
                         </ul>
@@ -462,8 +480,9 @@ const ProductDetails = ({
                           </a>
                         </div>
                       </div>
-                      <div className="attr-detail attr-size mt-20">
+                      <div className="attr-detail attr-size mt-20" style={{whiteSpace:"nowrap"}}>
                         <strong className="mr-10 text-capitalize ">
+
                           {t("Fabric")}&nbsp;:&nbsp;{" "}
                           <span className="text-brand">{product?.fabric}</span>
                         </strong>
@@ -479,7 +498,7 @@ const ProductDetails = ({
 
                       <div className="bt-1 border-color-1 mt-30 mb-30"></div>
                       <div className="detail-extralink">
-                        <div className="product-extra-link2">
+                        <div className="product-extra-link2" style={{whiteSpace:"nowrap"}}>
                           <button
                             onClick={(e) => handleCart(product)}
                             className="button button-add-to-cart me-2"
@@ -547,7 +566,7 @@ const ProductDetails = ({
 
                 {quickView ? null : (
                   <>
-                    <div style={{ marginTop: "-30px" }}>
+                    <div style={{ marginTop: "-50px" }}>
                       <ProductTab prodcut={product} />
                     </div>
                     <div className="row mt-40">

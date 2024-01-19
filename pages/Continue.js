@@ -72,6 +72,9 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
         setDisacountIDInst(response?.data?.data?.cartDetail?.discountId);
+        if (response?.data?.data?.cartDetail?.cartDetails?.length == 0) {
+          router.push("/");
+        }
         if (response) {
           setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
           calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
@@ -164,13 +167,6 @@ const Cart = ({}) => {
         if (updateCart) {
           const updateCartData = await services.cart.CHECKOUT();
           const userDetails = JSON.parse(localStorage.getItem("profile"));
-
-
-
-
-
-
-
 
           const data = {
             orderId: updateCartData?.data?.order?.id,
@@ -296,7 +292,6 @@ const Cart = ({}) => {
       return;
     }
     await handleCart(updateCart[0]);
-   
 
     // const updateCartData = await services.cart.CHECKOUT();
     // const userDetails = JSON.parse(localStorage.getItem("profile"));

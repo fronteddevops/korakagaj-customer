@@ -444,7 +444,15 @@ function Account() {
                           </a>
                         </li>
                         <li className="nav-item">
-                          <Link href="/login">
+                          <Link
+                            href="/login"
+                            onClick={() => {
+                              localStorage.removeItem("access_token");
+                              localStorage.removeItem("userId");
+                              localStorage.setItem("wishListItemsCount", 0);
+                              localStorage.setItem("cartItemsCount", 0);
+                            }}
+                          >
                             <a className="nav-link">
                               <i className="fi-rs-sign-out mr-10"></i>
                               {t("SingOut")}
@@ -474,7 +482,7 @@ function Account() {
                               </h5>
                             </div>
                             <div className="card-body">
-                              <p>
+                              {/* <p>
                                 {t(
                                   "From your account dashboard. you can easily check"
                                 )}{" "}
@@ -485,6 +493,11 @@ function Account() {
                                 <a>
                                   {t("edit your password and account details.")}
                                 </a>
+                              </p> */}
+                              <p>
+                                {t(
+                                  "Welcome to your Shopper Dashboard! Dive into the latest trends, curated just for you. Explore our fashion haven and elevate your style. Happy shopping!"
+                                )}
                               </p>
                             </div>
                           </div>
@@ -635,13 +648,19 @@ function Account() {
                                             <td
                                               className="text-right"
                                               data-title={t("Order Status")}
-                                            >{item?.paymentLogs[0]?.paymentResponse?.status}</td>
+                                            >
+                                              {
+                                                item?.paymentLogs[0]
+                                                  ?.paymentResponse?.status
+                                              }
+                                            </td>
                                             <td
                                               className="text-right"
                                               data-title={t("Actions")}
                                             >
+                                              {console.log(item)}
                                               <Link
-                                                href={`/OrderViewDetails?orderId=${item.id}&orderStatus=${item?.orderStatus}&orderIntial=${item?.paymentLogs[0]?.paymentResponse?.status}`}
+                                                href={`/OrderViewDetails?orderId=${item.id}&orderIntial=${item?.paymentLogs[0]?.paymentResponse?.status}`}
                                               >
                                                 <a>{t("View detail")}</a>
                                               </Link>
@@ -867,7 +886,7 @@ function Account() {
                                               handleeditaddress(user.id)
                                             }
                                           >
-                                            {t("Default Address")}
+                                            {t("Edit Default Address")}
                                           </span>
                                         </div>
                                       </div>

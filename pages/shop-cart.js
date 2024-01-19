@@ -810,12 +810,11 @@ const Cart = ({}) => {
                 <div className="row mb-50">
                   {updateCart &&
                     updateCart.length > 0 &&
-                    localStorage.getItem("access_token") && 
-                     (
+                    localStorage.getItem("access_token") && (
                       <div className="col-lg-6 col-md-12  border p-md-10 p-20 border-radius ">
                         {updateCart &&
                           updateCart.length > 0 &&
-                          localStorage.getItem("access_token") &&(
+                          localStorage.getItem("access_token") && (
                             <div className="heading_s1 mb-3">
                               <h4> {t("Select Address")}</h4>
                             </div>
@@ -856,7 +855,7 @@ const Cart = ({}) => {
                               {isLoggedIn && (
                                 <div className="form-group col-lg-12">
                                   {updateCart && updateCart.length > 0 && (
-                                    <Link href={"/myprofile?index=4"}>
+                                    <Link href={"/myprofile/?Address=1"}>
                                       <button className="btn  btn-sm w-100 d-block">
                                         <i className="fi-rs-shuffle mr-10"></i>
                                         {t("Add new address")}

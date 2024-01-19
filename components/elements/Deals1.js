@@ -142,7 +142,7 @@ const Deals1 = () => {
                   className="d-flex p-2"
                   style={{
                     deals1Style,
-                    marginTop: "10px",
+                    // marginTop: "10px",
                     marginBottom: "10px",
                     marginLeft: "-20px",
                   }}

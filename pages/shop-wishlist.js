@@ -216,7 +216,15 @@ const Wishlist = ({
                           </a>
                         </li>
                         <li className="nav-item">
-                          <Link href="/login">
+                          <Link
+                            href="/login"
+                            onClick={() => {
+                              localStorage.removeItem("access_token");
+                              localStorage.removeItem("userId");
+                              localStorage.setItem("wishListItemsCount", 0);
+                              localStorage.setItem("cartItemsCount", 0);
+                            }}
+                          >
                             <a className="nav-link">
                               <i className="fi-rs-sign-out mr-10"></i>
                               {t("SingOut")}
@@ -232,7 +240,7 @@ const Wishlist = ({
                         <div className="row product-grid-3">
                           {WishlistData?.map((item, i) => (
                             <div
-                              className="col-lg-3 col-md-3 col-6 col-sm-6"
+                              className="col-lg-4 col-md-3 col-6 col-sm-6"
                               key={i}
                             >
                               <SingleProduct
@@ -241,9 +249,7 @@ const Wishlist = ({
                                 isWishlisted={item.isWishlisted}
                                 source={"wishlist"}
                                 GetWishlistdata={GetWishlistdata}
-                                
                               />
-                              
                             </div>
                           ))}
                         </div>

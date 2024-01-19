@@ -64,7 +64,7 @@ export default function Home() {
       {/* <IntroPopup /> */}
 
       <Layout noBreadcrumb="d-none" headerStyle="header-style-1">
-        <section className="home-slider position-relative pt-50">
+        <section className="home-slider position-relative">
           <Intro1 />
         </section>
 
@@ -113,7 +113,7 @@ export default function Home() {
           </div>
         </section>
         {productType && productType?.length > 0 && (
-          <section className="section-padding">
+          <section>
             <div className="container wow fadeIn animated">
               <h3 className="section-title mb-20">
                 <span>{t("New")}</span> {t("Product")}
@@ -125,7 +125,7 @@ export default function Home() {
           </section>
         )}
         {productType && productType?.length > 0 && (
-          <section className="deals section-padding">
+          <section className="deals ">
             <div className="container">
               <div
                 className="row "
