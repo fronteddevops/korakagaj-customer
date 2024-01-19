@@ -80,7 +80,7 @@ const CategorySlider = () => {
                         crossOrigin="anonymous"
                         style={{
                           width: "400px",
-                          height: "150px",
+                          height: "300px",
                           objectFit: "cover",
                         }}
                       />

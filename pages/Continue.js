@@ -72,7 +72,8 @@ const Cart = ({}) => {
       try {
         const response = await services.cart.GET_CART();
         setDisacountIDInst(response?.data?.data?.cartDetail?.discountId);
-        if (response?.data?.data?.cartDetail?.cartDetails?.length == 0) {
+        console.log(response);
+        if (response?.data?.data?.cartDetail?.cartDetails?.length == 0  || response?.data?.data?.cartDetail == null) {
           router.push("/");
         }
         if (response) {
@@ -244,7 +245,7 @@ const Cart = ({}) => {
 
       toast.success("Cart updated!");
       localStorage.setItem("cartItemsCount", 0);
-      cardData();
+      // cardData();
     } else {
       const cart =
         localStorage.getItem("cartDetail") &&
@@ -278,7 +279,7 @@ const Cart = ({}) => {
 
       localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
       toast.success("Cart updated!");
-      cardData();
+      // cardData();
     }
   };
 
