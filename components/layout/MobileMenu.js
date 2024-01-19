@@ -478,7 +478,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                 {lastName && firstName && (
                   <>
                     <Link href="/login/" as={`/login/`}>
-                      <span
+                      <a
                         onClick={() => {
                           localStorage.removeItem("access_token");
                           localStorage.removeItem("userId");
@@ -487,7 +487,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
                         }}
                       >
                         {t("SingOut")}
-                      </span>
+                      </a>
                     </Link>
                   </>
                 )}

@@ -39,8 +39,6 @@ function Login() {
   };
   //handle login  email
   const handleLogin = async (event) => {
-    console.log("handleLogin");
-
     event?.preventDefault();
     let isValid = true;
     setEmailError("");
@@ -87,7 +85,7 @@ function Login() {
           toastSuccessLogin();
           setIsDisabled(false);
           setTimeout(() => {
-            route.push("/myprofile/?index=5");
+            // route.push("/myprofile/?index=5");
           }, 1000);
         }
       } catch (error) {
@@ -122,6 +120,7 @@ function Login() {
           cartDetailsLocal = cartLocal.cartDetails;
         }
         const cart = await services.cart.GET_CART();
+
         let cartDetails = [];
         if (cart?.data?.data?.cartDetail?.cartDetails) {
           cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
@@ -227,22 +226,23 @@ function Login() {
     };
     try {
       const response = await services.GoogleAuth.GoogleAuth(data);
-
       if (response) {
         localStorage.setItem("userId", response?.data?.user.id);
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
+
         if (response?.data?.tokens?.access?.token) {
           localStorage.setItem(
             "access_token",
             response.data.tokens.access.token
           );
         }
+        
         toastSuccess();
         setIsDisabled(false);
         await handleCart();
         await previous();
         setTimeout(() => {
-          route.push("/myprofile/?index=5");
+          // route.push("/myprofile/?index=5");
         }, 1000);
       } else {
         alert(response.data.guide);
@@ -258,6 +258,11 @@ function Login() {
         "cartItemsCount",
         cart?.data?.data?.cartDetail?.cartDetails?.length
       );
+      if (cart?.data?.data?.cartDetail?.cartDetails?.length > 0) {
+        route.push("/shop-cart");
+      } else {
+        route.push("/myprofile/?index=5");
+      }
     } catch (e) {
       console.error(e);
     }

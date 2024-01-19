@@ -26,6 +26,8 @@ const initialiseInterceptor = () => {
           // localStorage.clear();
           // localStorage.removeItem("cartDetail");
           localStorage.removeItem("access_token");
+          localStorage.setItem("cartItemsCount", 0);
+          localStorage.setItem("wishListItemsCount", 0);
           localStorage.removeItem("userId");
           return Promise.reject(error);
         } else {

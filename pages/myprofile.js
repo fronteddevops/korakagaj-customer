@@ -69,7 +69,6 @@ function Account() {
       handleOnClick(+index);
     }
   }, [index]);
-  console.log(route.query);
 
   useEffect(() => {
     if (route.query.Address) {
@@ -119,7 +118,6 @@ function Account() {
       try {
         const response = await services.orderDetails.GET_ORDER_DETAILS();
         setOrderDetailsData(response?.data?.data.rows);
-        console.log(response?.data?.data.rows);
       } catch (error) {
         console.log(error);
         toastError(error);
@@ -658,7 +656,6 @@ function Account() {
                                               className="text-right"
                                               data-title={t("Actions")}
                                             >
-                                              {console.log(item)}
                                               <Link
                                                 href={`/OrderViewDetails?orderId=${item.id}&orderIntial=${item?.paymentLogs[0]?.paymentResponse?.status}`}
                                               >
