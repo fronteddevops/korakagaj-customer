@@ -1,0 +1,200 @@
+[
+    {
+        "id": 3,
+        "subSubCategoryName": "Corporates",
+        "subCategoryId": 1,
+        "image": null,
+        "isActive": true,
+        "status": true,
+        "createdAt": "2024-01-04T13:36:06.000Z",
+        "updatedAt": "2024-01-05T09:27:33.000Z",
+        "SubCategory": {
+            "id": 1,
+            "subCategoryName": "T-Shirt",
+            "categoryId": 1,
+            "image": null,
+            "isActive": true,
+            "status": true,
+            "createdAt": "2024-01-02T12:10:39.000Z",
+            "updatedAt": "2024-01-04T13:38:26.000Z",
+            "Category": {
+                "id": 1,
+                "categoryName": "Men",
+                "popularCategory": true,
+                "image": "1704197363170-afccc1b1-8cd5-4e9f-b2a7-535c4eaa0849-Spade_01_Front.jpeg",
+                "isActive": true,
+                "status": true,
+                "isFeatured": true,
+                "isSequence": 1,
+                "icon": "1704197412609-c1ed9d7f-aacc-4c00-8967-7d2ac098efb2-download (5).png",
+                "createdAt": "2024-01-02T12:10:14.000Z",
+                "updatedAt": "2024-01-19T12:29:55.000Z"
+            }
+        }
+    },
+    {
+        "id": 4,
+        "subSubCategoryName": "Youth",
+        "subCategoryId": 1,
+        "image": null,
+        "isActive": true,
+        "status": true,
+        "createdAt": "2024-01-04T13:36:24.000Z",
+        "updatedAt": "2024-01-05T09:27:33.000Z",
+        "SubCategory": {
+            "id": 1,
+            "subCategoryName": "T-Shirt",
+            "categoryId": 1,
+            "image": null,
+            "isActive": true,
+            "status": true,
+            "createdAt": "2024-01-02T12:10:39.000Z",
+            "updatedAt": "2024-01-04T13:38:26.000Z",
+            "Category": {
+                "id": 1,
+                "categoryName": "Men",
+                "popularCategory": true,
+                "image": "1704197363170-afccc1b1-8cd5-4e9f-b2a7-535c4eaa0849-Spade_01_Front.jpeg",
+                "isActive": true,
+                "status": true,
+                "isFeatured": true,
+                "isSequence": 1,
+                "icon": "1704197412609-c1ed9d7f-aacc-4c00-8967-7d2ac098efb2-download (5).png",
+                "createdAt": "2024-01-02T12:10:14.000Z",
+                "updatedAt": "2024-01-19T12:29:55.000Z"
+            }
+        }
+    },
+    {
+        "id": 1,
+        "subSubCategoryName": "Sports",
+        "subCategoryId": 1,
+        "image": null,
+        "isActive": true,
+        "status": true,
+        "createdAt": "2024-01-02T12:11:01.000Z",
+        "updatedAt": "2024-01-05T09:27:32.000Z",
+        "SubCategory": {
+            "id": 1,
+            "subCategoryName": "T-Shirt",
+            "categoryId": 1,
+            "image": null,
+            "isActive": true,
+            "status": true,
+            "createdAt": "2024-01-02T12:10:39.000Z",
+            "updatedAt": "2024-01-04T13:38:26.000Z",
+            "Category": {
+                "id": 1,
+                "categoryName": "Men",
+                "popularCategory": true,
+                "image": "1704197363170-afccc1b1-8cd5-4e9f-b2a7-535c4eaa0849-Spade_01_Front.jpeg",
+                "isActive": true,
+                "status": true,
+                "isFeatured": true,
+                "isSequence": 1,
+                "icon": "1704197412609-c1ed9d7f-aacc-4c00-8967-7d2ac098efb2-download (5).png",
+                "createdAt": "2024-01-02T12:10:14.000Z",
+                "updatedAt": "2024-01-19T12:29:55.000Z"
+            }
+        }
+    },
+    {
+        "id": 2,
+        "subSubCategoryName": "School",
+        "subCategoryId": 1,
+        "image": null,
+        "isActive": true,
+        "status": true,
+        "createdAt": "2024-01-04T13:35:24.000Z",
+        "updatedAt": "2024-01-05T09:27:31.000Z",
+        "SubCategory": {
+            "id": 1,
+            "subCategoryName": "T-Shirt",
+            "categoryId": 1,
+            "image": null,
+            "isActive": true,
+            "status": true,
+            "createdAt": "2024-01-02T12:10:39.000Z",
+            "updatedAt": "2024-01-04T13:38:26.000Z",
+            "Category": {
+                "id": 1,
+                "categoryName": "Men",
+                "popularCategory": true,
+                "image": "1704197363170-afccc1b1-8cd5-4e9f-b2a7-535c4eaa0849-Spade_01_Front.jpeg",
+                "isActive": true,
+                "status": true,
+                "isFeatured": true,
+                "isSequence": 1,
+                "icon": "1704197412609-c1ed9d7f-aacc-4c00-8967-7d2ac098efb2-download (5).png",
+                "createdAt": "2024-01-02T12:10:14.000Z",
+                "updatedAt": "2024-01-19T12:29:55.000Z"
+            }
+        }
+    },
+    {
+        "id": 5,
+        "subSubCategoryName": "Roud neck",
+        "subCategoryId": 2,
+        "image": null,
+        "isActive": true,
+        "status": true,
+        "createdAt": "2024-01-12T17:20:44.000Z",
+        "updatedAt": "2024-01-12T17:20:44.000Z",
+        "SubCategory": {
+            "id": 2,
+            "subCategoryName": "T shirt",
+            "categoryId": 2,
+            "image": null,
+            "isActive": true,
+            "status": true,
+            "createdAt": "2024-01-12T17:20:26.000Z",
+            "updatedAt": "2024-01-15T06:25:50.000Z",
+            "Category": {
+                "id": 2,
+                "categoryName": "Women",
+                "popularCategory": true,
+                "image": "1705079981199-e8c99196-83c5-4ea4-97b9-40616a1a5e52-11exch.png",
+                "isActive": true,
+                "status": true,
+                "isFeatured": true,
+                "isSequence": 1,
+                "icon": "1705079991150-19df0038-69eb-410d-bd60-1263320c2c33-10473321.png",
+                "createdAt": "2024-01-12T17:19:52.000Z",
+                "updatedAt": "2024-01-19T12:29:56.000Z"
+            }
+        }
+    },
+    {
+        "id": 6,
+        "subSubCategoryName": "Round Neck",
+        "subCategoryId": 3,
+        "image": null,
+        "isActive": true,
+        "status": true,
+        "createdAt": "2024-01-17T10:56:30.000Z",
+        "updatedAt": "2024-01-17T10:56:30.000Z",
+        "SubCategory": {
+            "id": 3,
+            "subCategoryName": "T-Shirt",
+            "categoryId": 3,
+            "image": null,
+            "isActive": true,
+            "status": true,
+            "createdAt": "2024-01-17T10:55:54.000Z",
+            "updatedAt": "2024-01-17T10:55:54.000Z",
+            "Category": {
+                "id": 3,
+                "categoryName": "Kids",
+                "popularCategory": true,
+                "image": "1705407347385-d4110d76-3dfb-4de5-bc6d-7520a17d76b9-Product_1b.png",
+                "isActive": true,
+                "status": true,
+                "isFeatured": true,
+                "isSequence": 1,
+                "icon": "1705407449633-ee3ff08b-33bf-4d28-bae7-2880e36a6544-images.png",
+                "createdAt": "2024-01-16T12:17:31.000Z",
+                "updatedAt": "2024-01-19T12:29:57.000Z"
+            }
+        }
+    }
+]

@@ -8,13 +8,13 @@ import SingleProduct from "../../components/ecommerce/SingleProduct";
 import SortSelect from "../../components/ecommerce/SortSelect";
 import WishlistModal from "../../components/ecommerce/WishlistModal";
 import Layout from "../../components/layout/Layout";
-import { fetchProduct } from "../../redux/action/product";
 import ShopFilter from "./../../components/ecommerce/Filter";
+import { useTranslation } from "react-i18next";
 
-const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
+const ProductsFullWidth = ({ products, productFilters }) => {
 
     let Router = useRouter(),
-        searchTerm = Router.query.search,
+     
         showLimit = 12,
         showPagination = 4;
 
@@ -22,9 +22,9 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
     let [limit, setLimit] = useState(showLimit);
     let [pages, setPages] = useState(Math.ceil(products.items.length / limit));
     let [currentPage, setCurrentPage] = useState(1);
-
+    const { t, i18n } = useTranslation("common");
+    
     useEffect(() => {
-        fetchProduct(searchTerm, "/static/product.json", productFilters);
         cratePagination();
     }, [productFilters, limit, pages, products.items.length]);
 
@@ -65,7 +65,7 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
     };
     return (
         <>
-            <Layout parent="Home" sub="Shop" subChild="Filter">
+            <Layout parent={t("Home")} sub={t("Shop")} subChild={("Filter")}>
                 <section className="mt-50 mb-50">
                     <div className="container">
                         <div className="row">
@@ -76,11 +76,11 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
                                 <div className="shop-product-fillter">
                                     <div className="totall-product">
                                         <p>
-                                            We found
+                                            {t("We found")}
                                             <strong className="text-brand">
                                                 {products.items.length}
                                             </strong>
-                                            items for you!
+                                            {t("items for you!")}
                                         </p>
                                     </div>
                                     <div className="sort-by-product-area">
@@ -97,7 +97,7 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
                                 </div>
                                 <div className="row product-grid-3">
                                     {getPaginatedProducts.length === 0 && (
-                                        <h3>No Products Found </h3>
+                                        <h3>{t("No Products Found")} </h3>
                                     )}
 
                                     {getPaginatedProducts.map((item, i) => (
@@ -106,7 +106,7 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
                                             key={i}
                                         >
                                             <SingleProduct product={item} />
-                                            {/* <SingleProductList product={item}/> */}
+                                          
                                         </div>
                                     ))}
                                 </div>
@@ -130,8 +130,6 @@ const ProductsFullWidth = ({ products, productFilters, fetchProduct }) => {
                     </div>
                 </section>
                 <WishlistModal />
-                {/* <CompareModal /> */}
-                {/* <CartSidebar /> */}
                 <QuickView />                
             </Layout>
         </>
@@ -144,9 +142,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDidpatchToProps = {
-    // openCart,
-    fetchProduct,
-    // fetchMoreProduct,
+
 };
 
 export default connect(mapStateToProps, mapDidpatchToProps)(ProductsFullWidth);

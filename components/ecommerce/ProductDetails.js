@@ -2,399 +2,526 @@ import Link from "next/link";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import ReactStars from "react-rating-stars-component";
 import {
-    addToCart,
-    decreaseQuantity,
-    increaseQuantity
+  addToCart,
+  decreaseQuantity,
+  increaseQuantity,
 } from "../../redux/action/cart";
 import { addToCompare } from "../../redux/action/compareAction";
 import { addToWishlist } from "../../redux/action/wishlistAction";
 import ProductTab from "../elements/ProductTab";
 import RelatedSlider from "../sliders/Related";
 import ThumbSlider from "../sliders/Thumb";
-
+import services from "../../services";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import SizeChart from "../elements/SizeChart";
 const ProductDetails = ({
-    product,
-    cartItems,
-    addToCompare,
-    addToCart,
-    addToWishlist,
-    increaseQuantity,
-    decreaseQuantity,
-    quickView,
+  product,
+  cartItems,
+  addToCompare,
+  addToCart,
+  addToWishlist,
+  increaseQuantity,
+  decreaseQuantity,
+  quickView,
+  fabricPrice,
+  fabricName,
+  fabricId,
+  totalPrice,
+  source,
+  GetWishlistdata
 }) => {
-    const [quantity, setQuantity] = useState(1);
+  const { t } = useTranslation("common");
+  const [quantity, setQuantity] = useState(1);
+  const [fabricType, setfabricType] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [showSizeChart, setShowSizeChart] = useState(false);
 
-    const handleCart = (product) => {
-        addToCart(product);
-        toast.success("Add to Cart !");
-    };
+  useEffect(() => {
+    if (totalPrice) {
+      let fabriccost = +fabricPrice * product?.length;
 
-    const handleCompare = (product) => {
-        addToCompare(product);
-        toast.success("Add to Compare !");
-    };
+      let finalprice = fabriccost + product?.marginAmount;
 
-    const handleWishlist = (product) => {
-        addToWishlist(product);
-        toast.success("Add to Wishlist !");
-    };
+      //let discount = (finalprice * product?.discountPercentage) / 100
+      //   product.finalAmount =finalprice;
+      //  product.finalAmount=totalPrice
+      product.finalAmount = finalprice;
+    }
+    if (fabricName) {
+      setfabricType(fabricName);
+    }
+    if (fabricName) {
+      product.fabric = fabricName;
+    }
+    setSelectedColor(color[0]);
+    setSelectedSize(size[0]);
+  }, [product]);
+  const UpperCase = product?.Category?.categoryName
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+  const handleWishlist = async (product) => {
+    if (localStorage.getItem("access_token")) {
+      try {
+        // const userID = localStorage.getItem("userId");
 
-    const inCart = cartItems.find((cartItem) => cartItem.id === product?.id);
+        const data = {
+          productId: product.id,
+          // userId: userID
+        };
 
-    console.log(inCart);
+        if (!product.isWishlisted) {
+          const WishlistResponse =
+            await services.Wishlist.CREATE_WISHLIST_BY_ID(data);
+          //  productDataShow()
+          if (WishlistResponse) {
+            toast.success("Added to Wishlist!");
+          }
 
-    return (
-        <>
-            <section className="mt-50 mb-50">
-                <div className="container">
-                    <div className="row flex-row-reverse">
-                        <div className="col-lg-12">
-                            <div className="product-detail accordion-detail">
-                                <div className="row mb-50">
-                                    <div className="col-md-6 col-sm-12 col-xs-12">
-                                        <div className="detail-gallery">
-                                            <span className="zoom-icon">
-                                                <img width={'80%'} src="/assets/imgs/360.svg"/>
-                                            </span>
+          if(source == 'wishlist'){
+            GetWishlistdata()
+          }
+        } else {
+          const WishlistResponse =
+            await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
+          //  productDataShow()
+          toast.success("Removed from Wishlist");
+          if(source == 'wishlist'){
+            GetWishlistdata()
+          }
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+      }
+    } else {
+      toast.error("Please Login!");
+    }
+  };
+  const color = JSON?.parse(product?.colour);
+  const size = JSON?.parse(product.size);
 
-                                            <div className="product-image-slider">
-                                                <ThumbSlider
-                                                    product={product}
-                                                />
-                                            </div>
-                                        </div>
+  const handleCart = async (product) => {
+    const fabricPriceString = fabricPrice && JSON.parse(fabricPrice);
+    product.basePrice = fabricPriceString || product.basePrice;
+    product.selectedColor = selectedColor;
+    product.selectedSize = selectedSize;
+    product.selectedQuantity = selectedQuantity;
+    if (localStorage.getItem("access_token")) {
+      const cart = await services.cart.GET_CART();
+      let cartDetails = [];
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
+      }
+      cartDetails?.push(product);
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
+          )
+      );
 
-                                        <div className="social-icons single-share">
-                                            <ul className="text-grey-5 d-inline-block">
-                                                <li>
-                                                    <strong className="mr-10">
-                                                        Share this:
-                                                    </strong>
-                                                </li>
-                                                <li className="social-facebook">
-                                                    <a href="#">
-                                                        <img
-                                                            src="/assets/imgs/theme/icons/icon-facebook.svg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li className="social-twitter">
-                                                    <a href="#">
-                                                        <img
-                                                            src="/assets/imgs/theme/icons/icon-twitter.svg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li className="social-instagram">
-                                                    <a href="#">
-                                                        <img
-                                                            src="/assets/imgs/theme/icons/icon-instagram.svg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li className="social-linkedin">
-                                                    <a href="#">
-                                                        <img
-                                                            src="/assets/imgs/theme/icons/icon-pinterest.svg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-sm-12 col-xs-12">
-                                        <div className="detail-info">
-                                            <h2 className="title-detail">
-                                                {product?.title}
-                                            </h2>
-                                            <div className="product-detail-rating">
-                                                <div className="pro-details-brand">
-                                                    <span>
-                                                        Category:
-                                                        <Link href="/products">
-                                                            <a>
-                                                                {product?.brand}
-                                                            </a>
-                                                        </Link>
-                                                    </span>
-                                                </div>
-                                                <div className="product-rate-cover text-end">
-                                                    <div className="product-rate d-inline-block">
-                                                        <div
-                                                            className="product-rating"
-                                                            style={{
-                                                                width: "90%",
-                                                            }}
-                                                        ></div>
-                                                    </div>
-                                                    <span className="font-small ml-5 text-muted">
-                                                        (25 reviews)
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="clearfix product-price-cover">
+      // const unique = [
+      //   ...new Map(
+      //     cartDetails &&
+      //       cartDetails?.length > 0 &&
+      //       cartDetails?.map((item) => [item[key], item])
+      //   ).values(),
+      // ];
+      let data = {
+        cartDetail: { cartDetails: unique },
+      };
+      localStorage.setItem('cartItemsCount', unique.length)
+      const updateCart = await services.cart.UPDATE_CART(data);
+
+      toast.success("Add to Cart!");
+    } else {
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      let cartDetails = [];
+      if (cart) {
+        cartDetails = cart.cartDetails;
+      }
+      cartDetails.push(product);
+      const key = "id";
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
+          )
+      );
+      // const unique = [
+      //   ...new Map(cartDetails.map((item) => [item[key], item])).values(),
+      // ];
+      let data = {
+        cartDetail: { cartDetails: unique },
+      };
+      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      toast.success("Add to Cart!");
+    }
+  };
+  const isLoggedIn = localStorage.getItem("access_token");
+  return (
+    <>
+      <section className="mt-50 mb-50">
+        <div className="container">
+          <div className="row flex-row-reverse">
+            <div className="col-lg-12">
+              <div className="product-detail accordion-detail">
+                <div className="row mb-50">
+                  <div className="col-md-6 col-sm-12 col-xs-12">
+                    <div className="detail-gallery">
+                      <span className="zoom-icon">
+                        <img width={"80%"} src="/assets/imgs/360.svg" />
+                      </span>
+
+                      <div className="product-image-slider">
+                        <ThumbSlider product={product} />
+                      </div>
+                    </div>
+
+                    <div className="social-icons single-share">
+                      <ul className="text-grey-5 d-inline-block">
+                        <li>
+                          <strong className="mr-10">{t("Share this:")}</strong>
+                        </li>
+                        <li className="social-facebook">
+                          <a
+                            target="_blank"
+                            href={`https://www.facebook.com/?url=:${window.location.href}`}
+                          >
+                            <img
+                              src="/assets/imgs/theme/icons/icon-facebook.svg"
+                              alt=""
+                            />
+                          </a>
+                        </li>
+                        <li className="social-twitter">
+                          <a
+                            target="_blank"
+                            href={`https://www.twitter.com/?url=:${window.location.href}`}
+                          >
+                            <img
+                              src="/assets/imgs/theme/icons/icon-twitter.svg"
+                              alt=""
+                            />
+                          </a>
+                        </li>
+                        <li className="social-instagram">
+                          <a
+                            target="_blank"
+                            href={`https://www.instagram.com/?url=:${window.location.href}`}
+                          >
+                            <img
+                              src="/assets/imgs/theme/icons/icon-instagram.svg"
+                              alt=""
+                            />
+                          </a>
+                        </li>
+                        <li className="social-linkedin">
+                          <a
+                            target="_blank"
+                            href={`https://www.pinterest.com/?url=:${window.location.href}`}
+                          >
+                            <img
+                              src="/assets/imgs/theme/icons/icon-pinterest.svg"
+                              alt=""
+                            />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-sm-12 col-xs-12">
+                    <div className="detail-info">
+                      <h2 className="title-detail text-capitalize">
+                        {product.productName}
+                      </h2>
+                      <div className="product-detail-rating">
+                        <div className="pro-details-brand">
+                          <span>
+                            {t("Category")} &nbsp;&nbsp;:&nbsp;&nbsp;
+                            {/* <Link href="/products" as={`/products`}>
+                            <a className="text-capitalize"> */}
+                            {UpperCase}
+                            {/* </a>
+                            </Link> */}
+                          </span>
+                        </div>
+                        <div className="product-rate-cover text-end">
+                          <span className="font-small ml-5 text-muted">
+                            <ReactStars
+                              value={product.averageRating}
+                              count={5}
+                              size={20}
+                              activeColor="#ffd700"
+                              isHalf={true} // Disable half ratings
+                              edit={false} // Disable user rating changes
+                            />
+                            <span>{product?.ratingScore} </span>
+                            {t("Reviews")}
+                          </span>
+                        </div>
+                      </div>
+                      {totalPrice && totalPrice ? (
+                        <>
+                          <div className="clearfix product-price-cover">
+                            <div className="product-price primary-color float-left">
+                              <ins>
+                                <span className="text-brand">
+                                  Rs.{product?.finalAmount}
+                                </span>
+                              </ins>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="clearfix product-price-cover">
+                            <div className="product-price primary-color float-left">
+                              <ins>
+                                <span className="text-brand">
+                                  Rs.{product?.finalAmount}
+                                </span>
+                              </ins>
+                              <ins>
+                                <span className="old-price font-md ml-15">
+                                  Rs.{product.totalPrice}
+                                </span>
+                              </ins>
+                              <span className="save-price  font-md color3 ml-15">
+                                {product.discountPercentage}% Off
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {/* <div className="clearfix product-price-cover">
                                                 <div className="product-price primary-color float-left">
+
                                                     <ins>
                                                         <span className="text-brand">
-                                                        Rs.{product?.price}
+                                                            Rs.{product?.finalAmount}
                                                         </span>
                                                     </ins>
                                                     <ins>
                                                         <span className="old-price font-md ml-15">
-                                                        Rs.{product?.oldPrice}
+                                                            Rs.{product.totalPrice}
                                                         </span>
                                                     </ins>
                                                     <span className="save-price  font-md color3 ml-15">
                                                         {
-                                                            product?.discount.percentage
+                                                            product.discountPercentage
                                                         }
                                                         % Off
                                                     </span>
-                                                </div>
-                                            </div>
-                                            <div className="bt-1 border-color-1 mt-15 mb-15"></div>
-                                            <div className="short-desc mb-30">
-                                                <p>{product?.desc}</p>
-                                            </div>
-                                            <div className="product_sort_info font-xs mb-30">
-                                                <ul>
-                                                    <li className="mb-10">
-                                                        <i className="fi-rs-crown mr-5"></i>
-                                                        1 Year AL Jazeera Brand
-                                                        Warranty
-                                                    </li>
-                                                    <li className="mb-10">
-                                                        <i className="fi-rs-refresh mr-5"></i>
-                                                        30 Day Return Policy
-                                                    </li>
-                                                    <li>
-                                                        <i className="fi-rs-credit-card mr-5"></i>
-                                                        Cash on Delivery
-                                                        available
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="attr-detail attr-color mb-15">
-                                                <strong className="mr-10">
-                                                    Color
-                                                </strong>
-                                                <ul className="list-filter color-filter">
-                                                    {product?.variations.map(
-                                                        (clr, i) => (
-                                                            <li key={i}>
-                                                                <a href="#">
-                                                                    <span
-                                                                        className={`product-color-${clr}`}
-                                                                    ></span>
-                                                                </a>
-                                                            </li>
-                                                        )
-                                                    )}
-                                                </ul>
-                                            </div>
-                                            <div className="attr-detail attr-size">
-                                                <strong className="mr-10">
-                                                    Size
-                                                </strong>
-                                                <ul className="list-filter size-filter font-small">
-                                                    {/* {product?.sizes.map(
-                                                        (size, i) => (
-                                                            <li>
-                                                                <a href="#">
-                                                                    {size}
-                                                                </a>
-                                                            </li>
-                                                        )
-                                                    )} */}
-
-                                                    <li className="active">
-                                                        <a>M</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>L</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>XL</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>XXL</a>
-                                                    </li>
-                                                </ul>
-                                                <strong className="mr-10">&nbsp;&nbsp; | &nbsp;&nbsp;
-                                                <span className="text-brand">Size Chart {'>'}</span>
-                                                </strong>   
-                                            </div>
-                                            <div className="attr-detail attr-size mt-20">
-                                                <strong className="mr-10">
-                                                    Quantity
-                                                </strong>
-                                                <div className="detail-qty border radius">
-                                                    <a
-                                                        onClick={(e) =>
-                                                            !inCart
-                                                                ? setQuantity(
-                                                                    quantity >
-                                                                        1
-                                                                        ? quantity -
-                                                                        1
-                                                                        : 1
-                                                                )
-                                                                : decreaseQuantity(
-                                                                    product?.id
-                                                                )
-                                                        }
-                                                        className="qty-down"
-                                                    >
-                                                        <i className="fi-rs-angle-small-down"></i>
-                                                    </a>
-                                                    <span className="qty-val">
-                                                        {inCart?.quantity ||
-                                                            quantity}
-                                                    </span>
-                                                    <a
-                                                        onClick={() =>
-                                                            !inCart
-                                                                ? setQuantity(
-                                                                    quantity +
-                                                                    1
-                                                                )
-                                                                : increaseQuantity(
-                                                                    product?.id
-                                                                )
-                                                        }
-                                                        className="qty-up"
-                                                    >
-                                                        <i className="fi-rs-angle-small-up"></i>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                            <div className="attr-detail attr-size mt-20">
-                                                <strong className="mr-10">
-                                                    Fabric : <span className="text-brand">Cotton Mix</span>
-                                                </strong>
-
-                                                <Link href={'/fabric'}>
-                                                    <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up"
-                                                    >
-                                                        Choose Fabric
-                                                    </button></Link>
-                                            </div>
-
-                                            <div className="bt-1 border-color-1 mt-30 mb-30"></div>
-                                            <div className="detail-extralink">
-
-                                                <div className="product-extra-link2">
-                                                    <button
-                                                        onClick={(e) =>
-                                                            handleCart({
-                                                                ...product,
-                                                                quantity:
-                                                                    quantity ||
-                                                                    1,
-                                                            })
-                                                        }
-                                                        className="button button-add-to-cart me-3"
-                                                    >
-                                                        Design My Way
-                                                    </button>
-                                                    <button
-                                                        onClick={(e) =>
-                                                            handleCart({
-                                                                ...product,
-                                                                quantity:
-                                                                    quantity ||
-                                                                    1,
-                                                            })
-                                                        }
-                                                        className="button button-add-to-cart me-3"
-                                                    >
-                                                        Add to cart
-                                                    </button>
-
-                                                    <a
-                                                        aria-label="Add To Wishlist"
-                                                        className="action-btn hover-up"
-                                                        onClick={(e) =>
-                                                            handleWishlist(
-                                                                product
-                                                            )
-                                                        }
-                                                    >
-                                                        <i className="fi-rs-heart"></i>
-                                                    </a>
 
                                                 </div>
-                                            </div>
-                                            <ul className="product-meta font-xs color-grey mt-50">
-                                                <li className="mb-5">
-                                                    SKU:
-                                                    <a href="#">FWM15VKT</a>
-                                                </li>
-                                                <li className="mb-5">
-                                                    Tags:
-                                                    <a
-                                                        href="#"
-                                                        rel="tag"
-                                                        className="me-1"
-                                                    >
-                                                        Cloth,
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    Availability:
-                                                    <span className="in-stock text-success ml-5">
-                                                        {product?.stock} Items In
-                                                        Stock
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {quickView ? null : (
-                                    <>
-                                        <ProductTab />
-                                        <div className="row mt-60">
-                                            <div className="col-12">
-                                                <h3 className="section-title style-1 mb-30">
-                                                    Related products
-                                                </h3>
-                                            </div>
-                                            <div className="col-12">
-                                                <div className="row related-products position-relative">
-                                                    <RelatedSlider />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </>
-                                )}
-                            </div>
+                                            </div> */}
+                      <div className="bt-1 border-color-1 mt-15 mb-15"></div>
+                      <div className="short-desc mb-30">
+                        <p className="text-capitalize">{product.description}</p>
+                      </div>
+                      <div className="product_sort_info font-xs mb-30">
+                        <ul>
+                          <li className="mb-10">
+                            <i className="fi-rs-crown mr-5"></i>
+                            {t("1 Year AL Jazeera Brand Warranty")}
+                          </li>
+                          <li className="mb-10">
+                            <i className="fi-rs-refresh mr-5"></i>
+                            {t("30 Day Return Policy")}
+                          </li>
+                          <li>
+                            <i className="fi-rs-credit-card mr-5"></i>
+                            {t("Cash on Delivery available")}
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="attr-detail attr-color mb-15">
+                        <strong className="mr-10">{t("Color")}</strong>
+                        <ul className="list-filter color-filter">
+                          {color &&
+                            color?.map((clr, i) => (
+                              <li
+                                key={i}
+                                onClick={() => setSelectedColor(clr)}
+                                className={clr == selectedColor && "active"}
+                              >
+                                <a>
+                                  <span
+                                    style={{
+                                      border: "1px solid black",
+                                      backgroundColor: clr,
+                                    }}
+                                  ></span>
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                      <div className="attr-detail attr-size">
+                        <strong className="mr-10">{t("size")}</strong>
+                        <ul className="list-filter size-filter font-small">
+                          {size.map((size, i) => (
+                            <li
+                              className={size == selectedSize ? "active" : ""}
+                              key={i}
+                              onClick={() => setSelectedSize(size)}
+                            >
+                              <a>{size}</a>
+                            </li>
+                          ))}
+                        </ul>
+                        <strong className="mr-10">
+                          &nbsp;&nbsp; | &nbsp;&nbsp;
+                          <span
+                            className="text-brand"
+                            style={{ cursor: " pointer" }}
+                            onClick={() => setShowSizeChart(!showSizeChart)}
+                            variant="primary"
+                          >
+                            {t("Size Chart")} {">"}
+                          </span>
+                        </strong>
+                        {showSizeChart && (
+                          <SizeChart
+                            showSizeChart={showSizeChart}
+                            setShowSizeChart={setShowSizeChart}
+                          />
+                        )}
+                      </div>
+                      <div
+                        className={`attr-detail attr-size mt-20 ${
+                          !isLoggedIn && "d-none"
+                        }`}
+                      >
+                        <strong className="mr-10">{t("Quantity")}</strong>
+                        <div className="detail-qty border radius">
+                          <a
+                            onClick={(e) => {
+                              if (selectedQuantity === 1) {
+                                return;
+                              } else {
+                                setSelectedQuantity(selectedQuantity - 1);
+                              }
+                            }}
+                            className="qty-down"
+                          >
+                            <i className="fi-rs-angle-small-down"></i>
+                          </a>
+                          <span className="qty-val">{selectedQuantity}</span>
+                          <a
+                            onClick={() =>
+                              setSelectedQuantity(selectedQuantity + 1)
+                            }
+                            className="qty-up"
+                          >
+                            <i className="fi-rs-angle-small-up"></i>
+                          </a>
                         </div>
+                      </div>
+                      <div className="attr-detail attr-size mt-20">
+                        <strong className="mr-10 text-capitalize ">
+                          {t("Fabric")}&nbsp;:&nbsp;{" "}
+                          <span className="text-brand">{product?.fabric}</span>
+                        </strong>
+
+                        {/* <Link href={`/fabric?id=${product.id}`}>
+                          <button className="btn btn-outline btn-sm btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">
+                            {t("Choose Fabric")}
+                          </button>
+                        </Link> */}
+                      </div>
+
+                      <div className="bt-1 border-color-1 mt-30 mb-30"></div>
+                      <div className="detail-extralink">
+                        <div className="product-extra-link2">
+                          <button
+                            onClick={(e) => handleCart(product)}
+                            className="button button-add-to-cart me-3"
+                          >
+                            {t("Design My Way")}
+                          </button>
+                          <button
+                            onClick={(e) => handleCart(product)}
+                            className="button button-add-to-cart me-3"
+                          >
+                            {t("Add to cart")}
+                          </button>
+
+                          <a
+                            aria-label="Add To Wishlist"
+                            className="action-btn hover-up"
+                            onClick={(e) => handleWishlist(product)}
+                          >
+                            <i className="fi-rs-heart"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <ul className="product-meta font-xs color-grey mt-50">
+                        <li className="mb-5 text-capitalize">
+                          {t("SKU")}&nbsp;:
+                          <a>&nbsp;{product.sku}</a>
+                        </li>
+                        <li className="mb-5 text-capitalize">
+                          {t("Tags")}&nbsp;:
+                          <a rel="tag" className="me-1">
+                            &nbsp;
+                            {product.tags}
+                          </a>
+                        </li>
+                        <li>
+                          {t("Availability")}&nbsp;:
+                          <span className="in-stock text-success ml-5">
+                            {product.currentStock} Items In Stock
+                          </span>
+                        </li>
+                      </ul>
                     </div>
+                  </div>
                 </div>
-            </section>
-        </>
-    );
+
+                {quickView ? null : (
+                  <>
+                    <ProductTab prodcut={product} />
+                    <div className="row mt-60">
+                      <div className="col-12">
+                        <h3 className="section-title style-1 mb-30">
+                          {t("Recent products")}
+                        </h3>
+                      </div>
+                      <div className="col-12">
+                        <div className="row related-products position-relative">
+                          <RelatedSlider />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 };
 
-const mapStateToProps = (state) => ({
-    cartItems: state.cart,
-});
-
-const mapDispatchToProps = {
-    addToCompare,
-    addToWishlist,
-    addToCart,
-    increaseQuantity,
-    decreaseQuantity,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+export default ProductDetails;

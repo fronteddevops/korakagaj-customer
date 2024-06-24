@@ -2,16 +2,24 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-    output: 'export',
-   
-    // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
-    // trailingSlash: true,
-   
-    // Optional: Prevent automatic `/me` -> `/me/`, instead preserve `href`
-    // skipTrailingSlashRedirect: true,
-   
-    // Optional: Change the output directory `out` -> `dist`
-    distDir: 'dist',
-  }
-   
-  module.exports = nextConfig
+  // BASE_URL: "https://api.korakagaj.com/v1",
+  // BASE_URL_UPLOADS: "https://api.korakagaj.com/uploads/",
+  // trailingSlash: false,
+  // distDir: 'dist',
+  
+  // //live
+
+  // BASE_URL: "https://api.korakagaj.com/v1",
+  // BASE_URL_UPLOADS: "https://api.korakagaj.com/uploads/",
+  // trailingSlash: true,
+  // distDir: "dist",
+
+  // satish
+  BASE_URL: "http://192.168.29.137:50000/v1",
+  BASE_URL_UPLOADS: "http://192.168.29.137:5000/uploads/",
+  trailingSlash: true,
+  distDir: "dist",
+  output: "export",
+};
+
+module.exports = nextConfig;

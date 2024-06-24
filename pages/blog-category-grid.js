@@ -2,22 +2,23 @@ import BlogGrid from "../components/elements/BlogGrid";
 import BlogGridBig from "../components/elements/BlogGridBig";
 import BlogSidebar from "../components/elements/BlogSidebar";
 import Layout from "../components/layout/Layout";
-
+import { useTranslation } from "react-i18next";
 function PageBlogGrid() {
+    const { t } = useTranslation("common");
     return (
         <>
-            <Layout parent="Home" sub="Blog" subChild="Grid">
+            <Layout parent={t("Home")} sub={t("Blog" )}subChild={t("Grid")}>
                 <section className="mt-50 mb-50">
                     <div className="container custom">
                         <div className="row">
                             <div className="col-lg-9">
                                 <div className="single-header mb-50">
-                                    <h1 className="font-xxl text-brand">Our Blog</h1>
+                                    <h1 className="font-xxl text-brand">{t("Our Blog")}</h1>
                                     <div className="entry-meta meta-1 font-xs mt-15 mb-15">
-                                        <span className="post-by">32 Sub Categories</span>
-                                        <span className="post-on has-dot">1020k Article</span>
-                                        <span className="time-reading has-dot">480 Authors</span>
-                                        <span className="hit-count  has-dot">29M Views</span>
+                                        <span className="post-by">{t('32 Sub Categories')}</span>
+                                        <span className="post-on has-dot">{t("1020k Article")}</span>
+                                        <span className="time-reading has-dot">{t("480 Authors")}</span>
+                                        <span className="hit-count  has-dot">{t("29M Views")}</span>
                                     </div>
                                 </div>
                                 <div className="loop-grid pr-30">

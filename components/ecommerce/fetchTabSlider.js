@@ -5,8 +5,10 @@ import FeaturedSlider from "../sliders/Featured";
 import NewArrivalTabSlider from "../sliders/NewArrivalTab";
 import TrendingSlider from "../sliders/Trending";
 import Link from "next/link"
+import { useTranslation } from "react-i18next";
 
 function FeatchTabSlider() {
+    const { t } = useTranslation("common");
     const [active, setActive] = useState("1");
     const [featured, setFeatured] = useState([]);
     const [trending, setTrending] = useState([]);
@@ -46,24 +48,24 @@ function FeatchTabSlider() {
             <div className="heading-tab d-flex">
                 <div className="heading-tab-left wow fadeIn animated">
                     <h3 className="section-title mb-20">
-                        <span>Monthly</span> Best Sell
+                        <span>{t("Monthly")}</span> {t("Best Sell")}
                     </h3>
                 </div>
                 <div className="heading-tab-right wow fadeIn animated">
                     <ul className="nav nav-tabs right no-border" id="myTab-1" role="tablist">
                         <li className="nav-item" role="presentation">
                             <button className={active === "1" ? "nav-link active" : "nav-link"} onClick={featuredProduct}>
-                                Featured
+                                {t("Featured")}
                             </button>
                         </li>
                         <li className="nav-item" role="presentation">
                             <button className={active === "2" ? "nav-link active" : "nav-link"} onClick={trendingProduct}>
-                                Popular
+                                {t("Popular")}
                             </button>
                         </li>
                         <li className="nav-item" role="presentation">
                             <button className={active === "3" ? "nav-link active" : "nav-link"} onClick={newArrivalProduct}>
-                                New added
+                                {t("New added")}
                             </button>
                         </li>
                     </ul>
@@ -75,15 +77,15 @@ function FeatchTabSlider() {
                     <div className="banner-img style-2 wow fadeIn animated">
                         <img src="assets/imgs/banner/banner-9.jpg" alt="" />
                         <div className="banner-text">
-                            <span>Woman Area</span>
+                            <span>{t("Woman Area")}</span>
                             <h4 className="mt-5">
-                                Save 17% on <br />
-                                Clothing
+                                {t("Save 17% on")} <br />
+                                {t("Clothing")}
                             </h4>
 
                             <Link href="/products">
                                 <a className="text-white">
-                                    Shop Now <i className="fi-rs-arrow-right"></i>
+                                    {t("Shop Now")} <i className="fi-rs-arrow-right"></i>
                                 </a>
                             </Link>
                         </div>

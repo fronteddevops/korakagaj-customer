@@ -1,466 +1,1421 @@
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 import Layout from "../components/layout/Layout";
-
+import nextConfig from "../next.config";
 import Link from "next/link";
-import { clearCart, closeCart, decreaseQuantity, deleteFromCart, increaseQuantity, openCart } from "../redux/action/cart";
+import { toast } from "react-toastify";
+import { useEffect, useState, useCallback } from "react";
+import services from "../services";
+import { useTranslation } from "react-i18next";
+import { isMobile } from "react-device-detect";
 
-const Cart = ({ openCart, cartItems, activeCart, closeCart, increaseQuantity, decreaseQuantity, deleteFromCart, clearCart }) => {
-    const price = () => {
-        let price = 0;
-        cartItems.forEach((item) => (price += item.price * item.quantity));
-
-        return price;
+import Continue from "./Continue";
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
     };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
+const Cart = ({}) => {
+  const { t } = useTranslation("common");
+  //image constant url
 
-    return (
-        <>
-            <Layout parent="Home" sub="Shop" subChild="Cart">
-                <section className="mt-50 mb-50">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="table-responsive">
-                                    {cartItems.length <= 0 && "No Products"}
-                                    <table className={cartItems.length > 0 ? "table shopping-summery text-center clean" : "d-none"}>
-                                        <thead>
-                                            <tr className="main-heading">
-                                                <th scope="col">Image</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">Subtotal</th>
-                                                <th scope="col">Remove</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {cartItems.map((item, i) => (
-                                                <tr key={i}>
-                                                    <td className="image product-thumbnail">
-                                                        <img src={item.images[0].img} />
-                                                    </td>
+  const imageUrl = nextConfig.BASE_URL_UPLOADS;
 
-                                                    <td className="product-des product-name">
-                                                        <h5 className="product-name">
-                                                            <Link href="/products">
-                                                                <a>{item.title}</a>
-                                                            </Link>
-                                                        </h5>
-                                                        <p className="font-xs">
-                                                            Maboriosam in a tonto nesciung eget
-                                                            <br /> distingy magndapibus.
-                                                        </p>
-                                                    </td>
-                                                    <td className="price" data-title="Price">
-                                                        <span>Rs.{item.price}</span>
-                                                    </td>
-                                                    <td className="text-center" data-title="Stock">
-                                                        <div className="detail-qty border radius  m-auto">
-                                                            <a onClick={(e) => decreaseQuantity(item.id)} className="qty-down">
-                                                                <i className="fi-rs-angle-small-down"></i>
-                                                            </a>
-                                                            <span className="qty-val">{item.quantity}</span>
-                                                            <a onClick={(e) => increaseQuantity(item.id)} className="qty-up">
-                                                                <i className="fi-rs-angle-small-up"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                    <td className="text-right" data-title="Cart">
-                                                        <span>Rs.{item.quantity * item.price}</span>
-                                                    </td>
-                                                    <td className="action" data-title="Remove">
-                                                        <a onClick={(e) => deleteFromCart(item.id)} className="text-muted">
-                                                            <i className="fi-rs-trash"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            <tr>
-                                                <td colSpan="6" className="text-end">
-                                                    {cartItems.length > 0 && (
-                                                        <a onClick={clearCart} className="text-muted">
-                                                            <i className="fi-rs-cross-small"></i>
-                                                            Clear Cart
-                                                        </a>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+  const [updateCart, setUpdateCart] = useState([]);
+  const [addressList, setAddressList] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalQuantity, setTotalQuantity] = useState(1);
+  const [selectedAddress, setSelectedAddress] = useState(0);
+
+  const [getadressUers, setGetaddress] = useState([]);
+
+  //Discount
+  const [Discount, setDiscount] = useState("");
+  const [DiscountID, setDiscountID] = useState("");
+  const [RemoveStatus, setRemoveStatus] = useState(false);
+  const [DiscountPer, setDiscountPer] = useState(0);
+  const [CouponDis, setCouponDis] = useState(false);
+  const router = useRouter();
+
+  const calculateTotalAmount = (prodcutData) => {
+    let totalAmountArr = prodcutData?.map((item) => {
+      return item.finalAmount * item.selectedQuantity;
+    });
+    let totalQtyArr = prodcutData?.map((item) => {
+      return item.selectedQuantity;
+    });
+    const sum = totalAmountArr?.reduce((partialSum, a) => partialSum + a, 0);
+    const qty = totalQtyArr?.reduce((partialSum, a) => partialSum + a, 0);
+
+    setTotalAmount(sum);
+    setTotalQuantity(qty);
+  };
+  //set total price in add to card all prodcut
+  const getadress = async () => {
+    if (localStorage.getItem("access_token")) {
+      let a = 0;
+
+      if (selectedAddress == a) {
+        try {
+          const response = await services.myprofile.GET_MY_ADDRESS();
+          if (response) {
+            setGetaddress(response?.data?.data);
+            // setSelectedAddress(response?.data?.data[0].id);
+            a = response?.data?.data[0].id;
+            const res = response?.data?.data.find(
+              (item) => item?.defaultAddress === true
+            );
+            setSelectedAddress(res?.id);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    cardData();
+  }, []);
+  console.log(isMobile);
+  useEffect(() => {
+    if (selectedAddress && updateCart && updateCart?.length > 0) {
+      handleCart(updateCart[0]);
+    }
+  }, [selectedAddress]);
+  const cardData = async () => {
+    if (localStorage.getItem("access_token")) {
+      try {
+        const response = await services.cart.GET_CART();
+        if (response?.data?.discountAmount) {
+          setDiscount(response?.data?.discountAmount?.couponCode);
+
+          if (response?.data?.discountAmount?.couponCode.length) {
+            setCouponDis(true);
+            setRemoveStatus(true);
+          }
+          setDiscountPer(response?.data?.discountAmount?.discount);
+        }
+        if (response) {
+          setUpdateCart(response?.data?.data?.cartDetail?.cartDetails);
+          addressHandler();
+          getadress();
+          calculateTotalAmount(response?.data?.data?.cartDetail?.cartDetails);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      if (localStorage.getItem("cartDetail")) {
+        const cartLocal =
+          localStorage.getItem("cartDetail") &&
+          JSON.parse(localStorage.getItem("cartDetail"));
+        setUpdateCart(cartLocal.cartDetails);
+        calculateTotalAmount(cartLocal.cartDetails);
+      }
+    }
+  };
+
+  const addressHandler = async () => {
+    let a = 0;
+    if (localStorage.getItem("access_token")) {
+      if (selectedAddress == a) {
+        try {
+          const response = await services.myprofile.GET_MY_ADDRESS();
+
+          setAddressList(response?.data?.data);
+          a = response?.data?.data[0]?.id;
+
+          const res = response?.data?.data.find(
+            (item) => item.defaultAddress === true
+          );
+          setSelectedAddress(res?.id);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
+  const handleCart = async (product, qtytype) => {
+    if (localStorage.getItem("access_token")) {
+      const cart = await services.cart.GET_CART();
+      if (cart?.data?.discountAmount) {
+        setDiscountID(cart?.data?.discountAmount?.id);
+      }
+
+      let cartDetails = [];
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
+      }
+
+      cartDetails?.push(product);
+      let unique = cartDetails?.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t?.id === value?.id &&
+              t?.selectedSize === value?.selectedSize &&
+              t?.selectedColor === value?.selectedColor &&
+              t?.fabric === value?.fabric
+          )
+      );
+
+      let totalAmountArr = unique?.map((item) => {
+        return item?.finalAmount * item?.selectedQuantity;
+      });
+      let totalQtyArr = unique?.map((item) => {
+        return item?.selectedQuantity;
+      });
+      const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+      const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+      if (qtytype) {
+        unique.map((item) => {
+          if (
+            item.id == product.id &&
+            item.selectedColor == product.selectedColor &&
+            item.selectedSize == product.selectedSize &&
+            item.fabric === product.fabric
+          ) {
+            item.selectedQuantity = qtytype;
+          }
+          return item;
+        });
+      }
+      let data = {
+        cartDetail: { cartDetails: unique, discountId: DiscountID },
+        totalAmount: sum,
+        totalItems: unique.length,
+        totalQuantity: qty,
+        addressId: selectedAddress,
+      };
+      localStorage.setItem("cartItemsCount", unique.length);
+      const updateCart = await services.cart.UPDATE_CART(data);
+      toast.success("Cart updated!");
+      cardData();
+    } else {
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      let cartDetails = [];
+      if (cart) {
+        cartDetails = cart.cartDetails;
+      }
+      cartDetails.push(product);
+      const key = "id";
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
+          )
+      );
+
+      let data = {
+        cartDetail: { cartDetails: unique },
+      };
+      localStorage.setItem("cartItemsCount", unique.length);
+      localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
+      toast.success("Cart updated!");
+      cardData();
+    }
+  };
+  const increaseQuantity = (product) => {
+    product.selectedQuantity = product.selectedQuantity + 1;
+    handleCart(product, product.selectedQuantity);
+  };
+  const decreaseQuantity = (product) => {
+    if (product.selectedQuantity == 1) {
+      return;
+    } else {
+      product.selectedQuantity = product.selectedQuantity - 1;
+      handleCart(product, product.selectedQuantity);
+    }
+  };
+  const clearCart = async () => {
+    if (localStorage.getItem("access_token")) {
+      let data = {
+        cartDetail: { cartDetails: [] },
+        totalAmount: 0,
+        totalItems: 0,
+        totalQuantity: 0,
+        addressId: selectedAddress,
+      };
+      localStorage.setItem("cartItemsCount", 0);
+      const updateCart = await services.cart.UPDATE_CART(data);
+      toast.success("Cart updated!");
+      cardData();
+    } else {
+      let data = {
+        cartDetail: { cartDetails: [] },
+      };
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      localStorage.setItem("cartItemsCount", 0);
+      toast.success("Cart updated!");
+      cardData();
+    }
+  };
+  const deleteFromCart = async (product) => {
+    if (localStorage.getItem("access_token")) {
+      let updatedCartData = [...updateCart];
+      let index;
+      updateCart.map((item, i) => {
+        if (item.id == product.id) {
+          index = i;
+        }
+      });
+      updatedCartData.splice(index, 1);
+      let data = {
+        cartDetail: { cartDetails: updatedCartData },
+        totalAmount: totalAmount,
+        totalItems: updatedCartData.length,
+        totalQuantity: totalQuantity,
+        addressId: selectedAddress,
+      };
+      localStorage.setItem("cartItemsCount", updatedCartData.length);
+      const updateCartData = await services.cart.UPDATE_CART(data);
+      toast.success("Cart updated!");
+      cardData();
+    } else {
+      let updatedCartData = [...updateCart];
+      let index;
+      updateCart.map((item, i) => {
+        if (item.id == product.id) {
+          index = i;
+        }
+      });
+      updatedCartData.splice(index, 1);
+      let data = {
+        cartDetail: { cartDetails: updatedCartData },
+      };
+
+      localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
+      localStorage.setItem("cartItemsCount", updatedCartData.length);
+      toast.success("Cart updated!");
+      cardData();
+    }
+  };
+  const isLoggedIn = localStorage?.getItem("access_token");
+
+  const ApplyCoupon = async (e) => {
+    e.preventDefault();
+    const data = {
+      couponcode: Discount,
+    };
+    const query = new URLSearchParams(data);
+    try {
+      const response = await services.Discount.GET_DISCOUNT(query);
+      if (response) {
+        setDiscountID(response?.data?.data?.id);
+        setDiscountPer(response?.data?.data?.discount);
+        setRemoveStatus(true);
+        toast.success("Apply Coupon!");
+        // await handleCart(updateCart[0]);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Invalid Coupon!");
+    }
+  };
+  const ClearCoupon = async () => {
+    setDiscount("");
+    setDiscountID("");
+    setDiscountPer(0);
+    setRemoveStatus(false);
+    setCouponDis(false);
+    // await handleCart(updateCart[0]);
+    toast.success("Coupon Remove!");
+  };
+
+  useEffect(() => {
+    if (updateCart && updateCart?.length > 0) RemoveCoupon(updateCart[0]);
+  }, [DiscountID]);
+  const RemoveCoupon = async (product, qtytype) => {
+    if (localStorage.getItem("access_token")) {
+      const cart = await services.cart.GET_CART();
+      if (cart?.data?.discountAmount) {
+        // setDiscountID(cart?.data?.discountAmount?.id);
+      }
+
+      let cartDetails = [];
+      if (cart?.data?.data?.cartDetail?.cartDetails) {
+        cartDetails = cart?.data?.data?.cartDetail?.cartDetails;
+      }
+
+      cartDetails?.push(product);
+      let unique = cartDetails?.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t?.id === value?.id &&
+              t?.selectedSize === value?.selectedSize &&
+              t?.selectedColor === value?.selectedColor &&
+              t?.fabric === value?.fabric
+          )
+      );
+
+      let totalAmountArr = unique?.map((item) => {
+        return item?.finalAmount * item?.selectedQuantity;
+      });
+      let totalQtyArr = unique?.map((item) => {
+        return item?.selectedQuantity;
+      });
+      const sum = totalAmountArr.reduce((partialSum, a) => partialSum + a, 0);
+      const qty = totalQtyArr.reduce((partialSum, a) => partialSum + a, 0);
+      if (qtytype) {
+        unique.map((item) => {
+          if (
+            item.id == product.id &&
+            item.selectedColor == product.selectedColor &&
+            item.selectedSize == product.selectedSize &&
+            item.fabric === product.fabric
+          ) {
+            item.selectedQuantity = qtytype;
+          }
+          return item;
+        });
+      }
+
+      let data = {
+        cartDetail: { cartDetails: unique, discountId: DiscountID },
+        totalAmount: sum,
+        totalItems: unique.length,
+        totalQuantity: qty,
+        addressId: selectedAddress,
+      };
+      localStorage.setItem("cartItemsCount", unique.length);
+      const updateCart = await services.cart.UPDATE_CART(data);
+      toast.success("Cart updated!");
+      cardData();
+    } else {
+      const cart =
+        localStorage.getItem("cartDetail") &&
+        JSON.parse(localStorage.getItem("cartDetail"));
+      let cartDetails = [];
+      if (cart) {
+        cartDetails = cart.cartDetails;
+      }
+      cartDetails.push(product);
+      const key = "id";
+      const unique = cartDetails.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.id === value.id &&
+              t.selectedSize === value.selectedSize &&
+              t.selectedColor === value.selectedColor &&
+              t.fabric === value.fabric
+          )
+      );
+
+      let data = {
+        cartDetail: { cartDetails: unique },
+      };
+      localStorage.setItem("cartItemsCount", unique.length);
+      localStorage.setItem("cartDetail", JSON.stringify(data?.cartDetail));
+      toast.success("Cart updated!");
+      cardData();
+    }
+  };
+
+  return (
+    <>
+      {/* <Layout
+        parent={t("Home")}
+        sub={
+          <>
+            <Link href="/products" as={`/products`}>
+              {t("Product")}
+            </Link>
+          </>
+        }
+        subChild={t("Cart")}
+      >
+        <section className="mt-50 mb-50">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="table-responsive">
+                  {updateCart?.length > 0 ? "" : t("No Products")}
+                  <table
+                    className={
+                      updateCart?.length > 0
+                        ? "table shopping-summery text-center clean"
+                        : "d-none"
+                    }
+                  >
+                    <thead>
+                      <tr className="main-heading">
+                        <th scope="col">{t("Image")}</th>
+                        <th scope="col">{t("Name")}</th>
+                        <th scope="col">{t("Fabric Name")}</th>
+                        <th scope="col">{t("Price")}</th>
+                        {localStorage.getItem("access_token") && (
+                          <th scope="col">{t("Quantity")}</th>
+                        )}
+                        <th scope="col">{t("Subtotal")}</th>
+                        <th scope="col">{t("Remove")}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {updateCart &&
+                        updateCart.map((product, j) => (
+                          <tr key={j}>
+                            <td
+                              className="image product-thumbnail"
+                              data-title="image"
+                              // style={{marginLeft:"130px"}}
+                            >
+                              <img
+                                src={`${imageUrl}${product.featuredImage}`}
+                                alt=""
+                                crossOrigin="anonymous"
+                              />
+                            </td>
+                            <td
+                              className="product-des product-name"
+                              data-title="Product Name"
+                            >
+                              <h5 className="product-name">
+                                <Link
+                                  // href="/products/[slug]"
+                                  // as={`/products/${product?.id}`}
+                                  href={`/products/${product?.id}_${product?.productName}`}
+                                  as={`/products/${product?.id}_${product?.productName}`}
+                                >
+                                  <a>{product.productName}</a>
+                                </Link>
+                              </h5>
+                              {product?.selectedColor ||
+                              product?.selectedSize ? (
+                                <div className="row">
+                                  {product?.selectedColor && (
+                                    <div className="col-12">
+                                      Color :
+                                      <span
+                                        className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                        style={{
+                                          border: "1px solid black",
+                                          width: "12px",
+                                          height: "12px",
+                                          backgroundColor:
+                                            product?.selectedColor,
+                                        }}
+                                      ></span>
+                                    </div>
+                                  )}
+                                  {product?.selectedSize && (
+                                    <div className="col -12">
+                                      Size : {product?.selectedSize}
+                                    </div>
+                                  )}
                                 </div>
-                                <div className="cart-action text-end">
-                                    <a className="btn ">
-                                        <i className="fi-rs-shopping-bag mr-10"></i>
-                                        Continue Shopping
+                              ) : null}
+                            </td>
+
+                            <td
+                              className="Fabric name"
+                              data-title="Fabric name"
+                            >
+                              <span>{product?.fabric}</span>
+                            </td>
+                            <td className="price" data-title="Price">
+                              <span>Rs. {product.finalAmount}</span>
+                            </td>
+                            {localStorage.getItem("access_token") && (
+                              <>
+                                <td
+                                  className="text-center"
+                                  data-title="Quantity"
+                                >
+                                  <div className="detail-qty border radius m-auto">
+                                    <a
+                                      onClick={(e) => increaseQuantity(product)}
+                                      className="qty-up"
+                                    >
+                                      <i className="fi-rs-angle-small-up"></i>
                                     </a>
-                                </div>
-                                <div className="divider center_icon mt-50 mb-50">
-                                    <i className="fi-rs-fingerprint"></i>
-                                </div>
-                                <div className="row mb-50">
-                                    <div className="col-lg-6 col-md-12">
-                                        <div className="heading_s1 mb-3">
-                                            <h4>Calculate Shipping</h4>
-                                        </div>
-                                        <p className="mt-15 mb-30">
-                                            Flat rate:
-                                            <span className="font-xl text-brand fw-900">5%</span>
-                                        </p>
-                                        <form className="field_form shipping_calculator">
-                                            <div className="form-row">
-                                                <div className="form-group col-lg-12">
-                                                    <div className="custom_select">
-                                                        <select className="form-control select-active">
-                                                            <option value="">Choose a option...</option>
-                                                            <option value="AX">Aland Islands</option>
-                                                            <option value="AF">Afghanistan</option>
-                                                            <option value="AL">Albania</option>
-                                                            <option value="DZ">Algeria</option>
-                                                            <option value="AD">Andorra</option>
-                                                            <option value="AO">Angola</option>
-                                                            <option value="AI">Anguilla</option>
-                                                            <option value="AQ">Antarctica</option>
-                                                            <option value="AG">Antigua and Barbuda</option>
-                                                            <option value="AR">Argentina</option>
-                                                            <option value="AM">Armenia</option>
-                                                            <option value="AW">Aruba</option>
-                                                            <option value="AU">Australia</option>
-                                                            <option value="AT">Austria</option>
-                                                            <option value="AZ">Azerbaijan</option>
-                                                            <option value="BS">Bahamas</option>
-                                                            <option value="BH">Bahrain</option>
-                                                            <option value="BD">Bangladesh</option>
-                                                            <option value="BB">Barbados</option>
-                                                            <option value="BY">Belarus</option>
-                                                            <option value="PW">Belau</option>
-                                                            <option value="BE">Belgium</option>
-                                                            <option value="BZ">Belize</option>
-                                                            <option value="BJ">Benin</option>
-                                                            <option value="BM">Bermuda</option>
-                                                            <option value="BT">Bhutan</option>
-                                                            <option value="BO">Bolivia</option>
-                                                            <option value="BQ">Bonaire, Saint Eustatius and Saba</option>
-                                                            <option value="BA">Bosnia and Herzegovina</option>
-                                                            <option value="BW">Botswana</option>
-                                                            <option value="BV">Bouvet Island</option>
-                                                            <option value="BR">Brazil</option>
-                                                            <option value="IO">British Indian Ocean Territory</option>
-                                                            <option value="VG">British Virgin Islands</option>
-                                                            <option value="BN">Brunei</option>
-                                                            <option value="BG">Bulgaria</option>
-                                                            <option value="BF">Burkina Faso</option>
-                                                            <option value="BI">Burundi</option>
-                                                            <option value="KH">Cambodia</option>
-                                                            <option value="CM">Cameroon</option>
-                                                            <option value="CA">Canada</option>
-                                                            <option value="CV">Cape Verde</option>
-                                                            <option value="KY">Cayman Islands</option>
-                                                            <option value="CF">Central African Republic</option>
-                                                            <option value="TD">Chad</option>
-                                                            <option value="CL">Chile</option>
-                                                            <option value="CN">China</option>
-                                                            <option value="CX">Christmas Island</option>
-                                                            <option value="CC">Cocos (Keeling) Islands</option>
-                                                            <option value="CO">Colombia</option>
-                                                            <option value="KM">Comoros</option>
-                                                            <option value="CG">Congo (Brazzaville)</option>
-                                                            <option value="CD">Congo (Kinshasa)</option>
-                                                            <option value="CK">Cook Islands</option>
-                                                            <option value="CR">Costa Rica</option>
-                                                            <option value="HR">Croatia</option>
-                                                            <option value="CU">Cuba</option>
-                                                            <option value="CW">CuraÇao</option>
-                                                            <option value="CY">Cyprus</option>
-                                                            <option value="CZ">Czech Republic</option>
-                                                            <option value="DK">Denmark</option>
-                                                            <option value="DJ">Djibouti</option>
-                                                            <option value="DM">Dominica</option>
-                                                            <option value="DO">Dominican Republic</option>
-                                                            <option value="EC">Ecuador</option>
-                                                            <option value="EG">Egypt</option>
-                                                            <option value="SV">El Salvador</option>
-                                                            <option value="GQ">Equatorial Guinea</option>
-                                                            <option value="ER">Eritrea</option>
-                                                            <option value="EE">Estonia</option>
-                                                            <option value="ET">Ethiopia</option>
-                                                            <option value="FK">Falkland Islands</option>
-                                                            <option value="FO">Faroe Islands</option>
-                                                            <option value="FJ">Fiji</option>
-                                                            <option value="FI">Finland</option>
-                                                            <option value="FR">France</option>
-                                                            <option value="GF">French Guiana</option>
-                                                            <option value="PF">French Polynesia</option>
-                                                            <option value="TF">French Southern Territories</option>
-                                                            <option value="GA">Gabon</option>
-                                                            <option value="GM">Gambia</option>
-                                                            <option value="GE">Georgia</option>
-                                                            <option value="DE">Germany</option>
-                                                            <option value="GH">Ghana</option>
-                                                            <option value="GI">Gibraltar</option>
-                                                            <option value="GR">Greece</option>
-                                                            <option value="GL">Greenland</option>
-                                                            <option value="GD">Grenada</option>
-                                                            <option value="GP">Guadeloupe</option>
-                                                            <option value="GT">Guatemala</option>
-                                                            <option value="GG">Guernsey</option>
-                                                            <option value="GN">Guinea</option>
-                                                            <option value="GW">Guinea-Bissau</option>
-                                                            <option value="GY">Guyana</option>
-                                                            <option value="HT">Haiti</option>
-                                                            <option value="HM">Heard Island and McDonald Islands</option>
-                                                            <option value="HN">Honduras</option>
-                                                            <option value="HK">Hong Kong</option>
-                                                            <option value="HU">Hungary</option>
-                                                            <option value="IS">Iceland</option>
-                                                            <option value="IN">India</option>
-                                                            <option value="ID">Indonesia</option>
-                                                            <option value="IR">Iran</option>
-                                                            <option value="IQ">Iraq</option>
-                                                            <option value="IM">Isle of Man</option>
-                                                            <option value="IL">Israel</option>
-                                                            <option value="IT">Italy</option>
-                                                            <option value="CI">Ivory Coast</option>
-                                                            <option value="JM">Jamaica</option>
-                                                            <option value="JP">Japan</option>
-                                                            <option value="JE">Jersey</option>
-                                                            <option value="JO">Jordan</option>
-                                                            <option value="KZ">Kazakhstan</option>
-                                                            <option value="KE">Kenya</option>
-                                                            <option value="KI">Kiribati</option>
-                                                            <option value="KW">Kuwait</option>
-                                                            <option value="KG">Kyrgyzstan</option>
-                                                            <option value="LA">Laos</option>
-                                                            <option value="LV">Latvia</option>
-                                                            <option value="LB">Lebanon</option>
-                                                            <option value="LS">Lesotho</option>
-                                                            <option value="LR">Liberia</option>
-                                                            <option value="LY">Libya</option>
-                                                            <option value="LI">Liechtenstein</option>
-                                                            <option value="LT">Lithuania</option>
-                                                            <option value="LU">Luxembourg</option>
-                                                            <option value="MO">Macao S.A.R., China</option>
-                                                            <option value="MK">Macedonia</option>
-                                                            <option value="MG">Madagascar</option>
-                                                            <option value="MW">Malawi</option>
-                                                            <option value="MY">Malaysia</option>
-                                                            <option value="MV">Maldives</option>
-                                                            <option value="ML">Mali</option>
-                                                            <option value="MT">Malta</option>
-                                                            <option value="MH">Marshall Islands</option>
-                                                            <option value="MQ">Martinique</option>
-                                                            <option value="MR">Mauritania</option>
-                                                            <option value="MU">Mauritius</option>
-                                                            <option value="YT">Mayotte</option>
-                                                            <option value="MX">Mexico</option>
-                                                            <option value="FM">Micronesia</option>
-                                                            <option value="MD">Moldova</option>
-                                                            <option value="MC">Monaco</option>
-                                                            <option value="MN">Mongolia</option>
-                                                            <option value="ME">Montenegro</option>
-                                                            <option value="MS">Montserrat</option>
-                                                            <option value="MA">Morocco</option>
-                                                            <option value="MZ">Mozambique</option>
-                                                            <option value="MM">Myanmar</option>
-                                                            <option value="NA">Namibia</option>
-                                                            <option value="NR">Nauru</option>
-                                                            <option value="NP">Nepal</option>
-                                                            <option value="NL">Netherlands</option>
-                                                            <option value="AN">Netherlands Antilles</option>
-                                                            <option value="NC">New Caledonia</option>
-                                                            <option value="NZ">New Zealand</option>
-                                                            <option value="NI">Nicaragua</option>
-                                                            <option value="NE">Niger</option>
-                                                            <option value="NG">Nigeria</option>
-                                                            <option value="NU">Niue</option>
-                                                            <option value="NF">Norfolk Island</option>
-                                                            <option value="KP">North Korea</option>
-                                                            <option value="NO">Norway</option>
-                                                            <option value="OM">Oman</option>
-                                                            <option value="PK">Pakistan</option>
-                                                            <option value="PS">Palestinian Territory</option>
-                                                            <option value="PA">Panama</option>
-                                                            <option value="PG">Papua New Guinea</option>
-                                                            <option value="PY">Paraguay</option>
-                                                            <option value="PE">Peru</option>
-                                                            <option value="PH">Philippines</option>
-                                                            <option value="PN">Pitcairn</option>
-                                                            <option value="PL">Poland</option>
-                                                            <option value="PT">Portugal</option>
-                                                            <option value="QA">Qatar</option>
-                                                            <option value="IE">Republic of Ireland</option>
-                                                            <option value="RE">Reunion</option>
-                                                            <option value="RO">Romania</option>
-                                                            <option value="RU">Russia</option>
-                                                            <option value="RW">Rwanda</option>
-                                                            <option value="ST">São Tomé and Príncipe</option>
-                                                            <option value="BL">Saint Barthélemy</option>
-                                                            <option value="SH">Saint Helena</option>
-                                                            <option value="KN">Saint Kitts and Nevis</option>
-                                                            <option value="LC">Saint Lucia</option>
-                                                            <option value="SX">Saint Martin (Dutch part)</option>
-                                                            <option value="MF">Saint Martin (French part)</option>
-                                                            <option value="PM">Saint Pierre and Miquelon</option>
-                                                            <option value="VC">Saint Vincent and the Grenadines</option>
-                                                            <option value="SM">San Marino</option>
-                                                            <option value="SA">Saudi Arabia</option>
-                                                            <option value="SN">Senegal</option>
-                                                            <option value="RS">Serbia</option>
-                                                            <option value="SC">Seychelles</option>
-                                                            <option value="SL">Sierra Leone</option>
-                                                            <option value="SG">Singapore</option>
-                                                            <option value="SK">Slovakia</option>
-                                                            <option value="SI">Slovenia</option>
-                                                            <option value="SB">Solomon Islands</option>
-                                                            <option value="SO">Somalia</option>
-                                                            <option value="ZA">South Africa</option>
-                                                            <option value="GS">South Georgia/Sandwich Islands</option>
-                                                            <option value="KR">South Korea</option>
-                                                            <option value="SS">South Sudan</option>
-                                                            <option value="ES">Spain</option>
-                                                            <option value="LK">Sri Lanka</option>
-                                                            <option value="SD">Sudan</option>
-                                                            <option value="SR">Suriname</option>
-                                                            <option value="SJ">Svalbard and Jan Mayen</option>
-                                                            <option value="SZ">Swaziland</option>
-                                                            <option value="SE">Sweden</option>
-                                                            <option value="CH">Switzerland</option>
-                                                            <option value="SY">Syria</option>
-                                                            <option value="TW">Taiwan</option>
-                                                            <option value="TJ">Tajikistan</option>
-                                                            <option value="TZ">Tanzania</option>
-                                                            <option value="TH">Thailand</option>
-                                                            <option value="TL">Timor-Leste</option>
-                                                            <option value="TG">Togo</option>
-                                                            <option value="TK">Tokelau</option>
-                                                            <option value="TO">Tonga</option>
-                                                            <option value="TT">Trinidad and Tobago</option>
-                                                            <option value="TN">Tunisia</option>
-                                                            <option value="TR">Turkey</option>
-                                                            <option value="TM">Turkmenistan</option>
-                                                            <option value="TC">Turks and Caicos Islands</option>
-                                                            <option value="TV">Tuvalu</option>
-                                                            <option value="UG">Uganda</option>
-                                                            <option value="UA">Ukraine</option>
-                                                            <option value="AE">United Arab Emirates</option>
-                                                            <option value="GB">United Kingdom (UK)</option>
-                                                            <option value="US">USA (US)</option>
-                                                            <option value="UY">Uruguay</option>
-                                                            <option value="UZ">Uzbekistan</option>
-                                                            <option value="VU">Vanuatu</option>
-                                                            <option value="VA">Vatican</option>
-                                                            <option value="VE">Venezuela</option>
-                                                            <option value="VN">Vietnam</option>
-                                                            <option value="WF">Wallis and Futuna</option>
-                                                            <option value="EH">Western Sahara</option>
-                                                            <option value="WS">Western Samoa</option>
-                                                            <option value="YE">Yemen</option>
-                                                            <option value="ZM">Zambia</option>
-                                                            <option value="ZW">Zimbabwe</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="form-row row">
-                                                <div className="form-group col-lg-6">
-                                                    <input required="required" placeholder="State / Country" name="name" type="text" />
-                                                </div>
-                                                <div className="form-group col-lg-6">
-                                                    <input required="required" placeholder="PostCode / ZIP" name="name" type="text" />
-                                                </div>
-                                            </div>
-                                            <div className="form-row">
-                                                <div className="form-group col-lg-12">
-                                                    <button className="btn  btn-sm">
-                                                        <i className="fi-rs-shuffle mr-10"></i>
-                                                        Update
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <div className="mb-30 mt-50">
-                                            <div className="heading_s1 mb-3">
-                                                <h4>Apply Coupon</h4>
-                                            </div>
-                                            <div className="total-amount">
-                                                <div className="left">
-                                                    <div className="coupon">
-                                                        <form action="#" target="_blank">
-                                                            <div className="form-row row justify-content-center">
-                                                                <div className="form-group col-lg-6">
-                                                                    <input className="font-medium" name="Coupon" placeholder="Enter Your Coupon" />
-                                                                </div>
-                                                                <div className="form-group col-lg-6">
-                                                                    <button className="btn  btn-sm">
-                                                                        <i className="fi-rs-label mr-10"></i>
-                                                                        Apply
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6 col-md-12">
-                                        <div className="border p-md-4 p-30 border-radius cart-totals">
-                                            <div className="heading_s1 mb-3">
-                                                <h4>Cart Totals</h4>
-                                            </div>
-                                            <div className="table-responsive">
-                                                <table className="table">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td className="cart_total_label">Cart Subtotal</td>
-                                                            <td className="cart_total_amount">
-                                                                <span className="font-lg fw-900 text-brand">Rs. {price()}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="cart_total_label">Shipping</td>
-                                                            <td className="cart_total_amount">
-                                                                <i className="ti-gift mr-5"></i>
-                                                                Free Shipping
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="cart_total_label">Total</td>
-                                                            <td className="cart_total_amount">
-                                                                <strong>
-                                                                    <span className="font-xl fw-900 text-brand">Rs.{price()}</span>
-                                                                </strong>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <a href="#" className="btn ">
-                                                <i className="fi-rs-box-alt mr-10"></i>
-                                                Proceed To CheckOut
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                                    <span className="qty-val">
+                                      {product.selectedQuantity}
+                                    </span>
+
+                                    <a
+                                      onClick={(e) => decreaseQuantity(product)}
+                                      className="qty-down"
+                                    >
+                                      <i className="fi-rs-angle-small-down"></i>
+                                    </a>
+                                  </div>
+                                </td>
+                              </>
+                            )}
+                            <td className="text-right" data-title="Subtotal">
+                              <span>
+                                Rs.{" "}
+                                {(
+                                  product.finalAmount * product.selectedQuantity
+                                ).toFixed(2)}
+                              </span>
+                            </td>
+                            <td className="action" data-title="Remove">
+                              <a
+                                onClick={(e) => deleteFromCart(product)}
+                                className="text-muted"
+                              >
+                                <i className="fi-rs-trash"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        ))}
+                      <tr>
+                        <td colSpan="12" className="text-end">
+                          {updateCart && updateCart.length > 0 && (
+                            <a onClick={clearCart} className="text-muted">
+                              <i className="fi-rs-cross-small"></i>
+                              {t("Clear Cart")}
+                            </a>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="cart-action text-center">
+                  <Link className={"btn"} href="/products" as={`/products`}>
+                    <button className={"btn"}>
+                      <i className="fi-rs-shopping-bag mr-10"></i>
+                      {t("Continue Shopping")}
+                    </button>
+                  </Link>
+                </div>
+                <div className="divider center_icon mt-50 mb-50">
+                  <hr />
+                </div>
+                <div className="row mb-50">
+                  {updateCart &&
+                    updateCart.length > 0 &&
+                    addressList.length > 0 && (
+                      <div className="heading_s1 mb-3">
+                        <h4> {t("Select Address")}</h4>
+                      </div>
+                    )}
+                  <div className="col-lg-6 col-md-12">
+                    <form className="field_form shipping_calculator">
+                      <div className="form-row">
+                        <div className="form-group col-lg-12">
+                          <div className="custom_select">
+                            {updateCart &&
+                              updateCart.length > 0 &&
+                              addressList.length > 0 && (
+                                <select
+                                  className="form-control select-active"
+                                  value={selectedAddress}
+                                  onChange={(e) => {
+                                    setSelectedAddress(e.target.value);
+                                  }}
+                                >
+                                  <option value="">
+                                    {t("Choose a option...")}
+                                  </option>
+                                  {addressList &&
+                                    addressList.length > 0 &&
+                                    addressList.map((item) => {
+                                      return (
+                                        <option value={item.id}>
+                                          {item.address.address}
+                                        </option>
+                                      );
+                                    })}
+                                </select>
+                              )}
+                          </div>
                         </div>
-                    </div>
-                </section>
-            </Layout>
-        </>
-    );
+                      </div>
+                      <div className="form-row">
+                        {isLoggedIn && (
+                          <div className="form-group col-lg-12">
+                            {updateCart && updateCart.length > 0 && (
+                              <Link href={"/myprofile?index=4"}>
+                                <button className="btn  btn-sm w-100">
+                                  <i className="fi-rs-shuffle mr-10"></i>
+                                  {t("Add new address")}
+                                </button>
+                              </Link>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </form>
+                    {isLoggedIn && updateCart && updateCart.length > 0 && (
+                      <hr />
+                    )}
+                    {isLoggedIn && updateCart && updateCart.length > 0 && (
+                      <form className="field_form shipping_calculator">
+                        <div className="form-row">
+                          <div className="form-group col-lg-12">
+                            <div className="custom_select">
+                              <input
+                                placeholder={t("Enter Coupon Code")}
+                                onChange={(e) => {
+                                  setDiscount(e.target.value.trimStart());
+                                  if (e.target.value.length > 0) {
+                                    setCouponDis(true);
+                                  }
+                                  if (e.target.value.length == 0) {
+                                    setCouponDis(false);
+                                  }
+                                }}
+                                value={Discount}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-lg-12 ">
+                            <button
+                              className="btn btn-sm w-100"
+                              onClick={(e) => ApplyCoupon(e)}
+                              disabled={!CouponDis}
+                            >
+                              {t("Apply Coupon")}
+                            </button>
+                          </div>
+                          {RemoveStatus && (
+                            <div className="form-group text-end">
+                              <a onClick={ClearCoupon} className="text-muted">
+                                <i className="fi-rs-cross-small"></i>
+                                {t("Remove Coupon")}
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                  <div className="col-lg-6 col-md-12">
+                    {updateCart && updateCart.length > 0 && (
+                      <div className="border p-md-4 p-30 border-radius cart-totals">
+                        <div className="heading_s1 mb-3">
+                          <h4>{t("Cart Totals")}</h4>
+                        </div>
+                        <div className="table-responsive">
+                          <table className="table">
+                            <tbody>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Cart Subtotal")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <span className="font-lg fw-900 text-brand">
+                                    Rs. {totalAmount.toFixed(2)}
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Shipping")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <i className="ti-gift mr-5"></i>
+                                  {t("Free Shipping")}
+                                </td>
+                              </tr>
+                              {DiscountPer != 0 && (
+                                <tr>
+                                  <td className="cart_total_label">
+                                    {t("Discount Percentage")}
+                                  </td>
+                                  <td className="cart_total_amount">
+                                    <i className="ti-gift mr-5"></i>
+                                    {DiscountPer}%
+                                  </td>
+                                </tr>
+                              )}
+                              {DiscountPer != 0 && (
+                                <tr>
+                                  <td className="cart_total_label">
+                                    {t("Discount Amount")}
+                                  </td>
+                                  <td className="cart_total_amount">
+                                    <strong>
+                                      <span className="font-xl fw-900 text-brand">
+                                        Rs.
+                                        <s>
+                                          {" "}
+                                          {DiscountPer == 0
+                                            ? totalAmount
+                                            : (
+                                                (totalAmount * DiscountPer) /
+                                                100
+                                              ).toFixed(2)}
+                                        </s>
+                                      </span>
+                                    </strong>
+                                  </td>
+                                </tr>
+                              )}
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Total")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <strong>
+                                    <span className="font-xl fw-900 text-brand">
+                                      Rs.
+                                      {DiscountPer == 0
+                                        ? totalAmount
+                                        : (
+                                            totalAmount *
+                                            (1 - DiscountPer / 100)
+                                          ).toFixed(2)}
+                                    </span>
+                                  </strong>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {isLoggedIn ? (
+                          <a
+                            onClick={() => {
+                              if (selectedAddress) {
+                                router.push(`/Continue?id=${selectedAddress}`);
+                              } else {
+                                if (addressList.length > 0) {
+                                  toast.error("Choose your address");
+                                } else {
+                                  toast.error("Add your address");
+                                }
+                              }
+                            }}
+                            className="btn d-block"
+                          >
+                            {t("Continue Order")}
+                          </a>
+                        ) : (
+                          <Link href="/login" as={`/login`}>
+                            <a className="btn ">
+                              <i className="fi-rs-box-alt mr-10"></i>
+                              {t("Proceed to Login")}
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Layout> */}
+
+      <Layout
+        parent={t("Home")}
+        sub={
+          <>
+            <Link href="/products" as={`/products`}>
+              {t("Product")}
+            </Link>
+          </>
+        }
+        subChild={t("Cart")}
+      >
+        <section className="mt-50 mb-50">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="table-responsive">
+                  {updateCart?.length > 0 ? "" : t("No Products")}
+
+                  {isMobile ? (
+                    <>
+                      {updateCart &&
+                        updateCart.map((product, j) => {
+                          console.log(product);
+                          return (
+                            <div>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "flex-start",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                <img
+                                  src={product?.image}
+                                  alt=""
+                                  crossOrigin="anonymous"
+                                  style={{
+                                    maxWidth: "110px",
+                                    marginRight: "20px",
+                                  }}
+                                />
+
+                                <div>
+                                  <h5>
+                                    <Link
+                                      href={`/products/${product?.id}_${product?.productName}`}
+                                      as={`/products/${product?.id}_${product?.productName}`}
+                                    >
+                                      <a>{product.productName}</a>
+                                    </Link>
+                                  </h5>
+                                  <span
+                                    style={{
+                                      marginTop: "0px",
+                                      background: "red",
+                                    }}
+                                  >
+                                    {" "}
+                                    {product?.discountPercentage}% off{" "}
+                                  </span>{" "}
+                                  &nbsp;&nbsp;
+                                  <span
+                                    style={{ color: "red", fontWeight: "bold" }}
+                                  >
+                                    {product?.discountPercentage != 0 &&
+                                      "Limited Time Deal"}
+                                  </span>
+                                  <div style={{ marginTop: "0px" }}>
+                                    <span
+                                      style={{
+                                        fontSize: "20px",
+                                        fontWeight: "bold",
+                                      }}
+                                    >
+                                      Rs. {product?.finalAmount}
+                                    </span>{" "}
+                                    &nbsp;&nbsp; M.R.P.{" "}
+                                    <s>{product?.totalPrice}</s>
+                                  </div>
+                                  {product?.selectedColor ||
+                                  product?.selectedSize ? (
+                                    <div style={{ marginTop: "0px" }}>
+                                      {product?.selectedColor && (
+                                        <div>
+                                          Color :
+                                          <span
+                                            className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                            style={{
+                                              border: "1px solid black",
+                                              width: "12px",
+                                              height: "12px",
+                                              backgroundColor:
+                                                product?.selectedColor,
+                                            }}
+                                          ></span>
+                                        </div>
+                                      )}
+                                      {product?.selectedSize && (
+                                        <div className="col -12">
+                                          Size : {product?.selectedSize}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              {localStorage.getItem("access_token") && (
+                                <div
+                                  style={{
+                                    marginTop: "10px",
+                                    marginLeft: "3px",
+                                  }}
+                                  className="text-center"
+                                >
+                                  <span
+                                    style={{
+                                      marginTop: "10px",
+                                      backgroundColor: "orange",
+                                      padding: "10px",
+                                    }}
+                                  >
+                                    <a
+                                      onClick={(e) => decreaseQuantity(product)}
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        height="10"
+                                        width="14"
+                                        viewBox="0 0 448 512"
+                                      >
+                                        <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+                                      </svg>
+                                    </a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span
+                                      style={{
+                                        fontSize: "20px",
+                                        marginBottom: "2px",
+                                      }}
+                                    >
+                                      {product.selectedQuantity}
+                                    </span>
+                                    &nbsp;&nbsp;
+                                    <span>
+                                      <a
+                                        onClick={(e) =>
+                                          increaseQuantity(product)
+                                        }
+                                      >
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          x="0px"
+                                          y="0px"
+                                          width="20"
+                                          height="10"
+                                          viewBox="0 0 24 26"
+                                        >
+                                          <path
+                                            fill-rule="evenodd"
+                                            d="M 11 2 L 11 11 L 2 11 L 2 13 L 11 13 L 11 22 L 13 22 L 13 13 L 22 13 L 22 11 L 13 11 L 13 2 Z"
+                                          ></path>
+                                        </svg>
+                                      </a>
+                                    </span>
+                                  </span>
+
+                                  <span
+                                    style={{
+                                      float: "right",
+                                      marginRight: "10px",
+                                      transform: "scale(1.6)",
+                                    }}
+                                  >
+                                    <a
+                                      onClick={(e) => deleteFromCart(product)}
+                                      className="text-muted"
+                                    >
+                                      <i className="fi-rs-trash"></i>
+                                    </a>
+                                  </span>
+                                </div>
+                              )}
+                              <hr />
+                            </div>
+                          );
+                        })}
+                      <div className="text-end">
+                        {updateCart && updateCart.length > 0 && (
+                          <a onClick={clearCart} className="text-muted">
+                            <i className="fi-rs-cross-small"></i>
+                            {t("Clear Cart")}
+                          </a>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <table
+                      className={
+                        updateCart?.length > 0
+                          ? "table shopping-summery text-center clean"
+                          : "d-none"
+                      }
+                    >
+                      <thead>
+                        <tr className="main-heading">
+                          <th scope="col">{t("Image")}</th>
+                          <th scope="col">{t("Name")}</th>
+                          <th scope="col">{t("Fabric Name")}</th>
+                          <th scope="col">{t("Price")}</th>
+                          {localStorage.getItem("access_token") && (
+                            <th scope="col">{t("Quantity")}</th>
+                          )}
+                          <th scope="col">{t("Subtotal")}</th>
+                          <th scope="col">{t("Remove")}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {updateCart &&
+                          updateCart.map((product, j) => (
+                            <tr key={j}>
+                              <td
+                                className="image product-thumbnail"
+                                data-title="image"
+                                // style={{marginLeft:"130px"}}
+                              >
+                                <img
+                                  src={product?.image}
+                                  alt=""
+                                  crossOrigin="anonymous"
+                                />
+                              </td>
+                              <td
+                                className="product-des product-name"
+                                data-title="Product Name"
+                              >
+                                <h5 className="product-name">
+                                  <Link
+                                    // href="/products/[slug]"
+                                    // as={`/products/${product?.id}`}
+                                    href={`/products/${product?.id}_${product?.productName}`}
+                                    as={`/products/${product?.id}_${product?.productName}`}
+                                  >
+                                    <a>{product.productName}</a>
+                                  </Link>
+                                </h5>
+                                {product?.selectedColor ||
+                                product?.selectedSize ? (
+                                  <div className="row">
+                                    {product?.selectedColor && (
+                                      <div className="col-12">
+                                        Color :
+                                        <span
+                                          className="d-inline-block rounded-circle ps-1 pe-0 m-0 mt-2"
+                                          style={{
+                                            border: "1px solid black",
+                                            width: "12px",
+                                            height: "12px",
+                                            backgroundColor:
+                                              product?.selectedColor,
+                                          }}
+                                        ></span>
+                                      </div>
+                                    )}
+                                    {product?.selectedSize && (
+                                      <div className="col -12">
+                                        Size : {product?.selectedSize}
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : null}
+                              </td>
+
+                              <td
+                                className="Fabric name"
+                                data-title="Fabric name"
+                              >
+                                <span>{product?.fabric}</span>
+                              </td>
+                              <td className="price" data-title="Price">
+                                <span>
+                                  Rs.&nbsp;
+                                  {product?.finalAmount}
+                                </span>
+                              </td>
+                              {localStorage.getItem("access_token") && (
+                                <>
+                                  <td
+                                    className="text-center"
+                                    data-title="Quantity"
+                                  >
+                                    <div className="detail-qty border radius m-auto">
+                                      <a
+                                        onClick={(e) =>
+                                          increaseQuantity(product)
+                                        }
+                                        className="qty-up"
+                                      >
+                                        <i className="fi-rs-angle-small-up"></i>
+                                      </a>
+
+                                      <span className="qty-val">
+                                        {product.selectedQuantity}
+                                      </span>
+
+                                      <a
+                                        onClick={(e) =>
+                                          decreaseQuantity(product)
+                                        }
+                                        className="qty-down"
+                                      >
+                                        <i className="fi-rs-angle-small-down"></i>
+                                      </a>
+                                    </div>
+                                  </td>
+                                </>
+                              )}
+                              <td className="text-right" data-title="Subtotal">
+                                <span>
+                                  Rs.{" "}
+                                  {(
+                                    product.finalAmount *
+                                    product.selectedQuantity
+                                  ).toFixed(2)}
+                                </span>
+                              </td>
+                              <td className="action" data-title="Remove">
+                                <a
+                                  onClick={(e) => deleteFromCart(product)}
+                                  className="text-muted"
+                                >
+                                  <i className="fi-rs-trash"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        <tr>
+                          <td colSpan="12" className="text-end">
+                            {updateCart && updateCart.length > 0 && (
+                              <a onClick={clearCart} className="text-muted">
+                                <i className="fi-rs-cross-small"></i>
+                                {t("Clear Cart")}
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+
+                <div className="cart-action text-center">
+                  <Link className={"btn"} href="/products" as={`/products`}>
+                    <button className={"btn"}>
+                      <i className="fi-rs-shopping-bag mr-10"></i>
+                      {t("Continue Shopping")}
+                    </button>
+                  </Link>
+                </div>
+                <div className="divider center_icon mt-50 mb-50">
+                  <hr />
+                </div>
+                <div className="row mb-50">
+                  {updateCart &&
+                    updateCart.length > 0 &&
+                    addressList.length > 0 && (
+                      <div className="heading_s1 mb-3">
+                        <h4> {t("Select Address")}</h4>
+                      </div>
+                    )}
+                  <div className="col-lg-6 col-md-12">
+                    <form className="field_form shipping_calculator">
+                      <div className="form-row">
+                        <div className="form-group col-lg-12">
+                          <div className="custom_select">
+                            {updateCart &&
+                              updateCart.length > 0 &&
+                              addressList.length > 0 && (
+                                <select
+                                  className="form-control select-active"
+                                  value={selectedAddress}
+                                  onChange={(e) => {
+                                    setSelectedAddress(e.target.value);
+                                  }}
+                                >
+                                  <option value="">
+                                    {t("Choose a option...")}
+                                  </option>
+                                  {addressList &&
+                                    addressList.length > 0 &&
+                                    addressList.map((item) => {
+                                      return (
+                                        <option value={item.id}>
+                                          {item.address.address}
+                                        </option>
+                                      );
+                                    })}
+                                </select>
+                              )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        {isLoggedIn && (
+                          <div className="form-group col-lg-12">
+                            {updateCart && updateCart.length > 0 && (
+                              <Link href={"/myprofile?index=4"}>
+                                <button className="btn  btn-sm w-100">
+                                  <i className="fi-rs-shuffle mr-10"></i>
+                                  {t("Add new address")}
+                                </button>
+                              </Link>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </form>
+                    {isLoggedIn && updateCart && updateCart.length > 0 && (
+                      <hr />
+                    )}
+                    {isLoggedIn && updateCart && updateCart.length > 0 && (
+                      <form className="field_form shipping_calculator">
+                        <div className="form-row">
+                          <div className="form-group col-lg-12">
+                            <div className="custom_select">
+                              <input
+                                placeholder={t("Enter Coupon Code")}
+                                onChange={(e) => {
+                                  setDiscount(e.target.value.trimStart());
+                                  if (e.target.value.length > 0) {
+                                    setCouponDis(true);
+                                  }
+                                  if (e.target.value.length == 0) {
+                                    setCouponDis(false);
+                                  }
+                                }}
+                                value={Discount}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-row">
+                          <div className="form-group col-lg-12 ">
+                            <button
+                              className="btn btn-sm w-100"
+                              onClick={(e) => ApplyCoupon(e)}
+                              disabled={!CouponDis}
+                            >
+                              {t("Apply Coupon")}
+                            </button>
+                          </div>
+                          {RemoveStatus && (
+                            <div className="form-group text-end">
+                              <a onClick={ClearCoupon} className="text-muted">
+                                <i className="fi-rs-cross-small"></i>
+                                {t("Remove Coupon")}
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                  <div className="col-lg-6 col-md-12">
+                    {updateCart && updateCart.length > 0 && (
+                      <div className="border p-md-4 p-30 border-radius cart-totals">
+                        <div className="heading_s1 mb-3">
+                          <h4>{t("Cart Totals")}</h4>
+                        </div>
+                        <div className="table-responsive">
+                          <table className="table">
+                            <tbody>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Cart Subtotal")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <span className="font-lg fw-900 text-brand">
+                                    Rs. {totalAmount.toFixed(2)}
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Shipping")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <i className="ti-gift mr-5"></i>
+                                  {t("Free Shipping")}
+                                </td>
+                              </tr>
+                              {DiscountPer != 0 && (
+                                <tr>
+                                  <td className="cart_total_label">
+                                    {t("Discount Percentage")}
+                                  </td>
+                                  <td className="cart_total_amount">
+                                    <i className="ti-gift mr-5"></i>
+                                    {DiscountPer}%
+                                  </td>
+                                </tr>
+                              )}
+                              {DiscountPer != 0 && (
+                                <tr>
+                                  <td className="cart_total_label">
+                                    {t("Discount Amount")}
+                                  </td>
+                                  <td className="cart_total_amount">
+                                    <strong>
+                                      <span className="font-xl fw-900 text-brand">
+                                        Rs.
+                                        <s>
+                                          {" "}
+                                          {DiscountPer == 0
+                                            ? totalAmount
+                                            : (
+                                                (totalAmount * DiscountPer) /
+                                                100
+                                              ).toFixed(2)}
+                                        </s>
+                                      </span>
+                                    </strong>
+                                  </td>
+                                </tr>
+                              )}
+                              <tr>
+                                <td className="cart_total_label">
+                                  {t("Total")}
+                                </td>
+                                <td className="cart_total_amount">
+                                  <strong>
+                                    <span className="font-xl fw-900 text-brand">
+                                      Rs.
+                                      {DiscountPer == 0
+                                        ? totalAmount
+                                        : (
+                                            totalAmount *
+                                            (1 - DiscountPer / 100)
+                                          ).toFixed(2)}
+                                    </span>
+                                  </strong>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {isLoggedIn ? (
+                          <a
+                            onClick={() => {
+                              if (selectedAddress) {
+                                router.push(`/Continue?id=${selectedAddress}`);
+                              } else {
+                                if (addressList.length > 0) {
+                                  toast.error("Choose your address");
+                                } else {
+                                  toast.error("Add your address");
+                                }
+                              }
+                            }}
+                            className="btn d-block"
+                          >
+                            {t("Continue Order")}
+                          </a>
+                        ) : (
+                          <Link href="" as={`/login`}>
+                            <a className="btn ">
+                              <i className="fi-rs-box-alt mr-10"></i>
+                            Proceed to Checkout
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Layout>
+    </>
+  );
 };
 
 const mapStateToProps = (state) => ({
-    cartItems: state.cart,
-    activeCart: state.counter
+  cartItems: state.cart,
+  activeCart: state.counter,
 });
 
-const mapDispatchToProps = {
-    closeCart,
-    increaseQuantity,
-    decreaseQuantity,
-    deleteFromCart,
-    openCart,
-    clearCart
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -8,6 +8,7 @@ export const openQuickView = product => dispatch =>{
 }
 
 export const closeQuickView = ()=> dispatch =>{
+   
     dispatch({
         type: Types.CLOSE_QUICK_VIEW,
     })

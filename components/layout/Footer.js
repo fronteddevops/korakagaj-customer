@@ -1,235 +1,359 @@
 import React from "react";
-import Link from "next/link"
-
+import Link from "next/link";
+import { useState } from "react";
+import services from "../../services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 const Footer = () => {
-    return (
-        <>
-            <footer className="main">
-                <section className="newsletter p-30 mt-30 text-white wow fadeIn animated">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col-lg-12 mb-md-3 mb-lg-0">
-                                <div className="row align-items-center">
-                                    <div className="col flex-horizontal-center">
-                                        <img
-                                            className="icon-email"
-                                            src="/assets/imgs/theme/icons/icon-email.svg"
-                                            alt=""
-                                        />
-                                        <h4 className="font-size-20 mb-0 ml-3">
-                                        Sit back and Relax & get your Apparel Delivered as per your wished Design Inputs
-                                        </h4>
-                                    </div>
-                                 
-                                </div>
-                            </div>
-                            <div className="col-lg-6 my-4 my-md-0 des">
-                                        <h5 className="font-size-15 ml-4 mb-0">
-                                            
-Cheers! You’re happiness will be delivered shortly with Korakagaj
-                                           
-                                        </h5>
-                                    </div>
-                            <div className="col-lg-5">
-                                <form className="form-subcriber d-flex wow fadeIn animated">
-                                    <input
-                                        type="email"
-                                        className="form-control bg-white font-small"
-                                        placeholder="Enter your email"
-                                    />
-                                    <button
-                                        className="btn bg-dark text-white"
-                                        type="submit"
-                                    >
-                                        Subscribe
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section className="section-padding footer-mid">
-                    <div className="container pt-15 pb-20">
-                        <div className="row">
-                            <div className="col-lg-4 col-md-6">
-                                <div className="widget-about font-md mb-md-5 mb-lg-0">
-                                    <div className="logo logo-width-1 wow fadeIn animated">
-                                        <Link href="/"><a>
-                                            <img
-                                                src="/assets/imgs/theme/logo.svg"
-                                                alt="logo"
-                                            />
-                                        </a>
-                                        </Link>
-                                    </div>
-                                    <h5 className="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">
-                                        Contact
-                                    </h5>
-                                    <p className="wow fadeIn animated">
-                                        <strong>Address: </strong>Basti, UP, India, 272001
-                                    </p>
-                                    <p className="wow fadeIn animated">
-                                        <strong>Phone: </strong>(+91) 9791028374
-                                    </p>
-                                    <p className="wow fadeIn animated">
-                                        <strong>Hours: </strong>10:00 - 18:00,
-                                        Mon - Sat
-                                    </p>
-                                    <h5 className="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">
-                                        Follow Us
-                                    </h5>
-                                    <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                                        <a href="#">
-                                            <img
-                                                src="/assets/imgs/theme/icons/icon-facebook.svg"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <a href="#">
-                                            <img
-                                                src="/assets/imgs/theme/icons/icon-twitter.svg"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <a href="#">
-                                            <img
-                                                src="/assets/imgs/theme/icons/icon-instagram.svg"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <a href="#">
-                                            <img
-                                                src="/assets/imgs/theme/icons/icon-pinterest.svg"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <a href="#">
-                                            <img
-                                                src="/assets/imgs/theme/icons/icon-youtube.svg"
-                                                alt=""
-                                            />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-3">
-                                <h5 className="widget-title wow fadeIn animated">
-                                    About
-                                </h5>
-                                <ul className="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
-                                    <li>
-                                        <a href="#">About Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Delivery Information</a>
-                                    </li>
-                                    <li>
-                                        <Link href="/page-privacy-policy">Privacy Policy</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/page-return-policy">Returns</Link>
-                                    </li>
-                                    <li>
-                                    <Link href="/page-terms">Terms &amp; Conditions</Link>
-                                    </li>
-                                    <li>
-                                        <a href="#">Contact Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Support Center</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-lg-2  col-md-3">
-                                <h5 className="widget-title wow fadeIn animated">
-                                    My Account
-                                </h5>
-                                <ul className="footer-list wow fadeIn animated">
-                                    <li>
-                                        <a href="#">Sign In</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">View Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">My Wishlist</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Track My Order</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Help</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Order</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-lg-4">
-                                <h5 className="widget-title wow fadeIn animated">
-                                Supported By
-                                </h5>
-                                <div className="row">
-                                    <div className="col-md-8 col-lg-12">
-                                        <p className="wow fadeIn animated">
-                                        Start Up India & Nidhi Prayas
-                                        </p>
-                                        <div className="download-app wow fadeIn animated">
-                                            <a
-                                                href="#"
-                                                className="hover-up mb-sm-4 mb-lg-0"
-                                            >
-                                                <img
-                                                    className="active"
-                                                    src="/assets/imgs/theme/app-store.jpg"
-                                                    alt=""
-                                                />
-                                            </a>
-                                            <a href="#" className="hover-up">
-                                                <img
-                                                    src="/assets/imgs/theme/google-play.jpg"
-                                                    alt=""
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
-                                        <p className="mb-20 wow fadeIn animated">
-                                            Secured Payment Gateways
-                                        </p>
-                                        <img
-                                            className="wow fadeIn animated"
-                                            src="/assets/imgs/theme/payment-method.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <div className="container pb-20 wow fadeIn animated">
-                    <div className="row">
-                        <div className="col-12 mb-20">
-                            <div className="footer-bottom"></div>
-                        </div>
-                        <div className="col-lg-6">
-                            <p className="float-md-left font-sm text-muted mb-0">
-                                &copy; {new Date().getFullYear()} 
-                                <strong className="text-brand"> Korakagaj</strong></p>
-                        </div>
-                        {/* <div className="col-lg-6">
-                            <p className="text-lg-end text-start font-sm text-muted mb-0">
-                                Designed by 
-                                <a href="http://alithemes.com" target="_blank"> Alithemes.com</a>
-                                . All rights reserved
-                            </p>
-                        </div> */}
-                    </div>
+  const { t } = useTranslation("common");
+  const [email, setemail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const router = useRouter();
+  const [isValid, setIsValid] = useState(true);
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  //email send function
+
+  const toastErrorLogin = (error) => {
+    toast.error(error.response?.data?.message || "An error occurred");
+  };
+  const toastSuccessLogin = () => toast.success("Subscribe  User successfully");
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    let isValid = true;
+    setEmailError("");
+
+    if (email === "") {
+      setEmailError("Enter a valid email address");
+      isValid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError("Enter a valid email address");
+      isValid = false;
+    }
+    if (isValid) {
+      try {
+        let payLoad = {
+          email: email,
+          status: true,
+        };
+        const response = await services.subScribeUers.SUBSCRIBE_USER(payLoad);
+        if (response) {
+          setIsValid(false);
+          toastSuccessLogin();
+          setemail("");
+        }
+      } catch (error) {
+        setIsValid(true);
+        toastErrorLogin(error);
+      }
+    }
+  };
+  const handleWishlist = () => {
+    if (localStorage.getItem("access_token")) {
+      router.push("/shop-wishlist/");
+    } else {
+      toast.error("Please Login!");
+    }
+  };
+  return (
+    <div>
+      {/* <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      /> */}
+
+      <footer className="main">
+        <section className="newsletter p-30  text-white wow fadeIn animated">
+          <div className="container">
+            <div className="row align-items-center">
+              <div className="col-lg-12 mb-md-3 mb-lg-0">
+                <div className="row align-items-center">
+                  <div className="col flex-horizontal-center">
+                    <img
+                      className="icon-email"
+                      src="/assets/imgs/theme/icons/icon-email.svg"
+                      alt=""
+                    />
+                    <h4 className="font-size-20 mb-0 ml-3">
+                      {t(
+                        "Sit back and Relax & get your Apparel Delivered as per your wished Design Inputs"
+                      )}
+                    </h4>
+                  </div>
                 </div>
-            </footer>
-        </>
-    );
+              </div>
+              <div className="col-lg-6 my-4 my-md-0 des">
+                <h5 className="font-size-15 ml-4 mb-0">
+                  {t(
+                    "Cheers! You’re happiness will be delivered shortly with Applatus"
+                  )}
+                </h5>
+              </div>
+              <div className="col-lg-5">
+                <form
+                  className="form-subscriber d-flex wow fadeIn animated"
+                  onSubmit={handleFormSubmit}
+                >
+                  <input
+                    type="email"
+                    className="form-control bg-white font-small"
+                    placeholder={t("Enter your email")}
+                    name="email"
+                    value={email}
+                    onChange={(e) => {
+                      setemail(e.target.value.trim());
+
+                      setIsValid(true);
+                    }}
+                  />
+                  <button
+                    className="btn bg-dark text-white "
+                    type="submit"
+                    disabled={!(email && isValid)}
+                  >
+                    {t("Subscribe")}
+                  </button>
+                </form>
+                {emailError ? (
+                  <small style={{ color: "red" }} className="">
+                    {emailError}
+                  </small>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="section-padding footer-mid">
+          <div className="container pt-15 pb-20">
+            <div className="row">
+              <div className="col-lg-4 col-md-6">
+                <div className="widget-about font-md mb-md-5 mb-lg-0">
+                  <div className="logo logo-width-1 wow fadeIn animated">
+                    <Link href="/">
+                      <a>
+                        <img src="/images/applatus1.jpg" alt="logo" />
+                      </a>
+                    </Link>
+                  </div>
+                  <h5 className="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">
+                    {t("Contact")}
+                  </h5>
+                  <p className="wow fadeIn animated">
+                    <strong>{t("Address:")} </strong>
+                    {t("452001, Madhya Pradesh - India")}
+                  </p>
+                  <p className="wow fadeIn animated">
+                    {/* <strong>{t("Phone:")} </strong> */}
+                    <a href="tel:+919111107373" style={{ color: "#442452" }}>
+                      +91-9111107373
+                    </a>
+                  </p>
+                  <p className="wow fadeIn animated">
+                    <strong>{t("Hours:")} </strong>10:00 - 22:00,{" "}
+                    {t("Mon - Sat")}
+                  </p>
+                  <h5 className="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">
+                    {t("Follow Us")}
+                  </h5>
+                  <div className="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+                    <a
+                      target="_blank"
+                      href={`https://www.facebook.com/Applatus/?url=:${window.location.href}`}
+                    >
+                      <img
+                        src="/assets/imgs/theme/icons/icon-facebook.svg"
+                        alt=""
+                      />
+                    </a>
+                    <a
+                      target="_blank"
+                      href={`https://x.com/i/flow/login?redirect_after_login=%2FApplatusT?url=:${window.location.href}`}
+                    >
+                      <img
+                        src="/assets/imgs/theme/icons/icon-twitter.svg"
+                        alt=""
+                      />
+                    </a>
+                    <a
+                      target="_blank"
+                      href={`https://www.instagram.com/applatustechnologies/?igshid=ZGUzMzM3NWJiOQ%3D%3D/?url=:${window.location.href}`}
+                    >
+                      <img
+                        src="/assets/imgs/theme/icons/icon-instagram.svg"
+                        alt=""
+                      />
+                    </a>
+
+                    <a
+                      target="_blank"
+                      href={`https://www.linkedin.com/company/applatus-technologies/?url=:${window.location.href}`}
+                    >
+                      <img src="/assets/imgs/theme/icons/Linkedin.svg" alt="" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-6">
+                <h5 className="widget-title wow fadeIn animated">
+                  {t("About")}
+                </h5>
+                <ul className="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                  <li>
+                    <Link href={"/page-about/"} as={`/page-about/`}>
+                      <a>{t("About Us")}</a>
+                    </Link>
+                  </li>
+                  {/* <li>
+                    <a>{t("Delivery Information")}</a>
+                  </li> */}
+                  <li>
+                    <Link href="/page-privacy-policy">
+                      <a>{t("Privacy Policy")}</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/page-return-policy">
+                      <a>{t("Returns")}</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/page-terms">
+                      <a>
+                        {t("Terms")}&nbsp; & &nbsp;
+                        {t("Conditions")}
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/page-contact/" as="/page-contact/">
+                      {t("Contact Us")}
+                    </Link>
+                  </li>
+                  {/* <li>
+                    <a>{t("Support Center")}</a>
+                  </li> */}
+                </ul>
+              </div>
+              <div className="col-lg-4  col-md-6">
+                <h5 className="widget-title wow fadeIn animated">
+                  {t("My Account")}
+                </h5>
+                <ul className="footer-list wow fadeIn animated">
+                  {localStorage.getItem("access_token") ? (
+                    <li>
+                      <a>
+                        {t("Sign In")}
+                      </a>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link href="/login" as="/login">
+                        {t("Sign In")}
+                      </Link>
+                    </li>
+                  )}
+
+                  <li>
+                    <Link href="/shop-cart" as={`/shop-cart`}>
+                      {t("View Cart")}
+                    </Link>
+                  </li>
+                  <li>
+                    {/* <Link href="/shop-wishlist/" as={`/shop-wishlist/`}>{t("My Wishlist")}</Link> */}
+                    <a onClick={handleWishlist}>{t("My Wishlist")}</a>
+                  </li>
+                  {/* <li>
+                    <a>{t("Track My Order")}</a>
+                  </li> */}
+                  {/* <li>
+                    <a>{t("Help")}</a>
+                  </li> */}
+
+                  {localStorage.getItem("access_token") ? (
+                    <li>
+                      <a>
+                        <Link
+                          href="/myprofile/?index=2"
+                          as={`/myprofile/?index=2`}
+                        >
+                          {t("Order")}
+                        </Link>
+                      </a>
+                    </li>
+                  ) : (
+                    <li>
+                      <a onClick={handleWishlist}>{t("Order")}</a>
+                    </li>
+                  )}
+                </ul>
+              </div>
+              {/* <div className="col-lg-4">
+                <h5 className="widget-title wow fadeIn animated">
+                  {t("Supported By")}
+                </h5>
+                <div className="row">
+                  <div className="col-md-8 col-lg-12">
+                    <p className="wow fadeIn animated">
+                      {t("Start Up India & Nidhi Prayas")}
+                    </p>
+                    <div className="download-app wow fadeIn animated">
+                      <a className="hover-up mb-sm-4 mb-lg-0">
+                        <img
+                          className="active"
+                          src="/assets/imgs/theme/app-store.jpg"
+                          alt=""
+                        />
+                      </a>
+                      <a className="hover-up">
+                        <img src="/assets/imgs/theme/google-play.jpg" alt="" />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                    <p className="mb-20 wow fadeIn animated">
+                      {t("Secured Payment Gateways")}
+                    </p>
+                    <img
+                      className="wow fadeIn animated"
+                      src="/assets/imgs/theme/payment-method.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div> */}
+            </div>
+          </div>
+        </section>
+        <div className="container pb-20 wow fadeIn animated">
+          <div className="row">
+            <div className="col-12 mb-20">
+              <div className="footer-bottom"></div>
+            </div>
+            <div className="col-lg-6">
+              <p className="float-md-left font-sm text-muted mb-0">
+                &copy; {new Date().getFullYear()}
+                <strong className="text-brand"> Applatus</strong>
+              </p>
+            </div>
+            {/* <div className="col-lg-6">
+                            
+                        </div> */}
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 };
 
 export default Footer;
