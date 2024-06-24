@@ -121,7 +121,6 @@ const Products = ({ products1, productFilters }) => {
   const sizes = ["", "s", "m", "xl", "xxl"];
 
   const handleClick = (i, target) => {
-    console.log("fcccccccccc", target);
     setSeachToggle(false);
     setTimeout(() => {
       setSeachToggle(true);

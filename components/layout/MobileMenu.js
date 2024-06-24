@@ -101,7 +101,7 @@ const MobileMenu = ({ isToggled, toggleClick }) => {
           <div className="mobile-header-top">
             <div className="mobile-header-logo">
               <Link href="/index">
-                <img src="/assets/imgs/theme/logo.svg" alt="logo" />
+                <img src="/images/applatus1.jpg" alt="logo" />
               </Link>
             </div>
             <div className="mobile-menu-close close-style-wrap close-style-position-inherit">

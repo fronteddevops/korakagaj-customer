@@ -219,7 +219,7 @@ const [subcatedata,setSubCatedata]=useState([])
                     <li>
                       <i className="fi-rs-smartphone"></i>
 
-                      <a href="tel:+919111107373">+91-9111107373</a>
+                      <a >+91-9111107373</a>
                     </li>
                     <li>
                       <i className="fi-rs-marker"></i>
@@ -412,7 +412,7 @@ const [subcatedata,setSubCatedata]=useState([])
               <div className="logo logo-width-1 d-block d-lg-none">
                 <Link href="/">
                   <a>
-                    <img src="/assets/imgs/theme/logo.svg" alt="logo" />
+                    <img src="/images/applatus1.jpg" alt="logo" />
                   </a>
                 </Link>
               </div>
@@ -808,7 +808,7 @@ const [subcatedata,setSubCatedata]=useState([])
               <div className="hotline d-none d-lg-block">
                 <p className="text-dark">
                   <i className="fi-rs-headset"></i>
-                  <span></span> <a href="tel:+919111107373">+91-9111107373</a>
+                  <span></span> <a >+91-9111107373</a>
                 </p>
               </div>
               {/* <p className="mobile-promotion">

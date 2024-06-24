@@ -41,6 +41,8 @@ const ProductDetails = ({
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [showSizeChart, setShowSizeChart] = useState(false);
 
+  console.log("qc",product)
+
   useEffect(() => {
     if (totalPrice) {
       let fabriccost = +fabricPrice * product?.length;
@@ -188,7 +190,7 @@ const ProductDetails = ({
                   <div className="col-md-6 col-sm-12 col-xs-12">
                     <div className="detail-gallery">
                       <span className="zoom-icon">
-                        <img width={"80%"} src="/assets/imgs/360.svg" />
+                        {/* <img width={"80%"} src="/assets/imgs/360.svg" /> */}
                       </span>
 
                       <div className="product-image-slider">
@@ -453,12 +455,12 @@ const ProductDetails = ({
                       <div className="bt-1 border-color-1 mt-30 mb-30"></div>
                       <div className="detail-extralink">
                         <div className="product-extra-link2">
-                          <button
+                          {/* <button
                             onClick={(e) => handleCart(product)}
                             className="button button-add-to-cart me-3"
                           >
                             {t("Design My Way")}
-                          </button>
+                          </button> */}
                           <button
                             onClick={(e) => handleCart(product)}
                             className="button button-add-to-cart me-3"
@@ -466,13 +468,13 @@ const ProductDetails = ({
                             {t("Add to cart")}
                           </button>
 
-                          <a
+                          {/* <a
                             aria-label="Add To Wishlist"
                             className="action-btn hover-up"
                             onClick={(e) => handleWishlist(product)}
                           >
                             <i className="fi-rs-heart"></i>
-                          </a>
+                          </a> */}
                         </div>
                       </div>
                       <ul className="product-meta font-xs color-grey mt-50">
