@@ -18,7 +18,6 @@ const ProductId = ({ product }) => {
   const router = useRouter();
 
 
-console.log("reewww",productdeteailss[5].id)
 
 
   // set query data

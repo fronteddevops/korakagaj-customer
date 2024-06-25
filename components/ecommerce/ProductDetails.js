@@ -31,7 +31,7 @@ const ProductDetails = ({
   fabricId,
   totalPrice,
   source,
-  GetWishlistdata
+  GetWishlistdata,
 }) => {
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
@@ -41,7 +41,7 @@ const ProductDetails = ({
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [showSizeChart, setShowSizeChart] = useState(false);
 
-  console.log("qc",product)
+  console.log("qc", product);
 
   useEffect(() => {
     if (totalPrice) {
@@ -85,16 +85,16 @@ const ProductDetails = ({
             toast.success("Added to Wishlist!");
           }
 
-          if(source == 'wishlist'){
-            GetWishlistdata()
+          if (source == "wishlist") {
+            GetWishlistdata();
           }
         } else {
           const WishlistResponse =
             await services.Wishlist.DELETE_WISHLIST_BY_ID(product.id);
           //  productDataShow()
           toast.success("Removed from Wishlist");
-          if(source == 'wishlist'){
-            GetWishlistdata()
+          if (source == "wishlist") {
+            GetWishlistdata();
           }
         }
       } catch (error) {
@@ -142,7 +142,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       const updateCart = await services.cart.UPDATE_CART(data);
 
       toast.success("Add to Cart!");
@@ -173,7 +173,7 @@ const ProductDetails = ({
       let data = {
         cartDetail: { cartDetails: unique },
       };
-      localStorage.setItem('cartItemsCount', unique.length)
+      localStorage.setItem("cartItemsCount", unique.length);
       localStorage.setItem("cartDetail", JSON.stringify(data.cartDetail));
       toast.success("Add to Cart!");
     }
