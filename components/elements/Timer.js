@@ -1,68 +1,72 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import moment from "moment";
 
-const msInSecond = 1000;
-const msInMinute = 60 * 1000;
-const msInAHour = 60 * msInMinute;
-const msInADay = 24 * msInAHour;
+const Timer = ({ endDateTime }) => {
+  const { t } = useTranslation("common");
+  const [timeParts, setTimeParts] = useState(getPartsOfTimeDuration());
 
-const getPartsofTimeDuration = (duration) => {
-    const days = Math.floor(duration / msInADay);
-    const hours = Math.floor((duration % msInADay) / msInAHour);
-    const minutes = Math.floor((duration % msInAHour) / msInMinute);
-    const seconds = Math.floor((duration % msInMinute) / msInSecond);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const remainingTimeParts = getPartsOfTimeDuration();
+      setTimeParts(remainingTimeParts);
+
+      if (remainingTimeParts.days < 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  function getPartsOfTimeDuration() {
+    const now = moment();
+    const future = moment(endDateTime);
+    const duration = moment.duration(future.diff(now));
+
+    const days = duration.days();
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+    const seconds = duration.seconds();
 
     return { days, hours, minutes, seconds };
-};
+  }
 
-const Timer = (endDateTime) => {
-    const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const renderTimePart = (time, unit) => {
+    if (time < 0) {
+      return 0;
+    }
+    return time;
+  };
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            const date = new Date();
-            setTime(date.toLocaleTimeString());
-        }, 1000);
-        return () => {
-            clearTimeout(timeout);
-        };
-    }, [time]);
+  const hasTimeRemaining =
+    timeParts.days > 0 || timeParts.hours > 0 || timeParts.minutes > 0 || timeParts.seconds > 0;
 
-    const now = Date.now(); // Number of milliseconds from begining of time
+  return (
+    <>
+      {hasTimeRemaining && (
+        <div className="deals-countdown ">
+          <span className="countdown-section">
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.days, "days")}</span>
+            <span className="countdown-period"> {t("days")} </span>
+          </span>
+          <span className="countdown-section">
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.hours, "hours")}</span>
+            <span className="countdown-period"> {t("hours")} </span>
+          </span>
+          <span className="countdown-section">
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.minutes, "minutes")}</span>
+            <span className="countdown-period"> {t("mins")} </span>
+          </span>
 
-    const future = new Date(endDateTime.endDateTime); // The day we leave for Japan
-
-    const timeDif = future.getTime() - now;
-    const timeParts = getPartsofTimeDuration(timeDif);
-    return (
-        <>
-            <div className="deals-countdown">
-                <span className="countdown-section">
-                    <span className="countdown-amount hover-up" suppressHydrationWarning>
-                        {timeParts.days}
-                    </span>
-                    <span className="countdown-period"> days </span>
-                </span>
-                <span className="countdown-section">
-                    <span className="countdown-amount hover-up" suppressHydrationWarning>
-                        {timeParts.hours}
-                    </span>
-                    <span className="countdown-period"> hours </span>
-                </span>
-                <span className="countdown-section">
-                    <span className="countdown-amount hover-up" suppressHydrationWarning>
-                        {timeParts.minutes}
-                    </span>
-                    <span className="countdown-period"> mins </span>
-                </span>
-                <span className="countdown-section">
-                    <span className="countdown-amount hover-up" suppressHydrationWarning>
-                        {timeParts.seconds}
-                    </span>
-                    <span className="countdown-period"> sec </span>
-                </span>
-            </div>
-        </>
-    );
+          <span className="countdown-section">
+            <span className="countdown-amount hover-up">{renderTimePart(timeParts.seconds, "seconds")}</span>
+            <span className="countdown-period"> {t("sec")} </span>
+          </span>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Timer;

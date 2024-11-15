@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 // import "swiper/css/effect-fade";
 // import "swiper/css/pagination";
@@ -7,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 SwiperCore.use([Navigation, Pagination]);
 
 const Intro4 = () => {
+    const { t} = useTranslation("common");
     return (
         <>
             <Swiper
@@ -72,21 +74,20 @@ const Intro4 = () => {
                                 <div className="col-lg-5 col-md-6">
                                     <div className="hero-slider-content-2">
                                         <h4 className="animated">
-                                            Hot promotions
+                                            {t("Hot promotions")}
                                         </h4>
                                         <h3 className="animated fw-900">
-                                            Fashion Trending
+                                            {t("Fashion Trending")}
                                         </h3>
                                         <h2 className="animated fw-900 text-brand">
-                                            Great Collection
+                                            {t("Great Collection")}
                                         </h2>
                                         <p className="animated">
-                                            Save more with coupons & up to 20%
-                                            off
+                                            {t("Save more with coupons & up to 20% off")}
                                         </p>
                                         <Link href="/products">
                                         <a className="animated btn btn-brush btn-brush-3">
-                                            Shop Now
+                                            {t("Shop Now")}
                                         </a>
                                     </Link>
                                     </div>

@@ -9,7 +9,6 @@ SwiperCore.use([Navigation]);
 const DiscountSlider = () => {
     const [discount, setDiscount] = useState([]);
 
-    console.log(discount);
 
     useEffect(() => {
         fetchProducts();

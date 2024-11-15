@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 function Custom404() {
+    const { t } = useTranslation("common");
     return (
         <>
             <main className="main page-404">
@@ -13,23 +15,22 @@ function Custom404() {
                                     className="hover-up"
                                 />
                             </p>
-                            <h2 className="mb-30">Page Not Found</h2>
+                            <h2 className="mb-30">{t("Page Not Found")}</h2>
                             <p className="font-lg text-grey-700 mb-30">
-                                The link you clicked may be broken or the page
-                                may have been removed.
-                                <br /> visit the
+                                {t("The link you clicked may be broken or the page may have been removed.")}
+                                <br /> {t("visit the")}
                                 <Link href="/">
                                     <a>
-                                        <span> Homepage</span>
+                                        <span> {t("Homepage")}</span>
                                     </a>
                                 </Link>
-                                or
+                                {t("or")}
                                 <Link href="/page-contact">
                                     <a>
-                                        <span>Contact us</span>
+                                        <span>{t("Contact us")}</span>
                                     </a>
                                 </Link>
-                                about the problem
+                                {t("about the problem")}
                             </p>
                             <form
                                 className="contact-form-style text-center"
@@ -50,7 +51,7 @@ function Custom404() {
                                 </div>
                                 <Link href="/">
                                     <a className="btn btn-default submit-auto-width font-xs hover-up">
-                                        Back To Home Page
+                                        {t("Back To Home Page")}
                                     </a>
                                 </Link>
                             </form>

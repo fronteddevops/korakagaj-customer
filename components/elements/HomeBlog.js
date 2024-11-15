@@ -1,8 +1,10 @@
 import React from "react";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const HomeBlog = () => {
+    const { t} = useTranslation("common");
     return (
         <div>
             <div className="post-list mb-4 mb-lg-0">
@@ -20,10 +22,10 @@ const HomeBlog = () => {
                         </div>
                         <div className="post-content">
                             <div className="entry-meta mb-10 mt-10">
-                                <Link href="/blog-category-fullwidth">
+                                <Link href="/blog-category-fullwidth" as={`/blog-category-fullwidth`}>
                                     <a className="entry-meta meta-2">
                                         <span className="post-in font-x-small">
-                                            Fashion
+                                            {t("Fashion")}
                                         </span>
                                     </a>
                                 </Link>
@@ -31,22 +33,21 @@ const HomeBlog = () => {
                             <h4 className="post-title mb-25 text-limit-2-row">
                                 <Link href="/blog-post-fullwidth">
                                     <a>
-                                        Qualcomm is developing a Nintendo
-                                        Switch-like console, report says
+                                        {t("Qualcomm is developing a Nintendo Switch-like console, report says")}
                                     </a>
                                 </Link>
                             </h4>
                             <div className="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
                                 <div>
                                     <span className="post-on">
-                                        14 April 2021
+                                        {t("14 April 2021")}
                                     </span>
                                     <span className="hit-count has-dot">
-                                        12M Views
+                                        {t("12M Views")}
                                     </span>
                                 </div>
                                 <Link href="/blog-post-right">
-                                    <a>Read More</a>
+                                    <a>{t("Read More")}</a>
                                 </Link>
                             </div>
                         </div>
@@ -66,10 +67,10 @@ const HomeBlog = () => {
                         </div>
                         <div className="post-content">
                             <div className="entry-meta mb-10 mt-10">
-                                <Link href="/blog-category-fullwidth">
+                                <Link href="/blog-category-fullwidth"  as={`/blog-category-fullwidth`} >
                                     <a className="entry-meta meta-2">
                                         <span className="post-in font-x-small">
-                                            Healthy
+                                            {t("Healthy")}
                                         </span>
                                     </a>
                                 </Link>
@@ -77,22 +78,21 @@ const HomeBlog = () => {
                             <h4 className="post-title mb-25 text-limit-2-row">
                                 <Link href="/blog-post-fullwidth">
                                     <a>
-                                        Not even the coronavirus can derail 5G's
-                                        global momentum
+                                        {t("Not even the coronavirus can derail 5G's global momentum")}
                                     </a>
                                 </Link>
                             </h4>
                             <div className="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
                                 <div>
                                     <span className="post-on">
-                                        14 April 2021
+                                        {t("14 April 2021")}
                                     </span>
                                     <span className="hit-count has-dot">
-                                        12M Views
+                                        {t("12M Views")}
                                     </span>
                                 </div>
                                 <Link href="/blog-post-right">
-                                    <a>Read More</a>
+                                    <a>{t("Read More")}</a>
                                 </Link>
                             </div>
                         </div>

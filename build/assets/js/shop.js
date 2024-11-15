@@ -2,6 +2,7 @@
     'use strict';
     /*Product Details*/
     var productDetails = function () {
+    
         $('.product-image-slider').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -91,6 +92,7 @@
 
     //Load functions
     $(document).ready(function () {
+       
         productDetails();
     });
 

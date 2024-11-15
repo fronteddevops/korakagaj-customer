@@ -2,16 +2,11 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-    output: 'export',
-   
-    // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
-    // trailingSlash: true,
-   
-    // Optional: Prevent automatic `/me` -> `/me/`, instead preserve `href`
-    // skipTrailingSlashRedirect: true,
-   
-    // Optional: Change the output directory `out` -> `dist`
-    distDir: 'dist',
-  }
-   
-  module.exports = nextConfig
+ 
+  BASE_URL: "https://app.applatus.com:5000/v1",
+  BASE_URL_UPLOADS: "https://app.applatus.com:5000/uploads/",
+  trailingSlash: true,
+  distDir: "out",
+};
+
+module.exports = nextConfig;

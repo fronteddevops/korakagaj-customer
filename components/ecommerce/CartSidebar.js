@@ -43,7 +43,7 @@ const CartSidebar = ({
                         </span>
                         {cartItems.length > 0
                             ? `${cartItems.length} items`
-                            : "No Products"}
+                            : t("No Products")}
                     </div>
                     <span className="close-cart-sidebar" onClick={closeCart}>
                         <i className="fas fa-times"></i>
@@ -117,7 +117,7 @@ const CartSidebar = ({
                         Clear all
                     </button>
                 ):null}
-                <Link href="/cart">
+                <Link href="/cart" as={`/cart`}>
                     <div className="cart-popup-total">
                         <span>Continue</span>
                         <div className="amount">Total : {price()}</div>
